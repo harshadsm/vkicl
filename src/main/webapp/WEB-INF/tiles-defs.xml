@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 1.1//EN" "file:///dtd/tiles-config_1_1.dtd">
+
+<tiles-definitions>
+
+	<definition name="baseDefn" template="/jsp/tiles/baseLayout.jsp">
+		<put name="title" value="Project" />
+		<put name="pageType" value="" />
+		<put name="header" value="/jsp/common/header.jsp" />
+		<put name="body" value="" />
+		<put name="footer" value="/jsp/common/footer.jsp" />
+	</definition>
+
+	<definition name="loginDefn" extends="baseDefn">
+		<put name="title" value="Login" />
+		<put name="body" value="/jsp/login.jsp" />
+	</definition>
+
+	<definition name="homeDefn" extends="baseDefn">
+		<put name="title" value="Home" />
+		<put name="body" value="/jsp/home.jsp" />
+	</definition>
+
+	<definition name="userDefn" extends="baseDefn">
+		<put name="title" value="Home" />
+		<put name="body" value="/jsp/admin/users.jsp" />
+	</definition>
+
+	<!-- PORT STARTS HERE -->
+
+	<definition name="portInwardDefn" extends="baseDefn">
+		<put name="title" value="Port - Inward" />
+		<put name="body" value="/jsp/port/port-inward.jsp" />
+	</definition>
+
+	<definition name="portInwardDetailsDefn" extends="baseDefn">
+		<put name="title" value="Port - Inward Details" />
+		<put name="body" value="/jsp/port/port-inward-packing.jsp" />
+	</definition>
+
+	<definition name="portOutwardDetailsDefn" extends="baseDefn">
+		<put name="title" value="Port - Outward" />
+		<put name="body" value="/jsp/port/port-outward.jsp" />
+	</definition>
+
+	<!-- WAREHOUSE STARTS HERE -->
+
+	<definition name="warehouseInwardDefn" extends="baseDefn">
+		<put name="title" value="Warehouse Inward" />
+		<put name="body" value="/jsp/warehouse/warehouse-inward.jsp" />
+	</definition>
+
+	<definition name="warehouseDispatchDefn" extends="baseDefn">
+		<put name="title" value="Warehouse Dispatch Order" />
+		<put name="body" value="/jsp/warehouse/warehouse-dispatch.jsp" />
+	</definition>
+
+	<definition name="warehouseOutwardDefn" extends="baseDefn">
+		<put name="title" value="Warehouse Outward" />
+		<put name="body" value="/jsp/warehouse/warehouse-outward.jsp" />
+	</definition>
+
+	<definition name="warehouseOutwardProcessDefn" extends="baseDefn">
+		<put name="title" value="Warehouse Outward Process" />
+		<put name="body" value="/jsp/warehouse/warehouse-outward-process.jsp" />
+	</definition>
+
+	<!-- REPORTS START HERE -->
+
+	<definition name="portInwardReportDefn" extends="baseDefn">
+		<put name="title" value="Port Inward Report" />
+		<put name="pageType" value="Report" />
+		<put name="body" value="/jsp/report/port-inward-report.jsp" />
+	</definition>
+
+	<definition name="portOutwardReportDefn" extends="baseDefn">
+		<put name="title" value="Port Outward Report" />
+		<put name="pageType" value="Report" />
+		<put name="body" value="/jsp/report/port-outward-report.jsp" />
+	</definition>
+
+	<definition name="warehouseInwardReportDefn" extends="baseDefn">
+		<put name="title" value="Warehouse Inward Report" />
+		<put name="pageType" value="Report" />
+		<put name="body" value="/jsp/report/warehouse-inward-report.jsp" />
+	</definition>
+
+	<definition name="warehouseOutwardReportDefn" extends="baseDefn">
+		<put name="title" value="Warehouse Outward Report" />
+		<put name="pageType" value="Report" />
+		<put name="body" value="/jsp/report/warehouse-outward-report.jsp" />
+	</definition>
+
+	<definition name="warehouseInwardApproverReportDefn"
+		extends="baseDefn">
+		<put name="title" value="Warehouse Inward Approver Report" />
+		<put name="pageType" value="Report" />
+		<put name="body" value="/jsp/report/warehouse-approver-report.jsp" />
+	</definition>
+
+	<definition name="warehouseDispatchReportDefn" extends="baseDefn">
+		<put name="title" value="Warehouse Dispatch Report" />
+		<put name="pageType" value="Report" />
+		<put name="body" value="/jsp/report/warehouse-dispatch-report.jsp" />
+	</definition>
+
+	<definition name="warehouseDispatchDetailsReportDefn"
+		extends="baseDefn">
+		<put name="title" value="Warehouse Dispatch Details Report" />
+		<put name="pageType" value="" />
+		<put name="body" value="/jsp/report/warehouse-dispatch-details-report.jsp" />
+	</definition>
+
+	<definition name="StockReportDefn" extends="baseDefn">
+		<put name="title" value="Stock Report" />
+		<put name="pageType" value="Report" />
+		<put name="body" value="/jsp/report/stock-report.jsp" />
+	</definition>
+
+</tiles-definitions>

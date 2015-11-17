@@ -1,0 +1,356 @@
+html, body {
+	min-height: 100% !important;
+	height: 100%;
+	font-family: 'Open Sans', sans-serif;
+}
+
+h1, h2, h3 {
+	border: 0px;
+	color: #e67e22;
+}
+
+h3.page-head {
+	font-weight: bold;
+}
+
+.body-container {
+	margin: 0 auto;
+	padding: 0;
+}
+
+.menu-wrapper {
+	padding: 20px 20px 5px 20px;
+}
+
+.brand-name {
+	font-weight: bold;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 2em;
+	color: #e67e22;
+	font-size: 2em;
+	padding-bottom: 15px;
+}
+
+.navbar-default {
+	border: #E7E7E7 4px solid;
+	margin-top: 10px;
+}
+
+.navbar-default .active {
+	color: #555;
+	background-color: #e7e7e7;
+}
+
+.affix {
+	position: fixed;
+	bottom: 25px;
+	right: 150px;
+	z-index: 999999;
+}
+
+.well-sm {
+	border: 1px solid #e67e22;
+	border-radius: 5px;
+	padding: 10px;
+	-moz-box-shadow: 0px 0px 10px #e67e22;
+	-webkit-box-shadow: 0px 0px 10px #e67e22;
+	box-shadow: 0px 0px 10px #e67e22;
+	text-decoration: none;
+}
+
+a.well-sm:hover, a.well-sm:active, a.well-sm:visited, a.well-sm:focus {
+	text-decoration: none;
+}
+
+.footer {
+	background: none;
+	margin-top: 0px;
+	outline: none;
+	border: none !important;
+	-webkit-box-shadow: none !important;
+	-moz-box-shadow: none !important;
+	box-shadow: none !important;
+}
+
+.body-background {
+	background: url(../img/page-background.png);
+	padding: 20px 0;
+}
+
+.mainmenu-wrapper {
+	border: 0px;
+}
+
+.login-box-container {
+	font-weight: bold;
+}
+
+.login-box-container .control-label {
+	padding: 10px 0;
+	margin: 0;
+	text-align: left;
+}
+
+.login-box-container .form-control {
+	padding: 10px;
+}
+
+#currentUserName, #newUserName, #userName {
+	text-transform: lowercase;
+}
+
+.add-row, .delete-row {
+	width: 20px;
+	height: 20px;
+	padding: 0;
+	margin: 0;
+	font-weight: bold;
+	border: 0px;
+}
+
+.fileinput-remove-button {
+	margin-right: 12px;
+}
+
+#report-toolbar {
+	font-weight: bold;
+	display: block;
+}
+
+#report-toolbar img {
+	width: 40px;
+	padding: 10px 0 10px 10px;
+	margin: 0;
+	cursor: pointer;
+}
+
+.body-background .row {
+	margin: 0 0;
+}
+
+.form-label {
+	min-width: 140px;
+}
+
+.form-label  label {
+	margin: 7px 0 0 0;
+}
+
+.or-label {
+	margin: 10px auto;
+	text-align: center;
+	width: 100%;
+	font-weight: bold;
+}
+
+form select.form-control {
+	min-width: 55px;
+	padding: 2px;
+}
+
+#details-tbody .input-group {
+	max-width: 110px;
+}
+
+#details-tbody .input-group .input-group-btn, #details-tbody .input-group .btn
+	{
+	min-width: 60px;
+}
+
+#main-table {
+	width: 98%;
+}
+
+button[disabled] {
+	color: #000000;
+}
+
+.form-control {
+	padding: 5px;
+}
+
+.input-group input[type="number"].form-control {
+	min-width: 80px;
+}
+
+input[name="length"], input[name="width"], input[name="thickness"],
+	input[name="qty"] {
+	min-width: 80px;
+}
+
+form select[name='vesselDate'] {
+	min-width: 130px;
+}
+
+form input[name='vehicleNumber'] {
+	text-transform: uppercase;
+}
+
+.table {
+	margin: 20px 0;
+	width: 100%;
+}
+
+table.table-form {
+	max-width: 98%
+}
+
+.table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td,
+	.table>tbody>tr>td, .table>tfoot>tr>td {
+	padding: 5px 5px;
+	vertical-align: middle;
+}
+
+th {
+	text-align: center;
+}
+
+.table>tbody>tr>td.expand-collapse-container {
+	vertical-align: top;
+}
+
+.expand-collapse-container input[type='button'] {
+	height: 26px;
+	width: 40px;
+	margin: 0;
+	font-size: 12px;
+	padding: 0;
+	font-weight: bold;
+	border: 0;
+}
+
+.sub-table th {
+	color: #e67e22;
+}
+
+table.table.table-responsive.sub-table {
+	background-color: rgba(230, 126, 34, 0.1);
+	border: 1px dotted #e67e22;
+	margin-bottom: 20px;
+}
+
+table#upload-table>tbody>tr>td.progress-bar-td {
+	border: 0;
+	padding: 5px;
+}
+
+.table .table {
+	background-color: transparent;
+	margin: 0;
+	border: 1px solid #ddd;
+}
+
+.table .table>thead>tr>th {
+	padding-top: 0;
+	padding-bottom: 0;
+	border: 0;
+}
+
+.navbar-default .navbar-brand {
+	font-size: 14px;
+}
+
+.portfolio-item .portfolio-image {
+	min-height: 30px;
+	margin: 10px 0 0 0;
+}
+
+.table tr.head-row td, .table tr.head-row th {
+	background-color: rgba(230, 126, 34, 0.05);;
+	border-top: 1px solid #e67e22;;
+	border-bottom: 1px solid #e67e22;;
+}
+
+label.link {
+	cursor: pointer;
+	margin-left: 5px;
+	margin-right: 10px;
+}
+
+.page-title {
+	width: 100%;
+	font-size: 1.6em;
+	text-align: center;
+	font-weight: bold;
+	background-color: rgba(230, 126, 34, 0.05);
+	border: 1px solid #e67e22;
+	padding: 15px;
+}
+
+.footer-copyright {
+	border: 0px;
+}
+
+#pageType {
+	display: none;
+}
+
+#progressbar {
+	height: 1em;
+}
+
+#upload-table td {
+	padding: 15px 5px;
+}
+
+.bootbox-body {
+	font-weight: bold;
+}
+
+.modal-div {
+	padding: 10px 20px 0 20px;
+}
+
+.modal-div .table>tbody>tr>th {
+	background-color: rgba(230, 126, 34, 0.05);
+	margin: 10px 0 20px;
+}
+
+.modal-loader {
+	display: none;
+	position: fixed;
+	z-index: 10000;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	background: rgba(0, 0, 0, 0.5) url('../img/loader.gif') 50% 50%
+		no-repeat;
+	background-size: 50px;
+}
+
+body.loading {
+	overflow: hidden;
+}
+
+.bootbox-alert {
+	z-index: 10500;
+}
+
+body.loading .modal-loader {
+	display: block;
+}
+
+.table>tfoot>tr>th {
+	text-align: left;
+	padding-left: 10px;
+}
+
+/*Overriding jquery-ui-css*/
+.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover,
+	.ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus
+	{
+	border: 1px solid rgba(200, 200, 200, .75);
+	background: #e67e22;
+	color: #ffffff;
+	font-weight: normal;
+}
+
+input[type="text"], input[type="number"], input[type="hidden"], textarea
+	{
+	text-transform: uppercase;
+}
+
+input[name="userName"], input[name="password"], input[name="handleBy"] {
+	text-transform: lowercase;
+}

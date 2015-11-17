@@ -1,0 +1,133 @@
+.table-report>caption+thead>tr:first-child>th, .table-report>colgroup+thead>tr:first-child>th,
+	.table-report>thead:first-child>tr:first-child>th, .table-report>caption+thead>tr:first-child>td,
+	.table-report>colgroup+thead>tr:first-child>td, .table-report>thead:first-child>tr:first-child>td
+	{
+	background-color: rgba(230, 126, 34, 0.25);
+	margin: 10px 0;
+	border: 1px solid #e67e22;
+	text-align: left;
+}
+
+.table-report>colgroup+thead>tr:first-child>th.cell-edit {
+	text-align: center;
+}
+
+.table-report>thead>tr>th, .table-report>tbody>tr>th, .table-report>tfoot>tr>th,
+	.table-report>thead>tr>td, .table-report>tbody>tr>td, .table-report>tfoot>tr>td
+	{
+	margin: 10px 0;
+	border: 1px solid #e67e22;
+}
+
+.table-report {
+	background-color: #eee9e0;
+}
+
+.table-report>tfoot>tr>th {
+	padding-left: 5px;
+	background-color: rgba(230, 126, 34, 0.25);
+}
+
+.cell-hide {
+	display: none;
+}
+
+.table-report>tbody>tr>td.cell-edit, .table-report>thead:first-child>tr:first-child>th.cell-edit
+	{
+	margin: 0;
+	padding: 0px 5px;
+	width: 40px;
+	background-color: rgba(230, 126, 34, 0.25);
+	text-align: center;
+}
+
+.table-report>tbody>tr.row-edit td {
+	margin: 0;
+	padding: 0;
+}
+
+tr.row-edit {
+	background-color: #ffffff;
+}
+
+.table-report input {
+	width: 100%;
+	border: 0;
+	margin: 0;
+	padding: 5px;
+	border-radius: 0;
+}
+
+/* table.table-report {
+	font-size: 12px;
+	background-color: #4D4D4D;
+	width: 1024px;
+	border: 1px solid #000;
+}
+
+table.table-report th {
+	text-align: left;
+	padding: 5px;
+	background-color: #6E6E6E;
+}
+
+table.table-report td {
+	color: #FFF;
+	padding: 5px;
+}
+
+table.table-report .even {
+	background-color: #3D3D3D;
+}
+
+table.table-report .odd {
+	background-color: #6E6E6E;
+}
+ */
+table.table-report .header {
+	background: url(../img/bg.gif) 0px 5px no-repeat;
+	background-position: right;
+	border-top: 1px solid #FFF;
+	height: auto;
+	padding: 0 20px 0 5px;
+	cursor: pointer;
+}
+
+table.table-report .headerSortUp {
+	background-image: url(../img/asc.gif);
+}
+
+table.table-report .headerSortDown {
+	background-image: url(../img/desc.gif);
+}
+
+div.tablesorterPager {
+	padding: 10px 0 10px 0;
+	background-color: #D6D2C2;
+	text-align: center;
+}
+
+div.tablesorterPager span {
+	padding: 0 5px 0 5px;
+}
+
+div.tablesorterPager input.prev {
+	width: auto;
+	margin-right: 10px;
+}
+
+div.tablesorterPager input.next {
+	width: auto;
+	margin-left: 10px;
+}
+
+div.tablesorterPager input {
+	font-size: 8px;
+	width: 50px;
+	border: 1px solid #330000;
+	text-align: center;
+}
+
+#result-table th, #result-table td {
+    text-align: center;
+}

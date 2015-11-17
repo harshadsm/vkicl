@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?> 
+<!DOCTYPE struts-config PUBLIC 
+"-//Apache Software Foundation//DTD Struts Configuration 1.1//EN" 
+"http://jakarta.apache.org/struts/dtds/struts-config_1_1.dtd">
+
+<struts-config>
+	<form-beans>
+
+		<form-bean name="LoginForm" type="vkicl.form.LoginForm" />
+		<form-bean name="PortInwardForm" type="vkicl.form.PortInwardForm" />
+		<form-bean name="PortOutwardForm" type="vkicl.form.PortOutwardForm" />
+		<form-bean name="WarehouseInwardForm" type="vkicl.form.WarehouseInwardForm" />
+		<form-bean name="WarehouseOutwardForm" type="vkicl.form.WarehouseOutwardForm" />
+		<form-bean name="WarehouseOutwardProcessForm" type="vkicl.form.WarehouseOutwardProcessForm" />
+		<form-bean name="WarehouseOutwardFinalForm" type="vkicl.form.WarehouseOutwardFinalForm" />
+		<form-bean name="WarehouseDispatchForm" type="vkicl.form.WarehouseDispatchForm" />
+		<form-bean name="BaseForm" type="vkicl.form.BaseForm" />
+		<form-bean name="UserForm" type="vkicl.form.UserForm" />
+
+		<form-bean name="PortInwardReportForm" type="vkicl.report.form.PortInwardReportForm" />
+		<form-bean name="PortOutwardReportForm" type="vkicl.report.form.PortOutwardReportForm" />
+		<form-bean name="WarehouseInwardReportForm"
+			type="vkicl.report.form.WarehouseInwardReportForm" />
+		<form-bean name="WarehouseOutwardReportForm"
+			type="vkicl.report.form.WarehouseOutwardReportForm" />
+		<form-bean name="WarehouseDispatchReportForm"
+			type="vkicl.report.form.WarehouseDispatchReportForm" />
+		<form-bean name="WarehouseDispatchDetailsReportForm"
+			type="vkicl.report.form.WarehouseDispatchDetailsReportForm" />
+		<form-bean name="StockReportForm" type="vkicl.report.form.StockReportForm" />
+
+	</form-beans>
+	<global-forwards>
+		<forward name="loginPage" path="loginDefn" />
+		<forward name="homePage" path="homeDefn" />
+		<forward name="dispatchReportPage" path="/warehouse-dispatch-report.do" />
+	</global-forwards>
+
+	<action-mappings>
+
+		<action path="/test" type="org.apache.struts.actions.ForwardAction"
+			parameter="/jsp/test.jsp" />
+
+		<action path="/login" type="vkicl.action.LoginAction">
+		</action>
+
+		<action path="/validate-login" type="vkicl.action.ValidateLoginAction"
+			name="LoginForm">
+			<forward name="loginSuccess" path="/home.do" />
+		</action>
+
+		<action path="/logout" type="vkicl.action.LogoutAction">
+		</action>
+
+		<action path="/home" type="vkicl.action.HomeAction" name="LoginForm">
+			<forward name="success" path="homeDefn" />
+		</action>
+
+		<action path="/port-inward" type="vkicl.action.PortInwardAction"
+			name="PortInwardForm">
+			<forward name="success" path="portInwardDefn" />
+		</action>
+
+		<action path="/port-inward-details" type="vkicl.action.PortInwardDetailsAction"
+			name="PortInwardForm">
+			<forward name="success" path="portInwardDetailsDefn" />
+		</action>
+
+		<action path="/port-outward" type="vkicl.action.PortOutwardAction"
+			name="PortOutwardForm">
+			<forward name="success" path="portOutwardDetailsDefn" />
+		</action>
+
+		<action path="/warehouse-inward" type="vkicl.action.WarehouseInwardAction"
+			name="WarehouseInwardForm">
+			<forward name="success" path="warehouseInwardDefn" />
+		</action>
+
+		<action path="/warehouse-dispatch" type="vkicl.action.WarehouseDispatchAction"
+			name="WarehouseDispatchForm">
+			<forward name="success" path="warehouseDispatchDefn" />
+		</action>
+
+		<action path="/warehouse-outward" type="vkicl.action.WarehouseOutwardAction"
+			name="WarehouseOutwardForm">
+			<forward name="success" path="warehouseOutwardDefn" />
+		</action>
+
+		<action path="/warehouse-outward-process" type="vkicl.action.WarehouseOutwardProcessAction"
+			name="WarehouseOutwardProcessForm">
+			<forward name="success" path="warehouseOutwardProcessDefn" />
+		</action>
+
+		<action path="/warehouse-outward-final" type="vkicl.action.WarehouseOutwardFinalAction"
+			name="WarehouseOutwardFinalForm">
+		</action>
+
+		<action path="/manage-user" type="vkicl.action.ManageUserAction"
+			name="UserForm">
+			<forward name="success" path="userDefn" />
+		</action>
+
+		<action path="/port-inward-report" type="vkicl.report.action.PortInwardReportAction"
+			name="PortInwardReportForm">
+			<forward name="success" path="portInwardReportDefn" />
+		</action>
+
+		<action path="/port-outward-report" type="vkicl.report.action.PortOutwardReportAction"
+			name="PortOutwardReportForm">
+			<forward name="success" path="portOutwardReportDefn" />
+		</action>
+
+		<action path="/warehouse-inward-report" type="vkicl.report.action.WarehouseInwardReportAction"
+			name="WarehouseInwardReportForm">
+			<forward name="success" path="warehouseInwardReportDefn" />
+		</action>
+
+		<action path="/warehouse-outward-report" type="vkicl.report.action.WarehouseOutwardReportAction"
+			name="WarehouseOutwardReportForm">
+			<forward name="success" path="warehouseOutwardReportDefn" />
+		</action>
+
+		<action path="/warehouse-inward-approver-report" type="vkicl.report.action.WarehouseInwardReportAction"
+			name="WarehouseInwardReportForm">
+			<forward name="success" path="warehouseInwardApproverReportDefn" />
+		</action>
+
+		<action path="/warehouse-dispatch-report"
+			type="vkicl.report.action.WarehouseDispatchReportAction" name="WarehouseDispatchReportForm">
+			<forward name="success" path="warehouseDispatchReportDefn" />
+		</action>
+
+		<action path="/warehouse-dispatch-details-report"
+			type="vkicl.report.action.WarehouseDispatchDetailsReportAction" name="WarehouseDispatchDetailsReportForm">
+			<forward name="success" path="warehouseDispatchDetailsReportDefn" />
+		</action>
+
+		<action path="/stock-report" type="vkicl.report.action.StockReportAction"
+			name="StockReportForm">
+			<forward name="success" path="StockReportDefn" />
+		</action>
+
+	</action-mappings>
+
+	<controller processorClass="org.apache.struts.tiles.TilesRequestProcessor" />
+
+	<message-resources parameter="src/inv/resources/app" />
+
+	<plug-in className="org.apache.struts.tiles.TilesPlugin">
+		<set-property property="definitions-config" value="/WEB-INF/tiles-defs.xml" />
+		<set-property property="moduleAware" value="true" />
+	</plug-in>
+
+</struts-config>
