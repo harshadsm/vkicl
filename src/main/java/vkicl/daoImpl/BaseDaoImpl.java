@@ -12,6 +12,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 
+import javax.sql.DataSource;
+
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -36,9 +38,23 @@ public class BaseDaoImpl {
 				DS = new MysqlDataSource();
 				// DS.setServerName("localhost");
 				// DS.setPort(3306);
-				DS.setDatabaseName(prop.getSystem("db.database"));
-				DS.setUser(prop.getSystem("db.user"));
-				DS.setPassword(prop.getSystem("db.pass"));
+				String host = System.getenv("OPENSHIFT_MYSQL_DB_HOST");
+				String dbName = System.getenv("OPENSHIFT_APP_NAME");
+				Integer port = Integer.parseInt(System.getenv("OPENSHIFT_MYSQL_DB_PORT"));
+				String user = prop.getSystem("db.user");
+				String pass = prop.getSystem("db.pass");
+				
+				log.info("Host = "+host);
+				log.info("Port = "+port);
+				log.info("DB Name = "+dbName);
+				log.info("User:Password = "+user+" : "+pass);
+				
+				DS.setServerName(host);
+				DS.setDatabaseName(dbName);
+				DS.setPort(port);
+				//DS.setDatabaseName(prop.getSystem("db.database"));
+				DS.setUser(user);
+				DS.setPassword(pass);
 				DS.setNoAccessToProcedureBodies(true);
 				log.info("DataSource Created");
 			}
