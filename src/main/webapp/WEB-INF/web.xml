@@ -34,6 +34,10 @@
 		<servlet-class>vkicl.services.JSONService</servlet-class>
 	</servlet>
 	<servlet>
+		<servlet-name>PortInwardDetailsJsonServlet</servlet-name>
+		<servlet-class>vkicl.action.PortInwardDetailsJsonServlet</servlet-class>
+	</servlet>
+	<servlet>
 		<servlet-name>FileUploadService</servlet-name>
 		<servlet-class>vkicl.services.FileUploadService</servlet-class>
 	</servlet>
@@ -57,6 +61,12 @@
 		<servlet-name>JSONService</servlet-name>
 		<url-pattern>/json</url-pattern>
 	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>PortInwardDetailsJsonServlet</servlet-name>
+		<url-pattern>/portInwardDetailsJsonServlet</url-pattern>
+	</servlet-mapping>
+	
 	<servlet-mapping>
 		<servlet-name>FileUploadService</servlet-name>
 		<url-pattern>/upload</url-pattern>
