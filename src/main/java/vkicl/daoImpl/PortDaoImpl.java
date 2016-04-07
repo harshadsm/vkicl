@@ -132,6 +132,82 @@ public class PortDaoImpl extends BaseDaoImpl {
 		}
 		return form;
 	}
+	
+	
+	public PortInwardForm fetchPortInwardDetails_2(PortInwardForm form) throws SQLException {
+		Connection conn = null;
+		ResultSet rs = null;
+		CallableStatement cs = null;
+		String query = "";
+		String message = "";
+		int count = 0;
+		try {
+			conn = getConnection();
+			String sql = " SELECT "
+					+ " pin.port_inward_id"
+					+ " ,pin.be_no"
+					+ " ,pin.material_type"
+					+ " ,pin.mill_name"
+					+ " ,pin.material_make"
+					+ " ,pin.material_grade"
+					+ " ,pin.description"
+					+ " ,pin.be_weight"
+					+ " ,pin.be_wt_unit"
+					+ " ,pis.vessel_date "
+					+" FROM port_inward pin "
+					+" INNER JOIN port_inward_shipment pis ON pin.port_inwd_shipment_id = pis.port_inwd_shipment_id "
+					+" ORDER BY pis.vessel_date DESC; ";
+			query = sql;
+			log.info("query = " + query);
+			log.info("form = " + form);
+			cs = conn.prepareCall(query);
+			log.info("form = " + form);
+			
+			rs = cs.executeQuery();
+			if (null != rs && rs.next()) {
+				int i = 0;
+				Integer pis[] = new Integer[count];
+				String beNo[] = new String[count];
+				String materialType[] = new String[count];
+				String millName[] = new String[count];
+				String make[] = new String[count];
+				String grade[] = new String[count];
+				String desc[] = new String[count];
+				Double beWt[] = new Double[count];
+				String beWtUnit[] = new String[count];
+				do {
+					pis[i] = rs.getInt(1);
+					beNo[i] = formatOutput(rs.getString(2));
+					materialType[i] = formatOutput(rs.getString(3));
+					millName[i] = formatOutput(rs.getString(4));
+					make[i] = formatOutput(rs.getString(5));
+					grade[i] = formatOutput(rs.getString(6));
+					desc[i] = formatOutput(rs.getString(7));
+					beWt[i] = rs.getDouble(8);
+					beWtUnit[i] = formatOutput(rs.getString(9));
+					i = i + 1;
+				} while (rs.next());
+
+				form.setPis(pis);
+				form.setBeNo(beNo);
+				form.setMaterialType(materialType);
+				form.setMillName(millName);
+				form.setMake(make);
+				form.setGrade(grade);
+				form.setDesc(desc);
+				form.setBeWt(beWt);
+				form.setBeWtUnit(beWtUnit);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			message = e.getMessage();
+			
+		} finally {
+			closeDatabaseResources(conn, rs, cs);
+		}
+		return form;
+	}
 
 	public PortInwardForm addPortInwardDetailsData(PortInwardForm form,
 			UserInfoVO userInfoVO) throws SQLException {

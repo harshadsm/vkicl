@@ -65,6 +65,17 @@
 
 <script src="./js/export/jspdf/jspdf.js"></script>
 
+<!-- jQgrid start -->
+<link rel="stylesheet" type="text/css" media="screen" href="./js/jquery.jqGrid-4.6.0/css/ui.jqgrid.css" />
+<script src="./js/jquery.jqGrid-4.6.0/js/i18n/grid.locale-en.js" type="text/javascript"></script>
+<script src="./js/jquery.jqGrid-4.6.0/js/jquery.jqGrid.min.js" type="text/javascript"></script> 
+
+<script src="./js/jquery.jqGrid-4.6.0/src/jqModal.js" type="text/javascript"></script> 
+<script src="./js/jquery.jqGrid-4.6.0/src/jqDnR.js" type="text/javascript"></script>
+<script src="./js/jquery.jqGrid-4.6.0/src/jquery.fmatter.js" type="text/javascript"></script>
+<script src="./js/jquery.jqGrid-4.6.0/src/JsonXml.js" type="text/javascript"></script>
+<!-- jQgrid end -->
+
 <link rel="apple-touch-icon" sizes="57x57" href="./img/favicon/apple-icon-57x57.png">
 <link rel="apple-touch-icon" sizes="60x60" href="./img/favicon/apple-icon-60x60.png">
 <link rel="apple-touch-icon" sizes="72x72" href="./img/favicon/apple-icon-72x72.png">

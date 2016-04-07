@@ -91,6 +91,13 @@
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
 		</dependency>
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-jaxrs</artifactId>
+			<version>1.6.3</version>
+			<type>jar</type>
+			
+		</dependency>
 	</dependencies>
 	<profiles>
 		<profile>
