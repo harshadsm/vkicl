@@ -38,16 +38,30 @@ public class BaseDaoImpl {
 				DS = new MysqlDataSource();
 				// DS.setServerName("localhost");
 				// DS.setPort(3306);
-				String host = System.getenv("OPENSHIFT_MYSQL_DB_HOST");
-				String dbName = System.getenv("OPENSHIFT_APP_NAME");
-				Integer port = Integer.parseInt(System.getenv("OPENSHIFT_MYSQL_DB_PORT"));
-				String user = prop.getSystem("db.user");
-				String pass = prop.getSystem("db.pass");
+				String host = null;
+				String dbName = null;
+				Integer port = null;
+				String user = null;
+				String pass = null;
+				try{
+				port = Integer.parseInt(System.getenv("OPENSHIFT_MYSQL_DB_PORT"));
+				host = System.getenv("OPENSHIFT_MYSQL_DB_HOST");
+				dbName = System.getenv("OPENSHIFT_APP_NAME");
+				user = prop.getSystem("db.user");
+				pass = prop.getSystem("db.pass");
+				}catch(NumberFormatException e){
+					//NumberFormatException happens only when OPENSHIFT_MYSQL_DB_PORT is not a valid integer.
+					//THis is an indication that the environment is not OPENSHIFT.
+					//It is local environment.
+					//So set the local values
+					host = "localhost";
+					port = 3306;
+					dbName = "vkicl";
+					user = prop.getSystem("db.user");
+					pass = prop.getSystem("db.pass");
+							
+				}
 				
-				log.info("Host = "+host);
-				log.info("Port = "+port);
-				log.info("DB Name = "+dbName);
-				log.info("User:Password = "+user+" : "+pass);
 				
 				DS.setServerName(host);
 				DS.setDatabaseName(dbName);
