@@ -36,7 +36,8 @@
 
 	<definition name="portInwardDetailsDefn" extends="baseDefn">
 		<put name="title" value="Port - Inward Details" />
-		<put name="body" value="/jsp/port/port-inward-packing.jsp" />
+		<!-- <put name="body" value="/jsp/port/port-inward-packing.jsp" /> -->
+		<put name="body" value="/jsp/port/port-inward-packing2.jsp" />
 	</definition>
 
 	<definition name="portOutwardDetailsDefn" extends="baseDefn">
