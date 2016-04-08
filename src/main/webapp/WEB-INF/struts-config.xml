@@ -65,6 +65,12 @@
 			name="PortInwardForm">
 			<forward name="success" path="portInwardDetailsDefn" />
 		</action>
+		
+		<action path="/add-port-inward-packing-list" type="vkicl.action.AddPortInwardPackingListAction"
+			name="PortInwardForm">
+			<forward name="success" path="showAddPackingListPage" />
+			<forward name="showAddPackingListPage" path="showAddPackingListPage" />
+		</action>
 
 		<action path="/port-outward" type="vkicl.action.PortOutwardAction"
 			name="PortOutwardForm">

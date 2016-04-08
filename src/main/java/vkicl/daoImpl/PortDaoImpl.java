@@ -4,15 +4,20 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import javax.swing.text.DateFormatter;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 import vkicl.form.PortInwardForm;
 import vkicl.form.PortOutwardForm;
+import vkicl.util.Constants;
+import vkicl.util.Converter;
 import vkicl.util.JqGridSearchParameterHolder;
 import vkicl.util.JqGridSearchParameterHolder.Rule;
 import vkicl.util.PropFileReader;
@@ -175,7 +180,7 @@ public class PortDaoImpl extends BaseDaoImpl {
 					p.setBeWt(rs.getDouble(8));
 					p.setBeWtUnit(formatOutput(rs.getString(9)));
 					p.setBeWtUnit(formatOutput(rs.getString(9)));
-					p.setVesselDate(new Date(rs.getDate(10).getTime()));
+					p.setVesselDate(Converter.dateToString(Converter.sqlDateToDate(rs.getDate(10))));
 					p.setVesselName(rs.getString(11));
 					p.setVendorName(rs.getString(12));
 					list.add(p);
@@ -232,14 +237,28 @@ public class PortDaoImpl extends BaseDaoImpl {
 		String op = r.getOp();
 		
 		String clause = "";
-		if(field!=null && field.equalsIgnoreCase("vendorName")){
+		if(field!=null && field.equalsIgnoreCase("vendor_name")){
 			clause = "pis.vendor_name like '%"+data+"%'";
-		}else if(field!=null && field.equalsIgnoreCase("vesselName")){
+		}else if(field!=null && field.equalsIgnoreCase("vessel_name")){
 			clause = "pis.vessel_name like '%"+data+"%'";
-		}else if(field!=null && field.equalsIgnoreCase("vesselDate")){
-			clause = "vesselDate = '"+data+"'";
+		}else if(field!=null && field.equalsIgnoreCase("vessel_date")){
+			clause = processDateClause(data);
 		}
 		
+		return clause;
+	}
+
+	private String processDateClause(String data) {
+		String clause = "";
+		SimpleDateFormat sdf = new SimpleDateFormat(Constants.Apps.DATE_FORMAT);
+		SimpleDateFormat sdfSql = new SimpleDateFormat(Constants.Apps.DATE_FORMAT_SQL);
+		try{
+			Date date = sdf.parse(data);
+			clause = "vessel_date = '"+sdfSql.format(date)+"'";
+			
+		}catch(Exception e){
+			log.error("some error",e);
+		}
 		return clause;
 	}
 

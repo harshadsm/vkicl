@@ -35,11 +35,17 @@
 	</definition>
 
 	<definition name="portInwardDetailsDefn" extends="baseDefn">
-		<put name="title" value="Port - Inward Details" />
+		<put name="title" value="Port - Inward List" />
 		<!-- <put name="body" value="/jsp/port/port-inward-packing.jsp" /> -->
 		<put name="body" value="/jsp/port/port-inward-packing2.jsp" />
 	</definition>
-
+	
+	<definition name="showAddPackingListPage" extends="baseDefn">
+		<put name="title" value="Port - Inward Details (Packing List)" />
+		<!-- <put name="body" value="/jsp/port/port-inward-packing.jsp" /> -->
+		<put name="body" value="/jsp/port/port-inward-packing.jsp" />
+	</definition>
+	
 	<definition name="portOutwardDetailsDefn" extends="baseDefn">
 		<put name="title" value="Port - Outward" />
 		<put name="body" value="/jsp/port/port-outward.jsp" />

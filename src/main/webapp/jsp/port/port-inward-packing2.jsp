@@ -39,7 +39,7 @@ $(function() {
 			mtype : 'GET',
 			
 			
-			colNames : [ 'id', 'Date', 'Vessel Name', 'Vendor Name', 'Material Type', 'Mill Name', 'Make', 'Grade', 'Desc'
+			colNames : [ 'id', 'Date', 'Vessel Name', 'Vendor Name', 'Material Type', 'Mill Name', 'Make', 'Grade', 'Desc', 'Action'
 					],
 					
 			colModel : [ {
@@ -159,6 +159,13 @@ $(function() {
 				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
 				searchoptions: { sopt:[ 'cn','eq']}
 				
+			},{
+				name : 'actionLink',
+				index : 'actionLink',
+				width : 300,
+				editable : false,
+				search:false,
+				sort:false
 			}
 			
 			],
@@ -194,9 +201,9 @@ $(function() {
 	        	for(var i=0;i < ids.length;i++){ 
 	        		var rowObject = jQuery("#grid").jqGrid('getRowData',ids[i]); 
 	        		//console.log(rowObject);
-	        		var cust_lnk = "<a href=\"viewCustomer.do?id="+rowObject.customerCode+"\">"+rowObject.customerName+"</a>";
+	        		var cust_lnk = "<a href=\"add-port-inward-packing-list.do?id="+rowObject.id+"\">Create Packing List</a>";
 	        		
-	        		$("#grid").jqGrid('setRowData',ids[i],{customerName:cust_lnk});
+	        		$("#grid").jqGrid('setRowData',ids[i],{actionLink:cust_lnk});
 	        		
 	        		$("#grid").jqGrid('filterToolbar',{stringResult: true,searchOnEnter : false, searchOperators:true, defaultSearch:"cn"});
 	        		

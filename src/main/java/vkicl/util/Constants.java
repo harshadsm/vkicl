@@ -18,6 +18,9 @@ public interface Constants {
 		public static final String LOCATION_TRANSFER = "LOCATION_TRANSFER";
 		public static final String STOCK_RESERVATION = "STOCK_RESERVATION";
 		public static final String STOCK_DELETE = "STOCK_DELETE";
+		public static final String DATE_FORMAT = "dd-MM-yyyy";
+		public static final String DATE_FORMAT_SQL = "yyyy-MM-dd";
+		
 	}
 
 	class Mapping {
@@ -26,5 +29,6 @@ public interface Constants {
 		public static final String SUCCESS = "success";
 		public static final String HOME_PAGE = "homePage";
 		public static final String DISPATCH_REPORT_PAGE = "dispatchReportPage";
+		public static final String PACKING_LIST_PAGE = "showAddPackingListPage"; 
 	}
 }

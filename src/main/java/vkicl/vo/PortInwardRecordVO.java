@@ -12,7 +12,7 @@ public class PortInwardRecordVO {
 	private String desc;
 	private Double beWt;
 	private String beWtUnit;
-	private Date vesselDate;
+	private String vesselDate;
 	private String vesselName;
 	private String vendorName;
 	
@@ -29,10 +29,10 @@ public class PortInwardRecordVO {
 	public void setVendorName(String vendorName) {
 		this.vendorName = vendorName;
 	}
-	public Date getVesselDate() {
+	public String getVesselDate() {
 		return vesselDate;
 	}
-	public void setVesselDate(Date vesselDate) {
+	public void setVesselDate(String vesselDate) {
 		this.vesselDate = vesselDate;
 	}
 	public Integer getId() {

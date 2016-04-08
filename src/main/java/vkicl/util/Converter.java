@@ -1,5 +1,8 @@
 package vkicl.util;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import vkicl.form.LoginForm;
 import vkicl.vo.UserInfoVO;
 
@@ -21,6 +24,16 @@ public class Converter
 		loginForm.setUserName(userInfoVO.getUserName());
 		loginForm.setPassword(userInfoVO.getPassword());
 		return loginForm;
+	}
+	
+	public static String dateToString(Date date){
+		SimpleDateFormat sdf = new SimpleDateFormat(Constants.Apps.DATE_FORMAT);
+		String dateString = sdf.format(date);
+		return dateString;
+	}
+	
+	public static Date sqlDateToDate(java.sql.Date date){
+		return new Date(date.getTime());
 	}
 
 }
