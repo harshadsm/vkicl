@@ -8,11 +8,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 import vkicl.form.PortInwardForm;
 import vkicl.form.PortOutwardForm;
 import vkicl.util.JqGridSearchParameterHolder;
+import vkicl.util.JqGridSearchParameterHolder.Rule;
 import vkicl.util.PropFileReader;
 import vkicl.vo.PortInwardRecordVO;
 import vkicl.vo.UserInfoVO;
@@ -21,8 +23,7 @@ public class PortDaoImpl extends BaseDaoImpl {
 	private static Logger log = Logger.getLogger(PortDaoImpl.class);
 	static PropFileReader prop = PropFileReader.getInstance();
 
-	public PortInwardForm addPortInwardData(PortInwardForm form,
-			UserInfoVO userInfoVO) throws SQLException {
+	public PortInwardForm addPortInwardData(PortInwardForm form, UserInfoVO userInfoVO) throws SQLException {
 		Connection conn = null;
 		ResultSet rs = null;
 		CallableStatement cs = null;
@@ -67,8 +68,7 @@ public class PortDaoImpl extends BaseDaoImpl {
 		return form;
 	}
 
-	public PortInwardForm fetchPortInwardDetails(PortInwardForm form,
-			UserInfoVO userInfoVO) throws SQLException {
+	public PortInwardForm fetchPortInwardDetails(PortInwardForm form, UserInfoVO userInfoVO) throws SQLException {
 		Connection conn = null;
 		ResultSet rs = null;
 		CallableStatement cs = null;
@@ -92,8 +92,7 @@ public class PortDaoImpl extends BaseDaoImpl {
 			count = cs.getInt(4);
 			message = cs.getString(5);
 			log.info("message = " + message);
-			if (null != message && message.equalsIgnoreCase("Success")
-					&& null != rs && rs.next()) {
+			if (null != message && message.equalsIgnoreCase("Success") && null != rs && rs.next()) {
 				int i = 0;
 				Integer pis[] = new Integer[count];
 				String beNo[] = new String[count];
@@ -137,12 +136,9 @@ public class PortDaoImpl extends BaseDaoImpl {
 		}
 		return form;
 	}
-	
-	
-	public List<PortInwardRecordVO> fetchPortInwardDetails_2(
-			int pageNo,
-			int pageSize, long total, String orderByFieldName, String order,JqGridSearchParameterHolder searchParam
-			) throws SQLException {
+
+	public List<PortInwardRecordVO> fetchPortInwardDetails_2(int pageNo, int pageSize, long total,
+			String orderByFieldName, String order, JqGridSearchParameterHolder searchParam) throws SQLException {
 		List<PortInwardRecordVO> list = new ArrayList<PortInwardRecordVO>();
 		Connection conn = null;
 		ResultSet rs = null;
@@ -152,40 +148,24 @@ public class PortDaoImpl extends BaseDaoImpl {
 		int count = 0;
 		try {
 			conn = getConnection();
-			String count_sql = " SELECT "
-					+ " count(*) "
-					+" FROM port_inward pin "
-					+" INNER JOIN port_inward_shipment pis ON pin.port_inwd_shipment_id = pis.port_inwd_shipment_id "
-					+" ORDER BY pis.vessel_date DESC; ";
-			String sql = " SELECT "
-					+ " pin.port_inward_id"
-					+ " ,pin.be_no"
-					+ " ,pin.material_type"
-					+ " ,pin.mill_name"
-					+ " ,pin.material_make"
-					+ " ,pin.material_grade"
-					+ " ,pin.description"
-					+ " ,pin.be_weight"
-					+ " ,pin.be_wt_unit"
-					+ " ,pis.vessel_date "
-					+ " ,pis.vessel_name "
-					+ " ,pis.vendor_name "
-					+" FROM port_inward pin "
-					+" INNER JOIN port_inward_shipment pis ON pin.port_inwd_shipment_id = pis.port_inwd_shipment_id "
-					+" ORDER BY pis.vessel_date DESC; ";
+
+			String sql = " SELECT " + " pin.port_inward_id" + " ,pin.be_no" + " ,pin.material_type" + " ,pin.mill_name"
+					+ " ,pin.material_make" + " ,pin.material_grade" + " ,pin.description" + " ,pin.be_weight"
+					+ " ,pin.be_wt_unit" + " ,pis.vessel_date " + " ,pis.vessel_name " + " ,pis.vendor_name "
+					+ " FROM port_inward pin "
+					+ " INNER JOIN port_inward_shipment pis ON pin.port_inwd_shipment_id = pis.port_inwd_shipment_id "
+					+ processSearchCriteria(searchParam) + " ORDER BY pis.vessel_date DESC; ";
 			query = sql;
 			log.info("query = " + query);
-			
+
 			cs = conn.prepareCall(query);
-			
-			
+
 			rs = cs.executeQuery();
 			if (null != rs && rs.next()) {
-				
-				
+
 				do {
 					PortInwardRecordVO p = new PortInwardRecordVO();
-					p.setId( rs.getInt(1));
+					p.setId(rs.getInt(1));
 					p.setBeNo(formatOutput(rs.getString(2)));
 					p.setMaterialType(formatOutput(rs.getString(3)));
 					p.setMillName(formatOutput(rs.getString(4)));
@@ -196,66 +176,109 @@ public class PortDaoImpl extends BaseDaoImpl {
 					p.setBeWtUnit(formatOutput(rs.getString(9)));
 					p.setBeWtUnit(formatOutput(rs.getString(9)));
 					p.setVesselDate(new Date(rs.getDate(10).getTime()));
-					p.setVendorName(rs.getString(11));
-					p.setVesselName(rs.getString(12));
+					p.setVesselName(rs.getString(11));
+					p.setVendorName(rs.getString(12));
 					list.add(p);
 				} while (rs.next());
 
-				
 			}
 
 		} catch (Exception e) {
-			log.error("Some error",e);
+			log.error("Some error", e);
 		} finally {
 			closeDatabaseResources(conn, rs, cs);
 		}
 		return list;
 	}
-	
+
+	private String processSearchCriteria(JqGridSearchParameterHolder searchParam) {
+		String sqlClause = "";
+		List<String> clauses = new ArrayList<String>();
+		if (null != searchParam && null != searchParam.getRules() && !searchParam.getRules().isEmpty()) {
+			for(JqGridSearchParameterHolder.Rule r: searchParam.getRules()){
+				String clause = processSearchRule(r);
+				if(!StringUtils.isEmpty(clause)){
+					clauses.add(clause);
+				}
+			}
+		}
+		
+		//Prepare the sqlClause
+		sqlClause = prepareSqlClause(clauses);
+		
+		return sqlClause;
+	}
+
+	private String prepareSqlClause(List<String> clauses) {
+		String c = "";
+		int clausesCount = clauses.size();
+		for(int i=0;i<clausesCount;i++){
+			String s = clauses.get(i);
+			if(i>0 ){
+				s = " AND " + s;
+			}
+			c = c + " "+ s;
+			
+		}
+		if(!StringUtils.isEmpty(c)){
+			c = " WHERE " + c;
+		}
+		return c;
+	}
+
+	private String processSearchRule(Rule r) {
+		String data = r.getData();
+		String field = r.getField();
+		String op = r.getOp();
+		
+		String clause = "";
+		if(field!=null && field.equalsIgnoreCase("vendorName")){
+			clause = "pis.vendor_name like '%"+data+"%'";
+		}else if(field!=null && field.equalsIgnoreCase("vesselName")){
+			clause = "pis.vessel_name like '%"+data+"%'";
+		}else if(field!=null && field.equalsIgnoreCase("vesselDate")){
+			clause = "vesselDate = '"+data+"'";
+		}
+		
+		return clause;
+	}
+
 	public Integer fetchPortInwardDetailsRecordCount() throws SQLException {
 		List<PortInwardRecordVO> list = new ArrayList<PortInwardRecordVO>();
 		Connection conn = null;
 		ResultSet rs = null;
 		CallableStatement cs = null;
-		
-		
+
 		int count = 0;
 		try {
 			conn = getConnection();
-			String count_sql = " SELECT "
-					+ " count(*) "
-					+" FROM port_inward pin "
-					+" INNER JOIN port_inward_shipment pis ON pin.port_inwd_shipment_id = pis.port_inwd_shipment_id ";
-					
-			
+			String count_sql = " SELECT " + " count(*) " + " FROM port_inward pin "
+					+ " INNER JOIN port_inward_shipment pis ON pin.port_inwd_shipment_id = pis.port_inwd_shipment_id ";
+
 			log.info("query = " + count_sql);
-			
+
 			cs = conn.prepareCall(count_sql);
-			
-			
+
 			rs = cs.executeQuery();
 			if (null != rs && rs.next()) {
-				
-				
+
 				do {
 					count = rs.getInt(1);
-					
-					log.debug("Row count === "+count);
+
+					log.debug("Row count === " + count);
 				} while (rs.next());
 
-				
 			}
 
 		} catch (Exception e) {
-			log.error("Some error",e);
+			log.error("Some error", e);
 		} finally {
 			closeDatabaseResources(conn, rs, cs);
 		}
 		return count;
 	}
 
-	public PortInwardForm addPortInwardDetailsData(PortInwardForm form,
-			UserInfoVO userInfoVO) throws SQLException {
+	public PortInwardForm addPortInwardDetailsData(PortInwardForm form, UserInfoVO userInfoVO) throws SQLException {
 		Connection conn = null;
 		ResultSet rs = null;
 		CallableStatement cs = null;
@@ -294,8 +317,7 @@ public class PortDaoImpl extends BaseDaoImpl {
 		return form;
 	}
 
-	public PortOutwardForm addPortOutwardData(PortOutwardForm form,
-			UserInfoVO userInfoVO) throws SQLException {
+	public PortOutwardForm addPortOutwardData(PortOutwardForm form, UserInfoVO userInfoVO) throws SQLException {
 		Connection conn = null;
 		ResultSet rs = null;
 		CallableStatement cs = null;

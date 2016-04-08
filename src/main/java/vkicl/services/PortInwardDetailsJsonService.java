@@ -44,7 +44,7 @@ public class PortInwardDetailsJsonService {
 		response.setPage(page);
 		response.setRows(records);
 		response.setRecords(rows);
-		response.setTotal(totalRecordsCount.toString());
+		response.setTotal((totalRecordsCount / Long.valueOf(rows)) + 1 + "");
 		Gson gson = new Gson();
 		String json = gson.toJson(response);
 		return json;

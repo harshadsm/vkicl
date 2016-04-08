@@ -21,30 +21,6 @@ public class PortInwardDetailsJsonServlet extends HttpServlet {
 
 	private Logger logger = Logger.getLogger(PortInwardDetailsJsonServlet.class);
 
-//	@Override
-//	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//		try {
-//			super.doGet(req, resp);
-//			PortInwardDetailsJsonService service = new PortInwardDetailsJsonService();
-//			String json = service.getPortInwardListAsJson(req);
-//
-//			logger.debug("Going to return PortInwardDetailsJsonServlet json ");
-//			logger.debug(json);
-//			// TODO: Chck if user is logged in (will implement it later)
-//			// TODO: check if user has required access (will implement it later)
-//
-//			resp.setContentType("application/json");
-//			resp.getWriter().write(json);
-//			resp.flushBuffer();
-//			resp.getOutputStream().flush();
-//			resp.getOutputStream().close();
-//
-//		} catch (SQLException e) {
-//			logger.error("Some eorror", e);
-//			throw new ServletException(e);
-//		}
-//	}
-
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		

@@ -53,11 +53,11 @@ $(function() {
 				editoptions : {
 					size : 10
 				},
-				search:true,
+				search:false,
 				searchoptions: { sopt:['ge']}
 			}, {
 				name : 'vesselDate',
-				index : 'vesselDate',
+				index : 'vessel_date',
 				width : 300,
 				editable : false,
 				editoptions : {
@@ -70,7 +70,7 @@ $(function() {
 				
 			},{
 				name : 'vesselName',
-				index : 'vesselName',
+				index : 'vessel_name',
 				width : 300,
 				editable : false,
 				editoptions : {
@@ -83,7 +83,7 @@ $(function() {
 				
 			},{
 				name : 'vendorName',
-				index : 'vendorName',
+				index : 'vendor_name',
 				width : 300,
 				editable : false,
 				editoptions : {
@@ -103,7 +103,7 @@ $(function() {
 					readonly : true,
 					size : 10
 				},
-				search:true,
+				search:false,
 				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
 				searchoptions: { sopt:[ 'cn','eq']}
 				
@@ -116,7 +116,7 @@ $(function() {
 					readonly : true,
 					size : 10
 				},
-				search:true,
+				search:false,
 				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
 				searchoptions: { sopt:[ 'cn','eq']}
 				
@@ -129,7 +129,7 @@ $(function() {
 					readonly : true,
 					size : 10
 				},
-				search:true,
+				search:false,
 				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
 				searchoptions: { sopt:[ 'cn','eq']}
 				
@@ -142,7 +142,7 @@ $(function() {
 					readonly : true,
 					size : 10
 				},
-				search:true,
+				search:false,
 				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
 				searchoptions: { sopt:[ 'cn','eq']}
 				
@@ -155,7 +155,7 @@ $(function() {
 					readonly : true,
 					size : 10
 				},
-				search:true,
+				search:false,
 				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
 				searchoptions: { sopt:[ 'cn','eq']}
 				
@@ -166,11 +166,11 @@ $(function() {
 			},
 			rowNum : 20,
 			rowList : [ 20, 40, 60 ],
-			height : 480,
+			height : 280,
 			autowidth : true,
 			rownumbers : true,
 			pager : '#pager',
-			sortname : 'id',
+			sortname : 'vessel_date',
 			viewrecords : true,
 			sortorder : "asc",
 			caption : "Port Inward List",
