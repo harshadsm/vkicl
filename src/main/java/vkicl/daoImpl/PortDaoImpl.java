@@ -4,16 +4,20 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 
 import vkicl.form.PortInwardForm;
 import vkicl.form.PortOutwardForm;
+import vkicl.util.JqGridSearchParameterHolder;
 import vkicl.util.PropFileReader;
+import vkicl.vo.PortInwardRecordVO;
 import vkicl.vo.UserInfoVO;
 
 public class PortDaoImpl extends BaseDaoImpl {
-	static Logger log = Logger.getLogger(PortDaoImpl.class);
+	private static Logger log = Logger.getLogger(PortDaoImpl.class);
 	static PropFileReader prop = PropFileReader.getInstance();
 
 	public PortInwardForm addPortInwardData(PortInwardForm form,
@@ -134,7 +138,11 @@ public class PortDaoImpl extends BaseDaoImpl {
 	}
 	
 	
-	public PortInwardForm fetchPortInwardDetails_2(PortInwardForm form) throws SQLException {
+	public List<PortInwardRecordVO> fetchPortInwardDetails_2(
+			int pageNo,
+			int pageSize, long total, String orderByFieldName, String order,JqGridSearchParameterHolder searchParam
+			) throws SQLException {
+		List<PortInwardRecordVO> list = new ArrayList<PortInwardRecordVO>();
 		Connection conn = null;
 		ResultSet rs = null;
 		CallableStatement cs = null;
@@ -143,6 +151,11 @@ public class PortDaoImpl extends BaseDaoImpl {
 		int count = 0;
 		try {
 			conn = getConnection();
+			String count_sql = " SELECT "
+					+ " count(*) "
+					+" FROM port_inward pin "
+					+" INNER JOIN port_inward_shipment pis ON pin.port_inwd_shipment_id = pis.port_inwd_shipment_id "
+					+" ORDER BY pis.vessel_date DESC; ";
 			String sql = " SELECT "
 					+ " pin.port_inward_id"
 					+ " ,pin.be_no"
@@ -159,54 +172,79 @@ public class PortDaoImpl extends BaseDaoImpl {
 					+" ORDER BY pis.vessel_date DESC; ";
 			query = sql;
 			log.info("query = " + query);
-			log.info("form = " + form);
+			
 			cs = conn.prepareCall(query);
-			log.info("form = " + form);
+			
 			
 			rs = cs.executeQuery();
 			if (null != rs && rs.next()) {
-				int i = 0;
-				Integer pis[] = new Integer[count];
-				String beNo[] = new String[count];
-				String materialType[] = new String[count];
-				String millName[] = new String[count];
-				String make[] = new String[count];
-				String grade[] = new String[count];
-				String desc[] = new String[count];
-				Double beWt[] = new Double[count];
-				String beWtUnit[] = new String[count];
+				
+				
 				do {
-					pis[i] = rs.getInt(1);
-					beNo[i] = formatOutput(rs.getString(2));
-					materialType[i] = formatOutput(rs.getString(3));
-					millName[i] = formatOutput(rs.getString(4));
-					make[i] = formatOutput(rs.getString(5));
-					grade[i] = formatOutput(rs.getString(6));
-					desc[i] = formatOutput(rs.getString(7));
-					beWt[i] = rs.getDouble(8);
-					beWtUnit[i] = formatOutput(rs.getString(9));
-					i = i + 1;
+					PortInwardRecordVO p = new PortInwardRecordVO();
+					p.setId( rs.getInt(1));
+					p.setBeNo(formatOutput(rs.getString(2)));
+					p.setMaterialType(formatOutput(rs.getString(3)));
+					p.setMillName(formatOutput(rs.getString(4)));
+					p.setMake(formatOutput(rs.getString(5)));
+					p.setGrade(formatOutput(rs.getString(6)));
+					p.setDesc(formatOutput(rs.getString(7)));
+					p.setBeWt(rs.getDouble(8));
+					p.setBeWtUnit(formatOutput(rs.getString(9)));
+					list.add(p);
 				} while (rs.next());
 
-				form.setPis(pis);
-				form.setBeNo(beNo);
-				form.setMaterialType(materialType);
-				form.setMillName(millName);
-				form.setMake(make);
-				form.setGrade(grade);
-				form.setDesc(desc);
-				form.setBeWt(beWt);
-				form.setBeWtUnit(beWtUnit);
+				
 			}
 
 		} catch (Exception e) {
-			e.printStackTrace();
-			message = e.getMessage();
-			
+			log.error("Some error",e);
 		} finally {
 			closeDatabaseResources(conn, rs, cs);
 		}
-		return form;
+		return list;
+	}
+	
+	public Integer fetchPortInwardDetailsRecordCount() throws SQLException {
+		List<PortInwardRecordVO> list = new ArrayList<PortInwardRecordVO>();
+		Connection conn = null;
+		ResultSet rs = null;
+		CallableStatement cs = null;
+		
+		
+		int count = 0;
+		try {
+			conn = getConnection();
+			String count_sql = " SELECT "
+					+ " count(*) "
+					+" FROM port_inward pin "
+					+" INNER JOIN port_inward_shipment pis ON pin.port_inwd_shipment_id = pis.port_inwd_shipment_id ";
+					
+			
+			log.info("query = " + count_sql);
+			
+			cs = conn.prepareCall(count_sql);
+			
+			
+			rs = cs.executeQuery();
+			if (null != rs && rs.next()) {
+				
+				
+				do {
+					count = rs.getInt(1);
+					
+					log.debug("Row count === "+count);
+				} while (rs.next());
+
+				
+			}
+
+		} catch (Exception e) {
+			log.error("Some error",e);
+		} finally {
+			closeDatabaseResources(conn, rs, cs);
+		}
+		return count;
 	}
 
 	public PortInwardForm addPortInwardDetailsData(PortInwardForm form,

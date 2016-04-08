@@ -182,70 +182,200 @@
 		<h3 class="page-head">Port Inward Details</h3>
 	</div>
 </div>
-<div>
-	<html:form action="/port-inward-details" onsubmit="return validateForm();">
-		<div class="row">
-			<div class="col-md-4">
-				<table class="table table-responsive">
-					<tr>
-						<td class="form-label"><label for="vendorName">Vendor
-								Name</label></td>
-						<td><html:text property="vendorName"
-								styleClass="form-control" /></td>
-					</tr>
-					<tr>
-						<td class="form-label"><label for="vesselName">Vessel
-								Name</label></td>
-						<td><html:text property="vesselName"
-								styleClass="form-control" /></td>
-					</tr>
-					<tr>
-						<td class="form-label"><label for="vesselDate">Vessel
-								Date</label></td>
-						<td>
-							<div class="input-group date date-picker-div">
-								<html:text property="vesselDate" styleClass="form-control" />
-								<span class="input-group-addon"><span
-									class="glyphicon-calendar glyphicon"></span></span>
-							</div>
-						</td>
-					</tr>
-				</table>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-12">
-				<input type='button' id="fetch-details" class="btn btn-default"
-					value="Search" onclick="fetchPortInwardDetails();" />
-			</div>
-		</div>
-		<div class="row details-container">
-			<div class="col-md-12">
-				<table class="table table-responsive">
-					<thead>
-						<tr>
-							<th>B/E No.</th>
-							<th>Material Type</th>
-							<th>Mill Name</th>
-							<th>Make</th>
-							<th>Grade</th>
-							<th>Description</th>
-							<th>B/E Weight</th>
-						</tr>
-					</thead>
-					<tbody id="details-tbody">
+<div class="row">
+<div >
+		<div id="jqgrid">
+		<table id="grid"></table>
+		<div id="pager"></div>
 
-					</tbody>
-				</table>
-			</div>
-		</div>
-		<div class="row details-container">
-			<div class="col-md-12">
-				<input type="button" value="Reset"
-					onclick="resetInwardPackingForm();" class="btn pull-left">
-				<html:submit styleClass="btn pull-right" onclick="return validateForm();" />
-			</div>
-		</div>
-		<html:hidden property="genericListener" value="addDetails" />
-	</html:form>
+	</div>
+	<!-- <a href="javascript:downloadExcelFile()">Export to Excel</a> -->
+	<!-- <input style='margin-top: 10px;' type="button" value="Export to Excel"
+		id='excelExport' /> -->
+		
 </div>
+</div>
+
+<script>
+
+$(function() {
+	$("#grid").jqGrid(
+		{
+			url : './portInwardDetailsJsonServlet',
+			datatype : 'json',
+			mtype : 'GET',
+			
+			
+			colNames : [ 'Code',
+							'Name','Channel','Channel Name','Division','Division Name','Address','Credit limit', 'Payment Term', 'DL 20b No','DL 21b No'
+					],
+					
+			colModel : [ {
+				name : 'customerCode',
+				index : 'customerCode',
+				width : 185,
+				editable : true,
+				editrules : {
+					required : true
+				},
+				editoptions : {
+					size : 10
+				},
+				search:true,
+				searchoptions: { sopt:['ge']}
+			}, {
+				name : 'customerName',
+				index : 'customerName',
+				width : 300,
+				editable : false,
+				editoptions : {
+					readonly : true,
+					size : 10
+				},
+				search:true,
+				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+				searchoptions: { sopt:[ 'cn','eq']}
+				
+			},{
+				name : 'distChannel',
+				index : 'distChannel',
+				width : 60,
+				editable : false,
+				editoptions : {
+					readonly : true,
+					size : 10
+				},
+				search:false
+			}, {
+				name : 'distChannelName',
+				index : 'distChannelName',
+				width : 180,
+				editable : false,
+				editoptions : {
+					readonly : true,
+					size : 10
+				},
+				search:false
+
+			}, {
+				name : 'division',
+				index : 'division',
+				width : 40,
+				editable : false,
+				editoptions : {
+					readonly : true,
+					size : 10
+				},
+				search:false
+			}, {
+				name : 'divName',
+				index : 'divName',
+				width : 150,
+				editable : false,
+				editoptions : {
+					readonly : true,
+					size : 10
+				},
+				search:false
+			}, {
+				name : 'address',
+				index : 'address',
+				width : 600,
+				editable : false,
+				editoptions : {
+					readonly : true,
+					size : 10
+				}
+			},{
+				name : 'creditLimit',
+				index : 'creditLimit',
+				width : 100,
+				editable : true,
+				editrules : {
+					required : true
+				},
+				editoptions : {
+					size : 10
+				},
+				search:false
+			}, {
+				name : 'payTerms',
+				index : 'payTerms',
+				width : 55,
+				editable : false,
+				editoptions : {
+					readonly : true,
+					size : 10
+				},
+				search:false
+			},  {
+				name : 'drugLicense20bNo',
+				index : 'drugLicense20bNo',
+				width : 55,
+				editable : false,
+				editoptions : {
+					readonly : true,
+					size : 10
+				},
+				search:false
+			}, {
+				name : 'drugLicense21bNo',
+				index : 'drugLicense21bNo',
+				width : 55,
+				editable : false,
+				editoptions : {
+					readonly : true,
+					size : 10
+				},
+				search:false
+			}
+			
+			],
+			postData : {
+			},
+			rowNum : 20,
+			rowList : [ 20, 40, 60 ],
+			height : 480,
+			autowidth : true,
+			rownumbers : true,
+			pager : '#pager',
+			sortname : 'id',
+			viewrecords : true,
+			sortorder : "asc",
+			caption : "Port Inward List",
+			emptyrecords : "Empty records",
+			loadonce : false,
+			loadComplete : function() {
+
+			},
+			jsonReader : {
+				root : "rows",
+				page : "page",
+				total : "total",
+				records : "records",
+				repeatitems : false,
+				cell : "cell",
+				id : "id"
+			},
+	        gridComplete: function(){ 
+	        	var ids = $("#grid").jqGrid('getDataIDs');
+	        	console.log(ids);
+	        	for(var i=0;i < ids.length;i++){ 
+	        		var rowObject = jQuery("#grid").jqGrid('getRowData',ids[i]); 
+	        		//console.log(rowObject);
+	        		var cust_lnk = "<a href=\"viewCustomer.do?id="+rowObject.customerCode+"\">"+rowObject.customerName+"</a>";
+	        		
+	        		$("#grid").jqGrid('setRowData',ids[i],{customerName:cust_lnk});
+	        		
+	        		$("#grid").jqGrid('filterToolbar',{stringResult: true,searchOnEnter : false, searchOperators:true, defaultSearch:"cn"});
+	        		
+	        		$("#grid").jqGrid('setColProp', "address", {searchoptions: { sopt:['cn','eq']}});
+	        		
+	        		
+					
+	        		
+	        		} }
+		});
+});		
+</script>
+

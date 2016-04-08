@@ -5,6 +5,8 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
 
 import com.google.gson.JsonParseException;
 
@@ -61,18 +63,18 @@ nd:1375633550130
 		}
 	}
 	
-//	public JqGridSearchParameterHolder parseSerachFilters(JqGridParametersHolder params)
-//			throws JsonParseException, JsonMappingException, IOException {
-//		JqGridSearchParameterHolder searchParam = null;
-//		String filters = params.getParam(JQGRID_PARAM_NAMES.filters);
-//
-//		if (filters != null) {
-//			ObjectMapper mapper = new ObjectMapper();
-//			searchParam = mapper.readValue(filters,
-//					JqGridSearchParameterHolder.class);
-//			logger.info(searchParam);
-//		}
-//		return searchParam;
-//	}
+	public JqGridSearchParameterHolder parseSerachFilters(JqGridParametersHolder params)
+			throws JsonParseException, JsonMappingException, IOException {
+		JqGridSearchParameterHolder searchParam = null;
+		String filters = params.getParam(JQGRID_PARAM_NAMES.filters);
+
+		if (filters != null) {
+			ObjectMapper mapper = new ObjectMapper();
+			searchParam = mapper.readValue(filters,
+					JqGridSearchParameterHolder.class);
+			logger.info(searchParam);
+		}
+		return searchParam;
+	}
 	
 }
