@@ -168,6 +168,8 @@ public class PortDaoImpl extends BaseDaoImpl {
 					+ " ,pin.be_weight"
 					+ " ,pin.be_wt_unit"
 					+ " ,pis.vessel_date "
+					+ " ,pis.vessel_name "
+					+ " ,pis.vendor_name "
 					+" FROM port_inward pin "
 					+" INNER JOIN port_inward_shipment pis ON pin.port_inwd_shipment_id = pis.port_inwd_shipment_id "
 					+" ORDER BY pis.vessel_date DESC; ";
@@ -194,6 +196,8 @@ public class PortDaoImpl extends BaseDaoImpl {
 					p.setBeWtUnit(formatOutput(rs.getString(9)));
 					p.setBeWtUnit(formatOutput(rs.getString(9)));
 					p.setVesselDate(new Date(rs.getDate(10).getTime()));
+					p.setVendorName(rs.getString(11));
+					p.setVesselName(rs.getString(12));
 					list.add(p);
 				} while (rs.next());
 
