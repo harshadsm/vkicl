@@ -39,13 +39,13 @@ $(function() {
 			mtype : 'GET',
 			
 			
-			colNames : [ 'Code',
-							'Name','Channel','Channel Name','Division','Division Name','Address','Credit limit', 'Payment Term', 'DL 20b No','DL 21b No'
+			colNames : [ 'id',
+						'Date'
 					],
 					
 			colModel : [ {
-				name : 'customerCode',
-				index : 'customerCode',
+				name : 'id',
+				index : 'id',
 				width : 185,
 				editable : true,
 				editrules : {
@@ -57,8 +57,8 @@ $(function() {
 				search:true,
 				searchoptions: { sopt:['ge']}
 			}, {
-				name : 'customerName',
-				index : 'customerName',
+				name : 'vesselDate',
+				index : 'vesselDate',
 				width : 300,
 				editable : false,
 				editoptions : {
@@ -69,98 +69,6 @@ $(function() {
 				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
 				searchoptions: { sopt:[ 'cn','eq']}
 				
-			},{
-				name : 'distChannel',
-				index : 'distChannel',
-				width : 60,
-				editable : false,
-				editoptions : {
-					readonly : true,
-					size : 10
-				},
-				search:false
-			}, {
-				name : 'distChannelName',
-				index : 'distChannelName',
-				width : 180,
-				editable : false,
-				editoptions : {
-					readonly : true,
-					size : 10
-				},
-				search:false
-
-			}, {
-				name : 'division',
-				index : 'division',
-				width : 40,
-				editable : false,
-				editoptions : {
-					readonly : true,
-					size : 10
-				},
-				search:false
-			}, {
-				name : 'divName',
-				index : 'divName',
-				width : 150,
-				editable : false,
-				editoptions : {
-					readonly : true,
-					size : 10
-				},
-				search:false
-			}, {
-				name : 'address',
-				index : 'address',
-				width : 600,
-				editable : false,
-				editoptions : {
-					readonly : true,
-					size : 10
-				}
-			},{
-				name : 'creditLimit',
-				index : 'creditLimit',
-				width : 100,
-				editable : true,
-				editrules : {
-					required : true
-				},
-				editoptions : {
-					size : 10
-				},
-				search:false
-			}, {
-				name : 'payTerms',
-				index : 'payTerms',
-				width : 55,
-				editable : false,
-				editoptions : {
-					readonly : true,
-					size : 10
-				},
-				search:false
-			},  {
-				name : 'drugLicense20bNo',
-				index : 'drugLicense20bNo',
-				width : 55,
-				editable : false,
-				editoptions : {
-					readonly : true,
-					size : 10
-				},
-				search:false
-			}, {
-				name : 'drugLicense21bNo',
-				index : 'drugLicense21bNo',
-				width : 55,
-				editable : false,
-				editoptions : {
-					readonly : true,
-					size : 10
-				},
-				search:false
 			}
 			
 			],

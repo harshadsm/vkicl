@@ -1,5 +1,7 @@
 package vkicl.vo;
 
+import java.util.Date;
+
 public class PortInwardRecordVO {
 	private Integer id;
 	private String beNo;
@@ -10,6 +12,15 @@ public class PortInwardRecordVO {
 	private String desc;
 	private Double beWt;
 	private String beWtUnit;
+	private Date vesselDate;
+	
+	
+	public Date getVesselDate() {
+		return vesselDate;
+	}
+	public void setVesselDate(Date vesselDate) {
+		this.vesselDate = vesselDate;
+	}
 	public Integer getId() {
 		return id;
 	}

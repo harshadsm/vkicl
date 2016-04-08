@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -191,6 +192,8 @@ public class PortDaoImpl extends BaseDaoImpl {
 					p.setDesc(formatOutput(rs.getString(7)));
 					p.setBeWt(rs.getDouble(8));
 					p.setBeWtUnit(formatOutput(rs.getString(9)));
+					p.setBeWtUnit(formatOutput(rs.getString(9)));
+					p.setVesselDate(new Date(rs.getDate(10).getTime()));
 					list.add(p);
 				} while (rs.next());
 
