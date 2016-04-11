@@ -246,7 +246,7 @@
 			<table class="table table-responsive sub-table table-excel" id="port_inward_details_table" >
 				<thead>
 					<tr>
-						<th>Thickness harshad</th>
+						<th>Thickness</th>
 						<th>Width</th>
 						<th>Length</th>
 						<th>Quantity</th>
