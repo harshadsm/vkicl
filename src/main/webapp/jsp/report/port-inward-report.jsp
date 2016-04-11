@@ -6,39 +6,6 @@
 <%@taglib uri="/WEB-INF/struts-logic.tld" prefix="logic"%>
 <%@taglib uri="/WEB-INF/struts-core.tld" prefix="c"%>
 
-<script type="text/javascript">
-	// 	function fetchReport() {
-	// 		var fromDate = $("[name='fromDate']").val();
-	// 		var toDate = $("[name='toDate']").val();
-	// 		var vesselName = $("[name='vesselName']").val();
-	// 		var materialType = $("[name='materialType']").val();
-	// 		var grade = $("[name='grade']").val();
-
-	// 		// 		if ("" == fromDate) {
-	// 		// 			bootbox.alert("Please select From Date");
-	// 		// 			$("[name='fromDate']").focus();
-	// 		// 			return false;
-	// 		// 		}
-	// 		// 		if ("" == toDate) {
-	// 		// 			bootbox.alert("Please select To Date");
-	// 		// 			$("[name='toDate']").focus();
-	// 		// 			return false;
-	// 		// 		}
-	// 		// 		if ("" == vesselName) {
-	// 		// 			bootbox.alert("Please select Vessel Name");
-	// 		// 			$("[name='vesselName']").focus();
-	// 		// 			return false;
-	// 		// 		}
-	// 		// 		if ("" == materialType) {
-	// 		// 			bootbox.alert("Please select Material Type");
-	// 		// 			$("[name='materialType']").focus();
-	// 		// 			return false;
-	// 		// 		}
-	// 		document.forms[0].genericListener = "getReport";
-	// 		document.forms[0].submit();
-	// 	}
-</script>
-
 <div class="row">
 	<div class="col-md-12">
 		<h3 class="page-head">Port Inward Report</h3>
