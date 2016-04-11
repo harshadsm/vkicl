@@ -200,7 +200,20 @@
 				+ "<td><input type='button' class='btn-danger delete-row' onclick='deleteRow(\"row-sub-"
 				+ SUB_ROW_COUNTER+"\");' value='-' /></td>" + "</tr>";
 		$("#port_inward_details_table tbody").append(str);
+		
+		addOnTabNewRowEventHandler("row-sub-"+SUB_ROW_COUNTER);
 		refreshSubRows();
+	}
+	
+	function addOnTabNewRowEventHandler(trId){
+		console.log("adding tab event handler");
+		$("#"+trId+" input[name='actualWt']").keydown(function (e){
+			
+			var code = e.keyCode || e.which;
+		    if (code == '9') {
+		    	addSubRow2();
+		    }
+		});
 	}
 </script>
 <div class="row">

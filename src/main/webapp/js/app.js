@@ -276,6 +276,9 @@ function calcSecWt(length, width, thickness, qty) {
 	return secWt;
 }
 
+
+
+
 function applyNumericConstraint() {
 	$("input[type='number']").keydown(function(e) {
 		var key = e.which || e.keyCode;
@@ -299,6 +302,7 @@ function applyNumericConstraint() {
 			return false;
 	});
 	applyTotalCalc();
+
 }
 
 function applyTotalCalc() {
