@@ -127,7 +127,7 @@
 				+ "<tbody></tbody></table></td></tr>";
 				
 		$("#details-tbody").append(str);
-		addSubRow("row-container-" + row_id);
+		addSubRow2();
 		row_id = row_id + 1;
 		refreshSubRows();
 	}
@@ -203,6 +203,9 @@
 		
 		addOnTabNewRowEventHandler("row-sub-"+SUB_ROW_COUNTER);
 		refreshSubRows();
+		console.log("#row-sub-"+SUB_ROW_COUNTER+" input[name='thickness']");
+		$("#row-sub-"+SUB_ROW_COUNTER+" input[name='thickness']").focus();
+		
 	}
 	
 	function addOnTabNewRowEventHandler(trId){
@@ -212,6 +215,7 @@
 			var code = e.keyCode || e.which;
 		    if (code == '9') {
 		    	addSubRow2();
+		    	return false;
 		    }
 		});
 	}
@@ -269,34 +273,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr class="sub-row" id="row-sub-1">
-						<input type="hidden" name="subPis">
-						<td><input type="number" class="form-control"
-							placeholder="Thickness" name="thickness" min="0" step="0.001"></td>
-						<td><input type="number" class="form-control"
-							placeholder="Width" name="width" min="0" step="1"></td>
-						<td><input type="number" class="form-control"
-							placeholder="Length" name="length" min="0" step="1"></td>
-						<td><input type="number" class="form-control"
-							placeholder="Quantity" name="qty" min="0" step="1"></td>
-						<td><div class="input-group">
-								<input type="number" aria-label="..." class="form-control"
-									placeholder="Actual Weight" name="actualWt" min="0"
-									step="0.001">
-								<div class="input-group-btn weight-group">
-									<input type="hidden" value="TON" name="actualWtUnit">
-									<button aria-expanded="false" data-toggle="dropdown"
-										disabled="" class="btn btn-default dropdown-toggle"
-										type="button">
-										TON</span>
-									</button>
-									
-								</div>
-							</div></td>
-						<td><input type="button" value="-"
-							onclick="deleteRow('row-sub-1')"
-							class="btn-danger delete-row"></td>
-					</tr>
+					
 				</tbody>
 			</table>
 			</div>
