@@ -63,7 +63,7 @@ public class ReportDaoImpl extends BaseDaoImpl {
 				do {
 					PortInwardBean report = new PortInwardBean();
 
-					report.setId(rs.getInt("port_inward_detail_id"));
+					report.setId(rs.getInt("port_inward_id"));
 					report.setVendorName(formatOutput(rs
 							.getString("vendor_name")));
 					report.setVesselName(formatOutput(rs

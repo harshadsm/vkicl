@@ -124,7 +124,8 @@
 							<th width="5%">Quantity</th>
 							<th width="5%">B/E Wt</th>
 							<th width="5%">UOM</th>
-							
+							<th class="cell-edit"><span
+								class="glyphicon glyphicon glyphicon-pencil"></span></th>
 						</tr>
 					</thead>
 					<tbody id="details-tbody">
@@ -161,8 +162,10 @@
 										value="${report.beWt}" /></td>
 								<td data-type="text" data-name="beWtUnit"><c:out
 										value="${report.beWtUnit}" /></td>
-								<td data-type="text" data-name="action">View</td>
-								
+								<td class="cell-edit"><button name="btnEdit" title="Edit"
+										onclick="editReportRow(this);">
+										<span class="glyphicon glyphicon glyphicon-pencil"></span>
+									</button></td>
 							</tr>
 						</logic:iterate>
 					</tbody>
