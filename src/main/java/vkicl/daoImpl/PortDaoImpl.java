@@ -27,8 +27,7 @@ import vkicl.vo.UserInfoVO;
 
 public class PortDaoImpl extends BaseDaoImpl {
 	private static Logger log = Logger.getLogger(PortDaoImpl.class);
-	static PropFileReader prop = PropFileReader.getInstance();
-
+	
 	public PortInwardForm addPortInwardData(PortInwardForm form, UserInfoVO userInfoVO) throws SQLException {
 		Connection conn = null;
 		ResultSet rs = null;

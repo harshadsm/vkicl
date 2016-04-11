@@ -10,6 +10,7 @@ import org.apache.struts.action.ActionMapping;
 
 import vkicl.daoImpl.PortDaoImpl;
 import vkicl.form.PortInwardForm;
+import vkicl.services.PortInwardService;
 import vkicl.util.Constants;
 import vkicl.util.PropFileReader;
 import vkicl.vo.UserInfoVO;
@@ -27,8 +28,8 @@ public class AddPortInwardPackingListAction extends BaseAction {
 		if(request.getMethod() == "GET"){
 			String id = request.getParameter("id");
 			log.info("id === "+id);
-			
-			request.setAttribute("port_inward_id", id);
+			PortInwardService service = new PortInwardService();
+			request.setAttribute("port_inward_record", service.getPortInwardById(id));
 			actionForward = mapping.findForward(Constants.Mapping.SUCCESS);
 		}else{
 			actionForward = processPackingList(mapping, form, request);

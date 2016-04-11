@@ -27,7 +27,7 @@ import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 public class BaseDaoImpl {
 	private static MysqlDataSource DS;
 	private static Logger log = Logger.getLogger(BaseDaoImpl.class);
-	private static PropFileReader prop = PropFileReader.getInstance();
+	protected static PropFileReader prop = PropFileReader.getInstance();
 
 	public static Connection getConnection() {
 		log.debug("Getting Connection");
