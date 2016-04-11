@@ -25,6 +25,10 @@ public class AddPortInwardPackingListAction extends BaseAction {
 		
 		ActionForward actionForward = null;
 		if(request.getMethod() == "GET"){
+			String id = request.getParameter("id");
+			log.info("id === "+id);
+			
+			request.setAttribute("port_inward_id", id);
 			actionForward = mapping.findForward(Constants.Mapping.SUCCESS);
 		}else{
 			actionForward = processPackingList(mapping, form, request);

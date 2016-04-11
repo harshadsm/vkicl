@@ -109,23 +109,14 @@
 				+ "<td><input readonly type='text' name='make' placeholder='Make' class='form-control' /></td>"
 				+ "<td><input readonly type='text' name='grade' placeholder='Grade' class='form-control' /></td>"
 				+ "<td><input readonly type='text' name='desc'	placeholder='Description' class='form-control' /></td>"
-				+ "<td><div class='input-group'>"
-				+ "<input type='number' step='0.001' min='0' readonly name='beWt' placeholder='B/E Weight' class='form-control' aria-label='...'> "
-				+ "<div class='input-group-btn weight-group'>"
-				+ " <input type='hidden' name='beWtUnit' value='' /> "
-				+ " <ul class='dropdown-menu dropdown-menu-right' role='menu'><li onclick='btnGroupChange(this);'><a>TON</a></li> <li onclick='btnGroupChange(this);'><a>KG</a></li></ul></div></div></td>"
-				+ "</tr><tr id='row-container-"+row_id+"'><td class='expand-collapse-container' colspan='1'>"
-				+ "<input type='button' class='btn-info' onclick='$(\"#sub-table-"
+				+ "<td><div class='input-group'><input type='number' step='0.001' min='0' readonly name='beWt' placeholder='B/E Weight' class='form-control' aria-label='...'> <div class='input-group-btn weight-group'> <input type='hidden' name='beWtUnit' value='' /> <button type='button' disabled='disabled' class='btn btn-default dropdown-toggle' data-toggle='dropdown' aria-expanded='false'> UOM <span class='caret'></span></button> <ul class='dropdown-menu dropdown-menu-right' role='menu'><li onclick='btnGroupChange(this);'><a>TON</a></li> <li onclick='btnGroupChange(this);'><a>KG</a></li></ul></div></div></td>"
+				+ "</tr><tr id='row-container-"+row_id+"'><td class='expand-collapse-container' colspan='1'><input type='button' class='btn-info' onclick='$(\"#sub-table-"
 				+ row_id
-				+ "\").slideToggle(200);' value='[+/-]' /></td>"
-				+ "<td colspan='5'>"
-				+ "<table class='table table-responsive sub-table table-excel' style='display: none;' id='sub-table-"+row_id+"'>"
+				+ "\").slideToggle(200);' value='[+/-]' /></td><td colspan='5'><table class='table table-responsive sub-table table-excel' style='display: none;' id='sub-table-"+row_id+"'>"
 				+ "<thead><tr><th>Thickness</th><th>Width</th><th>Length</th><th>Quantity</th><th>Actual Weight</th>"
 				+ "<td><input type='button' class='btn-success add-row' onClick='addSubRow(\"row-container-"
 				+ row_id
-				+ "\");' value='+' /></td></tr></thead>"
-				+ "<tbody></tbody></table></td></tr>";
-				
+				+ "\");' value='+' /></td></tr></thead><tbody></tbody></table></td></tr>";
 		$("#details-tbody").append(str);
 		addSubRow("row-container-" + row_id);
 		row_id = row_id + 1;
@@ -181,28 +172,10 @@
 	}
 
 	$(document).ready(function() {
-		addRow();
-		
+		$(".details-container").hide();
+		fillArray('vendorName', 'query.unique.vendorName');
+		fillArray('vesselName', 'query.unique.vesselName');
 	});
-	
-	
-	
-	
-	// Harshad New Functions
-	function addSubRow2() {
-		
-
-		var str = "<tr id='row-sub-harshad' class='sub-row'><input type='hidden' name='subPis' />"
-				+ "<td><input type='number' step='0.001' min='0' name='thickness' placeholder='Thickness' class='form-control' /></td>"
-				+ "<td><input type='number' step='1' min='0' name='width' placeholder='Width' class='form-control' /></td>"
-				+ "<td><input type='number' step='1' min='0' name='length' placeholder='Length' class='form-control' /></td>"
-				+ "<td><input type='number' step='1' min='0' name='qty' placeholder='Quantity' class='form-control' /></td>"
-				+ "<td><div class='input-group'><input type='number' step='0.001' min='0' name='actualWt' placeholder='Actual Weight' class='form-control' aria-label='...'><div class='input-group-btn weight-group'><input type='hidden' name='actualWtUnit' value='TON' /><button type='button'class='btn btn-default dropdown-toggle' disabled data-toggle='dropdown' aria-expanded='false'>TON</button><ul class='dropdown-menu dropdown-menu-right' role='menu'><li onclick='btnGroupChange(this);'><a>TON</a></li><li onclick='btnGroupChange(this);'><a>KG</a></li></ul></div></div></td>"
-				+ "<td><input type='button' class='btn-danger delete-row' onclick='deleteRow(\"row-sub-"
-				+ "\");' value='-' /></td>" + "</tr>";
-		$("#port_inward_details_table tbody").append(str);
-		refreshSubRows();
-	}
 </script>
 <div class="row">
 	<div class="col-md-12">
@@ -211,15 +184,47 @@
 </div>
 <div>
 	<html:form action="/port-inward-details" onsubmit="return validateForm();">
-		<input name="port_inward_id" type="hidden" value=<%=request.getAttribute("port_inward_id") %> />
-		
-		
+		<div class="row">
+			<div class="col-md-4">
+				<table class="table table-responsive">
+					<tr>
+						<td class="form-label"><label for="vendorName">Vendor
+								Name</label></td>
+						<td><html:text property="vendorName"
+								styleClass="form-control" /></td>
+					</tr>
+					<tr>
+						<td class="form-label"><label for="vesselName">Vessel
+								Name</label></td>
+						<td><html:text property="vesselName"
+								styleClass="form-control" /></td>
+					</tr>
+					<tr>
+						<td class="form-label"><label for="vesselDate">Vessel
+								Date</label></td>
+						<td>
+							<div class="input-group date date-picker-div">
+								<html:text property="vesselDate" styleClass="form-control" />
+								<span class="input-group-addon"><span
+									class="glyphicon-calendar glyphicon"></span></span>
+							</div>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<input type='button' id="fetch-details" class="btn btn-default"
+					value="Search" onclick="fetchPortInwardDetails();" />
+			</div>
+		</div>
 		<div class="row details-container">
 			<div class="col-md-12">
 				<table class="table table-responsive">
 					<thead>
 						<tr>
-							<th>B/E No.hh</th>
+							<th>B/E No.</th>
 							<th>Material Type</th>
 							<th>Mill Name</th>
 							<th>Make</th>
@@ -240,51 +245,6 @@
 					onclick="resetInwardPackingForm();" class="btn pull-left">
 				<html:submit styleClass="btn pull-right" onclick="return validateForm();" />
 			</div>
-		</div>
-		
-		<div class="row">
-			<table class="table table-responsive sub-table table-excel" id="port_inward_details_table" >
-				<thead>
-					<tr>
-						<th>Thickness harshad</th>
-						<th>Width</th>
-						<th>Length</th>
-						<th>Quantity</th>
-						<th>Actual Weight</th>
-						<td><input type='button' class='btn-success add-row' onClick='addSubRow2()' value='+' /></td>
-					</tr>
-				</thead>
-				<tbody>
-					<tr class="sub-row" id="row-sub-harshad">
-						<input type="hidden" name="subPis">
-						<td><input type="number" class="form-control"
-							placeholder="Thickness" name="thickness" min="0" step="0.001"></td>
-						<td><input type="number" class="form-control"
-							placeholder="Width" name="width" min="0" step="1"></td>
-						<td><input type="number" class="form-control"
-							placeholder="Length" name="length" min="0" step="1"></td>
-						<td><input type="number" class="form-control"
-							placeholder="Quantity" name="qty" min="0" step="1"></td>
-						<td><div class="input-group">
-								<input type="number" aria-label="..." class="form-control"
-									placeholder="Actual Weight" name="actualWt" min="0"
-									step="0.001">
-								<div class="input-group-btn weight-group">
-									<input type="hidden" value="TON" name="actualWtUnit">
-									<button aria-expanded="false" data-toggle="dropdown"
-										disabled="" class="btn btn-default dropdown-toggle"
-										type="button">
-										TON</span>
-									</button>
-									
-								</div>
-							</div></td>
-						<td><input type="button" value="-"
-							onclick="deleteRow()"
-							class="btn-danger delete-row"></td>
-					</tr>
-				</tbody>
-			</table>
 		</div>
 		<html:hidden property="genericListener" value="addDetails" />
 	</html:form>
