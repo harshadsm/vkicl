@@ -10,6 +10,7 @@ import org.apache.struts.action.ActionMapping;
 
 import vkicl.daoImpl.PortDaoImpl;
 import vkicl.form.PortInwardForm;
+import vkicl.services.PortInwardDetailsService;
 import vkicl.util.Constants;
 import vkicl.util.PropFileReader;
 import vkicl.vo.UserInfoVO;
@@ -36,9 +37,8 @@ public class PortInwardDetailsAction extends BaseAction {
 			portInwardForm = (PortInwardForm) form;
 			genericListener = portInwardForm.getGenericListener();
 			if (genericListener.equalsIgnoreCase("addDetails")) {
-				PortDaoImpl impl = new PortDaoImpl();
-				portInwardForm = impl.addPortInwardDetailsData(portInwardForm,
-						userInfoVO);
+				PortInwardDetailsService service = new PortInwardDetailsService();
+				service.processForm(portInwardForm, userInfoVO);
 			} else {
 				log.info("Loaded Port - Inward Details");
 			}

@@ -35,5 +35,9 @@ public class Converter
 	public static Date sqlDateToDate(java.sql.Date date){
 		return new Date(date.getTime());
 	}
+	
+	public static java.sql.Date dateToSqlDate(java.util.Date date){
+		return new java.sql.Date(date.getTime());
+	}
 
 }

@@ -21,6 +21,7 @@ import vkicl.util.Converter;
 import vkicl.util.JqGridSearchParameterHolder;
 import vkicl.util.JqGridSearchParameterHolder.Rule;
 import vkicl.util.PropFileReader;
+import vkicl.vo.PortInwardDetailsInsertVO;
 import vkicl.vo.PortInwardRecordVO;
 import vkicl.vo.UserInfoVO;
 
@@ -394,5 +395,51 @@ public class PortDaoImpl extends BaseDaoImpl {
 			closeDatabaseResources(conn, rs, cs);
 		}
 		return form;
+	}
+
+	/**
+	 * //port_inward_id,length,width,thickness,be_weight,be_wt_unit,quantity,create_ui,update_ui,create_ts,update_ts) VALUES (?,?,?,?,?,?,?,?,?,NOW(),NOW());
+		
+	 * @param vo
+	 */
+	public String addPortInwardDetailsData(PortInwardDetailsInsertVO vo) {
+		Connection conn = null;
+		ResultSet rs = null;
+		CallableStatement cs = null;
+		String query = "";
+		String message = "";
+		try {
+			conn = getConnection();
+
+			query = prop.get("port.inward.detail.insert");
+			log.info("query = " + query);
+			log.info("form = " + vo);
+			cs = conn.prepareCall(query);
+			cs.setInt(1, vo.getPort_inward_id());
+			cs.setInt(2, vo.getLength());
+			cs.setInt(3, vo.getWidth());
+			cs.setDouble(4, vo.getThickness());
+			cs.setDouble(5, vo.getBe_weight());
+			cs.setString(6, vo.getBe_wt_unit());
+			cs.setInt(7, vo.getQuantity());
+			cs.setString(8, vo.getCreate_ui());
+			cs.setString(9, vo.getUpdate_ui());
+			cs.setDate(10, Converter.dateToSqlDate(vo.getCreate_ts()));
+			cs.setDate(11, Converter.dateToSqlDate(vo.getUpdate_ts()));
+			
+			cs.executeUpdate();
+
+			log.info("message = " + message);
+			
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			message = e.getMessage();
+			
+		} finally {
+			closeDatabaseResources(conn, rs, cs);
+		}
+		return message;
+		
 	}
 }

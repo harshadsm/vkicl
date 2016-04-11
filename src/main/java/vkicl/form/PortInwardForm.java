@@ -6,6 +6,7 @@ import java.util.Arrays;
 public class PortInwardForm extends BaseForm {
 
 	// Inward
+	private Integer port_inward_id = null;
 	private int pid = 0;
 	private String vendorName = "";
 	private String vesselName = "";
@@ -60,6 +61,15 @@ public class PortInwardForm extends BaseForm {
 		actualWtUnit = null;
 		qty = null;
 		super.clear();
+	}
+
+	
+	public Integer getPort_inward_id() {
+		return port_inward_id;
+	}
+
+	public void setPort_inward_id(Integer port_inward_id) {
+		this.port_inward_id = port_inward_id;
 	}
 
 	public int getPid() {
