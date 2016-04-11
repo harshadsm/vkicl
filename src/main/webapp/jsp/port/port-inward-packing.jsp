@@ -10,7 +10,7 @@
 <%@taglib uri="/WEB-INF/struts-core.tld" prefix="c" %>
 
 <script type="text/javascript">
-	var id = 1, row = {}, row_id = 1;
+	var id = 1, row = {}, row_id = 1, SUB_ROW_COUNTER = 1;
 	
 	function validateForm() {
 		return commonSubmit();
@@ -190,16 +190,15 @@
 	
 	// Harshad New Functions
 	function addSubRow2() {
-		
-
-		var str = "<tr id='row-sub-harshad' class='sub-row'><input type='hidden' name='subPis' />"
+		SUB_ROW_COUNTER = SUB_ROW_COUNTER + 1;
+		var str = "<tr id='row-sub-"+SUB_ROW_COUNTER+"' class='sub-row'><input type='hidden' name='subPis' />"
 				+ "<td><input type='number' step='0.001' min='0' name='thickness' placeholder='Thickness' class='form-control' /></td>"
 				+ "<td><input type='number' step='1' min='0' name='width' placeholder='Width' class='form-control' /></td>"
 				+ "<td><input type='number' step='1' min='0' name='length' placeholder='Length' class='form-control' /></td>"
 				+ "<td><input type='number' step='1' min='0' name='qty' placeholder='Quantity' class='form-control' /></td>"
 				+ "<td><div class='input-group'><input type='number' step='0.001' min='0' name='actualWt' placeholder='Actual Weight' class='form-control' aria-label='...'><div class='input-group-btn weight-group'><input type='hidden' name='actualWtUnit' value='TON' /><button type='button'class='btn btn-default dropdown-toggle' disabled data-toggle='dropdown' aria-expanded='false'>TON</button><ul class='dropdown-menu dropdown-menu-right' role='menu'><li onclick='btnGroupChange(this);'><a>TON</a></li><li onclick='btnGroupChange(this);'><a>KG</a></li></ul></div></div></td>"
 				+ "<td><input type='button' class='btn-danger delete-row' onclick='deleteRow(\"row-sub-"
-				+ "\");' value='-' /></td>" + "</tr>";
+				+ SUB_ROW_COUNTER+"\");' value='-' /></td>" + "</tr>";
 		$("#port_inward_details_table tbody").append(str);
 		refreshSubRows();
 	}
@@ -243,6 +242,8 @@
 		</div>
 		
 		<div class="row">
+			<div class="col-md-1"></div>
+			<div class="col-md-10">
 			<table class="table table-responsive sub-table table-excel" id="port_inward_details_table" >
 				<thead>
 					<tr>
@@ -255,7 +256,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr class="sub-row" id="row-sub-harshad">
+					<tr class="sub-row" id="row-sub-1">
 						<input type="hidden" name="subPis">
 						<td><input type="number" class="form-control"
 							placeholder="Thickness" name="thickness" min="0" step="0.001"></td>
@@ -280,11 +281,13 @@
 								</div>
 							</div></td>
 						<td><input type="button" value="-"
-							onclick="deleteRow()"
+							onclick="deleteRow('row-sub-1')"
 							class="btn-danger delete-row"></td>
 					</tr>
 				</tbody>
 			</table>
+			</div>
+			<div class="col-md-1"></div>
 		</div>
 		<html:hidden property="genericListener" value="addDetails" />
 	</html:form>
