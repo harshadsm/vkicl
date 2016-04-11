@@ -230,32 +230,9 @@
 		<input name="port_inward_id" type="hidden" value=<%=request.getAttribute("port_inward_id") %> />
 		
 		
-		<div class="row details-container">
-			<div class="col-md-12">
-				<table class="table table-responsive">
-					<thead>
-						<tr>
-							<th>B/E No.hh</th>
-							<th>Material Type</th>
-							<th>Mill Name</th>
-							<th>Make</th>
-							<th>Grade</th>
-							<th>Description</th>
-							<th>B/E Weight</th>
-						</tr>
-					</thead>
-					<tbody id="details-tbody">
 
-					</tbody>
-				</table>
-			</div>
-		</div>
 		<div class="row details-container">
-			<div class="col-md-12">
-				<input type="button" value="Reset"
-					onclick="resetInwardPackingForm();" class="btn pull-left">
-				<html:submit styleClass="btn pull-right" onclick="return validateForm();" />
-			</div>
+			
 		</div>
 		
 		<div class="row">
@@ -276,8 +253,19 @@
 					
 				</tbody>
 			</table>
+			
 			</div>
 			<div class="col-md-1"></div>
+		</div>
+		
+		<div class="row">
+			<div class="col-md-4"></div>
+			<div class="col-md-4 text-center">
+				<input type="button" value="Reset"
+					onclick="resetInwardPackingForm();" class="btn"> 
+				<html:submit styleClass="btn" onclick="return validateForm();" />
+			</div>
+			<div class="col-md-4"></div>
 		</div>
 		<html:hidden property="genericListener" value="addDetails" />
 	</html:form>
