@@ -73,7 +73,7 @@
 				<table class="table table-responsive">
 					<thead>
 						<tr>
-							<th>B/E No.</th>
+						<!-- <th>B/E No.</th> -->
 							<th>Material Type</th>
 							<th>Mill Name</th>
 							<th>Material Make</th>
@@ -113,14 +113,13 @@
 
 	function addRow() {
 		var str = "<tr id='row-" + id + "'>"
-				+ "<td><input type='text' placeholder='B/E No.' name='beNo' class='form-control'/ ></td>"
 				+ "<td><input type='text' placeholder='Material Type' name='materialType' class='form-control'/ ></td>"
 				+ "<td><input type='text' placeholder='Mill Name' name='millName' class='form-control'/ ></td>"
 				+ "<td><input type='text' placeholder='Make' name='make' class='form-control'/ ></td>"
 				+ "<td><input type='text' placeholder='Grade' name='grade' class='form-control'/ ></td>"
 				+ "<td><input type='text' placeholder='Description' name='desc' class='form-control'/ ></td>"
 				+ "<td><div class='input-group'><input type='number' step='0.001' placeholder='B/E Weight' min='0' name='beWt' class='form-control' aria-label='...'><div class='input-group-btn weight-group'><input type='hidden' name='beWtUnit' value='TON' /><button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown' aria-expanded='false'>TON <span class='caret'></span></button><ul class='dropdown-menu dropdown-menu-right' role='menu'><li onclick='btnGroupChange(this);'><a>TON</a></li><li onclick='btnGroupChange(this);'><a>KG</a></li></ul></div></div></td>"
-				+ "<td><input type='button' class='btn-danger delete-row' onclick='deleteRow($(this).parent().parent().attr(\"id\"));' value='-' /></td></tr>";
+				+ "<td><input type='button' class='btn-danger delete-row text-center' onclick='deleteRow($(this).parent().parent().attr(\"id\"));' value='-' /></td></tr>";
 		$("#details-tbody").append(str);
 		id = id + 1;
 

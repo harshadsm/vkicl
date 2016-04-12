@@ -47,7 +47,10 @@ public class PortDaoImpl extends BaseDaoImpl {
 			cs.setString(1, formatInput(form.getVendorName()));
 			cs.setString(2, formatInput(form.getVesselName()));
 			cs.setString(3, convertStringToDate(form.getVesselDate()));
-			cs.setString(4, toString(form.getBeNo()));
+			/**
+			 * TODO: Ideally we need to remove BE No altogether. Here I am saving time by adding a dummy value 99999. Its a kludge.
+			 */
+			cs.setString(4, "DUMMY");
 			cs.setString(5, toString(form.getMaterialType()));
 			cs.setString(6, toString(form.getMillName()));
 			cs.setString(7, toString(form.getMake()));
@@ -55,7 +58,8 @@ public class PortDaoImpl extends BaseDaoImpl {
 			cs.setString(9, toString(form.getDesc()));
 			cs.setString(10, toString(form.getBeWt()));
 			cs.setString(11, toString(form.getBeWtUnit()));
-			cs.setInt(12, form.getBeNo().length);
+			
+			cs.setInt(12, form.getMaterialType().length);
 			cs.setString(13, userInfoVO.getUserName());
 			cs.registerOutParameter(14, java.sql.Types.VARCHAR);
 			cs.executeUpdate();
