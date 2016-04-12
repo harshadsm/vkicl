@@ -12,17 +12,15 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 
-import javax.sql.DataSource;
-
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.struts.util.LabelValueBean;
 
+import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
+
 import vkicl.util.PropFileReader;
 import vkicl.vo.UserInfoVO;
-
-import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 
 public class BaseDaoImpl {
 	private static MysqlDataSource DS;
@@ -70,6 +68,9 @@ public class BaseDaoImpl {
 				DS.setUser(user);
 				DS.setPassword(pass);
 				DS.setNoAccessToProcedureBodies(true);
+				
+				DS.setCharacterEncoding("UTF8");
+				DS.setUseUnicode(Boolean.TRUE);
 				log.info("DataSource Created");
 			}
 			conn = DS.getConnection();

@@ -136,7 +136,7 @@
 							<th width="0%" class="cell-hide">ID</th>
 							<th width="10%">Dispatched To</th>
 							<th width="10%">Vehicle No.</th>
-							<th width="10%">Vehicle Date</th>
+							<th width="5%">Vehicle Date</th>
 							<th width="10%">Vessel Name</th>
 							<th width="10%">Vessel Date</th>
 							<th width="5%">B/E No.</th>
@@ -150,7 +150,7 @@
 							<th width="5%">Quantity</th>
 							<th width="5%">Section Weight</th>
 							<th width="5%">Label Weight</th>
-							<th width="5%">Invoice #</th>
+							<th width="10%">Invoice #</th>
 							<th class="cell-edit"><span
 								class="glyphicon glyphicon glyphicon-pencil"></span></th>
 						</tr>
@@ -208,7 +208,7 @@
 							<th width="0%" class="cell-hide"></th>
 							<th width="10%"></th>
 							<th width="10%"></th>
-							<th width="10%"></th>
+							<th width="5%"></th>
 							<th width="10%"></th>
 							<th width="10%"></th>
 							<th width="5%"></th>
@@ -222,7 +222,7 @@
 							<th width="5%" id="qtyTotal">Quantity</th>
 							<th width="5%"></th>
 							<th width="5%"></th>
-							<th width="5%"></th>
+							<th width="10%"></th>
 							<th class="cell-edit"></th>
 						</tr>
 					</tfoot>

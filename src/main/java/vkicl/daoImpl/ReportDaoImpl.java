@@ -322,7 +322,7 @@ public class ReportDaoImpl extends BaseDaoImpl {
 			cs.setString(18, userInfoVO.getUserName());
 			cs.registerOutParameter(18, java.sql.Types.VARCHAR);
 			rs = cs.executeQuery();
-			message = cs.getString(18);
+			message = cs.getString(19);
 			log.info("message = " + message);
 		} catch (Exception e) {
 			e.printStackTrace();

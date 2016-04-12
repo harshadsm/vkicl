@@ -134,9 +134,10 @@ function updateReportData(tr) {
 	var rowid = "row_" + values[0];
 	var url = "./report?method=" + $(tr).attr("data-method");
 	for (var i = 0; i < params.length; i++) {
-		url = url + "&" + params[i] + "=" + values[i];
+		url = url + "&" + params[i] + "=" + encodeURIComponent(values[i]);
 		objRowId[params[i]] = values[i];
 	}
+	
 	var str = "<span class='glyphicon glyphicon glyphicon-pencil'></span>";
 	$($(tr).find(".cell-edit button")[0]).html(str);
 
