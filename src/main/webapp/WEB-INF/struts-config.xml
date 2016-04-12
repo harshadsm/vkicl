@@ -110,6 +110,12 @@
 			name="PortInwardReportForm">
 			<forward name="success" path="portInwardReportDefn" />
 		</action>
+		
+		<action path="/viewPortInwardRecord" type="org.apache.struts.actions.ForwardAction"
+			parameter="viewPortInwardRecord"
+			/>
+			
+		
 
 		<action path="/port-outward-report" type="vkicl.report.action.PortOutwardReportAction"
 			name="PortOutwardReportForm">

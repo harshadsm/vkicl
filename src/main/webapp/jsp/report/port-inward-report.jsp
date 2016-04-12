@@ -161,7 +161,9 @@
 										value="${report.beWt}" /></td>
 								<td data-type="text" data-name="beWtUnit"><c:out
 										value="${report.beWtUnit}" /></td>
-								<td data-type="text" data-name="action">View</td>
+								<td data-type="text" data-name="action">
+									<a href="viewPortInwardRecord.do?port_inward_id=${report.id}">View</a>
+								</td>
 								
 							</tr>
 						</logic:iterate>
