@@ -162,7 +162,7 @@
 								<td data-type="text" data-name="beWtUnit"><c:out
 										value="${report.beWtUnit}" /></td>
 								<td data-type="text" data-name="action">
-									<a href="viewPortInwardRecord.do?port_inward_id=${report.id}">View</a>
+									<a href="add-port-inward-packing-list.do?id=${report.id}">View</a>
 								</td>
 								
 							</tr>

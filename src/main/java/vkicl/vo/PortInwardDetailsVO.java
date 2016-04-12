@@ -2,7 +2,7 @@ package vkicl.vo;
 
 import java.util.Date;
 
-public class PortInwardDetailsInsertVO {
+public class PortInwardDetailsVO {
 
 	private Integer port_inward_detail_id;
 	private Integer port_inward_id;

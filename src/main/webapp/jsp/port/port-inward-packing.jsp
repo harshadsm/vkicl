@@ -1,3 +1,5 @@
+<%@page import="vkicl.vo.PortInwardDetailsVO"%>
+<%@page import="java.util.List"%>
 <%@page import="vkicl.vo.PortInwardRecordVO"%>
 <%@page import="vkicl.util.Constants"%>
 <%@page import="vkicl.vo.UserInfoVO"%>
@@ -12,10 +14,12 @@
 
 <%
 PortInwardRecordVO vo = (PortInwardRecordVO)request.getAttribute("port_inward_record");
+List<PortInwardDetailsVO> portInwardDetailsList = (List<PortInwardDetailsVO>)request.getAttribute("port_inward_details_records");
+String portInwardDetailsListSize = Integer.toString(portInwardDetailsList.size());
 %>
 
 <script type="text/javascript">
-	var id = 1, row = {}, row_id = 1, SUB_ROW_COUNTER = 1;
+	var id = 1, row = {}, row_id = 1, SUB_ROW_COUNTER = <%=portInwardDetailsListSize %>;
 	
 	function validateForm() {
 		return commonSubmit();
@@ -23,16 +27,24 @@ PortInwardRecordVO vo = (PortInwardRecordVO)request.getAttribute("port_inward_re
 
 	$(function(){
 		addSubRow2();
+		if(SUB_ROW_COUNTER > 1){
+		
+			for (var i = 1; i < SUB_ROW_COUNTER; i++) {
+				console.log("Adding event handler for row-sub-"+i);
+				addOnTabNewRowEventHandler("row-sub-" + i);
+				addChecksumEventHandlers("row-sub-" + i);
+			}
+		}
 	});
-	
-	function refreshSubRows(){
-		$(".main-row").each(function(){
+
+	function refreshSubRows() {
+		$(".main-row").each(function() {
 			var pis = $(this).find("input[name=pis]")[0].value;
 			var unit = $(this).find("input[name=beWtUnit]")[0].value;
-			$(this).next().find("input[name=subPis]").each(function(){
+			$(this).next().find("input[name=subPis]").each(function() {
 				$(this).val(pis);
 			});
-			$(this).next().find("input[name=actualWtUnit]").each(function(){
+			$(this).next().find("input[name=actualWtUnit]").each(function() {
 				$(this).val(unit);
 				$(this).next().html(unit);
 			});
@@ -40,28 +52,21 @@ PortInwardRecordVO vo = (PortInwardRecordVO)request.getAttribute("port_inward_re
 		applyNumericConstraint();
 		applyTotalCalc();
 	}
-
+	
 	function deleteRow(id) {
-		if ($("#" + id).parent().find("tr").length > 1)
-			{
-				$("#" + id).remove();
-				recalculateAllChecksums();
-			}
-		else
-			{
-				bootbox.alert("Cannot Delete Last Row");
-			}
+		if ($("#" + id).parent().find("tr").length > 1) {
+			$("#" + id).remove();
+			recalculateAllChecksums();
+		} else {
+			bootbox.alert("Cannot Delete Last Row");
+		}
 		refreshSubRows();
 	}
-	
-	function submit(){
+
+	function submit() {
 		return commonSubmit();
 	}
 
-	
-	
-	
-	
 	// Harshad New Functions
 	function addSubRow2() {
 		SUB_ROW_COUNTER = SUB_ROW_COUNTER + 1;
@@ -72,128 +77,130 @@ PortInwardRecordVO vo = (PortInwardRecordVO)request.getAttribute("port_inward_re
 				+ "<td><input type='number' step='1' min='0' name='qty' placeholder='Quantity' class='form-control' /></td>"
 				+ "<td><div class='input-group'><input type='number' step='0.001' min='0' name='actualWt' placeholder='Actual Weight' class='form-control' aria-label='...'><div class='input-group-btn weight-group'><input type='hidden' name='actualWtUnit' value='TON' /><button type='button'class='btn btn-default dropdown-toggle' disabled data-toggle='dropdown' aria-expanded='false'>TON</button><ul class='dropdown-menu dropdown-menu-right' role='menu'><li onclick='btnGroupChange(this);'><a>TON</a></li><li onclick='btnGroupChange(this);'><a>KG</a></li></ul></div></div></td>"
 				+ "<td><input type='button' class='btn-danger delete-row' onclick='deleteRow(\"row-sub-"
-				+ SUB_ROW_COUNTER+"\");' value='-' /></td>" + "</tr>";
+				+ SUB_ROW_COUNTER + "\");' value='-' /></td>" + "</tr>";
 		$("#port_inward_details_table tbody").append(str);
-		
-		addOnTabNewRowEventHandler("row-sub-"+SUB_ROW_COUNTER);
-		addChecksumEventHandlers("row-sub-"+SUB_ROW_COUNTER);
+
+		addOnTabNewRowEventHandler("row-sub-" + SUB_ROW_COUNTER);
+		addChecksumEventHandlers("row-sub-" + SUB_ROW_COUNTER);
+		recalculateAllChecksums();
 		refreshSubRows();
-		console.log("#row-sub-"+SUB_ROW_COUNTER+" input[name='thickness']");
-		$("#row-sub-"+SUB_ROW_COUNTER+" input[name='thickness']").focus();
-		
-	}
-	function addChecksumEventHandlers(trId){
-		addQuantityChecksumEventHandler(trId);	
-		addActualWeightChecksumEventHandler(trId);	
-		addLengthChecksumEventHandler(trId);	
-		addThicknessChecksumEventHandler(trId);	
-		addWidthChecksumEventHandler(trId);	
+		console.log("#row-sub-" + SUB_ROW_COUNTER + " input[name='thickness']");
+		$("#row-sub-" + SUB_ROW_COUNTER + " input[name='thickness']").focus();
+
 	}
 	
-	function addThicknessChecksumEventHandler(trId){
-		$("#"+trId+" input[name='thickness']").change(function(){
+	
+	function addChecksumEventHandlers(trId) {
+		addQuantityChecksumEventHandler(trId);
+		addActualWeightChecksumEventHandler(trId);
+		addLengthChecksumEventHandler(trId);
+		addThicknessChecksumEventHandler(trId);
+		addWidthChecksumEventHandler(trId);
+	}
+
+	function addThicknessChecksumEventHandler(trId) {
+		$("#" + trId + " input[name='thickness']").change(function() {
 			calculateChecksumOfThickness();
 		});
 	}
-	
-	function calculateChecksumOfThickness(){
+
+	function calculateChecksumOfThickness() {
 		var checkSum = 0;
-		$("input[name='thickness']").each(function(){
+		$("input[name='thickness']").each(function() {
 			console.log($(this).val());
 			checkSum = checkSum + Number($(this).val());
-			
-		});	
-		
-		console.log("Checksum = "+checkSum);
+
+		});
+
+		console.log("Checksum = " + checkSum);
 		$("#checksum-thickness").text(checkSum);
 	}
-	
-	function addWidthChecksumEventHandler(trId){
-		$("#"+trId+" input[name='width']").change(function(){
+
+	function addWidthChecksumEventHandler(trId) {
+		$("#" + trId + " input[name='width']").change(function() {
 			calculateChecksumOfWidth();
 		});
 	}
-	
-	function calculateChecksumOfWidth(){
+
+	function calculateChecksumOfWidth() {
 		var checkSum = 0;
-		$("input[name='width']").each(function(){
+		$("input[name='width']").each(function() {
 			console.log($(this).val());
 			checkSum = checkSum + Number($(this).val());
-			
-		});	
-		
-		console.log("Checksum = "+checkSum);
+
+		});
+
+		console.log("Checksum = " + checkSum);
 		$("#checksum-width").text(checkSum);
 	}
-	
-	function addLengthChecksumEventHandler(trId){
-		$("#"+trId+" input[name='length']").change(function(){
+
+	function addLengthChecksumEventHandler(trId) {
+		$("#" + trId + " input[name='length']").change(function() {
 			calculateChecksumOfLength();
 		});
 	}
 
-	function calculateChecksumOfLength(){
+	function calculateChecksumOfLength() {
 		var checkSum = 0;
-		$("input[name='length']").each(function(){
+		$("input[name='length']").each(function() {
 			console.log($(this).val());
 			checkSum = checkSum + Number($(this).val());
-			
-		});	
-		
-		console.log("Checksum = "+checkSum);
-		$("#checksum-length").text(checkSum);	
+
+		});
+
+		console.log("Checksum = " + checkSum);
+		$("#checksum-length").text(checkSum);
 	}
-	
-	function addQuantityChecksumEventHandler(trId){
-		$("#"+trId+" input[name='qty']").change(function(){
+
+	function addQuantityChecksumEventHandler(trId) {
+		$("#" + trId + " input[name='qty']").change(function() {
 			calculateChecksumOfQty();
 		});
 	}
-	
-	function calculateChecksumOfQty(){
+
+	function calculateChecksumOfQty() {
 		var checkSumQty = 0;
-		$("input[name='qty']").each(function(){
+		$("input[name='qty']").each(function() {
 			console.log($(this).val());
 			checkSumQty = checkSumQty + Number($(this).val());
-			
-		});	
-		
-		console.log("Checksum = "+checkSumQty);
+
+		});
+
+		console.log("Checksum = " + checkSumQty);
 		$("#checksum-quantity").text(checkSumQty);
 	}
-	
-	
-	function addActualWeightChecksumEventHandler(trId){
-		$("#"+trId+" input[name='actualWt']").change(function(){
+
+	function addActualWeightChecksumEventHandler(trId) {
+		$("#" + trId + " input[name='actualWt']").change(function() {
 			calculateChecksumOfActualWeight();
 		});
 	}
-	
-	function calculateChecksumOfActualWeight(){
+
+	function calculateChecksumOfActualWeight() {
 		var checkSumQty = 0;
-		$("input[name='actualWt']").each(function(){
+		$("input[name='actualWt']").each(function() {
 			console.log($(this).val());
 			checkSumQty = checkSumQty + Number($(this).val());
-			
-		});	
-		
-		console.log("Checksum = "+checkSumQty);
+
+		});
+
+		console.log("Checksum = " + checkSumQty);
 		$("#checksum-actual-weight").text(checkSumQty);
 	}
-	
-	function addOnTabNewRowEventHandler(trId){
-		
-		$("#"+trId+" input[name='actualWt']").keydown(function (e){
-			
+
+	function addOnTabNewRowEventHandler(trId) {
+
+		$("#" + trId + " input[name='actualWt']").keydown(function(e) {
+
 			var code = e.keyCode || e.which;
-		    if (code == '9') {
-		    	addSubRow2();
-		    	return false;
-		    }
+			if (code == '9') {
+				addSubRow2();
+				return false;
+			}
 		});
 	}
-	
-	function recalculateAllChecksums(){
+
+	function recalculateAllChecksums() {
 		calculateChecksumOfActualWeight();
 		calculateChecksumOfQty();
 		calculateChecksumOfLength();
@@ -253,8 +260,25 @@ PortInwardRecordVO vo = (PortInwardRecordVO)request.getAttribute("port_inward_re
 						<td><input type='button' class='btn-success add-row' onClick='addSubRow2()' value='+' /></td>
 					</tr>
 				</thead>
+
 				<tbody>
-					
+					<%
+						int cnt = 0;
+						for(PortInwardDetailsVO record:portInwardDetailsList){
+							cnt++;
+					%>
+						<tr id="row-sub-<%=cnt %>" class='sub-row'>
+							<input type='hidden' name='subPis' />
+							<td>
+								<input type='number' step='0.001' min='0' name='thickness' placeholder='Thickness' class='form-control' value="<%=record.getThickness() %>"/>
+							</td>
+							<td><input type='number' step='1' min='0' name='width' placeholder='Width' class='form-control' value="<%=record.getWidth() %>" /></td>
+							<td><input type='number' step='1' min='0' name='length' placeholder='Length' class='form-control' value="<%=record.getLength() %>"/></td>
+							<td><input type='number' step='1' min='0' name='qty' placeholder='Quantity' class='form-control' value="<%=record.getQuantity() %>" /></td>
+							<td><div class='input-group'><input type='number' step='0.001' min='0' name='actualWt' placeholder='Actual Weight' class='form-control' aria-label='...' value="<%=record.getBe_weight() %>"><div class='input-group-btn weight-group'><input type='hidden' name='actualWtUnit' value='TON' /><button type='button'class='btn btn-default dropdown-toggle' disabled data-toggle='dropdown' aria-expanded='false'>TON</button><ul class='dropdown-menu dropdown-menu-right' role='menu'><li onclick='btnGroupChange(this);'><a>TON</a></li><li onclick='btnGroupChange(this);'><a>KG</a></li></ul></div></div></td>
+							<td><input type='button' class='btn-danger delete-row' onclick='deleteRow("row-sub-<%=cnt %>");' value='-' /></td>
+						</tr>
+					<% } %>
 				</tbody>
 				<tfoot>
 					<tr>

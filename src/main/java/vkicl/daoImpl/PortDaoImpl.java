@@ -21,7 +21,7 @@ import vkicl.util.Converter;
 import vkicl.util.JqGridSearchParameterHolder;
 import vkicl.util.JqGridSearchParameterHolder.Rule;
 import vkicl.util.PropFileReader;
-import vkicl.vo.PortInwardDetailsInsertVO;
+import vkicl.vo.PortInwardDetailsVO;
 import vkicl.vo.PortInwardRecordVO;
 import vkicl.vo.UserInfoVO;
 
@@ -401,7 +401,7 @@ public class PortDaoImpl extends BaseDaoImpl {
 		
 	 * @param vo
 	 */
-	public String addPortInwardDetailsData(PortInwardDetailsInsertVO vo) {
+	public String addPortInwardDetailsData(PortInwardDetailsVO vo, UserInfoVO userVo) {
 		Connection conn = null;
 		ResultSet rs = null;
 		CallableStatement cs = null;
@@ -409,7 +409,7 @@ public class PortDaoImpl extends BaseDaoImpl {
 		String message = "";
 		try {
 			conn = getConnection();
-
+			moveToDeleted(vo.getPort_inward_id(), userVo);
 			query = prop.get("port.inward.detail.insert");
 			log.info("query = " + query);
 			log.info("form = " + vo);
@@ -440,5 +440,139 @@ public class PortDaoImpl extends BaseDaoImpl {
 		}
 		return message;
 		
+	}
+	
+	public void moveToDeleted(Integer portInwardId,UserInfoVO userVo) {
+		Connection conn = null;
+		ResultSet rs = null;
+		CallableStatement cs = null;
+		String query = "";
+		try {
+			List<PortInwardDetailsVO> list = fetchPortInwardDetailsById(portInwardId);
+			
+			conn = getConnection();
+			query = prop.get("port.inward.detail.deleted.insert");
+			log.info("query = " + query);
+			cs = conn.prepareCall(query);
+
+			for (PortInwardDetailsVO vo : list) {
+				cs.setInt(1, vo.getPort_inward_detail_id());
+				cs.setInt(2, vo.getPort_inward_id());
+				cs.setInt(3, vo.getLength());
+				cs.setInt(4, vo.getWidth());
+				cs.setDouble(5, vo.getThickness());
+				cs.setDouble(6, vo.getBe_weight());
+				cs.setString(7, vo.getBe_wt_unit());
+				cs.setInt(8, vo.getQuantity());
+				cs.setString(9, vo.getCreate_ui());
+				cs.setString(10, vo.getUpdate_ui());
+				cs.setDate(11, Converter.dateToSqlDate(vo.getCreate_ts()));
+				cs.setDate(12, Converter.dateToSqlDate(vo.getUpdate_ts()));
+				cs.setString(13, userVo.getUserName());
+				cs.setDate(14, Converter.dateToSqlDate(new Date()));
+				cs.addBatch();
+			}
+			
+			cs.executeBatch();
+			
+		} catch (Exception e) {
+			log.error("some error",e);
+			
+		} finally {
+			closeDatabaseResources(conn, rs, cs);
+		}
+	}
+		public void deletePortInwardDetailsByPortInwardId(Integer portInwardId) {
+			Connection conn = null;
+			ResultSet rs = null;
+			CallableStatement cs = null;
+			String query = "";
+			try {
+				conn = getConnection();
+				query = prop.get("port.inward.detail.delete");
+				log.info("query = " + query);
+				cs = conn.prepareCall(query);
+				
+				cs.setInt(1, portInwardId);
+				
+				cs.executeUpdate();
+				
+				
+			} catch (Exception e) {
+				log.error("some error",e);
+				
+			} finally {
+				closeDatabaseResources(conn, rs, cs);
+			}
+		
+		
+	}
+
+	/**
+	 * port.inward.detail.select
+	 * @param portInwardId
+	 */
+	public List<PortInwardDetailsVO> fetchPortInwardDetailsById(Integer portInwardId){
+		List<PortInwardDetailsVO> list = new ArrayList<PortInwardDetailsVO>();
+		Connection conn = null;
+		ResultSet rs = null;
+		CallableStatement cs = null;
+		String query = "";
+		String message = "";
+		try {
+			conn = getConnection();
+
+			query = prop.get("port.inward.detail.select");
+			log.info("query = " + query);
+			log.info("portInwardId = " + portInwardId);
+			cs = conn.prepareCall(query);
+			cs.setInt(1, portInwardId);
+			
+			
+			rs = cs.executeQuery();
+			if (rs != null) {
+				while (rs.next()) {
+					
+					Integer port_inward_detail_id= rs.getInt("port_inward_detail_id");
+					Integer port_inward_id= rs.getInt("port_inward_id");
+					Integer length= rs.getInt("length");
+					Integer width= rs.getInt("width");
+					Double thickness= rs.getDouble("thickness");
+					Double be_weight= rs.getDouble("be_weight");
+					String be_wt_unit= rs.getString("be_wt_unit");
+					Integer quantity= rs.getInt("quantity");
+					String create_ui= rs.getString("create_ui");
+					String update_ui= rs.getString("update_ui");
+					Date create_ts= rs.getDate("create_ts");
+					Date update_ts= rs.getDate("update_ts");
+					
+					PortInwardDetailsVO vo = new PortInwardDetailsVO();
+					vo.setBe_weight(be_weight);
+					vo.setBe_wt_unit(be_wt_unit);
+					vo.setCreate_ts(create_ts);
+					vo.setCreate_ui(create_ui);
+					vo.setLength(length);
+					vo.setPort_inward_detail_id(port_inward_detail_id);
+					vo.setPort_inward_id(port_inward_id);
+					vo.setQuantity(quantity);
+					vo.setThickness(thickness);
+					vo.setUpdate_ts(update_ts);
+					vo.setUpdate_ui(update_ui);
+					vo.setWidth(width);
+					
+					list.add(vo);
+				}
+			}
+			log.info("message = " + message);
+			
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			message = e.getMessage();
+			
+		} finally {
+			closeDatabaseResources(conn, rs, cs);
+		}
+		return list;
 	}
 }

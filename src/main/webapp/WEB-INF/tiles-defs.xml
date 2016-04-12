@@ -33,13 +33,6 @@
 		<put name="title" value="Port - Inward" />
 		<put name="body" value="/jsp/port/port-inward.jsp" />
 	</definition>
-	
-	<definition name="viewPortInwardRecord" extends="baseDefn">
-		<put name="title" value="Port - Inward" />
-		<put name="body" value="/jsp/port/port-inward.jsp" />
-	</definition>
-	
-	
 
 	<definition name="portInwardDetailsDefn" extends="baseDefn">
 		<put name="title" value="Port - Inward List" />
