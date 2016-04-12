@@ -22,6 +22,7 @@ public class PortOutwardBean extends BaseReportBean {
 	private String secWtUnit = null;
 	private Double actualWt = null;
 	private String actualWtUnit = null;
+	private String invoice = null;
 
 	public int getId() {
 		return id;
@@ -175,18 +176,25 @@ public class PortOutwardBean extends BaseReportBean {
 		this.actualWtUnit = actualWtUnit;
 	}
 
+	
+	public String getInvoice() {
+		return invoice;
+	}
+
+	public void setInvoice(String invoice) {
+		this.invoice = invoice;
+	}
+
 	@Override
 	public String toString() {
-		return "PortOutwardBean [id=" + id + ", dispatchedTo=" + dispatchedTo
-				+ ", vehicleNumber=" + vehicleNumber + ", vehicleDate="
-				+ vehicleDate + ", vesselName=" + vesselName + ", vesselDate="
-				+ vesselDate + ", beNo=" + beNo + ", materialType="
-				+ materialType + ", millName=" + millName + ", make=" + make
-				+ ", grade=" + grade + ", length=" + length + ", width="
-				+ width + ", thickness=" + thickness + ", qty=" + qty
-				+ ", secWt=" + secWt + ", secWtUnit=" + secWtUnit
-				+ ", actualWt=" + actualWt + ", actualWtUnit=" + actualWtUnit
-				+ "]";
+		return "PortOutwardBean [id=" + id + ", dispatchedTo=" + dispatchedTo + ", vehicleNumber=" + vehicleNumber
+				+ ", vehicleDate=" + vehicleDate + ", vesselName=" + vesselName + ", vesselDate=" + vesselDate
+				+ ", beNo=" + beNo + ", materialType=" + materialType + ", millName=" + millName + ", make=" + make
+				+ ", grade=" + grade + ", length=" + length + ", width=" + width + ", thickness=" + thickness + ", qty="
+				+ qty + ", secWt=" + secWt + ", secWtUnit=" + secWtUnit + ", actualWt=" + actualWt + ", actualWtUnit="
+				+ actualWtUnit + ", invoice=" + invoice + "]";
 	}
+
+
 
 }

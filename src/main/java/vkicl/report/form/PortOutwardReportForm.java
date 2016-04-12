@@ -14,6 +14,7 @@ public class PortOutwardReportForm extends BaseForm {
 	private String toDate = null;
 	private String vesselName = null;
 	private String dispatchedTo = null;
+	private String invoiceNo = null;
 
 	private ArrayList<LabelValueBean> vesselNameList = null;
 	private ArrayList<LabelValueBean> dispatchedToList = null;
@@ -31,6 +32,7 @@ public class PortOutwardReportForm extends BaseForm {
 		reportList = null;
 		vesselNameList = null;
 		dispatchedToList = null;
+		invoiceNo = null;
 		super.clear();
 	}
 
@@ -90,13 +92,21 @@ public class PortOutwardReportForm extends BaseForm {
 		this.reportList = reportList;
 	}
 
+	public String getInvoiceNo() {
+		return invoiceNo;
+	}
+
+	public void setInvoiceNo(String invoiceNo) {
+		this.invoiceNo = invoiceNo;
+	}
+
 	@Override
 	public String toString() {
-		return "PortOutwardReportForm [fromDate=" + fromDate + ", toDate="
-				+ toDate + ", vesselName=" + vesselName + ", dispatchedTo="
-				+ dispatchedTo + ", vesselNameList=" + vesselNameList
-				+ ", dispatchedToList=" + dispatchedToList + ", reportList="
-				+ reportList + "]";
+		return "PortOutwardReportForm [fromDate=" + fromDate + ", toDate=" + toDate + ", vesselName=" + vesselName
+				+ ", dispatchedTo=" + dispatchedTo + ", invoiceNo=" + invoiceNo + ", vesselNameList=" + vesselNameList
+				+ ", dispatchedToList=" + dispatchedToList + ", reportList=" + reportList + "]";
 	}
+
+	
 
 }

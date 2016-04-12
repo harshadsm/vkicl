@@ -153,7 +153,7 @@ public class ReportDaoImpl extends BaseDaoImpl {
 					report.setActualWt(rs.getDouble("actual_wt"));
 					report.setActualWtUnit(formatOutput(rs
 							.getString("actual_wt_Unit")));
-
+					report.setInvoice(rs.getString("invoice"));
 					reportList.add(report);
 					report = null;
 				} while (rs.next());
@@ -318,7 +318,8 @@ public class ReportDaoImpl extends BaseDaoImpl {
 			cs.setString(14, fetchFromMap(map, "secWt"));
 			cs.setString(15, fetchFromMap(map, "actualWt"));
 			cs.setString(16, fetchFromMap(map, "actualWtUnit"));
-			cs.setString(17, userInfoVO.getUserName());
+			cs.setString(17, fetchFromMap(map, "invoice"));
+			cs.setString(18, userInfoVO.getUserName());
 			cs.registerOutParameter(18, java.sql.Types.VARCHAR);
 			rs = cs.executeQuery();
 			message = cs.getString(18);

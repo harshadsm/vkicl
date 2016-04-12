@@ -150,7 +150,7 @@
 							<th width="5%">Quantity</th>
 							<th width="5%">Section Weight</th>
 							<th width="5%">Label Weight</th>
-							<th width="5%">UOM</th>
+							<th width="5%">Invoice #</th>
 							<th class="cell-edit"><span
 								class="glyphicon glyphicon glyphicon-pencil"></span></th>
 						</tr>
@@ -191,8 +191,12 @@
 										value="${report.secWt}" /></td>
 								<td data-type="number" data-name="actualWt" data-step="0.001"><c:out
 										value="${report.actualWt}" /></td>
+								<td data-type="text" data-name="invoice" ><c:out
+										value="${report.invoice}" /></td>
+								<!-- 		
 								<td data-type="text" data-name="actualWtUnit"><c:out
 										value="${report.actualWtUnit}" /></td>
+								-->
 								<td class="cell-edit"><button name="btnEdit" title="Edit" onclick="editReportRow(this);">
 										<span class="glyphicon glyphicon glyphicon-pencil"></span>
 									</button></td>
