@@ -163,7 +163,7 @@ public class PortDaoImpl extends BaseDaoImpl {
 					+ " ,pin.be_wt_unit" + " ,pis.vessel_date " + " ,pis.vessel_name " + " ,pis.vendor_name "
 					+ " FROM port_inward pin "
 					+ " INNER JOIN port_inward_shipment pis ON pin.port_inwd_shipment_id = pis.port_inwd_shipment_id "
-					+ processSearchCriteria(searchParam) + " ORDER BY pis.vessel_date DESC; ";
+					+ processSearchCriteria(searchParam) + " "+composeOrderByClause(orderByFieldName, order)+ ";";
 			query = sql;
 			log.info("query = " + query);
 
@@ -200,6 +200,54 @@ public class PortDaoImpl extends BaseDaoImpl {
 		return list;
 	}
 
+	private String composeOrderByClause(String orderByFieldName, String order) {
+		String orderByClause = "";
+		if(orderByFieldName!=null){
+			orderByClause = " ORDER BY ";
+			if(orderByFieldName.equalsIgnoreCase("vessel_date")){
+				orderByClause = orderByClause + " pis.vessel_date "+order+" ";
+			}else if(orderByFieldName.equalsIgnoreCase("id")){
+				orderByClause = orderByClause + " pin.port_inward_id "+order+" ";
+			}
+		}
+		return orderByClause;
+	}
+
+	public Integer fetchPortInwardDetailsRecordCount(JqGridSearchParameterHolder searchParam) throws SQLException {
+		List<PortInwardRecordVO> list = new ArrayList<PortInwardRecordVO>();
+		Connection conn = null;
+		ResultSet rs = null;
+		CallableStatement cs = null;
+
+		int count = 0;
+		try {
+			conn = getConnection();
+			String count_sql = " SELECT " + " count(*) " + " FROM port_inward pin "
+					+ " INNER JOIN port_inward_shipment pis ON pin.port_inwd_shipment_id = pis.port_inwd_shipment_id "
+					+ processSearchCriteria(searchParam);
+
+			log.info("query = " + count_sql);
+
+			cs = conn.prepareCall(count_sql);
+
+			rs = cs.executeQuery();
+			if (null != rs && rs.next()) {
+
+				do {
+					count = rs.getInt(1);
+
+					log.debug("Row count === " + count);
+				} while (rs.next());
+
+			}
+
+		} catch (Exception e) {
+			log.error("Some error", e);
+		} finally {
+			closeDatabaseResources(conn, rs, cs);
+		}
+		return count;
+	}
 	private String processSearchCriteria(JqGridSearchParameterHolder searchParam) {
 		String sqlClause = "";
 		List<String> clauses = new ArrayList<String>();
@@ -266,40 +314,7 @@ public class PortDaoImpl extends BaseDaoImpl {
 		return clause;
 	}
 
-	public Integer fetchPortInwardDetailsRecordCount() throws SQLException {
-		List<PortInwardRecordVO> list = new ArrayList<PortInwardRecordVO>();
-		Connection conn = null;
-		ResultSet rs = null;
-		CallableStatement cs = null;
-
-		int count = 0;
-		try {
-			conn = getConnection();
-			String count_sql = " SELECT " + " count(*) " + " FROM port_inward pin "
-					+ " INNER JOIN port_inward_shipment pis ON pin.port_inwd_shipment_id = pis.port_inwd_shipment_id ";
-
-			log.info("query = " + count_sql);
-
-			cs = conn.prepareCall(count_sql);
-
-			rs = cs.executeQuery();
-			if (null != rs && rs.next()) {
-
-				do {
-					count = rs.getInt(1);
-
-					log.debug("Row count === " + count);
-				} while (rs.next());
-
-			}
-
-		} catch (Exception e) {
-			log.error("Some error", e);
-		} finally {
-			closeDatabaseResources(conn, rs, cs);
-		}
-		return count;
-	}
+	
 
 	public PortInwardForm addPortInwardDetailsData(PortInwardForm form, UserInfoVO userInfoVO) throws SQLException {
 		Connection conn = null;

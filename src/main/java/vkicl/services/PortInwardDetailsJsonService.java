@@ -36,14 +36,14 @@ public class PortInwardDetailsJsonService {
 		
 		
 		PortDaoImpl portDao = new PortDaoImpl();
-		Integer totalRecordsCount = portDao.fetchPortInwardDetailsRecordCount();
+		Integer totalRecordsCount = portDao.fetchPortInwardDetailsRecordCount(searchParam);
 		List<PortInwardRecordVO> records = portDao.fetchPortInwardDetails_2(Integer.parseInt(page),
 				Integer.parseInt(rows), totalRecordsCount, orderBy, order, searchParam);
 		
 		JqGridCustomResponse response = new JqGridCustomResponse();
 		response.setPage(page);
 		response.setRows(records);
-		response.setRecords(rows);
+		response.setRecords(totalRecordsCount.toString());
 		response.setTotal((totalRecordsCount / Long.valueOf(rows)) + 1 + "");
 		Gson gson = new Gson();
 		String json = gson.toJson(response);

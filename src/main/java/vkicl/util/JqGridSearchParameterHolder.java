@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * {"groupOp":"AND","rules":[{"field":"customerName","op":"cn","data":"wal"}]}
  * 
- * @author netra
+ * @author Harshad Mahajan
  * 
  */
 public class JqGridSearchParameterHolder {

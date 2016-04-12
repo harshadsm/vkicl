@@ -77,6 +77,7 @@ $(function() {
 					readonly : true,
 					size : 10
 				},
+				sortable:false,
 				search:true,
 				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
 				searchoptions: { sopt:[ 'cn','eq']}
@@ -90,6 +91,7 @@ $(function() {
 					readonly : true,
 					size : 10
 				},
+				sortable:false,
 				search:true,
 				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
 				searchoptions: { sopt:[ 'cn','eq']}
@@ -104,6 +106,7 @@ $(function() {
 					size : 10
 				},
 				search:false,
+				sortable:false,
 				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
 				searchoptions: { sopt:[ 'cn','eq']}
 				
@@ -117,6 +120,7 @@ $(function() {
 					size : 10
 				},
 				search:false,
+				sortable:false,
 				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
 				searchoptions: { sopt:[ 'cn','eq']}
 				
@@ -129,6 +133,7 @@ $(function() {
 					readonly : true,
 					size : 10
 				},
+				sortable:false,
 				search:false,
 				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
 				searchoptions: { sopt:[ 'cn','eq']}
@@ -142,6 +147,7 @@ $(function() {
 					readonly : true,
 					size : 10
 				},
+				sortable:false,
 				search:false,
 				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
 				searchoptions: { sopt:[ 'cn','eq']}
@@ -155,6 +161,7 @@ $(function() {
 					readonly : true,
 					size : 10
 				},
+				sortable:false,
 				search:false,
 				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
 				searchoptions: { sopt:[ 'cn','eq']}
@@ -165,7 +172,7 @@ $(function() {
 				width : 300,
 				editable : false,
 				search:false,
-				sort:false
+				sortable:false
 			}
 			
 			],
@@ -179,7 +186,7 @@ $(function() {
 			pager : '#pager',
 			sortname : 'vessel_date',
 			viewrecords : true,
-			sortorder : "asc",
+			sortorder : "desc",
 			caption : "Port Inward List",
 			emptyrecords : "Empty records",
 			loadonce : false,
