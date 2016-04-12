@@ -123,7 +123,8 @@
 							<th width="5%">Length</th>
 							<th width="5%">Quantity</th>
 							<th width="5%">B/E Wt</th>
-							<th width="5%">UOM</th>
+							<th width="5%">Actions</th>
+							<!-- <th width="5%">UOM</th> -->
 							
 						</tr>
 					</thead>
@@ -159,8 +160,10 @@
 										value="${report.qty}" /></td>
 								<td data-type="number" data-step="0.001" data-name="beWt"><c:out
 										value="${report.beWt}" /></td>
+								<!-- 
 								<td data-type="text" data-name="beWtUnit"><c:out
 										value="${report.beWtUnit}" /></td>
+								-->
 								<td data-type="text" data-name="action">
 									<a href="add-port-inward-packing-list.do?id=${report.id}">View</a>
 								</td>
@@ -183,7 +186,6 @@
 							<th width="5%"></th>
 							<th width="5%">Total</th>
 							<th width="5%" id="qtyTotal"></th>
-							<th width="5%"></th>
 							<th width="5%"></th>
 							<th class="cell-edit"></th>
 						</tr>
