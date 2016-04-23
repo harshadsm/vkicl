@@ -1,5 +1,6 @@
 package vkicl.form;
 
+//baseform
 import org.apache.struts.action.ActionForm;
 
 @SuppressWarnings("serial")
