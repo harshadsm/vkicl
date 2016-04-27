@@ -39,7 +39,7 @@ $(function() {
 			mtype : 'GET',
 			
 			
-			colNames : [ 'id', 'Date', 'Vessel Name', 'Vendor Name', 'Material Type', 'Mill Name', 'Make', 'Grade', 'Desc', 'Action'
+			colNames : [ 'id', 'Date', 'Vessel Name', 'Vendor Name', 'Material Type', 'Mill Name', 'Make', 'Grade', 'Desc', 'Action', 'Inward Dettails Record Count'
 					],
 					
 			colModel : [ {
@@ -173,7 +173,16 @@ $(function() {
 				editable : false,
 				search:false,
 				sortable:false
+			},{
+				name : 'countOfPortInwardDetailRecords',
+				index : 'countOfPortInwardDetailRecords',
+				width : 10,
+				hidden: true,
+				editable : false,
+				search:false,
+				sortable:false
 			}
+			
 			
 			],
 			postData : {
@@ -207,8 +216,14 @@ $(function() {
 	        	console.log(ids);
 	        	for(var i=0;i < ids.length;i++){ 
 	        		var rowObject = jQuery("#grid").jqGrid('getRowData',ids[i]); 
-	        		//console.log(rowObject);
-	        		var cust_lnk = "<a href=\"add-port-inward-packing-list.do?id="+rowObject.id+"\">Create Packing List</a>";
+	        		console.log(rowObject);
+	        		var countOfPortInwardDetailRecords = Number(rowObject.countOfPortInwardDetailRecords);
+	        		if(countOfPortInwardDetailRecords > 0){
+	        			var cust_lnk = "<a href=\"add-port-inward-packing-list.do?id="+rowObject.id+"\">Edit Packing List ("+rowObject.countOfPortInwardDetailRecords+") </a>";
+	        		}else{
+	        			var cust_lnk = "<a href=\"add-port-inward-packing-list.do?id="+rowObject.id+"\">Create Packing List</a>";
+	        		}
+	        		
 	        		
 	        		$("#grid").jqGrid('setRowData',ids[i],{actionLink:cust_lnk});
 	        		

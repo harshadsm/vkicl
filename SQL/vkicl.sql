@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 12, 2016 at 02:30 PM
+-- Generation Time: Apr 23, 2016 at 07:25 AM
 -- Server version: 5.6.25
 -- PHP Version: 5.5.31
 
@@ -2741,7 +2741,7 @@ CREATE TABLE IF NOT EXISTS `port_inward_details` (
   `update_ui` varchar(100) DEFAULT NULL,
   `create_ts` datetime DEFAULT NULL,
   `update_ts` datetime DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=latin1 COMMENT='This will store detailed level of Information for the Items received at th Port Inward';
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=latin1 COMMENT='This will store detailed level of Information for the Items received at th Port Inward';
 
 --
 -- Dumping data for table `port_inward_details`
@@ -2765,8 +2765,8 @@ INSERT INTO `port_inward_details` (`port_inward_detail_id`, `port_inward_id`, `l
 (17, 4, 4, 3, '2.000', '6.000', 'TON', 5, 'admin', 'admin', '2016-04-11 00:00:00', '2016-04-11 00:00:00'),
 (31, 5, 7, 9, '5.000', '7.000', 'TON', 7, 'admin', 'admin', '2016-04-12 00:00:00', '2016-04-12 00:00:00'),
 (32, 5, 8, 7, '6.000', '6.000', 'TON', 6, 'admin', 'admin', '2016-04-12 00:00:00', '2016-04-12 00:00:00'),
-(33, 100007, 0, 1, '1.000', '2.000', 'TON', 2, 'admin', 'admin', '2016-04-12 00:00:00', '2016-04-12 00:00:00'),
-(34, 100007, 4, 4, '3.000', '0.000', 'TON', 0, 'admin', 'admin', '2016-04-12 00:00:00', '2016-04-12 00:00:00');
+(39, 100007, 0, 1, '1.000', '2.000', 'TON', 2, 'admin', 'admin', '2016-04-12 00:00:00', '2016-04-12 00:00:00'),
+(40, 100007, 4, 4, '3.000', '0.000', 'TON', 0, 'admin', 'admin', '2016-04-12 00:00:00', '2016-04-12 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -2813,7 +2813,13 @@ INSERT INTO `port_inward_details_deleted` (`port_inward_detail_id`, `port_inward
 (29, 5, 5, 5, '5.000', '5.000', 'TON', 5, 'admin', 'admin', '2016-04-12 00:00:00', '2016-04-12 00:00:00', 'admin', '2016-04-12 00:00:00'),
 (30, 5, 8, 7, '6.000', '6.000', 'TON', 6, 'admin', 'admin', '2016-04-12 00:00:00', '2016-04-12 00:00:00', 'admin', '2016-04-12 00:00:00'),
 (31, 5, 7, 9, '5.000', '7.000', 'TON', 7, 'admin', 'admin', '2016-04-12 00:00:00', '2016-04-12 00:00:00', 'admin', '2016-04-12 00:00:00'),
-(33, 100007, 0, 1, '1.000', '2.000', 'TON', 2, 'admin', 'admin', '2016-04-12 00:00:00', '2016-04-12 00:00:00', 'admin', '2016-04-12 00:00:00');
+(33, 100007, 0, 1, '1.000', '2.000', 'TON', 2, 'admin', 'admin', '2016-04-12 00:00:00', '2016-04-12 00:00:00', 'admin', '2016-04-12 00:00:00'),
+(34, 100007, 4, 4, '3.000', '0.000', 'TON', 0, 'admin', 'admin', '2016-04-12 00:00:00', '2016-04-12 00:00:00', 'admin', '2016-04-12 00:00:00'),
+(35, 100007, 0, 1, '1.000', '2.000', 'TON', 2, 'admin', 'admin', '2016-04-12 00:00:00', '2016-04-12 00:00:00', 'admin', '2016-04-12 00:00:00'),
+(36, 100007, 4, 4, '3.000', '0.000', 'TON', 0, 'admin', 'admin', '2016-04-12 00:00:00', '2016-04-12 00:00:00', 'admin', '2016-04-12 00:00:00'),
+(37, 100007, 0, 1, '1.000', '2.000', 'TON', 2, 'admin', 'admin', '2016-04-12 00:00:00', '2016-04-12 00:00:00', 'admin', '2016-04-12 00:00:00'),
+(38, 100007, 4, 4, '3.000', '0.000', 'TON', 0, 'admin', 'admin', '2016-04-12 00:00:00', '2016-04-12 00:00:00', 'admin', '2016-04-12 00:00:00'),
+(39, 100007, 0, 1, '1.000', '2.000', 'TON', 2, 'admin', 'admin', '2016-04-12 00:00:00', '2016-04-12 00:00:00', 'admin', '2016-04-12 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -3385,7 +3391,7 @@ ALTER TABLE `port_inward`
 -- AUTO_INCREMENT for table `port_inward_details`
 --
 ALTER TABLE `port_inward_details`
-  MODIFY `port_inward_detail_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=35;
+  MODIFY `port_inward_detail_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=41;
 --
 -- AUTO_INCREMENT for table `port_inward_shipment`
 --

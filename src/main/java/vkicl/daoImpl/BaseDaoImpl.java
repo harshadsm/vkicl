@@ -47,6 +47,10 @@ public class BaseDaoImpl {
 				dbName = System.getenv("OPENSHIFT_APP_NAME");
 				user = prop.getSystem("db.user");
 				pass = prop.getSystem("db.pass");
+				
+				log.debug("Username = "+user);
+				log.debug("Password = "+pass);
+				
 				}catch(NumberFormatException e){
 					//NumberFormatException happens only when OPENSHIFT_MYSQL_DB_PORT is not a valid integer.
 					//THis is an indication that the environment is not OPENSHIFT.
