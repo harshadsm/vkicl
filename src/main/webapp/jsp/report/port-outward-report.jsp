@@ -134,13 +134,17 @@
 					<thead>
 						<tr>
 							<th width="0%" class="cell-hide">ID</th>
-							<th width="10%">Dispatched To</th>
-							<th width="10%">Vehicle No.</th>
-							<th width="5%">Vehicle Date</th>
-							<th width="10%">Vessel Name</th>
 							<th width="10%">Vessel Date</th>
-							<th width="5%">B/E No.</th>
+							<th width="10%">Vessel Name</th>
 							<th width="5%">Type</th>
+							<th width="10%">Dispatched To</th>
+							<th width="5%">Vehicle Date</th>
+							<th width="10%">Vehicle No.</th>
+							
+							
+							
+							<!-- commented to remove B/E No.<th width="5%">B/E No.</th>-->
+							
 							<!-- <th>Mill Name</th> -->
 							<!-- <th>Make</th> -->
 							<th width="5%">Grade</th>
@@ -149,7 +153,7 @@
 							<th width="5%">Length</th>
 							<th width="5%">Quantity</th>
 							<th width="5%">Section Weight</th>
-							<th width="5%">Label Weight</th>
+							<!-- <th width="5%">Label Weight</th>-->
 							<th width="10%">Invoice #</th>
 							<th class="cell-edit"><span
 								class="glyphicon glyphicon glyphicon-pencil"></span></th>
@@ -161,20 +165,23 @@
 							<tr data-method="updatePortOutwardReport">
 								<td data-type="hidden" data-name="id" class="cell-hide"><c:out
 										value="${report.id}" /></td>
-								<td data-type="text" data-name="dispatchedTo"><c:out
-										value="${report.dispatchedTo}" /></td>
-								<td data-type="text" data-name="vehicleNumber"><c:out
-										value="${report.vehicleNumber}" /></td>
-								<td data-type="text" data-name="vehicleDate"><c:out
-										value="${report.vehicleDate}" /></td>
-								<td data-type="text" data-name="vesselName"><c:out
-										value="${report.vesselName}" /></td>
 								<td data-type="text" data-name="vesselDate"><c:out
 										value="${report.vesselDate}" /></td>
-								<td data-type="text" data-name="beNo"><c:out
-										value="${report.beNo}" /></td>
+								<td data-type="text" data-name="vesselName"><c:out
+										value="${report.vesselName}" /></td>
 								<td data-type="text" data-name="materialType"><c:out
 										value="${report.materialType}" /></td>
+								<td data-type="text" data-name="dispatchedTo"><c:out
+										value="${report.dispatchedTo}" /></td>
+								<td data-type="text" data-name="vehicleDate"><c:out
+										value="${report.vehicleDate}" /></td>
+								<td data-type="text" data-name="vehicleNumber"><c:out
+										value="${report.vehicleNumber}" /></td>
+								
+								
+								<%--<td data-type="text" data-name="beNo"><c:out
+										value="${report.beNo}" /></td>--%>
+								
 								<%-- <td><c:out value="${report.millName}" /></td> --%>
 								<%-- <td><c:out value="${report.make}" /></td> --%>
 								<td data-type="text" data-name="grade"><c:out
@@ -189,8 +196,8 @@
 										value="${report.qty}" /></td>
 								<td data-type="number" data-name="secWt" data-step="0.001"><c:out
 										value="${report.secWt}" /></td>
-								<td data-type="number" data-name="actualWt" data-step="0.001"><c:out
-										value="${report.actualWt}" /></td>
+								<!--  <td data-type="number" data-name="actualWt" data-step="0.001"><c:out
+										value="${report.actualWt}" /></td>-->
 								<td data-type="text" data-name="invoice" ><c:out
 										value="${report.invoice}" /></td>
 								<!-- 		
@@ -210,9 +217,11 @@
 							<th width="10%"></th>
 							<th width="5%"></th>
 							<th width="10%"></th>
+							<th width="5%"></th>
 							<th width="10%"></th>
-							<th width="5%"></th>
-							<th width="5%"></th>
+							
+							<!-- <th width="5%"></th> -->
+							
 							<!-- <th>Mill Name</th> -->
 							<!-- <th>Make</th> -->
 							<th width="5%"></th>
@@ -220,8 +229,8 @@
 							<th width="5%"></th>
 							<th width="5%">Total</th>
 							<th width="5%" id="qtyTotal">Quantity</th>
-							<th width="5%"></th>
-							<th width="5%"></th>
+							<th width="5%" id="secWtTotal"></th>
+							<!--  <th width="5%"></th>-->
 							<th width="10%"></th>
 							<th class="cell-edit"></th>
 						</tr>
