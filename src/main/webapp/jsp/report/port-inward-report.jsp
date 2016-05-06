@@ -111,8 +111,8 @@
 						<tr>
 							<th width="0%" class="cell-hide">ID</th>
 							<th width="15%">Vendor Name</th>
-							<th width="10%">Vessel Name</th>
 							<th width="10%">Vessel Date</th>
+							<th width="10%">Vessel Name</th>
 							<!-- commented to remove B/E No. <th width="5%">B/E No.</th>--> 
 							<th width="15%">Mill Name</th>
 							<th width="5%">Make</th>
@@ -136,10 +136,11 @@
 										value="${report.id}" /></td>
 								<td data-type="text" data-name="vendorName"><c:out
 										value="${report.vendorName}" /></td>
-								<td data-type="text" data-name="vesselName"><c:out
-										value="${report.vesselName}" /></td>
 								<td data-type="text" data-name="vesselDate"><c:out
 										value="${report.vesselDate}" /></td>
+								<td data-type="text" data-name="vesselName"><c:out
+										value="${report.vesselName}" /></td>
+								
 								<!--  <td data-type="text" data-name="beNo"><c:out
 										value="${report.beNo}" /></td>-->
 								<td data-type="text" data-name="millName"><c:out
