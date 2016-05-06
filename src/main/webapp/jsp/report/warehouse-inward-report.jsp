@@ -164,7 +164,7 @@
 							<th>Vendor Name</th>
 							<!-- <th>Vessel Name</th> -->
 							<!-- <th>Vessel Date</th> -->
-							<th>B/E No.</th>
+							<!--<th>B/E No.</th>-->
 							<th>Type</th>
 							<th>Mill Name</th>
 							<th>Make</th>
@@ -196,8 +196,8 @@
 										value="${report.vendorName}" /></td>
 								<%-- <td><c:out value="${report.vesselName}" /></td> --%>
 								<%-- <td><c:out value="${report.vesselDate}" /></td> --%>
-								<td data-type="text" data-name="beNo"><c:out
-										value="${report.beNo}" /></td>
+								<%--<td data-type="text" data-name="beNo"><c:out
+										value="${report.beNo}" /></td>--%>
 								<td data-type="text" data-name="materialType"><c:out
 										value="${report.materialType}" /></td>
 								<td data-type="text" data-name="millName"><c:out
@@ -241,7 +241,7 @@
 							<th></th>
 							<!-- <th>Vessel Name</th> -->
 							<!-- <th>Vessel Date</th> -->
-							<th></th>
+							<!--  <th></th>-->
 							<th></th>
 							<th></th>
 							<th></th>
