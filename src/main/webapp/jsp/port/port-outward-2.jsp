@@ -533,7 +533,10 @@ $(function() {
 	        		
 					
 	        		
-	        		} }
+	        		} },
+   	        onSelectRow:function(rowId){
+   	        	populatePackingList(rowId);
+   	        }
 		});
 });		
 
@@ -542,18 +545,34 @@ $(function() {
 
 
 
-$(function() {
+function populatePackingList(rowId){
+	console.log(rowId);
+	$("#packingListGrid").jqGrid("GridUnload");
 	$("#packingListGrid").jqGrid(
 		{
-			url : './portInwardDetailsJsonServlet',
+			url : './packingListJsonServlet?port_inward_database_id='+rowId,
 			datatype : 'json',
-			mtype : 'GET',
+			
+			mtype : 'POST',
 			
 			
-			colNames : [ 'Date', 'Vessel Name','Material Type' ],
+			colNames : [ 'ID', 'Date', 'Vessel Name','Material Type' ],
 					
-			colModel : [ 
-			              {
+			colModel : [  {
+				name : 'id',
+				index : 'id',
+				hidden: true,
+				width : 185,
+				editable : true,
+				editrules : {
+					required : true
+				},
+				editoptions : {
+					size : 10
+				},
+				search:false,
+				searchoptions: { sopt:['ge']}
+			}, {
 				name : 'vesselDate',
 				index : 'vessel_date',
 				width : 300,
@@ -652,5 +671,5 @@ $(function() {
 	        		
 	        		} }
 		});
-});		
+}
 </script>
