@@ -10,8 +10,10 @@ import org.apache.struts.action.ActionMapping;
 
 import vkicl.daoImpl.PortDaoImpl;
 import vkicl.form.PortOutwardForm;
+import vkicl.services.PortInwardService;
 import vkicl.util.Constants;
 import vkicl.util.PropFileReader;
+import vkicl.vo.PortInwardRecordVO;
 import vkicl.vo.UserInfoVO;
 
 public class PortOutwardAction extends BaseAction {
@@ -31,12 +33,22 @@ public class PortOutwardAction extends BaseAction {
 			if (null != actionForward)
 				return actionForward;
 
+			//Get the related Port Inward Record
+			String portInwardId = request.getParameter("port_inward_id");
+			PortInwardService portInwardService = new PortInwardService();
+			PortInwardRecordVO portInward = portInwardService.getPortInwardById(portInwardId);
+			request.setAttribute("portInward", portInward);
+			
+			
+			
 			actionForward = mapping.findForward(Constants.Mapping.SUCCESS);
 			userInfoVO = getUserProfile(request);
 			portOutwardForm = (PortOutwardForm) form;
 			genericListener = portOutwardForm.getGenericListener();
 			if (genericListener.equalsIgnoreCase("add")) {
-				log.info("genericListener = " + genericListener);
+				String portInwardIdForLinking = request.getParameter("port_inward_id_for_linking_to_port_outward");
+				log.info("portInwardIdForLinking = " + portInwardIdForLinking);
+				
 				PortDaoImpl impl = new PortDaoImpl();
 				portOutwardForm = impl.addPortOutwardData(portOutwardForm,
 						userInfoVO);

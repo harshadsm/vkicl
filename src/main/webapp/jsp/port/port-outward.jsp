@@ -1,3 +1,4 @@
+<%@page import="vkicl.vo.PortInwardRecordVO"%>
 <%@page import="vkicl.util.Constants"%>
 <%@page import="vkicl.vo.UserInfoVO"%>
 <%@page import="org.apache.commons.lang.StringEscapeUtils"%>
@@ -8,6 +9,9 @@
 <%@taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
 <%@taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
 <%@taglib uri="/WEB-INF/struts-core.tld" prefix="c" %>
+
+
+<%PortInwardRecordVO vo = (PortInwardRecordVO)request.getAttribute("portInward"); %>
 
 <script type="text/javascript">
 	var customer = [], vehicleNumber = [], vesselName = [], grade = [];
@@ -202,15 +206,43 @@
 		$('[name="warehouse"]').val("Taloja");
 	}
 </script>
-<div class="row">
-	<div class="col-md-12">
-		<h3 class="page-head">Port Outward</h3>
-	</div>
-</div>
 <div>
 	<html:form action="/port-outward" onsubmit="return validateForm();">
 		<div class="row">
+		<div class="col-md-3">
+				<h3 class="page-head">For Port Inward</h3>
+					<table class="table table-responsive">
+						<tr>
+							<td class="form-label"><label for="id">ID</label></td>
+							<td><%=vo.getId() %></td>
+						</tr>
+						<tr>
+							<td class="form-label"><label for="make">Vessel Name</label></td>
+							<td><%=vo.getVesselName() %><td>
+						</tr>
+						<tr>
+							<td class="form-label"><label for="make">Vessel Date</label></td>
+							<td><%=vo.getVesselDate() %><td>
+						</tr>
+						<tr>
+							<td class="form-label"><label for="make">Material Type</label></td>
+							<td><%=vo.getMaterialType() %><td>
+						</tr>
+						<tr>
+							<td class="form-label"><label for="make">Grade</label></td>
+							<td><%=vo.getGrade() %><td>
+						</tr>
+						
+						
+						
+					</table>
+				
+				
+			</div>
+			<div class="col-md-1"></div>
 			<div class="col-md-4">
+				<h3 class="page-head">Port Outward</h3>
+			
 				<table class="table table-responsive">
 					<tr>
 						<td class="form-label"><label for="destination">Destination</label></td>
@@ -253,6 +285,7 @@
 					</tr>
 				</table>
 			</div>
+			
 		</div>
 		<div class="row">
 			<div class="col-md-12">
@@ -288,5 +321,6 @@
 			</div>
 		</div>
 		<html:hidden property="genericListener" value="add" />
+		<html:hidden property="port_inward_id_for_linking_to_port_outward" value="<%=vo.getId().toString() %>" />
 	</html:form>
 </div>
