@@ -556,11 +556,11 @@ function populatePackingList(rowId){
 			mtype : 'POST',
 			
 			
-			colNames : [ 'ID', 'Date', 'Vessel Name','Material Type' ],
+			colNames : [ 'ID', 'Length', 'Width','Thickness' ],
 					
 			colModel : [  {
-				name : 'id',
-				index : 'id',
+				name : 'portInwardDetailId',
+				index : 'portInwardDetailId',
 				hidden: true,
 				width : 185,
 				editable : true,
@@ -573,8 +573,8 @@ function populatePackingList(rowId){
 				search:false,
 				searchoptions: { sopt:['ge']}
 			}, {
-				name : 'vesselDate',
-				index : 'vessel_date',
+				name : 'length',
+				index : 'length',
 				width : 300,
 				editable : false,
 				editoptions : {
@@ -586,8 +586,8 @@ function populatePackingList(rowId){
 				searchoptions: { sopt:[ 'cn','eq']}
 				
 			},{
-				name : 'vesselName',
-				index : 'vessel_name',
+				name : 'width',
+				index : 'width',
 				width : 300,
 				editable : false,
 				editoptions : {
@@ -601,8 +601,8 @@ function populatePackingList(rowId){
 				
 			}
 			,{
-				name : 'materialType',
-				index : 'materialType',
+				name : 'thickness',
+				index : 'thickness',
 				width : 300,
 				editable : false,
 				editoptions : {
@@ -626,7 +626,7 @@ function populatePackingList(rowId){
 			autowidth : true,
 			rownumbers : true,
 			pager : '#packingListPager',
-			sortname : 'vessel_date',
+			sortname : 'port_inward_detail_id',
 			viewrecords : true,
 			sortorder : "desc",
 			caption : "Packing List for Selected Port Inward Record",

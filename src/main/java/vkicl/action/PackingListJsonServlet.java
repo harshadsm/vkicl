@@ -15,19 +15,16 @@ import vkicl.services.PortInwardDetailsJsonService;
 public class PackingListJsonServlet extends HttpServlet {
 	private static final long serialVersionUID = 48963374052419351L;
 
-	private Logger logger = Logger.getLogger(PortInwardDetailsJsonServlet.class);
+	private Logger logger = Logger.getLogger(PackingListJsonServlet.class);
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
 		try {
 			PortInwardDetailsJsonService service = new PortInwardDetailsJsonService();
-			String json = service.getPortInwardListAsJson(request);
+			String json = service.getPackingListAsJson(request);
 
-			printAllParams(request);
-			logger.debug("Going to return PortInwardDetailsJsonServlet json ");
-			logger.debug(json);
-
+			
 			response.setContentType("text/text;charset=utf-8");
 			response.setHeader("cache-control", "no-cache");
 
@@ -41,12 +38,5 @@ public class PackingListJsonServlet extends HttpServlet {
 		}
 	}
 
-	private void printAllParams(HttpServletRequest request) {
-		for(String key:request.getParameterMap().keySet()){
-			String param = request.getParameter(key);
-			logger.info(key+"==="+param);
-		}
-		
-	}
 
 }
