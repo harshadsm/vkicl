@@ -161,8 +161,10 @@ public class PortDaoImpl extends BaseDaoImpl {
 			String sql = " SELECT " + " pin.port_inward_id" + " ,pin.be_no" + " ,pin.material_type" + " ,pin.mill_name"
 					+ " ,pin.material_make" + " ,pin.material_grade" + " ,pin.description" + " ,pin.be_weight"
 					+ " ,pin.be_wt_unit" + " ,pis.vessel_date " + " ,pis.vessel_name " + " ,pis.vendor_name "
+					+ ", count(pid.port_inward_id) as port_inward_detail_records_count "
 					+ " FROM port_inward pin "
 					+ " INNER JOIN port_inward_shipment pis ON pin.port_inwd_shipment_id = pis.port_inwd_shipment_id "
+					+ " LEFT JOIN port_inward_details pid ON pid.port_inward_id = pin.port_inward_id group by pid.port_inward_id"
 					+ processSearchCriteria(searchParam) + " "+composeOrderByClause(orderByFieldName, order)+ ";";
 			query = sql;
 			log.info("query = " + query);
@@ -187,6 +189,7 @@ public class PortDaoImpl extends BaseDaoImpl {
 					p.setVesselDate(Converter.dateToString(Converter.sqlDateToDate(rs.getDate(10))));
 					p.setVesselName(rs.getString(11));
 					p.setVendorName(rs.getString(12));
+					p.setCountOfPortInwardDetailRecords(rs.getInt(13));
 					list.add(p);
 				} while (rs.next());
 

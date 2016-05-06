@@ -39,7 +39,7 @@ $(function() {
 			mtype : 'GET',
 			
 			
-			colNames : [ 'id', 'Date', 'Vessel Name', 'Vendor Name', 'Material Type', 'Mill Name', 'Make', 'Grade', 'Desc', 'Action'
+			colNames : [ 'id', 'Date', 'Vessel Name', 'Vendor Name', 'Material Type', 'Mill Name', 'Make', 'Grade', 'Desc', 'Packing List', 'Inward Dettails Record Count', 'Outward'
 					],
 					
 			colModel : [ {
@@ -169,11 +169,27 @@ $(function() {
 			},{
 				name : 'actionLink',
 				index : 'actionLink',
-				width : 300,
+				width : 150,
+				editable : false,
+				search:false,
+				sortable:false
+			},{
+				name : 'countOfPortInwardDetailRecords',
+				index : 'countOfPortInwardDetailRecords',
+				width : 10,
+				hidden: true,
+				editable : false,
+				search:false,
+				sortable:false
+			},{
+				name : 'portOutwardLink',
+				index : 'portOutwardLink',
+				width : 150,
 				editable : false,
 				search:false,
 				sortable:false
 			}
+			
 			
 			],
 			postData : {
@@ -206,11 +222,22 @@ $(function() {
 	        	var ids = $("#grid").jqGrid('getDataIDs');
 	        	console.log(ids);
 	        	for(var i=0;i < ids.length;i++){ 
+	        		//Create packing list link
 	        		var rowObject = jQuery("#grid").jqGrid('getRowData',ids[i]); 
-	        		//console.log(rowObject);
-	        		var cust_lnk = "<a href=\"add-port-inward-packing-list.do?id="+rowObject.id+"\">Create Packing List</a>";
+	        		console.log(rowObject);
+	        		var countOfPortInwardDetailRecords = Number(rowObject.countOfPortInwardDetailRecords);
+	        		if(countOfPortInwardDetailRecords > 0){
+	        			var cust_lnk = "<a href=\"add-port-inward-packing-list.do?id="+rowObject.id+"\"> ("+rowObject.countOfPortInwardDetailRecords+") <span class='glyphicon glyphicon-list'></span></a>";
+	        		}else{
+	        			var cust_lnk = "<a href=\"add-port-inward-packing-list.do?id="+rowObject.id+"\"><span class='glyphicon glyphicon-pencil'></span></a>";
+	        		}
+	        		
+	        		
+	        		//Create outward link
+	        		var outward_lnk = "<a href=\"port-outward.do?port_inward_id="+rowObject.id+"\">  <span class='glyphicon glyphicon-pencil'></span></a>";
 	        		
 	        		$("#grid").jqGrid('setRowData',ids[i],{actionLink:cust_lnk});
+	        		$("#grid").jqGrid('setRowData',ids[i],{portOutwardLink:outward_lnk});
 	        		
 	        		$("#grid").jqGrid('filterToolbar',{stringResult: true,searchOnEnter : false, searchOperators:true, defaultSearch:"cn"});
 	        		

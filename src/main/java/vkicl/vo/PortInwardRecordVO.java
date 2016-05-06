@@ -15,6 +15,7 @@ public class PortInwardRecordVO {
 	private String vesselDate;
 	private String vesselName;
 	private String vendorName;
+	private Integer countOfPortInwardDetailRecords;
 	
 	
 	public String getVesselName() {
@@ -89,6 +90,13 @@ public class PortInwardRecordVO {
 	public void setBeWtUnit(String beWtUnit) {
 		this.beWtUnit = beWtUnit;
 	}
+	public Integer getCountOfPortInwardDetailRecords() {
+		return countOfPortInwardDetailRecords;
+	}
+	public void setCountOfPortInwardDetailRecords(Integer countOfPortInwardDetailRecords) {
+		this.countOfPortInwardDetailRecords = countOfPortInwardDetailRecords;
+	}
+	
 	
 	
 }
