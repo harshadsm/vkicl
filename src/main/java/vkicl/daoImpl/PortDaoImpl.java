@@ -281,7 +281,7 @@ public class PortDaoImpl extends BaseDaoImpl {
 			
 		}
 		if(!StringUtils.isEmpty(c)){
-			c = " WHERE " + c;
+			c = " HAVING " + c;
 		}
 		return c;
 	}
