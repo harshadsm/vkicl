@@ -16,7 +16,7 @@
 	</div>
 </div>
 <div class="row">
-<div >
+<div>
 		<div id="jqgrid">
 		<table id="grid"></table>
 		<div id="pager"></div>
