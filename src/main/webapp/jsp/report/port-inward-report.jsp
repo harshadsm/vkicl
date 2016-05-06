@@ -113,7 +113,7 @@
 							<th width="15%">Vendor Name</th>
 							<th width="10%">Vessel Name</th>
 							<th width="10%">Vessel Date</th>
-							<th width="5%">B/E No.</th>
+							<!-- commented to remove B/E No. <th width="5%">B/E No.</th>--> 
 							<th width="15%">Mill Name</th>
 							<th width="5%">Make</th>
 							<th width="5%">Type</th>
@@ -140,8 +140,8 @@
 										value="${report.vesselName}" /></td>
 								<td data-type="text" data-name="vesselDate"><c:out
 										value="${report.vesselDate}" /></td>
-								<td data-type="text" data-name="beNo"><c:out
-										value="${report.beNo}" /></td>
+								<!--  <td data-type="text" data-name="beNo"><c:out
+										value="${report.beNo}" /></td>-->
 								<td data-type="text" data-name="millName"><c:out
 										value="${report.millName}" /></td>
 								<td data-type="text" data-name="make"><c:out
@@ -176,7 +176,7 @@
 							<th width="0%" class="cell-hide"></th>
 							<th width="15%"></th>
 							<th width="10%"></th>
-							<th width="10%"></th>
+							<!--  <th width="10%"></th>-->
 							<th width="5%"></th>
 							<th width="15%"></th>
 							<th width="5%"></th>
@@ -186,7 +186,7 @@
 							<th width="5%"></th>
 							<th width="5%">Total</th>
 							<th width="5%" id="qtyTotal"></th>
-							<th width="5%"></th>
+							<th width="5%" id="beWtTotal"></th>
 							<th class="cell-edit"></th>
 						</tr>
 					</tfoot>
