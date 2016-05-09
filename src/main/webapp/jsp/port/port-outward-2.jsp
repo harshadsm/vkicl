@@ -16,14 +16,7 @@
 	var customer = [], vehicleNumber = [], vesselName = [], grade = [];
 	
 
-	$(document).ready(function() {
-		fillArray('customer', 'query.unique.customer');
-		fillArray('vehicleNumber', 'query.unique.vehicleNumber');
-
-		if (id == 1)
-			addRow();
-	});
-
+	
 	function selectRadioText(i) {
 		var radio = $($("input[name='destination']")[i]);
 		$(radio).click();
@@ -267,13 +260,13 @@
 		</div>
 		<div class="row">
 			<div class="col-md-12">
-				<table class="table table-responsive table-form">
+				<table class="table table-responsive table-form" id="portOutwardRecordsTable">
 					<thead>
 						<tr>
 							<th>Vessel Name</th>
 							<th>Vessel Date</th>
-							<th>B/E No.</th>
-							<th>Material Type</th>
+							<!-- <th>B/E No.</th> -->
+							<!-- <th>Material Type</th> -->
 							<th>Grade</th>
 							<th>Description</th>
 							<th>Thickness</th>
@@ -575,7 +568,9 @@ function composeObjectForCaching(rowObject,qty){
 			thickness : rowObject.thickness,
 			vesselDate : rowObject.vesselDate,
 			vesselName : rowObject.vesselName,
-			availableQuantity : rowObject.quantity
+			availableQuantity : rowObject.quantity,
+			grade : rowObject.grade,
+			materialType : rowObject.materialType
 	};
 	return cachedObj;
 }
@@ -616,8 +611,6 @@ function handleOnSelectRow(rowId, status){
 			}
 		}
 		
-		//Add it in the table.
-		addRowOfSelectedRecord(objectForCaching);
 	}else{
 		/* SELECTED_PORT_INVENTORY_ITEMS = $.grep(SELECTED_PORT_INVENTORY_ITEMS, function (value){
 			return compareCachedObjects(value, objectForCaching);
@@ -628,6 +621,20 @@ function handleOnSelectRow(rowId, status){
 		$("#ordered_qty_"+rowId).val("");
 	}
 	
+	//Refresh the table.
+	refreshPortOutwardTable();
+	
+}
+
+function refreshPortOutwardTable(){
+	//$("#portOutwardRecordsTable").empty();
+	$("#details-tbody").empty();
+	
+	
+	for(var i=0;i<SELECTED_PORT_INVENTORY_ITEMS.length;i++){
+		addRowOfSelectedRecord(SELECTED_PORT_INVENTORY_ITEMS[i]);
+	}
+		
 }
 
 function removeItemFromCache(objectToRemove){
@@ -688,11 +695,14 @@ function setTick(jqGridRowId){
 			if ($.inArray(jqGridRowId, selRowIds) >= 0) {
 			    // the row having rowId is selected
 			    console.log("Already selected");
+			    
 			    updateQuantityInCache(jqGridRowId, orderedQty);
-			    //handleOnSelectRow(jqGridRowId, true);
+			  	//Refresh the table.
+				refreshPortOutwardTable();
+			    
 			}else{
 				$packingListGrid.jqGrid("setSelection", jqGridRowId);
-				//handleOnSelectRow(jqGridRowId, true);
+				
 			}
 				
 		}else{
@@ -721,14 +731,16 @@ function updateQuantityInCache(jqGridRowId, orderedQty){
 
 function composeCombinationId(recordObj){
 	var comboId = ""+ recordObj.portInwardId + "-"+recordObj.portInwardDetailId+"-"+recordObj.portInwardShipmentId;
+	return comboId;
 }
 
 function addRowOfSelectedRecord(recordObj) {
+	console.log(recordObj);
 	var id = composeCombinationId(recordObj);
-	var str = "<tr id='" + id + "'><td class='vessel-container'><input type='text' placeholder='Vessel Name' value='' onblur='fillDates(\"row-"+ id+ "\");' name='vesselName' class='form-control' /></td>"
+	var str = "<tr id='" + id + "'><td class='vessel-container'>"+recordObj.vesselName+"</td>"
 			+ "<td>"+recordObj.vesselDate+"</td>"
-			+ "<td>be no</td>"
-			+ "<td>material type</td>"
+			//+ "<td>be no</td>"
+			//+ "<td>Material Type</td>"
 			+ "<td>"+recordObj.grade+"</td>"
 			+ "<td><input type='text' placeholder='Description' value='' name='desc' class='form-control' /></td>"
 			+ "<td>"+recordObj.thickness+"</td>"
