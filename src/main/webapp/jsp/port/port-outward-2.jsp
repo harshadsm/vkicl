@@ -323,7 +323,7 @@ function populatePackingList(){
 			mtype : 'POST',
 			
 			
-			colNames : [ 'ID', 'Date', 'Vessel Name', 'Grade', 'Length', 'Width','Thickness' ],
+			colNames : [ 'ID', 'Date', 'Vessel Name', 'Grade', 'Length', 'Width','Thickness', 'Available Qty' ],
 					
 			colModel : [  {
 				name : 'portInwardDetailId',
@@ -350,7 +350,7 @@ function populatePackingList(){
 				},
 				search:true,
 				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
-				searchoptions: { sopt:[ 'cn','eq']}
+				searchoptions: { sopt:[ 'eq']}
 				
 			},{
 				name : 'vesselName',
@@ -361,48 +361,50 @@ function populatePackingList(){
 					readonly : true,
 					size : 10
 				},
-				sortable:false,
+				sortable:true,
 				search:true,
 				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
-				searchoptions: { sopt:[ 'cn','eq']}
+				searchoptions: { sopt:[ 'cn']}
 				
 			},{
 				name : 'grade',
 				index : 'grade',
-				width : 300,
+				width : 200,
 				editable : false,
 				editoptions : {
 					readonly : true,
 					size : 10
 				},
-				sortable:false,
-				search:false,
+				sortable:true,
+				search:true,
 				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
-				searchoptions: { sopt:[ 'cn','eq']}
+				searchoptions: { sopt:[ 'eq']}
 				
 			},{
 				name : 'length',
 				index : 'length',
-				width : 300,
+				width : 200,
 				editable : false,
 				editoptions : {
 					readonly : true,
 					size : 10
 				},
 				search:true,
+				sortable:true,
 				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
 				searchoptions: { sopt:[ 'eq']}
 				
 			},{
 				name : 'width',
 				index : 'width',
-				width : 300,
+				width : 200,
 				editable : false,
 				editoptions : {
 					readonly : true,
 					size : 10
 				},
 				search:true,
+				sortable:true,
 				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
 				searchoptions: { sopt:[ 'eq']}
 				
@@ -410,14 +412,29 @@ function populatePackingList(){
 			,{
 				name : 'thickness',
 				index : 'thickness',
-				width : 300,
+				width : 200,
+				editable : false,
+				editoptions : {
+					readonly : true,
+					size : 10
+				},
+				
+				search:true,
+				sortable:true,
+				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+				searchoptions: { sopt:[ 'eq']}
+				
+			},{
+				name : 'quantity',
+				index : 'quantity',
+				width : 150,
 				editable : false,
 				editoptions : {
 					readonly : true,
 					size : 10
 				},
 				search:false,
-				search:true,
+				sortable:false,
 				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
 				searchoptions: { sopt:[ 'eq']}
 				

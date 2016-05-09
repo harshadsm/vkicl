@@ -228,16 +228,24 @@ public class PortInwardPackingListDaoImpl extends BaseDaoImpl {
 	private String composeOrderByClause(String orderByFieldName, String order) {
 		String orderByClause = "";
 		if(orderByFieldName!=null){
-			orderByClause = " ORDER BY ";
+			orderByClause = "";
 			if(orderByFieldName.equalsIgnoreCase("length")){
-				orderByClause = orderByClause + " length "+order+" ";
+				orderByClause = " ORDER BY  length "+order+" ";
 			}else if(orderByFieldName.equalsIgnoreCase("width")){
-				orderByClause = orderByClause + " width "+order+" ";
+				orderByClause = " ORDER BY  width "+order+" ";
 			}else if(orderByFieldName.equalsIgnoreCase("thickness")){
-				orderByClause = orderByClause + " thickness "+order+" ";
+				orderByClause = " ORDER BY  thickness "+order+" ";
 			}else if(orderByFieldName.equalsIgnoreCase("port_inward_detail_id")){
-				orderByClause = orderByClause + " port_inward_detail_id "+order+" ";
+				orderByClause = " ORDER BY  port_inward_detail_id "+order+" ";
+			}else if(orderByFieldName.equalsIgnoreCase("vessel_date")){
+				orderByClause = " ORDER BY  pis.vessel_date "+order+" ";
+			}else if(orderByFieldName.equalsIgnoreCase("vessel_name")){
+				orderByClause = " ORDER BY  pis.vessel_name "+order+" ";
+			}else if(orderByFieldName.equalsIgnoreCase("grade")){
+				orderByClause = " ORDER BY  pi.material_grade "+order+" ";
 			}
+			
+			 
 		}
 		return orderByClause;
 	}
