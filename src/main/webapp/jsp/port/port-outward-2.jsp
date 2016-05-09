@@ -514,7 +514,7 @@ function populatePackingList(){
 	        	console.log(ids);
 	        	for(var i=0;i < ids.length;i++){ 
 	        		var rowObject = $grid.jqGrid('getRowData',ids[i]); 
-	        		var composedObj = composeObjectForCaching(rowObject);
+	        		var composedObj = composeObjectForCaching(rowObject, 0);
 					
 	        		$grid.jqGrid('filterToolbar',{stringResult: true,searchOnEnter : false, searchOperators:true, defaultSearch:"cn"});
 	        		
