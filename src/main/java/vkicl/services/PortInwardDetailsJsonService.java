@@ -71,13 +71,13 @@ public class PortInwardDetailsJsonService {
 	public String getPackingListAsJson(HttpServletRequest req)
 			throws SQLException, JsonParseException, JsonMappingException, IOException {
 		
-		String portInwardIdStr = req.getParameter("port_inward_database_id");
-		logger.info("Port Inward Id = " + portInwardIdStr);
-		Integer portInwardId = Integer.parseInt(portInwardIdStr);
-		JqGridSearchParameterHolder.Rule portInwardIdRule = new JqGridSearchParameterHolder.Rule();
-		portInwardIdRule.setField("port_inward_id");
-		portInwardIdRule.setOp("eq");
-		portInwardIdRule.setData(portInwardIdStr);
+//		String portInwardIdStr = req.getParameter("port_inward_database_id");
+//		logger.info("Port Inward Id = " + portInwardIdStr);
+//		Integer portInwardId = Integer.parseInt(portInwardIdStr);
+//		JqGridSearchParameterHolder.Rule portInwardIdRule = new JqGridSearchParameterHolder.Rule();
+//		portInwardIdRule.setField("port_inward_id");
+//		portInwardIdRule.setOp("eq");
+//		portInwardIdRule.setData(portInwardIdStr);
 
 		JqGridParametersHolder params = new JqGridParametersHolder(req);
 		JqGridSearchParameterHolder searchParam = parseSerachFilters(params);
@@ -89,7 +89,7 @@ public class PortInwardDetailsJsonService {
 			List<JqGridSearchParameterHolder.Rule> rules = new ArrayList<JqGridSearchParameterHolder.Rule>();
 			searchParam.setRules(rules);
 		}
-		searchParam.getRules().add(portInwardIdRule);
+//		searchParam.getRules().add(portInwardIdRule);
 
 		String rows = params.getParam(JQGRID_PARAM_NAMES.rows);
 		String page = params.getParam(JQGRID_PARAM_NAMES.page);
@@ -97,8 +97,8 @@ public class PortInwardDetailsJsonService {
 		String order = params.getParam(JQGRID_PARAM_NAMES.sord);
 
 		PortInwardPackingListDaoImpl portDao = new PortInwardPackingListDaoImpl();
-		Integer totalRecordsCount = portDao.fetchPortInwardPackingListRecordCount(searchParam, portInwardId);
-		List<PackingListItemVO> records = portDao.fetchPortInwardPackingList(portInwardId, Integer.parseInt(page),
+		Integer totalRecordsCount = portDao.fetchPortInwardPackingListRecordCount(searchParam);//, portInwardId);
+		List<PackingListItemVO> records = portDao.fetchPortInwardPackingList( Integer.parseInt(page),
 				Integer.parseInt(rows), totalRecordsCount, orderBy, order, searchParam);
 
 		JqGridCustomResponse response = new JqGridCustomResponse();

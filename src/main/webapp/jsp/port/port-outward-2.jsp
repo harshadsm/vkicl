@@ -249,17 +249,10 @@
 				</table>
 			</div>
 			
-			<div class="row">
-				<div class="col-md-4">
-					<div>
-						<div id="jqgrid">
-							<table id="grid"></table>
-							<div id="pager"></div>
-						</div>
-					</div>
-				</div>
+			
 				
-				<div class="col-md-4">
+				
+				<div class="col-md-10">
 					<div>
 						<div id="packingListTable">
 							<table id="packingListGrid"></table>
@@ -267,7 +260,7 @@
 						</div>
 					</div>
 				</div>
-			</div>
+			
 
 		</div>
 		<div class="row">
@@ -312,24 +305,30 @@
 <script>
 
 $(function() {
-	$("#grid").jqGrid(
+	populatePackingList();
+});		
+
+
+
+
+
+
+function populatePackingList(){
+	
+	$("#packingListGrid").jqGrid(
 		{
-			url : './portInwardDetailsJsonServlet',
+			url : './packingListJsonServlet',
 			datatype : 'json',
-			mtype : 'GET',
+			
+			mtype : 'POST',
 			
 			
-			colNames : [ //'id', 
-			             'Date', 'Vessel Name', 
-			             // 'Vendor Name', 
-			             'Grade' 
-			             // ,'Mill Name', 'Make', 'Grade', 'Desc', 'Packing List', 'Inward Dettails Record Count', 'Outward'
-					],
+			colNames : [ 'ID', 'Date', 'Vessel Name', 'Grade', 'Length', 'Width','Thickness' ],
 					
-			colModel : [ 
-			             /* {
-				name : 'id',
-				index : 'id',
+			colModel : [  {
+				name : 'portInwardDetailId',
+				index : 'portInwardDetailId',
+				hidden: true,
 				width : 185,
 				editable : true,
 				editrules : {
@@ -340,7 +339,7 @@ $(function() {
 				},
 				search:false,
 				searchoptions: { sopt:['ge']}
-			}, */ {
+			}, {
 				name : 'vesselDate',
 				index : 'vessel_date',
 				width : 300,
@@ -367,67 +366,7 @@ $(function() {
 				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
 				searchoptions: { sopt:[ 'cn','eq']}
 				
-			},
-			/* ,{
-				name : 'vendorName',
-				index : 'vendor_name',
-				width : 300,
-				editable : false,
-				editoptions : {
-					readonly : true,
-					size : 10
-				},
-				sortable:false,
-				search:true,
-				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
-				searchoptions: { sopt:[ 'cn','eq']}
-				
-			} 
-			,{
-				name : 'materialType',
-				index : 'materialType',
-				width : 300,
-				editable : false,
-				editoptions : {
-					readonly : true,
-					size : 10
-				},
-				search:false,
-				sortable:false,
-				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
-				searchoptions: { sopt:[ 'cn','eq']}
-				
-			} ,{
-				name : 'millName',
-				index : 'millName',
-				width : 300,
-				editable : false,
-				editoptions : {
-					readonly : true,
-					size : 10
-				},
-				search:false,
-				sortable:false,
-				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
-				searchoptions: { sopt:[ 'cn','eq']}
-				
 			},{
-				name : 'make',
-				index : 'make',
-				width : 300,
-				editable : false,
-				editoptions : {
-					readonly : true,
-					size : 10
-				},
-				sortable:false,
-				search:false,
-				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
-				searchoptions: { sopt:[ 'cn','eq']}
-				
-			},
-			*/
-			{
 				name : 'grade',
 				index : 'grade',
 				width : 300,
@@ -441,140 +380,7 @@ $(function() {
 				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
 				searchoptions: { sopt:[ 'cn','eq']}
 				
-			},/*{
-				name : 'desc',
-				index : 'desc',
-				width : 300,
-				editable : false,
-				editoptions : {
-					readonly : true,
-					size : 10
-				},
-				sortable:false,
-				search:false,
-				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
-				searchoptions: { sopt:[ 'cn','eq']}
-				
 			},{
-				name : 'actionLink',
-				index : 'actionLink',
-				width : 150,
-				editable : false,
-				search:false,
-				sortable:false
-			},{
-				name : 'countOfPortInwardDetailRecords',
-				index : 'countOfPortInwardDetailRecords',
-				width : 10,
-				hidden: true,
-				editable : false,
-				search:false,
-				sortable:false
-			},{
-				name : 'portOutwardLink',
-				index : 'portOutwardLink',
-				width : 150,
-				editable : false,
-				search:false,
-				sortable:false
-			} */
-			
-			
-			],
-			postData : {
-			},
-			rowNum : 20,
-			rowList : [ 20, 40, 60 ],
-			height : 280,
-			autowidth : true,
-			rownumbers : true,
-			pager : '#pager',
-			sortname : 'vessel_date',
-			viewrecords : true,
-			sortorder : "desc",
-			caption : "Port Inward List",
-			emptyrecords : "Empty records",
-			loadonce : false,
-			loadComplete : function() {
-
-			},
-			jsonReader : {
-				root : "rows",
-				page : "page",
-				total : "total",
-				records : "records",
-				repeatitems : false,
-				cell : "cell",
-				id : "id"
-			},
-	        gridComplete: function(){ 
-	        	var ids = $("#grid").jqGrid('getDataIDs');
-	        	console.log(ids);
-	        	for(var i=0;i < ids.length;i++){ 
-	        		//Create packing list link
-	        		var rowObject = jQuery("#grid").jqGrid('getRowData',ids[i]); 
-	        		console.log(rowObject);
-	        		var countOfPortInwardDetailRecords = Number(rowObject.countOfPortInwardDetailRecords);
-	        		if(countOfPortInwardDetailRecords > 0){
-	        			var cust_lnk = "<a href=\"add-port-inward-packing-list.do?id="+rowObject.id+"\"> ("+rowObject.countOfPortInwardDetailRecords+") <span class='glyphicon glyphicon-list'></span></a>";
-	        		}else{
-	        			var cust_lnk = "<a href=\"add-port-inward-packing-list.do?id="+rowObject.id+"\"><span class='glyphicon glyphicon-pencil'></span></a>";
-	        		}
-	        		
-	        		
-	        		//Create outward link
-	        		var outward_lnk = "<a href=\"port-outward.do?port_inward_id="+rowObject.id+"\">  <span class='glyphicon glyphicon-pencil'></span></a>";
-	        		
-	        		/* $("#grid").jqGrid('setRowData',ids[i],{actionLink:cust_lnk});
-	        		$("#grid").jqGrid('setRowData',ids[i],{portOutwardLink:outward_lnk});
-	        		 */
-	        		$("#grid").jqGrid('filterToolbar',{stringResult: true,searchOnEnter : false, searchOperators:true, defaultSearch:"cn"});
-	        		
-	        		$("#grid").jqGrid('setColProp', "address", {searchoptions: { sopt:['cn','eq']}});
-	        		
-	        		
-					
-	        		
-	        		} },
-   	        onSelectRow:function(rowId){
-   	        	populatePackingList(rowId);
-   	        }
-		});
-});		
-
-
-
-
-
-
-function populatePackingList(rowId){
-	console.log(rowId);
-	$("#packingListGrid").jqGrid("GridUnload");
-	$("#packingListGrid").jqGrid(
-		{
-			url : './packingListJsonServlet?port_inward_database_id='+rowId,
-			datatype : 'json',
-			
-			mtype : 'POST',
-			
-			
-			colNames : [ 'ID', 'Length', 'Width','Thickness' ],
-					
-			colModel : [  {
-				name : 'portInwardDetailId',
-				index : 'portInwardDetailId',
-				hidden: true,
-				width : 185,
-				editable : true,
-				editrules : {
-					required : true
-				},
-				editoptions : {
-					size : 10
-				},
-				search:false,
-				searchoptions: { sopt:['ge']}
-			}, {
 				name : 'length',
 				index : 'length',
 				width : 300,
@@ -621,8 +427,8 @@ function populatePackingList(rowId){
 			],
 			postData : {
 			},
-			rowNum : 20,
-			rowList : [ 20, 40, 60 ],
+			rowNum : 10,
+			rowList : [ 10, 20, 30 ,40, 50, 60 ],
 			height : 280,
 			autowidth : true,
 			rownumbers : true,

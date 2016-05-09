@@ -23,7 +23,7 @@ public class PortInwardPackingListDaoImpl extends BaseDaoImpl {
 	private Logger log = Logger.getLogger(PortInwardPackingListDaoImpl.class);
 
 	
-	public List<PackingListItemVO> fetchPortInwardPackingList(Integer portInwardId, int pageNo, int pageSize, long total,
+	public List<PackingListItemVO> fetchPortInwardPackingList( int pageNo, int pageSize, long total,
 			String orderByFieldName, String order, JqGridSearchParameterHolder searchParam) throws SQLException {
 		List<PackingListItemVO> list = new ArrayList<PackingListItemVO>();
 		Connection conn = null;
@@ -35,8 +35,17 @@ public class PortInwardPackingListDaoImpl extends BaseDaoImpl {
 		try {
 			conn = getConnection();
 
-			String sql = " SELECT * FROM port_inward_details "
-					+ processSearchCriteria(searchParam) + " "+composeOrderByClause(orderByFieldName, order) + " " + composeLimitClause(pageNo, pageSize, total) + ";";
+			//String sql = " SELECT * FROM port_inward_details "
+			String sql = " select pi.port_inward_id, pi.port_inwd_shipment_id,pid.port_inward_detail_id, "
+			+" pis.vessel_name, pis.vessel_date, pi.material_grade, "
+			+" pid.length, pid.width, pid.thickness, pid.quantity "
+			+" from  "
+			+" port_inward pi "
+			+" left join port_inward_shipment pis on pis.port_inwd_shipment_id = pi.port_inwd_shipment_id "
+			+" left join port_inward_details pid on pid.port_inward_id = pi.port_inward_id "
+			//+" where pid.port_inward_detail_id is not null; "
+			
+			+ processSearchCriteria(searchParam) + " "+composeOrderByClause(orderByFieldName, order) + " " + composeLimitClause(pageNo, pageSize, total) + ";";
 			query = sql;
 			log.info("query = " + query);
 
@@ -47,12 +56,16 @@ public class PortInwardPackingListDaoImpl extends BaseDaoImpl {
 
 				do {
 					PackingListItemVO p = new PackingListItemVO();
-					p.setPortInwardDetailId(rs.getInt(1));
-					p.setPortInwardId(rs.getInt(2));
-					p.setLength(rs.getInt(3));
-					p.setWidth(rs.getInt(4));
-					p.setThickness(rs.getDouble(5));
-					p.setQuantity(rs.getInt(8));
+					p.setPortInwardId(rs.getInt(1));
+					p.setPortInwardShipmentId(rs.getInt(2));
+					p.setPortInwardDetailId(rs.getInt(3));
+					p.setVesselName(rs.getString(4));
+					p.setVesselDate(dateToString(convertSqlDateToJavaDate(rs.getDate(5))));
+					p.setGrade(rs.getString(6));
+					p.setLength(rs.getInt(7));
+					p.setWidth(rs.getInt(8));
+					p.setThickness(rs.getDouble(9));
+					p.setQuantity(rs.getInt(10));
 					
 					list.add(p);
 				} while (rs.next());
@@ -101,7 +114,7 @@ public class PortInwardPackingListDaoImpl extends BaseDaoImpl {
 		return limitClause;
 	}
 
-	public Integer fetchPortInwardPackingListRecordCount(JqGridSearchParameterHolder searchParam, Integer portInwardId) throws SQLException {
+	public Integer fetchPortInwardPackingListRecordCount(JqGridSearchParameterHolder searchParam) throws SQLException {
 		List<PortInwardRecordVO> list = new ArrayList<PortInwardRecordVO>();
 		Connection conn = null;
 		ResultSet rs = null;
@@ -110,8 +123,15 @@ public class PortInwardPackingListDaoImpl extends BaseDaoImpl {
 		int count = 0;
 		try {
 			conn = getConnection();
-			String count_sql = " SELECT " + " count(*) FROM port_inward_details "
-					+ processSearchCriteria(searchParam);
+			//String count_sql = " SELECT count(*) FROM port_inward_details "
+			
+			String count_sql = " select count(*) "
+			+" from  "
+			+" port_inward pi "
+			+" left join port_inward_shipment pis on pis.port_inwd_shipment_id = pi.port_inwd_shipment_id "
+			+" left join port_inward_details pid on pid.port_inward_id = pi.port_inward_id "
+			+ processSearchCriteria(searchParam);
+			
 
 			log.info("query = " + count_sql);
 
@@ -139,6 +159,8 @@ public class PortInwardPackingListDaoImpl extends BaseDaoImpl {
 	private String processSearchCriteria(JqGridSearchParameterHolder searchParam) {
 		String sqlClause = "";
 		List<String> clauses = new ArrayList<String>();
+		String notNullClause = "pid.port_inward_detail_id is not null";
+		clauses.add(notNullClause);
 		if (null != searchParam && null != searchParam.getRules() && !searchParam.getRules().isEmpty()) {
 			for (JqGridSearchParameterHolder.Rule r : searchParam.getRules()) {
 				String clause = processSearchRule(r);
