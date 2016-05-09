@@ -12,7 +12,9 @@
 
 
 <script type="text/javascript">
+	var SELECTED_CUSTOMER_IDS = [];
 	var customer = [], vehicleNumber = [], vesselName = [], grade = [];
+	
 
 	$(document).ready(function() {
 		fillArray('customer', 'query.unique.customer');
@@ -469,32 +471,47 @@ function populatePackingList(){
 				cell : "cell",
 				id : "id"
 			},
-	        gridComplete: function(){ 
+	        gridComplete: function(){
+	        	var $grid = $("#packingListGrid");
 	        	var ids = $("#packingListGrid").jqGrid('getDataIDs');
 	        	console.log(ids);
 	        	for(var i=0;i < ids.length;i++){ 
 	        		//Create packing list link
 	        		var rowObject = jQuery("#packingListGrid").jqGrid('getRowData',ids[i]); 
-	        		console.log(rowObject);
-	        		var countOfPortInwardDetailRecords = Number(rowObject.countOfPortInwardDetailRecords);
-	        		if(countOfPortInwardDetailRecords > 0){
-	        			var cust_lnk = "<a href=\"add-port-inward-packing-list.do?id="+rowObject.id+"\"> ("+rowObject.countOfPortInwardDetailRecords+") <span class='glyphicon glyphicon-list'></span></a>";
-	        		}else{
-	        			var cust_lnk = "<a href=\"add-port-inward-packing-list.do?id="+rowObject.id+"\"><span class='glyphicon glyphicon-pencil'></span></a>";
-	        		}
 	        		
-	        		
-	        		//Create outward link
-	        		var outward_lnk = "<a href=\"port-outward.do?port_inward_id="+rowObject.id+"\">  <span class='glyphicon glyphicon-pencil'></span></a>";
-	        		
-	        		$("#packingListGrid").jqGrid('filterToolbar',{stringResult: true,searchOnEnter : false, searchOperators:true, defaultSearch:"cn"});
-	        		
-	        		$("#packingListGrid").jqGrid('setColProp', "address", {searchoptions: { sopt:['cn','eq']}});
 	        		
 	        		
 					
 	        		
-	        		} }
+	        		} 
+	        	},
+       		onSelectRow: handleOnSelectRow,
+   	        onSelectAll: function(aRowids, status) {
+   	        	for(var i=0;i<aRowids.length;i++){
+   	            	handleOnSelectRow(aRowids[i],status);
+   	            }
+   	            
+   	        }
 		});
+}
+
+
+function handleOnSelectRow(rowId, status){
+	
+	var row = jQuery("#packingListGrid").jqGrid('getRowData',rowId); 
+	if(status){
+		//If already present, remove it. So that we will have only single entry of the customer code.
+		SELECTED_CUSTOMER_IDS = $.grep(SELECTED_CUSTOMER_IDS, function (value){
+			return value != row.customerCode;
+		});
+		
+		//Now add the customer code to array.
+		SELECTED_CUSTOMER_IDS.push(row.customerCode);
+	}else{
+		SELECTED_CUSTOMER_IDS = $.grep(SELECTED_CUSTOMER_IDS, function (value){
+			return value != row.customerCode;
+		});	
+	}
+	
 }
 </script>

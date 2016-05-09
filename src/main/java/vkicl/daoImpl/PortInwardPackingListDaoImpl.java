@@ -228,7 +228,7 @@ public class PortInwardPackingListDaoImpl extends BaseDaoImpl {
 	private String composeOrderByClause(String orderByFieldName, String order) {
 		String orderByClause = "";
 		if(orderByFieldName!=null){
-			orderByClause = "";
+			
 			if(orderByFieldName.equalsIgnoreCase("length")){
 				orderByClause = " ORDER BY  length "+order+" ";
 			}else if(orderByFieldName.equalsIgnoreCase("width")){
