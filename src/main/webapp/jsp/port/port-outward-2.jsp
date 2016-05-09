@@ -454,7 +454,7 @@ function populatePackingList(){
 			sortname : 'port_inward_detail_id',
 			viewrecords : true,
 			sortorder : "desc",
-			caption : "Packing List for Selected Port Inward Record",
+			caption : "Inventory available at Port",
 			emptyrecords : "Empty records",
 			loadonce : false,
 			loadComplete : function() {
