@@ -36,7 +36,7 @@ public class PortInwardPackingListDaoImpl extends BaseDaoImpl {
 			conn = getConnection();
 
 			String sql = " SELECT * FROM port_inward_details "
-					+ processSearchCriteria(searchParam) + " "+composeOrderByClause(orderByFieldName, order)+ ";";
+					+ processSearchCriteria(searchParam) + " "+composeOrderByClause(orderByFieldName, order) + " " + composeLimitClause(pageNo, pageSize, total) + ";";
 			query = sql;
 			log.info("query = " + query);
 
@@ -66,6 +66,41 @@ public class PortInwardPackingListDaoImpl extends BaseDaoImpl {
 		}
 		return list;
 	}
+
+	/**
+	 * 1 = 0 - 20
+	 * 2 = 20 - 20
+	 * 3 = 40 - 20
+	 * @param pageNo
+	 * @param pageSize
+	 * @param total
+	 * @return
+	 */
+	private String composeLimitClause(int pageNo, int pageSize, Long total) {
+		Integer start = 0;
+		Integer noOfRecordsToFetch = pageSize;
+		String limitClause = "LIMIT " + start + "," + noOfRecordsToFetch;
+		
+		Integer totalPages = total.intValue() / pageSize;
+		if(total.intValue() % pageSize > 0){
+			totalPages++;
+		}
+		if(pageNo > totalPages){
+			pageNo = totalPages;
+		}
+		
+		if (pageSize > total) {
+			return limitClause;
+		} else {
+
+			start = (pageNo - 1) * pageSize;
+			
+			limitClause = "LIMIT " + start + "," + noOfRecordsToFetch;
+		}
+
+		return limitClause;
+	}
+
 	public Integer fetchPortInwardPackingListRecordCount(JqGridSearchParameterHolder searchParam, Integer portInwardId) throws SQLException {
 		List<PortInwardRecordVO> list = new ArrayList<PortInwardRecordVO>();
 		Connection conn = null;
@@ -172,8 +207,12 @@ public class PortInwardPackingListDaoImpl extends BaseDaoImpl {
 		String orderByClause = "";
 		if(orderByFieldName!=null){
 			orderByClause = " ORDER BY ";
-			if(orderByFieldName.equalsIgnoreCase("vessel_date")){
-				orderByClause = orderByClause + " pis.vessel_date "+order+" ";
+			if(orderByFieldName.equalsIgnoreCase("length")){
+				orderByClause = orderByClause + " length "+order+" ";
+			}else if(orderByFieldName.equalsIgnoreCase("width")){
+				orderByClause = orderByClause + " width "+order+" ";
+			}else if(orderByFieldName.equalsIgnoreCase("thickness")){
+				orderByClause = orderByClause + " thickness "+order+" ";
 			}else if(orderByFieldName.equalsIgnoreCase("port_inward_detail_id")){
 				orderByClause = orderByClause + " port_inward_detail_id "+order+" ";
 			}

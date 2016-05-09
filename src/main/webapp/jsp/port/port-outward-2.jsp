@@ -322,7 +322,7 @@ $(function() {
 			colNames : [ //'id', 
 			             'Date', 'Vessel Name', 
 			             // 'Vendor Name', 
-			             'Material Type' 
+			             'Grade' 
 			             // ,'Mill Name', 'Make', 'Grade', 'Desc', 'Packing List', 'Inward Dettails Record Count', 'Outward'
 					],
 					
@@ -367,7 +367,7 @@ $(function() {
 				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
 				searchoptions: { sopt:[ 'cn','eq']}
 				
-			}
+			},
 			/* ,{
 				name : 'vendorName',
 				index : 'vendor_name',
@@ -382,7 +382,7 @@ $(function() {
 				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
 				searchoptions: { sopt:[ 'cn','eq']}
 				
-			} */
+			} 
 			,{
 				name : 'materialType',
 				index : 'materialType',
@@ -397,7 +397,7 @@ $(function() {
 				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
 				searchoptions: { sopt:[ 'cn','eq']}
 				
-			}/* ,{
+			} ,{
 				name : 'millName',
 				index : 'millName',
 				width : 300,
@@ -425,7 +425,9 @@ $(function() {
 				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
 				searchoptions: { sopt:[ 'cn','eq']}
 				
-			},{
+			},
+			*/
+			{
 				name : 'grade',
 				index : 'grade',
 				width : 300,
@@ -439,7 +441,7 @@ $(function() {
 				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
 				searchoptions: { sopt:[ 'cn','eq']}
 				
-			},{
+			},/*{
 				name : 'desc',
 				index : 'desc',
 				width : 300,
@@ -583,7 +585,7 @@ function populatePackingList(rowId){
 				},
 				search:true,
 				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
-				searchoptions: { sopt:[ 'cn','eq']}
+				searchoptions: { sopt:[ 'eq']}
 				
 			},{
 				name : 'width',
@@ -594,10 +596,9 @@ function populatePackingList(rowId){
 					readonly : true,
 					size : 10
 				},
-				sortable:false,
 				search:true,
 				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
-				searchoptions: { sopt:[ 'cn','eq']}
+				searchoptions: { sopt:[ 'eq']}
 				
 			}
 			,{
@@ -610,9 +611,9 @@ function populatePackingList(rowId){
 					size : 10
 				},
 				search:false,
-				sortable:false,
+				search:true,
 				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
-				searchoptions: { sopt:[ 'cn','eq']}
+				searchoptions: { sopt:[ 'eq']}
 				
 			}
 			
@@ -625,6 +626,7 @@ function populatePackingList(rowId){
 			height : 280,
 			autowidth : true,
 			rownumbers : true,
+			multiselect : true,
 			pager : '#packingListPager',
 			sortname : 'port_inward_detail_id',
 			viewrecords : true,
