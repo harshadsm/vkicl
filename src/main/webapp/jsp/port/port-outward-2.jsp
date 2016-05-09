@@ -202,9 +202,14 @@
 <div>
 	<html:form action="/port-outward" onsubmit="return validateForm();">
 		<div class="row">
-		
 			<div class="col-md-2">
 				<h3 class="page-head">Port Outward</h3>
+			</div>
+		</div>
+		<div class="row">
+		
+			<div class="col-md-2">
+				
 			
 				<table class="table table-responsive">
 					<tr>
@@ -260,6 +265,7 @@
 		</div>
 		<div class="row">
 			<div class="col-md-12">
+				<h3>Review the selected Port Outward Entries below</h3>
 				<table class="table table-responsive table-form" id="portOutwardRecordsTable">
 					<thead>
 						<tr>
@@ -275,7 +281,7 @@
 							<th>Quantity</th>
 							<th>Section Weight</th>
 							<!-- <th>Actual Weight</th> -->
-							<th><input type="button" class="btn-success add-row" onClick="addRow();" value="+" /></th>
+							<!-- <th><input type="button" class="btn-success add-row" onClick="addRow();" value="+" /></th> -->
 						</tr>
 					</thead>
 					<tbody id="details-tbody">
@@ -634,6 +640,15 @@ function refreshPortOutwardTable(){
 	for(var i=0;i<SELECTED_PORT_INVENTORY_ITEMS.length;i++){
 		addRowOfSelectedRecord(SELECTED_PORT_INVENTORY_ITEMS[i]);
 	}
+	
+	//Calculate total item quantity
+	var quantitySum = 0;
+	$(".port_out_item_quantity").each(function (index, elem){
+		var q = Number($(elem).html());
+		quantitySum = quantitySum + q;
+	});
+	
+	addQuantitySumRow(quantitySum);
 		
 }
 
@@ -746,10 +761,37 @@ function addRowOfSelectedRecord(recordObj) {
 			+ "<td>"+recordObj.thickness+"</td>"
 			+ "<td>"+recordObj.width+"</td>"
 			+ "<td>"+recordObj.length+"</td>"
-			+ "<td>"+recordObj.orderedQuantity+"</td>"
+			+ "<td class='port_out_item_quantity'>"+recordObj.orderedQuantity+"</td>"
 			+ "<td><div class='input-group'><input type='number' step='0.001' placeholder='Section Weight' min='0' readonly value='' name='secWt' class='form-control' aria-label='...'><div class='input-group-btn weight-group'><input type='hidden' name='secWtUnit' value='TON' /><button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown' disabled aria-expanded='false'>TON <span class='caret'></span></button><ul class='dropdown-menu dropdown-menu-right' role='menu'><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>TON</a></li><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>KG</a></li></ul></div></div></td>"
 			// + "<td><div class='input-group'><input type='number' step='0.001' placeholder='Actual Weight' min='0' value='' name='actualWt' onchange='calcSecWtRow(\"row-"+ id+ "\");' onblur='calcSecWtRow(\"row-"+ id+ "\");' class='form-control' aria-label='...'><div class='input-group-btn weight-group'><input type='hidden' onchange='calcSecWtRow(\"row-"+ id+ "\");' onblur='calcSecWtRow(\"row-"+ id+ "\");' name='actualWtUnit' value='TON' /><button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown' aria-expanded='false'>TON <span class='caret'></span></button><ul class='dropdown-menu dropdown-menu-right' role='menu'><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>TON</a></li><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>KG</a></li></ul></div></div></td>"
-			+ "<td><input type='button' class='btn-danger delete-row' onclick='deleteRow($(this).parent().parent().attr(\"id\"));' value='-' /></td></tr>";
+			//+ "<td><input type='button' class='btn-danger delete-row' onclick='deleteRow($(this).parent().parent().attr(\"id\"));' value='-' /></td></tr>";
+			+ "<td></td>"
+			+ "<td></td>";
+	$("#details-tbody").append(str);
+	
+
+	//applyNumericConstraint();
+	//applyTotalCalc();
+}
+
+function addQuantitySumRow(quantitySum) {
+	
+	
+	var str = "<tr id='quantity-sum-row'><td class='vessel-container'></td>"
+			+ "<td></td>"
+			//+ "<td>be no</td>"
+			//+ "<td>Material Type</td>"
+			+ "<td></td>"
+			+ "<td></td>"
+			+ "<td></td>"
+			+ "<td></td>"
+			+ "<td>Checksum</td>"
+			+ "<td class='port_out_item_quantity' >"+quantitySum+"</td>"
+			+ "<td></td>"
+			// + "<td><div class='input-group'><input type='number' step='0.001' placeholder='Actual Weight' min='0' value='' name='actualWt' onchange='calcSecWtRow(\"row-"+ id+ "\");' onblur='calcSecWtRow(\"row-"+ id+ "\");' class='form-control' aria-label='...'><div class='input-group-btn weight-group'><input type='hidden' onchange='calcSecWtRow(\"row-"+ id+ "\");' onblur='calcSecWtRow(\"row-"+ id+ "\");' name='actualWtUnit' value='TON' /><button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown' aria-expanded='false'>TON <span class='caret'></span></button><ul class='dropdown-menu dropdown-menu-right' role='menu'><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>TON</a></li><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>KG</a></li></ul></div></div></td>"
+			//+ "<td><input type='button' class='btn-danger delete-row' onclick='deleteRow($(this).parent().parent().attr(\"id\"));' value='-' /></td></tr>";
+			+ "<td></td>"
+			+ "<td></td>";
 	$("#details-tbody").append(str);
 	
 
