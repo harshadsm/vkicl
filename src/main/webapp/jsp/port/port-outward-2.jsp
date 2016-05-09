@@ -511,7 +511,7 @@ function populatePackingList(){
 	        gridComplete: function(){
 	        	var $grid = $("#packingListGrid");
 	        	var ids = $("#packingListGrid").jqGrid('getDataIDs');
-	        	console.log(ids);
+	        	
 	        	for(var i=0;i < ids.length;i++){ 
 	        		var rowObject = $grid.jqGrid('getRowData',ids[i]); 
 	        		var composedObj = composeObjectForCaching(rowObject, 0);
@@ -520,12 +520,15 @@ function populatePackingList(){
 	        		
 	        		//Pre-select the customers if user had them selected already
 					if(SELECTED_PORT_INVENTORY_ITEMS.length > 0){
+						
 						var cachedObj = isObjectPresentInCache(composedObj);
 						if(cachedObj){
 							console.log("cachedObj.orderedQuantity = "+cachedObj.orderedQuantity);
 							$grid.jqGrid("setSelection", ids[i]);
 							
 							$("#ordered_qty_"+ids[i]).val(cachedObj.orderedQuantity);
+						}else{
+							console.log("Not present in cache "+composedObj.thickness);
 						}
 					}
         		} 
@@ -542,12 +545,12 @@ function populatePackingList(){
 }
 
 function isObjectPresentInCache(targetObj){
-	var isPresent = false;
+	
 	if(SELECTED_PORT_INVENTORY_ITEMS.length > 0){
 		
 		for(var i=0;i<SELECTED_PORT_INVENTORY_ITEMS.length;i++){
 			var itemObj = SELECTED_PORT_INVENTORY_ITEMS[i];
-			isPresent = compareCachedObjects(itemObj, targetObj);
+			var isPresent = compareCachedObjects(itemObj, targetObj);
 			
 			if(isPresent){
 				return itemObj;
@@ -586,36 +589,61 @@ function handleOnSelectRow(rowId, status){
 	}catch (e){
 		orderedQty = 1;
 	}
-	var cachedObject = composeObjectForCaching(row, orderedQty);
+	var objectForCaching = composeObjectForCaching(row, orderedQty);
 	
 	if(status){
-		//If already present, remove it. So that we will have only single entry of the customer code.
-		SELECTED_PORT_INVENTORY_ITEMS = $.grep(SELECTED_PORT_INVENTORY_ITEMS, function (value){
-			console.log("Available in cache = "+SELECTED_PORT_INVENTORY_ITEMS.length);
-			var willRemove = compareCachedObjects(value, cachedObject);
-			console.log(!willRemove);
-			return !willRemove;
-			//return value != cachedObject;
-		});
+		//If already present, update the orderedQuantity in cache
 		
-		//Now add the customer code to array.
-		SELECTED_PORT_INVENTORY_ITEMS.push(cachedObject);
-		if($("#ordered_qty_"+rowId).val()==""){
-			$("#ordered_qty_"+rowId).val("1");
+		var isPresentObj = isObjectPresentInCache(objectForCaching);
+		if(isPresentObj){
+			//updateOrderedQuantityInCache(objectForCaching);
+			$("#ordered_qty_"+rowId).val(isPresentObj.orderedQuantity);
+		}else{
+			//Now add the customer code to array.
+			try{
+				var x = Number(objectForCaching.orderedQuantity);
+				if(x <= 0){
+					objectForCaching.orderedQuantity = 1;
+				}
+			}catch(e){
+				objectForCaching.orderedQuantity = 1;
+			}
+			
+			
+			SELECTED_PORT_INVENTORY_ITEMS.push(objectForCaching);
+			if($("#ordered_qty_"+rowId).val()==""){
+				$("#ordered_qty_"+rowId).val("1");
+			}
 		}
 		
 		//Add it in the table.
-		addRowOfSelectedRecord(cachedObject);
+		addRowOfSelectedRecord(objectForCaching);
 	}else{
-		SELECTED_PORT_INVENTORY_ITEMS = $.grep(SELECTED_PORT_INVENTORY_ITEMS, function (value){
-			return compareCachedObjects(value, cachedObject);
+		/* SELECTED_PORT_INVENTORY_ITEMS = $.grep(SELECTED_PORT_INVENTORY_ITEMS, function (value){
+			return compareCachedObjects(value, objectForCaching);
 			
-			//return value != cachedObject;
-		});
-		
+			//return value != objectForCaching;
+		}); */
+		removeItemFromCache(objectForCaching);
 		$("#ordered_qty_"+rowId).val("");
 	}
 	
+}
+
+function removeItemFromCache(objectToRemove){
+	var newArr = [];
+	for(var i=0;i<SELECTED_PORT_INVENTORY_ITEMS.length;i++){
+		var cachedObj = SELECTED_PORT_INVENTORY_ITEMS[i];
+		var isSame = compareCachedObjects(cachedObj,objectToRemove );
+		if(!isSame){
+			newArr.push(cachedObj);
+		}else{
+			console.log("Matched object. So will be removed.");
+		}
+		
+	}
+	
+	SELECTED_PORT_INVENTORY_ITEMS = newArr;
 }
 
 function compareCachedObjects(one, two){
@@ -647,7 +675,7 @@ function setTick(jqGridRowId){
 		jqGridRowId = jqGridRowId+"";
 		var $packingListGrid = $("#packingListGrid");
 		var orderedQty = Number($("#ordered_qty_"+jqGridRowId).val());
-		console.log("Ordered Qty = "+orderedQty);
+		//console.log("Ordered Qty = "+orderedQty);
 		
 		var isMore = isOrderedQtyLessThanAvailableQtyAtPort(orderedQty, jqGridRowId);
 		if(isMore){
@@ -660,6 +688,7 @@ function setTick(jqGridRowId){
 			if ($.inArray(jqGridRowId, selRowIds) >= 0) {
 			    // the row having rowId is selected
 			    console.log("Already selected");
+			    updateQuantityInCache(jqGridRowId, orderedQty);
 			    //handleOnSelectRow(jqGridRowId, true);
 			}else{
 				$packingListGrid.jqGrid("setSelection", jqGridRowId);
@@ -674,6 +703,18 @@ function setTick(jqGridRowId){
 		console.log(e);
 	}
 	
+	
+	
+}
+
+function updateQuantityInCache(jqGridRowId, orderedQty){
+	var $packingListGrid = $("#packingListGrid");
+	var rowObject = $packingListGrid.jqGrid('getRowData',jqGridRowId); 
+	var objectForCompare = composeObjectForCaching(rowObject, orderedQty);
+	var objectFromCache = isObjectPresentInCache(objectForCompare);
+	if(objectFromCache){
+		objectFromCache.orderedQuantity = orderedQty;
+	}
 	
 	
 }
@@ -715,6 +756,12 @@ $(function(){
 	$('body').on('propertychange input', 'input[type="number"]', forceNumeric);
 });
 
+function p(){
+	for(var i=0;i<SELECTED_PORT_INVENTORY_ITEMS.length;i++){
+		var item = SELECTED_PORT_INVENTORY_ITEMS[i];
+		console.log(i+" - Ordered Qty = "+item.orderedQuantity);
+	}
+}
 
 
 </script>
