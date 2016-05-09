@@ -12,7 +12,7 @@
 
 
 <script type="text/javascript">
-	var SELECTED_CUSTOMER_IDS = [];
+	var SELECTED_PORT_INVENTORY_ITEMS = [];
 	var customer = [], vehicleNumber = [], vesselName = [], grade = [];
 	
 
@@ -325,14 +325,14 @@ function populatePackingList(){
 			mtype : 'POST',
 			
 			
-			colNames : [ 'ID', 'Date', 'Vessel Name', 'Grade', 'Length', 'Width','Thickness', 'Available Qty' ],
+			colNames : [ 'portInwardId', 'portInwardDetailId', 'portInwardShipmentId', 'Out Qty', 'Available Qty', 'Date', 'Vessel Name', 'Grade', 'Length', 'Width','Thickness' ],
 					
 			colModel : [  {
-				name : 'portInwardDetailId',
-				index : 'portInwardDetailId',
+				name : 'portInwardId',
+				index : 'portInwardId',
 				hidden: true,
 				width : 185,
-				editable : true,
+				editable : false,
 				editrules : {
 					required : true
 				},
@@ -342,6 +342,57 @@ function populatePackingList(){
 				search:false,
 				searchoptions: { sopt:['ge']}
 			}, {
+				name : 'portInwardDetailId',
+				index : 'portInwardDetailId',
+				hidden: true,
+				width : 185,
+				editable :false,
+				editrules : {
+					required : true
+				},
+				editoptions : {
+					size : 10
+				},
+				search:false,
+				searchoptions: { sopt:['ge']}
+			}, {
+				name : 'portInwardShipmentId',
+				index : 'portInwardShipmentId',
+				hidden: true,
+				width : 200,
+				editable : false,
+				editrules : {
+					required : true
+				},
+				editoptions : {
+					size : 10
+				},
+				search:false,
+				searchoptions: { sopt:['ge']}
+			}, {
+			    name: 'txtVAlue',
+			    width: 100,
+			    search:false,
+			    align: 'center',
+			    formatter: function (cellValue, option) {
+			    	//console.log(option);
+			        return '<input number digits="" type="number" size="7" style="color:black;" name="txtBox" id="ordered_qty_' + option.rowId +'" value="" onchange="setTick('+option.rowId+')"/>';
+			    }
+			},{
+				name : 'quantity',
+				index : 'quantity',
+				width : 150,
+				editable : false,
+				editoptions : {
+					readonly : true,
+					size : 10
+				},
+				search:false,
+				sortable:false,
+				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+				searchoptions: { sopt:[ 'eq']}
+				
+			},{
 				name : 'vesselDate',
 				index : 'vessel_date',
 				width : 300,
@@ -426,20 +477,6 @@ function populatePackingList(){
 				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
 				searchoptions: { sopt:[ 'eq']}
 				
-			},{
-				name : 'quantity',
-				index : 'quantity',
-				width : 150,
-				editable : false,
-				editoptions : {
-					readonly : true,
-					size : 10
-				},
-				search:false,
-				sortable:false,
-				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
-				searchoptions: { sopt:[ 'eq']}
-				
 			}
 			
 			
@@ -476,14 +513,23 @@ function populatePackingList(){
 	        	var ids = $("#packingListGrid").jqGrid('getDataIDs');
 	        	console.log(ids);
 	        	for(var i=0;i < ids.length;i++){ 
-	        		//Create packing list link
-	        		var rowObject = jQuery("#packingListGrid").jqGrid('getRowData',ids[i]); 
-	        		
-	        		
-	        		
+	        		var rowObject = $grid.jqGrid('getRowData',ids[i]); 
+	        		var composedObj = composeObjectForCaching(rowObject);
 					
+	        		$grid.jqGrid('filterToolbar',{stringResult: true,searchOnEnter : false, searchOperators:true, defaultSearch:"cn"});
 	        		
-	        		} 
+	        		//Pre-select the customers if user had them selected already
+					if(SELECTED_PORT_INVENTORY_ITEMS.length > 0){
+						var cachedObj = isObjectPresentInCache(composedObj);
+						if(cachedObj){
+							console.log("cachedObj.orderedQuantity = "+cachedObj.orderedQuantity);
+							$grid.jqGrid("setSelection", ids[i]);
+							
+							$("#ordered_qty_"+ids[i]).val(cachedObj.orderedQuantity);
+						}
+					}
+        		} 
+	        	
 	        	},
        		onSelectRow: handleOnSelectRow,
    	        onSelectAll: function(aRowids, status) {
@@ -495,23 +541,180 @@ function populatePackingList(){
 		});
 }
 
+function isObjectPresentInCache(targetObj){
+	var isPresent = false;
+	if(SELECTED_PORT_INVENTORY_ITEMS.length > 0){
+		
+		for(var i=0;i<SELECTED_PORT_INVENTORY_ITEMS.length;i++){
+			var itemObj = SELECTED_PORT_INVENTORY_ITEMS[i];
+			isPresent = compareCachedObjects(itemObj, targetObj);
+			
+			if(isPresent){
+				return itemObj;
+			}
+		}
+		
+	}
+	return false;
+}
+
+function composeObjectForCaching(rowObject,qty){
+	//var cachedObject = rowObject.portInwardId+"-"+rowObject.portInwardDetailId+"-"+rowObject.portInwardShipmentId;
+	//return cachedObject;
+	
+	var cachedObj = {
+			portInwardId : rowObject.portInwardId,
+			portInwardDetailId : rowObject.portInwardDetailId,
+			portInwardShipmentId : rowObject.portInwardShipmentId,
+			orderedQuantity : qty,
+			length : rowObject.length,
+			width : rowObject.width,
+			thickness : rowObject.thickness,
+			vesselDate : rowObject.vesselDate,
+			vesselName : rowObject.vesselName,
+			availableQuantity : rowObject.quantity
+	};
+	return cachedObj;
+}
 
 function handleOnSelectRow(rowId, status){
 	
 	var row = jQuery("#packingListGrid").jqGrid('getRowData',rowId); 
+	var orderedQty = $("#ordered_qty_"+rowId).val()
+	try{
+		var x = Number(orderedQty);
+	}catch (e){
+		orderedQty = 1;
+	}
+	var cachedObject = composeObjectForCaching(row, orderedQty);
+	
 	if(status){
 		//If already present, remove it. So that we will have only single entry of the customer code.
-		SELECTED_CUSTOMER_IDS = $.grep(SELECTED_CUSTOMER_IDS, function (value){
-			return value != row.customerCode;
+		SELECTED_PORT_INVENTORY_ITEMS = $.grep(SELECTED_PORT_INVENTORY_ITEMS, function (value){
+			console.log("Available in cache = "+SELECTED_PORT_INVENTORY_ITEMS.length);
+			var willRemove = compareCachedObjects(value, cachedObject);
+			console.log(!willRemove);
+			return !willRemove;
+			//return value != cachedObject;
 		});
 		
 		//Now add the customer code to array.
-		SELECTED_CUSTOMER_IDS.push(row.customerCode);
+		SELECTED_PORT_INVENTORY_ITEMS.push(cachedObject);
+		if($("#ordered_qty_"+rowId).val()==""){
+			$("#ordered_qty_"+rowId).val("1");
+		}
+		
+		//Add it in the table.
+		addRowOfSelectedRecord(cachedObject);
 	}else{
-		SELECTED_CUSTOMER_IDS = $.grep(SELECTED_CUSTOMER_IDS, function (value){
-			return value != row.customerCode;
-		});	
+		SELECTED_PORT_INVENTORY_ITEMS = $.grep(SELECTED_PORT_INVENTORY_ITEMS, function (value){
+			return compareCachedObjects(value, cachedObject);
+			
+			//return value != cachedObject;
+		});
+		
+		$("#ordered_qty_"+rowId).val("");
 	}
 	
 }
+
+function compareCachedObjects(one, two){
+	
+	var flag1 = one.portInwardId == two.portInwardId;
+	var flag2 = one.portInwardDetailId == two.portInwardDetailId;
+	var flag3 = one.portInwardShipmentId == two.portInwardShipmentId;
+	//var flag4 = one.orderedQuantity == two.orderedQuantity;
+	
+	var isSame = flag1 && flag2 && flag3;// && flag4;
+	
+	return isSame;
+}
+
+function isOrderedQtyLessThanAvailableQtyAtPort(orderedQty, jqGridRowId){
+	var $packingListGrid = $("#packingListGrid");
+	var row = jQuery("#packingListGrid").jqGrid('getRowData',jqGridRowId); 
+	var availableQty = Number(row.quantity);
+	var isMore = false;
+	if(orderedQty > availableQty){
+		isMore = true;
+	}
+	return isMore;
+}
+
+function setTick(jqGridRowId){
+	
+	try{
+		jqGridRowId = jqGridRowId+"";
+		var $packingListGrid = $("#packingListGrid");
+		var orderedQty = Number($("#ordered_qty_"+jqGridRowId).val());
+		console.log("Ordered Qty = "+orderedQty);
+		
+		var isMore = isOrderedQtyLessThanAvailableQtyAtPort(orderedQty, jqGridRowId);
+		if(isMore){
+			alert("You have entered quantity more than that is available at port.");
+		}
+		
+		if(orderedQty > 0){
+			
+			var selRowIds = $packingListGrid.jqGrid("getGridParam", "selarrrow");
+			if ($.inArray(jqGridRowId, selRowIds) >= 0) {
+			    // the row having rowId is selected
+			    console.log("Already selected");
+			    //handleOnSelectRow(jqGridRowId, true);
+			}else{
+				$packingListGrid.jqGrid("setSelection", jqGridRowId);
+				//handleOnSelectRow(jqGridRowId, true);
+			}
+				
+		}else{
+			$packingListGrid.jqGrid("setSelection", jqGridRowId);
+		}
+			
+	}catch(e){
+		console.log(e);
+	}
+	
+	
+	
+}
+
+function composeCombinationId(recordObj){
+	var comboId = ""+ recordObj.portInwardId + "-"+recordObj.portInwardDetailId+"-"+recordObj.portInwardShipmentId;
+}
+
+function addRowOfSelectedRecord(recordObj) {
+	var id = composeCombinationId(recordObj);
+	var str = "<tr id='" + id + "'><td class='vessel-container'><input type='text' placeholder='Vessel Name' value='' onblur='fillDates(\"row-"+ id+ "\");' name='vesselName' class='form-control' /></td>"
+			+ "<td>"+recordObj.vesselDate+"</td>"
+			+ "<td>be no</td>"
+			+ "<td>material type</td>"
+			+ "<td>"+recordObj.grade+"</td>"
+			+ "<td><input type='text' placeholder='Description' value='' name='desc' class='form-control' /></td>"
+			+ "<td>"+recordObj.thickness+"</td>"
+			+ "<td>"+recordObj.width+"</td>"
+			+ "<td>"+recordObj.length+"</td>"
+			+ "<td>"+recordObj.orderedQuantity+"</td>"
+			+ "<td><div class='input-group'><input type='number' step='0.001' placeholder='Section Weight' min='0' readonly value='' name='secWt' class='form-control' aria-label='...'><div class='input-group-btn weight-group'><input type='hidden' name='secWtUnit' value='TON' /><button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown' disabled aria-expanded='false'>TON <span class='caret'></span></button><ul class='dropdown-menu dropdown-menu-right' role='menu'><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>TON</a></li><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>KG</a></li></ul></div></div></td>"
+			// + "<td><div class='input-group'><input type='number' step='0.001' placeholder='Actual Weight' min='0' value='' name='actualWt' onchange='calcSecWtRow(\"row-"+ id+ "\");' onblur='calcSecWtRow(\"row-"+ id+ "\");' class='form-control' aria-label='...'><div class='input-group-btn weight-group'><input type='hidden' onchange='calcSecWtRow(\"row-"+ id+ "\");' onblur='calcSecWtRow(\"row-"+ id+ "\");' name='actualWtUnit' value='TON' /><button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown' aria-expanded='false'>TON <span class='caret'></span></button><ul class='dropdown-menu dropdown-menu-right' role='menu'><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>TON</a></li><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>KG</a></li></ul></div></div></td>"
+			+ "<td><input type='button' class='btn-danger delete-row' onclick='deleteRow($(this).parent().parent().attr(\"id\"));' value='-' /></td></tr>";
+	$("#details-tbody").append(str);
+	
+
+	//applyNumericConstraint();
+	//applyTotalCalc();
+}
+
+//Below function will force the numeric input if type="number" for input tag.
+//Source: http://stackoverflow.com/questions/469357/html-text-input-allow-only-numeric-input
+function forceNumeric(){
+    var $input = $(this);
+    $input.val($input.val().replace(/[^\d]+/g,''));
+}
+
+$(function(){
+	$('body').on('propertychange input', 'input[type="number"]', forceNumeric);
+});
+
+
+
 </script>
