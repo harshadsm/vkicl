@@ -324,7 +324,7 @@ function populatePackingList(){
 			mtype : 'POST',
 			
 			
-			colNames : [ 'portInwardId', 'portInwardDetailId', 'portInwardShipmentId', 'Out Qty', 'Available Qty', 'Date', 'Vessel Name', 'Grade', 'Length', 'Width','Thickness' ],
+			colNames : [ 'portInwardId', 'portInwardDetailId', 'portInwardShipmentId', 'Date', 'Vessel Name', 'Grade', 'Length', 'Width','Thickness', 'Available Qty', 'Out Qty' ],
 					
 			colModel : [  {
 				name : 'portInwardId',
@@ -368,29 +368,6 @@ function populatePackingList(){
 				},
 				search:false,
 				searchoptions: { sopt:['ge']}
-			}, {
-			    name: 'txtVAlue',
-			    width: 100,
-			    search:false,
-			    align: 'center',
-			    formatter: function (cellValue, option) {
-			    	//console.log(option);
-			        return '<input number digits="" type="number" size="7" style="color:black;" name="txtBox" id="ordered_qty_' + option.rowId +'" value="" onchange="setTick('+option.rowId+')"/>';
-			    }
-			},{
-				name : 'quantity',
-				index : 'quantity',
-				width : 150,
-				editable : false,
-				editoptions : {
-					readonly : true,
-					size : 10
-				},
-				search:false,
-				sortable:false,
-				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
-				searchoptions: { sopt:[ 'eq']}
-				
 			},{
 				name : 'vesselDate',
 				index : 'vessel_date',
@@ -400,6 +377,7 @@ function populatePackingList(){
 					readonly : true,
 					size : 10
 				},
+				align : 'center',
 				search:true,
 				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
 				searchoptions: { sopt:[ 'eq']}
@@ -413,6 +391,7 @@ function populatePackingList(){
 					readonly : true,
 					size : 10
 				},
+				align : 'center',
 				sortable:true,
 				search:true,
 				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
@@ -427,6 +406,7 @@ function populatePackingList(){
 					readonly : true,
 					size : 10
 				},
+				align : 'center', 
 				sortable:true,
 				search:true,
 				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
@@ -441,6 +421,7 @@ function populatePackingList(){
 					readonly : true,
 					size : 10
 				},
+				align : 'center',
 				search:true,
 				sortable:true,
 				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
@@ -455,6 +436,7 @@ function populatePackingList(){
 					readonly : true,
 					size : 10
 				},
+				align : 'center',
 				search:true,
 				sortable:true,
 				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
@@ -470,12 +452,36 @@ function populatePackingList(){
 					readonly : true,
 					size : 10
 				},
-				
+				align : 'center',
 				search:true,
 				sortable:true,
 				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
 				searchoptions: { sopt:[ 'eq']}
 				
+			},{
+				name : 'quantity',
+				index : 'quantity',
+				width : 150,
+				editable : false,
+				editoptions : {
+					readonly : true,
+					size : 10
+				},
+				align : 'center',
+				search:false,
+				sortable:false,
+				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+				searchoptions: { sopt:[ 'eq']}
+				
+			}, {
+			    name: 'txtVAlue',
+			    width: 100,
+			    search:false,
+			    align: 'center',
+			    formatter: function (cellValue, option) {
+			    	//console.log(option);
+			        return '<input number digits="" type="number" size="7" style="color:black;" name="txtBox" id="ordered_qty_' + option.rowId +'" value="" onchange="setTick('+option.rowId+')"/>';
+			    }
 			}
 			
 			
