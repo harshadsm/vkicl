@@ -34,10 +34,10 @@ public class PortOutwardAction extends BaseAction {
 				return actionForward;
 
 			//Get the related Port Inward Record
-			String portInwardId = request.getParameter("port_inward_id");
-			PortInwardService portInwardService = new PortInwardService();
-			PortInwardRecordVO portInward = portInwardService.getPortInwardById(portInwardId);
-			request.setAttribute("portInward", portInward);
+//			String portInwardId = request.getParameter("port_inward_id");
+//			PortInwardService portInwardService = new PortInwardService();
+//			PortInwardRecordVO portInward = portInwardService.getPortInwardById(portInwardId);
+//			request.setAttribute("portInward", portInward);
 			
 			
 			

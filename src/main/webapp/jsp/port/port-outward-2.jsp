@@ -294,7 +294,7 @@
 				<input type="button" value="Reset" onclick="resetOutwardForm();"
 					class="btn pull-left" />
 				<html:submit styleClass="btn pull-right"
-					onclick="return validateForm();" />
+					onclick="validateAndSubmit()" />
 			</div>
 		</div>
 		<html:hidden property="genericListener" value="add" />
@@ -643,8 +643,10 @@ function refreshPortOutwardTable(){
 	
 	//Calculate total item quantity
 	var quantitySum = 0;
+	console.log("calculating checksum");
 	$(".port_out_item_quantity").each(function (index, elem){
-		var q = Number($(elem).html());
+		console.log(elem);
+		var q = Number($(elem).val());
 		quantitySum = quantitySum + q;
 	});
 	
@@ -752,16 +754,18 @@ function composeCombinationId(recordObj){
 function addRowOfSelectedRecord(recordObj) {
 	console.log(recordObj);
 	var id = composeCombinationId(recordObj);
-	var str = "<tr id='" + id + "'><td class='vessel-container'>"+recordObj.vesselName+"</td>"
-			+ "<td>"+recordObj.vesselDate+"</td>"
+	var str = "<tr id='" + id + "'>"
+			
+			+ "<td><input type='text' readonly placeholder='vesselName' value='"+recordObj.vesselName+"' name='vesselName' class='form-control' /></td>"
+			+ "<td><input type='text' readonly placeholder='vesselDate' value='"+recordObj.vesselDate+"' name='vesselDate' class='form-control' /></td>"
 			//+ "<td>be no</td>"
 			//+ "<td>Material Type</td>"
-			+ "<td>"+recordObj.grade+"</td>"
+			+ "<td><input type='text' readonly placeholder='grade' value='"+recordObj.grade+"' name='grade' class='form-control' /></td>"
 			+ "<td><input type='text' placeholder='Description' value='' name='desc' class='form-control' /></td>"
-			+ "<td>"+recordObj.thickness+"</td>"
-			+ "<td>"+recordObj.width+"</td>"
-			+ "<td>"+recordObj.length+"</td>"
-			+ "<td class='port_out_item_quantity'>"+recordObj.orderedQuantity+"</td>"
+			+ "<td><input type='text' readonly placeholder='thickness' value='"+recordObj.thickness+"' name='thickness' class='form-control' /></td>"
+			+ "<td><input type='text' readonly placeholder='width' value='"+recordObj.width+"' name='width' class='form-control' /></td>"
+			+ "<td><input type='text' readonly placeholder='length' value='"+recordObj.length+"' name='length' class='form-control' /></td>"
+			+ "<td><input type='text' readonly placeholder='orderedQuantity' value='"+recordObj.orderedQuantity+"' name='orderedQuantity' class='form-control port_out_item_quantity' /></td>"
 			+ "<td><div class='input-group'><input type='number' step='0.001' placeholder='Section Weight' min='0' readonly value='' name='secWt' class='form-control' aria-label='...'><div class='input-group-btn weight-group'><input type='hidden' name='secWtUnit' value='TON' /><button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown' disabled aria-expanded='false'>TON <span class='caret'></span></button><ul class='dropdown-menu dropdown-menu-right' role='menu'><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>TON</a></li><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>KG</a></li></ul></div></div></td>"
 			// + "<td><div class='input-group'><input type='number' step='0.001' placeholder='Actual Weight' min='0' value='' name='actualWt' onchange='calcSecWtRow(\"row-"+ id+ "\");' onblur='calcSecWtRow(\"row-"+ id+ "\");' class='form-control' aria-label='...'><div class='input-group-btn weight-group'><input type='hidden' onchange='calcSecWtRow(\"row-"+ id+ "\");' onblur='calcSecWtRow(\"row-"+ id+ "\");' name='actualWtUnit' value='TON' /><button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown' aria-expanded='false'>TON <span class='caret'></span></button><ul class='dropdown-menu dropdown-menu-right' role='menu'><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>TON</a></li><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>KG</a></li></ul></div></div></td>"
 			//+ "<td><input type='button' class='btn-danger delete-row' onclick='deleteRow($(this).parent().parent().attr(\"id\"));' value='-' /></td></tr>";
@@ -799,6 +803,13 @@ function addQuantitySumRow(quantitySum) {
 	//applyTotalCalc();
 }
 
+
+
+function validateAndSubmit(){
+	console.log(JSON.stringify(SELECTED_PORT_INVENTORY_ITEMS));
+}
+
+
 //Below function will force the numeric input if type="number" for input tag.
 //Source: http://stackoverflow.com/questions/469357/html-text-input-allow-only-numeric-input
 function forceNumeric(){
@@ -816,6 +827,7 @@ function p(){
 		console.log(i+" - Ordered Qty = "+item.orderedQuantity);
 	}
 }
+
 
 
 </script>
