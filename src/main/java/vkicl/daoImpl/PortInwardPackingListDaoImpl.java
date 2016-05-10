@@ -203,6 +203,8 @@ public class PortInwardPackingListDaoImpl extends BaseDaoImpl {
 			clause = "pis.vendor_name like '%" + data + "%'";
 		} else if (field != null && field.equalsIgnoreCase("vessel_name")) {
 			clause = "pis.vessel_name like '%" + data + "%'";
+		} else if (field != null && field.equalsIgnoreCase("grade")) {
+			clause = "pi.material_grade like '%" + data + "%'";
 		} else if (field != null && field.equalsIgnoreCase("vessel_date")) {
 			clause = processDateClause(data);
 		} else if (field != null && field.equalsIgnoreCase("port_inward_id")) {
