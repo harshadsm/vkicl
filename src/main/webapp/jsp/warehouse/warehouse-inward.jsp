@@ -118,7 +118,7 @@
 				<table class="table table-responsive table-form">
 					<thead>
 						<tr>
-							<th>B/E No.</th>
+							<!--  <th>B/E No.</th> -->
 							<th>Material Type</th>
 							<th>Mill Name</th>
 							<th>Make</th>
@@ -207,7 +207,7 @@
 
 	function addRow() {
 		var str = "<tr id='row-"+row_id+"' class='main-row'><input type='hidden' name='row' value='"+row_id+"'>"
-				+ "<td><input type='text' placeholder='B/E No.' name='beNo' value='' class='form-control' /></td>"
+				//+ "<td><input type='text' placeholder='B/E No.' name='beNo' value='' class='form-control' /></td>"
 				+ "<td><input type='text' placeholder='Material Type' name='materialType' value='' class='form-control' /></td>"
 				+ "<td><input type='text' placeholder='Mill Name' name='millName' value='' class='form-control' /></td>"
 				+ "<td><input type='text' placeholder='Make' name='make' value='' class='form-control' /></td>"
