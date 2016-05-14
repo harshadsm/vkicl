@@ -1,5 +1,7 @@
 package vkicl.action;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -8,12 +10,13 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
-import vkicl.daoImpl.PortDaoImpl;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import vkicl.form.PortOutwardForm;
-import vkicl.services.PortInwardService;
 import vkicl.util.Constants;
 import vkicl.util.PropFileReader;
-import vkicl.vo.PortInwardRecordVO;
+import vkicl.vo.PortOutwardRecordVO;
 import vkicl.vo.UserInfoVO;
 
 public class PortOutwardAction extends BaseAction {
@@ -42,6 +45,15 @@ public class PortOutwardAction extends BaseAction {
 			
 			
 			actionForward = mapping.findForward(Constants.Mapping.SUCCESS);
+			String itemsToSaveJson = request.getParameter("itemsToSaveJson");
+			log.info(itemsToSaveJson);
+			
+			Gson gson = new Gson();
+			List<PortOutwardRecordVO> portOutwardRecordsToBeSaved = gson.fromJson(itemsToSaveJson, new TypeToken<List<PortOutwardRecordVO>>(){}.getType());
+			for(PortOutwardRecordVO vo:portOutwardRecordsToBeSaved){
+				log.info(vo);
+			}
+			
 			userInfoVO = getUserProfile(request);
 			portOutwardForm = (PortOutwardForm) form;
 			genericListener = portOutwardForm.getGenericListener();
@@ -49,9 +61,11 @@ public class PortOutwardAction extends BaseAction {
 				String portInwardIdForLinking = request.getParameter("port_inward_id_for_linking_to_port_outward");
 				log.info("portInwardIdForLinking = " + portInwardIdForLinking);
 				
-				PortDaoImpl impl = new PortDaoImpl();
-				portOutwardForm = impl.addPortOutwardData(portOutwardForm,
-						userInfoVO);
+				
+				
+//				PortDaoImpl impl = new PortDaoImpl();
+//				portOutwardForm = impl.addPortOutwardData(portOutwardForm,
+//						userInfoVO);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -189,7 +189,36 @@
 			bootbox.alert("Please enter Vehicle Date");
 			return false;
 		}
-		return commonSubmit();
+		
+		
+		
+		var	str = "Are you sure you want to Submit?";
+		bootbox.confirm(str, function(result) {
+			if (result) {
+				submitCachedPortOutwardRecords();
+			}
+		});
+		return false;
+		
+		//return commonSubmit();
+	}
+	
+	function submitCachedPortOutwardRecords(){
+		var itemsToSaveJson = "itemsToSaveJson="+JSON.stringify(SELECTED_PORT_INVENTORY_ITEMS);
+		console.log(itemsToSaveJson);
+		$.ajax({
+			url: "port-outward.do",
+			method: 'POST',
+			data: itemsToSaveJson,
+			success : function(msg){
+				console.log(msg);
+				//location.reload(); 
+			},
+			error : function(msg){
+				console.log(msg);
+			}
+		});
+		
 	}
 
 	function resetOutwardForm() {
@@ -200,7 +229,7 @@
 	}
 </script>
 <div>
-	<html:form action="/port-outward" onsubmit="return validateForm();">
+	<html:form action="/port-outward" >
 		<div class="row">
 			<div class="col-md-2">
 				<h3 class="page-head">Port Outward</h3>
@@ -294,7 +323,7 @@
 				<input type="button" value="Reset" onclick="resetOutwardForm();"
 					class="btn pull-left" />
 				<html:submit styleClass="btn pull-right"
-					onclick="validateAndSubmit()" />
+					onclick="return validateForm()" />
 			</div>
 		</div>
 		<html:hidden property="genericListener" value="add" />
@@ -809,11 +838,6 @@ function addQuantitySumRow(quantitySum) {
 	//applyTotalCalc();
 }
 
-
-
-function validateAndSubmit(){
-	console.log(JSON.stringify(SELECTED_PORT_INVENTORY_ITEMS));
-}
 
 
 //Below function will force the numeric input if type="number" for input tag.
