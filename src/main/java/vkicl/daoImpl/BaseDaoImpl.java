@@ -180,6 +180,18 @@ public class BaseDaoImpl {
 		}
 		return date;
 	}
+	
+	public Date convertSqlDateToJavaDate(java.sql.Date date){
+		Date d = new Date(date.getTime());
+		return d;
+	}
+	
+	public String dateToString(Date d){
+		String format = "dd-MM-yyyy";
+		SimpleDateFormat sdf = new SimpleDateFormat(format);
+		String dateString = sdf.format(d);
+		return dateString;
+	}
 
 	public ArrayList<LabelValueBean> getList(UserInfoVO userInfoVO, String key) {
 		Connection conn = null;

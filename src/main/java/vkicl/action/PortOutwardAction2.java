@@ -16,8 +16,8 @@ import vkicl.util.PropFileReader;
 import vkicl.vo.PortInwardRecordVO;
 import vkicl.vo.UserInfoVO;
 
-public class PortOutwardAction extends BaseAction {
-	private static Logger log = Logger.getLogger(PortOutwardAction.class);
+public class PortOutwardAction2 extends BaseAction {
+	private static Logger log = Logger.getLogger(PortOutwardAction2.class);
 	@SuppressWarnings("unused")
 	private static PropFileReader prop = PropFileReader.getInstance();
 

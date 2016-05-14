@@ -153,8 +153,7 @@ public class PortDaoImpl extends BaseDaoImpl {
 		ResultSet rs = null;
 		CallableStatement cs = null;
 		String query = "";
-		String message = "";
-		int count = 0;
+		
 		try {
 			conn = getConnection();
 
@@ -281,7 +280,7 @@ public class PortDaoImpl extends BaseDaoImpl {
 			
 		}
 		if(!StringUtils.isEmpty(c)){
-			c = " WHERE " + c;
+			c = " HAVING " + c;
 		}
 		return c;
 	}

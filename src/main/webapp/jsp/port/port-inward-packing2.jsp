@@ -16,7 +16,7 @@
 	</div>
 </div>
 <div class="row">
-<div >
+<div>
 		<div id="jqgrid">
 		<table id="grid"></table>
 		<div id="pager"></div>
@@ -39,7 +39,7 @@ $(function() {
 			mtype : 'GET',
 			
 			
-			colNames : [ 'id', 'Date', 'Vessel Name', 'Vendor Name', 'Material Type', 'Mill Name', 'Make', 'Grade', 'Desc', 'Packing List', 'Inward Dettails Record Count', 'Outward'
+			colNames : [ 'id', 'Date', 'Vessel Name', 'Vendor Name', 'Material Type', 'Mill Name', 'Make', 'Grade', 'Desc', 'Packing List', 'Inward Dettails Record Count'
 					],
 					
 			colModel : [ {
@@ -181,15 +181,7 @@ $(function() {
 				editable : false,
 				search:false,
 				sortable:false
-			},{
-				name : 'portOutwardLink',
-				index : 'portOutwardLink',
-				width : 150,
-				editable : false,
-				search:false,
-				sortable:false
 			}
-			
 			
 			],
 			postData : {
@@ -233,11 +225,8 @@ $(function() {
 	        		}
 	        		
 	        		
-	        		//Create outward link
-	        		var outward_lnk = "<a href=\"port-outward.do?port_inward_id="+rowObject.id+"\">  <span class='glyphicon glyphicon-pencil'></span></a>";
 	        		
 	        		$("#grid").jqGrid('setRowData',ids[i],{actionLink:cust_lnk});
-	        		$("#grid").jqGrid('setRowData',ids[i],{portOutwardLink:outward_lnk});
 	        		
 	        		$("#grid").jqGrid('filterToolbar',{stringResult: true,searchOnEnter : false, searchOperators:true, defaultSearch:"cn"});
 	        		

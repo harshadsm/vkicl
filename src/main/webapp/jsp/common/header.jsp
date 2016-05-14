@@ -41,6 +41,7 @@
 								<li><a href="./port-inward.do">Create New Inward Record</a></li>
 								<li><a href="./port-inward-details.do">Inward Records List (Create packing list for Inward)</a></li>
 								<li><a href="./port-outward.do">Create Outward Record</a></li>
+								<li><a href="./port-outward-2.do">Create Outward Record 2</a></li>
 							</ul></li>
 						<%
 							}

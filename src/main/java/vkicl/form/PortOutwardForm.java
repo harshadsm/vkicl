@@ -25,6 +25,7 @@ public class PortOutwardForm extends BaseForm {
 	private Double[] secWt = null;
 	private String[] secWtUnit = null;
 	private Integer[] qty = null;
+	private Integer[] orderedQuantity = null;
 
 	public PortOutwardForm() {
 	}
@@ -51,6 +52,8 @@ public class PortOutwardForm extends BaseForm {
 		secWt = null;
 		secWtUnit = null;
 		qty = null;
+		orderedQuantity = null;
+		
 		super.clear();
 	}
 
@@ -204,6 +207,15 @@ public class PortOutwardForm extends BaseForm {
 
 	public void setQty(Integer[] qty) {
 		this.qty = qty;
+	}
+
+	
+	public Integer[] getOrderedQuantity() {
+		return orderedQuantity;
+	}
+
+	public void setOrderedQuantity(Integer[] orderedQuantity) {
+		this.orderedQuantity = orderedQuantity;
 	}
 
 	@Override
