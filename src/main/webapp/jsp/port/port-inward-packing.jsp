@@ -249,15 +249,15 @@ String portInwardDetailsListSize = Integer.toString(portInwardDetailsList.size()
 			<input name="port_inward_id" type="hidden" value="<%=vo.getId() %>" />
 			
 			<div class="col-md-9">
-			<table class="table table-responsive sub-table table-excel" id="port_inward_details_table" >
+			<table class="table table-responsive sub-table table-excel" id="port_inward_details_table" width="90%">
 				<thead>
 					<tr>
-						<th>Thickness</th>
-						<th>Width</th>
-						<th>Length</th>
-						<th>Quantity</th>
-						<th>Actual Weight</th>
-						<td><input type='button' class='btn-success add-row' onClick='addSubRow2()' value='+' /></td>
+						<th width="10%">Thickness</th>
+						<th width="10%">Width</th>
+						<th width="10%">Length</th>
+						<th width="10%">Quantity</th>
+						<th width="10%">Actual Weight</th>
+						<td width="2%"><input type='button' class='btn-success add-row' onClick='addSubRow2()' value='+' /></td>
 					</tr>
 				</thead>
 
@@ -280,7 +280,7 @@ String portInwardDetailsListSize = Integer.toString(portInwardDetailsList.size()
 						</tr>
 					<% } %>
 				</tbody>
-				<tfoot>
+				<!--  <tfoot>
 					<tr>
 						<td><div id="checksum-thickness"></div></td>
 						<td><div id="checksum-width"></div></td>
@@ -296,7 +296,7 @@ String portInwardDetailsListSize = Integer.toString(portInwardDetailsList.size()
 							</div>
 						</td>
 					</tr>
-				</tfoot>
+				</tfoot>-->
 			</table>
 			
 			</div>
