@@ -178,7 +178,7 @@ function progressHandlingFunction(e) {
 							<!--<th width="5%">Vehicle No.</th> -->
 							<!--<th width="5%">Vehicle Date</th> -->
 							<!--<th width="5%">Vendor Name</th> -->
-							<th width="10%">B/E No.</th>
+							<!--<th width="10%">B/E No.</th>-->
 							<th width="15%">Type</th>
 							<th width="15%">Mill Name</th>
 							<th width="15%">Make</th>
@@ -211,8 +211,8 @@ function progressHandlingFunction(e) {
 								<%--		value="${report.vehicleDate}" /></td> --%>
 								<%--<td data-type="text" data-name="vendorName"><c:out --%>
 								<%--		value="${report.vendorName}" /></td> --%>
-								<td data-type="text" data-name="beNo"><c:out
-										value="${report.beNo}" /></td>
+								<%--<td data-type="text" data-name="beNo"><c:out
+										value="${report.beNo}" /></td>--%>
 								<td data-type="text" data-name="materialType"><c:out
 										value="${report.materialType}" /></td>
 								<td data-type="text" data-name="millName"><c:out
@@ -275,7 +275,7 @@ function progressHandlingFunction(e) {
 							<!--<th></th> -->
 							<!--<th></th> -->
 							<!--<th></th> -->
-							<th></th>
+						    <th></th> 
 							<th></th>
 							<th></th>
 							<th></th>
