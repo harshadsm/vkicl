@@ -16,8 +16,8 @@ public class PortOutwardShipmentDaoImpl extends BaseDaoImpl{
 
 	private Logger logger = Logger.getLogger(PortOutwardShipmentDaoImpl.class);
 
-	public Integer savePortOutwardShipment(PortOutwardPostDataContainerVO postDataContainer, UserInfoVO userInfo) throws Exception {
-		int savedRecordId = -1;
+	public Long savePortOutwardShipment(PortOutwardPostDataContainerVO postDataContainer, UserInfoVO userInfo) throws Exception {
+		Long savedRecordId = -1L;
 		Connection conn = null;
 		ResultSet rs = null;
 		CallableStatement cs = null;
@@ -55,7 +55,13 @@ public class PortOutwardShipmentDaoImpl extends BaseDaoImpl{
 			cs.setString(7, getCurentTime());
 			cs.setString(8, getCurentTime());
 			
-			savedRecordId = cs.executeUpdate();
+			int count = cs.executeUpdate();
+			
+			ResultSet result = cs.getGeneratedKeys();
+			if(count > 0){
+				result.next();
+				savedRecordId = result.getLong(1);
+			}
 			
 		} catch (Exception e) {
 			throw e;

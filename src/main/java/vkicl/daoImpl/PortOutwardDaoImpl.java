@@ -16,16 +16,11 @@ public class PortOutwardDaoImpl extends BaseDaoImpl {
 	private Logger logger = Logger.getLogger(PortOutwardDaoImpl.class);
 
 
-	public Integer savePortOutward(PortOutwardRecordVO vo, Integer portOutwardShipmentId, UserInfoVO userInfo)  throws Exception {
-		int savedRecordId = -1;
+	public Long savePortOutward(PortOutwardRecordVO vo, Long portOutwardShipmentId, UserInfoVO userInfo)  throws Exception {
+		Long savedRecordId = -1L;
 		Connection conn = null;
 		ResultSet rs = null;
 		CallableStatement cs = null;
-		
-		String custName = "";
-		String warehouseName = "";
-		
-		
 		
 		try {
 			java.util.Date vesselDate = Converter.stringToDate(vo.getVesselDate(), Constants.Apps.DATE_FORMAT);
@@ -47,7 +42,7 @@ public class PortOutwardDaoImpl extends BaseDaoImpl {
 			conn = getConnection();
 			cs = conn.prepareCall(query);
 			
-			cs.setInt(1, portOutwardShipmentId);
+			cs.setLong(1, portOutwardShipmentId);
 			cs.setString(2, vo.getVesselName());
 			cs.setDate(3, vesseleDateSql);
 			cs.setString(4, vo.getGrade());
@@ -66,8 +61,13 @@ public class PortOutwardDaoImpl extends BaseDaoImpl {
 			cs.setString(17, getCurentTime());
 			cs.setString(18,  vo.getMaterialType());
 			
-			savedRecordId = cs.executeUpdate();
+			int count = cs.executeUpdate();
 			
+			ResultSet result = cs.getGeneratedKeys();
+			if(count > 0){
+				result.next();
+				savedRecordId = result.getLong(1);
+			}
 		} catch (Exception e) {
 			throw e;
 		}finally {

@@ -10,7 +10,7 @@ public class PortInwardOutwardIntersectionDaoImpl extends BaseDaoImpl {
 
 	private Logger logger = Logger.getLogger(PortInwardOutwardIntersectionDaoImpl.class);
 
-	public Integer save(Integer portInwardId, Integer portInwardDetailId, Integer portOutwardId) throws Exception {
+	public Integer save(Integer portInwardId, Integer portInwardDetailId, Long portOutwardId) throws Exception {
 		int savedRecordId = -1;
 		Connection conn = null;
 		ResultSet rs = null;
@@ -30,8 +30,8 @@ public class PortInwardOutwardIntersectionDaoImpl extends BaseDaoImpl {
 			cs = conn.prepareCall(query);
 
 			cs.setInt(1, portInwardDetailId);
-			cs.setInt(2, portInwardId);
-			cs.setInt(3, portOutwardId);
+			cs.setLong(2, portOutwardId);
+			cs.setInt(3, portInwardId);
 			savedRecordId = cs.executeUpdate();
 
 		} catch (Exception e) {

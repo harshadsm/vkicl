@@ -42,7 +42,7 @@ public class PortOutwardService {
 		// userInfoVO);
 		
 		//Save Port Outward Shipment and get the Port outward shipment id
-		Integer portOutwardShipmentId = portOutwardShipmentDaoImpl.savePortOutwardShipment(postDataContainer, userInfo);
+		Long portOutwardShipmentId = portOutwardShipmentDaoImpl.savePortOutwardShipment(postDataContainer, userInfo);
 		
 		
 		PortOutwardDaoImpl portOutwardDaoImpl = new PortOutwardDaoImpl();
@@ -52,7 +52,7 @@ public class PortOutwardService {
 			//Save Port Outward Records with Port outward shipment id
 			//Get the port outward id
 			
-			Integer portOutwardId = portOutwardDaoImpl.savePortOutward(vo,portOutwardShipmentId, userInfo);
+			Long portOutwardId = portOutwardDaoImpl.savePortOutward(vo,portOutwardShipmentId, userInfo);
 			
 			//Save a record in intersection table
 			portInOutIntersectionDaoImpl.save(vo.getPortInwardId(), vo.getPortInwardDetailId(), portOutwardId);

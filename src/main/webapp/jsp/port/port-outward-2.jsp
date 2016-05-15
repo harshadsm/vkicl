@@ -222,7 +222,6 @@
 			data: itemsToSaveJson,
 			success : function(msg){
 				console.log(msg);
-				//location.reload(); 
 			},
 			error : function(msg){
 				console.log(msg);
