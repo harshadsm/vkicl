@@ -135,6 +135,9 @@ public class PortInwardDetailsJsonService {
 					}
 					//set it in the vo.
 					vo.setQuantityAlreadyOut(sum);
+					int portInwardQuantity = vo.getQuantity();
+					int availableQuantity = portInwardQuantity - sum;
+					vo.setQuantity(availableQuantity);
 				}
 				
 				

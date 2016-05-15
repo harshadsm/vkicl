@@ -92,25 +92,25 @@ public class PortOutwardDaoImpl extends BaseDaoImpl {
 			
 			String query = " select "
 					+ " port_out_id "
-					+ " port_out_shipment_id "
-					+ " vessel_name "
-					+ " vessel_Date "
-					+ " be_no "
-					+ " material_type "
-					+ " grade "
-					+ " description "
-					+ " length "
-					+ " width "
-					+ " thickness "
-					+ " actual_wt "
-					+ " actual_wt_Unit "
-					+ " section_wt "
-					+ " section_wt_unit "
-					+ " quantity "
-					+ " create_ui "
-					+ " update_ui "
-					+ " create_ts "
-					+ " update_ts "
+					+ ", port_out_shipment_id "
+					+ ", vessel_name "
+					+ ", vessel_Date "
+					+ ", be_no "
+					+ ", material_type "
+					+ ", grade "
+					+ ", description "
+					+ ", length "
+					+ ", width "
+					+ ", thickness "
+					+ ", actual_wt "
+					+ ", actual_wt_Unit "
+					+ ", section_wt "
+					+ ", section_wt_unit "
+					+ ", quantity "
+					+ ", create_ui "
+					+ ", update_ui "
+					+ ", create_ts "
+					+ ", update_ts "
 					+" from port_outward where port_out_id "
 					+ " in "
 					+ " (select port_outward_id from port_inward_outward_intersection where port_inward_details_id = ?) ";
@@ -127,7 +127,7 @@ public class PortOutwardDaoImpl extends BaseDaoImpl {
 			int c = 1;
 			if(rs!=null){
 				while(rs.next()){
-					
+					c = 1;
 					b = new PortOutwardBean2();
 					Long port_out_id = rs.getLong(c++);
 					Long port_out_shipment_id = rs.getLong(c++);
