@@ -1,7 +1,5 @@
 package vkicl.action;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -11,14 +9,11 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
-import vkicl.form.PortOutwardForm;
 import vkicl.services.PortOutwardService;
 import vkicl.util.Constants;
 import vkicl.util.PropFileReader;
 import vkicl.vo.PortOutwardPostDataContainerVO;
-import vkicl.vo.PortOutwardRecordVO;
 import vkicl.vo.UserInfoVO;
 
 public class PortOutwardAction extends BaseAction {

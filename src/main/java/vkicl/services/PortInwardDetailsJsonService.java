@@ -15,7 +15,10 @@ import org.codehaus.jackson.map.ObjectMapper;
 import com.google.gson.Gson;
 
 import vkicl.daoImpl.PortDaoImpl;
+import vkicl.daoImpl.PortInwardOutwardIntersectionDaoImpl;
 import vkicl.daoImpl.PortInwardPackingListDaoImpl;
+import vkicl.daoImpl.PortOutwardDaoImpl;
+import vkicl.report.bean.PortOutwardBean2;
 import vkicl.util.JqGridCustomResponse;
 import vkicl.util.JqGridParametersHolder;
 import vkicl.util.JqGridParametersHolder.JQGRID_PARAM_NAMES;
@@ -69,7 +72,7 @@ public class PortInwardDetailsJsonService {
 	}
 	
 	public String getPackingListAsJson(HttpServletRequest req)
-			throws SQLException, JsonParseException, JsonMappingException, IOException {
+			throws Exception {
 		
 //		String portInwardIdStr = req.getParameter("port_inward_database_id");
 //		logger.info("Port Inward Id = " + portInwardIdStr);
@@ -100,6 +103,8 @@ public class PortInwardDetailsJsonService {
 		Integer totalRecordsCount = portDao.fetchPortInwardPackingListRecordCount(searchParam);//, portInwardId);
 		List<PackingListItemVO> records = portDao.fetchPortInwardPackingList( Integer.parseInt(page),
 				Integer.parseInt(rows), totalRecordsCount, orderBy, order, searchParam);
+		
+		updateAlreadyOutQuantity(records);
 
 		JqGridCustomResponse response = new JqGridCustomResponse();
 		response.setPage(page);
@@ -109,6 +114,35 @@ public class PortInwardDetailsJsonService {
 		Gson gson = new Gson();
 		String json = gson.toJson(response);
 		return json;
+	}
+
+
+	private void updateAlreadyOutQuantity(List<PackingListItemVO> records) throws Exception {
+		
+		PortOutwardDaoImpl portOutDaoImpl = new PortOutwardDaoImpl();
+		
+		if(records!=null && !records.isEmpty()){
+			for(PackingListItemVO vo: records){
+				//Find All Port Outward records for the given PortInwardDetailsId
+				Integer portInwardDetailId = vo.getPortInwardDetailId();
+				List<PortOutwardBean2> list = portOutDaoImpl.getByPortInwardDetailId(portInwardDetailId);
+				
+				if(list!=null && !list.isEmpty()){
+					int sum = 0;
+					//sum the already out quantity
+					for(PortOutwardBean2 b:list){
+						sum = sum + b.getQuantity();
+					}
+					//set it in the vo.
+					vo.setQuantityAlreadyOut(sum);
+				}
+				
+				
+				
+			}
+				
+		}
+		
 	}
 	
 

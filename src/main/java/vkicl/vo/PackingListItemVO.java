@@ -4,11 +4,13 @@ public class PackingListItemVO {
 	private Integer portInwardDetailId;
 	private Integer portInwardShipmentId;
 	private Integer portInwardId;
+	private Integer portOutwardId;
 	
 	private Integer length;
 	private Integer width;
 	private Double thickness;
 	private Integer quantity;
+	private Integer quantityAlreadyOut = 0;
 	
 	private String materialType;
 	private String millName;
@@ -123,6 +125,18 @@ public class PackingListItemVO {
 	}
 	public void setPortInwardShipmentId(Integer portInwardShipmentId) {
 		this.portInwardShipmentId = portInwardShipmentId;
+	}
+	public Integer getPortOutwardId() {
+		return portOutwardId;
+	}
+	public void setPortOutwardId(Integer portOutwardId) {
+		this.portOutwardId = portOutwardId;
+	}
+	public Integer getQuantityAlreadyOut() {
+		return quantityAlreadyOut;
+	}
+	public void setQuantityAlreadyOut(Integer quantityAlreadyOut) {
+		this.quantityAlreadyOut = quantityAlreadyOut;
 	}
 
 }
