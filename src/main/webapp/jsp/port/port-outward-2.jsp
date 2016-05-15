@@ -222,9 +222,14 @@
 			data: itemsToSaveJson,
 			success : function(msg){
 				console.log(msg);
+				bootbox.alert("Successfully saved records!", function(){
+					location.reload();	
+				});
+				
 			},
 			error : function(msg){
 				console.log(msg);
+				bootbox.alert("Some error at server! Please call administrator.");
 			}
 		});
 		
