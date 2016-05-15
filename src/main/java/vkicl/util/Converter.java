@@ -1,5 +1,6 @@
 package vkicl.util;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -38,6 +39,14 @@ public class Converter
 	
 	public static java.sql.Date dateToSqlDate(java.util.Date date){
 		return new java.sql.Date(date.getTime());
+	}
+
+	public static Date stringToDate(String vehicleDateStr, String dateFormat) throws ParseException {
+		
+		SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
+		Date d = sdf.parse(vehicleDateStr);
+		
+		return d;
 	}
 
 }

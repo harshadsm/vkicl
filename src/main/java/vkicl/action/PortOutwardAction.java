@@ -14,8 +14,10 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import vkicl.form.PortOutwardForm;
+import vkicl.services.PortOutwardService;
 import vkicl.util.Constants;
 import vkicl.util.PropFileReader;
+import vkicl.vo.PortOutwardPostDataContainerVO;
 import vkicl.vo.PortOutwardRecordVO;
 import vkicl.vo.UserInfoVO;
 
@@ -27,8 +29,6 @@ public class PortOutwardAction extends BaseAction {
 	public ActionForward execute(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 		ActionForward actionForward = null;
-		PortOutwardForm portOutwardForm = null;
-		String genericListener = null;
 		UserInfoVO userInfoVO = null;
 		try {
 			actionForward = checkAccess(mapping, request,
@@ -43,30 +43,15 @@ public class PortOutwardAction extends BaseAction {
 //			request.setAttribute("portInward", portInward);
 			
 			
-			
-			actionForward = mapping.findForward(Constants.Mapping.SUCCESS);
-			String itemsToSaveJson = request.getParameter("itemsToSaveJson");
-			log.info(itemsToSaveJson);
-			
-			Gson gson = new Gson();
-			List<PortOutwardRecordVO> portOutwardRecordsToBeSaved = gson.fromJson(itemsToSaveJson, new TypeToken<List<PortOutwardRecordVO>>(){}.getType());
-			for(PortOutwardRecordVO vo:portOutwardRecordsToBeSaved){
-				log.info(vo);
-			}
-			
 			userInfoVO = getUserProfile(request);
-			portOutwardForm = (PortOutwardForm) form;
-			genericListener = portOutwardForm.getGenericListener();
-			if (genericListener.equalsIgnoreCase("add")) {
-				String portInwardIdForLinking = request.getParameter("port_inward_id_for_linking_to_port_outward");
-				log.info("portInwardIdForLinking = " + portInwardIdForLinking);
-				
-				
-				
-//				PortDaoImpl impl = new PortDaoImpl();
-//				portOutwardForm = impl.addPortOutwardData(portOutwardForm,
-//						userInfoVO);
-			}
+			actionForward = mapping.findForward(Constants.Mapping.SUCCESS);
+			Gson gson = new Gson();
+			String postDataContainerStr = request.getParameter("itemsToSaveJson");
+			log.info(postDataContainerStr);
+			PortOutwardPostDataContainerVO postDataContainer = gson.fromJson(postDataContainerStr, PortOutwardPostDataContainerVO.class);
+			
+			PortOutwardService portOutwardService = new PortOutwardService();
+			portOutwardService.processPortOutwardEntries(postDataContainer, request, userInfoVO);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

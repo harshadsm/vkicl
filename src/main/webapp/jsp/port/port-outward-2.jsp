@@ -204,7 +204,17 @@
 	}
 	
 	function submitCachedPortOutwardRecords(){
-		var itemsToSaveJson = "itemsToSaveJson="+JSON.stringify(SELECTED_PORT_INVENTORY_ITEMS);
+		var destination = getValByFieldName("body", "destinationName");
+		var vehicle_number = getValByFieldName("body", "vehicleNumber");
+		var vehicle_date = getValByFieldName("body", "vehicleDate");
+		var selected_port_inventory_items_JSON = JSON.stringify(SELECTED_PORT_INVENTORY_ITEMS);
+		var postJsonObject = {
+				destinationName : destination,
+				vehicleNumber : vehicle_number,
+				vehicleDate : vehicle_date,
+				selectedPortInventoryItemsJson : selected_port_inventory_items_JSON
+		};
+		var itemsToSaveJson = "itemsToSaveJson="+JSON.stringify(postJsonObject);
 		console.log(itemsToSaveJson);
 		$.ajax({
 			url: "port-outward.do",
@@ -268,8 +278,10 @@
 					</tr>
 					<tr>
 						<td>
-							<div class="input-group date date-picker-div">
-								<input type="text" name="vehicleDate" class="form-control" placeholder="Vehicle Date"/>
+							<div class="input-group date date-picker-div" id="datetimepicker1">
+								<input type="text" name="vehicleDate" 
+								id="vehicleDate" class="form-control" placeholder="Vehicle Date"
+								data-date-format="DD-MM-YYYY"/>
 								<span class="input-group-addon"><span
 									class="glyphicon-calendar glyphicon"></span></span>
 							</div>
