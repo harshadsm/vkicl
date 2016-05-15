@@ -51,6 +51,7 @@
 		<put name="body" value="/jsp/port/port-outward.jsp" />
 	</definition>
 	
+	<definition name="portOutwardRecordSavedDefn" template="/jsp/port/port-outward-record-saved-json.jsp" />
 	<definition name="portOutwardDetailsDefn_2" extends="baseDefn">
 		<put name="title" value="Port - Outward" />
 		<put name="body" value="/jsp/port/port-outward-2.jsp" />

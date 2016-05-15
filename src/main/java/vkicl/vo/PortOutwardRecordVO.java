@@ -12,6 +12,7 @@ public class PortOutwardRecordVO {
 	private Integer orderedQuantity;
 	
 	private String grade;
+	private String materialType;
 	private String desc;
 	private String vesselDate;
 	private String vesselName;
@@ -86,6 +87,14 @@ public class PortOutwardRecordVO {
 	}
 	public void setVesselName(String vesselName) {
 		this.vesselName = vesselName;
+	}
+	
+	
+	public String getMaterialType() {
+		return materialType;
+	}
+	public void setMaterialType(String materialType) {
+		this.materialType = materialType;
 	}
 	@Override
 	public String toString() {

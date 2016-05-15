@@ -74,7 +74,8 @@
 
 		<action path="/port-outward" type="vkicl.action.PortOutwardAction"
 			name="PortOutwardForm">
-			<forward name="success" path="portOutwardDetailsDefn" />
+			<!-- <forward name="success" path="portOutwardDetailsDefn" /> -->
+			<forward name="success"  path="portOutwardRecordSavedDefn" />
 		</action>
 		
 		

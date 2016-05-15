@@ -10,6 +10,8 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import vkicl.daoImpl.PortDaoImpl;
+import vkicl.daoImpl.PortInwardOutwardIntersectionDaoImpl;
+import vkicl.daoImpl.PortOutwardDaoImpl;
 import vkicl.daoImpl.PortOutwardShipmentDaoImpl;
 import vkicl.vo.PortOutwardPostDataContainerVO;
 import vkicl.vo.PortOutwardRecordVO;
@@ -31,11 +33,9 @@ public class PortOutwardService {
 		List<PortOutwardRecordVO> portOutwardRecordsToBeSaved = gson.fromJson(itemsToSaveJson,
 				new TypeToken<List<PortOutwardRecordVO>>() {
 				}.getType());
-		for (PortOutwardRecordVO vo : portOutwardRecordsToBeSaved) {
-			logger.info(vo);
-		}
+		
 
-		PortDaoImpl impl = new PortDaoImpl();
+		
 		PortOutwardShipmentDaoImpl portOutwardShipmentDaoImpl = new PortOutwardShipmentDaoImpl();
 		
 		// portOutwardForm = impl.addPortOutwardData(portOutwardForm,
@@ -45,10 +45,23 @@ public class PortOutwardService {
 		Integer portOutwardShipmentId = portOutwardShipmentDaoImpl.savePortOutwardShipment(postDataContainer, userInfo);
 		
 		
-		//Save Port Outward Records with Port outward shipment id
-		//Get the port outward id
+		PortOutwardDaoImpl portOutwardDaoImpl = new PortOutwardDaoImpl();
+		PortInwardOutwardIntersectionDaoImpl portInOutIntersectionDaoImpl = new PortInwardOutwardIntersectionDaoImpl();
+		for (PortOutwardRecordVO vo : portOutwardRecordsToBeSaved) {
+			logger.info(vo);
+			//Save Port Outward Records with Port outward shipment id
+			//Get the port outward id
+			
+			Integer portOutwardId = portOutwardDaoImpl.savePortOutward(vo,portOutwardShipmentId, userInfo);
+			
+			//Save a record in intersection table
+			portInOutIntersectionDaoImpl.save(vo.getPortInwardId(), vo.getPortInwardDetailId(), portOutwardId);
+			
+		}
 		
-		//Save a record in intersection table
+		
 
 	}
+
+
 }

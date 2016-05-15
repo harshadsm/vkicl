@@ -315,7 +315,7 @@
 							<!-- <th>B/E No.</th> -->
 							<!-- <th>Material Type</th> -->
 							<th>Grade</th>
-							<th>Description</th>
+							<!--<th>Description</th>-->
 							<th>Thickness</th>
 							<th>Width</th>
 							<th>Length</th>
@@ -365,7 +365,7 @@ function populatePackingList(){
 			mtype : 'POST',
 			
 			
-			colNames : [ 'portInwardId', 'portInwardDetailId', 'portInwardShipmentId', 'Date', 'Vessel Name', 'Grade', 'Length', 'Width','Thickness', 'Available Qty', 'Out Qty' ],
+			colNames : [ 'portInwardId', 'portInwardDetailId', 'portInwardShipmentId', 'Date', 'Vessel Name', 'Grade', 'Material Type', 'Length', 'Width','Thickness', 'Available Qty', 'Out Qty' ],
 					
 			colModel : [  {
 				name : 'portInwardId',
@@ -441,6 +441,21 @@ function populatePackingList(){
 			},{
 				name : 'grade',
 				index : 'grade',
+				width : 200,
+				editable : false,
+				editoptions : {
+					readonly : true,
+					size : 10
+				},
+				align : 'center', 
+				sortable:true,
+				search:true,
+				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+				searchoptions: { sopt:[ 'eq']}
+				
+			},{
+				name : 'materialType',
+				index : 'materialType',
 				width : 200,
 				editable : false,
 				editoptions : {
@@ -808,7 +823,7 @@ function addRowOfSelectedRecord(recordObj) {
 			//+ "<td>be no</td>"
 			//+ "<td>Material Type</td>"
 			+ "<td><input type='text' readonly placeholder='grade' value='"+recordObj.grade+"' name='grade' class='form-control' /></td>"
-			+ "<td><input type='text' placeholder='Description' value='' name='desc' class='form-control' /></td>"
+			// + "<td><input type='text' placeholder='Description' value='' name='desc' class='form-control' /></td>"
 			+ "<td><input type='text' readonly placeholder='thickness' value='"+recordObj.thickness+"' name='thickness' class='form-control' /></td>"
 			+ "<td><input type='text' readonly placeholder='width' value='"+recordObj.width+"' name='width' class='form-control' /></td>"
 			+ "<td><input type='text' readonly placeholder='length' value='"+recordObj.length+"' name='length' class='form-control' /></td>"

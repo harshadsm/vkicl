@@ -35,13 +35,6 @@ public class PortOutwardAction extends BaseAction {
 					Constants.Apps.PORT_ENTRY);
 			if (null != actionForward)
 				return actionForward;
-
-			//Get the related Port Inward Record
-//			String portInwardId = request.getParameter("port_inward_id");
-//			PortInwardService portInwardService = new PortInwardService();
-//			PortInwardRecordVO portInward = portInwardService.getPortInwardById(portInwardId);
-//			request.setAttribute("portInward", portInward);
-			
 			
 			userInfoVO = getUserProfile(request);
 			actionForward = mapping.findForward(Constants.Mapping.SUCCESS);
@@ -52,8 +45,10 @@ public class PortOutwardAction extends BaseAction {
 			
 			PortOutwardService portOutwardService = new PortOutwardService();
 			portOutwardService.processPortOutwardEntries(postDataContainer, request, userInfoVO);
+			request.setAttribute("is_success", "success");
 		} catch (Exception e) {
 			e.printStackTrace();
+			request.setAttribute("is_success", "failed");
 		}
 		return actionForward;
 	}
