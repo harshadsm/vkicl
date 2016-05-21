@@ -44,9 +44,12 @@ public class PortOutwardReportAction extends BaseAction {
 					"query.unique.vesselName");
 			ArrayList<LabelValueBean> dispatchedToList = impl.getList(
 					userInfoVO, "query.unique.customerLocation");
+			ArrayList<LabelValueBean> gradeList = impl.getList(userInfoVO,
+					"query.unique.grade");
 
 			portOutwardReportForm.setVesselNameList(vesselNameList);
 			portOutwardReportForm.setDispatchedToList(dispatchedToList);
+			portOutwardReportForm.setGradeList(gradeList);
 
 			genericListener = portOutwardReportForm.getGenericListener();
 			if (genericListener.equalsIgnoreCase("getReport")) {
