@@ -163,7 +163,7 @@ public class PortDaoImpl extends BaseDaoImpl {
 					+ ", count(pid.port_inward_id) as port_inward_detail_records_count "
 					+ " FROM port_inward pin "
 					+ " INNER JOIN port_inward_shipment pis ON pin.port_inwd_shipment_id = pis.port_inwd_shipment_id "
-					+ " LEFT JOIN port_inward_details pid ON pid.port_inward_id = pin.port_inward_id group by pid.port_inward_id"
+					+ " LEFT JOIN port_inward_details pid ON pid.port_inward_id = pin.port_inward_id group by pin.port_inward_id"
 					+ processSearchCriteria(searchParam) + " "+composeOrderByClause(orderByFieldName, order)+ ";";
 			query = sql;
 			log.info("query = " + query);
