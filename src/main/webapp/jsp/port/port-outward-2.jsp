@@ -214,10 +214,10 @@
 				vehicleDate : vehicle_date,
 				selectedPortInventoryItemsJson : selected_port_inventory_items_JSON
 		};
-		var itemsToSaveJson = "itemsToSaveJson="+JSON.stringify(postJsonObject);
+		var itemsToSaveJson = "genericListener=add&itemsToSaveJson="+JSON.stringify(postJsonObject);
 		console.log(itemsToSaveJson);
 		$.ajax({
-			url: "port-outward.do",
+			url: "port-outward-save.do",
 			method: 'POST',
 			data: itemsToSaveJson,
 			success : function(msg){

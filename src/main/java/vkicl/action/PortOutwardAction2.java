@@ -24,9 +24,9 @@ public class PortOutwardAction2 extends BaseAction {
 	public ActionForward execute(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 		ActionForward actionForward = null;
-		PortOutwardForm portOutwardForm = null;
-		String genericListener = null;
-		UserInfoVO userInfoVO = null;
+//		PortOutwardForm portOutwardForm = null;
+//		String genericListener = null;
+//		UserInfoVO userInfoVO = null;
 		try {
 			actionForward = checkAccess(mapping, request,
 					Constants.Apps.PORT_ENTRY);
@@ -42,17 +42,17 @@ public class PortOutwardAction2 extends BaseAction {
 			
 			
 			actionForward = mapping.findForward(Constants.Mapping.SUCCESS);
-			userInfoVO = getUserProfile(request);
-			portOutwardForm = (PortOutwardForm) form;
-			genericListener = portOutwardForm.getGenericListener();
-			if (genericListener.equalsIgnoreCase("add")) {
-				String portInwardIdForLinking = request.getParameter("port_inward_id_for_linking_to_port_outward");
-				log.info("portInwardIdForLinking = " + portInwardIdForLinking);
-				
-				PortDaoImpl impl = new PortDaoImpl();
-				portOutwardForm = impl.addPortOutwardData(portOutwardForm,
-						userInfoVO);
-			}
+//			userInfoVO = getUserProfile(request);
+//			portOutwardForm = (PortOutwardForm) form;
+//			genericListener = portOutwardForm.getGenericListener();
+//			if (genericListener.equalsIgnoreCase("add")) {
+//				String portInwardIdForLinking = request.getParameter("port_inward_id_for_linking_to_port_outward");
+//				log.info("portInwardIdForLinking = " + portInwardIdForLinking);
+//				
+//				PortDaoImpl impl = new PortDaoImpl();
+//				portOutwardForm = impl.addPortOutwardData(portOutwardForm,
+//						userInfoVO);
+//			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -72,14 +72,13 @@
 			<forward name="showAddPackingListPage" path="showAddPackingListPage" />
 		</action>
 
-<!-- 
-		<action path="/port-outward" type="vkicl.action.PortOutwardAction"
-			name="PortOutwardForm">
-			<forward name="success"  path="portOutwardRecordSavedDefn" />
-		</action>
-	 -->	
-		
 		<action path="/port-outward" type="vkicl.action.PortOutwardAction2"
+			name="PortOutwardForm">
+			<forward name="success"  path="portOutwardDetailsDefn_2" />
+		</action>
+	
+		
+		<action path="/port-outward-save" type="vkicl.action.PortOutwardAction"
 			name="PortOutwardForm">
 			<forward name="success" path="portOutwardDetailsDefn_2" />
 		</action>
