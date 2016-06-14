@@ -13,6 +13,10 @@ public class PortOutwardReportForm extends BaseForm {
 	private String fromDate = null;
 	private String toDate = null;
 	private String vesselName = null;
+	private String millName = null;
+	
+
+
 	private String dispatchedTo = null;
 	private String grade = null;
 
@@ -80,6 +84,14 @@ public class PortOutwardReportForm extends BaseForm {
 		this.vesselName = vesselName;
 	}
 
+	public String getMillName() {
+		return millName;
+	}
+
+	public void setMillName(String millName) {
+		this.millName = millName;
+	}
+	
 	public String getDispatchedTo() {
 		return dispatchedTo;
 	}
@@ -123,7 +135,7 @@ public class PortOutwardReportForm extends BaseForm {
 
 	@Override
 	public String toString() {
-		return "PortOutwardReportForm [fromDate=" + fromDate + ", toDate=" + toDate + ", vesselName=" + vesselName
+		return "PortOutwardReportForm [fromDate=" + fromDate + ", toDate=" + toDate + ", vesselName=" + vesselName+",millName="+millName
 				+ ", dispatchedTo=" + dispatchedTo + ", invoiceNo=" + invoiceNo +", grade=" + grade+ ", vesselNameList=" + vesselNameList
 				+ ", dispatchedToList=" + dispatchedToList + ", reportList=" + reportList+", gradeList=" + gradeList +"]";
 	}

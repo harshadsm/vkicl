@@ -296,10 +296,15 @@
 			
 			
 				
+				<span id="report-toolbar" class="pull-right"><span
+				class="total-field"></span>Export:<img src="./img/excel.png" id="exportToExcel" title="Export to Excel"
+				onClick="tableToExcel('packingListGrid', 'Excel')" /><img
+				src="./img/pdf.png" id="exportToPDF" title="Export to PDF"
+				style="display: none;" /> </span>
 				
-				<div class="col-md-10">
-					<div>
-						<div id="packingListTable">
+				<div class="col-md-10">				
+					<div>					
+						<div id="packingListTable">						     
 							<table id="packingListGrid"></table>
 							<div id="packingListPager"></div>
 						</div>
@@ -314,8 +319,11 @@
 				<table class="table table-responsive table-form" id="portOutwardRecordsTable">
 					<thead>
 						<tr>
+							
+							<th>Date</th>
 							<th>Vessel Name</th>
-							<th>Vessel Date</th>
+							<th>Mill Name</th>
+							<th>Type</th>
 							<!-- <th>B/E No.</th> -->
 							<!-- <th>Material Type</th> -->
 							<th>Grade</th>
@@ -323,7 +331,7 @@
 							<th>Thickness</th>
 							<th>Width</th>
 							<th>Length</th>
-							<th>Quantity</th>
+							<th>No. of Pcs </th>
 							<th>Section Weight</th>
 							<!-- <th>Actual Weight</th> -->
 							<!-- <th><input type="button" class="btn-success add-row" onClick="addRow();" value="+" /></th> -->
@@ -369,7 +377,7 @@ function populatePackingList(){
 			mtype : 'POST',
 			
 			
-			colNames : [ 'portInwardId', 'portInwardDetailId', 'portInwardShipmentId', 'Date', 'Vessel Name', 'Grade', 'Material Type', 'Length', 'Width','Thickness', 'Available Qty', 'Out Qty' ],
+			colNames : [ 'portInwardId', 'portInwardDetailId', 'portInwardShipmentId', 'Date', 'Vessel Name', 'Mill Name', 'Grade', 'Material Type', 'Length', 'Width','Thickness', 'Available Qty', 'Out Qty' ],
 					
 			colModel : [  {
 				name : 'portInwardId',
@@ -443,6 +451,22 @@ function populatePackingList(){
 				searchoptions: { sopt:[ 'cn']}
 				
 			},{
+				name : 'millName',
+				index : 'mill_name',
+				width : 300,
+				editable : false,
+				editoptions : {
+					readonly : true,
+					size : 10
+				},
+				align : 'center',
+				sortable:true,
+				search:true,
+				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+				searchoptions: { sopt:[ 'cn']}
+				
+			}
+			,{
 				name : 'grade',
 				index : 'grade',
 				width : 200,
@@ -640,6 +664,7 @@ function composeObjectForCaching(rowObject,qty){
 			thickness : rowObject.thickness,
 			vesselDate : rowObject.vesselDate,
 			vesselName : rowObject.vesselName,
+			millName : rowObject.millName,
 			availableQuantity : rowObject.quantity,
 			grade : rowObject.grade,
 			materialType : rowObject.materialType
@@ -822,8 +847,10 @@ function addRowOfSelectedRecord(recordObj) {
 	var id = composeCombinationId(recordObj);
 	var str = "<tr id='" + id + "'>"
 			
+	        + "<td><input type='text' readonly placeholder='vesselDate' value='"+recordObj.vesselDate+"' name='vesselDate' class='form-control' /></td>"
 			+ "<td><input type='text' readonly placeholder='vesselName' value='"+recordObj.vesselName+"' name='vesselName' class='form-control' /></td>"
-			+ "<td><input type='text' readonly placeholder='vesselDate' value='"+recordObj.vesselDate+"' name='vesselDate' class='form-control' /></td>"
+			+ "<td><input type='text' readonly placeholder='millName' value='"+recordObj.millName+"' name='millName' class='form-control' /></td>"
+			+ "<td><input type='text' readonly placeholder='materialType' value='"+recordObj.materialType+"' name='Type' class='form-control' /></td>"
 			//+ "<td>be no</td>"
 			//+ "<td>Material Type</td>"
 			+ "<td><input type='text' readonly placeholder='grade' value='"+recordObj.grade+"' name='grade' class='form-control' /></td>"
@@ -855,6 +882,8 @@ function addQuantitySumRow(quantitySum) {
 			+ "<td></td>"
 			+ "<td></td>"
 			+ "<td></td>"
+			+ "<td></td>"
+			
 			+ "<td>Checksum</td>"
 			+ "<td class='port_out_item_quantity' >"+quantitySum+"</td>"
 			+ "<td></td>"
