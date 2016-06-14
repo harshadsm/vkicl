@@ -326,7 +326,7 @@ public class BaseDaoImpl {
 	}
 
 	public String fetchFromMap(Map<String, String[]> map, String key) {
-		String value = "";
+		String value = null;
 		if (map.containsKey(key)) {
 			value = map.get(key)[0].toUpperCase();
 		}
