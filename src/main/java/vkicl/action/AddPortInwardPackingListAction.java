@@ -21,7 +21,7 @@ import vkicl.vo.PortInwardRecordVO;
 import vkicl.vo.UserInfoVO;
 
 public class AddPortInwardPackingListAction extends BaseAction {
-	
+	//Delete this comment later
 	private static Logger log = Logger.getLogger(PortInwardDetailsAction.class);
 	@SuppressWarnings("unused")
 	private static PropFileReader prop = PropFileReader.getInstance();
