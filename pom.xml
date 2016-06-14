@@ -6,7 +6,6 @@
 	<packaging>war</packaging>
 	<version>1.0</version>
 	<name>vkicl</name>
-	<!--  
 	<repositories>
 		<repository>
 			<id>mylocal</id>
@@ -23,7 +22,6 @@
 			</snapshots>
 		</repository>
 	</repositories>
-	
 	<pluginRepositories>
 		<pluginRepository>
 			<id>eap</id>
@@ -36,8 +34,6 @@
 			</snapshots>
 		</pluginRepository>
 	</pluginRepositories>
-	-->
-	
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.6</maven.compiler.source>

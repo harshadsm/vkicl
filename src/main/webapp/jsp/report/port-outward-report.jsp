@@ -145,9 +145,8 @@
 					<thead>
 						<tr>
 							<th width="0%" class="cell-hide">ID</th>
-							<th width="10%">Date</th>
+							<th width="10%">Vessel Date</th>
 							<th width="10%">Vessel Name</th>
-							<th width="10%">Mill Name</th>
 							<th width="5%">Type</th>
 							<th width="10%">Dispatched To</th>
 							<th width="5%">Vehicle Date</th>
@@ -181,8 +180,6 @@
 										value="${report.vesselDate}" /></td>
 								<td data-type="text" data-name="vesselName"><c:out
 										value="${report.vesselName}" /></td>
-										<td data-type="text" data-name="millName"><c:out
-										value="${report.millName}" /></td>
 								<td data-type="text" data-name="materialType"><c:out
 										value="${report.materialType}" /></td>
 								<td data-type="text" data-name="dispatchedTo"><c:out
