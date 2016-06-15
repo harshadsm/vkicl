@@ -38,7 +38,7 @@ public class PortInwardPackingListDaoImpl extends BaseDaoImpl {
 			//String sql = " SELECT * FROM port_inward_details "
 			String sql = " select pi.port_inward_id, pi.port_inwd_shipment_id,pid.port_inward_detail_id, "
 			+" pis.vessel_name, pis.vessel_date, pi.material_grade, pi.material_type, "
-			+" pid.length, pid.width, pid.thickness, pid.quantity "
+			+" pid.length, pid.width, pid.thickness, pid.quantity , pi.mill_name"
 			+" from  "
 			+" port_inward pi "
 			+" left join port_inward_shipment pis on pis.port_inwd_shipment_id = pi.port_inwd_shipment_id "
@@ -67,6 +67,7 @@ public class PortInwardPackingListDaoImpl extends BaseDaoImpl {
 					p.setWidth(rs.getInt(9));
 					p.setThickness(rs.getDouble(10));
 					p.setQuantity(rs.getInt(11));
+					p.setMillName(rs.getString(12));
 					
 					list.add(p);
 				} while (rs.next());
