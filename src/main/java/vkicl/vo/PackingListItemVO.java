@@ -1,7 +1,7 @@
 package vkicl.vo;
 
 public class PackingListItemVO {
-	private Integer portInwardDetailId;
+	private Integer portInwardDetailId; 
 	private Integer portInwardShipmentId;
 	private Integer portInwardId;
 	private Integer portOutwardId;
@@ -22,8 +22,14 @@ public class PackingListItemVO {
 	private String vesselDate;
 	private String vesselName;
 	private String vendorName;
-	
-	
+	private Double balQty;
+		
+	public Double getBalQty() {
+		return balQty;
+	}
+	public void setBalQty(Double balQty) {
+		this.balQty = balQty;
+	}
 	public Integer getPortInwardDetailId() {
 		return portInwardDetailId;
 	}
@@ -138,5 +144,6 @@ public class PackingListItemVO {
 	public void setQuantityAlreadyOut(Integer quantityAlreadyOut) {
 		this.quantityAlreadyOut = quantityAlreadyOut;
 	}
+	
 
 }
