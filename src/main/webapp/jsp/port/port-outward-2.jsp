@@ -329,7 +329,7 @@
 							<th>Thickness</th>
 							<th>Width</th>
 							<th>Length</th>
-							<th>No. of Pcs</th>
+							<th>Bal Pcs</th>
 							<th>Sec. Wt</th>
 							<!-- <th>Actual Weight</th> -->
 							<!-- <th><input type="button" class="btn-success add-row" onClick="addRow();" value="+" /></th> -->
@@ -375,7 +375,7 @@ function populatePackingList(){
 			mtype : 'POST',
 			
 			
-			colNames : [ 'portInwardId', 'portInwardDetailId', 'portInwardShipmentId', 'Date', 'Vessel Name', 'Mill Name', 'Type', 'Grade', 'Thickness', 'Width', 'Length', 'Available Qty', 'Out Qty' ],
+			colNames : [ 'portInwardId', 'portInwardDetailId', 'portInwardShipmentId', 'Date', 'Vessel Name', 'Mill Name', 'Type', 'Grade', 'Thickness', 'Width', 'Length', 'Bal Pcs', 'BalQty', 'Out Qty' ],
 					
 			colModel : [  {
 				name : 'portInwardId',
@@ -555,7 +555,24 @@ function populatePackingList(){
 				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
 				searchoptions: { sopt:[ 'eq']}
 				
-			}, {
+			}, 
+			{
+				name : 'balQty',
+				index : 'balQty',
+				width : 150,
+				editable : false,
+				editoptions : {
+					readonly : true,
+					size : 10
+				},
+				align : 'center',
+				search:false,
+				sortable:false,
+				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+				searchoptions: { sopt:[ 'eq']}
+				
+			},
+			{
 			    name: 'txtVAlue',
 			    width: 100,
 			    search:false,
@@ -665,7 +682,8 @@ function composeObjectForCaching(rowObject,qty){
 			millName : rowObject.millName,
 			availableQuantity : rowObject.quantity,
 			grade : rowObject.grade,
-			materialType : rowObject.materialType
+			materialType : rowObject.materialType,
+			balQty : rowObject.balQty
 	};
 	return cachedObj;
 }
@@ -856,8 +874,9 @@ function addRowOfSelectedRecord(recordObj) {
 			+ "<td><input type='text' readonly placeholder='thickness' value='"+recordObj.thickness+"' name='thickness' class='form-control' /></td>"
 			+ "<td><input type='text' readonly placeholder='width' value='"+recordObj.width+"' name='width' class='form-control' /></td>"
 			+ "<td><input type='text' readonly placeholder='length' value='"+recordObj.length+"' name='length' class='form-control' /></td>"
-			+ "<td><input type='text' readonly placeholder='orderedQuantity' value='"+recordObj.orderedQuantity+"' name='orderedQuantity' class='form-control port_out_item_quantity' /></td>"
-			+ "<td><div class='input-group'><input type='number' step='0.001' placeholder='Section Weight' min='0' readonly value='' name='secWt' class='form-control' aria-label='...'><div class='input-group-btn weight-group'><input type='hidden' name='secWtUnit' value='TON' /><button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown' disabled aria-expanded='false'>TON <span class='caret'></span></button><ul class='dropdown-menu dropdown-menu-right' role='menu'><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>TON</a></li><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>KG</a></li></ul></div></div></td>"
+			+ "<td><input type='text' readonly placeholder='orderedQuantity' value='"+recordObj.availableQuantity+"' name='availableQuantity' class='form-control port_out_item_quantity' /></td>"
+			+ "<td><input type='text' readonly placeholder='balQty' value='"+recordObj.balQty+"' name='balQty' class='form-control' /></td>"
+			//+ "<td><div class='input-group'><input type='number' step='0.001' placeholder='Section Weight' min='0' readonly value='' name='secWt' class='form-control' aria-label='...'><div class='input-group-btn weight-group'><input type='hidden' name='secWtUnit' value='TON' /><button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown' disabled aria-expanded='false'>TON <span class='caret'></span></button><ul class='dropdown-menu dropdown-menu-right' role='menu'><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>TON</a></li><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>KG</a></li></ul></div></div></td>"
 			// + "<td><div class='input-group'><input type='number' step='0.001' placeholder='Actual Weight' min='0' value='' name='actualWt' onchange='calcSecWtRow(\"row-"+ id+ "\");' onblur='calcSecWtRow(\"row-"+ id+ "\");' class='form-control' aria-label='...'><div class='input-group-btn weight-group'><input type='hidden' onchange='calcSecWtRow(\"row-"+ id+ "\");' onblur='calcSecWtRow(\"row-"+ id+ "\");' name='actualWtUnit' value='TON' /><button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown' aria-expanded='false'>TON <span class='caret'></span></button><ul class='dropdown-menu dropdown-menu-right' role='menu'><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>TON</a></li><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>KG</a></li></ul></div></div></td>"
 			//+ "<td><input type='button' class='btn-danger delete-row' onclick='deleteRow($(this).parent().parent().attr(\"id\"));' value='-' /></td></tr>";
 			+ "<td></td>"
@@ -881,8 +900,8 @@ function addQuantitySumRow(quantitySum) {
 			+ "<td></td>"
 			+ "<td></td>"
 			+ "<td></td>"
-			+ "<td>Checksum</td>"
-			+ "<td class='port_out_item_quantity' >"+quantitySum+"</td>"
+			+ "<td>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Checksum </td>"
+			+ "<td class='port_out_item_quantity' >&nbsp&nbsp"+quantitySum+"</td>"
 			+ "<td></td>"
 			// + "<td><div class='input-group'><input type='number' step='0.001' placeholder='Actual Weight' min='0' value='' name='actualWt' onchange='calcSecWtRow(\"row-"+ id+ "\");' onblur='calcSecWtRow(\"row-"+ id+ "\");' class='form-control' aria-label='...'><div class='input-group-btn weight-group'><input type='hidden' onchange='calcSecWtRow(\"row-"+ id+ "\");' onblur='calcSecWtRow(\"row-"+ id+ "\");' name='actualWtUnit' value='TON' /><button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown' aria-expanded='false'>TON <span class='caret'></span></button><ul class='dropdown-menu dropdown-menu-right' role='menu'><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>TON</a></li><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>KG</a></li></ul></div></div></td>"
 			//+ "<td><input type='button' class='btn-danger delete-row' onclick='deleteRow($(this).parent().parent().attr(\"id\"));' value='-' /></td></tr>";
