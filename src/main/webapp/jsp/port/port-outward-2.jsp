@@ -157,7 +157,7 @@
 				+ "<td><input type='number' step='1' placeholder='Width' min='0' value='' name='width' onchange='calcSecWtRow(\"row-"+ id+ "\");' onblur='calcSecWtRow(\"row-"+ id	+ "\");' class='form-control' /></td>"
 				+ "<td><input type='number' step='1' placeholder='Length' min='0' value='' name='length' onchange='calcSecWtRow(\"row-"+ id+ "\");' onblur='calcSecWtRow(\"row-"+ id+ "\");' class='form-control' /></td>"
 				+ "<td><input type='number' step='1' placeholder='Quantity' min='0' value='' name='qty' onchange='calcSecWtRow(\"row-"+ id+ "\");' onblur='calcSecWtRow(\"row-"+ id+ "\");' class='form-control' /></td>"
-				+ "<td><div class='input-group'><input type='number' step='0.001' placeholder='Section Weight' min='0' readonly value='' name='secWt' class='form-control' aria-label='...'><div class='input-group-btn weight-group'><input type='hidden' name='secWtUnit' value='TON' /><button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown' disabled aria-expanded='false'>TON <span class='caret'></span></button><ul class='dropdown-menu dropdown-menu-right' role='menu'><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>TON</a></li><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>KG</a></li></ul></div></div></td>"
+				//+ "<td><div class='input-group'><input type='number' step='0.001' placeholder='Section Weight' min='0' readonly value='' name='secWt' class='form-control' aria-label='...'><div class='input-group-btn weight-group'><input type='hidden' name='secWtUnit' value='TON' /><button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown' disabled aria-expanded='false'>TON <span class='caret'></span></button><ul class='dropdown-menu dropdown-menu-right' role='menu'><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>TON</a></li><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>KG</a></li></ul></div></div></td>"
 				// + "<td><div class='input-group'><input type='number' step='0.001' placeholder='Actual Weight' min='0' value='' name='actualWt' onchange='calcSecWtRow(\"row-"+ id+ "\");' onblur='calcSecWtRow(\"row-"+ id+ "\");' class='form-control' aria-label='...'><div class='input-group-btn weight-group'><input type='hidden' onchange='calcSecWtRow(\"row-"+ id+ "\");' onblur='calcSecWtRow(\"row-"+ id+ "\");' name='actualWtUnit' value='TON' /><button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown' aria-expanded='false'>TON <span class='caret'></span></button><ul class='dropdown-menu dropdown-menu-right' role='menu'><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>TON</a></li><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>KG</a></li></ul></div></div></td>"
 				+ "<td><input type='button' class='btn-danger delete-row' onclick='deleteRow($(this).parent().parent().attr(\"id\"));' value='-' /></td></tr>";
 		$("#details-tbody").append(str);
@@ -375,7 +375,7 @@ function populatePackingList(){
 			mtype : 'POST',
 			
 			
-			colNames : [ 'portInwardId', 'portInwardDetailId', 'portInwardShipmentId', 'Date', 'Vessel Name', 'Mill Name', 'Type', 'Grade', 'Thickness', 'Width', 'Length', 'Bal Pcs', 'BalQty', 'Out Qty' ],
+			colNames : [ 'portInwardId', 'portInwardDetailId', 'portInwardShipmentId', 'Date', 'Vessel Name', 'Mill Name', 'Type', 'Grade', 'Thickness', 'Width', 'Length', 'Bal Pcs', 'Bal Qty', 'Out Pcs','Out Qty' ],
 					
 			colModel : [  {
 				name : 'portInwardId',
@@ -543,7 +543,7 @@ function populatePackingList(){
 			,{
 				name : 'quantity',
 				index : 'quantity',
-				width : 150,
+				width : 100,
 				editable : false,
 				editoptions : {
 					readonly : true,
@@ -580,9 +580,26 @@ function populatePackingList(){
 			    formatter: function (cellValue, option) {
 			    	//console.log(option);
 			        return '<input number digits="" type="number" size="7" style="color:black;" name="txtBox" id="ordered_qty_' + option.rowId +'" value="" onchange="setTick('+option.rowId+')"/>';
-			    }
 			}
 			
+			}
+			, 
+			{
+				name : 'outQty',
+				index : 'outQty',
+				width : 150,
+				editable : false,
+				editoptions : {
+					readonly : true,
+					size : 10
+				},
+				align : 'center',
+				search:false,
+				sortable:false,
+				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+				searchoptions: { sopt:[ 'eq']}
+				
+			},
 			
 			],
 			postData : {
@@ -631,6 +648,8 @@ function populatePackingList(){
 							$grid.jqGrid("setSelection", ids[i]);
 							
 							$("#ordered_qty_"+ids[i]).val(cachedObj.orderedQuantity);
+							var val = calculateOutQty(rowId, cachedObj.orderedQuantity);
+							$("#packingListGrid").jqGrid("setCell", rowId, "outQty", val);
 						}else{
 							console.log("Not present in cache "+composedObj.thickness);
 						}
@@ -683,7 +702,8 @@ function composeObjectForCaching(rowObject,qty){
 			availableQuantity : rowObject.quantity,
 			grade : rowObject.grade,
 			materialType : rowObject.materialType,
-			balQty : rowObject.balQty
+			balQty : rowObject.balQty,
+			outQty : rowObject.outQty
 	};
 	return cachedObj;
 }
@@ -706,6 +726,8 @@ function handleOnSelectRow(rowId, status){
 		if(isPresentObj){
 			//updateOrderedQuantityInCache(objectForCaching);
 			$("#ordered_qty_"+rowId).val(isPresentObj.orderedQuantity);
+			var val = calculateOutQty(rowId, isPresentObj.orderedQuantity);
+			$("#packingListGrid").jqGrid("setCell", rowId, "outQty", val);
 		}else{
 			//Now add the customer code to array.
 			try{
@@ -721,6 +743,8 @@ function handleOnSelectRow(rowId, status){
 			SELECTED_PORT_INVENTORY_ITEMS.push(objectForCaching);
 			if($("#ordered_qty_"+rowId).val()==""){
 				$("#ordered_qty_"+rowId).val("1");
+				var val = calculateOutQty(rowId, objectForCaching.orderedQuantity);
+				$("#packingListGrid").jqGrid("setCell", rowId, "outQty", val);
 			}
 		}
 		
@@ -732,11 +756,19 @@ function handleOnSelectRow(rowId, status){
 		}); */
 		removeItemFromCache(objectForCaching);
 		$("#ordered_qty_"+rowId).val("");
+		$("#packingListGrid").jqGrid("setCell", rowId, "outQty", " ");
 	}
 	
 	//Refresh the table.
 	refreshPortOutwardTable();
 	
+}
+
+function calculateOutQty(rowId, orderedQuantity){
+	var data = $("#packingListGrid").jqGrid('getRowData');
+	var row = data[rowId-1];
+	var outqtyval= (row.length * row.width * row.thickness * orderedQuantity * 7.85) / 1000000000;
+	return outqtyval.toFixed(3);
 }
 
 function refreshPortOutwardTable(){
@@ -750,6 +782,7 @@ function refreshPortOutwardTable(){
 	
 	//Calculate total item quantity
 	var quantitySum = 0;
+	var sectionwtSum=0;
 	console.log("calculating checksum");
 	$(".port_out_item_quantity").each(function (index, elem){
 		console.log(elem);
@@ -757,7 +790,12 @@ function refreshPortOutwardTable(){
 		quantitySum = quantitySum + q;
 	});
 	
-	addQuantitySumRow(quantitySum);
+	$(".port_out_section_wt").each(function (index, elem){
+		console.log(elem);
+		var secwt = Number($(elem).val());
+		sectionwtSum = sectionwtSum + secwt;
+	});
+	addQuantitySumRow(quantitySum,sectionwtSum);
 		
 }
 
@@ -807,6 +845,9 @@ function setTick(jqGridRowId){
 		var $packingListGrid = $("#packingListGrid");
 		var orderedQty = Number($("#ordered_qty_"+jqGridRowId).val());
 		//console.log("Ordered Qty = "+orderedQty);
+		var val = calculateOutQty(jqGridRowId, orderedQty);
+	    $("#packingListGrid").jqGrid("setCell", jqGridRowId, "outQty", val);
+				
 		
 		var isMore = isOrderedQtyLessThanAvailableQtyAtPort(orderedQty, jqGridRowId);
 		if(isMore){
@@ -875,7 +916,7 @@ function addRowOfSelectedRecord(recordObj) {
 			+ "<td><input type='text' readonly placeholder='width' value='"+recordObj.width+"' name='width' class='form-control' /></td>"
 			+ "<td><input type='text' readonly placeholder='length' value='"+recordObj.length+"' name='length' class='form-control' /></td>"
 			+ "<td><input type='text' readonly placeholder='orderedQuantity' value='"+recordObj.availableQuantity+"' name='availableQuantity' class='form-control port_out_item_quantity' /></td>"
-			+ "<td><input type='text' readonly placeholder='balQty' value='"+recordObj.balQty+"' name='balQty' class='form-control' /></td>"
+			+ "<td><input type='text' readonly placeholder='balQty' value='"+recordObj.balQty+"' name='balQty' class='form-control port_out_section_wt' /></td>"
 			//+ "<td><div class='input-group'><input type='number' step='0.001' placeholder='Section Weight' min='0' readonly value='' name='secWt' class='form-control' aria-label='...'><div class='input-group-btn weight-group'><input type='hidden' name='secWtUnit' value='TON' /><button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown' disabled aria-expanded='false'>TON <span class='caret'></span></button><ul class='dropdown-menu dropdown-menu-right' role='menu'><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>TON</a></li><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>KG</a></li></ul></div></div></td>"
 			// + "<td><div class='input-group'><input type='number' step='0.001' placeholder='Actual Weight' min='0' value='' name='actualWt' onchange='calcSecWtRow(\"row-"+ id+ "\");' onblur='calcSecWtRow(\"row-"+ id+ "\");' class='form-control' aria-label='...'><div class='input-group-btn weight-group'><input type='hidden' onchange='calcSecWtRow(\"row-"+ id+ "\");' onblur='calcSecWtRow(\"row-"+ id+ "\");' name='actualWtUnit' value='TON' /><button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown' aria-expanded='false'>TON <span class='caret'></span></button><ul class='dropdown-menu dropdown-menu-right' role='menu'><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>TON</a></li><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>KG</a></li></ul></div></div></td>"
 			//+ "<td><input type='button' class='btn-danger delete-row' onclick='deleteRow($(this).parent().parent().attr(\"id\"));' value='-' /></td></tr>";
@@ -888,7 +929,7 @@ function addRowOfSelectedRecord(recordObj) {
 	//applyTotalCalc();
 }
 
-function addQuantitySumRow(quantitySum) {
+function addQuantitySumRow(quantitySum,sectionwtSum) {
 	
 	
 	var str = "<tr id='quantity-sum-row'><td class='vessel-container'></td>"
@@ -902,7 +943,7 @@ function addQuantitySumRow(quantitySum) {
 			+ "<td></td>"
 			+ "<td>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Checksum </td>"
 			+ "<td class='port_out_item_quantity' >&nbsp&nbsp"+quantitySum+"</td>"
-			+ "<td></td>"
+			+ "<td class='port_out_section_wt'>&nbsp&nbsp"+sectionwtSum.toFixed(3)+"</td>"
 			// + "<td><div class='input-group'><input type='number' step='0.001' placeholder='Actual Weight' min='0' value='' name='actualWt' onchange='calcSecWtRow(\"row-"+ id+ "\");' onblur='calcSecWtRow(\"row-"+ id+ "\");' class='form-control' aria-label='...'><div class='input-group-btn weight-group'><input type='hidden' onchange='calcSecWtRow(\"row-"+ id+ "\");' onblur='calcSecWtRow(\"row-"+ id+ "\");' name='actualWtUnit' value='TON' /><button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown' aria-expanded='false'>TON <span class='caret'></span></button><ul class='dropdown-menu dropdown-menu-right' role='menu'><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>TON</a></li><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>KG</a></li></ul></div></div></td>"
 			//+ "<td><input type='button' class='btn-danger delete-row' onclick='deleteRow($(this).parent().parent().attr(\"id\"));' value='-' /></td></tr>";
 			+ "<td></td>"

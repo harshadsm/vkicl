@@ -27,10 +27,10 @@ public class PortInwardPackingListDaoImpl extends BaseDaoImpl {
 			String orderByFieldName, String order, JqGridSearchParameterHolder searchParam) throws SQLException {
 		List<PackingListItemVO> list = new ArrayList<PackingListItemVO>();
 		Connection conn = null;
-		ResultSet rs = null;
+		ResultSet rs = null; 
 		CallableStatement cs = null;
-		String query = "";
-		String message = "";
+		String query = ""; 
+		String message = "";  
 		int count = 0;
 		try {
 			conn = getConnection();
@@ -38,7 +38,8 @@ public class PortInwardPackingListDaoImpl extends BaseDaoImpl {
 			//String sql = " SELECT * FROM port_inward_details "
 			String sql = " select pi.port_inward_id, pi.port_inwd_shipment_id,pid.port_inward_detail_id, "
 			+" pis.vessel_name, pis.vessel_date, pi.material_grade, pi.material_type, "
-			+" pid.length, pid.width, pid.thickness, pid.quantity , pi.mill_name, ((pid.length * pid.width * pid.thickness * pid.quantity * 7.85)/1000000000) as BalQty"
+			+" pid.length, pid.width, pid.thickness, pid.quantity , pi.mill_name, "
+			+" round(((pid.length * pid.width * pid.thickness * pid.quantity * 7.85)/1000000000),3) as BalQty"
 			+" from  "
 			+" port_inward pi "
 			+" left join port_inward_shipment pis on pis.port_inwd_shipment_id = pi.port_inwd_shipment_id "
