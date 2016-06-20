@@ -145,12 +145,13 @@
 					<thead>
 						<tr>
 							<th width="0%" class="cell-hide">ID</th>
-							<th width="10%">Vessel Date</th>
+							<th width="10%">Date</th>
 							<th width="10%">Vessel Name</th>
+							<th width="10%">Mill Name</th>
 							<th width="5%">Type</th>
-							<th width="10%">Dispatched To</th>
+							<!--  <th width="10%">Dispatched To</th>
 							<th width="5%">Vehicle Date</th>
-							<th width="10%">Vehicle No.</th>
+							<th width="10%">Vehicle No.</th>-->
 							
 							
 							
@@ -162,10 +163,11 @@
 							<th width="5%">Thickness</th>
 							<th width="5%">Width</th>
 							<th width="5%">Length</th>
-							<th width="5%">Quantity</th>
-							<th width="5%">Section Weight</th>
+							<th width="5%">No. of Pcs</th>
+							<th width="5%">Sec. Wt</th>
+							<th width="5%">Actual Wt</th>
 							<!-- <th width="5%">Label Weight</th>-->
-							<th width="10%">Invoice #</th>
+							<th width="10%">Invoice No. port</th>
 							<th class="cell-edit"><span
 								class="glyphicon glyphicon glyphicon-pencil"></span></th>
 						</tr>
@@ -180,14 +182,16 @@
 										value="${report.vesselDate}" /></td>
 								<td data-type="text" data-name="vesselName"><c:out
 										value="${report.vesselName}" /></td>
+										<td data-type="text" data-name="millName"><c:out
+										value="${report.millName}" /></td>
 								<td data-type="text" data-name="materialType"><c:out
 										value="${report.materialType}" /></td>
-								<td data-type="text" data-name="dispatchedTo"><c:out
+								<!--  <td data-type="text" data-name="dispatchedTo"><c:out
 										value="${report.dispatchedTo}" /></td>
 								<td data-type="text" data-name="vehicleDate"><c:out
 										value="${report.vehicleDate}" /></td>
 								<td data-type="text" data-name="vehicleNumber"><c:out
-										value="${report.vehicleNumber}" /></td>
+										value="${report.vehicleNumber}" /></td>-->
 								
 								
 								<%--<td data-type="text" data-name="beNo"><c:out
@@ -207,8 +211,8 @@
 										value="${report.qty}" /></td>
 								<td data-type="number" data-name="secWt" data-step="0.001"><c:out
 										value="${report.secWt}" /></td>
-								<!--  <td data-type="number" data-name="actualWt" data-step="0.001"><c:out
-										value="${report.actualWt}" /></td>-->
+								<td data-type="number" data-name="actualWt"><c:out
+										value="${report.actualWt}" /></td>
 								<td data-type="text" data-name="invoice" ><c:out
 										value="${report.invoice}" /></td>
 								<!-- 		

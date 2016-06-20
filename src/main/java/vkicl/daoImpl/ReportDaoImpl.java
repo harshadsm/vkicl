@@ -71,7 +71,7 @@ public class ReportDaoImpl extends BaseDaoImpl {
 					report.setVesselDate(convertDateToDisplayString(rs
 							.getString("vessel_date")));
 					report.setBeNo(formatOutput(rs.getString("be_no")));
-					report.setMillName(formatOutput(rs.getString("mill_name")));
+					//report.setMillName(formatOutput(rs.getString("mill_name")));
 					report.setMake(formatOutput(rs.getString("material_make")));
 					report.setMaterialType(formatOutput(rs
 							.getString("material_type")));
@@ -141,7 +141,7 @@ public class ReportDaoImpl extends BaseDaoImpl {
 					report.setBeNo(formatOutput(rs.getString("be_no")));
 					report.setMaterialType(formatOutput(rs
 							.getString("material_type")));
-					// report.setMillName(rs.getString("mill_name"));
+					report.setMillName(rs.getString("mill_name"));
 					// report.setMake(rs.getString("material_make"));
 					report.setGrade(formatOutput(rs.getString("grade")));
 					report.setLength(rs.getInt("length"));
@@ -301,7 +301,7 @@ public class ReportDaoImpl extends BaseDaoImpl {
 			conn = getConnection();
 			query = prop.get("sp.report.port.outward.edit");
 			log.info("query = " + query);
-			cs = conn.prepareCall(query);
+			cs = conn.prepareCall(query); 
 
 			cs.setString(1, fetchFromMap(map, "id"));
 			cs.setString(2, fetchFromMap(map, "dispatchedTo"));
@@ -321,9 +321,11 @@ public class ReportDaoImpl extends BaseDaoImpl {
 			cs.setString(16, fetchFromMap(map, "actualWtUnit"));
 			cs.setString(17, fetchFromMap(map, "invoice"));
 			cs.setString(18, userInfoVO.getUserName());
-			cs.registerOutParameter(18, java.sql.Types.VARCHAR);
+			cs.setString(19, fetchFromMap(map, "millName"));
+			cs.registerOutParameter(20, java.sql.Types.VARCHAR);
+						
 			rs = cs.executeQuery();
-			message = cs.getString(19);
+			message = cs.getString(20);
 			log.info("message = " + message);
 		} catch (Exception e) {
 			e.printStackTrace();
