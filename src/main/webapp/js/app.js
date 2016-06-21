@@ -83,8 +83,14 @@ function editReportRow(ele) {
 	}
 }
 
+function deleteReportRow(ele) {
+	var tr = $(ele).parent().parent();
+	makeRowEditable(tr);
+	deleteReportData(tr);
+}
+
 function makeRowEditable(tr) {
-	$(tr).addClass("row-edit")
+	$(tr).addClass("row-edit");
 	var rowid = "row_" + $($(tr).find("td")[0]).html();
 	var objRowId = {};
 	$(tr).find("td").each(function(i, td) {
@@ -188,6 +194,52 @@ function updateReportData(tr) {
 	}
 
 }
+
+function deleteReportData(tr) {
+	var params = [], values = [];
+	$(tr).find("input").each(function(i, input) {
+		params.push(input.name);
+		values.push(input.value)
+	});
+	var objRowId = {};
+	var rowid = "row_" + values[0];
+	var url = "./report?method=deletePortOutward";
+	for (var i = 0; i < params.length; i++) {
+		url = url + "&" + params[i] + "=" + encodeURIComponent(values[i]);
+		objRowId[params[i]] = values[i];
+	}
+	
+	var str = "<span class='glyphicon glyphicon glyphicon-remove'></span>";
+	$($(tr).find(".cell-edit button")[0]).html(str);	
+		showLoader();
+		$.ajax({
+			url : url,
+			success : function(xml, textStatus, response) {
+				if (null != xml && "" != xml) {
+					xmlDoc = $.parseXML(xml);
+					var message = $(xmlDoc).find("message")[0].innerHTML;
+					if (message == "Success") {
+						bootbox.alert("Record deleted successfully",
+								function() {
+									fetchReport();
+								});
+					} else {
+						bootbox.alert("Unable to delete Record", function() {
+							fetchReport();
+						});
+					}
+				}
+			},
+			error : function() {
+				bootbox.alert("Unable to delete Record", function() {
+					fetchReport();
+				});
+
+			}
+		});
+	}
+
+
 
 function resetReport() {
 	$("[name='fromDate']").val("");

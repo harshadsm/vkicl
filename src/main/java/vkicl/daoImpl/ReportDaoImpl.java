@@ -336,6 +336,30 @@ public class ReportDaoImpl extends BaseDaoImpl {
 		}
 		return message;
 	}
+	
+	public String deletePortOutward(Map<String, String[]> map) {
+		Connection conn = null;
+		ResultSet rs = null;
+		PreparedStatement statement;
+		String message = "Success";
+		try {
+			conn = getConnection();
+			
+			String sql = "delete from port_outward where port_out_id = ?";
+			statement = conn.prepareStatement(sql);
+			statement.setInt(1, Integer.parseInt( fetchFromMap(map, "id")));
+			statement.executeUpdate();
+			
+			log.info("message = " + message);
+		} catch (Exception e) {
+			e.printStackTrace();
+			message = e.getMessage();
+			log.error(message);
+		} finally {
+			closeDatabaseResources(conn, rs, statement);
+		}
+		return message;
+	}
 
 	public String updateWarehouseInwardReport(Map<String, String[]> map,
 			UserInfoVO userInfoVO) {
@@ -806,6 +830,7 @@ public class ReportDaoImpl extends BaseDaoImpl {
 	}
 
 	public WarehouseOutwardReportForm fetchWarehouseOutwardReport(
+
 			WarehouseOutwardReportForm form, UserInfoVO userInfoVO) {
 		Connection conn = null;
 		ResultSet rs = null;

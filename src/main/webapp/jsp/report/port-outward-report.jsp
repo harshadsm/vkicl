@@ -146,7 +146,7 @@
 						<tr>
 							<th width="0%" class="cell-hide">ID</th>
 							<th width="10%">Date</th>
-							<th width="10%">Vessel Name</th>
+							<th width="15%">Vessel Name</th>
 							<th width="10%">Mill Name</th>
 							<th width="5%">Type</th>
 							<!--  <th width="10%">Dispatched To</th>
@@ -164,12 +164,14 @@
 							<th width="5%">Width</th>
 							<th width="5%">Length</th>
 							<th width="5%">No. of Pcs</th>
-							<th width="5%">Sec. Wt</th>
+							<th width="10%">Sec. Wt</th>
 							<th width="5%">Actual Wt</th>
 							<!-- <th width="5%">Label Weight</th>-->
 							<th width="10%">Invoice No. port</th>
-							<th class="cell-edit"><span
+							<th width="5%" class="cell-edit"><span
 								class="glyphicon glyphicon glyphicon-pencil"></span></th>
+							<th width="5%" class="cell-edit"><span
+								class="glyphicon glyphicon glyphicon-remove"></span></th>
 						</tr>
 					</thead>
 					<tbody id="details-tbody">
@@ -222,6 +224,10 @@
 								<td class="cell-edit"><button name="btnEdit" title="Edit" onclick="editReportRow(this);">
 										<span class="glyphicon glyphicon glyphicon-pencil"></span>
 									</button></td>
+								<td class="cell-edit"><button name="btnDelete" title="Delete" onclick="deleteReportRow(this);">
+										<span class="glyphicon glyphicon glyphicon-remove"></span>
+								</button></td>
+									
 							</tr>
 						</logic:iterate>
 					</tbody>

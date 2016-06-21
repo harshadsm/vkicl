@@ -49,7 +49,10 @@ public class ReportService extends HttpServlet {
 				} else if (method.equals("updatePortOutwardReport")
 						&& userInfoVO.hasAccess(Constants.Apps.PORT_ENTRY)) {
 					message = impl.updatePortOutwardReport(map, userInfoVO);
-				} else if (method.equals("updateWarehouseInwardReport")
+				} else if (method.equals("deletePortOutward")
+						&& userInfoVO.hasAccess(Constants.Apps.PORT_ENTRY)) {
+					message = impl.deletePortOutward(map);
+				}else if (method.equals("updateWarehouseInwardReport")
 						&& userInfoVO.hasAccess(Constants.Apps.WAREHOUSE_ENTRY)) {
 					message = impl.updateWarehouseInwardReport(map, userInfoVO);
 				} else if (method.equals("changeStockLocation")
