@@ -340,7 +340,7 @@ public class ReportDaoImpl extends BaseDaoImpl {
 	public String deletePortOutward(Map<String, String[]> map) {
 		Connection conn = null;
 		ResultSet rs = null;
-		PreparedStatement statement;
+		PreparedStatement statement = null;
 		String message = "Success";
 		try {
 			conn = getConnection();
