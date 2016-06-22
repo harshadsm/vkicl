@@ -740,12 +740,15 @@ function handleOnSelectRow(rowId, status){
 			}
 			
 			
-			SELECTED_PORT_INVENTORY_ITEMS.push(objectForCaching);
+			
 			if($("#ordered_qty_"+rowId).val()==""){
 				$("#ordered_qty_"+rowId).val("1");
 				var val = calculateOutQty(rowId, objectForCaching.orderedQuantity);
 				$("#packingListGrid").jqGrid("setCell", rowId, "outQty", val);
+				objectForCaching.outQty=val;
 			}
+			
+			SELECTED_PORT_INVENTORY_ITEMS.push(objectForCaching);
 		}
 		
 	}else{
@@ -757,6 +760,7 @@ function handleOnSelectRow(rowId, status){
 		removeItemFromCache(objectForCaching);
 		$("#ordered_qty_"+rowId).val("");
 		$("#packingListGrid").jqGrid("setCell", rowId, "outQty", " ");
+		$("#balQty").val("122");
 	}
 	
 	//Refresh the table.
@@ -887,8 +891,14 @@ function updateQuantityInCache(jqGridRowId, orderedQty){
 	var rowObject = $packingListGrid.jqGrid('getRowData',jqGridRowId); 
 	var objectForCompare = composeObjectForCaching(rowObject, orderedQty);
 	var objectFromCache = isObjectPresentInCache(objectForCompare);
+	
+	var val = calculateOutQty(jqGridRowId, orderedQty);
+    
+		
+    
 	if(objectFromCache){
 		objectFromCache.orderedQuantity = orderedQty;
+		objectFromCache.outQty=val;
 	}
 	
 	
@@ -902,6 +912,8 @@ function composeCombinationId(recordObj){
 function addRowOfSelectedRecord(recordObj) {
 	console.log(recordObj);
 	var id = composeCombinationId(recordObj);
+	
+
 	var str = "<tr id='" + id + "'>"
 			
 	+ "<td><input type='text' readonly placeholder='vesselDate' value='"+recordObj.vesselDate+"' name='vesselDate' class='form-control' /></td>"
@@ -915,8 +927,8 @@ function addRowOfSelectedRecord(recordObj) {
 			+ "<td><input type='text' readonly placeholder='thickness' value='"+recordObj.thickness+"' name='thickness' class='form-control' /></td>"
 			+ "<td><input type='text' readonly placeholder='width' value='"+recordObj.width+"' name='width' class='form-control' /></td>"
 			+ "<td><input type='text' readonly placeholder='length' value='"+recordObj.length+"' name='length' class='form-control' /></td>"
-			+ "<td><input type='text' readonly placeholder='orderedQuantity' value='"+recordObj.availableQuantity+"' name='availableQuantity' class='form-control port_out_item_quantity' /></td>"
-			+ "<td><input type='text' readonly placeholder='balQty' value='"+recordObj.balQty+"' name='balQty' class='form-control port_out_section_wt' /></td>"
+			+ "<td><input type='text' readonly placeholder='orderedQuantity' value='"+recordObj.orderedQuantity+"' name='availableQuantity' class='form-control port_out_item_quantity' /></td>"
+			+ "<td><input type='text' readonly placeholder='balQty' value='"+recordObj.outQty+"' name='balQty' class='form-control port_out_section_wt' /></td>"
 			//+ "<td><div class='input-group'><input type='number' step='0.001' placeholder='Section Weight' min='0' readonly value='' name='secWt' class='form-control' aria-label='...'><div class='input-group-btn weight-group'><input type='hidden' name='secWtUnit' value='TON' /><button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown' disabled aria-expanded='false'>TON <span class='caret'></span></button><ul class='dropdown-menu dropdown-menu-right' role='menu'><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>TON</a></li><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>KG</a></li></ul></div></div></td>"
 			// + "<td><div class='input-group'><input type='number' step='0.001' placeholder='Actual Weight' min='0' value='' name='actualWt' onchange='calcSecWtRow(\"row-"+ id+ "\");' onblur='calcSecWtRow(\"row-"+ id+ "\");' class='form-control' aria-label='...'><div class='input-group-btn weight-group'><input type='hidden' onchange='calcSecWtRow(\"row-"+ id+ "\");' onblur='calcSecWtRow(\"row-"+ id+ "\");' name='actualWtUnit' value='TON' /><button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown' aria-expanded='false'>TON <span class='caret'></span></button><ul class='dropdown-menu dropdown-menu-right' role='menu'><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>TON</a></li><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>KG</a></li></ul></div></div></td>"
 			//+ "<td><input type='button' class='btn-danger delete-row' onclick='deleteRow($(this).parent().parent().attr(\"id\"));' value='-' /></td></tr>";
