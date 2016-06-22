@@ -329,7 +329,7 @@
 							<th>Thickness</th>
 							<th>Width</th>
 							<th>Length</th>
-							<th>Bal Pcs</th>
+							<th>No of pcs</th>
 							<th>Sec. Wt</th>
 							<!-- <th>Actual Weight</th> -->
 							<!-- <th><input type="button" class="btn-success add-row" onClick="addRow();" value="+" /></th> -->
