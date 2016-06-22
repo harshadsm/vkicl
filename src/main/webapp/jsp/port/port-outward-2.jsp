@@ -329,8 +329,8 @@
 							<th>Thickness</th>
 							<th>Width</th>
 							<th>Length</th>
-							<th>No of pcs</th>
-							<th>Sec. Wt</th>
+							<th>Out pcs</th>
+							<th>Out qty</th>
 							<!-- <th>Actual Weight</th> -->
 							<!-- <th><input type="button" class="btn-success add-row" onClick="addRow();" value="+" /></th> -->
 						</tr>
