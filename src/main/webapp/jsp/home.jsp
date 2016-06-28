@@ -56,6 +56,13 @@
 	<div class="col-sm-2">
 		<div class="portfolio-item">
 			<div class="portfolio-image">
+				<a href="./warehouse-inward-2.do">Warehouse - Inwards-2</a>
+			</div>
+		</div>
+	</div>
+	<div class="col-sm-2">
+		<div class="portfolio-item">
+			<div class="portfolio-image">
 				<a href="./warehouse-outward.do">Warehouse - Outwards</a>
 			</div>
 		</div>

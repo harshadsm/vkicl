@@ -42,6 +42,15 @@
 		<servlet-class>vkicl.action.PackingListJsonServlet</servlet-class>
 	</servlet>
 	<servlet>
+		<servlet-name>PortOutwardDetailsJsonServlet</servlet-name>
+		<servlet-class>vkicl.action.PortOutwardDetailsJsonServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>PackingListJsonServlet2</servlet-name>
+		<servlet-class>vkicl.action.PackingListJsonServlet2</servlet-class>
+	</servlet>
+	
+	<servlet>
 		<servlet-name>FileUploadService</servlet-name>
 		<servlet-class>vkicl.services.FileUploadService</servlet-class>
 	</servlet>
@@ -73,6 +82,10 @@
 	<servlet-mapping>
 		<servlet-name>PackingListJsonServlet</servlet-name>
 		<url-pattern>/packingListJsonServlet</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>PackingListJsonServlet2</servlet-name>
+		<url-pattern>/packingListJsonServlet2</url-pattern>
 	</servlet-mapping>
 	
 	<servlet-mapping>

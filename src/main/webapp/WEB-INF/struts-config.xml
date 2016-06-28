@@ -88,6 +88,16 @@
 			<forward name="success" path="warehouseInwardDefn" />
 		</action>
 
+        <action path="/warehouse-inward-2" type="vkicl.action.WarehouseInwardAction2"
+			name="PortOutwardForm">
+			<forward name="success" path="warehouseInwardDefn2" />
+		</action>
+		
+		<action path="/warehouse-inward-save" type="vkicl.action.WarehouseInwardAction3"
+			name="PortOutwardForm">
+			<forward name="success" path="warehouseInwardDefn2" />
+		</action>
+		
 		<action path="/warehouse-dispatch" type="vkicl.action.WarehouseDispatchAction"
 			name="WarehouseDispatchForm">
 			<forward name="success" path="warehouseDispatchDefn" />

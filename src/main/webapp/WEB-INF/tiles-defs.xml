@@ -63,6 +63,11 @@
 		<put name="title" value="Warehouse Inward" />
 		<put name="body" value="/jsp/warehouse/warehouse-inward.jsp" />
 	</definition>
+	
+	<definition name="warehouseInwardDefn2" extends="baseDefn">
+		<put name="title" value="Warehouse Inward" />
+		<put name="body" value="/jsp/warehouse/warehouse-inward-2.jsp" />
+	</definition>
 
 	<definition name="warehouseDispatchDefn" extends="baseDefn">
 		<put name="title" value="Warehouse Dispatch Order" />

@@ -23,9 +23,23 @@ public class PortOutwardForm extends BaseForm {
 	private Double[] actualWt = null;
 	private String[] actualWtUnit = null;
 	private Double[] secWt = null;
+	
+	
+
 	private String[] secWtUnit = null;
 	private Integer[] qty = null;
 	private Integer[] orderedQuantity = null;
+	
+	private String millName="";
+	
+	
+	public String getMillName() {
+		return millName;
+	}
+
+	public void setMillName(String millName) {
+		this.millName = millName;
+	}
 
 	public PortOutwardForm() {
 	}

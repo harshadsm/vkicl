@@ -19,70 +19,11 @@ import vkicl.util.JqGridSearchParameterHolder.Rule;
 import vkicl.vo.PackingListItemVO;
 import vkicl.vo.PortInwardRecordVO;
 
-public class PortInwardPackingListDaoImpl extends BaseDaoImpl {
-	private Logger log = Logger.getLogger(PortInwardPackingListDaoImpl.class);
+public class PortOutwardPackingListDaoImpl extends BaseDaoImpl {
+	private Logger log = Logger.getLogger(PortOutwardPackingListDaoImpl.class);
 
 	
-	public List<PackingListItemVO> fetchPortInwardPackingList( int pageNo, int pageSize, long total,
-			String orderByFieldName, String order, JqGridSearchParameterHolder searchParam) throws SQLException {
-		List<PackingListItemVO> list = new ArrayList<PackingListItemVO>();
-		Connection conn = null;
-		ResultSet rs = null; 
-		CallableStatement cs = null;
-		String query = ""; 
-		String message = "";  
-		int count = 0;
-		try {
-			conn = getConnection();
-
-			//String sql = " SELECT * FROM port_inward_details "
-			String sql = " select pi.port_inward_id, pi.port_inwd_shipment_id,pid.port_inward_detail_id, "
-			+" pis.vessel_name, pis.vessel_date, pi.material_grade, pi.material_type, "
-			+" pid.length, pid.width, pid.thickness, pid.quantity , pi.mill_name, "
-			+" round(((pid.length * pid.width * pid.thickness * pid.quantity * 7.85)/1000000000),3) as BalQty"
-			+" from  "
-			+" port_inward pi "
-			+" left join port_inward_shipment pis on pis.port_inwd_shipment_id = pi.port_inwd_shipment_id "
-			+" left join port_inward_details pid on pid.port_inward_id = pi.port_inward_id "
-			//+" where pid.port_inward_detail_id is not null; "
-			
-			+ processSearchCriteria(searchParam) + " "+composeOrderByClause(orderByFieldName, order) + " " + composeLimitClause(pageNo, pageSize, total) + ";";
-			query = sql;
-			log.info("query = " + query);
-
-			cs = conn.prepareCall(query);
-
-			rs = cs.executeQuery();
-			if (null != rs && rs.next()) {
-
-				do {
-					PackingListItemVO p = new PackingListItemVO();
-					p.setPortInwardId(rs.getInt(1));
-					p.setPortInwardShipmentId(rs.getInt(2));
-					p.setPortInwardDetailId(rs.getInt(3));
-					p.setVesselName(rs.getString(4));
-					p.setVesselDate(dateToString(convertSqlDateToJavaDate(rs.getDate(5))));
-					p.setGrade(rs.getString(6));
-					p.setMaterialType(rs.getString(7));
-					p.setLength(rs.getInt(8));
-					p.setWidth(rs.getInt(9));
-					p.setThickness(rs.getDouble(10));
-					p.setQuantity(rs.getInt(11));
-					p.setMillName(rs.getString(12));
-					p.setBalQty(rs.getDouble(13));
-					list.add(p);
-				} while (rs.next());
-
-			}
-
-		} catch (Exception e) {
-			log.error("Some error", e);
-		} finally {
-			closeDatabaseResources(conn, rs, cs);
-		}
-		return list;
-	}
-
+	
 	
 	public List<PackingListItemVO> fetchPortOnwardPackingList( int pageNo, int pageSize, long total,
 			String orderByFieldName, String order, JqGridSearchParameterHolder searchParam) throws SQLException {
@@ -97,11 +38,14 @@ public class PortInwardPackingListDaoImpl extends BaseDaoImpl {
 			conn = getConnection();
 
 			//String sql = " SELECT * FROM port_inward_details "
-			String sql = " select po.port_out_id,,po.vessel_Date, po.vessel_name, pi.mill_name, po.material_type, po.grade,po.thickness,po.width,po.length,po.quantity "
-			+" from port_outward_shipment pos "
-			+"inner join port_outward po on pos.port_out_shipment_id = po.port_out_shipment_id "
-			+" inner join port_inward_outward_intersection pios on pios.port_outward_id=po.port_out_id "
-			+" inner join port_inward pi on pi.port_inward_id=pios.port_inward_id "
+			String sql = " select po.port_out_id, pi.port_inwd_shipment_id, po.vessel_name, po.vessel_Date, po.grade, po.material_type, "
+					+" po.length, po.width, po.thickness, po.quantity, pi.mill_name, "
+					+" round(((po.length * po.width * po.thickness * po.quantity * 7.85)/1000000000),3) as balQty,"
+					+" pos.vehicle_number, pos.vehicle_date"
+					+" from port_outward_shipment pos "
+					+" inner join port_outward po on pos.port_out_shipment_id = po.port_out_shipment_id "
+					+" inner join port_inward_outward_intersection pios on pios.port_outward_id=po.port_out_id "
+					+" inner join port_inward pi on pi.port_inward_id=pios.port_inward_id "
 			
 			
 			+ processSearchCriteria(searchParam) + " "+composeOrderByClause(orderByFieldName, order) + " " + composeLimitClause(pageNo, pageSize, total) + ";";
@@ -115,25 +59,37 @@ public class PortInwardPackingListDaoImpl extends BaseDaoImpl {
 
 				do {
 					PackingListItemVO p = new PackingListItemVO();
+					
 					p.setPortInwardId(rs.getInt(1));
 					p.setPortInwardShipmentId(rs.getInt(2));
-					p.setPortInwardDetailId(rs.getInt(3));
-					p.setVesselName(rs.getString(4));
-					p.setVesselDate(dateToString(convertSqlDateToJavaDate(rs.getDate(5))));
-					p.setGrade(rs.getString(6));
-					p.setMaterialType(rs.getString(7));
-					p.setLength(rs.getInt(8));
-					p.setWidth(rs.getInt(9));
-					p.setThickness(rs.getDouble(10));
-					p.setQuantity(rs.getInt(11));
-					p.setMillName(rs.getString(12));
-					p.setBalQty(rs.getDouble(13));
+					//p.setPortInwardDetailId(rs.getInt(3));
+					p.setVesselName(rs.getString(3));
+					p.setVesselDate(dateToString(convertSqlDateToJavaDate(rs.getDate(4))));
+					p.setGrade(rs.getString(5));
+					p.setMaterialType(rs.getString(6));
+					p.setLength(rs.getInt(7));
+					p.setWidth(rs.getInt(8));
+					p.setThickness(rs.getDouble(9));
+					p.setQuantity(rs.getInt(10));
+					p.setMillName(rs.getString(11));
+				    p.setBalQty(rs.getDouble(12));
+				    p.setVehicleName(rs.getString(13));
+				   if(rs.getDate(14)!=null)
+				   {
+				    p.setVehicleDate(dateToString(convertSqlDateToJavaDate(rs.getDate(14))));
+				   }
+				   else
+				   {
+					   p.setVehicleDate("");
+				   }
 					list.add(p);
-				} while (rs.next());
+				} 
+				while (rs.next());
 
 			}
 
-		} catch (Exception e) {
+		} 
+		catch (Exception e) {
 			log.error("Some error", e);
 		} finally {
 			closeDatabaseResources(conn, rs, cs);
@@ -175,7 +131,7 @@ public class PortInwardPackingListDaoImpl extends BaseDaoImpl {
 		return limitClause;
 	}
 
-	public Integer fetchPortInwardPackingListRecordCount(JqGridSearchParameterHolder searchParam) throws SQLException {
+	public Integer fetchPortOutwardPackingListRecordCount(JqGridSearchParameterHolder searchParam) throws SQLException {
 		List<PortInwardRecordVO> list = new ArrayList<PortInwardRecordVO>();
 		Connection conn = null;
 		ResultSet rs = null;
@@ -188,9 +144,9 @@ public class PortInwardPackingListDaoImpl extends BaseDaoImpl {
 			
 			String count_sql = " select count(*) "
 			+" from  "
-			+" port_inward pi "
-			+" left join port_inward_shipment pis on pis.port_inwd_shipment_id = pi.port_inwd_shipment_id "
-			+" left join port_inward_details pid on pid.port_inward_id = pi.port_inward_id "
+			+" port_outward po "
+			+" left join port_outward_shipment pis on pis.port_out_shipment_id = po.port_out_shipment_id "
+			
 			+ processSearchCriteria(searchParam);
 			
 
@@ -220,7 +176,7 @@ public class PortInwardPackingListDaoImpl extends BaseDaoImpl {
 	private String processSearchCriteria(JqGridSearchParameterHolder searchParam) {
 		String sqlClause = "";
 		List<String> clauses = new ArrayList<String>();
-		String notNullClause = "pid.port_inward_detail_id is not null";
+		String notNullClause = "po.port_out_id is not null";
 		clauses.add(notNullClause);
 		if (null != searchParam && null != searchParam.getRules() && !searchParam.getRules().isEmpty()) {
 			for (JqGridSearchParameterHolder.Rule r : searchParam.getRules()) {
@@ -269,7 +225,7 @@ public class PortInwardPackingListDaoImpl extends BaseDaoImpl {
 		} else if (field != null && field.equalsIgnoreCase("vessel_date")) {
 			clause = processDateClause(data);
 		} else if (field != null && field.equalsIgnoreCase("port_inward_id")) {
-			clause = "port_inward_id = " + data ;
+			clause = "port_out_id = " + data ;
 		}
 
 		return clause;

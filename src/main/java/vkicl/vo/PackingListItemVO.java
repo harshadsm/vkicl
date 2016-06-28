@@ -23,6 +23,22 @@ public class PackingListItemVO {
 	private String vesselName;
 	private String vendorName;
 	private Double balQty;
+	private String vehicleDate;
+	private String vehicleName;
+		
+		public String getVehicleDate() {
+			return vehicleDate;
+		}
+		public void setVehicleDate(String vehicleDate) {
+			this.vehicleDate = vehicleDate;
+		}
+		public String getVehicleName() {
+			return vehicleName;
+		}
+		public void setVehicleName(String vehicleName) {
+			this.vehicleName = vehicleName;
+		}
+		
 		
 	public Double getBalQty() {
 		return balQty;
