@@ -28,6 +28,7 @@ public class WarehouseInwardService {
 	public void processWarehouseInwardEntries(PortOutwardPostDataContainerVO postDataContainer,
 			HttpServletRequest request, UserInfoVO userInfo) throws Exception {
 		Long warehouseShipmentId=-1L;
+		Long warehouseInwardId=-1L;
 		String itemsToSaveJson = postDataContainer.getSelectedPortInventoryItemsJson();
 
 		Gson gson = new Gson();
@@ -56,7 +57,10 @@ public class WarehouseInwardService {
 		    warehouseShipmentId = warehouseShipmentDaoImpl.saveWarehouseShipment(vehicleEntry.get(0), userInfo);
 		    
 		    for(WarehouseInwardRecordVO warehouseInwardRecordVO :vehicleEntry){
-		    	impl.addWarehouseInwardData(warehouseInwardRecordVO, warehouseShipmentId, userInfo);
+		    	
+		    	warehouseInwardId=impl.addWarehouseInwardData(warehouseInwardRecordVO, warehouseShipmentId, userInfo);
+		    	
+		    	impl.addWarehouseInwardDetailData(warehouseInwardRecordVO, warehouseInwardId, userInfo);
 		    }
 		}
 	}

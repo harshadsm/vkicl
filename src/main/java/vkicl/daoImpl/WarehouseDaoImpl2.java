@@ -18,13 +18,13 @@ public class WarehouseDaoImpl2 extends BaseDaoImpl {
 	static PropFileReader prop = PropFileReader.getInstance();
 
 
-	public Integer addWarehouseInwardData(WarehouseInwardRecordVO portOutwardRecordVO,Long warehouseShipmentId,
+	public Long addWarehouseInwardData(WarehouseInwardRecordVO portOutwardRecordVO,Long warehouseShipmentId,
 			UserInfoVO userInfoVO) throws SQLException {
 		Connection conn = null;
 		ResultSet rs = null;
 		CallableStatement cs = null;
 		String query = "", message = "";
-		Integer savedRecordId = -1;
+		Long savedRecordId = -1L;
 		try {
 			
 			String vehicleDateStr = portOutwardRecordVO.getVehicleDate();
@@ -34,8 +34,8 @@ public class WarehouseDaoImpl2 extends BaseDaoImpl {
 		    String grade = portOutwardRecordVO.getGrade();
 			Integer width = portOutwardRecordVO.getWidth();
 			Double thickness = portOutwardRecordVO.getThickness();
-			Double secWt = portOutwardRecordVO.getSecWt();
-			Double qty = portOutwardRecordVO.getBalQty();
+			Double secWt = portOutwardRecordVO.getBalQty();
+			Integer qty = portOutwardRecordVO.getAvailableQuantity();
 			String materialType = portOutwardRecordVO.getMaterialType();
 			Integer length = portOutwardRecordVO.getLength();
 			
@@ -60,34 +60,30 @@ public class WarehouseDaoImpl2 extends BaseDaoImpl {
 			cs.setInt(7, length);
 			cs.setInt(8, width);
 			cs.setDouble(9, thickness);
-			cs.setDouble(10, 0d);
+			cs.setDouble(10, secWt);
 			cs.setString(11, "");
 			cs.setDouble(12, 0d);
 			cs.setString(13, "");
-			cs.setDouble(14, qty);
+			cs.setInt(14, qty);
 			cs.setString(15, userInfoVO.getUserName());
 			cs.setString(16, userInfoVO.getUserName());
 			cs.setString(17, getCurentTime());
 			cs.setString(18, getCurentTime());
 			
 			
-			 savedRecordId = cs.executeUpdate();
+			// savedRecordId = cs.executeUpdate();
 			
-			/*ResultSet result = cs.getGeneratedKeys();
+int count = cs.executeUpdate();
+			
+			ResultSet result = cs.getGeneratedKeys();
 			if(count > 0){
 				result.next();
 				savedRecordId = result.getLong(1);
-				
-			message = cs.getString(29);
-			log.info("message = " + message);
-
-			userInfoVO.setMessage(message);
-			*/
-			//}
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			//message = e.getMessage();
-			//userInfoVO.setMessage(message);
+			message = e.getMessage();
+			userInfoVO.setMessage(message);
 		} finally {
 			closeDatabaseResources(conn, rs, cs);
 		}
@@ -95,5 +91,56 @@ public class WarehouseDaoImpl2 extends BaseDaoImpl {
 		
 	}
 	
+	public Integer addWarehouseInwardDetailData(WarehouseInwardRecordVO portOutwardRecordVO,Long warehouseId,
+			UserInfoVO userInfoVO) throws SQLException {
+		Connection conn = null;
+		ResultSet rs = null;
+		CallableStatement cs = null;
+		String query = "", message = "";
+		Integer savedRecordId = -1;
+		try {
+		
+			query = "INSERT INTO warehouse_inward_details "
+					+ " (warehouse_inward_id,heat_no,plate_no,section_wt,section_wt_unit, "
+					+ "  weight, weight_unit, quantity, remark, location, create_ui, "
+					+ "  update_ui, create_ts, update_ts) "
+					+ " VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+						
+			log.info(query);
+			
+			conn = getConnection();
+			cs = conn.prepareCall(query);
+			
+			
+			cs.setLong(1, warehouseId);
+			cs.setString(2, "");
+			cs.setString(3, "");
+			cs.setDouble(4, portOutwardRecordVO.getBalQty());
+			cs.setString(5, "");
+			cs.setDouble(6, 0d);
+			cs.setString(7, "");
+			cs.setInt(8, portOutwardRecordVO.getAvailableQuantity());
+			cs.setString(9, "");
+			cs.setString(10, "");
+			cs.setString(11, userInfoVO.getUserName());
+			cs.setString(12, userInfoVO.getUserName());
+			cs.setString(13, getCurentTime());
+			cs.setString(14, getCurentTime());
+			
+			
+			savedRecordId = cs.executeUpdate();
+			
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			message = e.getMessage();
+			userInfoVO.setMessage(message);
+		} finally {
+			closeDatabaseResources(conn, rs, cs);
+		}
+		return savedRecordId;
+		
+	}
 	
+
 }
