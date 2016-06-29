@@ -41,9 +41,9 @@ public class PortOutwardPackingListDaoImpl extends BaseDaoImpl {
 			String sql = " select po.port_out_id, pi.port_inwd_shipment_id, po.vessel_name, po.vessel_Date, po.grade, po.material_type, "
 					+" po.length, po.width, po.thickness, po.quantity, pi.mill_name, "
 					+" round(((po.length * po.width * po.thickness * po.quantity * 7.85)/1000000000),3) as balQty,"
-					+" pos.vehicle_number, pos.vehicle_date"
-					+" from port_outward_shipment pos "
-					+" inner join port_outward po on pos.port_out_shipment_id = po.port_out_shipment_id "
+					+" pis.vehicle_number, pis.vehicle_date"
+					+" from port_outward_shipment pis "
+					+" inner join port_outward po on pis.port_out_shipment_id = po.port_out_shipment_id "
 					+" inner join port_inward_outward_intersection pios on pios.port_outward_id=po.port_out_id "
 					+" inner join port_inward pi on pi.port_inward_id=pios.port_inward_id "
 			
@@ -176,7 +176,7 @@ public class PortOutwardPackingListDaoImpl extends BaseDaoImpl {
 	private String processSearchCriteria(JqGridSearchParameterHolder searchParam) {
 		String sqlClause = "";
 		List<String> clauses = new ArrayList<String>();
-		String notNullClause = "po.port_out_id is not null";
+		String notNullClause = "po.port_out_id is not null and pis.warehouse_name !='' ";
 		clauses.add(notNullClause);
 		if (null != searchParam && null != searchParam.getRules() && !searchParam.getRules().isEmpty()) {
 			for (JqGridSearchParameterHolder.Rule r : searchParam.getRules()) {
