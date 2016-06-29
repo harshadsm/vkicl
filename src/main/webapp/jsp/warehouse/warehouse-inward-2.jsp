@@ -201,7 +201,7 @@
 				selectedPortInventoryItemsJson : selected_port_inventory_items_JSON
 		};
 		
-		var itemsToSaveWarehouseInwardJson = "genericListener=add&itemsToSaveWarehouseInwardJson"+JSON.stringify(postJsonObject);;
+		var itemsToSaveWarehouseInwardJson = "genericListener=add&itemsToSaveWarehouseInwardJson="+JSON.stringify(postJsonObject);;
 		console.log(itemsToSaveWarehouseInwardJson);
 		$.ajax({
 			url: "warehouse-inward-save.do",

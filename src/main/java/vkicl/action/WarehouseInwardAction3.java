@@ -8,12 +8,15 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
-import vkicl.daoImpl.WarehouseDaoImpl;
+import com.google.gson.Gson;
+
 import vkicl.daoImpl.WarehouseDaoImpl2;
-import vkicl.form.WarehouseInwardForm;
 import vkicl.form.PortOutwardForm;
+import vkicl.services.WarehouseInwardService;
 import vkicl.util.Constants;
+import vkicl.util.Converter;
 import vkicl.util.PropFileReader;
+import vkicl.vo.PortOutwardPostDataContainerVO;
 import vkicl.vo.UserInfoVO;
 
 public class WarehouseInwardAction3 extends BaseAction {
@@ -32,22 +35,20 @@ public class WarehouseInwardAction3 extends BaseAction {
 					Constants.Apps.WAREHOUSE_ENTRY);
 			if (null != actionForward)
 				return actionForward;
-
-			actionForward = mapping.findForward(Constants.Mapping.SUCCESS);
+			
 			userInfoVO = getUserProfile(request);
-			warehouseInwardForm = (PortOutwardForm) form;
-			genericListener = warehouseInwardForm.getGenericListener();
-
-			if (genericListener.equalsIgnoreCase("add")) {
-				log.info("genericListener = " + genericListener);
-				WarehouseDaoImpl2 impl = new WarehouseDaoImpl2();
-				warehouseInwardForm = impl.addWarehouseInwardData(warehouseInwardForm, userInfoVO);
-			}
+			actionForward = mapping.findForward(Constants.Mapping.SUCCESS);
+			Gson gson = new Gson();
+			String postDataContainerStr = request.getParameter("itemsToSaveWarehouseInwardJson");
+			log.info(postDataContainerStr);
+			PortOutwardPostDataContainerVO postDataContainer = gson.fromJson(postDataContainerStr, PortOutwardPostDataContainerVO.class);			
+			WarehouseInwardService warehouseInwardService = new WarehouseInwardService();
+			warehouseInwardService.processWarehouseInwardEntries(postDataContainer, request, userInfoVO);
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return actionForward;
 	}
-
 }
+
