@@ -16,18 +16,40 @@ public class PortOutwardReportForm extends BaseForm {
 	private String millName = null;
 	private String dispatchedTo = null;
 	private String grade = null;
-
+ 
 	private String invoiceNo = null;
 
 	private ArrayList<LabelValueBean> vesselNameList = null;
+	
+	private String vehicleDate=null;
+	private String vehicleNumber=null;
+	
 	public String getMillName() {
 		return millName;
+	}
+
+	public String getVehicleDate() {
+		return vehicleDate;
+	}
+
+	public void setVehicleDate(String vehicleDate) {
+		this.vehicleDate = vehicleDate;
+	}
+
+	public String getVehicleNumber() {
+		return vehicleNumber;
+	}
+
+	public void setVehicleNumber(String vehicleNumber) {
+		this.vehicleNumber = vehicleNumber;
 	}
 
 	public void setMillName(String millName) {
 		this.millName = millName;
 	}
 
+
+	
 
 	private ArrayList<LabelValueBean> dispatchedToList = null;
 	private ArrayList<LabelValueBean> gradeList = null;

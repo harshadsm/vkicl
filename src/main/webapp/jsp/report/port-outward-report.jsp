@@ -145,26 +145,16 @@
 					<thead>
 						<tr>
 							<th width="0%" class="cell-hide">ID</th>
-							<th width="10%">Date</th>
-							<th width="15%">Vessel Name</th>
-							<th width="10%">Mill Name</th>
-							<th width="5%">Type</th>
-							<!--  <th width="10%">Dispatched To</th>
-							<th width="5%">Vehicle Date</th>
-							<th width="10%">Vehicle No.</th>-->
+							<th width="10%">Delivery Date</th>
+							<th width="15%">Dispatch To</th>
+							<th width="10%">Vehicle No</th>
 							
-							
-							
-							<!-- commented to remove B/E No.<th width="5%">B/E No.</th>-->
-							
-							<!-- <th>Mill Name</th> -->
-							<!-- <th>Make</th> -->
 							<th width="5%">Grade</th>
 							<th width="5%">Thickness</th>
 							<th width="5%">Width</th>
 							<th width="5%">Length</th>
-							<th width="5%">No. of Pcs</th>
-							<th width="10%">Sec. Wt</th>
+							<th width="5%">No.of Pcs</th>
+							<th width="10%">Sec.Wt</th>
 							<th width="5%">Actual Wt</th>
 							<!-- <th width="5%">Label Weight</th>-->
 							<th width="10%">Invoice No. port</th>
@@ -180,27 +170,17 @@
 							<tr data-method="updatePortOutwardReport">
 								<td data-type="hidden" data-name="id" class="cell-hide"><c:out
 										value="${report.id}" /></td>
-								<td data-type="text" data-name="vesselDate"><c:out
-										value="${report.vesselDate}" /></td>
-								<td data-type="text" data-name="vesselName"><c:out
+										<td data-type="hidden" data-name="vesselName" class="cell-hide"><c:out
 										value="${report.vesselName}" /></td>
-										<td data-type="text" data-name="millName"><c:out
-										value="${report.millName}" /></td>
-								<td data-type="text" data-name="materialType"><c:out
-										value="${report.materialType}" /></td>
-								<!--  <td data-type="text" data-name="dispatchedTo"><c:out
-										value="${report.dispatchedTo}" /></td>
+										<td data-type="hidden" data-name="vesselDate" class="cell-hide"><c:out
+										value="${report.vesselDate}" /></td>
 								<td data-type="text" data-name="vehicleDate"><c:out
 										value="${report.vehicleDate}" /></td>
-								<td data-type="text" data-name="vehicleNumber"><c:out
-										value="${report.vehicleNumber}" /></td>-->
+								<td data-type="text" data-name="dispatchedTo"><c:out
+										value="${report.dispatchedTo}" /></td>
+										<td data-type="text" data-name="vehicleNumber"><c:out
+										value="${report.vehicleNumber}" /></td>
 								
-								
-								<%--<td data-type="text" data-name="beNo"><c:out
-										value="${report.beNo}" /></td>--%>
-								
-								<%-- <td><c:out value="${report.millName}" /></td> --%>
-								<%-- <td><c:out value="${report.make}" /></td> --%>
 								<td data-type="text" data-name="grade"><c:out
 										value="${report.grade}" /></td>
 								<td data-type="number" data-name="thickness" data-step="0.001"><c:out
