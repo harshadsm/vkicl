@@ -59,6 +59,7 @@
 									if (userInfoVO.hasAccess(Constants.Apps.DISPATCH_ORDER)) {
 								%>
 								<li><a href="./warehouse-dispatch.do">Dispatch Order</a></li>
+								<li><a href="./warehouse-inward-2.do">Inwards (New)</a></li>
 								<%
 									}
 								%>
