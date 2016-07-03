@@ -64,7 +64,7 @@ public class WarehouseShipmentDaoImpl extends BaseDaoImpl{
 		return savedRecordId;
 	}
 	
-	public void updatePortOutwardShipmentData(WarehouseInwardRecordVO postDataContainer, UserInfoVO userInfo) throws SQLException {
+	public void updatePortOutwardData(WarehouseInwardRecordVO postDataContainer, UserInfoVO userInfo) throws SQLException {
 		Connection conn = null;
 		ResultSet rs = null;
 		CallableStatement cs = null;
@@ -72,10 +72,10 @@ public class WarehouseShipmentDaoImpl extends BaseDaoImpl{
 		Integer savedRecordId = -1;
 		try {
 		
-			java.sql.Date vehicleDate = Converter.dateToSqlDate(Converter.stringToDate(postDataContainer.getVehicleDate(), Constants.Apps.DATE_FORMAT));
+			//java.sql.Date vehicleDate = Converter.dateToSqlDate(Converter.stringToDate(postDataContainer.getVehicleDate(), Constants.Apps.DATE_FORMAT));
 			
-			query = "UPDATE port_outward_shipment SET "
-					+ " warehouse_inward_flag =1 WHERE vehicle_number='"+postDataContainer.getVehicleName()+"' and vehicle_date='"+vehicleDate+"'";
+			query = "UPDATE port_outward SET "
+					+ " warehouse_inward_flag =1 WHERE port_out_id="+postDataContainer.getPortInwardId();
 						
 			logger.info(query);
 			

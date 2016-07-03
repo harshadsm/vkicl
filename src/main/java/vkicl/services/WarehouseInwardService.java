@@ -55,7 +55,7 @@ public class WarehouseInwardService {
 		    System.out.println("key=" + entry.getKey() + ", value=" + entry.getValue());
 		    List<WarehouseInwardRecordVO> vehicleEntry = entry.getValue();
 		    warehouseShipmentId = warehouseShipmentDaoImpl.saveWarehouseShipment(vehicleEntry.get(0), userInfo);
-		    warehouseShipmentDaoImpl.updatePortOutwardShipmentData(vehicleEntry.get(0),userInfo);
+		    warehouseShipmentDaoImpl.updatePortOutwardData(vehicleEntry.get(0),userInfo);
 		    
 		    for(WarehouseInwardRecordVO warehouseInwardRecordVO :vehicleEntry){
 		    	
