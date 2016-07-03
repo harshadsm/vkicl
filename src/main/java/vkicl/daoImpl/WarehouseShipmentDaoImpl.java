@@ -3,6 +3,7 @@ package vkicl.daoImpl;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Date;
 
 import org.apache.log4j.Logger;
@@ -62,4 +63,40 @@ public class WarehouseShipmentDaoImpl extends BaseDaoImpl{
 
 		return savedRecordId;
 	}
+	
+	public void updatePortOutwardShipmentData(WarehouseInwardRecordVO postDataContainer, UserInfoVO userInfo) throws SQLException {
+		Connection conn = null;
+		ResultSet rs = null;
+		CallableStatement cs = null;
+		String query = "", message = "";
+		Integer savedRecordId = -1;
+		try {
+		
+			java.sql.Date vehicleDate = Converter.dateToSqlDate(Converter.stringToDate(postDataContainer.getVehicleDate(), Constants.Apps.DATE_FORMAT));
+			
+			query = "UPDATE port_outward_shipment SET "
+					+ " warehouse_inward_flag =1 WHERE vehicle_number='"+postDataContainer.getVehicleName()+"' and vehicle_date='"+vehicleDate+"'";
+						
+			logger.info(query);
+			
+			conn = getConnection();
+			cs = conn.prepareCall(query);
+			
+			
+			//cs.setLong(1, warehouseId);
+			
+			savedRecordId = cs.executeUpdate();
+			
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			message = e.getMessage();
+			userInfo.setMessage(message);
+		} finally {
+			closeDatabaseResources(conn, rs, cs);
+		}
+		//return savedRecordId;
+		
+	}
+
 }

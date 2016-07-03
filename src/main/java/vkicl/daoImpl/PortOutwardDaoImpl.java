@@ -132,7 +132,12 @@ public class PortOutwardDaoImpl extends BaseDaoImpl {
 					Long port_out_id = rs.getLong(c++);
 					Long port_out_shipment_id = rs.getLong(c++);
 					String vessel_name = rs.getString(c++);
-					Date vessel_Date = Converter.sqlDateToDate(rs.getDate(c++));
+					Date vessel_Date = null;
+					java.sql.Date d = rs.getDate(c++);
+					if(d != null){
+						vessel_Date = Converter.sqlDateToDate(d);
+					}
+					
 					String be_no = rs.getString(c++);
 					String material_type = rs.getString(c++);
 					String grade = rs.getString(c++);

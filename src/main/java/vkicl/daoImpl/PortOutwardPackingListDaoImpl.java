@@ -48,7 +48,7 @@ public class PortOutwardPackingListDaoImpl extends BaseDaoImpl {
 					+" inner join port_inward pi on pi.port_inward_id=pios.port_inward_id "
 			
 			
-			+ processSearchCriteria(searchParam) + " "+composeOrderByClause(orderByFieldName, order) + " " + composeLimitClause(pageNo, pageSize, total) + ";";
+			+ processSearchCriteria1(searchParam) + " "+composeOrderByClause(orderByFieldName, order) + " " + composeLimitClause(pageNo, pageSize, total) + ";";
 			query = sql;
 			log.info("query = " + query);
 
@@ -64,7 +64,10 @@ public class PortOutwardPackingListDaoImpl extends BaseDaoImpl {
 					p.setPortInwardShipmentId(rs.getInt(2));
 					//p.setPortInwardDetailId(rs.getInt(3));
 					p.setVesselName(rs.getString(3));
+					if(rs.getDate(4)!=null)
+					   {
 					p.setVesselDate(dateToString(convertSqlDateToJavaDate(rs.getDate(4))));
+					   }
 					p.setGrade(rs.getString(5));
 					p.setMaterialType(rs.getString(6));
 					p.setLength(rs.getInt(7));
@@ -173,6 +176,27 @@ public class PortOutwardPackingListDaoImpl extends BaseDaoImpl {
 		return count;
 	}
 
+	private String processSearchCriteria1(JqGridSearchParameterHolder searchParam) {
+		String sqlClause = "";
+		List<String> clauses = new ArrayList<String>();
+		String notNullClause = "po.port_out_id is not null and pis.warehouse_name !='' and warehouse_inward_flag!=1";
+		clauses.add(notNullClause);
+		if (null != searchParam && null != searchParam.getRules() && !searchParam.getRules().isEmpty()) {
+			for (JqGridSearchParameterHolder.Rule r : searchParam.getRules()) {
+				String clause = processSearchRule(r);
+				if (!StringUtils.isEmpty(clause)) {
+					clauses.add(clause);
+				}
+			}
+		}
+
+		// Prepare the sqlClause
+		sqlClause = prepareSqlClause(clauses);
+
+		return sqlClause;
+	}
+
+	
 	private String processSearchCriteria(JqGridSearchParameterHolder searchParam) {
 		String sqlClause = "";
 		List<String> clauses = new ArrayList<String>();
