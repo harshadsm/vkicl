@@ -334,7 +334,7 @@ function populatePackingList(){
 				searchoptions: { sopt:['ge']}
 			}, {
 				name : 'vesselDate',
-				index : 'vessel_date',
+				index : 'vesseldate',
 				width : 300,
 				editable : false,
 				editoptions : {
@@ -348,7 +348,7 @@ function populatePackingList(){
 				
 			},{
 				name : 'vesselName',
-				index : 'vessel_name',
+				index : 'vesselName',
 				width : 300,
 				editable : false,
 				editoptions : {
@@ -359,11 +359,11 @@ function populatePackingList(){
 				sortable:true,
 				search:true,
 				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
-				searchoptions: { sopt:[ 'cn']}
+				searchoptions: { sopt:[ 'cn','eq']}
 				
 			}, {
 				name : 'vehicleDate',
-				index : 'vehicle_number',
+				index : 'vehicleDate',
 				width : 300,
 				editable : false,
 				editoptions : {
@@ -377,7 +377,7 @@ function populatePackingList(){
 				
 			},{
 				name : 'vehicleName',
-				index : 'vehicle_date',
+				index : 'vehicleName',
 				width : 300,
 				editable : false,
 				editoptions : {
@@ -388,11 +388,11 @@ function populatePackingList(){
 				sortable:true,
 				search:true,
 				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
-				searchoptions: { sopt:[ 'cn']}
+				searchoptions: { sopt:[ 'cn','eq']}
 				
 			},{
 				name : 'millName',
-				index : 'mill_name',
+				index : 'millname',
 				width : 300,
 				editable : false,
 				editoptions : {
@@ -530,7 +530,7 @@ function populatePackingList(){
 			viewrecords : true,
 			sortorder : "desc",
 			
-			caption : "Inventory available at Port",
+			caption : "Inventory available at Warehouse",
 			emptyrecords : "Empty records",
 			loadonce : false,
 			loadComplete : function() {
