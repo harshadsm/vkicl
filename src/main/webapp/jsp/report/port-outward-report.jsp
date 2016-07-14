@@ -230,7 +230,7 @@
 							<th width="5%">Total</th>
 							<th width="5%" id="qtyTotal">Quantity</th>
 							<th width="5%" id="secWtTotal"></th>
-							<!--  <th width="5%"></th>-->
+							<th width="5%" id="actualWtTotal"></th>
 							<th width="10%"></th>
 							<th class="cell-edit"></th>
 						</tr>
