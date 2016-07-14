@@ -225,7 +225,7 @@
 							
 							<!-- <th>Mill Name</th> -->
 							<!-- <th>Make</th> -->
-							<th width="5%"></th>
+							
 							
 							<th width="5%">Total</th>
 							<th width="5%" id="qtyTotal">Quantity</th>
