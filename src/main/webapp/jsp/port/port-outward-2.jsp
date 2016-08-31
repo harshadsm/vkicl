@@ -465,7 +465,7 @@ function populatePackingList(){
 				
 			},{
 				name : 'materialType',
-				index : 'materialType',
+				index : 'material_type',
 				width : 200,
 				editable : false,
 				editoptions : {
