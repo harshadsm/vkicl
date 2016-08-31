@@ -264,7 +264,27 @@ public class PortInwardPackingListDaoImpl extends BaseDaoImpl {
 			clause = "pis.vendor_name like '%" + data + "%'";
 		} else if (field != null && field.equalsIgnoreCase("vessel_name")) {
 			clause = "pis.vessel_name like '%" + data + "%'";
-		} else if (field != null && field.equalsIgnoreCase("grade")) {
+		}
+			
+			else if (field != null && field.equalsIgnoreCase("mill_name")) {
+				clause = "pi.mill_name like '%" + data + "%'";} 
+		
+			else if (field != null && field.equalsIgnoreCase("material_type")) {
+				clause = "pi.material_type like '%" + data + "%'";} 
+		
+			else if (field != null && field.equalsIgnoreCase("material_grade")) {
+				clause = "pi.material_grade like '%" + data + "%'";} 
+		
+			else if (field != null && field.equalsIgnoreCase("thickness")) {
+				clause = "pid.thickness like '%" + data + "%'";} 
+		
+			else if (field != null && field.equalsIgnoreCase("width")) {
+				clause = "pid.width like '%" + data + "%'";} 
+		
+			else if (field != null && field.equalsIgnoreCase("length")) {
+				clause = "pid.length like '%" + data + "%'";}
+		
+			else if (field != null && field.equalsIgnoreCase("grade")) {
 			clause = "pi.material_grade like '%" + data + "%'";
 		} else if (field != null && field.equalsIgnoreCase("vessel_date")) {
 			clause = processDateClause(data);

@@ -296,7 +296,7 @@
 			
 			<span id="report-toolbar" class="pull-right"><span
 			class="total-field"></span>Export:<img src="./img/excel.png" id="exportToExcel" title="Export to Excel"
-			onClick="tableToExcel('packingListGrid', 'Excel')" /><img
+			onClick="tableToExcel('packingListTable', 'Excel')" /><img
 			src="./img/pdf.png" id="exportToPDF" title="Export to PDF"
 			style="display: none;" /> </span>
 				
