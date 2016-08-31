@@ -170,10 +170,10 @@
 							<tr data-method="updatePortOutwardReport">
 								<td data-type="hidden" data-name="id" class="cell-hide"><c:out
 										value="${report.id}" /></td>
-										<td data-type="hidden" data-name="vesselName" class="cell-hide"><c:out
+										<!--  <td data-type="hidden" data-name="vesselName" class="cell-hide"><c:out
 										value="${report.vesselName}" /></td>
 										<td data-type="hidden" data-name="vesselDate" class="cell-hide"><c:out
-										value="${report.vesselDate}" /></td>
+										value="${report.vesselDate}" /></td>-->
 								<td data-type="text" data-name="vehicleDate"><c:out
 										value="${report.vehicleDate}" /></td>
 								<td data-type="text" data-name="dispatchedTo"><c:out
