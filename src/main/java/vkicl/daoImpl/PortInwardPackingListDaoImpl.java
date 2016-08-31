@@ -230,7 +230,6 @@ public class PortInwardPackingListDaoImpl extends BaseDaoImpl {
 				}
 			}
 		}
-
 		// Prepare the sqlClause
 		sqlClause = prepareSqlClause(clauses);
 
@@ -264,13 +263,10 @@ public class PortInwardPackingListDaoImpl extends BaseDaoImpl {
 			clause = "pis.vendor_name like '%" + data + "%'";
 		} else if (field != null && field.equalsIgnoreCase("vessel_name")) {
 			clause = "pis.vessel_name like '%" + data + "%'";
-		}
-		
-		
-		else if (field != null && field.equalsIgnoreCase("vessel_date")) {
+		}else if (field != null && field.equalsIgnoreCase("vessel_date")) {
 			clause = "pis.vessel_date like '%" + data + "%'";
 		}
-		
+		//Changes-Shweta
 			else if (field != null && field.equalsIgnoreCase("mill_name")) {
 				clause = "pi.mill_name like '%" + data + "%'";} 
 		
