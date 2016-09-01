@@ -63,6 +63,7 @@ public class WarehouseInwardService {
 		    	
 		    	impl.addWarehouseInwardDetailData(warehouseInwardRecordVO, warehouseInwardId, userInfo);
 		    	
+		    	//added
 		    	impl.addStockBalData(warehouseInwardRecordVO, userInfo);
 		    }
 		}
