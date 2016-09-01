@@ -142,5 +142,59 @@ int count = cs.executeUpdate();
 		
 	}
 	
+	public Integer addStockBalData(WarehouseInwardRecordVO portOutwardRecordVO,
+			UserInfoVO userInfoVO) throws SQLException {
+		Connection conn = null;
+		ResultSet rs = null;
+		CallableStatement cs = null;
+		String query = "", message = "";
+		Integer savedRecordId = -1;
+		try {
+		
+			query = "INSERT INTO stock_balance "
+					+ " (mill_name,material_make,heat_no,plate_no, "
+					+ "  material_type, grade, length, width, thickness, quantity, "
+					+ "  location,is_delete,is_reserved, is_modified, create_ui,update_ui,create_ts, update_ts) "
+					+ " VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+						
+			log.info(query);
+			
+			conn = getConnection();
+			cs = conn.prepareCall(query);
+			
+			
+			cs.setString(1, portOutwardRecordVO.getMillName());
+			cs.setString(2, "");
+			cs.setString(3, "");
+			cs.setString(4, "");
+			cs.setString(5, portOutwardRecordVO.getMaterialType());
+			cs.setString(6, portOutwardRecordVO.getGrade());
+			cs.setInt(7, portOutwardRecordVO.getLength());
+			cs.setInt(8, portOutwardRecordVO.getWidth());
+			cs.setDouble(9, portOutwardRecordVO.getThickness());
+			cs.setInt(10, portOutwardRecordVO.getAvailableQuantity());
+			cs.setString(11, "");
+			cs.setString(12, "");
+			cs.setString(13, "");
+			cs.setString(14, "");
+			cs.setString(15, userInfoVO.getUserName());
+			cs.setString(16, userInfoVO.getUserName());
+			cs.setString(17, getCurentTime());
+			cs.setString(18, getCurentTime());
+			
+			
+			savedRecordId = cs.executeUpdate();
+			
 
+		} catch (Exception e) {
+			e.printStackTrace();
+			message = e.getMessage();
+			userInfoVO.setMessage(message);
+		} finally {
+			closeDatabaseResources(conn, rs, cs);
+		}
+		return savedRecordId;
+		
+	}
+	
 }

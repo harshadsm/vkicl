@@ -25,7 +25,14 @@ public class PackingListItemVO {
 	private Double balQty;
 	private String vehicleDate;
 	private String vehicleName;
-		
+	private Double actualWt;
+	
+		public Double getActualWt() {
+		return actualWt;
+	}
+	public void setActualWt(Double actualWt) {
+		this.actualWt = actualWt;
+	}
 		public String getVehicleDate() {
 			return vehicleDate;
 		}

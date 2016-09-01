@@ -25,8 +25,24 @@ String portInwardDetailsListSize = Integer.toString(portInwardDetailsList.size()
 		return commonSubmit();
 	}
 
+	function editText() {
+		
+		if ($(tr).hasClass("sub-row")) {
+			updateData(tr);
+		}
+		else
+			{
+		$("input[name='thickness']").removeAttr("disabled");
+		$("input[name='width']").removeAttr("disabled");
+		$("input[name='length']").removeAttr("disabled");
+		$("input[name='qty']").removeAttr("disabled");
+		$("input[name='actualWt']").removeAttr("disabled");
+		
+			}
+	}
+	
 	$(function(){
-		addSubRow2();
+		//addSubRow2();
 		if(SUB_ROW_COUNTER > 1){
 		
 			for (var i = 1; i < SUB_ROW_COUNTER; i++) {
@@ -211,6 +227,12 @@ String portInwardDetailsListSize = Integer.toString(portInwardDetailsList.size()
 <div class="row">
 	<div class="col-md-12 text-center">
 		<h3 class="page-head">Port Inward Details</h3>
+		
+		<span id="report-toolbar" class="pull-right"><span
+class="total-field"></span>Export:<img src="./img/excel.png" id="exportToExcel" title="Export to Excel"
+onClick="tableToExcel('port_inward_details_table', 'Excel')" /><img
+src="./img/pdf.png" id="exportToPDF" title="Export to PDF"
+style="display: none;" /> </span>
 	</div>
 </div>
 <div>
@@ -267,15 +289,20 @@ String portInwardDetailsListSize = Integer.toString(portInwardDetailsList.size()
 						for(PortInwardDetailsVO record:portInwardDetailsList){
 							cnt++;
 					%>
-						<tr id="row-sub-<%=cnt %>" class='sub-row'>
+						<tr id="row-sub-<%=cnt %>" class='sub-row' >
 							<input type='hidden' name='subPis' />
-							<td>
-								<input type='number' step='0.001' min='0' name='thickness' placeholder='Thickness' class='form-control' value="<%=record.getThickness() %>"/>
+							<td >
+								<input disabled type='number' step='1' min='0' name='thickness' placeholder='Thickness' class='form-control' value="<%=record.getThickness() %>"/>
 							</td>
-							<td><input type='number' step='1' min='0' name='width' placeholder='Width' class='form-control' value="<%=record.getWidth() %>" /></td>
-							<td><input type='number' step='1' min='0' name='length' placeholder='Length' class='form-control' value="<%=record.getLength() %>"/></td>
-							<td><input type='number' step='1' min='0' name='qty' placeholder='Quantity' class='form-control' value="<%=record.getQuantity() %>" /></td>
-							<td><div class='input-group'><input type='number' step='0.001' min='0' name='actualWt' placeholder='Actual Weight' class='form-control' aria-label='...' value="<%=record.getBe_weight() %>"><div class='input-group-btn weight-group'><input type='hidden' name='actualWtUnit' value='TON' /><button type='button'class='btn btn-default dropdown-toggle' disabled data-toggle='dropdown' aria-expanded='false'>TON</button><ul class='dropdown-menu dropdown-menu-right' role='menu'><li onclick='btnGroupChange(this);'><a>TON</a></li><li onclick='btnGroupChange(this);'><a>KG</a></li></ul></div></div></td>
+							<td><input disabled type='number' step='1' min='0' name='width' placeholder='Width' class='form-control' value="<%=record.getWidth() %>" /></td>
+							<td><input disabled type='number' step='1' min='0' name='length' placeholder='Length' class='form-control' value="<%=record.getLength() %>"/></td>
+							<td><input disabled type='number' step='1' min='0' name='qty' placeholder='Quantity' class='form-control' value="<%=record.getQuantity() %>" /></td>
+							<td><div class='input-group'><input disabled type='number' step='0.001' min='0' name='actualWt' placeholder='Actual Weight' class='form-control' aria-label='...' value="<%=record.getBe_weight() %>">
+							<div class='input-group-btn weight-group'>
+							<input disabled type='hidden' name='actualWtUnit' value='TON' />
+							<button type='button'class='btn btn-default dropdown-toggle' disabled data-toggle='dropdown' aria-expanded='false'>TON</button>
+							<ul class='dropdown-menu dropdown-menu-right' role='menu'><li onclick='btnGroupChange(this);'><a>TON</a></li><li onclick='btnGroupChange(this);'><a>KG</a></li></ul>
+							</div></div></td>
 							<td><input type='button' class='btn-danger delete-row' onclick='deleteRow("row-sub-<%=cnt %>");' value='-' /></td>
 						</tr>
 					<% } %>
@@ -306,8 +333,10 @@ String portInwardDetailsListSize = Integer.toString(portInwardDetailsList.size()
 		<div class="row">
 			<div class="col-md-4"></div>
 			<div class="col-md-4 text-center">
-				<input type="button" value="Reset"
-					onclick="resetInwardPackingForm();" class="btn"> 
+				<!--  <input type="button" value="Reset"
+					onclick="resetInwardPackingForm();" class="btn"> -->
+					<input type="button" value="Edit" 
+					onclick="editText(this);" class="btn"> 
 				<html:submit styleClass="btn" onclick="return validateForm();" />
 			</div>
 			<div class="col-md-4"></div>

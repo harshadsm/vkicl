@@ -41,7 +41,7 @@ public class PortOutwardPackingListDaoImpl extends BaseDaoImpl {
 			String sql = " select po.port_out_id, pi.port_inwd_shipment_id, po.vessel_name, po.vessel_Date, po.grade, po.material_type, "
 					+" po.length, po.width, po.thickness, po.quantity, pi.mill_name, "
 					+" round(((po.length * po.width * po.thickness * po.quantity * 7.85)/1000000000),3) as balQty,"
-					+" pis.vehicle_number, pis.vehicle_date, pis.port_out_shipment_id"
+					+" pis.vehicle_number, pis.vehicle_date, pis.port_out_shipment_id, po.actual_wt"
 					+" from port_outward_shipment pis "
 					+" inner join port_outward po on pis.port_out_shipment_id = po.port_out_shipment_id "
 					+" inner join port_inward_outward_intersection pios on pios.port_outward_id=po.port_out_id "
@@ -85,6 +85,8 @@ public class PortOutwardPackingListDaoImpl extends BaseDaoImpl {
 				   {
 					   p.setVehicleDate("");
 				   }
+				   
+				   p.setActualWt(rs.getDouble(16));
 					list.add(p);
 				} 
 				while (rs.next());
@@ -243,10 +245,39 @@ public class PortOutwardPackingListDaoImpl extends BaseDaoImpl {
 		if (field != null && field.equalsIgnoreCase("vendor_name")) {
 			clause = "pis.vendor_name like '%" + data + "%'";
 		} else if (field != null && field.equalsIgnoreCase("vessel_name")) {
-			clause = "pis.vessel_name like '%" + data + "%'";
+			clause = "po.vessel_name like '%" + data + "%'";
 		} else if (field != null && field.equalsIgnoreCase("grade")) {
-			clause = "pi.material_grade like '%" + data + "%'";
-		} else if (field != null && field.equalsIgnoreCase("vessel_date")) {
+			clause = "pi.material_grade like '%" + data + "%'";}
+			
+			//added-shweta
+			
+			else if (field != null && field.equalsIgnoreCase("vessel_Date")) {
+				clause = "po.vessel_Date like '%" + data + "%'";
+			}
+			else if (field != null && field.equalsIgnoreCase("vehicle_date")) {
+				clause = "pis.vehicle_date like '%" + data + "%'";
+			}
+			else if (field != null && field.equalsIgnoreCase("vehicle_number")) {
+				clause = "pis.vehicle_number like '%" + data + "%'";
+			}
+			else if (field != null && field.equalsIgnoreCase("mill_name")) {
+				clause = "pi.mill_name like '%" + data + "%'";
+			}
+			else if (field != null && field.equalsIgnoreCase("material_type")) {
+				clause = "po.material_type like '%" + data + "%'";
+			}
+			else if (field != null && field.equalsIgnoreCase("thickness")) {
+				clause = "po.thickness like '%" + data + "%'";
+			}
+			else if (field != null && field.equalsIgnoreCase("width")) {
+				clause = "po.width like '%" + data + "%'";
+			}
+			else if (field != null && field.equalsIgnoreCase("length")) {
+				clause = "po.length like '%" + data + "%'";
+			}
+		
+			
+		else if (field != null && field.equalsIgnoreCase("vessel_date")) {
 			clause = processDateClause(data);
 		} else if (field != null && field.equalsIgnoreCase("port_inward_id")) {
 			clause = "port_out_id = " + data ;

@@ -62,6 +62,8 @@ public class WarehouseInwardService {
 		    	warehouseInwardId=impl.addWarehouseInwardData(warehouseInwardRecordVO, warehouseShipmentId, userInfo);
 		    	
 		    	impl.addWarehouseInwardDetailData(warehouseInwardRecordVO, warehouseInwardId, userInfo);
+		    	
+		    	impl.addStockBalData(warehouseInwardRecordVO, userInfo);
 		    }
 		}
 	}

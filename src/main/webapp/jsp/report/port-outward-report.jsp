@@ -145,6 +145,9 @@
 					<thead>
 						<tr>
 							<th width="0%" class="cell-hide">ID</th>
+							<!--  <th width="10%" class="cell-hide">Vessel Name</th>
+							<th width="15%" class="cell-hide">Vessel Date</th>-->
+							
 							<th width="10%">Delivery Date</th>
 							<th width="15%">Dispatch To</th>
 							<th width="10%">Vehicle No</th>
@@ -170,7 +173,7 @@
 							<tr data-method="updatePortOutwardReport">
 								<td data-type="hidden" data-name="id" class="cell-hide"><c:out
 										value="${report.id}" /></td>
-										<!--  <td data-type="hidden" data-name="vesselName" class="cell-hide"><c:out
+										<!-- <td data-type="hidden" data-name="vesselName" class="cell-hide"><c:out
 										value="${report.vesselName}" /></td>
 										<td data-type="hidden" data-name="vesselDate" class="cell-hide"><c:out
 										value="${report.vesselDate}" /></td>-->
