@@ -162,7 +162,6 @@ int count = cs.executeUpdate();
 			conn = getConnection();
 			cs = conn.prepareCall(query);
 			
-			
 			cs.setString(1, portOutwardRecordVO.getMillName());
 			cs.setString(2, "");
 			cs.setString(3, "");
