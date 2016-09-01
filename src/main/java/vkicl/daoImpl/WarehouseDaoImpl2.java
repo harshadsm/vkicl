@@ -158,7 +158,6 @@ int count = cs.executeUpdate();
 					+ " VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 						
 			log.info(query);
-			
 			conn = getConnection();
 			cs = conn.prepareCall(query);
 			
