@@ -295,9 +295,14 @@ public class PortDaoImpl extends BaseDaoImpl {
 			clause = "pis.vendor_name like '%"+data+"%'";
 		}else if(field!=null && field.equalsIgnoreCase("vessel_name")){
 			clause = "pis.vessel_name like '%"+data+"%'";
-		}else if(field!=null && field.equalsIgnoreCase("vessel_date")){
+		}
+		else if(field!=null && field.equalsIgnoreCase("vessel_date")){
+			clause = "pis.vessel_date like '%"+data+"%'";
+		}
+		else if(field!=null && field.equalsIgnoreCase("vessel_date")){
 			clause = processDateClause(data);
 		}
+		
 		
 		return clause;
 	}

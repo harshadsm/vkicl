@@ -27,18 +27,13 @@ String portInwardDetailsListSize = Integer.toString(portInwardDetailsList.size()
 
 	function editText() {
 		
-		if ($(tr).hasClass("sub-row")) {
-			updateData(tr);
-		}
-		else
-			{
+		
 		$("input[name='thickness']").removeAttr("disabled");
 		$("input[name='width']").removeAttr("disabled");
 		$("input[name='length']").removeAttr("disabled");
 		$("input[name='qty']").removeAttr("disabled");
 		$("input[name='actualWt']").removeAttr("disabled");
 		
-			}
 	}
 	
 	$(function(){
@@ -283,7 +278,7 @@ style="display: none;" /> </span>
 					</tr>
 				</thead>
 
-				<tbody>
+				<tbody >
 					<%
 						int cnt = 0;
 						for(PortInwardDetailsVO record:portInwardDetailsList){

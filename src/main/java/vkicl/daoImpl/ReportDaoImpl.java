@@ -71,7 +71,7 @@ public class ReportDaoImpl extends BaseDaoImpl {
 					report.setVesselDate(convertDateToDisplayString(rs
 							.getString("vessel_date")));
 					report.setBeNo(formatOutput(rs.getString("be_no")));
-					//report.setMillName(formatOutput(rs.getString("mill_name")));
+					report.setMillName(formatOutput(rs.getString("mill_name")));
 					report.setMake(formatOutput(rs.getString("material_make")));
 					report.setMaterialType(formatOutput(rs
 							.getString("material_type")));
@@ -307,25 +307,25 @@ public class ReportDaoImpl extends BaseDaoImpl {
 			cs.setString(2, fetchFromMap(map, "dispatchedTo"));
 			cs.setString(3, fetchFromMap(map, "vehicleNumber"));
 			cs.setString(4, fetchDateFromMap(map, "vehicleDate"));
-			cs.setString(5, fetchFromMap(map, "vesselName"));
-			cs.setString(6, fetchFromMap(map, "vesselDate"));
-			cs.setString(7, fetchFromMap(map, "beNo"));
-			cs.setString(8, fetchFromMap(map, "materialType"));
-			cs.setString(9, fetchFromMap(map, "grade"));
-			cs.setString(10, fetchFromMap(map, "length"));
-			cs.setString(11, fetchFromMap(map, "width"));
-			cs.setString(12, fetchFromMap(map, "thickness"));
-			cs.setString(13, fetchFromMap(map, "qty"));
-			cs.setString(14, fetchFromMap(map, "secWt"));
-			cs.setString(15, fetchFromMap(map, "actualWt"));
-			cs.setString(16, fetchFromMap(map, "actualWtUnit"));
-			cs.setString(17, fetchFromMap(map, "invoice"));
-			cs.setString(18, userInfoVO.getUserName());
-			cs.setString(19, fetchFromMap(map, "millName"));
-			cs.registerOutParameter(20, java.sql.Types.VARCHAR);
+			//cs.setString(5, fetchFromMap(map, "vesselName"));
+			//cs.setString(6, fetchFromMap(map, "vesselDate"));
+			cs.setString(5, fetchFromMap(map, "beNo"));
+			//cs.setString(8, fetchFromMap(map, "materialType"));
+			cs.setString(6, fetchFromMap(map, "grade"));
+			cs.setString(7, fetchFromMap(map, "length"));
+			cs.setString(8, fetchFromMap(map, "width"));
+			cs.setString(9, fetchFromMap(map, "thickness"));
+			cs.setString(10, fetchFromMap(map, "qty"));
+			cs.setString(11, fetchFromMap(map, "secWt"));
+			cs.setString(12, fetchFromMap(map, "actualWt"));
+			cs.setString(13, fetchFromMap(map, "actualWtUnit"));
+			cs.setString(14, fetchFromMap(map, "invoice"));
+			cs.setString(15, userInfoVO.getUserName());
+			//cs.setString(19, fetchFromMap(map, "millName"));
+			cs.registerOutParameter(16, java.sql.Types.VARCHAR);
 						
 			rs = cs.executeQuery();
-			message = cs.getString(20);
+			message = cs.getString(16);
 			log.info("message = " + message);
 		} catch (Exception e) {
 			e.printStackTrace();
