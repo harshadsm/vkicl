@@ -374,6 +374,6 @@ $("#port_inward_details_table tbody > tr").each(function(i, elem){
 	
 	
 	tableToExcel('forExportingToExcel', 'Excel');
-	
+	$("#forExportingToExcelBody").empty();
 }
 </script>
