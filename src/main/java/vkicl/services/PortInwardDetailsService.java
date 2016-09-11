@@ -46,7 +46,7 @@ public class PortInwardDetailsService {
 			Integer[] length = form.getLength();
 			Integer[] qty = form.getQty();
 			Double [] actualWt = form.getActualWt();
-			String [] actualWtUnit = form.getActualWtUnit();
+//			String [] actualWtUnit = form.getActualWtUnit();
 			for (int i = 0; i < recordCount; i++) {
 				if (thickness[i] == 0d && width[i] == 0 && length[i] == 0 && qty[i] == 0 && actualWt[i] == 0d)  {
 					logger.debug("Ignored empty row");
@@ -58,7 +58,8 @@ public class PortInwardDetailsService {
 					vo.setLength(length[i]);
 					vo.setQuantity(qty[i]);
 					vo.setBe_weight(actualWt[i]);
-					vo.setBe_wt_unit(actualWtUnit[i]);
+//					vo.setBe_wt_unit(actualWtUnit[i]); //As explained by client, it will always be TON
+					vo.setBe_wt_unit("TON");
 					vo.setPort_inward_id(portInwardId);
 					vo.setUpdate_ui(user.getUserName());
 					vo.setCreate_ui(user.getUserName());
