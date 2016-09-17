@@ -296,7 +296,7 @@
 			
 			<span id="report-toolbar" class="pull-right"><span
 			class="total-field"></span>Export:<img src="./img/excel.png" id="exportToExcel" title="Export to Excel"
-			onClick="tableToExcel('packingListGrid', 'Excel')" /><img
+			onClick="prepareTableToExcelAndExport()" /><img
 			src="./img/pdf.png" id="exportToPDF" title="Export to PDF"
 			style="display: none;" /> </span>
 				
@@ -989,4 +989,55 @@ function p(){
 
 
 
+</script>
+
+
+<div style="display: none;">
+	<table id="forExportingToExcel">
+		<thead>
+			<tr>
+				<td>Date</td>
+				<td>vessel Name</td>
+				<td>Mill Name</td>
+				<td>Type</td>
+				<td>Grade</td>
+				<td>Thickness</td>
+				<td>Width</td>
+				<td>Length</td>
+				<td>Bal Pcs</td>
+				<td>Bal Qty</td>
+				
+			</tr>
+		</thead>
+		<tbody id="forExportingToExcelBody">
+		</tbody>
+	</table>
+</div>
+
+<script>
+function prepareTableToExcelAndExport(){
+	var template = "<tr><td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td><td>{5}</td><td>{6}</td><td>{7}</td><td>{8}</td><td>{9}</td></tr>";
+
+	$.ajax({ 
+                type: 'POST', 
+                url: './packingListJsonServlet', 
+                data: { rows: $("#packingListGrid").jqGrid("getGridParam", "records"),page:parseInt(($("#packingListGrid").getGridParam('records') / $("#packingListGrid").getGridParam('rowNum')) + 1), orderBy:'port_inward_detail_id', order:'desc'}, 
+                dataType:'json',
+                success:  function(response){
+    	        	 var rowObject = response.rows;
+    	        	for(var i=0;i < rowObject.length;i++){ 
+    	        		
+    	        		//var composedObj = composeObjectForCaching(rowObject, 0);
+    	        		var tr = $.validator.format(template,rowObject[i].vesselDate,rowObject[i].vesselName,rowObject[i].millName
+    	        				,rowObject[i].materialType,rowObject[i].grade,rowObject[i].thickness,rowObject[i].width,rowObject[i].length,rowObject[i].quantity,rowObject[i].balQty);
+    	        		$("#forExportingToExcelBody").append(tr);
+    	        	}
+
+    	        	tableToExcel('forExportingToExcel', 'Excel');
+    	        	$("#forExportingToExcelBody").empty();
+                }
+                
+            });
+	
+}
 </script>
