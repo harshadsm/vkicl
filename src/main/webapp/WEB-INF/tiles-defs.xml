@@ -133,7 +133,8 @@
 	<definition name="StockReportDefn" extends="baseDefn">
 		<put name="title" value="Stock Report" />
 		<put name="pageType" value="Report" />
-		<put name="body" value="/jsp/report/stock-report.jsp" />
+		<put name="body" value="/jsp/report/stock-report2.jsp" />
 	</definition>
+
 
 </tiles-definitions>

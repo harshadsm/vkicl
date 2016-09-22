@@ -161,6 +161,8 @@
 			name="StockReportForm">
 			<forward name="success" path="StockReportDefn" />
 		</action>
+		
+		
 
 	</action-mappings>
 

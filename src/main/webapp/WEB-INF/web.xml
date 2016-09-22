@@ -49,7 +49,10 @@
 		<servlet-name>PackingListJsonServlet2</servlet-name>
 		<servlet-class>vkicl.action.PackingListJsonServlet2</servlet-class>
 	</servlet>
-	
+	<servlet>
+		<servlet-name>StockBalDetailsJsonServlet</servlet-name>
+		<servlet-class>vkicl.action.StockBalDetailsJsonServlet</servlet-class>
+	</servlet>
 	<servlet>
 		<servlet-name>FileUploadService</servlet-name>
 		<servlet-class>vkicl.services.FileUploadService</servlet-class>
@@ -86,6 +89,10 @@
 	<servlet-mapping>
 		<servlet-name>PackingListJsonServlet2</servlet-name>
 		<url-pattern>/packingListJsonServlet2</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>StockBalDetailsJsonServlet</servlet-name>
+		<url-pattern>StockBalDetailsJsonServlet</url-pattern>
 	</servlet-mapping>
 	
 	<servlet-mapping>

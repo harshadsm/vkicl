@@ -22,6 +22,8 @@ public class StockReportAction extends BaseAction {
 	private static Logger log = Logger.getLogger(StockReportAction.class);
 	@SuppressWarnings("unused")
 	private static PropFileReader prop = PropFileReader.getInstance();
+	
+	
 
 	public ActionForward execute(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
@@ -40,7 +42,7 @@ public class StockReportAction extends BaseAction {
 			stockReportForm = (StockReportForm) form;
 			ReportDaoImpl impl = new ReportDaoImpl();
 
-			ArrayList<LabelValueBean> materialTypeList = impl.getList(
+			/*ArrayList<LabelValueBean> materialTypeList = impl.getList(
 					userInfoVO, "query.unique.materialType");
 			ArrayList<LabelValueBean> millNameList = impl.getList(userInfoVO,
 					"query.unique.millName");
@@ -55,14 +57,14 @@ public class StockReportAction extends BaseAction {
 			stockReportForm.setMillNameList(millNameList);
 			stockReportForm.setGradeList(gradeList);
 			stockReportForm.setMakeList(makeList);
-			stockReportForm.setLocationList(locationList);
+			stockReportForm.setLocationList(locationList);*/
 
-			genericListener = stockReportForm.getGenericListener();
-			if (genericListener.equalsIgnoreCase("getReport")) {
-				stockReportForm = impl.fetchStockReport(stockReportForm,
+			//genericListener = stockReportForm.getGenericListener();
+			//if (genericListener.equalsIgnoreCase("getReport")) {
+				stockReportForm = impl.fetchStockBalReport(stockReportForm,
 						userInfoVO);
-				log.info("Fetched Stock Report Data");
-			}
+				//log.info("Fetched Stock Report Data");
+			//}
 			log.info("Loaded Stock Report");
 
 		} catch (Exception e) {

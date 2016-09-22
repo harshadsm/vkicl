@@ -899,4 +899,60 @@ public class ReportDaoImpl extends BaseDaoImpl {
 		}
 		return form;
 	}
+	
+	
+	
+	public StockReportForm fetchStockBalReport(StockReportForm form,
+			UserInfoVO userInfoVO) {
+		Connection conn = null;
+		ResultSet rs = null;
+		CallableStatement cs = null;
+		String query = "";
+		String message = "";
+		ArrayList<StockBean> reportList = null;
+		try {
+			conn = getConnection();
+
+			String sql = "SELECT stock_balance_id,MILL_NAME, MATERIAL_TYPE, MATERIAL_MAKE, GRADE, QUANTITY,LENGTH, THICKNESS, WIDTH, LOCATION FROM STOCK_BALANCE";
+			query = sql;
+			log.info("query = " + query);
+			
+			cs = conn.prepareCall(query);
+			rs = cs.executeQuery();
+			
+			
+			
+			if (null != rs && rs.next()) {
+				reportList = new ArrayList<StockBean>();
+				do {
+					StockBean report = new StockBean();
+
+					report.setId(rs.getInt("stock_balance_id"));
+					report.setMake(formatOutput(rs.getString("material_make")));
+					report.setGrade(formatOutput(rs.getString("grade")));
+					report.setMillName(formatOutput(rs.getString("mill_name")));
+					report.setMaterialType(formatOutput(rs
+							.getString("material_type")));
+					report.setLength(rs.getInt("length"));
+					report.setWidth(rs.getInt("width"));
+					report.setThickness(rs.getDouble("thickness"));
+
+					
+					report.setLocation(formatOutput(rs.getString("location")));
+					report.setQty(rs.getInt("quantity"));
+
+					reportList.add(report);
+					report = null;
+				} while (rs.next());
+			}
+			form.setReportList(reportList);
+		} catch (Exception e) {
+			e.printStackTrace();
+			message = e.getMessage();
+			userInfoVO.setMessage(message);
+		} finally {
+			closeDatabaseResources(conn, rs, cs);
+		}
+		return form;
+	}
 }

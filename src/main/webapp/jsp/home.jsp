@@ -115,6 +115,7 @@
 			</div>
 		</div>
 	</div>
+	
 	<%
 		}
 		if (userInfoVO.hasAccess(Constants.Apps.DISPATCH_ORDER)
@@ -128,6 +129,7 @@
 			</div>
 		</div>
 	</div>
+	
 	<%
 		}
 		if (userInfoVO.hasAccess(Constants.Apps.WAREHOUSE_APPROVER)) {

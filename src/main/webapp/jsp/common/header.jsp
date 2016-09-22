@@ -89,6 +89,7 @@
 										Inward</a></li>
 								<li><a href="./warehouse-outward-report.do">Warehouse
 										Outward</a></li>
+										
 								<%
 									}
 											if (userInfoVO.hasAccess(Constants.Apps.WAREHOUSE_APPROVER)) {
