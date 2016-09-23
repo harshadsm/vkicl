@@ -92,17 +92,17 @@
 function updateStockBal(recordId){
 		console.log(recordId);
 		var locationValue = $("#location_"+recordId).val();
-		var stockIdValue = $("#stockId_"+recordId).val();
+		var stockIdValue = $("#stockId_"+recordId).html();
 		console.log("locationValue = "+locationValue);
 		console.log("stockIdValue = "+stockIdValue);
 		
 		$.ajax({ 
 	        type: 'GET', 
 	        url: './stockBalDetailsJsonServlet', 
-	         data:{ stock_id:"3" , location:"SEC B"},
+	         data:{ stock_id:stockIdValue , location:locationValue},
 	        dataType:'json',
 	        success:  function(response){
-	        	
+	        	bootbox.alert("Record updated successfully!");
 	        }
 	        
 		
@@ -111,6 +111,4 @@ function updateStockBal(recordId){
 	
 }
 	</script>
-	
-}
 	
