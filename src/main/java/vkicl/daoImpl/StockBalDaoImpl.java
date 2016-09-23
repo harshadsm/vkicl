@@ -2,6 +2,7 @@ package vkicl.daoImpl;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -36,12 +37,13 @@ public class StockBalDaoImpl extends BaseDaoImpl {
 		ResultSet rs = null; 
 		CallableStatement cs = null;
 		String query = ""; 
-		String message = "";  
+		String message = "Success";  
 		int count = 0;
+		PreparedStatement statement = null;
 		try {
 			conn = getConnection();
 
-			query = prop.get("sp.report.stock.balance.edit");
+			/*query = prop.get("sp.report.stock.balance.edit");
 			log.info("query = " + query);
 			
 			cs = conn.prepareCall(query);
@@ -53,8 +55,17 @@ public class StockBalDaoImpl extends BaseDaoImpl {
 			cs.registerOutParameter(4, java.sql.Types.VARCHAR);
 			rs = cs.executeQuery();
 			message = cs.getString(4);
-			log.info("message = " + message);
+			log.info("message = " + message);*/
 			
+			
+			String sql = "update stock_balance s set s.location = ?,s.update_ui = ?,s.update_ts = NOW()  WHERE stock_balance_id=?";
+			statement = conn.prepareStatement(sql);
+			statement.setString(1, fetchFromMap(map, "location"));
+			statement.setString(2, userInfoVO.getUserName());
+			statement.setString(3, fetchFromMap(map, "stock_id"));
+			
+			statement.executeUpdate();
+			log.info("message = " + message);
 			
 		} 
 		catch (Exception e) {
