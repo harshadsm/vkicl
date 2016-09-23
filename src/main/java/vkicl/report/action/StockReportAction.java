@@ -41,7 +41,11 @@ public class StockReportAction extends BaseAction {
 			userInfoVO = getUserProfile(request);
 			stockReportForm = (StockReportForm) form;
 			ReportDaoImpl impl = new ReportDaoImpl();
-
+			
+			ArrayList<LabelValueBean> locationList = impl.getList(userInfoVO,
+					"query.unique.location");
+			stockReportForm.setLocationList(locationList);
+			
 			/*ArrayList<LabelValueBean> materialTypeList = impl.getList(
 					userInfoVO, "query.unique.materialType");
 			ArrayList<LabelValueBean> millNameList = impl.getList(userInfoVO,

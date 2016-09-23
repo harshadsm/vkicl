@@ -51,7 +51,7 @@
 							property="reportList">
 							<tr data-method="updateStockReport"
 								id='row-<c:out value="${report.id}" />'>
-								<td data-type="hidden" data-name="id" class="cell-hide"><c:out
+								<td data-type="hidden" data-name="id" class="cell-hide" id=locid><c:out
 										value="${report.id}" /></td>
 								
 								<td data-type="text" data-name="millName"><c:out
@@ -72,8 +72,12 @@
 										value="${report.qty}" /></td>
 								
 								<td class='excel excel-100' colspan="1">
-							 <select class="form-control" id="op1" onClick="updateStockBal()" >
-                 <option selected="selected">Select</option>
+							 <select class="form-control" id="location_${report.id}" onChange="updateStockBal()">
+                 <option>Select</option>
+                 <logic:iterate id="location" name="StockReportForm"
+							property="locationList">
+							 <option value="${location.value}" <c:if test="${report.location eq location.value}"> selected </c:if>>${location.label}</option>
+							</logic:iterate>
                 </select>
 						</td>
 								
@@ -86,41 +90,21 @@
 		</div>
 	</div>
 <script>
-$(document).ready(function () {
-	$.ajax({
-		url : "./xml?query=query.location",
-		success : function(xml, textStatus, response) {
-			xmlDoc = $.parseXML(xml);
-			
-			$(xmlDoc).find("value").each(function(i, data) {
-				
-				
-				$('#op1').append($('<option></option>').val(data).html(data));
-			});
-			
-		},
-	
-		error : function() {
-			bootbox.alert("Unable to fetch Details for for ");
-		
-		}
-	});
-});
-</script>
-
-<script>
 function updateStockBal(){
+
+		$.ajax({ 
+	        type: 'GET', 
+	        url: './stockBalDetailsJsonServlet', 
+	         data:{ stock_id:"3" , location:"SEC B"},
+	        dataType:'json',
+	        success:  function(response){
+	        	
+	        }
+	        
+		
+	});
 	
-	$.ajax({ 
-        type: 'POST', 
-        url: './StockBalDetailsJsonServlet', 
-         
-        dataType:'json',
-        success:  function(response){
-        	
-        }
-        
-    });
+	
 }
 	</script>
 	

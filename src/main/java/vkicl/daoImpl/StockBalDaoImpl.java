@@ -54,9 +54,8 @@ public class StockBalDaoImpl extends BaseDaoImpl {
 			rs = cs.executeQuery();
 			message = cs.getString(4);
 			log.info("message = " + message);
-			rs = cs.executeQuery();
-			message = cs.getString(20);
-			log.info("message = " + message);
+			
+			
 		} 
 		catch (Exception e) {
 			e.printStackTrace();

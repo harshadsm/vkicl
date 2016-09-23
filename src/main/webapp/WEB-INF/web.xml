@@ -92,7 +92,7 @@
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>StockBalDetailsJsonServlet</servlet-name>
-		<url-pattern>StockBalDetailsJsonServlet</url-pattern>
+		<url-pattern>/stockBalDetailsJsonServlet</url-pattern>
 	</servlet-mapping>
 	
 	<servlet-mapping>

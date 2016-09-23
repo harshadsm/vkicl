@@ -50,7 +50,7 @@ public class StockBalDetailsJsonService {
 //		portInwardIdRule.setOp("eq");
 //		portInwardIdRule.setData(portInwardIdStr);
 
-		//JqGridParametersHolder params = new JqGridParametersHolder(req);
+		JqGridParametersHolder params = new JqGridParametersHolder(req);
 		//JqGridSearchParameterHolder searchParam = parseSerachFilters(params);
 		
 		//if(searchParam==null){
@@ -62,11 +62,13 @@ public class StockBalDetailsJsonService {
 	//	}
 //		//searchParam.getRules().add(portInwardIdRule);
 
-		//String rows = params.getParam(JQGRID_PARAM_NAMES.rows);
-		//String page = params.getParam(JQGRID_PARAM_NAMES.page);
+	   //String id = params.getParam(JQGRID_PARAM_NAMES.id);
+		//String name = params.getParam(JQGRID_PARAM_NAMES.name);
 		//String orderBy = params.getParam(JQGRID_PARAM_NAMES.sidx);
 		//String order = params.getParam(JQGRID_PARAM_NAMES.sord);
-		
+	
+
+
 		
 		Map<String, String[]> map = req.getParameterMap();
 		UserInfoVO userInfoVO = (UserInfoVO) req.getSession()
