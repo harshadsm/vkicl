@@ -52,8 +52,7 @@
 							<tr data-method="updateStockReport"
 								id='row-<c:out value="${report.id}" />'>
 								<td data-type="hidden" data-name="id" class="cell-hide" id=locid><c:out
-										value="${report.id}" /></td>
-								
+										value="${report.id}" id="stockId_${report.id}"/></td>
 								<td data-type="text" data-name="millName"><c:out
 										value="${report.millName}" /></td>
 								<td data-type="text" data-name="make"><c:out
@@ -72,7 +71,7 @@
 										value="${report.qty}" /></td>
 								
 								<td class='excel excel-100' colspan="1">
-							 <select class="form-control" id="location_${report.id}" onChange="updateStockBal()">
+							 <select class="form-control" id="location_${report.id}" onChange="updateStockBal(${report.id})">
                  <option>Select</option>
                  <logic:iterate id="location" name="StockReportForm"
 							property="locationList">
@@ -90,8 +89,13 @@
 		</div>
 	</div>
 <script>
-function updateStockBal(){
-
+function updateStockBal(recordId){
+		console.log(recordId);
+		var locationValue = $("#location_"+recordId).val();
+		var stockIdValue = $("#stockId_"+recordId).val();
+		console.log("locationValue = "+locationValue);
+		console.log("stockIdValue = "+stockIdValue);
+		
 		$.ajax({ 
 	        type: 'GET', 
 	        url: './stockBalDetailsJsonServlet', 
