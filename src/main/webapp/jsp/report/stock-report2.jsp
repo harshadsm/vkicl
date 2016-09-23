@@ -51,8 +51,8 @@
 							property="reportList">
 							<tr data-method="updateStockReport"
 								id='row-<c:out value="${report.id}" />'>
-								<td data-type="hidden" data-name="id" class="cell-hide" id=locid><c:out
-										value="${report.id}" id="stockId_${report.id}"/></td>
+								<td data-type="hidden" data-name="id" class="cell-hide" id="stockId_${report.id}"><c:out
+										value="${report.id}"/></td>
 								<td data-type="text" data-name="millName"><c:out
 										value="${report.millName}" /></td>
 								<td data-type="text" data-name="make"><c:out
