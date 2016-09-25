@@ -92,7 +92,7 @@
 function updateStockBal(recordId){
 		console.log(recordId);
 		var locationValue = $("#location_"+recordId).val();
-		var stockIdValue = $("#stockId_"+recordId).val();
+		var stockIdValue = $("#stockId_"+recordId).html();
 		console.log("locationValue = "+locationValue);
 		console.log("stockIdValue = "+stockIdValue);
 		
@@ -111,6 +111,3 @@ function updateStockBal(recordId){
 	
 }
 	</script>
-	
-}
-	
