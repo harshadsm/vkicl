@@ -913,7 +913,7 @@ public class ReportDaoImpl extends BaseDaoImpl {
 		try {
 			conn = getConnection();
 
-			String sql = "SELECT stock_balance_id,MILL_NAME, MATERIAL_TYPE, MATERIAL_MAKE, GRADE, QUANTITY,LENGTH, THICKNESS, WIDTH, LOCATION FROM STOCK_BALANCE";
+			String sql = "SELECT stock_balance_id,MILL_NAME, MATERIAL_TYPE, MATERIAL_MAKE, GRADE, QUANTITY,LENGTH, THICKNESS, WIDTH, LOCATION FROM stock_balance";
 			query = sql;
 			log.info("query = " + query);
 			
