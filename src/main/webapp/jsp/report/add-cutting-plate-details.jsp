@@ -213,10 +213,7 @@ String portInwardDetailsListSize = Integer.toString(portInwardDetailsList.size()
 	<div class="col-md-12 text-center">
 		<h3 class="page-head">Cutting Plate Details</h3>
 		
-		<span id="report-toolbar" class="pull-right">Export:<img src="./img/excel.png" id="exportToExcel" title="Export to Excel"
-onClick="prepareTableToExcelAndExport()" /><img
-src="./img/pdf.png" id="exportToPDF" title="Export to PDF"
-style="display: none;" /> </span>
+		
 	</div>
 </div>
 <div>
@@ -297,40 +294,5 @@ style="display: none;" /> </span>
 	</html:form>
 </div>
 
-<div style="display: none;">
-	<table id="forExportingToExcel">
-		<thead>
-			<tr>
-				<td>Thickness</td>
-				<td>Width</td>
-				<td>Length</td>
-				<td>Quantity</td>
-				<td>Actual Weight</td>
-			</tr>
-		</thead>
-		<tbody id="forExportingToExcelBody">
-		</tbody>
-	</table>
-</div>
 
-<script>
-function prepareTableToExcelAndExport(){
-	var template = "<tr><td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td></tr>";
-	
-$("#port_inward_details_table tbody > tr").each(function(i, elem){
-	var trId = $(elem).attr("id");
-	var thickness = $("#"+trId+"  input[name=thickness]").val();
-	var width = $("#"+trId+"  input[name=width]").val();
-	var length = $("#"+trId+"  input[name=length]").val();
-	var quantity = $("#"+trId+"  input[name=qty]").val();
-	var actualWeight = $("#"+trId+"  input[name=actualWt]").val();
 
-	var tr = $.validator.format(template,thickness,width,length,quantity,actualWeight);
-	$("#forExportingToExcelBody").append(tr);
-});
-	
-	
-	tableToExcel('forExportingToExcel', 'Excel');
-	$("#forExportingToExcelBody").empty();
-}
-</script>
