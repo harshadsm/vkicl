@@ -154,6 +154,14 @@
 		</div>
 		<br />
 	</div>
+	<div class="col-sm-2">
+		<div class="portfolio-item">
+			<div class="portfolio-image">
+				<a href="./stock-cutting.do">Stock- Cutting a Plate</a>
+			</div>
+		</div>
+		<br />
+	</div>
 	<%
 		}
 		if (userInfoVO.hasAccess(Constants.Apps.MANAGE_USERS)) {

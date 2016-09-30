@@ -1,5 +1,8 @@
 package vkicl.report.bean;
 
+import java.util.List;
+import java.util.Map;
+
 @SuppressWarnings("serial")
 public class StockBean extends BaseReportBean {
 
@@ -25,6 +28,7 @@ public class StockBean extends BaseReportBean {
 	private Double fileSize = 0.00;
 	private boolean reserved = false;
 	private String customer = "";
+
 
 	public StockBean() {
 	}

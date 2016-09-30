@@ -1,5 +1,7 @@
 package vkicl.daoImpl;
 
+
+import java.awt.geom.Area;
 import java.io.InputStream;
 import java.sql.Blob;
 import java.sql.CallableStatement;
@@ -954,5 +956,34 @@ public class ReportDaoImpl extends BaseDaoImpl {
 			closeDatabaseResources(conn, rs, cs);
 		}
 		return form;
+	}
+	
+	public void test(int length, int height) {
+		Connection conn = null;
+		ResultSet rs = null;
+		PreparedStatement statement = null;
+		String message = "Success";
+		String poly="";
+		try {
+			conn = getConnection();
+			
+			poly="0 0, 0 "+length+", "+length+" "+height+", "+height+" 0, 0 0";
+			
+			String sql = "INSERT INTO polygons (id, poly) VALUES(?, ST_GeomFromText(?))";
+			statement = conn.prepareStatement(sql);
+			statement.setString(1, "4");
+			statement.setString(2, "polygon(("+poly+"))");
+			
+			statement.executeUpdate();
+			
+			log.info("message = " + message);
+		} catch (Exception e) {
+			e.printStackTrace();
+			message = e.getMessage();
+			log.error(message);
+		} finally {
+			closeDatabaseResources(conn, rs, statement);
+		}
+		
 	}
 }

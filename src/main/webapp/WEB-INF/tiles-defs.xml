@@ -136,5 +136,16 @@
 		<put name="body" value="/jsp/report/stock-report2.jsp" />
 	</definition>
 
-
+<definition name="StockReportDefn2" extends="baseDefn">
+		<put name="title" value="Stock - Cutting Plate" />
+		<put name="pageType" value="Report" />
+		<put name="body" value="/jsp/report/stock-cutting.jsp" />
+	</definition>
+	
+	<definition name="showAddCuttingPage" extends="baseDefn">
+		<put name="title" value="Stock - Cutting Plate" />
+		<put name="pageType" value="Report" />
+		<put name="body" value="/jsp/report/add-cutting-plate-details.jsp" />
+	</definition>
+	
 </tiles-definitions>

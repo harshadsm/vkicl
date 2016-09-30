@@ -162,8 +162,17 @@
 			<forward name="success" path="StockReportDefn" />
 		</action>
 		
+		<action path="/stock-cutting" type="vkicl.report.action.StockReportAction"
+			name="StockReportForm">
+			<forward name="success" path="StockReportDefn2" />
+		</action>
 		
-
+        <action path="/add-cutting-plate-details" type="vkicl.action.AddCuttingPlateDetailsAction"
+			name="StockReportForm">
+			<forward name="success" path="showAddCuttingPage" />
+			<forward name="showAddCuttingPage" path="showAddCuttingPage" />
+		</action>
+		
 	</action-mappings>
 
 	<controller processorClass="org.apache.struts.tiles.TilesRequestProcessor" />

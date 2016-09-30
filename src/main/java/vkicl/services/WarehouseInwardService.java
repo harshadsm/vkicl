@@ -1,5 +1,6 @@
 package vkicl.services;
 
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,6 +21,7 @@ import vkicl.vo.PortOutwardPostDataContainerVO;
 import vkicl.vo.PortOutwardRecordVO;
 import vkicl.vo.UserInfoVO;
 import vkicl.vo.WarehouseInwardRecordVO;
+import vkicl.services.geometry.*;
 
 public class WarehouseInwardService {
 
@@ -64,6 +66,8 @@ public class WarehouseInwardService {
 		    	impl.addWarehouseInwardDetailData(warehouseInwardRecordVO, warehouseInwardId, userInfo);
 		    	
 		    	//added
+		    	
+		    	
 		    	impl.addStockBalData(warehouseInwardRecordVO, userInfo);
 		    }
 		}
