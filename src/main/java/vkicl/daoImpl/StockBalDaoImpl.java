@@ -14,6 +14,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
+import vkicl.form.StockForm;
 import vkicl.report.bean.StockBean;
 import vkicl.report.bean.WarehouseLocationBean;
 import vkicl.report.form.StockReportForm;
@@ -483,7 +484,7 @@ public class StockBalDaoImpl extends BaseDaoImpl {
 		return orderByClause;
 	}
 	
-	public String insertStockBalanceCuttingDetails(StockBalanceDetailsVO vo,
+	public Long  insertStockBalanceCuttingDetails(StockBalanceDetailsVO vo,
 			UserInfoVO userInfoVO) throws SQLException {
 		List<StockBalanceDetailsVO> list = new ArrayList<StockBalanceDetailsVO>();
 		Connection conn = null;
@@ -492,7 +493,8 @@ public class StockBalDaoImpl extends BaseDaoImpl {
 		String query = ""; 
 		String message = "Success";  
 		int count = 0;
-		PreparedStatement statement = null;
+		//PreparedStatement statement = null;
+		Long savedRecordId=-1L;
 		try {
 			conn = getConnection();
 
@@ -500,23 +502,32 @@ public class StockBalDaoImpl extends BaseDaoImpl {
 					+ " material_type, grade, length, width, thickness, "
 					+ "  create_ui, update_ui, create_ts, update_ts) "
 					+ " VALUES(?,?,?,?,?,?,?,?,?,?,?)";
-			statement = conn.prepareStatement(sql);
-			statement.setString(1, vo.getMillName());
-			statement.setString(2, vo.getMake());
-			statement.setString(3, vo.getMaterialType());
-			statement.setString(4, vo.getGrade());
-			statement.setInt(5, vo.getLength());
-			statement.setInt(6, vo.getWidth());
-			statement.setDouble(7, vo.getThickness());
-			statement.setString(8, userInfoVO.getUserName());
-			statement.setString(9, userInfoVO.getUserName());
-			statement.setString(10, getCurentTime());
-			statement.setString(11, getCurentTime());
 			
-			statement.executeUpdate();
+			cs = conn.prepareCall(sql);
+			cs.setString(1, vo.getMillName());
+			cs.setString(2, vo.getMake());
+			cs.setString(3, vo.getMaterialType());
+			cs.setString(4, vo.getGrade());
+			cs.setInt(5, vo.getLength());
+			cs.setInt(6, vo.getWidth());
+			cs.setDouble(7, vo.getThickness());
+			cs.setString(8, userInfoVO.getUserName());
+			cs.setString(9, userInfoVO.getUserName());
+			cs.setString(10, getCurentTime());
+			cs.setString(11, getCurentTime());
+			
+			
+            int count1 =cs.executeUpdate();
+			
+			ResultSet result = cs.getGeneratedKeys();
+			if(count1 > 0){
+				result.next();
+				savedRecordId = result.getLong(1);
+				
 			log.info("message = " + message);
+			}
 			
-		} 
+		}
 		catch (Exception e) {
 			e.printStackTrace();
 			message = e.getMessage();
@@ -526,10 +537,10 @@ public class StockBalDaoImpl extends BaseDaoImpl {
 			closeDatabaseResources(conn, rs, cs);
 		}
 	
-		return message;
+		return savedRecordId;
 	}
 	
-	public String updateStockBalanceCut(Map<String, String[]> map,
+	public String updateStockBalanceCut(Integer StockBalId,
 			UserInfoVO userInfoVO) throws SQLException {
 		List<StockBalanceDetailsVO> list = new ArrayList<StockBalanceDetailsVO>();
 		Connection conn = null;
@@ -541,7 +552,6 @@ public class StockBalDaoImpl extends BaseDaoImpl {
 		PreparedStatement statement = null;
 		try {
 			conn = getConnection();
-
 			/*query = prop.get("sp.report.stock.balance.edit");
 			log.info("query = " + query);
 			
@@ -557,11 +567,11 @@ public class StockBalDaoImpl extends BaseDaoImpl {
 			log.info("message = " + message);*/
 			
 			
-			String sql = "update stock_balance s set s.cut = ?,s.update_ui = ?,s.update_ts = NOW()  WHERE stock_balance_id=?";
+			String sql = "update stock_balance s set s.is_cut = ?,s.update_ui = ?,s.update_ts = NOW()  WHERE stock_balance_id=?";
 			statement = conn.prepareStatement(sql);
 			statement.setString(1, "1");
 			statement.setString(2, userInfoVO.getUserName());
-			statement.setString(3, fetchFromMap(map, "stock_id"));
+			statement.setInt(3, StockBalId);
 			
 			statement.executeUpdate();
 			log.info("message = " + message);
@@ -573,10 +583,116 @@ public class StockBalDaoImpl extends BaseDaoImpl {
 			log.error(message);
 		} finally
 		{
-			closeDatabaseResources(conn, rs, cs);
+			closeDatabaseResources(conn, rs, statement);
 		}
 	
 		return message;
 	}
 	
+	public Long insertStockBalanceCuttingDetails(StockForm stockForm,
+			UserInfoVO userInfoVO) throws SQLException {
+		List<StockBalanceDetailsVO> list = new ArrayList<StockBalanceDetailsVO>();
+		Connection conn = null;
+		ResultSet rs = null; 
+		CallableStatement cs = null;
+		String query = ""; 
+		String message = "Success";  
+		int count = 0;
+		PreparedStatement statement = null;
+		Long savedRecordId = -1L;
+		try {
+			conn = getConnection();
+
+			String sql = "INSERT INTO  stock_balance (mill_name, material_make, "
+					+ " material_type, grade, length, width, thickness, "
+					+ "  create_ui, update_ui, create_ts, update_ts) "
+					+ " VALUES(?,?,?,?,?,?,?,?,?,?,?)";
+			
+			/*int recordCount = stockForm.getThickness().length;
+			Double[] thickness = stockForm.getThickness();
+			Integer[] width = stockForm.getWidth();
+			Integer[] length = stockForm.getLength();
+			String[] millname = stockForm.getMillName();
+			String [] make = stockForm.getMake();
+			String [] grade = stockForm.getGrade();
+			String [] materialtype = stockForm.getMaterialType();*/
+			//Integer[] grade = stockForm.getLength();
+			//Integer[] grade = stockForm.getLength();
+			
+			//for (int i = 0; i < recordCount; i++) {
+				//if (thickness[i] == 0d && width[i] == 0 && length[i] == 0)  {
+			//		logger.debug("Ignored empty row");
+				//} else {
+			statement = conn.prepareStatement(sql);
+			statement.setString(1, stockForm.getMillName());
+			statement.setString(2, stockForm.getMake());
+			statement.setString(3, stockForm.getMaterialType());
+		statement.setString(4, stockForm.getGrade());
+			statement.setInt(5, stockForm.getLength());
+			statement.setInt(6, stockForm.getWidth());
+			statement.setDouble(7, stockForm.getThickness());
+			statement.setString(8, userInfoVO.getUserName());
+			statement.setString(9, userInfoVO.getUserName());
+			statement.setString(10, getCurentTime());
+			statement.setString(11, getCurentTime());
+			
+			
+			int count1 =statement.executeUpdate();
+			
+			ResultSet result = statement.getGeneratedKeys();
+			if(count1 > 0){
+				result.next();
+				savedRecordId = result.getLong(1);
+				
+			log.info("message = " + message);
+				}
+			//}
+		} 
+		catch (Exception e) {
+			e.printStackTrace();
+			message = e.getMessage();
+			log.error(message);
+		} finally
+		{
+			closeDatabaseResources(conn, rs, statement);
+		}
+	
+		return savedRecordId;
+	}
+	
+	public String updateStockBalanceShape(String Sql) throws SQLException {
+		List<StockBalanceDetailsVO> list = new ArrayList<StockBalanceDetailsVO>();
+		Connection conn = null;
+		ResultSet rs = null; 
+		CallableStatement cs = null;
+		String query = ""; 
+		String message = "Success";  
+		int count = 0;
+		PreparedStatement statement = null;
+		try {
+			conn = getConnection();
+
+			
+			
+			//String sql = Sql;
+			statement = conn.prepareStatement(Sql);
+			//statement.setString(1, "1");
+			//statement.setString(2, userInfoVO.getUserName());
+			//statement.setInt(3, StockBalId);
+			
+			statement.executeUpdate();
+			log.info("message = " + message);
+			
+		} 
+		catch (Exception e) {
+			e.printStackTrace();
+			message = e.getMessage();
+			log.error(message);
+		} finally
+		{
+			closeDatabaseResources(conn, rs, statement);
+		}
+	
+		return message;
+	}
 }

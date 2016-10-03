@@ -1,5 +1,6 @@
 package vkicl.services;
 
+import java.awt.Shape;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -21,6 +22,8 @@ public class StockCuttingDetailsService {
 	private static Logger logger = Logger.getLogger(StockCuttingDetailsService.class);
 	public void processForm(StockForm form, UserInfoVO user) throws SQLException{
 
+		double orginx=0;
+    	double orginy=0;
 		StockBalDaoImpl impl = new StockBalDaoImpl();
 		List<StockBalanceDetailsVO> list = toList(form, user);
 		if(null!=list && !list.isEmpty()){
@@ -33,11 +36,20 @@ public class StockCuttingDetailsService {
 			
 			//Now insert the new PortInwardDetailsVO in database
 			for(StockBalanceDetailsVO vo : list){
-				impl.insertStockBalanceCuttingDetails(vo, user);
-
+				long stockBalId=impl.insertStockBalanceCuttingDetails(vo, user);
+				
+		    	double length=vo.getLength();
+		    	double width=vo.getWidth();
+		    	
+		    	vkicl.services.geometry.GeometryServiceImpl goemetry=new vkicl.services.geometry.GeometryServiceImpl();
+		    	Shape shapeObj= goemetry.toPolygon(orginx, orginy,length, width);
+		    	double area=(length * width);
+		    	
+		    	String Sql=goemetry.toUpdateSql(shapeObj,stockBalId,area);
+		    	impl.updateStockBalanceShape(Sql);
+		    	impl.updateStockBalanceCut(vo.getStockBalId(), user);
 			}
 		}
-		
 		
 	}
 	
@@ -45,20 +57,20 @@ public class StockCuttingDetailsService {
 		List<StockBalanceDetailsVO> list = new ArrayList<StockBalanceDetailsVO>();
 		Integer StockBalId = form.getStock_Bal_id();
 		if (form.getThickness() != null) {
-			int recordCount = form.getThickness().length;
-			Double[] thickness = form.getThickness();
-			Integer[] width = form.getWidth();
-			Integer[] length = form.getLength();
+			//int recordCount = form.getThickness().length;
+			//Double[] thickness = form.getThickness();
+			//Integer[] width = form.getWidth();
+			//Integer[] length = form.getLength();
 		
-			for (int i = 0; i < recordCount; i++) {
-				if (thickness[i] == 0d && width[i] == 0 && length[i] == 0)  {
-					logger.debug("Ignored empty row");
-				} else {
+			//for (int i = 0; i < recordCount; i++) {
+			//	if (thickness[i] == 0d && width[i] == 0 && length[i] == 0)  {
+			//		logger.debug("Ignored empty row");
+			//	} else {
 
 					StockBalanceDetailsVO vo = new StockBalanceDetailsVO();
-					vo.setThickness(thickness[i]);
-					vo.setWidth(width[i]);
-					vo.setLength(length[i]);
+					vo.setThickness(form.getThickness());
+					vo.setWidth(form.getWidth());
+					vo.setLength(form.getLength());
 					//vo.setQuantity(qty[i]);
 					//vo.setBe_weight(actualWt[i]);
 //					vo.setBe_wt_unit(actualWtUnit[i]); //As explained by client, it will always be TON
@@ -70,9 +82,9 @@ public class StockCuttingDetailsService {
 					//vo.setUpdate_ts(new Date());
 					
 					list.add(vo);
-				}
+				//}
 
-			}
+			//}
 		}
 
 		return list;

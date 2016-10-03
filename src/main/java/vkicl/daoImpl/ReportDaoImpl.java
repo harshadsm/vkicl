@@ -9,11 +9,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.log4j.Logger;
 
+import vkicl.form.PortInwardForm;
 import vkicl.report.bean.FileBean;
 import vkicl.report.bean.PortInwardBean;
 import vkicl.report.bean.PortOutwardBean;
@@ -30,6 +32,7 @@ import vkicl.report.form.WarehouseDispatchReportForm;
 import vkicl.report.form.WarehouseInwardReportForm;
 import vkicl.report.form.WarehouseOutwardReportForm;
 import vkicl.util.PropFileReader;
+import vkicl.vo.PortInwardDetailsVO;
 import vkicl.vo.UserInfoVO;
 
 public class ReportDaoImpl extends BaseDaoImpl {
@@ -958,32 +961,5 @@ public class ReportDaoImpl extends BaseDaoImpl {
 		return form;
 	}
 	
-	public void test(int length, int height) {
-		Connection conn = null;
-		ResultSet rs = null;
-		PreparedStatement statement = null;
-		String message = "Success";
-		String poly="";
-		try {
-			conn = getConnection();
-			
-			poly="0 0, 0 "+length+", "+length+" "+height+", "+height+" 0, 0 0";
-			
-			String sql = "INSERT INTO polygons (id, poly) VALUES(?, ST_GeomFromText(?))";
-			statement = conn.prepareStatement(sql);
-			statement.setString(1, "4");
-			statement.setString(2, "polygon(("+poly+"))");
-			
-			statement.executeUpdate();
-			
-			log.info("message = " + message);
-		} catch (Exception e) {
-			e.printStackTrace();
-			message = e.getMessage();
-			log.error(message);
-		} finally {
-			closeDatabaseResources(conn, rs, statement);
-		}
-		
-	}
+	
 }

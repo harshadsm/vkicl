@@ -12,6 +12,9 @@ import java.util.List;
 
 import org.apache.commons.lang.NotImplementedException;
 
+import vkicl.daoImpl.BaseDaoImpl;
+import vkicl.daoImpl.StockBalDaoImpl;
+
 public class GeometryServiceImpl implements GeometryService {
 
 	private final String TABLE_1 = "geom";
@@ -70,12 +73,18 @@ public class GeometryServiceImpl implements GeometryService {
 		return path;
 	}
 
+	
 	@Override
 	public String toInsertSql(Shape s) {
 
 		return prepareInsertSql(s);
 	}
 
+	public String toUpdateSql(Shape s, Long stockBalId, double area) {
+
+		return prepareUpdateSql(s,stockBalId,area);
+	}
+	
 	/**
 	 * If a query similar to "SELECT ST_AsText(g) as gg FROM geom" is run,
 	 * whatever is returned by MySql should be passed to this function as
@@ -130,14 +139,68 @@ public class GeometryServiceImpl implements GeometryService {
 
 		// Remove the last coordinate because it is a closing one. And usually
 		// contains 0,0.
-		coordinatesList.remove(coordinatesList.size());
+		//coordinatesList.remove(coordinatesList.size());
 
 		String sql = prepareInsertSql(coordinatesList);
 
 		return sql;
 	}
 
+	private String prepareUpdateSql(Shape s, Long stockBalId, double area) {
+
+		List<Double[]> coordinatesList = getCoordinatesList(s);
+
+		// Remove the last coordinate because it is a closing one. And usually
+		// contains 0,0.
+		//coordinatesList.remove(coordinatesList.size());
+
+		String sql = prepareUpdateSql(coordinatesList,stockBalId, area);
+
+		return sql;
+	}
+	
 	private String prepareInsertSql(List<Double[]> coordinatesList) {
+		StringBuilder sql = new StringBuilder();
+		sql.append("INSERT INTO ").append("stock_balance").append(" (mill_name, material_make, material_type, "
+				+ " grade, length, width, thickness, is_cut, plate_shape, plate_area,create_ui, "
+				+ " update_ui, create_ts, update_ts)  ").
+		append(" VALUES ").append("(ST_GeomFromText('POLYGON((");
+
+		for (Double[] coords : coordinatesList) {
+			sql.append(coords[0]).append(" ").append(coords[1]).append(",");
+		}
+
+		// Add first coordinate as last coordinate. As required by MySql syntax
+		Double[] firstCoords = coordinatesList.get(0);
+		sql.append(firstCoords[0]).append(" ").append(firstCoords[1]);
+
+		sql.append("))'));");
+
+		return sql.toString();
+	}
+	
+	private String prepareUpdateSql(List<Double[]> coordinatesList, Long stockBalId, double area) {
+		StringBuilder sql = new StringBuilder();
+		sql.append("update ").append("stock_balance").append(" set ").append(" plate_shape= ").append("(ST_GeomFromText('POLYGON((");
+
+		for (Double[] coords : coordinatesList) {
+			sql.append(coords[0]).append(" ").append(coords[1]).append(",");
+		}
+
+		// Add first coordinate as last coordinate. As required by MySql syntax
+		Double[] firstCoords = coordinatesList.get(0);
+		sql.append(firstCoords[0]).append(" ").append(firstCoords[1]);
+
+		sql.append("))'))" ).append(", plate_area= "+ area).append(" where stock_balance_id="+stockBalId);
+		
+		//StockBalDaoImpl impl=new StockBalDaoImpl();
+		//impl.updateStockBalanceShape(sql.toString());
+		
+		return sql.toString();
+	}
+	
+	
+	/*private String prepareInsertSql(List<Double[]> coordinatesList) {
 		StringBuilder sql = new StringBuilder();
 		sql.append("INSERT INTO ").append(TABLE_1).append(" ").append(" VALUES ").append("(ST_GeomFromText('POLYGON((");
 
@@ -152,7 +215,7 @@ public class GeometryServiceImpl implements GeometryService {
 		sql.append("))'));");
 
 		return sql.toString();
-	}
+	}*/
 
 	private List<Double[]> getCoordinatesList(Shape s) {
 		List<Double[]> coordinatesList = new LinkedList<Double[]>();

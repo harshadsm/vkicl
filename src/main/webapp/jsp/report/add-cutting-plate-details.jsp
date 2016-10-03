@@ -4,7 +4,7 @@
 <%@page import="vkicl.util.Constants"%>
 <%@page import="vkicl.vo.UserInfoVO"%>
 <%@page import="org.apache.commons.lang.StringEscapeUtils"%>
-<%@page import="vkicl.form.PortInwardForm"%>
+<%@page import="vkicl.form.StockForm"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%@taglib uri="/WEB-INF/struts-html.tld" prefix="html"%>
@@ -256,6 +256,7 @@ String portInwardDetailsListSize = Integer.toString(portInwardDetailsList.size()
 						<th width="10%">Length</th>
 						<th width="10%">Width</th>
 						
+						
 					</tr>
 				</thead>
 
@@ -272,7 +273,17 @@ String portInwardDetailsListSize = Integer.toString(portInwardDetailsList.size()
 							</td>
 							<td >
 								<input  type='number' step='1' min='0' name='width' placeholder='width' class='form-control' value="<%=record.getWidth() %>"/>
+								<input  type='hidden' name='millName'  value="<%=record.getMillName() %>"/>
+								<input  type='hidden' name='materialType'  value="<%=record.getMaterialType() %>"/>
+								<input  type='hidden' name='grade'  value="<%=record.getGrade() %>"/>
+								<input  type='hidden' name='thickness'  value="<%=record.getThickness() %>"/>
+								<input  type='hidden' name='stock_Bal_id'  value="<%=record.getStockBalId() %>"/>
+								
 							</td>
+							
+								
+								
+							
 						</tr>
 					<% } %>
 				</tbody>

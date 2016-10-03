@@ -1,5 +1,7 @@
 package vkicl.vo;
 
+import java.awt.Shape;
+
 public class WarehouseInwardRecordVO {
 	private Integer portInwardDetailId;
 	private Integer portInwardShipmentId;
@@ -21,9 +23,12 @@ public class WarehouseInwardRecordVO {
 	private String vehicleName;
 	private String millName;
 	
+	
 	private Double secWt;
 	private Double balQty;
-
+	
+	
+	
 	public Double getSecWt() {
 		return secWt;
 	}

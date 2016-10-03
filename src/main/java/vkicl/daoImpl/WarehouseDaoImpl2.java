@@ -142,20 +142,21 @@ int count = cs.executeUpdate();
 		
 	}
 	
-	public Integer addStockBalData(WarehouseInwardRecordVO portOutwardRecordVO,
+	public long addStockBalData(WarehouseInwardRecordVO portOutwardRecordVO,
 			UserInfoVO userInfoVO) throws SQLException {
 		Connection conn = null;
 		ResultSet rs = null;
 		CallableStatement cs = null;
 		String query = "", message = "";
-		Integer savedRecordId = -1;
+		Long savedRecordId = -1L;
+		
 		try {
 		
 			query = "INSERT INTO stock_balance "
 					+ " (mill_name,material_make,heat_no,plate_no, "
 					+ "  material_type, grade, length, width, thickness, quantity, "
-					+ "  location,is_delete,is_reserved, is_modified, create_ui,update_ui,create_ts, update_ts) "
-					+ " VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+					+ "  location,is_delete,is_reserved, is_modified, create_ui,update_ui,create_ts, update_ts,plate_area) "
+					+ " VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
 						
 			log.info(query);
 			conn = getConnection();
@@ -179,11 +180,15 @@ int count = cs.executeUpdate();
 			cs.setString(16, userInfoVO.getUserName());
 			cs.setString(17, getCurentTime());
 			cs.setString(18, getCurentTime());
+			cs.setDouble(19, (portOutwardRecordVO.getLength() * portOutwardRecordVO.getWidth()));
 			
+int count = cs.executeUpdate();
 			
-			savedRecordId = cs.executeUpdate();
-			
-
+			ResultSet result = cs.getGeneratedKeys();
+			if(count > 0){
+				result.next();
+				savedRecordId = result.getLong(1);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			message = e.getMessage();

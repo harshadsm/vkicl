@@ -28,6 +28,7 @@
 		<form-bean name="WarehouseDispatchDetailsReportForm"
 			type="vkicl.report.form.WarehouseDispatchDetailsReportForm" />
 		<form-bean name="StockReportForm" type="vkicl.report.form.StockReportForm" />
+		<form-bean name="StockForm" type="vkicl.form.StockForm" />
 
 	</form-beans>
 	<global-forwards>
@@ -162,13 +163,13 @@
 			<forward name="success" path="StockReportDefn" />
 		</action>
 		
-		<action path="/stock-cutting" type="vkicl.report.action.StockReportAction"
-			name="StockReportForm">
+		<action path="/stock-cutting" type="vkicl.report.action.CutPlateAction"
+			name="StockForm">
 			<forward name="success" path="StockReportDefn2" />
 		</action>
 		
         <action path="/add-cutting-plate-details" type="vkicl.action.AddCuttingPlateDetailsAction"
-			name="StockReportForm">
+			name="StockForm">
 			<forward name="success" path="showAddCuttingPage" />
 			<forward name="showAddCuttingPage" path="showAddCuttingPage" />
 		</action>

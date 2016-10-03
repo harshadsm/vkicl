@@ -5,7 +5,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import java.awt.Shape;
+import java.lang.System;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
@@ -14,7 +15,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import vkicl.daoImpl.PortInwardOutwardIntersectionDaoImpl;
-import vkicl.daoImpl.PortOutwardDaoImpl;
+import vkicl.daoImpl.StockBalDaoImpl;
 import vkicl.daoImpl.WarehouseDaoImpl2;
 import vkicl.daoImpl.WarehouseShipmentDaoImpl;
 import vkicl.vo.PortOutwardPostDataContainerVO;
@@ -31,6 +32,7 @@ public class WarehouseInwardService {
 			HttpServletRequest request, UserInfoVO userInfo) throws Exception {
 		Long warehouseShipmentId=-1L;
 		Long warehouseInwardId=-1L;
+		Long stockBalId=-1L;
 		String itemsToSaveJson = postDataContainer.getSelectedPortInventoryItemsJson();
 
 		Gson gson = new Gson();
@@ -66,9 +68,28 @@ public class WarehouseInwardService {
 		    	impl.addWarehouseInwardDetailData(warehouseInwardRecordVO, warehouseInwardId, userInfo);
 		    	
 		    	//added
+		    	stockBalId=impl.addStockBalData(warehouseInwardRecordVO,userInfo);
+		    	
+		    	//plateshape
+		    	
+		    	double orginx=0;
+		    	double orginy=0;
+		    	double length=warehouseInwardRecordVO.getLength();
+		    	double width=warehouseInwardRecordVO.getWidth();
+		    	
+		    	double area=length * width;
+		    	
+		    	vkicl.services.geometry.GeometryServiceImpl goemetry=new vkicl.services.geometry.GeometryServiceImpl();
+		    	Shape shapeObj= goemetry.toPolygon(orginx, orginy,length, width);
+		    	
+		    	String Sql=goemetry.toUpdateSql(shapeObj,stockBalId, area);
+		    	
+		    	StockBalDaoImpl up=new StockBalDaoImpl();
+		    	up.updateStockBalanceShape(Sql);
 		    	
 		    	
-		    	impl.addStockBalData(warehouseInwardRecordVO, userInfo);
+		    	
+		    	
 		    }
 		}
 	}

@@ -17,6 +17,8 @@ public class StockReportForm extends BaseForm {
 	private String make = null;
 	private String location = null;
 	private double thickness = 0;
+	
+	private Integer stock_Bal_id = null;
 
 	private ArrayList<LabelValueBean> materialTypeList = null;
 	private ArrayList<LabelValueBean> millNameList = null;
@@ -43,6 +45,14 @@ public class StockReportForm extends BaseForm {
 		makeList = null;
 		locationList = null;
 		super.clear();
+	}
+
+	public Integer getStock_Bal_id() {
+		return stock_Bal_id;
+	}
+
+	public void setStock_Bal_id(Integer stock_Bal_id) {
+		this.stock_Bal_id = stock_Bal_id;
 	}
 
 	public String getMaterialType() {

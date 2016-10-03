@@ -1,5 +1,6 @@
 package vkicl.action;
 
+import java.awt.Shape;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,7 +12,9 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
 import vkicl.daoImpl.PortDaoImpl;
+import vkicl.daoImpl.StockBalDaoImpl;
 import vkicl.form.PortInwardForm;
+import vkicl.form.StockForm;
 import vkicl.services.PortInwardDetailsService;
 import vkicl.services.PortInwardService;
 import vkicl.services.StockBalCuttingsonService;
@@ -43,14 +46,14 @@ public class AddCuttingPlateDetailsAction extends BaseAction {
 			request.setAttribute("port_inward_details_records", CuttingDetailsList);
 			actionForward = mapping.findForward(Constants.Mapping.SUCCESS);
 		}else{
-			actionForward = processPackingList(mapping, form, request);
+			actionForward = processCuttingPlate(mapping, form, request);
 		}
 		return actionForward;
 	}
 
-	private ActionForward processPackingList(ActionMapping mapping, ActionForm form, HttpServletRequest request) {
+	private ActionForward processCuttingPlate(ActionMapping mapping, ActionForm form, HttpServletRequest request) {
 		ActionForward actionForward = null;
-		PortInwardForm portInwardForm = null;
+		StockForm stockForm = null;
 		String genericListener = null;
 		UserInfoVO userInfoVO = null;
 		try {
@@ -61,12 +64,29 @@ public class AddCuttingPlateDetailsAction extends BaseAction {
 
 			actionForward = mapping.findForward(Constants.Mapping.SUCCESS);
 			userInfoVO = getUserProfile(request);
-			portInwardForm = (PortInwardForm) form;
-			genericListener = portInwardForm.getGenericListener();
+			stockForm = (StockForm) form;
+			genericListener = stockForm.getGenericListener();
 			if (genericListener.equalsIgnoreCase("addDetails")) {
-				PortDaoImpl impl = new PortDaoImpl();
-				portInwardForm = impl.addPortInwardDetailsData(portInwardForm,
-						userInfoVO);
+				StockBalDaoImpl impl = new StockBalDaoImpl();
+				Long stockBalId= impl.insertStockBalanceCuttingDetails(stockForm, userInfoVO);
+				
+				//plateshape
+				 
+				double orginx=0;
+		    	double orginy=0;
+		    	double length=stockForm.getLength();
+		    	double width=stockForm.getWidth();
+		    		 
+			    	vkicl.services.geometry.GeometryServiceImpl goemetry=new vkicl.services.geometry.GeometryServiceImpl();
+			    	Shape shapeObj= goemetry.toPolygon(orginx, orginy,length, width);
+			    	
+			    	double area=(length * width);
+			    	
+			    	String Sql=goemetry.toUpdateSql(shapeObj,stockBalId,area);
+			    	impl.updateStockBalanceShape(Sql);
+			    	impl.updateStockBalanceCut(stockForm.getStock_Bal_id(),userInfoVO);
+				
+		    	
 			} else {
 				log.info("Loaded Port - Inward Details");
 			}
@@ -75,4 +95,6 @@ public class AddCuttingPlateDetailsAction extends BaseAction {
 		}
 		return actionForward;
 	}
+	
+	
 }
