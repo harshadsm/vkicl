@@ -87,7 +87,7 @@ public class JSONService extends HttpServlet {
 						form = impl.fetchWarehouseDispatchDetailsReport(
 								(WarehouseDispatchDetailsReportForm) form,
 								userInfoVO);
-impl.test(10,10);
+
 					}
 				} else if (method
 						.equalsIgnoreCase("fetchWarehouseLocationDetails")) {
