@@ -1,5 +1,6 @@
 package vkicl.daoImpl;
 
+import java.awt.Shape;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -694,5 +695,51 @@ public class StockBalDaoImpl extends BaseDaoImpl {
 		}
 	
 		return message;
+	}
+	
+	
+	public Shape fetchplateShape(int id) throws SQLException {
+		StockBalanceDetailsVO vo = null;
+		Connection conn = null;
+		ResultSet rs = null;
+		CallableStatement cs = null;
+		String query = "";
+		String message = "";
+		int count = 0;
+		Shape  plateShape=null;
+		
+		try {
+			conn = getConnection();
+
+			query= "SELECT ST_AsText(plate_shape) as plate_shape   FROM stock_balance "
+					+ " where stock_balance_id=?";
+					
+			log.info("query = " + query);
+			cs = conn.prepareCall(query);
+			cs.setInt(1, id);
+			rs = cs.executeQuery();
+			
+			
+			if ( null != rs && rs.next()) {
+				
+				do {
+				
+					vkicl.services.geometry.GeometryServiceImpl goemetry=new vkicl.services.geometry.GeometryServiceImpl();
+					
+					
+					  plateShape = goemetry.toPolygon(rs.getString("plate_shape"));
+					
+					
+				} while (rs.next());
+
+				
+			}
+
+		} catch (Exception e) {
+			log.error("Some error",e);
+		} finally {
+			closeDatabaseResources(conn, rs, cs);
+		}
+		return plateShape;
 	}
 }

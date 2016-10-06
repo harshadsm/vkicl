@@ -63,7 +63,7 @@ public class JSONService extends HttpServlet {
 					form = impl.fetchPortInwardDetails((PortInwardForm) form,
 							userInfoVO);
 				} else if (method
-						.equalsIgnoreCase("fetchWarehouseInwardDetails")) {
+			.equalsIgnoreCase("fetchWarehouseInwardDetails")) {
 					String portVehicleNumber = request
 							.getParameter("portVehicleNumber");
 					String portVehicleDate = request
@@ -89,8 +89,7 @@ public class JSONService extends HttpServlet {
 								userInfoVO);
 
 					}
-				} else if (method
-						.equalsIgnoreCase("fetchWarehouseLocationDetails")) {
+				} else if (method.equalsIgnoreCase("fetchWarehouseLocationDetails")) {
 					String millName = request.getParameter("millName");
 					String make = request.getParameter("make");
 					String grade = request.getParameter("grade");

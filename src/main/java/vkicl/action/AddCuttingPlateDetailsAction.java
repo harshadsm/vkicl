@@ -66,7 +66,7 @@ public class AddCuttingPlateDetailsAction extends BaseAction {
 			userInfoVO = getUserProfile(request);
 			stockForm = (StockForm) form;
 			genericListener = stockForm.getGenericListener();
-			if (genericListener.equalsIgnoreCase("addDetails")) {
+			/*if (genericListener.equalsIgnoreCase("addDetails")) {
 				StockBalDaoImpl impl = new StockBalDaoImpl();
 				Long stockBalId= impl.insertStockBalanceCuttingDetails(stockForm, userInfoVO);
 				
@@ -89,9 +89,11 @@ public class AddCuttingPlateDetailsAction extends BaseAction {
 		    	
 			} else {
 				log.info("Loaded Port - Inward Details");
-			}
+			}*/
 		} catch (Exception e) {
 			e.printStackTrace();
+			
+			log.error(e.getMessage());
 		}
 		return actionForward;
 	}

@@ -1,6 +1,7 @@
 package vkicl.services;
 
 import java.awt.Shape;
+import java.awt.geom.Area;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -58,20 +59,26 @@ public class StockBalCuttingsonService {
 			//logger.debug("Deleted old records");
 			
 			//Now insert the new PortInwardDetailsVO in database
+			Shape BigplateShape=impl.fetchplateShape(form.getStock_Bal_id());
+			
 			for(StockBalanceDetailsVO vo : list){
 				Long stockBalId= impl.insertStockBalanceCuttingDetails(vo, user);
 				double orginx=0;
 				double orginy=0;
-				double length=vo.getLength();
-		    	double width=vo.getWidth();
+				double smallPlateLength=vo.getLength();
+		    	double smallPlateWidth=vo.getWidth();
+		    	
 		    	
 		    	vkicl.services.geometry.GeometryServiceImpl goemetry=new vkicl.services.geometry.GeometryServiceImpl();
-		    	Shape shapeObj= goemetry.toPolygon(orginx, orginy,length, width);
 		    	
-		    	double area= length * width;
+		    	List<Area> plateArea=goemetry.cut(orginx, orginy, smallPlateLength, smallPlateWidth, BigplateShape);
 		    	
-		    	String Sql=goemetry.toUpdateSql(shapeObj,stockBalId, area);
-		    	impl.updateStockBalanceShape(Sql);
+		    	//Shape shapeObj= goemetry.toPolygon(orginx, orginy,smallPlateLength, smallPlateWidth);
+		    	
+		    	//double area= smallPlateLength * smallPlateWidth;
+		    	
+		    	//String Sql=goemetry.toUpdateSql(shapeObj,stockBalId, area);
+		    	//impl.updateStockBalanceShape(Sql);
 		    	
 		    	impl.updateStockBalanceCut(vo.getStockBalId(), user);
 

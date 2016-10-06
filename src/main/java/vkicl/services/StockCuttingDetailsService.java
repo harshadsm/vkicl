@@ -26,7 +26,7 @@ public class StockCuttingDetailsService {
     	double orginy=0;
 		StockBalDaoImpl impl = new StockBalDaoImpl();
 		List<StockBalanceDetailsVO> list = toList(form, user);
-		if(null!=list && !list.isEmpty()){
+		/*if(null!=list && !list.isEmpty()){
 			
 			//Move any existing records to port_inward_details_deleted table.
 			//impl.moveToDeleted(form.getStock_Bal_id(), user);
@@ -49,7 +49,7 @@ public class StockCuttingDetailsService {
 		    	impl.updateStockBalanceShape(Sql);
 		    	impl.updateStockBalanceCut(vo.getStockBalId(), user);
 			}
-		}
+		}*/
 		
 	}
 	
