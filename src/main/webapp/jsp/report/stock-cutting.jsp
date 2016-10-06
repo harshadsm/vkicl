@@ -190,7 +190,7 @@ $(function() {
 	        		console.log(rowObject);
 	        		//var countOfPortInwardDetailRecords = Number(rowObject.countOfPortInwardDetailRecords);
 	        		//if(countOfPortInwardDetailRecords > 0){
-	        			var cust_lnk = "<a href=\"add-cutting-plate-details.do?id="+rowObject.stockBalId+"\"><span class='glyphicon glyphicon-list'></span></a>";
+	        			var cust_lnk = "<a href=\"add-cutting-plate-details.do?id="+rowObject.stockBalId+"\"><i class='fa fa-scissors' aria-hidden='true'></i></a>";
 	        		//}else{
 	        		//	var cust_lnk = "<a href=\"add-cutting-plate-details.do?id="+rowObject.id+"\"><span class='glyphicon glyphicon-pencil'></span></a>";
 	        		//}
