@@ -28,6 +28,7 @@ import vkicl.form.PortInwardForm;
 import vkicl.form.StockForm;
 import vkicl.report.bean.PortOutwardBean2;
 import vkicl.report.form.StockReportForm;
+import vkicl.services.geometry.GeometryService;
 import vkicl.util.Constants;
 import vkicl.util.JqGridCustomResponse;
 import vkicl.util.JqGridParametersHolder;
@@ -71,7 +72,13 @@ public class StockBalCuttingsonService {
 		    	
 		    	vkicl.services.geometry.GeometryServiceImpl goemetry=new vkicl.services.geometry.GeometryServiceImpl();
 		    	
-		    	List<Area> plateArea=goemetry.cut(orginx, orginy, smallPlateLength, smallPlateWidth, BigplateShape);
+		    	List<Area> plates=goemetry.cut(orginx, orginy, smallPlateLength, smallPlateWidth, BigplateShape);
+		    	for(Area a: plates){
+		    		String insertSql = goemetry.toInsertSql(a);
+		    		logger.info(insertSql);
+		    		//Just make sure that the generated SQL is correct
+		    		//And then Execute this sql in database to insert the two plates (cut-plate and remaining-plate) in database.
+		    	}
 		    	
 		    	//Shape shapeObj= goemetry.toPolygon(orginx, orginy,smallPlateLength, smallPlateWidth);
 		    	
