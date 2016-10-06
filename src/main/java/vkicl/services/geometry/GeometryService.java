@@ -7,9 +7,11 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
+import vkicl.vo.StockBalanceDetailsVO;
+
 public interface GeometryService {
 	
-	String toInsertSql(Shape s);//Done
+	String toInsertSql(Shape s,StockBalanceDetailsVO vo);//Done
 	Polygon toPolygon(String mysqlGeometryPolygonAsText);//Done
 	List<Area> findAreaGreterThan(Area smallerPlateToBeCut);//@TODO for Shweta
 	List<Polygon> findPolygonGreterThan(Polygon smallerPlateToBeCut);//@TODO for Shweta

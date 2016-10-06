@@ -14,6 +14,7 @@ import org.apache.commons.lang.NotImplementedException;
 
 import vkicl.daoImpl.BaseDaoImpl;
 import vkicl.daoImpl.StockBalDaoImpl;
+import vkicl.vo.StockBalanceDetailsVO;
 
 public class GeometryServiceImpl implements GeometryService {
 
@@ -75,9 +76,9 @@ public class GeometryServiceImpl implements GeometryService {
 
 	
 	@Override
-	public String toInsertSql(Shape s) {
+	public String toInsertSql(Shape s, StockBalanceDetailsVO vo) {
 
-		return prepareInsertSql(s);
+		return prepareInsertSql(s,vo);
 	}
 
 	public String toUpdateSql(Shape s, Long stockBalId, double area) {
@@ -133,7 +134,7 @@ public class GeometryServiceImpl implements GeometryService {
 		return poly;
 	}
 
-	private String prepareInsertSql(Shape s) {
+	private String prepareInsertSql(Shape s, StockBalanceDetailsVO vo) {
 
 		List<Double[]> coordinatesList = getCoordinatesList(s);
 
@@ -141,7 +142,7 @@ public class GeometryServiceImpl implements GeometryService {
 		// contains 0,0.
 		//coordinatesList.remove(coordinatesList.size());
 
-		String sql = prepareInsertSql(coordinatesList);
+		String sql = prepareInsertSql(coordinatesList,vo);
 
 		return sql;
 	}
@@ -159,12 +160,11 @@ public class GeometryServiceImpl implements GeometryService {
 		return sql;
 	}
 	
-	private String prepareInsertSql(List<Double[]> coordinatesList) {
+	private String prepareInsertSql(List<Double[]> coordinatesList, StockBalanceDetailsVO vo) {
 		StringBuilder sql = new StringBuilder();
-		sql.append("INSERT INTO ").append("stock_balance").append(" (mill_name, material_make, material_type, "
-				+ " grade, length, width, thickness, is_cut, plate_shape, plate_area,create_ui, "
-				+ " update_ui, create_ts, update_ts)  ").
-		append(" VALUES ").append("(ST_GeomFromText('POLYGON((");
+		sql.append("INSERT INTO ").append("stock_balance").append(" (plate_shape, mill_name, material_make, material_type, "
+				+ " grade, length, width, thickness, plate_area)  ").
+		append(" VALUES (").append("(ST_GeomFromText('POLYGON((");
 
 		for (Double[] coords : coordinatesList) {
 			sql.append(coords[0]).append(" ").append(coords[1]).append(",");
@@ -174,7 +174,8 @@ public class GeometryServiceImpl implements GeometryService {
 		Double[] firstCoords = coordinatesList.get(0);
 		sql.append(firstCoords[0]).append(" ").append(firstCoords[1]);
 
-		sql.append("))'));");
+		sql.append("))'))").append(",'"+vo.getMillName()+"','"+vo.getMake()+"','"+vo.getMaterialType()+"',"
+				+ " '"+vo.getGrade()+"',"+vo.getLength()+","+vo.getWidth()+","+vo.getThickness()+","+vo.getPlateArea()+")");
 
 		return sql.toString();
 	}

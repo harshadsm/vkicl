@@ -63,7 +63,7 @@ public class StockBalCuttingsonService {
 			Shape BigplateShape=impl.fetchplateShape(form.getStock_Bal_id());
 			
 			for(StockBalanceDetailsVO vo : list){
-				Long stockBalId= impl.insertStockBalanceCuttingDetails(vo, user);
+				//Long stockBalId= impl.insertStockBalanceCuttingDetails(vo, user);
 				double orginx=0;
 				double orginy=0;
 				double smallPlateLength=vo.getLength();
@@ -74,8 +74,10 @@ public class StockBalCuttingsonService {
 		    	
 		    	List<Area> plates=goemetry.cut(orginx, orginy, smallPlateLength, smallPlateWidth, BigplateShape);
 		    	for(Area a: plates){
-		    		String insertSql = goemetry.toInsertSql(a);
+		    		String insertSql = goemetry.toInsertSql(a,vo);
 		    		logger.info(insertSql);
+		    		
+		    		impl.insertCutPlateDetails(insertSql);
 		    		//Just make sure that the generated SQL is correct
 		    		//And then Execute this sql in database to insert the two plates (cut-plate and remaining-plate) in database.
 		    	}
@@ -118,6 +120,10 @@ public class StockBalCuttingsonService {
 						vo.setMake(form.getMake());
 						vo.setMillName(form.getMillName());
 						vo.setStockBalId(form.getStock_Bal_id());
+						
+						double plateArea=(form.getLength()*form.getWidth());
+						
+						vo.setPlateArea(plateArea);
 						//vo.setQuantity(qty[i]);
 						//vo.setBe_weight(actualWt[i]);
 //						vo.setBe_wt_unit(actualWtUnit[i]); //As explained by client, it will always be TON

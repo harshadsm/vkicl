@@ -1,5 +1,7 @@
 package vkicl.vo;
 
+import java.awt.Shape;
+
 public class StockBalanceDetailsVO {
 	private Integer stockBalId; 
 	
@@ -12,6 +14,26 @@ public class StockBalanceDetailsVO {
 	private String millName;
 	private String make;
 	private String grade;
+	private Shape plateShape;
+	
+	private double plateArea;
+	
+	public double getPlateArea() {
+		return plateArea;
+	}
+	public void setPlateArea(double plateArea) {
+		this.plateArea = plateArea;
+	}
+	
+	
+	
+	public Shape getPlateShape() {
+		return plateShape;
+	}
+	public void setPlateShape(Shape plateShape) {
+		this.plateShape = plateShape;
+	}
+	
 	
 	public Integer getStockBalId() {
 		return stockBalId;

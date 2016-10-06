@@ -697,6 +697,41 @@ public class StockBalDaoImpl extends BaseDaoImpl {
 		return message;
 	}
 	
+	public String insertCutPlateDetails(String Sql) throws SQLException {
+		List<StockBalanceDetailsVO> list = new ArrayList<StockBalanceDetailsVO>();
+		Connection conn = null;
+		ResultSet rs = null; 
+		CallableStatement cs = null;
+		String query = ""; 
+		String message = "Success";  
+		int count = 0;
+		PreparedStatement statement = null;
+		try {
+			conn = getConnection();
+
+			
+			
+			//String sql = Sql;
+			statement = conn.prepareStatement(Sql);
+			//statement.setString(1, "1");
+			//statement.setString(2, userInfoVO.getUserName());
+			//statement.setInt(3, StockBalId);
+			
+			statement.executeUpdate();
+			log.info("message = " + message);
+			
+		} 
+		catch (Exception e) {
+			e.printStackTrace();
+			message = e.getMessage();
+			log.error(message);
+		} finally
+		{
+			closeDatabaseResources(conn, rs, statement);
+		}
+	
+		return message;
+	}
 	
 	public Shape fetchplateShape(int id) throws SQLException {
 		StockBalanceDetailsVO vo = null;
