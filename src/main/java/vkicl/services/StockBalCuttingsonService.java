@@ -48,7 +48,7 @@ public class StockBalCuttingsonService {
 	
 	public void processForm(StockForm form, UserInfoVO user) throws SQLException{
 
-
+		try {
 		StockBalDaoImpl impl = new StockBalDaoImpl();
 		List<StockBalanceDetailsVO> list = toList(form, user);
 		if(null!=list && !list.isEmpty()){
@@ -94,6 +94,10 @@ public class StockBalCuttingsonService {
 			}
 		}
 		
+		}
+		catch (SQLException e) {
+			logger.error("Some error",e);
+		}
 		
 	}
 		

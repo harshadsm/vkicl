@@ -34,7 +34,7 @@
 							<th class="cell-hide">ID</th>
 							
 							<th>Mill Name</th>
-							<th>Make</th>
+							
 							<th>Material Type</th>
 							<th>Grade</th>
 							<th>Thickness</th>
@@ -55,8 +55,7 @@
 										value="${report.id}"/></td>
 								<td data-type="text" data-name="millName"><c:out
 										value="${report.millName}" /></td>
-								<td data-type="text" data-name="make"><c:out
-										value="${report.make}" /></td>
+								
 								<td data-type="text" data-name="materialType"><c:out
 										value="${report.materialType}" /></td>
 								<td data-type="text" data-name="grade"><c:out
