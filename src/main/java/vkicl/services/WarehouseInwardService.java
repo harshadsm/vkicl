@@ -86,10 +86,6 @@ public class WarehouseInwardService {
 		    	
 		    	StockBalDaoImpl up=new StockBalDaoImpl();
 		    	up.updateStockBalanceShape(Sql);
-		    	
-		    	
-		    	
-		    	
 		    }
 		}
 	}
