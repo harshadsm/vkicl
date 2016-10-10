@@ -18,6 +18,7 @@ import vkicl.form.WarehouseOutwardForm;
 import vkicl.form.WarehouseOutwardProcessForm;
 import vkicl.report.bean.WarehouseLocationBean;
 import vkicl.util.PropFileReader;
+import vkicl.vo.StockBalanceDetailsVO;
 import vkicl.vo.UserInfoVO;
 
 public class WarehouseDaoImpl extends BaseDaoImpl {
@@ -679,6 +680,63 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 		} finally {
 			closeDatabaseResources(conn, rs, cs);
 		}}}
+		return form;
+	}
+
+	
+	
+	public WarehouseLocationForm fetchWarehouseLocationData(WarehouseLocationForm form,
+			UserInfoVO userInfoVO) {
+		Connection conn = null;
+		ResultSet rs = null;
+		CallableStatement cs = null;
+		String query = "";
+		String message = "";
+		ArrayList<WarehouseLocationBean> resultList = null;
+		
+		
+		try {
+			conn = getConnection();
+			
+			double length=Double.parseDouble(form.getLength());
+			double width=Double.parseDouble(form.getWidth());
+					
+			double area=(length*width);
+
+			query= "SELECT s.material_make, s.grade, s.mill_name, s.location, s.quantity "
+					+ " from stock_balance s where plate_area > "+area;
+					
+			log.info("query = " + query);
+			cs = conn.prepareCall(query);
+			//cs.setInt(1, id);
+			rs = cs.executeQuery();
+			if (null != rs && rs.next()) {
+				resultList = new ArrayList<WarehouseLocationBean>();
+				do {
+					WarehouseLocationBean report = new WarehouseLocationBean();
+
+					// report.setMake(formatOutput(rs.getString("material_make")));
+					// report.setGrade(formatOutput(rs.getString("grade")));
+					// report.setMillName(formatOutput(rs.getString("mill_name")));
+					// report.setLength(rs.getInt("length"));
+					// report.setWidth(rs.getInt("width"));
+					// report.setThickness(rs.getDouble("thickness"));
+
+					report.setLocation(formatOutput(rs.getString("location")));
+					report.setAvailableQty(rs.getInt("quantity"));
+
+					resultList.add(report);
+					report = null;
+				} while (rs.next());
+			}
+			form.setResultList(resultList);
+
+		} catch (Exception e) {
+			log.error("Some error",e);
+		} finally {
+			closeDatabaseResources(conn, rs, cs);
+		}
+		
 		return form;
 	}
 

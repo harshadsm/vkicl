@@ -113,10 +113,13 @@ public class JSONService extends HttpServlet {
 							length, width, thickness);
 					
 					WarehouseDaoImpl impl = new WarehouseDaoImpl();
-					form = impl.fetchWarehouseLocationDetails(
+					//form = impl.fetchWarehouseLocationDetails(
+							//(WarehouseLocationForm) form, userInfoVO);
+					form = impl.fetchWarehouseLocationData(
 							(WarehouseLocationForm) form, userInfoVO);
-
+					
 					populatePreviouslySelectedQuantityIfAny(dispatchNo,dispatchDetailRowId, (WarehouseLocationForm)form, userInfoVO, impl);
+					
 
 
 				} else if (method.equalsIgnoreCase("fetchStockFinalDetails")) {
@@ -166,6 +169,8 @@ public class JSONService extends HttpServlet {
 		log.info(form);
 		
 	}
+	
+	
 
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
