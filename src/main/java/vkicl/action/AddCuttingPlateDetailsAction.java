@@ -42,8 +42,12 @@ public class AddCuttingPlateDetailsAction extends BaseAction {
 			StockCuttingDetailsService pidService = new StockCuttingDetailsService();
 			StockBalanceDetailsVO selectedPlate = service.getCuttingDetailsById(id);
 			List<StockBalanceDetailsVO> CuttingDetailsList = pidService.fetchCuttingDetailsList(selectedPlate.getStockBalId());
-			String plateCoordinates = service.getPlateCoordinatesAsString(selectedPlate.getPlateShape());
-			request.setAttribute("plateCoordinates", plateCoordinates);
+			String plateCoordinatesAsString = service.getPlateCoordinatesAsString(selectedPlate.getPlateShape());
+			List<Double[]> coordinates = service.getPlateCoordinatesScalled(selectedPlate.getPlateShape());
+			coordinates.remove(coordinates.size() - 1);
+			coordinates.remove(coordinates.size() - 1);
+			request.setAttribute("plateCoordinates", coordinates);
+			request.setAttribute("plateCoordinatesAsString", plateCoordinatesAsString);
 			request.setAttribute("selected_plate_for_cutting", selectedPlate);
 			request.setAttribute("port_inward_details_records", CuttingDetailsList);
 			actionForward = mapping.findForward(Constants.Mapping.SUCCESS);

@@ -13,7 +13,8 @@
 <%@taglib uri="/WEB-INF/struts-core.tld" prefix="c" %>
 
 <%
-String plateCoordinates = (String)request.getAttribute("plateCoordinates");
+String plateCoordinatesAsString = (String)request.getAttribute("plateCoordinatesAsString");
+List<Double[]> plateCoordinates = (List<Double[]>)request.getAttribute("plateCoordinates");
 StockBalanceDetailsVO vo = (StockBalanceDetailsVO)request.getAttribute("selected_plate_for_cutting");
 List<StockBalanceDetailsVO> portInwardDetailsList = (List<StockBalanceDetailsVO>)request.getAttribute("port_inward_details_records");
 String portInwardDetailsListSize = Integer.toString(portInwardDetailsList.size());
@@ -307,11 +308,20 @@ String portInwardDetailsListSize = Integer.toString(portInwardDetailsList.size()
 	</html:form>
 </div>
 <svg width="1000" height="1000">
-  <polygon points="<%=plateCoordinates %>" />
-  <text fill="red" font-size="15" font-family="Verdana" x="1" y="16">1</text>
-  <text fill="red" font-size="15" font-family="Verdana" x="280" y="16">2</text>
-  <text fill="red" font-size="15" font-family="Verdana" x="280" y="280">3</text>
-  <text fill="red" font-size="15" font-family="Verdana" x="100" y="16">4</text>
+  <polygon points="<%=plateCoordinatesAsString %>" />
+  <% 
+  int cnt = 1;
+  for(Double[] coordinate : plateCoordinates){ 
+	  Double x = coordinate[0];
+	  Double y = coordinate[1] + 20;
+  %>
+	  <text fill="red" font-size="15" font-family="Verdana" x="<%=x %>" y="<%=y%>"><%=cnt %></text>
+	  
+  <% 
+  cnt++;
+  } 
+  %>
+  
 </svg>
 
 

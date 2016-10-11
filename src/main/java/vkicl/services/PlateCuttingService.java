@@ -221,6 +221,15 @@ public class PlateCuttingService {
 		logger.info(sb.toString());
 		return sb.toString();
 	}
+	
+	public List<Double[]> getPlateCoordinatesScalled(Shape plateShape){
+		GeometryService geometryService = new GeometryServiceImpl();
+		List<Double[]> coordinates = geometryService.getCoordinatesList(plateShape);
+		Double scalingFactor = getScalingFactor(plateShape);
+		List<Double[]> scaledCoordinates = scale(coordinates, scalingFactor);
+		return scaledCoordinates;
+		
+	}
 
 	private List<Double[]> scale(List<Double[]> coordinates, Double scalingFactor) {
 		List<Double[]> scaledCoordinates = new ArrayList<Double[]>();

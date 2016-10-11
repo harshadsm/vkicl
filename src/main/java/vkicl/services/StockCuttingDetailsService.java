@@ -94,7 +94,6 @@ public class StockCuttingDetailsService {
 	StockBalDaoImpl portDao = new StockBalDaoImpl();
 		List<StockBalanceDetailsVO> records = portDao.fetchCuttingDetailsList(stockBalId);
 		return records;
-	 
 	}
 
 }
