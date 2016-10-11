@@ -203,7 +203,7 @@ public class StockBalDaoImpl extends BaseDaoImpl {
 		try {
 			conn = getConnection();
 
-			String sql = "SELECT stock_balance_id,MILL_NAME, MATERIAL_TYPE, MATERIAL_MAKE, GRADE, QUANTITY,LENGTH, THICKNESS, WIDTH, LOCATION FROM stock_balance"
+			String sql = "SELECT stock_balance_id,MILL_NAME, MATERIAL_TYPE, MATERIAL_MAKE, GRADE, QUANTITY,LENGTH, THICKNESS, WIDTH, LOCATION FROM stock_balance sb "
 			+ processSearchCriteria(searchParam) + " "+composeOrderByClause(orderByFieldName, order) + " " + composeLimitClause(pageNo, pageSize, total) + ";";
 			
 			query = sql;
@@ -318,48 +318,6 @@ public class StockBalDaoImpl extends BaseDaoImpl {
 		return limitClause;
 	}
 
-	public Integer fetchPortOutwardPackingListRecordCount(JqGridSearchParameterHolder searchParam) throws SQLException {
-		List<PortInwardRecordVO> list = new ArrayList<PortInwardRecordVO>();
-		Connection conn = null;
-		ResultSet rs = null;
-		CallableStatement cs = null;
-
-		int count = 0;
-		try {
-			conn = getConnection();
-			//String count_sql = " SELECT count(*) FROM port_inward_details "
-			
-			String count_sql = " select count(*) "
-			+" from  "
-			+" port_outward po "
-			+" left join port_outward_shipment pis on pis.port_out_shipment_id = po.port_out_shipment_id "
-			
-			+ processSearchCriteria(searchParam);
-			
-
-			log.info("query = " + count_sql);
-
-			cs = conn.prepareCall(count_sql);
-
-			rs = cs.executeQuery();
-			if (null != rs && rs.next()) {
-
-				do {
-					count = rs.getInt(1);
-
-					log.debug("Row count === " + count);
-				} while (rs.next());
-
-			}
-
-		} catch (Exception e) {
-			log.error("Some error", e);
-		} finally {
-			closeDatabaseResources(conn, rs, cs);
-		}
-		return count;
-	}
-
 	private String processSearchCriteria(JqGridSearchParameterHolder searchParam) {
 		String sqlClause = "";
 		List<String> clauses = new ArrayList<String>();
@@ -403,46 +361,23 @@ public class StockBalDaoImpl extends BaseDaoImpl {
 		String op = r.getOp();
 
 		String clause = "";
-		if (field != null && field.equalsIgnoreCase("vendor_name")) {
-			clause = "pis.vendor_name like '%" + data + "%'";
-		} else if (field != null && field.equalsIgnoreCase("vessel_name")) {
-			clause = "po.vessel_name like '%" + data + "%'";
-		} else if (field != null && field.equalsIgnoreCase("grade")) {
-			clause = "pi.material_grade like '%" + data + "%'";}
-			
-			//added-shweta
-			
-			else if (field != null && field.equalsIgnoreCase("vessel_Date")) {
-				clause = "po.vessel_Date like '%" + data + "%'";
-			}
-			else if (field != null && field.equalsIgnoreCase("vehicle_date")) {
-				clause = "pis.vehicle_date like '%" + data + "%'";
-			}
-			else if (field != null && field.equalsIgnoreCase("vehicle_number")) {
-				clause = "pis.vehicle_number like '%" + data + "%'";
-			}
-			else if (field != null && field.equalsIgnoreCase("mill_name")) {
-				clause = "pi.mill_name like '%" + data + "%'";
-			}
-			else if (field != null && field.equalsIgnoreCase("material_type")) {
-				clause = "po.material_type like '%" + data + "%'";
-			}
-			else if (field != null && field.equalsIgnoreCase("thickness")) {
-				clause = "po.thickness like '%" + data + "%'";
-			}
-			else if (field != null && field.equalsIgnoreCase("width")) {
-				clause = "po.width like '%" + data + "%'";
-			}
-			else if (field != null && field.equalsIgnoreCase("length")) {
-				clause = "po.length like '%" + data + "%'";
-			}
 		
-			
-		else if (field != null && field.equalsIgnoreCase("vessel_date")) {
-			clause = processDateClause(data);
-		} else if (field != null && field.equalsIgnoreCase("port_inward_id")) {
-			clause = "port_out_id = " + data ;
-		}
+		// added-shweta
+
+		if (field != null && field.equalsIgnoreCase("mill_name")) {
+			clause = "mill_name like '%" + data + "%'";
+		} else if (field != null && field.equalsIgnoreCase("materialType")) {
+			clause = "material_type like '%" + data + "%'";
+		} else if (field != null && field.equalsIgnoreCase("thickness")) {
+			clause = "thickness >= " + data ;
+		} else if (field != null && field.equalsIgnoreCase("width")) {
+			clause = "width >= " + data;
+		} else if (field != null && field.equalsIgnoreCase("length")) {
+			clause = "length >=" + data;
+		}  else if (field != null && field.equalsIgnoreCase("grade")) {
+			clause = "grade like '%" + data + "%'";
+		} 
+
 
 		return clause;
 	}
