@@ -11,6 +11,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.commons.lang.NotImplementedException;
+import org.apache.log4j.Logger;
 
 import vkicl.daoImpl.BaseDaoImpl;
 import vkicl.daoImpl.StockBalDaoImpl;
@@ -60,6 +61,10 @@ public class GeometryServiceImpl implements GeometryService {
 		cutPlates.add(smallPlate);
 		cutPlates.add(remainingPlateAfterCut);
 		
+		System.out.println("Small Plate area = "+smallPlate.toString());
+		System.out.println("Remaining Plate area = "+remainingPlateAfterCut.toString());
+		
+		
 		return cutPlates;
 	}
 
@@ -106,7 +111,7 @@ public class GeometryServiceImpl implements GeometryService {
 			Area polygonArea = new Area(poly);
 			System.out.println("MySQL = " + p);
 
-			System.out.println("Area = " + polygonArea.isRectangular());
+			System.out.println("Is rectangular = " + polygonArea.isRectangular());
 
 		}
 		return poly;
@@ -140,9 +145,11 @@ public class GeometryServiceImpl implements GeometryService {
 
 		// Remove the last coordinate because it is a closing one. And usually
 		// contains 0,0.
-		//coordinatesList.remove(coordinatesList.size());
+		coordinatesList.remove(coordinatesList.size() - 1);
 
-		String sql = prepareInsertSql(coordinatesList,vo);
+		Double width = s.getBounds2D().getWidth();
+		Double length = s.getBounds2D().getHeight();
+		String sql = prepareInsertSql(coordinatesList,length, width, vo);
 
 		return sql;
 	}
@@ -160,7 +167,7 @@ public class GeometryServiceImpl implements GeometryService {
 		return sql;
 	}
 	
-	private String prepareInsertSql(List<Double[]> coordinatesList, StockBalanceDetailsVO vo) {
+	private String prepareInsertSql(List<Double[]> coordinatesList, Double length, Double width, StockBalanceDetailsVO vo) {
 		StringBuilder sql = new StringBuilder();
 		sql.append("INSERT INTO ").append("stock_balance").append(" (plate_shape, mill_name, material_make, material_type, "
 				+ " grade, length, width, thickness, plate_area)  ").
@@ -175,7 +182,7 @@ public class GeometryServiceImpl implements GeometryService {
 		sql.append(firstCoords[0]).append(" ").append(firstCoords[1]);
 
 		sql.append("))'))").append(",'"+vo.getMillName()+"','"+vo.getMake()+"','"+vo.getMaterialType()+"',"
-				+ " '"+vo.getGrade()+"',"+vo.getLength()+","+vo.getWidth()+","+vo.getThickness()+","+vo.getPlateArea()+")");
+				+ " '"+vo.getGrade()+"',"+length+","+width+","+vo.getThickness()+","+vo.getPlateArea()+")");
 
 		return sql.toString();
 	}
