@@ -149,7 +149,9 @@ public class GeometryServiceImpl implements GeometryService {
 
 		Double width = s.getBounds2D().getWidth();
 		Double length = s.getBounds2D().getHeight();
-		String sql = prepareInsertSql(coordinatesList,length, width, vo);
+		Area a = new Area(s);
+		Integer isRectangular = a.isRectangular()?1:0;
+		String sql = prepareInsertSql(coordinatesList,isRectangular, length, width, vo);
 
 		return sql;
 	}
@@ -161,16 +163,17 @@ public class GeometryServiceImpl implements GeometryService {
 		// Remove the last coordinate because it is a closing one. And usually
 		// contains 0,0.
 		coordinatesList.remove(coordinatesList.size() - 1);
-
-		String sql = prepareUpdateSql(coordinatesList,stockBalId, area);
+		Area a = new Area(s);
+		Integer isRectangular = a.isRectangular()?1:0;
+		String sql = prepareUpdateSql(coordinatesList,isRectangular,stockBalId, area);
 
 		return sql;
 	}
 	
-	private String prepareInsertSql(List<Double[]> coordinatesList, Double length, Double width, StockBalanceDetailsVO vo) {
+	private String prepareInsertSql(List<Double[]> coordinatesList, Integer isRectangular, Double length, Double width, StockBalanceDetailsVO vo) {
 		StringBuilder sql = new StringBuilder();
 		sql.append("INSERT INTO ").append("stock_balance").append(" (plate_shape, mill_name, material_make, material_type, "
-				+ " grade, length, width, thickness, plate_area, quantity)  ").
+				+ " grade, length, width, thickness, plate_area, quantity, is_rectangular)  ").
 		append(" VALUES (").append("(ST_GeomFromText('POLYGON((");
 
 		for (Double[] coords : coordinatesList) {
@@ -182,15 +185,17 @@ public class GeometryServiceImpl implements GeometryService {
 		sql.append(firstCoords[0]).append(" ").append(firstCoords[1]);
 
 		sql.append("))'))").append(",'"+vo.getMillName()+"','"+vo.getMake()+"','"+vo.getMaterialType()+"',"
-				+ " '"+vo.getGrade()+"',"+length+","+width+","+vo.getThickness()+","+vo.getPlateArea()+","+vo.getQuantity()+")");
+				+ " '"+vo.getGrade()+"',"+length+","+width+","+vo.getThickness()+","+vo.getPlateArea()+","+vo.getQuantity()+","+isRectangular+")");
 
 
 		return sql.toString();
 	}
 	
-	private String prepareUpdateSql(List<Double[]> coordinatesList, Long stockBalId, double area) {
+	private String prepareUpdateSql(List<Double[]> coordinatesList, Integer isRectangular, Long stockBalId, double area) {
 		StringBuilder sql = new StringBuilder();
-		sql.append("update ").append("stock_balance").append(" set ").append(" plate_shape= ").append("(ST_GeomFromText('POLYGON((");
+		sql.append("update ").append("stock_balance").append(" set ")
+		.append(" is_rectangular = ").append(isRectangular).append(", ")
+		.append(" plate_shape= ").append("(ST_GeomFromText('POLYGON((");
 
 		for (Double[] coords : coordinatesList) {
 			sql.append(coords[0]).append(" ").append(coords[1]).append(",");

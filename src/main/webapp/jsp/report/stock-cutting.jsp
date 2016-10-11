@@ -39,7 +39,7 @@ $(function() {
 			mtype : 'GET',
 			
 			
-			colNames : [ 'stockBalanceId', 'Mill Name', 'Type', 'Grade', 'Thickness', 'Width', 'Length','Cut'],
+			colNames : [ 'stockBalanceId', 'Mill Name', 'Type', 'Grade', 'Thickness', 'Width', 'Length','Is Rect?','Cut'],
 					
 			colModel : [  {
 				name : 'stockBalId',
@@ -146,6 +146,13 @@ $(function() {
 				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
 				searchoptions: { sopt:[ 'eq']}
 				
+			},{
+				name : 'isRectangular',
+				index : 'isRectangular',
+				width : 50,
+				editable : false,
+				search:false,
+				sortable:false
 			},{
 				name : 'actionLink',
 				index : 'actionLink',

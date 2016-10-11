@@ -203,7 +203,7 @@ public class StockBalDaoImpl extends BaseDaoImpl {
 		try {
 			conn = getConnection();
 
-			String sql = "SELECT stock_balance_id,MILL_NAME, MATERIAL_TYPE, MATERIAL_MAKE, GRADE, QUANTITY,LENGTH, THICKNESS, WIDTH, LOCATION FROM stock_balance sb "
+			String sql = "SELECT stock_balance_id,MILL_NAME, MATERIAL_TYPE, MATERIAL_MAKE, GRADE, QUANTITY,LENGTH, THICKNESS, WIDTH, LOCATION, IS_RECTANGULAR FROM stock_balance sb "
 			+ processSearchCriteria(searchParam) + " "+composeOrderByClause(orderByFieldName, order) + " " + composeLimitClause(pageNo, pageSize, total) + ";";
 			
 			query = sql;
@@ -228,6 +228,7 @@ public class StockBalDaoImpl extends BaseDaoImpl {
 					report.setLength(rs.getInt("length"));
 					report.setWidth(rs.getInt("width"));
 					report.setThickness(rs.getDouble("thickness"));
+					report.setIsRectangular(rs.getInt("is_rectangular"));
 					//report.setQty(rs.getInt("quantity"));
 					list.add(report);
 			}while(rs.next());

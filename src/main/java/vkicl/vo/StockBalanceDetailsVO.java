@@ -18,6 +18,8 @@ public class StockBalanceDetailsVO {
 	
 	private double plateArea;
 	
+	private Integer isRectangular;
+	
 	public double getPlateArea() {
 		return plateArea;
 	}
@@ -88,6 +90,12 @@ public class StockBalanceDetailsVO {
 	}
 	public void setGrade(String grade) {
 		this.grade = grade;
+	}
+	public Integer getIsRectangular() {
+		return isRectangular;
+	}
+	public void setIsRectangular(Integer isRectangular) {
+		this.isRectangular = isRectangular;
 	}
 	
 	
