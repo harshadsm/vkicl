@@ -41,9 +41,9 @@ import vkicl.vo.StockBalanceDetailsVO;
 import vkicl.vo.StockBalanceDetailsVO;
 import vkicl.vo.UserInfoVO;
 
-public class StockBalCuttingsonService {
+public class PlateCuttingService {
 	
-	private Logger logger = Logger.getLogger(StockBalCuttingsonService.class);
+	private Logger logger = Logger.getLogger(PlateCuttingService.class);
 	
 	
 	public void processForm(StockForm form, UserInfoVO user) throws SQLException{

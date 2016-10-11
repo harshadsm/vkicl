@@ -17,7 +17,7 @@ import vkicl.form.PortInwardForm;
 import vkicl.form.StockForm;
 import vkicl.services.PortInwardDetailsService;
 import vkicl.services.PortInwardService;
-import vkicl.services.StockBalCuttingsonService;
+import vkicl.services.PlateCuttingService;
 import vkicl.services.StockCuttingDetailsService;
 import vkicl.util.Constants;
 import vkicl.util.PropFileReader;
@@ -38,7 +38,7 @@ public class AddCuttingPlateDetailsAction extends BaseAction {
 		if(request.getMethod() == "GET"){
 			String id = request.getParameter("id");
 			log.info("id === "+id);
-			StockBalCuttingsonService service = new StockBalCuttingsonService();
+			PlateCuttingService service = new PlateCuttingService();
 			StockCuttingDetailsService pidService = new StockCuttingDetailsService();
 			StockBalanceDetailsVO stockBalVo = service.getCuttingDetailsById(id);
 			List<StockBalanceDetailsVO> CuttingDetailsList = pidService.fetchCuttingDetailsList(stockBalVo.getStockBalId());

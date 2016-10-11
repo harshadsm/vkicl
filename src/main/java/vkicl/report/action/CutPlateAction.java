@@ -16,7 +16,7 @@ import vkicl.daoImpl.ReportDaoImpl;
 
 import vkicl.form.StockForm;
 
-import vkicl.services.StockBalCuttingsonService;
+import vkicl.services.PlateCuttingService;
 import vkicl.util.Constants;
 import vkicl.util.PropFileReader;
 import vkicl.vo.UserInfoVO;
@@ -74,7 +74,7 @@ public class CutPlateAction extends BaseAction {
 				//portInwardForm = (PortInwardForm) form;
 				genericListener = stockForm.getGenericListener();
 				if (genericListener.equalsIgnoreCase("addDetails")) {
-					StockBalCuttingsonService service = new StockBalCuttingsonService();
+					PlateCuttingService service = new PlateCuttingService();
 					
 					service.processForm(stockForm, userInfoVO);
 				} 

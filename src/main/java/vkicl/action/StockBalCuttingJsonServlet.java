@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
-import vkicl.services.StockBalCuttingsonService;
+import vkicl.services.PlateCuttingService;
 import vkicl.services.StockBalDetailsJsonService;
 
 public class StockBalCuttingJsonServlet extends HttpServlet {
@@ -26,7 +26,7 @@ public class StockBalCuttingJsonServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		try {
-			StockBalCuttingsonService service = new StockBalCuttingsonService();
+			PlateCuttingService service = new PlateCuttingService();
 			String json = service.getStockBalCuttingListAsJson(request);
 
 			logger.debug("Going to return StockBalCuttingJsonService json ");
