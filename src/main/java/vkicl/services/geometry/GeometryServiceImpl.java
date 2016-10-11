@@ -170,7 +170,7 @@ public class GeometryServiceImpl implements GeometryService {
 	private String prepareInsertSql(List<Double[]> coordinatesList, Double length, Double width, StockBalanceDetailsVO vo) {
 		StringBuilder sql = new StringBuilder();
 		sql.append("INSERT INTO ").append("stock_balance").append(" (plate_shape, mill_name, material_make, material_type, "
-				+ " grade, length, width, thickness, plate_area)  ").
+				+ " grade, length, width, thickness, plate_area, quantity)  ").
 		append(" VALUES (").append("(ST_GeomFromText('POLYGON((");
 
 		for (Double[] coords : coordinatesList) {
@@ -183,6 +183,7 @@ public class GeometryServiceImpl implements GeometryService {
 
 		sql.append("))'))").append(",'"+vo.getMillName()+"','"+vo.getMake()+"','"+vo.getMaterialType()+"',"
 				+ " '"+vo.getGrade()+"',"+length+","+width+","+vo.getThickness()+","+vo.getPlateArea()+")");
+
 
 		return sql.toString();
 	}
