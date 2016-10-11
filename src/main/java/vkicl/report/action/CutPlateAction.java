@@ -13,7 +13,7 @@ import org.apache.struts.util.LabelValueBean;
 
 import vkicl.action.BaseAction;
 import vkicl.daoImpl.ReportDaoImpl;
-
+import vkicl.exceptions.CutNotPossibleException;
 import vkicl.form.StockForm;
 
 import vkicl.services.PlateCuttingService;
@@ -84,8 +84,12 @@ public class CutPlateAction extends BaseAction {
 			//}
 			log.info("Loaded Cutting Plate Details");
 
-		} catch (Exception e) {
+		} catch(CutNotPossibleException e){
+			actionForward = mapping.findForward(Constants.Mapping.CUT_NOT_POSSIBLE);
+		}
+		catch (Exception e) {
 			e.printStackTrace();
+			actionForward = mapping.findForward(Constants.Mapping.SUCCESS);
 		}
 		return actionForward;
 	}

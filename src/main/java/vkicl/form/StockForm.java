@@ -16,6 +16,8 @@ public class StockForm extends BaseForm {
 		private Integer  length = null;
 		private Integer  width = null;
 		private Double  thickness = null;
+		private Double origin_x;
+		private Double origin_y; 
 		
 		public StockForm() {
 		}
@@ -82,6 +84,24 @@ public class StockForm extends BaseForm {
 	
     public void setThickness(Double  thickness) {
 		this.thickness = thickness;
+	}
+    
+    
+
+public Double getOrigin_x() {
+		return origin_x;
+	}
+
+	public void setOrigin_x(Double origin_x) {
+		this.origin_x = origin_x;
+	}
+
+	public Double getOrigin_y() {
+		return origin_y;
+	}
+
+	public void setOrigin_y(Double origin_y) {
+		this.origin_y = origin_y;
 	}
 
 @Override

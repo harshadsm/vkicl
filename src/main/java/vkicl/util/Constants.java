@@ -30,5 +30,6 @@ public interface Constants {
 		public static final String HOME_PAGE = "homePage";
 		public static final String DISPATCH_REPORT_PAGE = "dispatchReportPage";
 		public static final String PACKING_LIST_PAGE = "showAddPackingListPage"; 
+		public static final String CUT_NOT_POSSIBLE = "cutNotPossiblePage";
 	}
 }

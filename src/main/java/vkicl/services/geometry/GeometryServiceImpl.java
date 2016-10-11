@@ -15,6 +15,7 @@ import org.apache.log4j.Logger;
 
 import vkicl.daoImpl.BaseDaoImpl;
 import vkicl.daoImpl.StockBalDaoImpl;
+import vkicl.exceptions.CutNotPossibleException;
 import vkicl.vo.StockBalanceDetailsVO;
 
 public class GeometryServiceImpl implements GeometryService {
@@ -34,7 +35,7 @@ public class GeometryServiceImpl implements GeometryService {
 	
 	@Override
 	public List<Area> cut(Double originX, Double originY, Double smallPlateLength, Double smallPlateWidth,
-			Shape biggerPlate) {
+			Shape biggerPlate) throws CutNotPossibleException {
 		boolean isCutPossible = false;
 		Path2D path = new Path2D.Double();
 		path.moveTo(originX, originY);
@@ -51,7 +52,7 @@ public class GeometryServiceImpl implements GeometryService {
 			isCutPossible = true;
 		}else{
 			isCutPossible = false;
-			//@Shweta: TODO: Should throw an exception and show an error to the USER.
+			throw new CutNotPossibleException("Cut not possible with given dimensions and positioning.");
 		}
 		
 		Area remainingPlateAfterCut = new Area(biggerPlate);

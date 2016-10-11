@@ -157,7 +157,7 @@
 	<div class="col-sm-2">
 		<div class="portfolio-item">
 			<div class="portfolio-image">
-				<a href="./stock-cutting.do">Cut a Plate</a>
+				<a href="./stock-cutting.do?genericListener=nothing">Cut a Plate</a>
 			</div>
 		</div>
 		<br />

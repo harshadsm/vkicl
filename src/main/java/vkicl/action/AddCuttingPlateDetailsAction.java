@@ -43,9 +43,10 @@ public class AddCuttingPlateDetailsAction extends BaseAction {
 			StockBalanceDetailsVO selectedPlate = service.getCuttingDetailsById(id);
 			List<StockBalanceDetailsVO> CuttingDetailsList = pidService.fetchCuttingDetailsList(selectedPlate.getStockBalId());
 			String plateCoordinatesAsString = service.getPlateCoordinatesAsString(selectedPlate.getPlateShape());
-			List<Double[]> coordinates = service.getPlateCoordinatesScalled(selectedPlate.getPlateShape());
-			coordinates.remove(coordinates.size() - 1);
-			coordinates.remove(coordinates.size() - 1);
+			List<Double[]> coordinatesScaled = service.getPlateCoordinatesScalled(selectedPlate.getPlateShape());
+			List<Double[]> coordinates = service.getPlateCoordinates(selectedPlate.getPlateShape());
+			
+			request.setAttribute("plateCoordinatesScaled", coordinatesScaled);
 			request.setAttribute("plateCoordinates", coordinates);
 			request.setAttribute("plateCoordinatesAsString", plateCoordinatesAsString);
 			request.setAttribute("selected_plate_for_cutting", selectedPlate);

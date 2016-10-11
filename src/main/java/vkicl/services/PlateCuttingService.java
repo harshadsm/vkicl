@@ -17,6 +17,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import com.google.gson.Gson;
 
 import vkicl.daoImpl.StockBalDaoImpl;
+import vkicl.exceptions.CutNotPossibleException;
 import vkicl.form.StockForm;
 import vkicl.services.geometry.GeometryService;
 import vkicl.services.geometry.GeometryServiceImpl;
@@ -34,7 +35,7 @@ public class PlateCuttingService {
 	//USED FOR SCALING
 	private final Double SVG_MAX_WIDTH = 300D; 
 	
-	public void processForm(StockForm form, UserInfoVO user) throws SQLException{
+	public void processForm(StockForm form, UserInfoVO user) throws SQLException, CutNotPossibleException{
 
 		try {
 		StockBalDaoImpl impl = new StockBalDaoImpl();
@@ -52,8 +53,8 @@ public class PlateCuttingService {
 			
 			for(StockBalanceDetailsVO vo : list){
 				//Long stockBalId= impl.insertStockBalanceCuttingDetails(vo, user);
-				double orginx=0;
-				double orginy=0;
+				double orginx=form.getOrigin_x();
+				double orginy=form.getOrigin_y();
 				double smallPlateLength=vo.getLength();
 		    	double smallPlateWidth=vo.getWidth();
 		    	
@@ -222,13 +223,34 @@ public class PlateCuttingService {
 		return sb.toString();
 	}
 	
+	public List<Double[]> getPlateCoordinates(Shape plateShape){
+		GeometryService geometryService = new GeometryServiceImpl();
+		List<Double[]> coordinates = geometryService.getCoordinatesList(plateShape);
+		
+		removeLastCoordinate(coordinates);
+		removeLastCoordinate(coordinates);
+		
+		return coordinates;
+		
+	}
+	
 	public List<Double[]> getPlateCoordinatesScalled(Shape plateShape){
 		GeometryService geometryService = new GeometryServiceImpl();
 		List<Double[]> coordinates = geometryService.getCoordinatesList(plateShape);
 		Double scalingFactor = getScalingFactor(plateShape);
 		List<Double[]> scaledCoordinates = scale(coordinates, scalingFactor);
+		
+		removeLastCoordinate(scaledCoordinates);
+		removeLastCoordinate(scaledCoordinates);
+		
 		return scaledCoordinates;
 		
+	}
+	
+	private void removeLastCoordinate(List<Double[]>  coordinates){
+		if(coordinates!=null && (coordinates.size() - 1) > 2){
+			coordinates.remove(coordinates.size() - 1);
+		}
 	}
 
 	private List<Double[]> scale(List<Double[]> coordinates, Double scalingFactor) {

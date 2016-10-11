@@ -166,6 +166,7 @@
 		<action path="/stock-cutting" type="vkicl.report.action.CutPlateAction"
 			name="StockForm">
 			<forward name="success" path="StockReportDefn2" />
+			<forward name="cutNotPossiblePage" path="cutNotPossiblePage" />
 		</action>
 		
         <action path="/add-cutting-plate-details" type="vkicl.action.AddCuttingPlateDetailsAction"
