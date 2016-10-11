@@ -13,7 +13,7 @@
 <%@taglib uri="/WEB-INF/struts-core.tld" prefix="c" %>
 
 <%
-StockBalanceDetailsVO vo = (StockBalanceDetailsVO)request.getAttribute("port_inward_record");
+StockBalanceDetailsVO vo = (StockBalanceDetailsVO)request.getAttribute("selected_plate_for_cutting");
 List<StockBalanceDetailsVO> portInwardDetailsList = (List<StockBalanceDetailsVO>)request.getAttribute("port_inward_details_records");
 String portInwardDetailsListSize = Integer.toString(portInwardDetailsList.size());
 %>
