@@ -160,7 +160,7 @@ public class GeometryServiceImpl implements GeometryService {
 
 		// Remove the last coordinate because it is a closing one. And usually
 		// contains 0,0.
-		//coordinatesList.remove(coordinatesList.size());
+		coordinatesList.remove(coordinatesList.size() - 1);
 
 		String sql = prepareUpdateSql(coordinatesList,stockBalId, area);
 

@@ -59,7 +59,7 @@ public class WarehouseInwardService {
 		    System.out.println("key=" + entry.getKey() + ", value=" + entry.getValue());
 		    List<WarehouseInwardRecordVO> vehicleEntry = entry.getValue();
 		    warehouseShipmentId = warehouseShipmentDaoImpl.saveWarehouseShipment(vehicleEntry.get(0), userInfo);
-		    warehouseShipmentDaoImpl.updatePortOutwardData(vehicleEntry.get(0),userInfo);
+		    
 		    
 		    for(WarehouseInwardRecordVO warehouseInwardRecordVO :vehicleEntry){
 		    	
@@ -67,11 +67,13 @@ public class WarehouseInwardService {
 		    	
 		    	impl.addWarehouseInwardDetailData(warehouseInwardRecordVO, warehouseInwardId, userInfo);
 		    	
-		    	//added
+		    	//Update stock
 		    	stockBalId=impl.addStockBalData(warehouseInwardRecordVO,userInfo);
 		    	
-		    	//plateshape
+		    	//Mark the Port Outward entry as received
+		    	warehouseShipmentDaoImpl.updateWarehouseInwardFlag(warehouseInwardRecordVO,userInfo);
 		    	
+		    	//Update plate shape
 		    	double orginx=0;
 		    	double orginy=0;
 		    	double length=warehouseInwardRecordVO.getLength();

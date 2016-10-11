@@ -64,7 +64,7 @@ public class WarehouseShipmentDaoImpl extends BaseDaoImpl{
 		return savedRecordId;
 	}
 	
-	public void updatePortOutwardData(WarehouseInwardRecordVO postDataContainer, UserInfoVO userInfo) throws SQLException {
+	public void updateWarehouseInwardFlag(WarehouseInwardRecordVO postDataContainer, UserInfoVO userInfo) throws SQLException {
 		Connection conn = null;
 		ResultSet rs = null;
 		CallableStatement cs = null;
