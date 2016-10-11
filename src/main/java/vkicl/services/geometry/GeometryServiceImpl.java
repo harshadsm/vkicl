@@ -231,7 +231,7 @@ public class GeometryServiceImpl implements GeometryService {
 		return sql.toString();
 	}*/
 
-	private List<Double[]> getCoordinatesList(Shape s) {
+	public List<Double[]> getCoordinatesList(Shape s) {
 		List<Double[]> coordinatesList = new LinkedList<Double[]>();
 		PathIterator pi = s.getPathIterator(null);
 		while (pi.isDone() == false) {

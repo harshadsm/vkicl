@@ -239,6 +239,7 @@ String portInwardDetailsListSize = Integer.toString(portInwardDetailsList.size()
 									<th>Thickness</th><td><%=vo.getThickness() %></td></tr><tr>
 									<th>Width</th><td><%=vo.getWidth() %></td></tr><tr>
 									<th>Length</th><td><%=vo.getLength() %></td></tr><tr>
+									<th>Area</th><td><%=vo.getPlateArea() %></td></tr><tr>
 									
 								</tr>
 							</tbody>
@@ -304,6 +305,10 @@ String portInwardDetailsListSize = Integer.toString(portInwardDetailsList.size()
 		<html:hidden property="genericListener" value="addDetails" />
 	</html:form>
 </div>
+<svg width="1000" height="1000">
+  <polygon points="0,0 0,50 50,50 50,100 100,100 100,0" />
+</svg>
+
 
 
 

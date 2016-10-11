@@ -1,5 +1,6 @@
 package vkicl.daoImpl;
 
+import java.awt.Polygon;
 import java.awt.Shape;
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -19,6 +20,8 @@ import vkicl.form.StockForm;
 import vkicl.report.bean.StockBean;
 import vkicl.report.bean.WarehouseLocationBean;
 import vkicl.report.form.StockReportForm;
+import vkicl.services.geometry.GeometryService;
+import vkicl.services.geometry.GeometryServiceImpl;
 import vkicl.util.Constants;
 import vkicl.util.Converter;
 import vkicl.util.JqGridSearchParameterHolder;
@@ -77,6 +80,7 @@ public class StockBalDaoImpl extends BaseDaoImpl {
 	}
 	
 	public StockBalanceDetailsVO fetchStockBalById(int id) throws SQLException {
+		GeometryService geometryService = new GeometryServiceImpl();
 		StockBalanceDetailsVO vo = null;
 		Connection conn = null;
 		ResultSet rs = null;
@@ -87,7 +91,7 @@ public class StockBalDaoImpl extends BaseDaoImpl {
 		try {
 			conn = getConnection();
 
-			query= "SELECT stock_balance_id,mill_name, material_type, material_make, grade,length, thickness, width "
+			query= "SELECT stock_balance_id,mill_name, material_type, material_make, grade,length, thickness, width, plate_shape, ST_Area(plate_shape) as plate_area"
 					+ " from stock_balance where stock_balance_id=? and is_cut!=1 ";
 					
 			log.info("query = " + query);
@@ -108,6 +112,8 @@ public class StockBalDaoImpl extends BaseDaoImpl {
 					int length = rs.getInt(6);
 					double thickness = rs.getDouble(7);
 					int width = rs.getInt(8);
+					Polygon plateShape = geometryService.toPolygon(rs.getString("plate_shape"));
+					double plateArea = rs.getDouble("plate_area");
 					
 					
 					vo = new StockBalanceDetailsVO();
@@ -119,6 +125,8 @@ public class StockBalDaoImpl extends BaseDaoImpl {
 					vo.setLength(length);
 					vo.setThickness(thickness);
 					vo.setWidth(width);
+					vo.setPlateArea(plateArea);
+					vo.setPlateShape(plateShape);
 					
 					break; //WE EXPECT/WANT ONLY 1 record.
 				} while (rs.next());

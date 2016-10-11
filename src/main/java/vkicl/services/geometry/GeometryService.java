@@ -18,5 +18,5 @@ public interface GeometryService {
 	List<Area> cut(Double originX, Double originY, Double smallPlateLength, Double smallPlateWidth, Shape biggerPlate);//DONE
 	Shape toPolygon(Double originX, Double originY, Double length, Double width);//Done
 
-	
+	List<Double[]> getCoordinatesList(Shape s);
 }
