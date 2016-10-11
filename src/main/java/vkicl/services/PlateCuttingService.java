@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -17,27 +16,14 @@ import org.codehaus.jackson.map.ObjectMapper;
 
 import com.google.gson.Gson;
 
-import vkicl.daoImpl.PortDaoImpl;
-import vkicl.daoImpl.PortInwardDaoImpl;
-import vkicl.daoImpl.PortInwardOutwardIntersectionDaoImpl;
-import vkicl.daoImpl.PortInwardPackingListDaoImpl;
-import vkicl.daoImpl.PortOutwardDaoImpl;
-import vkicl.daoImpl.PortOutwardPackingListDaoImpl;
 import vkicl.daoImpl.StockBalDaoImpl;
-import vkicl.form.PortInwardForm;
 import vkicl.form.StockForm;
-import vkicl.report.bean.PortOutwardBean2;
-import vkicl.report.form.StockReportForm;
 import vkicl.services.geometry.GeometryService;
-import vkicl.util.Constants;
+import vkicl.services.geometry.GeometryServiceImpl;
 import vkicl.util.JqGridCustomResponse;
 import vkicl.util.JqGridParametersHolder;
 import vkicl.util.JqGridParametersHolder.JQGRID_PARAM_NAMES;
 import vkicl.util.JqGridSearchParameterHolder;
-import vkicl.vo.LocationDetailsVO;
-import vkicl.vo.PackingListItemVO;
-import vkicl.vo.PortInwardRecordVO;
-import vkicl.vo.StockBalanceDetailsVO;
 import vkicl.vo.StockBalanceDetailsVO;
 import vkicl.vo.UserInfoVO;
 
@@ -45,6 +31,8 @@ public class PlateCuttingService {
 	
 	private Logger logger = Logger.getLogger(PlateCuttingService.class);
 	
+	//USED FOR SCALING
+	private final Double SVG_MAX_WIDTH = 300D; 
 	
 	public void processForm(StockForm form, UserInfoVO user) throws SQLException{
 
@@ -213,5 +201,45 @@ public class PlateCuttingService {
 			logger.error("Some error",e);
 		}
 		return vo;
+	}
+
+	public String getPlateCoordinatesAsString(Shape plateShape) {
+		GeometryService geometryService = new GeometryServiceImpl();
+		List<Double[]> coordinates = geometryService.getCoordinatesList(plateShape);
+		Double scalingFactor = getScalingFactor(plateShape);
+		List<Double[]> scaledCoordinates = scale(coordinates, scalingFactor);
+		
+		StringBuilder sb = new StringBuilder();
+		
+		for(Double[] coordinate : scaledCoordinates){
+			Double x = coordinate[0];
+			Double y = coordinate[1];
+			sb.append(x).append(",").append(y).append(" ");
+		}
+		
+		sb.trimToSize();
+		logger.info(sb.toString());
+		return sb.toString();
+	}
+
+	private List<Double[]> scale(List<Double[]> coordinates, Double scalingFactor) {
+		List<Double[]> scaledCoordinates = new ArrayList<Double[]>();
+		for(Double[] coordinate : coordinates){
+			Double x = coordinate[0];
+			Double y = coordinate[1];
+			
+			Double scaledX = x * scalingFactor;
+			Double scaledY = y * scalingFactor;
+			
+			Double [] scaledCoordinate = {scaledX, scaledY};
+			scaledCoordinates.add(scaledCoordinate);
+		}
+		return scaledCoordinates;
+	}
+
+	private Double getScalingFactor(Shape plateShape) {
+		Double width = plateShape.getBounds2D().getWidth();
+		Double scalingFactor = SVG_MAX_WIDTH/width;
+		return scalingFactor;
 	}
 }

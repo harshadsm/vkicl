@@ -91,7 +91,7 @@ public class StockBalDaoImpl extends BaseDaoImpl {
 		try {
 			conn = getConnection();
 
-			query= "SELECT stock_balance_id,mill_name, material_type, material_make, grade,length, thickness, width, plate_shape, ST_Area(plate_shape) as plate_area"
+			query= "SELECT stock_balance_id,mill_name, material_type, material_make, grade,length, thickness, width, ST_AsText(plate_shape) plate_shape_text, ST_Area(plate_shape) as plate_area"
 					+ " from stock_balance where stock_balance_id=? and is_cut!=1 ";
 					
 			log.info("query = " + query);
@@ -112,7 +112,7 @@ public class StockBalDaoImpl extends BaseDaoImpl {
 					int length = rs.getInt(6);
 					double thickness = rs.getDouble(7);
 					int width = rs.getInt(8);
-					Polygon plateShape = geometryService.toPolygon(rs.getString("plate_shape"));
+					Polygon plateShape = geometryService.toPolygon(rs.getString("plate_shape_text"));
 					double plateArea = rs.getDouble("plate_area");
 					
 					

@@ -13,6 +13,7 @@
 <%@taglib uri="/WEB-INF/struts-core.tld" prefix="c" %>
 
 <%
+String plateCoordinates = (String)request.getAttribute("plateCoordinates");
 StockBalanceDetailsVO vo = (StockBalanceDetailsVO)request.getAttribute("selected_plate_for_cutting");
 List<StockBalanceDetailsVO> portInwardDetailsList = (List<StockBalanceDetailsVO>)request.getAttribute("port_inward_details_records");
 String portInwardDetailsListSize = Integer.toString(portInwardDetailsList.size());
@@ -298,7 +299,7 @@ String portInwardDetailsListSize = Integer.toString(portInwardDetailsList.size()
 		<div class="row">
 			<div class="col-md-4" ></div>
 			 
-				<html:submit styleClass="btn pull-right" onclick="return validateForm();"  />
+				<html:submit styleClass="btn" onclick="return validateForm();"  />
 			</div>
 			<div class="col-md-4"></div>
 		</div>
@@ -306,7 +307,11 @@ String portInwardDetailsListSize = Integer.toString(portInwardDetailsList.size()
 	</html:form>
 </div>
 <svg width="1000" height="1000">
-  <polygon points="0,0 0,50 50,50 50,100 100,100 100,0" />
+  <polygon points="<%=plateCoordinates %>" />
+  <text fill="red" font-size="15" font-family="Verdana" x="1" y="16">1</text>
+  <text fill="red" font-size="15" font-family="Verdana" x="280" y="16">2</text>
+  <text fill="red" font-size="15" font-family="Verdana" x="280" y="280">3</text>
+  <text fill="red" font-size="15" font-family="Verdana" x="100" y="16">4</text>
 </svg>
 
 
