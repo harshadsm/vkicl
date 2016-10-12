@@ -18,7 +18,7 @@ public class WarehouseDaoImpl2 extends BaseDaoImpl {
 	static PropFileReader prop = PropFileReader.getInstance();
 
 
-	public Long addWarehouseInwardData(WarehouseInwardRecordVO portOutwardRecordVO,Long warehouseShipmentId,
+	public Long addWarehouseInwardData(WarehouseInwardRecordVO warehouseInwardRecordVO,Long warehouseShipmentId,
 			UserInfoVO userInfoVO) throws SQLException {
 		Connection conn = null;
 		ResultSet rs = null;
@@ -27,17 +27,17 @@ public class WarehouseDaoImpl2 extends BaseDaoImpl {
 		Long savedRecordId = -1L;
 		try {
 			
-			String vehicleDateStr = portOutwardRecordVO.getVehicleDate();
+			String vehicleDateStr = warehouseInwardRecordVO.getVehicleDate();
 			java.sql.Date vehicleDate = Converter.dateToSqlDate(Converter.stringToDate(vehicleDateStr, Constants.Apps.DATE_FORMAT));
-			String vehicleNumber = portOutwardRecordVO.getVehicleName();
-			String millName = portOutwardRecordVO.getMillName();
-		    String grade = portOutwardRecordVO.getGrade();
-			Integer width = portOutwardRecordVO.getWidth();
-			Double thickness = portOutwardRecordVO.getThickness();
-			Double secWt = portOutwardRecordVO.getBalQty();
-			Integer qty = portOutwardRecordVO.getAvailableQuantity();
-			String materialType = portOutwardRecordVO.getMaterialType();
-			Integer length = portOutwardRecordVO.getLength();
+			String vehicleNumber = warehouseInwardRecordVO.getVehicleName();
+			String millName = warehouseInwardRecordVO.getMillName();
+		    String grade = warehouseInwardRecordVO.getGrade();
+			Integer width = warehouseInwardRecordVO.getWidth();
+			Double thickness = warehouseInwardRecordVO.getThickness();
+			Double secWt = warehouseInwardRecordVO.getBalQty();
+			Integer qty = warehouseInwardRecordVO.getAvailableQuantity();
+			String materialType = warehouseInwardRecordVO.getMaterialType();
+			Integer length = warehouseInwardRecordVO.getLength();
 			
 			query = "INSERT INTO warehouse_inward "
 					+ " (warehouse_inship_id, be_no, material_type, mill_name, material_make, grade, "

@@ -704,7 +704,7 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 			double area=(length*width);
 
 			query= "SELECT s.material_make, s.grade, s.mill_name, s.location, s.quantity "
-					+ " from stock_balance s where is_cut!=1 and plate_area > "+area;
+					+ " from stock_balance s where is_cut!=1 and plate_area >= "+area;
 					
 			log.info("query = " + query);
 			cs = conn.prepareCall(query);

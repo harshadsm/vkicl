@@ -104,7 +104,7 @@ public class PortInwardDetailsJsonService {
 		List<PackingListItemVO> records = portDao.fetchPortInwardPackingList( Integer.parseInt(page),
 				Integer.parseInt(rows), totalRecordsCount, orderBy, order, searchParam);
 		
-		updateAlreadyOutQuantity(records);
+		records = updateAlreadyOutQuantity(records);
 
 		JqGridCustomResponse response = new JqGridCustomResponse();
 		response.setPage(page);
@@ -117,8 +117,8 @@ public class PortInwardDetailsJsonService {
 	}
 
 
-	private void updateAlreadyOutQuantity(List<PackingListItemVO> records) throws Exception {
-		
+	private List<PackingListItemVO>  updateAlreadyOutQuantity(List<PackingListItemVO> records) throws Exception {
+		List<PackingListItemVO> recordsWithQtyMoreThanZero = new ArrayList<PackingListItemVO>();
 		PortOutwardDaoImpl portOutDaoImpl = new PortOutwardDaoImpl();
 		
 		if(records!=null && !records.isEmpty()){
@@ -140,11 +140,14 @@ public class PortInwardDetailsJsonService {
 					vo.setQuantity(availableQuantity);
 				}
 				
-				
+				if(vo.getQuantity()!=null && vo.getQuantity() > 0){
+					recordsWithQtyMoreThanZero.add(vo);
+				}
 				
 			}
 				
 		}
+		return recordsWithQtyMoreThanZero;
 		
 	}
 	

@@ -549,7 +549,7 @@ function populatePackingList(){
 			viewrecords : true,
 			sortorder : "desc",
 			
-			caption : "Inventory available at Warehouse",
+			caption : "Inventory arriving at Warehouse",
 			emptyrecords : "Empty records",
 			loadonce : false,
 			loadComplete : function() {

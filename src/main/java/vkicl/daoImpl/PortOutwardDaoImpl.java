@@ -113,7 +113,9 @@ public class PortOutwardDaoImpl extends BaseDaoImpl {
 					+ ", update_ts "
 					+" from port_outward where port_out_id "
 					+ " in "
-					+ " (select port_outward_id from port_inward_outward_intersection where port_inward_details_id = ?) ";
+					+ " (select port_outward_id from port_inward_outward_intersection where port_inward_details_id = ?) "
+					+ " AND quantity > 0 "
+					+ " ";
 						
 			logger.info(query);
 			
