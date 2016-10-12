@@ -91,7 +91,12 @@ public class StockBalDaoImpl extends BaseDaoImpl {
 		try {
 			conn = getConnection();
 
-			query= "SELECT stock_balance_id,mill_name, material_type, material_make, grade,length, thickness, width, ST_AsText(plate_shape) plate_shape_text, ST_Area(plate_shape) as plate_area"
+			//For whatever weired reasons, ST_AsText does not work on server. AsText works.
+			//In fact any function prefixed with ST_ does not work on server.
+			//Hence removing ST_ prefix from the queries.
+//			query= "SELECT stock_balance_id,mill_name, material_type, material_make, grade,length, thickness, width, ST_AsText(plate_shape) plate_shape_text, ST_Area(plate_shape) as plate_area"
+//					+ " from stock_balance where stock_balance_id=? and is_cut!=1 ";
+			query= "SELECT stock_balance_id,mill_name, material_type, material_make, grade,length, thickness, width, AsText(plate_shape) plate_shape_text, Area(plate_shape) as plate_area"
 					+ " from stock_balance where stock_balance_id=? and is_cut!=1 ";
 					
 			log.info("query = " + query);
@@ -689,8 +694,12 @@ public class StockBalDaoImpl extends BaseDaoImpl {
 		
 		try {
 			conn = getConnection();
-
-			query= "SELECT ST_AsText(plate_shape) as plate_shape   FROM stock_balance "
+			//For whatever weired reasons, ST_AsText does not work on server. AsText works.
+			//In fact any function prefixed with ST_ does not work on server.
+			//Hence removing ST_ prefix from the queries.
+//			query= "SELECT ST_AsText(plate_shape) as plate_shape   FROM stock_balance "
+//					+ " where stock_balance_id=?";
+			query= "SELECT AsText(plate_shape) as plate_shape   FROM stock_balance "
 					+ " where stock_balance_id=?";
 					
 			log.info("query = " + query);

@@ -93,7 +93,7 @@ public class GeometryServiceImpl implements GeometryService {
 	}
 	
 	/**
-	 * If a query similar to "SELECT ST_AsText(g) as gg FROM geom" is run,
+	 * If a query similar to "SELECT AsText(g) as gg FROM geom" is run,
 	 * whatever is returned by MySql should be passed to this function as
 	 * mysqlGeometryPolygonAsText.
 	 */
@@ -173,9 +173,17 @@ public class GeometryServiceImpl implements GeometryService {
 	
 	private String prepareInsertSql(List<Double[]> coordinatesList, Integer isRectangular, Double length, Double width, StockBalanceDetailsVO vo) {
 		StringBuilder sql = new StringBuilder();
-		sql.append("INSERT INTO ").append("stock_balance").append(" (plate_shape, mill_name, material_make, material_type, "
-				+ " grade, length, width, thickness, plate_area, quantity, is_rectangular)  ").
-		append(" VALUES (").append("(ST_GeomFromText('POLYGON((");
+		//For whatever weired reasons, ST_AsText does not work on server. AsText works.
+		//In fact any function prefixed with ST_ does not work on server.
+		//Hence removing ST_ prefix from the queries.
+//		sql.append("INSERT INTO ").append("stock_balance").append(" (plate_shape, mill_name, material_make, material_type, "
+//				+ " grade, length, width, thickness, plate_area, quantity, is_rectangular)  ").
+//		append(" VALUES (").append("(ST_GeomFromText('POLYGON((");
+
+		
+		sql.append("INSERT INTO ").append("stock_balance").append(" (plate_shape, mill_name, material_make, material_type, ")
+				.append(" grade, length, width, thickness, plate_area, quantity, is_rectangular)  ").
+		append(" VALUES (").append("(GeomFromText('POLYGON((");
 
 		for (Double[] coords : coordinatesList) {
 			sql.append(coords[0]).append(" ").append(coords[1]).append(",");
@@ -194,9 +202,18 @@ public class GeometryServiceImpl implements GeometryService {
 	
 	private String prepareUpdateSql(List<Double[]> coordinatesList, Integer isRectangular, Long stockBalId, double area) {
 		StringBuilder sql = new StringBuilder();
+		
+		//For whatever weired reasons, ST_AsText does not work on server. AsText works.
+				//In fact any function prefixed with ST_ does not work on server.
+				//Hence removing ST_ prefix from the queries.
+//		sql.append("update ").append("stock_balance").append(" set ")
+//		.append(" is_rectangular = ").append(isRectangular).append(", ")
+//		.append(" plate_shape= ").append("(ST_GeomFromText('POLYGON((");
+
+		
 		sql.append("update ").append("stock_balance").append(" set ")
 		.append(" is_rectangular = ").append(isRectangular).append(", ")
-		.append(" plate_shape= ").append("(ST_GeomFromText('POLYGON((");
+		.append(" plate_shape= ").append("(GeomFromText('POLYGON((");
 
 		for (Double[] coords : coordinatesList) {
 			sql.append(coords[0]).append(" ").append(coords[1]).append(",");
@@ -217,7 +234,7 @@ public class GeometryServiceImpl implements GeometryService {
 	
 	/*private String prepareInsertSql(List<Double[]> coordinatesList) {
 		StringBuilder sql = new StringBuilder();
-		sql.append("INSERT INTO ").append(TABLE_1).append(" ").append(" VALUES ").append("(ST_GeomFromText('POLYGON((");
+		sql.append("INSERT INTO ").append(TABLE_1).append(" ").append(" VALUES ").append("(GeomFromText('POLYGON((");
 
 		for (Double[] coords : coordinatesList) {
 			sql.append(coords[0]).append(" ").append(coords[1]).append(",");
