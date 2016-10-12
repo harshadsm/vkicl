@@ -45,7 +45,9 @@ public class AddCuttingPlateDetailsAction extends BaseAction {
 			String plateCoordinatesAsString = service.getPlateCoordinatesAsString(selectedPlate.getPlateShape());
 			List<Double[]> coordinatesScaled = service.getPlateCoordinatesScalled(selectedPlate.getPlateShape());
 			List<Double[]> coordinates = service.getPlateCoordinates(selectedPlate.getPlateShape());
+			Double maxWidthAndHeightForSvgTag = service.getMaxWidthAndHeightForSvgTag();
 			
+			request.setAttribute("maxWidthAndHeightForSvgTag", maxWidthAndHeightForSvgTag);
 			request.setAttribute("plateCoordinatesScaled", coordinatesScaled);
 			request.setAttribute("plateCoordinates", coordinates);
 			request.setAttribute("plateCoordinatesAsString", plateCoordinatesAsString);

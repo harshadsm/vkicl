@@ -33,7 +33,7 @@ public class PlateCuttingService {
 	private Logger logger = Logger.getLogger(PlateCuttingService.class);
 	
 	//USED FOR SCALING
-	private final Double SVG_MAX_WIDTH = 300D; 
+	private final Double SVG_MAX_WIDTH_AND_LENGTH = 300D; 
 	
 	public void processForm(StockForm form, UserInfoVO user) throws SQLException, CutNotPossibleException{
 
@@ -270,7 +270,11 @@ public class PlateCuttingService {
 
 	private Double getScalingFactor(Shape plateShape) {
 		Double width = plateShape.getBounds2D().getWidth();
-		Double scalingFactor = SVG_MAX_WIDTH/width;
+		Double scalingFactor = SVG_MAX_WIDTH_AND_LENGTH/width;
 		return scalingFactor;
+	}
+	
+	public Double getMaxWidthAndHeightForSvgTag(){
+		return SVG_MAX_WIDTH_AND_LENGTH;
 	}
 }
