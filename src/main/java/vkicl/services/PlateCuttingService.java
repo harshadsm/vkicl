@@ -78,7 +78,8 @@ public class PlateCuttingService {
 		    	//String Sql=goemetry.toUpdateSql(shapeObj,stockBalId, area);
 		    	//impl.updateStockBalanceShape(Sql);
 		    	
-		    	impl.updateStockBalanceCut(vo.getStockBalId(), user);
+		    	//impl.updateStockBalanceCut(vo.getStockBalId(), vo.getQuantity() ,user);
+		    	impl.updateStockBalanceCut(vo.getStockBalId(), vo.getQuantity(), user);
 
 			}
 		}
@@ -117,7 +118,7 @@ public class PlateCuttingService {
 						double plateArea=(form.getLength()*form.getWidth());
 						
 						vo.setPlateArea(plateArea);
-						//vo.setQuantity(qty[i]);
+						vo.setQuantity(form.getQuantity());
 						//vo.setBe_weight(actualWt[i]);
 //						vo.setBe_wt_unit(actualWtUnit[i]); //As explained by client, it will always be TON
 						//vo.setBe_wt_unit("TON");

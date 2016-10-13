@@ -61,6 +61,7 @@ Double[] firstCoordinate = plateCoordinates.get(0);
 									<th>Thickness</th><td><%=vo.getThickness() %></td></tr><tr>
 									<th>Width</th><td><%=vo.getWidth() %></td></tr><tr>
 									<th>Length</th><td><%=vo.getLength() %></td></tr><tr>
+									<th>Quantity</th><td><%=vo.getQuantity() %></td></tr><tr>
 									<th>Area</th><td><%=vo.getPlateArea() %></td></tr><tr>
 									
 								</tr>
@@ -105,6 +106,7 @@ Double[] firstCoordinate = plateCoordinates.get(0);
 									<input  type='hidden' name='grade'  value="<%=vo.getGrade() %>"/>
 									<input  type='hidden' name='thickness'  value="<%=vo.getThickness() %>"/>
 									<input  type='hidden' name='stock_Bal_id'  value="<%=vo.getStockBalId() %>"/>
+									<input  type='hidden' name='quantity'  value="<%=vo.getQuantity() %>"/>
 									
 								</td>
 								<td >

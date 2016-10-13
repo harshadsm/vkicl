@@ -19,6 +19,16 @@ public class StockForm extends BaseForm {
 		private Double origin_x;
 		private Double origin_y; 
 		
+		private Integer  quantity = null;
+		
+		public Integer getQuantity() {
+			return quantity;
+		}
+
+		public void setQuantity(Integer quantity) {
+			this.quantity = quantity;
+		}
+
 		public StockForm() {
 		}
 

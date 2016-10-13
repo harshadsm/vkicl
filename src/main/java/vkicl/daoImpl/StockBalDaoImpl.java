@@ -96,7 +96,8 @@ public class StockBalDaoImpl extends BaseDaoImpl {
 			//Hence removing ST_ prefix from the queries.
 //			query= "SELECT stock_balance_id,mill_name, material_type, material_make, grade,length, thickness, width, ST_AsText(plate_shape) plate_shape_text, ST_Area(plate_shape) as plate_area"
 //					+ " from stock_balance where stock_balance_id=? and is_cut!=1 ";
-			query= "SELECT stock_balance_id,mill_name, material_type, material_make, grade,length, thickness, width, AsText(plate_shape) plate_shape_text, Area(plate_shape) as plate_area"
+			query= "SELECT stock_balance_id,mill_name, material_type, material_make, grade,length, thickness, width, "
+					+ " AsText(plate_shape) plate_shape_text, Area(plate_shape) as plate_area, quantity"
 					+ " from stock_balance where stock_balance_id=? and is_cut!=1 ";
 					
 			log.info("query = " + query);
@@ -119,7 +120,7 @@ public class StockBalDaoImpl extends BaseDaoImpl {
 					int width = rs.getInt(8);
 					Polygon plateShape = geometryService.toPolygon(rs.getString("plate_shape_text"));
 					double plateArea = rs.getDouble("plate_area");
-					
+					int quantity=rs.getInt("quantity");
 					
 					vo = new StockBalanceDetailsVO();
 					vo.setStockBalId(stockBalId);
@@ -132,6 +133,7 @@ public class StockBalDaoImpl extends BaseDaoImpl {
 					vo.setWidth(width);
 					vo.setPlateArea(plateArea);
 					vo.setPlateShape(plateShape);
+					vo.setQuantity(quantity);
 					
 					break; //WE EXPECT/WANT ONLY 1 record.
 				} while (rs.next());
@@ -216,7 +218,8 @@ public class StockBalDaoImpl extends BaseDaoImpl {
 		try {
 			conn = getConnection();
 
-			String sql = "SELECT stock_balance_id,MILL_NAME, MATERIAL_TYPE, MATERIAL_MAKE, GRADE, QUANTITY,LENGTH, THICKNESS, WIDTH, LOCATION, IS_RECTANGULAR FROM stock_balance sb "
+			String sql = "SELECT stock_balance_id,MILL_NAME, MATERIAL_TYPE, MATERIAL_MAKE, GRADE, QUANTITY,LENGTH, "
+					+ " THICKNESS, WIDTH, LOCATION, IS_RECTANGULAR, quantity  FROM stock_balance sb "
 			+ processSearchCriteria(searchParam) + " "+composeOrderByClause(orderByFieldName, order) + " " + composeLimitClause(pageNo, pageSize, total) + ";";
 			
 			query = sql;
@@ -242,7 +245,7 @@ public class StockBalDaoImpl extends BaseDaoImpl {
 					report.setWidth(rs.getInt("width"));
 					report.setThickness(rs.getDouble("thickness"));
 					report.setIsRectangular(rs.getInt("is_rectangular"));
-					//report.setQty(rs.getInt("quantity"));
+					report.setQuantity(rs.getInt("quantity"));
 					list.add(report);
 			}while(rs.next());
 			
@@ -490,7 +493,7 @@ public class StockBalDaoImpl extends BaseDaoImpl {
 		return savedRecordId;
 	}
 	
-	public String updateStockBalanceCut(Integer StockBalId,
+	public String updateStockBalanceCut(Integer StockBalId,Integer quantity,
 			UserInfoVO userInfoVO) throws SQLException {
 		List<StockBalanceDetailsVO> list = new ArrayList<StockBalanceDetailsVO>();
 		Connection conn = null;
@@ -516,12 +519,14 @@ public class StockBalDaoImpl extends BaseDaoImpl {
 			message = cs.getString(4);
 			log.info("message = " + message);*/
 			
+			Integer balQuantity=(quantity-1);
 			
-			String sql = "update stock_balance s set s.is_cut = ?,s.update_ui = ?,s.update_ts = NOW()  WHERE stock_balance_id=?";
+			String sql = "update stock_balance s set s.is_cut = ?, quantity=?, s.update_ui = ?,s.update_ts = NOW()  WHERE stock_balance_id=?";
 			statement = conn.prepareStatement(sql);
 			statement.setString(1, "1");
-			statement.setString(2, userInfoVO.getUserName());
-			statement.setInt(3, StockBalId);
+			statement.setInt(2, balQuantity);
+			statement.setString(3, userInfoVO.getUserName());
+			statement.setInt(4, StockBalId);
 			
 			statement.executeUpdate();
 			log.info("message = " + message);
