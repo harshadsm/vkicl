@@ -296,12 +296,12 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 				do {
 					WarehouseLocationBean report = new WarehouseLocationBean();
 
-					// report.setMake(formatOutput(rs.getString("material_make")));
-					// report.setGrade(formatOutput(rs.getString("grade")));
-					// report.setMillName(formatOutput(rs.getString("mill_name")));
-					// report.setLength(rs.getInt("length"));
-					// report.setWidth(rs.getInt("width"));
-					// report.setThickness(rs.getDouble("thickness"));
+					report.setMake(formatOutput(rs.getString("material_make")));
+					 report.setGrade(formatOutput(rs.getString("grade")));
+					 report.setMillName(formatOutput(rs.getString("mill_name")));
+					 report.setLength(rs.getInt("length"));
+					 report.setWidth(rs.getInt("width"));
+					report.setThickness(rs.getDouble("thickness"));
 
 					report.setLocation(formatOutput(rs.getString("location")));
 					report.setAvailableQty(rs.getInt("quantity"));
@@ -703,7 +703,7 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 					
 			double area=(length*width);
 
-			query= "SELECT s.material_make, s.grade, s.mill_name, s.location, s.quantity "
+			query= "SELECT s.material_make, s.grade, s.mill_name, s.location, s.quantity, s.length, s.width, s.thickness "
 					+ " from stock_balance s where is_cut!=1 and plate_area >= "+area;
 					
 			log.info("query = " + query);
@@ -715,12 +715,12 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 				do {
 					WarehouseLocationBean report = new WarehouseLocationBean();
 
-					// report.setMake(formatOutput(rs.getString("material_make")));
-					// report.setGrade(formatOutput(rs.getString("grade")));
-					// report.setMillName(formatOutput(rs.getString("mill_name")));
-					// report.setLength(rs.getInt("length"));
-					// report.setWidth(rs.getInt("width"));
-					// report.setThickness(rs.getDouble("thickness"));
+					report.setMake(formatOutput(rs.getString("material_make")));
+					report.setGrade(formatOutput(rs.getString("grade")));
+					 report.setMillName(formatOutput(rs.getString("mill_name")));
+					 report.setLength(rs.getInt("length"));
+					 report.setWidth(rs.getInt("width"));
+					 report.setThickness(rs.getDouble("thickness"));
 
 					report.setLocation(formatOutput(rs.getString("location")));
 					report.setAvailableQty(rs.getInt("quantity"));
