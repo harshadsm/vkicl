@@ -46,6 +46,8 @@ String portInwardDetailsListSize = Integer.toString(portInwardDetailsList.size()
 				addChecksumEventHandlers("row-sub-" + i);
 			}
 		}
+		calculateChecksumOfQty();
+		calculateChecksumOfActualWeight();
 	});
 
 	function refreshSubRows() {
@@ -124,7 +126,7 @@ String portInwardDetailsListSize = Integer.toString(portInwardDetailsList.size()
 		});
 
 		console.log("Checksum = " + checkSum);
-		$("#checksum-thickness").text(checkSum);
+		//$("#checksum-thickness").text(checkSum);
 	}
 
 	function addWidthChecksumEventHandler(trId) {
@@ -142,7 +144,7 @@ String portInwardDetailsListSize = Integer.toString(portInwardDetailsList.size()
 		});
 
 		console.log("Checksum = " + checkSum);
-		$("#checksum-width").text(checkSum);
+		//$("#checksum-width").text(checkSum);
 	}
 
 	function addLengthChecksumEventHandler(trId) {
@@ -160,7 +162,7 @@ String portInwardDetailsListSize = Integer.toString(portInwardDetailsList.size()
 		});
 
 		console.log("Checksum = " + checkSum);
-		$("#checksum-length").text(checkSum);
+		//$("#checksum-length").text(checkSum);
 	}
 
 	function addQuantityChecksumEventHandler(trId) {
@@ -287,14 +289,14 @@ style="display: none;" /> </span>
 						<tr id="row-sub-<%=cnt %>" class='sub-row' >
 							<input type='hidden' name='subPis' />
 							<td >
-								<input disabled type='number' step='1' min='0' name='thickness' placeholder='Thickness' class='form-control' value="<%=record.getThickness() %>"/>
+								<input  type='number' step='1' min='0' name='thickness' placeholder='Thickness' class='form-control' value="<%=record.getThickness() %>"/>
 							</td>
-							<td><input disabled type='number' step='1' min='0' name='width' placeholder='Width' class='form-control' value="<%=record.getWidth() %>" /></td>
-							<td><input disabled type='number' step='1' min='0' name='length' placeholder='Length' class='form-control' value="<%=record.getLength() %>"/></td>
-							<td><input disabled type='number' step='1' min='0' name='qty' placeholder='Quantity' class='form-control' value="<%=record.getQuantity() %>" /></td>
-							<td><div class='input-group'><input disabled type='number' step='0.001' min='0' name='actualWt' placeholder='Actual Weight' class='form-control' aria-label='...' value="<%=record.getBe_weight() %>">
+							<td><input  type='number' step='1' min='0' name='width' placeholder='Width' class='form-control' value="<%=record.getWidth() %>" /></td>
+							<td><input  type='number' step='1' min='0' name='length' placeholder='Length' class='form-control' value="<%=record.getLength() %>"/></td>
+							<td><input  type='number' step='1' min='0' name='qty' placeholder='Quantity' class='form-control' value="<%=record.getQuantity() %>" /></td>
+							<td><div class='input-group'><input  type='number' step='0.001' min='0' name='actualWt' placeholder='Actual Weight' class='form-control' aria-label='...' value="<%=record.getBe_weight() %>">
 							<div class='input-group-btn weight-group'>
-							<input disabled type='hidden' name='actualWtUnit' value='TON' />
+							<input  type='hidden' name='actualWtUnit' value='TON' />
 							<button type='button'class='btn btn-default dropdown-toggle' disabled data-toggle='dropdown' aria-expanded='false'>TON</button>
 							<ul class='dropdown-menu dropdown-menu-right' role='menu'><li onclick='btnGroupChange(this);'><a>TON</a></li><li onclick='btnGroupChange(this);'><a>KG</a></li></ul>
 							</div></div></td>
@@ -302,7 +304,7 @@ style="display: none;" /> </span>
 						</tr>
 					<% } %>
 				</tbody>
-				<!--  <tfoot>
+				<tfoot>
 					<tr>
 						<td><div id="checksum-thickness"></div></td>
 						<td><div id="checksum-width"></div></td>
@@ -318,7 +320,7 @@ style="display: none;" /> </span>
 							</div>
 						</td>
 					</tr>
-				</tfoot>-->
+				</tfoot>
 			</table>
 			
 			</div>
