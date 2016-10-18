@@ -927,6 +927,12 @@ function composeCombinationId(recordObj){
 	return comboId;
 }
 
+function composeCombinationClass(recordObj){
+	//var comboId = ""+ recordObj.portInwardId + "-"+recordObj.portInwardDetailId+"-"+recordObj.portInwardShipmentId;
+	var comboId = "portoutward-group-"+ recordObj.portInwardId + "-"+recordObj.portInwardShipmentId;
+	return comboId;
+}
+
 function awId(recordObj){
 	var trElementId = composeCombinationId(recordObj);
 	var actualWeightCellId = "actualWeight-"+trElementId;
@@ -951,6 +957,11 @@ function locationId(recordObj){
 	return locationCellId;
 }
 
+function composeJsonCellId(parentTrId){
+	var jsonCellId = "jsonstr-"+parentTrId;
+	return jsonCellId;
+}
+
 
 function getLocationDropdownHtml(recordObj){
 	//var html = "<td><input type='text'          placeholder='Location' name='locationInput' class='form-control port_out_section_wt' /></td>";
@@ -965,9 +976,11 @@ function getLocationDropdownHtml(recordObj){
 function addRowOfSelectedRecord(recordObj) {
 	console.log(recordObj);
 	var id = composeCombinationId(recordObj);
-	var str = "<tr id='" + id + "'>"
-			
-	+ "<td><input type='text' readonly placeholder='vesselDate' value='"+recordObj.vesselDate+"' name='vesselDate' class='form-control' /></td>"
+	var jsonCellId = composeJsonCellId(id);
+	var warehouseInwardRecordClass = composeCombinationClass(recordObj);
+	var recordObjJson = JSON.stringify(recordObj);		
+	var str = "<tr id='" + id + "' class='"+warehouseInwardRecordClass+"'>"
+			+ "<td><input type='text' readonly placeholder='vesselDate' value='"+recordObj.vesselDate+"' name='vesselDate' class='form-control' /></td>"
 			+ "<td><input type='text' readonly placeholder='vesselName' value='"+recordObj.vesselName+"' name='vesselName' class='form-control' /></td>"
 			+ "<td><input type='text' readonly placeholder='vehicleDate' value='"+recordObj.vehicleDate+"' name='vesselName' class='form-control' /></td>"
 			+ "<td><input type='text' readonly placeholder='vehicleName' value='"+recordObj.vehicleName+"' name='vesselName' class='form-control' /></td>"
@@ -980,7 +993,7 @@ function addRowOfSelectedRecord(recordObj) {
 			+ "<td><input type='text' readonly placeholder='thickness' value='"+recordObj.thickness+"' name='thickness' class='form-control' /></td>"
 			+ "<td><input type='text' readonly placeholder='width' value='"+recordObj.width+"' name='width' class='form-control' /></td>"
 			+ "<td><input type='text' readonly placeholder='length' value='"+recordObj.length+"' name='length' class='form-control' /></td>"
-			+ "<td><input type='text' readonly placeholder='orderedQuantity' value='"+recordObj.availableQuantity+"' name='availableQuantity' class='form-control port_out_item_quantity' /></td>"
+			+ "<td><input type='text'          placeholder='orderedQuantity' value='"+recordObj.availableQuantity+"' name='availableQuantity' class='form-control port_out_item_quantity' /></td>"
 			+ "<td><input type='text' readonly placeholder='balQty' value='"+recordObj.balQty+"' name='balQty' class='form-control port_out_section_wt' /></td>"
 			+ "<td><input type='text' readonly placeholder='Actual Wt.' value='"+recordObj.actualWt+"' name='actualWt' class='form-control port_out_section_wt' id='"+awId(recordObj)+"' /></td>"
 			+ "<td><input type='text'          placeholder='Heat No' name='heatNoInput' class='form-control port_out_section_wt' id='"+heatId(recordObj)+"'/></td>"
@@ -988,9 +1001,10 @@ function addRowOfSelectedRecord(recordObj) {
 			+ getLocationDropdownHtml(recordObj)
 			//+ "<td><div class='input-group'><input type='number' step='0.001' placeholder='Section Weight' min='0' readonly value='' name='secWt' class='form-control' aria-label='...'><div class='input-group-btn weight-group'><input type='hidden' name='secWtUnit' value='TON' /><button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown' disabled aria-expanded='false'>TON <span class='caret'></span></button><ul class='dropdown-menu dropdown-menu-right' role='menu'><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>TON</a></li><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>KG</a></li></ul></div></div></td>"
 			// + "<td><div class='input-group'><input type='number' step='0.001' placeholder='Actual Weight' min='0' value='' name='actualWt' onchange='calcSecWtRow(\"row-"+ id+ "\");' onblur='calcSecWtRow(\"row-"+ id+ "\");' class='form-control' aria-label='...'><div class='input-group-btn weight-group'><input type='hidden' onchange='calcSecWtRow(\"row-"+ id+ "\");' onblur='calcSecWtRow(\"row-"+ id+ "\");' name='actualWtUnit' value='TON' /><button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown' aria-expanded='false'>TON <span class='caret'></span></button><ul class='dropdown-menu dropdown-menu-right' role='menu'><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>TON</a></li><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>KG</a></li></ul></div></div></td>"
-			+ "<td><input type='button' class='btn-danger delete-row' onclick='deleteRow($(this).parent().parent().attr(\"id\"));' value='-' /></td></tr>";
-			+ "<td></td>"
-			+ "<td>split</td>";
+			+ "<td><input type='button' class='btn btn-warn' onclick='split($(this).parent().parent().attr(\"id\"));' value='split' /></td>"
+			+ "<td><input type='button' class='btn-danger delete-row' onclick='deleteRow($(this).parent().parent().attr(\"id\"));' value='-' /></td>"
+			+ "<td><input type='hidden' value='"+recordObjJson+"' id='"+jsonCellId+"'/></td>"
+			+ "</tr>";
 	$("#details-tbody").append(str);
 	
 
@@ -1027,6 +1041,13 @@ function addQuantitySumRow(quantitySum,sectionwtSum) {
 }
 
 
+function split(idOfRowToSplit){
+
+	console.log("splitting the quantity into more than one locations.-"+idOfRowToSplit);
+	var rowToSplit = $("#"+idOfRowToSplit).html();
+	console.log(rowToSplit);
+	$("#"+idOfRowToSplit).after("<tr>"+rowToSplit+"</tr>");
+}
 
 //Below function will force the numeric input if type="number" for input tag.
 //Source: http://stackoverflow.com/questions/469357/html-text-input-allow-only-numeric-input
@@ -1154,12 +1175,4 @@ function prepareTableToExcelAndExport(){
 }
 </script>
 
-<script>
 
-function split(){
-
-	console.log("splitting the quantity into more than one locations.");
-	
-}
-
-</script>
