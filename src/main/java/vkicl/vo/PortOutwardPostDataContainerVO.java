@@ -15,7 +15,9 @@ public class PortOutwardPostDataContainerVO {
 	private String qty;
 	private String materialType;
 	private String millName;
-	
+	private String heatNo;
+	private String plateNo;
+	private String location;
 	
 	
 	public Double getSecWt() {
@@ -90,6 +92,24 @@ public class PortOutwardPostDataContainerVO {
 	}
 	public void setSelectedPortInventoryItemsJson(String selectedPortInventoryItemsJson) {
 		this.selectedPortInventoryItemsJson = selectedPortInventoryItemsJson;
+	}
+	public String getHeatNo() {
+		return heatNo;
+	}
+	public void setHeatNo(String heatNo) {
+		this.heatNo = heatNo;
+	}
+	public String getPlateNo() {
+		return plateNo;
+	}
+	public void setPlateNo(String plateNo) {
+		this.plateNo = plateNo;
+	}
+	public String getLocation() {
+		return location;
+	}
+	public void setLocation(String location) {
+		this.location = location;
 	}
 	
 	

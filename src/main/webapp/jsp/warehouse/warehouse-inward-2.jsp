@@ -198,9 +198,43 @@ pageContext.setAttribute("locationsList", locationsList);
 		
 		//return commonSubmit();
 	}
+
+	function addHeatPlateAndLocation(){
+		for(var i=0;i<SELECTED_PORT_INVENTORY_ITEMS.length;i++){
+			var item = SELECTED_PORT_INVENTORY_ITEMS[i];
+			var heatNo = getHeatNo(item);
+			var plateNo = getPlateNo(item);
+			var location = getSelectedLocation(item);
+
+			console.log(heatNo+"-"+plateNo+"-"+location);
+			item.heatNo=heatNo;
+			item.plateNo=plateNo;
+			item.location=location;
+		}
+	}
+
+	function getHeatNo(item){
+		var elemId = heatId(item);
+		var heatNo = $("#"+elemId).val();
+		return heatNo;
+	}
+
+	function getPlateNo(item){
+		var elemId = plateId(item);
+		var heatNo = $("#"+elemId).val();
+		return heatNo;
+	}
+
+	function getSelectedLocation(item){
+		var elemId = locationId(item);
+		var location = $("#"+elemId).val();
+		return location;
+	}
 	
 	function submitCachedWarehouseInwardRecords(){
 
+		addHeatPlateAndLocation();
+		
 		var selected_port_inventory_items_JSON = JSON.stringify(SELECTED_PORT_INVENTORY_ITEMS);
 		var postJsonObject = {
 				selectedPortInventoryItemsJson : selected_port_inventory_items_JSON
@@ -698,8 +732,9 @@ function handleOnSelectRow(rowId, status){
 				objectForCaching.orderedQuantity = 1;
 			}
 			
-			
+			//Push items into cache as selected.
 			SELECTED_PORT_INVENTORY_ITEMS.push(objectForCaching);
+			
 			if($("#ordered_qty_"+rowId).val()==""){
 				$("#ordered_qty_"+rowId).val("1");
 				var val = calculateOutQty(rowId, objectForCaching.orderedQuantity);
@@ -882,9 +917,32 @@ function awId(recordObj){
 	var actualWeightCellId = "actualWeight-"+trElementId;
 	return actualWeightCellId;
 }
-function getLocationDropdownHtml(){
+
+function heatId(recordObj){
+	var trElementId = composeCombinationId(recordObj);
+	var heatCellId = "heat-"+trElementId;
+	return heatCellId;
+}
+
+function plateId(recordObj){
+	var trElementId = composeCombinationId(recordObj);
+	var plateCellId = "plate-"+trElementId;
+	return plateCellId;
+}
+
+function locationId(recordObj){
+	var trElementId = composeCombinationId(recordObj);
+	var locationCellId = "location-"+trElementId;
+	return locationCellId;
+}
+
+
+function getLocationDropdownHtml(recordObj){
 	//var html = "<td><input type='text'          placeholder='Location' name='locationInput' class='form-control port_out_section_wt' /></td>";
+	var locationIdStr = locationId(recordObj);
 	var html = $("#locationDropdownTemplate").html();
+	html = html.replace(/selectLocationId/, locationIdStr);
+	//console.log(html);
 	html = "<td>"+html+"</td>";
 	return html;
 }
@@ -910,9 +968,9 @@ function addRowOfSelectedRecord(recordObj) {
 			+ "<td><input type='text' readonly placeholder='orderedQuantity' value='"+recordObj.availableQuantity+"' name='availableQuantity' class='form-control port_out_item_quantity' /></td>"
 			+ "<td><input type='text' readonly placeholder='balQty' value='"+recordObj.balQty+"' name='balQty' class='form-control port_out_section_wt' /></td>"
 			+ "<td><input type='text' readonly placeholder='Actual Wt.' value='"+recordObj.actualWt+"' name='actualWt' class='form-control port_out_section_wt' id='"+awId(recordObj)+"' /></td>"
-			+ "<td><input type='text'          placeholder='Heat No' name='heatNoInput' class='form-control port_out_section_wt' /></td>"
-			+ "<td><input type='text'          placeholder='Plate No' name='plateNoInput' class='form-control port_out_section_wt' /></td>"
-			+ getLocationDropdownHtml()
+			+ "<td><input type='text'          placeholder='Heat No' name='heatNoInput' class='form-control port_out_section_wt' id='"+heatId(recordObj)+"'/></td>"
+			+ "<td><input type='text'          placeholder='Plate No' name='plateNoInput' class='form-control port_out_section_wt' id='"+plateId(recordObj)+"'/></td>"
+			+ getLocationDropdownHtml(recordObj)
 			//+ "<td><div class='input-group'><input type='number' step='0.001' placeholder='Section Weight' min='0' readonly value='' name='secWt' class='form-control' aria-label='...'><div class='input-group-btn weight-group'><input type='hidden' name='secWtUnit' value='TON' /><button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown' disabled aria-expanded='false'>TON <span class='caret'></span></button><ul class='dropdown-menu dropdown-menu-right' role='menu'><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>TON</a></li><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>KG</a></li></ul></div></div></td>"
 			// + "<td><div class='input-group'><input type='number' step='0.001' placeholder='Actual Weight' min='0' value='' name='actualWt' onchange='calcSecWtRow(\"row-"+ id+ "\");' onblur='calcSecWtRow(\"row-"+ id+ "\");' class='form-control' aria-label='...'><div class='input-group-btn weight-group'><input type='hidden' onchange='calcSecWtRow(\"row-"+ id+ "\");' onblur='calcSecWtRow(\"row-"+ id+ "\");' name='actualWtUnit' value='TON' /><button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown' aria-expanded='false'>TON <span class='caret'></span></button><ul class='dropdown-menu dropdown-menu-right' role='menu'><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>TON</a></li><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>KG</a></li></ul></div></div></td>"
 			//+ "<td><input type='button' class='btn-danger delete-row' onclick='deleteRow($(this).parent().parent().attr(\"id\"));' value='-' /></td></tr>";
@@ -1045,7 +1103,7 @@ function isValidNumber(str) {
 </div>
 
 <div id="locationDropdownTemplate" style="visibility: hidden;" >
-	<select name="location">
+	<select name="location" id="selectLocationId">
 		<option value="-">Select Location</option>
 	<c:forEach items="${locationsList}" var="locationVo">
 		<option value='<c:out value="${locationVo.locationName}"></c:out>'><c:out value="${locationVo.locationName}"></c:out></option>
