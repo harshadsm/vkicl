@@ -44,6 +44,11 @@ public class WarehouseInwardService {
 		
 		WarehouseShipmentDaoImpl warehouseShipmentDaoImpl = new WarehouseShipmentDaoImpl();
 		
+		/**
+		 * Group the records by vehicle date & vehicle name.
+		 * This is because, at a time a vehicle can arrive only once in a day.
+		 * That was the assumption made by the previous developer.
+		 */
 		Map<String, List<WarehouseInwardRecordVO>> map = new HashMap<String, List<WarehouseInwardRecordVO>>();
 		for( WarehouseInwardRecordVO warehouseInwardRecordVO : warehouseInwardRecordsToBeSaved){
 			String key = warehouseInwardRecordVO.getVehicleDate() + "_" + warehouseInwardRecordVO.getVehicleName();
