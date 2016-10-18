@@ -57,11 +57,11 @@ public class WarehouseInwardService {
 		
 		for (Map.Entry<String, List<WarehouseInwardRecordVO>> entry : map.entrySet()) {
 		    System.out.println("key=" + entry.getKey() + ", value=" + entry.getValue());
-		    List<WarehouseInwardRecordVO> vehicleEntry = entry.getValue();
-		    warehouseShipmentId = warehouseShipmentDaoImpl.saveWarehouseShipment(vehicleEntry.get(0), userInfo);
+		    List<WarehouseInwardRecordVO> plateEntry = entry.getValue();
+		    warehouseShipmentId = warehouseShipmentDaoImpl.saveWarehouseShipment(plateEntry.get(0), userInfo);
 		    
 		    
-		    for(WarehouseInwardRecordVO warehouseInwardRecordVO :vehicleEntry){
+		    for(WarehouseInwardRecordVO warehouseInwardRecordVO :plateEntry){
 		    	
 		    	warehouseInwardId=impl.addWarehouseInwardData(warehouseInwardRecordVO, warehouseShipmentId, userInfo);
 		    	

@@ -164,15 +164,15 @@ int count = cs.executeUpdate();
 			
 			cs.setString(1, portOutwardRecordVO.getMillName());
 			cs.setString(2, "");
-			cs.setString(3, "");
-			cs.setString(4, "");
+			cs.setString(3, portOutwardRecordVO.getHeatNo());
+			cs.setString(4, portOutwardRecordVO.getPlateNo());
 			cs.setString(5, portOutwardRecordVO.getMaterialType());
 			cs.setString(6, portOutwardRecordVO.getGrade());
 			cs.setInt(7, portOutwardRecordVO.getLength());
 			cs.setInt(8, portOutwardRecordVO.getWidth());
 			cs.setDouble(9, portOutwardRecordVO.getThickness());
 			cs.setInt(10, portOutwardRecordVO.getAvailableQuantity());
-			cs.setString(11, "");
+			cs.setString(11, portOutwardRecordVO.getLocation());
 			cs.setString(12, "");
 			cs.setString(13, "");
 			cs.setString(14, "");

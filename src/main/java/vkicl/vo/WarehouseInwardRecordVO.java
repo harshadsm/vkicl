@@ -27,6 +27,11 @@ public class WarehouseInwardRecordVO {
 	private Double secWt;
 	private Double balQty;
 	
+	private String heatNo;
+	private String plateNo;
+	private String location;
+	
+	
 	
 	
 	public Double getSecWt() {
@@ -139,13 +144,36 @@ public class WarehouseInwardRecordVO {
 	public void setMaterialType(String materialType) {
 		this.materialType = materialType;
 	}
+	
+	
+	
+	public String getHeatNo() {
+		return heatNo;
+	}
+	public void setHeatNo(String heatNo) {
+		this.heatNo = heatNo;
+	}
+	public String getPlateNo() {
+		return plateNo;
+	}
+	public void setPlateNo(String plateNo) {
+		this.plateNo = plateNo;
+	}
+	public String getLocation() {
+		return location;
+	}
+	public void setLocation(String location) {
+		this.location = location;
+	}
 	@Override
 	public String toString() {
-		return "PortOutwardRecordVO [portInwardDetailId=" + portInwardDetailId + ", portInwardShipmentId="
+		return "WarehouseInwardRecordVO [portInwardDetailId=" + portInwardDetailId + ", portInwardShipmentId="
 				+ portInwardShipmentId + ", portInwardId=" + portInwardId + ", length=" + length + ", width=" + width
 				+ ", thickness=" + thickness + ", availableQuantity=" + availableQuantity + ", orderedQuantity="
-				+ orderedQuantity + ", grade=" + grade + ", desc=" + desc + ", vesselDate=" + vesselDate
-				+ ", vesselName=" + vesselName + "]";
+				+ orderedQuantity + ", grade=" + grade + ", materialType=" + materialType + ", desc=" + desc
+				+ ", vesselDate=" + vesselDate + ", vesselName=" + vesselName + ", vehicleDate=" + vehicleDate
+				+ ", vehicleName=" + vehicleName + ", millName=" + millName + ", secWt=" + secWt + ", balQty=" + balQty
+				+ ", heatNo=" + heatNo + ", plateNo=" + plateNo + ", location=" + location + "]";
 	}
 	
 	
