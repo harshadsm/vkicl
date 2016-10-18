@@ -360,7 +360,7 @@ function populatePackingList(){
 			mtype : 'POST',
 			
 			
-			colNames : [ 'portOutwardId','portInwardShipmentId','Date','Vessel Name','Vehicle Date', 'Vehicle Number', 'Mill Name', 'Type', 'Grade', 'Thickness', 'Width', 'Length', 'Bal Pcs', 'Sec. wt', 'Actual wt.' ],
+			colNames : [ 'portOutwardId','portInwardShipmentId','Date','Vessel Name','Vehicle Date', 'Vehicle Number', 'Mill Name', 'Type', 'Make','Grade', 'Thickness', 'Width', 'Length', 'Bal Pcs', 'Sec. wt', 'Actual wt.' ],
 					
 			colModel : [  {
 				name : 'portInwardId',
@@ -466,6 +466,21 @@ function populatePackingList(){
 			},{
 				name : 'materialType',
 				index : 'material_type',
+				width : 200,
+				editable : false,
+				editoptions : {
+					readonly : true,
+					size : 10
+				},
+				align : 'center', 
+				sortable:true,
+				search:true,
+				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+				searchoptions: { sopt:[ 'eq']}
+				
+			},{
+				name : 'make',
+				index : 'make',
 				width : 200,
 				editable : false,
 				editoptions : {

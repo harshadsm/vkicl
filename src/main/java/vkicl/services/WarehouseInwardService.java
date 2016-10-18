@@ -53,7 +53,7 @@ public class WarehouseInwardService {
 			map.get(key).add(warehouseInwardRecordVO);
 		}
 		
-		WarehouseDaoImpl2 impl = new WarehouseDaoImpl2();
+		WarehouseDaoImpl2 warehouseDaoImpl2 = new WarehouseDaoImpl2();
 		
 		for (Map.Entry<String, List<WarehouseInwardRecordVO>> entry : map.entrySet()) {
 		    System.out.println("key=" + entry.getKey() + ", value=" + entry.getValue());
@@ -63,12 +63,12 @@ public class WarehouseInwardService {
 		    
 		    for(WarehouseInwardRecordVO warehouseInwardRecordVO :plateEntry){
 		    	
-		    	warehouseInwardId=impl.addWarehouseInwardData(warehouseInwardRecordVO, warehouseShipmentId, userInfo);
+		    	warehouseInwardId= warehouseDaoImpl2.addWarehouseInwardData(warehouseInwardRecordVO, warehouseShipmentId, userInfo);
 		    	
-		    	impl.addWarehouseInwardDetailData(warehouseInwardRecordVO, warehouseInwardId, userInfo);
+		    	warehouseDaoImpl2.addWarehouseInwardDetailData(warehouseInwardRecordVO, warehouseInwardId, userInfo);
 		    	
 		    	//Update stock
-		    	stockBalId=impl.addStockBalData(warehouseInwardRecordVO,userInfo);
+		    	stockBalId=warehouseDaoImpl2.addStockBalData(warehouseInwardRecordVO,userInfo);
 		    	
 		    	//Mark the Port Outward entry as received
 		    	warehouseShipmentDaoImpl.updateWarehouseInwardFlag(warehouseInwardRecordVO,userInfo);
