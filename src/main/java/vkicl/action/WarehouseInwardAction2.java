@@ -1,5 +1,7 @@
 package vkicl.action;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -10,9 +12,11 @@ import org.apache.struts.action.ActionMapping;
 
 import vkicl.daoImpl.PortDaoImpl;
 import vkicl.form.PortOutwardForm;
+import vkicl.services.LocationService;
 import vkicl.services.PortInwardService;
 import vkicl.util.Constants;
 import vkicl.util.PropFileReader;
+import vkicl.vo.LocationDetailsVO;
 import vkicl.vo.PortInwardRecordVO;
 import vkicl.vo.UserInfoVO;
 
@@ -53,6 +57,10 @@ public class WarehouseInwardAction2 extends BaseAction {
 //				portOutwardForm = impl.addPortOutwardData(portOutwardForm,
 //						userInfoVO);
 //			}
+			
+			LocationService locationService = new LocationService();
+			List<LocationDetailsVO> list = locationService.getAllLocationsAsList();
+			request.setAttribute("locationsList", list);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
