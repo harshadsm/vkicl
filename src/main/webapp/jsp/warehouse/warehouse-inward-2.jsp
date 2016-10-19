@@ -263,10 +263,12 @@
 						<tr>
 						
 						<th>Date</th>
+						<th>Vendor Name</th>
 							<th>Vessel Name</th>
 							<th>Vehicle Date</th>
 							<th>Vehicle Name</th>
 							<th>Mill Name</th>
+							<th>Make</th>
 							<th>Type</th>
 							<!-- <th>B/E No.</th> -->
 							<!-- <th>Material Type</th> -->
@@ -318,7 +320,7 @@ function populatePackingList(){
 			mtype : 'POST',
 			
 			
-			colNames : [ 'portOutwardId', 'Date','Vessel Name','Vehicle Date', 'Vehicle Number', 'Mill Name', 'Type', 'Grade', 'Thickness', 'Width', 'Length', 'Bal Pcs', 'Sec. wt', 'Actual wt.' ],
+			colNames : [ 'portOutwardId', 'Date','Vendor Name','Vessel Name','Vehicle Date', 'Vehicle Number', 'Mill Name','Make', 'Type', 'Grade', 'Thickness', 'Width', 'Length', 'Bal Pcs', 'Sec. wt', 'Actual wt.' ],
 					
 			colModel : [  {
 				name : 'portInwardId',
@@ -337,6 +339,20 @@ function populatePackingList(){
 			}, {
 				name : 'vesselDate',
 				index : 'vessel_Date',
+				width : 300,
+				editable : false,
+				editoptions : {
+					readonly : true,
+					size : 10
+				},
+				align : 'center',
+				search:true,
+				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+				searchoptions: { sopt:[ 'eq']}
+				
+			},{
+				name : 'vendorName',
+				index : 'vendor_Name',
 				width : 300,
 				editable : false,
 				editoptions : {
@@ -395,6 +411,21 @@ function populatePackingList(){
 			},{
 				name : 'millName',
 				index : 'mill_name',
+				width : 300,
+				editable : false,
+				editoptions : {
+					readonly : true,
+					size : 10
+				},
+				align : 'center',
+				sortable:true,
+				search:true,
+				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+				searchoptions: { sopt:[ 'cn']}
+				
+			},{
+				name : 'make',
+				index : 'make',
 				width : 300,
 				editable : false,
 				editoptions : {
@@ -640,7 +671,9 @@ function composeObjectForCaching(rowObject,qty){
 			outQty : rowObject.outQty,
 			vehicleDate:rowObject.vehicleDate,
 			vehicleName:rowObject.vehicleName,
-			actualWt:rowObject.actualWt
+			actualWt:rowObject.actualWt,
+			vendorName : rowObject.vendorName,
+			make:rowObject.make
 	};
 	return cachedObj;
 }
@@ -860,10 +893,12 @@ function addRowOfSelectedRecord(recordObj) {
 	var str = "<tr id='" + id + "'>"
 			
 	+ "<td><input type='text' readonly placeholder='vesselDate' value='"+recordObj.vesselDate+"' name='vesselDate' class='form-control' /></td>"
+	+ "<td><input type='text' readonly placeholder='vendorName' value='"+recordObj.vendorName+"' name='vendorName' class='form-control' /></td>"
 			+ "<td><input type='text' readonly placeholder='vesselName' value='"+recordObj.vesselName+"' name='vesselName' class='form-control' /></td>"
-			+ "<td><input type='text' readonly placeholder='vehicleDate' value='"+recordObj.vehicleDate+"' name='vesselName' class='form-control' /></td>"
-			+ "<td><input type='text' readonly placeholder='vehicleName' value='"+recordObj.vehicleName+"' name='vesselName' class='form-control' /></td>"
+			+ "<td><input type='text' readonly placeholder='vehicleDate' value='"+recordObj.vehicleDate+"' name='vehicleDate' class='form-control' /></td>"
+			+ "<td><input type='text' readonly placeholder='vehicleName' value='"+recordObj.vehicleName+"' name='vehicleName' class='form-control' /></td>"
 			+ "<td><input type='text' readonly placeholder='millName' value='"+recordObj.millName+"' name='millName' class='form-control' /></td>"
+			+ "<td><input type='text' readonly placeholder='make' value='"+recordObj.make+"' name='make' class='form-control' /></td>"
 			+ "<td><input type='text' readonly placeholder='materialType' value='"+recordObj.materialType+"' name='Type' class='form-control' /></td>"
 			//+ "<td>be no</td>"
 			//+ "<td>Material Type</td>"
@@ -874,7 +909,7 @@ function addRowOfSelectedRecord(recordObj) {
 			+ "<td><input type='text' readonly placeholder='length' value='"+recordObj.length+"' name='length' class='form-control' /></td>"
 			+ "<td><input type='text' readonly placeholder='orderedQuantity' value='"+recordObj.availableQuantity+"' name='availableQuantity' class='form-control port_out_item_quantity' /></td>"
 			+ "<td><input type='text' readonly placeholder='balQty' value='"+recordObj.balQty+"' name='balQty' class='form-control port_out_section_wt' /></td>"
-			+ "<td><input type='text' readonly placeholder='Actual Wt.' value='"+recordObj.actualWt+"' name='actualWt' class='form-control port_out_section_wt' /></td>"
+			+ "<td><input type='text' readonly placeholder='Actual Wt.' value='"+recordObj.actualWt+"' name='actualWt' class='form-control ' /></td>"
 			//+ "<td><div class='input-group'><input type='number' step='0.001' placeholder='Section Weight' min='0' readonly value='' name='secWt' class='form-control' aria-label='...'><div class='input-group-btn weight-group'><input type='hidden' name='secWtUnit' value='TON' /><button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown' disabled aria-expanded='false'>TON <span class='caret'></span></button><ul class='dropdown-menu dropdown-menu-right' role='menu'><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>TON</a></li><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>KG</a></li></ul></div></div></td>"
 			// + "<td><div class='input-group'><input type='number' step='0.001' placeholder='Actual Weight' min='0' value='' name='actualWt' onchange='calcSecWtRow(\"row-"+ id+ "\");' onblur='calcSecWtRow(\"row-"+ id+ "\");' class='form-control' aria-label='...'><div class='input-group-btn weight-group'><input type='hidden' onchange='calcSecWtRow(\"row-"+ id+ "\");' onblur='calcSecWtRow(\"row-"+ id+ "\");' name='actualWtUnit' value='TON' /><button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown' aria-expanded='false'>TON <span class='caret'></span></button><ul class='dropdown-menu dropdown-menu-right' role='menu'><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>TON</a></li><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>KG</a></li></ul></div></div></td>"
 			//+ "<td><input type='button' class='btn-danger delete-row' onclick='deleteRow($(this).parent().parent().attr(\"id\"));' value='-' /></td></tr>";
@@ -894,6 +929,8 @@ function addQuantitySumRow(quantitySum,sectionwtSum) {
 			+ "<td></td>"
 			//+ "<td>be no</td>"
 			//+ "<td>Material Type</td>"
+			+ "<td></td>"
+			+ "<td></td>"
 			+ "<td></td>"
 			+ "<td></td>"
 			+ "<td></td>"
