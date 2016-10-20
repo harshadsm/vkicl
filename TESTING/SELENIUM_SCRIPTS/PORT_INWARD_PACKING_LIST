@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="http://localhost:8080/cms/showServiceRequestCreationPage.htm?agentId=harshadM&Emailgroup=CET&lineOfBusiness=TCC" />
+<title>PORT_INWARD_PACKING_LIST</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">PORT_INWARD_PACKING_LIST</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/vkicl/port-inward.do</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Port</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Inward Records List (Create packing list for Inward)</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=span.glyphicon.glyphicon-pencil</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=input.btn-success.add-row</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=thickness</td>
+	<td>10</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=width</td>
+	<td>10000</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=length</td>
+	<td>10000</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=qty</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=actualWt</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>css=#row-sub-2 &gt; td &gt; input[name=&quot;thickness&quot;]</td>
+	<td>20</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>document.PortInwardForm.width[1]</td>
+	<td>20000</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>xpath=(//input[@name='length'])[2]</td>
+	<td>20000</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>document.PortInwardForm.qty[1]</td>
+	<td>2</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>document.PortInwardForm.actualWt[1]</td>
+	<td>2</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>css=#row-sub-3 &gt; td &gt; input[name=&quot;thickness&quot;]</td>
+	<td>30</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>document.PortInwardForm.width[2]</td>
+	<td>30000</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>xpath=(//input[@name='length'])[3]</td>
+	<td>30000</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>document.PortInwardForm.qty[2]</td>
+	<td>3</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>document.PortInwardForm.actualWt[2]</td>
+	<td>3</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//input[@value='Submit']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=button.btn.btn-primary</td>
+	<td></td>
+</tr>
+
+</tbody></table>
+</body>
+</html>

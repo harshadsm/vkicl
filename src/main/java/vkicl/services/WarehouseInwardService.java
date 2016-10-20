@@ -44,6 +44,11 @@ public class WarehouseInwardService {
 		
 		WarehouseShipmentDaoImpl warehouseShipmentDaoImpl = new WarehouseShipmentDaoImpl();
 		
+		/**
+		 * Group the records by vehicle date & vehicle name.
+		 * This is because, at a time a vehicle can arrive only once in a day.
+		 * That was the assumption made by the previous developer.
+		 */
 		Map<String, List<WarehouseInwardRecordVO>> map = new HashMap<String, List<WarehouseInwardRecordVO>>();
 		for( WarehouseInwardRecordVO warehouseInwardRecordVO : warehouseInwardRecordsToBeSaved){
 			String key = warehouseInwardRecordVO.getVehicleDate() + "_" + warehouseInwardRecordVO.getVehicleName();
@@ -53,22 +58,22 @@ public class WarehouseInwardService {
 			map.get(key).add(warehouseInwardRecordVO);
 		}
 		
-		WarehouseDaoImpl2 impl = new WarehouseDaoImpl2();
+		WarehouseDaoImpl2 warehouseDaoImpl2 = new WarehouseDaoImpl2();
 		
 		for (Map.Entry<String, List<WarehouseInwardRecordVO>> entry : map.entrySet()) {
 		    System.out.println("key=" + entry.getKey() + ", value=" + entry.getValue());
-		    List<WarehouseInwardRecordVO> vehicleEntry = entry.getValue();
-		    warehouseShipmentId = warehouseShipmentDaoImpl.saveWarehouseShipment(vehicleEntry.get(0), userInfo);
+		    List<WarehouseInwardRecordVO> plateEntry = entry.getValue();
+		    warehouseShipmentId = warehouseShipmentDaoImpl.saveWarehouseShipment(plateEntry.get(0), userInfo);
 		    
 		    
-		    for(WarehouseInwardRecordVO warehouseInwardRecordVO :vehicleEntry){
+		    for(WarehouseInwardRecordVO warehouseInwardRecordVO :plateEntry){
 		    	
-		    	warehouseInwardId=impl.addWarehouseInwardData(warehouseInwardRecordVO, warehouseShipmentId, userInfo);
+		    	warehouseInwardId= warehouseDaoImpl2.addWarehouseInwardData(warehouseInwardRecordVO, warehouseShipmentId, userInfo);
 		    	
-		    	impl.addWarehouseInwardDetailData(warehouseInwardRecordVO, warehouseInwardId, userInfo);
+		    	warehouseDaoImpl2.addWarehouseInwardDetailData(warehouseInwardRecordVO, warehouseInwardId, userInfo);
 		    	
 		    	//Update stock
-		    	stockBalId=impl.addStockBalData(warehouseInwardRecordVO,userInfo);
+		    	stockBalId=warehouseDaoImpl2.addStockBalData(warehouseInwardRecordVO,userInfo);
 		    	
 		    	//Mark the Port Outward entry as received
 		    	warehouseShipmentDaoImpl.updateWarehouseInwardFlag(warehouseInwardRecordVO,userInfo);

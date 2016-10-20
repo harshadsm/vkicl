@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="http://localhost:8080/cms/showServiceRequestCreationPage.htm?agentId=harshadM&Emailgroup=CET&lineOfBusiness=TCC" />
+<title>DISPATCH_ORDER</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">DISPATCH_ORDER</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/vkicl/warehouse-dispatch.do</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Warehouse</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Dispatch Order</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=poNo</td>
+	<td>PO1</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=span.input-group-addon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//tr[3]/td[4]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=vehicleNumber</td>
+	<td>MH15DC0808</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=transporterName</td>
+	<td>TRANSPORTER1</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=transportRate</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=lumsum</td>
+	<td>11</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=buyerName</td>
+	<td>NANDA</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=paymentTerms</td>
+	<td>15DAYS</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=consigneeName</td>
+	<td>CONSIGNEENAME</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=loadingCharges</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=cuttingCharges</td>
+	<td>2</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=brokerage</td>
+	<td>3</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=brokerName</td>
+	<td>BROKERNAME</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=make</td>
+	<td>MAKE1</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=millName</td>
+	<td>MILL1</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=grade</td>
+	<td>GRADE1</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=thickness</td>
+	<td>10</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=thickness</td>
+	<td>30</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=width</td>
+	<td>30000</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=length</td>
+	<td>30000</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=qty</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=rate</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=inspectionCharges</td>
+	<td>2</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=input.btn.pull-right</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=button.btn.btn-primary</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=button.btn.btn-primary</td>
+	<td></td>
+</tr>
+
+</tbody></table>
+</body>
+</html>

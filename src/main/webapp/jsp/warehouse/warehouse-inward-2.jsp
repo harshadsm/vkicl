@@ -1,3 +1,5 @@
+<%@page import="vkicl.vo.LocationDetailsVO"%>
+<%@page import="java.util.List"%>
 <%@page import="vkicl.util.Constants"%>
 <%@page import="vkicl.vo.UserInfoVO"%>
 <%@page import="org.apache.commons.lang.StringEscapeUtils"%>
@@ -7,9 +9,12 @@
 <%@taglib uri="/WEB-INF/struts-html.tld" prefix="html"%>
 <%@taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
 <%@taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
-<%@taglib uri="/WEB-INF/struts-core.tld" prefix="c" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-
+<%
+List<LocationDetailsVO> locationsList = (List<LocationDetailsVO> )request.getAttribute("locationsList");
+pageContext.setAttribute("locationsList", locationsList);
+%>
 
 <script type="text/javascript">
 	var SELECTED_PORT_INVENTORY_ITEMS = [];
@@ -193,9 +198,43 @@
 		
 		//return commonSubmit();
 	}
+
+	function addHeatPlateAndLocation(){
+		for(var i=0;i<SELECTED_PORT_INVENTORY_ITEMS.length;i++){
+			var item = SELECTED_PORT_INVENTORY_ITEMS[i];
+			var heatNo = getHeatNo(item);
+			var plateNo = getPlateNo(item);
+			var location = getSelectedLocation(item);
+
+			console.log(heatNo+"-"+plateNo+"-"+location);
+			item.heatNo=heatNo;
+			item.plateNo=plateNo;
+			item.location=location;
+		}
+	}
+
+	function getHeatNo(item){
+		var elemId = heatId(item);
+		var heatNo = $("#"+elemId).val();
+		return heatNo;
+	}
+
+	function getPlateNo(item){
+		var elemId = plateId(item);
+		var heatNo = $("#"+elemId).val();
+		return heatNo;
+	}
+
+	function getSelectedLocation(item){
+		var elemId = locationId(item);
+		var location = $("#"+elemId).val();
+		return location;
+	}
 	
 	function submitCachedWarehouseInwardRecords(){
 
+		addHeatPlateAndLocation();
+		
 		var selected_port_inventory_items_JSON = JSON.stringify(SELECTED_PORT_INVENTORY_ITEMS);
 		var postJsonObject = {
 				selectedPortInventoryItemsJson : selected_port_inventory_items_JSON
@@ -279,7 +318,10 @@
 							<th>Length</th>
 							<th>Bal Pcs</th>
 							<th>Sec. wt</th>
-							<th>Actual Wt.</th> 
+							<th>Actual Wt.</th>
+							<th>Heat No</th>
+							<th>Plate No</th>
+							<th>Location</th> 
 							<!-- <th><input type="button" class="btn-success add-row" onClick="addRow();" value="+" /></th> -->
 						</tr>
 					</thead>
@@ -318,9 +360,8 @@ function populatePackingList(){
 			datatype : 'json',
 			
 			mtype : 'POST',
-			
-			
-			colNames : [ 'portOutwardId', 'Date','Vendor Name','Vessel Name','Vehicle Date', 'Vehicle Number', 'Mill Name','Make', 'Type', 'Grade', 'Thickness', 'Width', 'Length', 'Bal Pcs', 'Sec. wt', 'Actual wt.' ],
+
+			colNames : [ 'portOutwardId','portInwardShipmentId','Date','Vessel Name','Vehicle Date', 'Vehicle Number', 'Mill Name', 'Type', 'Make','Grade', 'Thickness', 'Width', 'Length', 'Bal Pcs', 'Sec. wt', 'Actual wt.' ],
 					
 			colModel : [  {
 				name : 'portInwardId',
@@ -336,6 +377,20 @@ function populatePackingList(){
 				},
 				search:false,
 				searchoptions: { sopt:['ge']}
+			},{
+				name : 'portInwardShipmentId',
+				index : 'portInwardShipmentId',
+				hidden: true,
+				width : 5,
+				editable : false,
+				editrules : {
+					required : true
+				},
+				editoptions : {
+					size : 10
+				},
+				search:false,
+				hidden:true
 			}, {
 				name : 'vesselDate',
 				index : 'vessel_Date',
@@ -441,6 +496,21 @@ function populatePackingList(){
 			},{
 				name : 'materialType',
 				index : 'material_type',
+				width : 200,
+				editable : false,
+				editoptions : {
+					readonly : true,
+					size : 10
+				},
+				align : 'center', 
+				sortable:true,
+				search:true,
+				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+				searchoptions: { sopt:[ 'eq']}
+				
+			},{
+				name : 'make',
+				index : 'make',
 				width : 200,
 				editable : false,
 				editoptions : {
@@ -709,8 +779,9 @@ function handleOnSelectRow(rowId, status){
 				objectForCaching.orderedQuantity = 1;
 			}
 			
-			
+			//Push items into cache as selected.
 			SELECTED_PORT_INVENTORY_ITEMS.push(objectForCaching);
+			
 			if($("#ordered_qty_"+rowId).val()==""){
 				$("#ordered_qty_"+rowId).val("1");
 				var val = calculateOutQty(rowId, objectForCaching.orderedQuantity);
@@ -883,17 +954,72 @@ function editText() {
 
 
 function composeCombinationId(recordObj){
-	var comboId = ""+ recordObj.portInwardId + "-"+recordObj.portInwardDetailId+"-"+recordObj.portInwardShipmentId;
+	//var comboId = ""+ recordObj.portInwardId + "-"+recordObj.portInwardDetailId+"-"+recordObj.portInwardShipmentId;
+	var comboId = ""+ recordObj.portInwardId + "-"+recordObj.portInwardShipmentId;
 	return comboId;
+}
+
+function composeCombinationClass(recordObj){
+	//var comboId = ""+ recordObj.portInwardId + "-"+recordObj.portInwardDetailId+"-"+recordObj.portInwardShipmentId;
+	var comboId = "portoutward-group-"+ recordObj.portInwardId + "-"+recordObj.portInwardShipmentId;
+	return comboId;
+}
+
+function awId(recordObj){
+	var trElementId = composeCombinationId(recordObj);
+	var actualWeightCellId = "actualWeight-"+trElementId;
+	return actualWeightCellId;
+}
+
+function heatId(recordObj){
+	var trElementId = composeCombinationId(recordObj);
+	var heatCellId = "heat-"+trElementId;
+	return heatCellId;
+}
+
+function plateId(recordObj){
+	var trElementId = composeCombinationId(recordObj);
+	var plateCellId = "plate-"+trElementId;
+	return plateCellId;
+}
+
+function locationId(recordObj){
+	var trElementId = composeCombinationId(recordObj);
+	var locationCellId = "location-"+trElementId;
+	return locationCellId;
+}
+
+function composeJsonCellId(parentTrId){
+	var jsonCellId = "jsonstr-"+parentTrId;
+	return jsonCellId;
+}
+
+
+function getLocationDropdownHtml(recordObj){
+	//var html = "<td><input type='text'          placeholder='Location' name='locationInput' class='form-control port_out_section_wt' /></td>";
+	var locationIdStr = locationId(recordObj);
+	var html = $("#locationDropdownTemplate").html();
+	html = html.replace(/selectLocationId/, locationIdStr);
+	//console.log(html);
+	html = "<td>"+html+"</td>";
+	return html;
 }
 
 function addRowOfSelectedRecord(recordObj) {
 	console.log(recordObj);
 	var id = composeCombinationId(recordObj);
+<<<<<<< HEAD
 	var str = "<tr id='" + id + "'>"
 			
 	+ "<td><input type='text' readonly placeholder='vesselDate' value='"+recordObj.vesselDate+"' name='vesselDate' class='form-control' /></td>"
 	+ "<td><input type='text' readonly placeholder='vendorName' value='"+recordObj.vendorName+"' name='vendorName' class='form-control' /></td>"
+=======
+	var jsonCellId = composeJsonCellId(id);
+	var warehouseInwardRecordClass = composeCombinationClass(recordObj);
+	var recordObjJson = JSON.stringify(recordObj);		
+	var str = "<tr id='" + id + "' class='"+warehouseInwardRecordClass+"'>"
+			+ "<td><input type='text' readonly placeholder='vesselDate' value='"+recordObj.vesselDate+"' name='vesselDate' class='form-control' /></td>"
+>>>>>>> fdc31d7318fc33677cd8f743795023b4d55e68ae
 			+ "<td><input type='text' readonly placeholder='vesselName' value='"+recordObj.vesselName+"' name='vesselName' class='form-control' /></td>"
 			+ "<td><input type='text' readonly placeholder='vehicleDate' value='"+recordObj.vehicleDate+"' name='vehicleDate' class='form-control' /></td>"
 			+ "<td><input type='text' readonly placeholder='vehicleName' value='"+recordObj.vehicleName+"' name='vehicleName' class='form-control' /></td>"
@@ -907,14 +1033,22 @@ function addRowOfSelectedRecord(recordObj) {
 			+ "<td><input type='text' readonly placeholder='thickness' value='"+recordObj.thickness+"' name='thickness' class='form-control' /></td>"
 			+ "<td><input type='text' readonly placeholder='width' value='"+recordObj.width+"' name='width' class='form-control' /></td>"
 			+ "<td><input type='text' readonly placeholder='length' value='"+recordObj.length+"' name='length' class='form-control' /></td>"
-			+ "<td><input type='text' readonly placeholder='orderedQuantity' value='"+recordObj.availableQuantity+"' name='availableQuantity' class='form-control port_out_item_quantity' /></td>"
+			+ "<td><input type='text'          placeholder='orderedQuantity' value='"+recordObj.availableQuantity+"' name='availableQuantity' class='form-control port_out_item_quantity' /></td>"
 			+ "<td><input type='text' readonly placeholder='balQty' value='"+recordObj.balQty+"' name='balQty' class='form-control port_out_section_wt' /></td>"
+<<<<<<< HEAD
 			+ "<td><input type='text' readonly placeholder='Actual Wt.' value='"+recordObj.actualWt+"' name='actualWt' class='form-control ' /></td>"
+=======
+			+ "<td><input type='text' readonly placeholder='Actual Wt.' value='"+recordObj.actualWt+"' name='actualWt' class='form-control port_out_section_wt' id='"+awId(recordObj)+"' /></td>"
+			+ "<td><input type='text'          placeholder='Heat No' name='heatNoInput' class='form-control port_out_section_wt' id='"+heatId(recordObj)+"'/></td>"
+			+ "<td><input type='text'          placeholder='Plate No' name='plateNoInput' class='form-control port_out_section_wt' id='"+plateId(recordObj)+"'/></td>"
+			+ getLocationDropdownHtml(recordObj)
+>>>>>>> fdc31d7318fc33677cd8f743795023b4d55e68ae
 			//+ "<td><div class='input-group'><input type='number' step='0.001' placeholder='Section Weight' min='0' readonly value='' name='secWt' class='form-control' aria-label='...'><div class='input-group-btn weight-group'><input type='hidden' name='secWtUnit' value='TON' /><button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown' disabled aria-expanded='false'>TON <span class='caret'></span></button><ul class='dropdown-menu dropdown-menu-right' role='menu'><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>TON</a></li><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>KG</a></li></ul></div></div></td>"
 			// + "<td><div class='input-group'><input type='number' step='0.001' placeholder='Actual Weight' min='0' value='' name='actualWt' onchange='calcSecWtRow(\"row-"+ id+ "\");' onblur='calcSecWtRow(\"row-"+ id+ "\");' class='form-control' aria-label='...'><div class='input-group-btn weight-group'><input type='hidden' onchange='calcSecWtRow(\"row-"+ id+ "\");' onblur='calcSecWtRow(\"row-"+ id+ "\");' name='actualWtUnit' value='TON' /><button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown' aria-expanded='false'>TON <span class='caret'></span></button><ul class='dropdown-menu dropdown-menu-right' role='menu'><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>TON</a></li><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>KG</a></li></ul></div></div></td>"
-			//+ "<td><input type='button' class='btn-danger delete-row' onclick='deleteRow($(this).parent().parent().attr(\"id\"));' value='-' /></td></tr>";
-			+ "<td></td>"
-			+ "<td></td>";
+			+ "<td><input type='button' class='btn btn-warn' onclick='split($(this).parent().parent().attr(\"id\"));' value='split' /></td>"
+			+ "<td><input type='button' class='btn-danger delete-row' onclick='deleteRow($(this).parent().parent().attr(\"id\"));' value='-' /></td>"
+			+ "<td><input type='hidden' value='"+recordObjJson+"' id='"+jsonCellId+"'/></td>"
+			+ "</tr>";
 	$("#details-tbody").append(str);
 	
 
@@ -943,7 +1077,7 @@ function addQuantitySumRow(quantitySum,sectionwtSum) {
 			+ "<td class='port_out_section_wt'>&nbsp&nbsp"+sectionwtSum.toFixed(3)+"</td>"
 			// + "<td><div class='input-group'><input type='number' step='0.001' placeholder='Actual Weight' min='0' value='' name='actualWt' onchange='calcSecWtRow(\"row-"+ id+ "\");' onblur='calcSecWtRow(\"row-"+ id+ "\");' class='form-control' aria-label='...'><div class='input-group-btn weight-group'><input type='hidden' onchange='calcSecWtRow(\"row-"+ id+ "\");' onblur='calcSecWtRow(\"row-"+ id+ "\");' name='actualWtUnit' value='TON' /><button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown' aria-expanded='false'>TON <span class='caret'></span></button><ul class='dropdown-menu dropdown-menu-right' role='menu'><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>TON</a></li><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>KG</a></li></ul></div></div></td>"
 			//+ "<td><input type='button' class='btn-danger delete-row' onclick='deleteRow($(this).parent().parent().attr(\"id\"));' value='-' /></td></tr>";
-			+ "<td></td>"
+			+ "<td><input type='text'  placeholder='Actual Weight Total (TON)' name='actualWeigthTotalInput' id='actualWeigthTotalInput' class='form-control' onchange='distributeActualWeightTotal()'/></td>"
 			+ "<td></td>";
 	$("#details-tbody").append(str);
 	
@@ -953,6 +1087,13 @@ function addQuantitySumRow(quantitySum,sectionwtSum) {
 }
 
 
+function split(idOfRowToSplit){
+
+	console.log("splitting the quantity into more than one locations.-"+idOfRowToSplit);
+	var rowToSplit = $("#"+idOfRowToSplit).html();
+	console.log(rowToSplit);
+	$("#"+idOfRowToSplit).after("<tr>"+rowToSplit+"</tr>");
+}
 
 //Below function will force the numeric input if type="number" for input tag.
 //Source: http://stackoverflow.com/questions/469357/html-text-input-allow-only-numeric-input
@@ -972,7 +1113,50 @@ function p(){
 	}
 }
 
+function distributeActualWeightTotal(){
+	var actualWeightTotal = $("#actualWeigthTotalInput").val();
+	if(isValidNumber(actualWeightTotal)){
+		var actWtTotalNumber = Number(actualWeightTotal);
+		console.log(actWtTotalNumber);
+		//Actual Wt for row 1 = ((Sec Wt of row 1/Total sec Wt) * (Total Actual Wt – Total Sec Wt.)) + Sec Wt of row 1
+		console.log(SELECTED_PORT_INVENTORY_ITEMS.length);
+		var secWtTotal = getTotalSectionWeightOfSelectedRecords();
+		for(var i=0;i<SELECTED_PORT_INVENTORY_ITEMS.length;i++){
+			var item = SELECTED_PORT_INVENTORY_ITEMS[i];
+			var secWt = Number(item.balQty);
+			var actualWeightElementId = awId(item);
+			var actWt = ((secWt / secWtTotal) * (actWtTotalNumber - secWtTotal)) + secWt;
+			console.log(actWt);
+			actWt = dp2(actWt);
+			$("#"+actualWeightElementId).val(actWt);
+		}
+		
+		
+	}else{
+		bootbox.alert("Please input valid actual weight total.");
+	}
+}
 
+function dp2(num){
+	
+	return Math.round(Number(num) * 100) / 100
+}
+
+function getTotalSectionWeightOfSelectedRecords(){
+	var secWtTotal = 0;
+	for(var i=0;i<SELECTED_PORT_INVENTORY_ITEMS.length;i++){
+		var item = SELECTED_PORT_INVENTORY_ITEMS[i];
+		secWtTotal = Number(item.balQty) + secWtTotal;
+	}
+	
+	return secWtTotal;
+}
+
+
+function isValidNumber(str) {
+    var pattern = /^\d+$/;
+    return pattern.test(str);  // returns a boolean
+}
 
 </script>
 <div style="display: none;">
@@ -998,6 +1182,15 @@ function p(){
 		<tbody id="forExportingToExcelBody">
 		</tbody>
 	</table>
+</div>
+
+<div id="locationDropdownTemplate" style="visibility: hidden;" >
+	<select name="location" id="selectLocationId">
+		<option value="-">Select Location</option>
+	<c:forEach items="${locationsList}" var="locationVo">
+		<option value='<c:out value="${locationVo.locationName}"></c:out>'><c:out value="${locationVo.locationName}"></c:out></option>
+	</c:forEach>
+	</select>
 </div>
 
 <script>
@@ -1027,3 +1220,5 @@ function prepareTableToExcelAndExport(){
 	
 }
 </script>
+
+
