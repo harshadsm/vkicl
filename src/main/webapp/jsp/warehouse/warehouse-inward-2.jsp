@@ -302,12 +302,12 @@ pageContext.setAttribute("locationsList", locationsList);
 						<tr>
 						
 						<th>Date</th>
-						<th>Vendor Name</th>
+						
 							<th>Vessel Name</th>
 							<th>Vehicle Date</th>
 							<th>Vehicle Name</th>
 							<th>Mill Name</th>
-							<th>Make</th>
+							
 							<th>Type</th>
 							<!-- <th>B/E No.</th> -->
 							<!-- <th>Material Type</th> -->
@@ -406,20 +406,6 @@ function populatePackingList(){
 				searchoptions: { sopt:[ 'eq']}
 				
 			},{
-				name : 'vendorName',
-				index : 'vendor_Name',
-				width : 300,
-				editable : false,
-				editoptions : {
-					readonly : true,
-					size : 10
-				},
-				align : 'center',
-				search:true,
-				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
-				searchoptions: { sopt:[ 'eq']}
-				
-			},{
 				name : 'vesselName',
 				index : 'vessel_name',
 				width : 300,
@@ -466,21 +452,6 @@ function populatePackingList(){
 			},{
 				name : 'millName',
 				index : 'mill_name',
-				width : 300,
-				editable : false,
-				editoptions : {
-					readonly : true,
-					size : 10
-				},
-				align : 'center',
-				sortable:true,
-				search:true,
-				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
-				searchoptions: { sopt:[ 'cn']}
-				
-			},{
-				name : 'make',
-				index : 'make',
 				width : 300,
 				editable : false,
 				editoptions : {
@@ -1008,23 +979,18 @@ function getLocationDropdownHtml(recordObj){
 function addRowOfSelectedRecord(recordObj) {
 	console.log(recordObj);
 	var id = composeCombinationId(recordObj);
-<<<<<<< HEAD
-	var str = "<tr id='" + id + "'>"
-			
-	+ "<td><input type='text' readonly placeholder='vesselDate' value='"+recordObj.vesselDate+"' name='vesselDate' class='form-control' /></td>"
-	+ "<td><input type='text' readonly placeholder='vendorName' value='"+recordObj.vendorName+"' name='vendorName' class='form-control' /></td>"
-=======
+
 	var jsonCellId = composeJsonCellId(id);
 	var warehouseInwardRecordClass = composeCombinationClass(recordObj);
 	var recordObjJson = JSON.stringify(recordObj);		
 	var str = "<tr id='" + id + "' class='"+warehouseInwardRecordClass+"'>"
 			+ "<td><input type='text' readonly placeholder='vesselDate' value='"+recordObj.vesselDate+"' name='vesselDate' class='form-control' /></td>"
->>>>>>> fdc31d7318fc33677cd8f743795023b4d55e68ae
+
 			+ "<td><input type='text' readonly placeholder='vesselName' value='"+recordObj.vesselName+"' name='vesselName' class='form-control' /></td>"
 			+ "<td><input type='text' readonly placeholder='vehicleDate' value='"+recordObj.vehicleDate+"' name='vehicleDate' class='form-control' /></td>"
 			+ "<td><input type='text' readonly placeholder='vehicleName' value='"+recordObj.vehicleName+"' name='vehicleName' class='form-control' /></td>"
 			+ "<td><input type='text' readonly placeholder='millName' value='"+recordObj.millName+"' name='millName' class='form-control' /></td>"
-			+ "<td><input type='text' readonly placeholder='make' value='"+recordObj.make+"' name='make' class='form-control' /></td>"
+			
 			+ "<td><input type='text' readonly placeholder='materialType' value='"+recordObj.materialType+"' name='Type' class='form-control' /></td>"
 			//+ "<td>be no</td>"
 			//+ "<td>Material Type</td>"
@@ -1035,14 +1001,12 @@ function addRowOfSelectedRecord(recordObj) {
 			+ "<td><input type='text' readonly placeholder='length' value='"+recordObj.length+"' name='length' class='form-control' /></td>"
 			+ "<td><input type='text'          placeholder='orderedQuantity' value='"+recordObj.availableQuantity+"' name='availableQuantity' class='form-control port_out_item_quantity' /></td>"
 			+ "<td><input type='text' readonly placeholder='balQty' value='"+recordObj.balQty+"' name='balQty' class='form-control port_out_section_wt' /></td>"
-<<<<<<< HEAD
-			+ "<td><input type='text' readonly placeholder='Actual Wt.' value='"+recordObj.actualWt+"' name='actualWt' class='form-control ' /></td>"
-=======
+
 			+ "<td><input type='text' readonly placeholder='Actual Wt.' value='"+recordObj.actualWt+"' name='actualWt' class='form-control port_out_section_wt' id='"+awId(recordObj)+"' /></td>"
 			+ "<td><input type='text'          placeholder='Heat No' name='heatNoInput' class='form-control port_out_section_wt' id='"+heatId(recordObj)+"'/></td>"
 			+ "<td><input type='text'          placeholder='Plate No' name='plateNoInput' class='form-control port_out_section_wt' id='"+plateId(recordObj)+"'/></td>"
 			+ getLocationDropdownHtml(recordObj)
->>>>>>> fdc31d7318fc33677cd8f743795023b4d55e68ae
+
 			//+ "<td><div class='input-group'><input type='number' step='0.001' placeholder='Section Weight' min='0' readonly value='' name='secWt' class='form-control' aria-label='...'><div class='input-group-btn weight-group'><input type='hidden' name='secWtUnit' value='TON' /><button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown' disabled aria-expanded='false'>TON <span class='caret'></span></button><ul class='dropdown-menu dropdown-menu-right' role='menu'><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>TON</a></li><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>KG</a></li></ul></div></div></td>"
 			// + "<td><div class='input-group'><input type='number' step='0.001' placeholder='Actual Weight' min='0' value='' name='actualWt' onchange='calcSecWtRow(\"row-"+ id+ "\");' onblur='calcSecWtRow(\"row-"+ id+ "\");' class='form-control' aria-label='...'><div class='input-group-btn weight-group'><input type='hidden' onchange='calcSecWtRow(\"row-"+ id+ "\");' onblur='calcSecWtRow(\"row-"+ id+ "\");' name='actualWtUnit' value='TON' /><button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown' aria-expanded='false'>TON <span class='caret'></span></button><ul class='dropdown-menu dropdown-menu-right' role='menu'><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>TON</a></li><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>KG</a></li></ul></div></div></td>"
 			+ "<td><input type='button' class='btn btn-warn' onclick='split($(this).parent().parent().attr(\"id\"));' value='split' /></td>"
