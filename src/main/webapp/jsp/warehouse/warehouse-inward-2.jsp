@@ -302,13 +302,14 @@ pageContext.setAttribute("locationsList", locationsList);
 						<tr>
 						
 						<th>Date</th>
-						
+						<th>Vendor Name</th>
 							<th>Vessel Name</th>
 							<th>Vehicle Date</th>
 							<th>Vehicle Name</th>
 							<th>Mill Name</th>
 							
 							<th>Type</th>
+							<th>Make</th>
 							<!-- <th>B/E No.</th> -->
 							<!-- <th>Material Type</th> -->
 							<th>Grade</th>
@@ -361,7 +362,7 @@ function populatePackingList(){
 			
 			mtype : 'POST',
 
-			colNames : [ 'portOutwardId','portInwardShipmentId','Date','Vessel Name','Vehicle Date', 'Vehicle Number', 'Mill Name', 'Type', 'Make','Grade', 'Thickness', 'Width', 'Length', 'Bal Pcs', 'Sec. wt', 'Actual wt.' ],
+			colNames : [ 'portOutwardId','portInwardShipmentId','Date','Vendor Name','Vessel Name','Vehicle Date', 'Vehicle Number', 'Mill Name', 'Type', 'Make','Grade', 'Thickness', 'Width', 'Length', 'Bal Pcs', 'Sec. wt', 'Actual wt.' ],
 					
 			colModel : [  {
 				name : 'portInwardId',
@@ -404,6 +405,21 @@ function populatePackingList(){
 				search:true,
 				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
 				searchoptions: { sopt:[ 'eq']}
+				
+			},{
+				name : 'vendorName',
+				index : 'vendor_name',
+				width : 300,
+				editable : false,
+				editoptions : {
+					readonly : true,
+					size : 10
+				},
+				align : 'center',
+				sortable:true,
+				search:true,
+				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+				searchoptions: { sopt:[ 'cn','eq']}
 				
 			},{
 				name : 'vesselName',
@@ -921,6 +937,8 @@ function editText() {
 	$("input[name='availableQuantity']").removeAttr("readonly");
 	$("input[name='balQty']").removeAttr("readonly");
 	$("input[name='actualWt']").removeAttr("readonly");
+	$("input[name='make']").removeAttr("readonly");
+	$("input[name='vendorName']").removeAttr("readonly");
 }
 
 
@@ -984,14 +1002,15 @@ function addRowOfSelectedRecord(recordObj) {
 	var warehouseInwardRecordClass = composeCombinationClass(recordObj);
 	var recordObjJson = JSON.stringify(recordObj);		
 	var str = "<tr id='" + id + "' class='"+warehouseInwardRecordClass+"'>"
-			+ "<td><input type='text' readonly placeholder='vesselDate' value='"+recordObj.vesselDate+"' name='vesselDate' class='form-control' /></td>"
-
+			+ "<td><input type='text' readonly placeholder='vesselDate' value='"+recordObj.vesselDate+"' name='vesselDate' class='form-control'  /></td>"
+			+ "<td><input type='text' readonly placeholder='vendorlName' value='"+recordObj.vendorName+"' name='vesselName' class='form-control' /></td>"
 			+ "<td><input type='text' readonly placeholder='vesselName' value='"+recordObj.vesselName+"' name='vesselName' class='form-control' /></td>"
 			+ "<td><input type='text' readonly placeholder='vehicleDate' value='"+recordObj.vehicleDate+"' name='vehicleDate' class='form-control' /></td>"
 			+ "<td><input type='text' readonly placeholder='vehicleName' value='"+recordObj.vehicleName+"' name='vehicleName' class='form-control' /></td>"
 			+ "<td><input type='text' readonly placeholder='millName' value='"+recordObj.millName+"' name='millName' class='form-control' /></td>"
 			
 			+ "<td><input type='text' readonly placeholder='materialType' value='"+recordObj.materialType+"' name='Type' class='form-control' /></td>"
+			+ "<td><input type='text' readonly placeholder='make' value='"+recordObj.make+"' name='Type' class='form-control' /></td>"
 			//+ "<td>be no</td>"
 			//+ "<td>Material Type</td>"
 			+ "<td><input type='text' readonly placeholder='grade' value='"+recordObj.grade+"' name='grade' class='form-control' /></td>"
@@ -1002,9 +1021,9 @@ function addRowOfSelectedRecord(recordObj) {
 			+ "<td><input type='text'          placeholder='orderedQuantity' value='"+recordObj.availableQuantity+"' name='availableQuantity' class='form-control port_out_item_quantity' /></td>"
 			+ "<td><input type='text' readonly placeholder='balQty' value='"+recordObj.balQty+"' name='balQty' class='form-control port_out_section_wt' /></td>"
 
-			+ "<td><input type='text' readonly placeholder='Actual Wt.' value='"+recordObj.actualWt+"' name='actualWt' class='form-control port_out_section_wt' id='"+awId(recordObj)+"' /></td>"
-			+ "<td><input type='text'          placeholder='Heat No' name='heatNoInput' class='form-control port_out_section_wt' id='"+heatId(recordObj)+"'/></td>"
-			+ "<td><input type='text'          placeholder='Plate No' name='plateNoInput' class='form-control port_out_section_wt' id='"+plateId(recordObj)+"'/></td>"
+			+ "<td><input type='text' readonly placeholder='Actual Wt.' value='"+recordObj.actualWt+"' name='actualWt' class='form-control ' id='"+awId(recordObj)+"' /></td>"
+			+ "<td><input type='text'          placeholder='Heat No' name='heatNoInput' class='form-control ' id='"+heatId(recordObj)+"'/></td>"
+			+ "<td><input type='text'          placeholder='Plate No' name='plateNoInput' class='form-control ' id='"+plateId(recordObj)+"'/></td>"
 			+ getLocationDropdownHtml(recordObj)
 
 			//+ "<td><div class='input-group'><input type='number' step='0.001' placeholder='Section Weight' min='0' readonly value='' name='secWt' class='form-control' aria-label='...'><div class='input-group-btn weight-group'><input type='hidden' name='secWtUnit' value='TON' /><button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown' disabled aria-expanded='false'>TON <span class='caret'></span></button><ul class='dropdown-menu dropdown-menu-right' role='menu'><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>TON</a></li><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>KG</a></li></ul></div></div></td>"
@@ -1128,11 +1147,13 @@ function isValidNumber(str) {
 		<thead>
 			<tr>
 				<td>Date</td>
-				<td>vessel Name</td>
+				<td>Vendor Name</td>
+				<td>Vessel Name</td>
 				<td>Vehicle Date</td>
 				<td>Vehicle Number</td>
 				<td>Mill Name</td>
 				<td>Type</td>
+				<td>Make</td>
 				<td>Grade</td>
 				<td>Thickness</td>
 				<td>Width</td>
@@ -1159,7 +1180,7 @@ function isValidNumber(str) {
 
 <script>
 function prepareTableToExcelAndExport(){
-	var template = "<tr><td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td><td>{5}</td><td>{6}</td><td>{7}</td><td>{8}</td><td>{9}</td><td>{10}</td><td>{11}</td><td>{12}</td></tr>";
+	var template = "<tr><td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td><td>{5}</td><td>{6}</td><td>{7}</td><td>{8}</td><td>{9}</td><td>{10}</td><td>{11}</td><td>{12}</td><td>{13}</td><td>{14}</td></tr>";
 
 	$.ajax({ 
                 type: 'POST', 
@@ -1171,8 +1192,8 @@ function prepareTableToExcelAndExport(){
     	        	for(var i=0;i < rowObject.length;i++){ 
     	        		
     	        		//var composedObj = composeObjectForCaching(rowObject, 0);
-    	        		var tr = $.validator.format(template,rowObject[i].vesselDate,rowObject[i].vesselName,rowObject[i].vehicleDate,rowObject[i].vehicleName,rowObject[i].millName
-    	        				,rowObject[i].materialType,rowObject[i].grade,rowObject[i].thickness,rowObject[i].width,rowObject[i].length,rowObject[i].quantity,rowObject[i].balQty,rowObject[i].actualWt);
+    	        		var tr = $.validator.format(template,rowObject[i].vesselDate,rowObject[i].vendorName,rowObject[i].vesselName,rowObject[i].vehicleDate,rowObject[i].vehicleName,rowObject[i].millName
+    	        				,rowObject[i].materialType,rowObject[i].make,rowObject[i].grade,rowObject[i].thickness,rowObject[i].width,rowObject[i].length,rowObject[i].quantity,rowObject[i].balQty,rowObject[i].actualWt);
     	        		$("#forExportingToExcelBody").append(tr);
     	        	}
 

@@ -15,9 +15,24 @@ public class WarehouseInwardRecordVO {
 	
 	private String grade;
 	private String materialType;
+	public String getMake() {
+		return make;
+	}
+	public void setMake(String make) {
+		this.make = make;
+	}
 	private String desc;
 	private String vesselDate;
 	private String vesselName;
+	private String make;
+	
+	public String getVendorName() {
+		return vendorName;
+	}
+	public void setVendorName(String vendorName) {
+		this.vendorName = vendorName;
+	}
+	private String vendorName;
 	
 	private String vehicleDate;
 	private String vehicleName;

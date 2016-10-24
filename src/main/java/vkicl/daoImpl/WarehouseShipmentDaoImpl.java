@@ -38,10 +38,11 @@ public class WarehouseShipmentDaoImpl extends BaseDaoImpl{
 			cs.setString(1, postDataContainer.getVehicleName());
 			
 			String vehicleDateStr = postDataContainer.getVehicleDate();
+			String vendorName = postDataContainer.getVendorName();
 			java.sql.Date vehicleDate = Converter.dateToSqlDate(Converter.stringToDate(vehicleDateStr, Constants.Apps.DATE_FORMAT));
 			
 			cs.setDate(2, vehicleDate);
-			cs.setString(3, "");
+			cs.setString(3, vendorName);
 			cs.setString(4, userInfo.getUserName());
 			cs.setString(5, userInfo.getUserName());
 			cs.setString(6, getCurentTime());

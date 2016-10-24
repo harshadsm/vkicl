@@ -18,6 +18,21 @@ public class PortOutwardPostDataContainerVO {
 	private String heatNo;
 	private String plateNo;
 	private String location;
+	private String vendorName;
+	
+	public String getVendorName() {
+		return vendorName;
+	}
+	public void setVendorName(String vendorName) {
+		this.vendorName = vendorName;
+	}
+	public String getMake() {
+		return make;
+	}
+	public void setMake(String make) {
+		this.make = make;
+	}
+	private String make;
 	
 	
 	public Double getSecWt() {

@@ -31,6 +31,7 @@ public class WarehouseDaoImpl2 extends BaseDaoImpl {
 			java.sql.Date vehicleDate = Converter.dateToSqlDate(Converter.stringToDate(vehicleDateStr, Constants.Apps.DATE_FORMAT));
 			String vehicleNumber = warehouseInwardRecordVO.getVehicleName();
 			String millName = warehouseInwardRecordVO.getMillName();
+			String make = warehouseInwardRecordVO.getMake();
 		    String grade = warehouseInwardRecordVO.getGrade();
 			Integer width = warehouseInwardRecordVO.getWidth();
 			Double thickness = warehouseInwardRecordVO.getThickness();
@@ -55,7 +56,7 @@ public class WarehouseDaoImpl2 extends BaseDaoImpl {
 			cs.setString(2, "");
 			cs.setString(3, materialType);
 			cs.setString(4, millName);
-			cs.setString(5, "");
+			cs.setString(5, make);
 			cs.setString(6, grade);
 			cs.setInt(7, length);
 			cs.setInt(8, width);
@@ -163,7 +164,7 @@ int count = cs.executeUpdate();
 			cs = conn.prepareCall(query);
 			
 			cs.setString(1, portOutwardRecordVO.getMillName());
-			cs.setString(2, "");
+			cs.setString(2, portOutwardRecordVO.getMake());
 			cs.setString(3, portOutwardRecordVO.getHeatNo());
 			cs.setString(4, portOutwardRecordVO.getPlateNo());
 			cs.setString(5, portOutwardRecordVO.getMaterialType());

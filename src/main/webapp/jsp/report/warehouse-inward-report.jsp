@@ -70,18 +70,12 @@
 						<td><html:select property="receivedFrom"
 								styleId="receivedFrom" styleClass="form-control">
 								<html:option value="ALL">ALL</html:option>
+								<html:option value="PORT">PORT</html:option>
+								<html:option value="OTHER">OTHER VENDOR NAMES (LOCAL buying)</html:option>
 								<html:optionsCollection property="receivedFromList" />
 							</html:select></td>
 					</tr>
-					<!-- tr>
-						<td class="form-label"><label for="vesselName">Vessel
-								Name</label></td>
-						<td><html:select property="vesselName" styleId="vesselName"
-								styleClass="form-control">
-								<html:option value="ALL">ALL</html:option>
-								<html:optionsCollection property="vesselNameList" />
-							</html:select></td>
-					</tr-->
+					
 				</table>
 			</div>
 			<div class="col-md-4">
@@ -174,10 +168,9 @@
 							<th>Thickness</th>
 							<th>Width</th>
 							<th>Length</th>
-							<th>Section Weight</th>
-							<th>Label Weight</th>
-							<th>UOM</th>
 							<th>Quantity</th>
+							<th>Section Weight</th>
+							<th>Actual Weight</th>
 							<th>Location</th>
 							<th class="cell-edit">Edit</th>
 						</tr>
@@ -216,14 +209,12 @@
 										value="${report.width}" /></td>
 								<td data-type="number" data-name="length"><c:out
 										value="${report.length}" /></td>
+										<td data-type="number" data-name="qty"><c:out
+										value="${report.qty}" /></td>
 								<td data-type="number" data-name="secWt" data-step="0.001"><c:out
 										value="${report.secWt}" /></td>
-								<td data-type="number" data-name="actualWt" data-step="0.001"><c:out
+										<td data-type="number" data-name="actualWt" data-step="0.001"><c:out
 										value="${report.actualWt}" /></td>
-								<td data-type="text" data-name="actualWtUnit"><c:out
-										value="${report.actualWtUnit}" /></td>
-								<td data-type="number" data-name="qty"><c:out
-										value="${report.qty}" /></td>
 								<td data-type="text" data-name="wlocation"><c:out
 										value="${report.wlocation}" /></td>
 								<td class="cell-edit"><button name="btnEdit" title="Edit"
@@ -250,11 +241,10 @@
 							<th></th>
 							<th></th>
 							<th></th>
-							<th></th>
-							<th></th>
-							<th></th>
 							<th>Total</th>
 							<th id="qtyTotal">Quantity</th>
+							<th id="secWtTotal"></th>
+							<th id="actualWtTotal"></th>
 							<th></th>
 							<th class="cell-edit"></th>
 						</tr>
