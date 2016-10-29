@@ -1079,9 +1079,9 @@ function split(idOfRowToSplit){
 	console.log(rowToSplit);
 	var $portOutItemQty = $trToSplit.find("#port_out_item_quantity-"+idOfRowToSplit);
 	var $toBeCopiedPortOutItemQty =  $rowToSplit.find("#port_out_item_quantity-"+idOfRowToSplit);
-	var qty = $portOutItemQty.val();
+	var qty = Number($portOutItemQty.val());
 	console.log(qty);
-	$portOutItemQty.val(Number(qty) - 1);
+	$portOutItemQty.val(qty - 1);
 	$toBeCopiedPortOutItemQty.val(1);
 	
 	$("#"+idOfRowToSplit).after($rowToSplit);
