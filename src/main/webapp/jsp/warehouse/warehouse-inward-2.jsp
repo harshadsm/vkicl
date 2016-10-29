@@ -178,10 +178,26 @@ Integer locationCount = locationsList.size();
 	}
 
 	function deleteRow(id) {
-		if ($("#details-tbody tr").length > 1)
+		console.log(id);
+		if ($("#details-tbody tr").length > 1){
+			//Adjust the qty
+			//Get the qty of the selected row
+			var $qtyCell = $("#port_out_item_quantity-"+id);
+			var splitRecordQty = Number($qtyCell.val());
+			console.log("Qty to be added back = "+$qtyCell.val());
+			var parentPortOutRecordId = $qtyCell.attr("data-attribute-parent-port-out-id");
+			console.log("Id of the parent qty cell = "+parentPortOutRecordId);
+			var $parentPortOutRecordQtyCell = $("#"+parentPortOutRecordId);
+			console.log($parentPortOutRecordQtyCell);
+			var parentQty = Number($parentPortOutRecordQtyCell.val());
+			var revertedQty = parentQty + splitRecordQty;
+			$parentPortOutRecordQtyCell.val(revertedQty); 
+			
 			$("#" + id).remove();
-		else
+		}else{
 			bootbox.alert("Cannot Delete Last Row");
+		}
+		
 		applyTotalCalc();
 	}
 
@@ -1021,7 +1037,7 @@ function addRowOfSelectedRecord(recordObj) {
 			+ "<td><input type='text' readonly placeholder='thickness' value='"+recordObj.thickness+"' name='thickness' class='form-control' /></td>"
 			+ "<td><input type='text' readonly placeholder='width' value='"+recordObj.width+"' name='width' class='form-control' /></td>"
 			+ "<td><input type='text' readonly placeholder='length' value='"+recordObj.length+"' name='length' class='form-control' /></td>"
-			+ "<td ><input type='text'          placeholder='orderedQuantity' value='"+recordObj.availableQuantity+"' name='availableQuantity' class='form-control port_out_item_quantity' id='port_out_item_quantity-" + id + "' /></td>"
+			+ "<td ><input type='text'          placeholder='Quantity' value='"+recordObj.availableQuantity+"' name='availableQuantity' class='form-control port_out_item_quantity' id='port_out_item_quantity-" + id + "' data-attribute-parent-port-out-id='port_out_item_quantity-" + id + "' /></td>"
 			+ "<td><input type='text' readonly placeholder='balQty' value='"+recordObj.balQty+"' name='balQty' class='form-control port_out_section_wt' /></td>"
 
 			+ "<td><input type='text' readonly placeholder='Actual Wt.' value='"+recordObj.actualWt+"' name='actualWt' class='form-control ' id='"+awId(recordObj)+"' /></td>"
@@ -1073,29 +1089,12 @@ function addQuantitySumRow(quantitySum,sectionwtSum) {
 }
 
 
-function split(idOfRowToSplit){
-
-	console.log("splitting the quantity into more than one locations.-"+idOfRowToSplit);
-	var $trToSplit = $("#"+idOfRowToSplit);
-	var rowToSplit = $trToSplit.html();
-	var $rowToSplit = $(rowToSplit);
-	console.log(rowToSplit);
-	var $portOutItemQty = $trToSplit.find("#port_out_item_quantity-"+idOfRowToSplit);
-	var $toBeCopiedPortOutItemQty =  $rowToSplit.find("#port_out_item_quantity-"+idOfRowToSplit);
-	var qty = Number($portOutItemQty.val());
-	console.log(qty);
-	$portOutItemQty.val(qty - 1);
-	$toBeCopiedPortOutItemQty.val(1);
-	
-	$("#"+idOfRowToSplit).after($rowToSplit);
-}
-
 function split2(idOfRowToSplit){
 
 	var recordsArrayOfGivenPortOutwardGroup = getPortOutwardGroupForId(idOfRowToSplit);
-	console.log("LOCATIONS_COUNT = "+LOCATIONS_COUNT);
-
-	if(recordsArrayOfGivenPortOutwardGroup.length < LOCATIONS_COUNT){
+	
+	var subRowsCount = recordsArrayOfGivenPortOutwardGroup.length;
+	if(subRowsCount < LOCATIONS_COUNT){
 		//If splitted already into LOCATIONS_COUNT rows, then dont split further
 		console.log("splitting the quantity into more than one locations.-"+idOfRowToSplit);
 		var $trToSplit = $("#"+idOfRowToSplit);
@@ -1105,12 +1104,16 @@ function split2(idOfRowToSplit){
 		if(qty >1){
 			//If quantity is more than 1, then only let it split.
 			$portOutItemQty.val(qty - 1);
-			
-			var $klonedTr = $trToSplit.clone(); 
-			$klonedTr.find("#port_out_item_quantity-"+idOfRowToSplit).val(1);
+
+			//Change the ID of the cloned row
+			var $klonedTr = $trToSplit.clone();
+			$klonedTr.attr("id",idOfRowToSplit+"-"+subRowsCount); 
+
+			//Change the id of the cloned quantity cell.
+			var $quantityCell = $klonedTr.find("#port_out_item_quantity-"+idOfRowToSplit)
+			$quantityCell.val(1);
+			$quantityCell.attr("id","port_out_item_quantity-"+idOfRowToSplit+"-"+subRowsCount);
 			$klonedTr.find("#split-button-td-"+idOfRowToSplit).html("");
-			
-			
 			
 			//$klonedTr.after($trToSplit);
 			$("#"+idOfRowToSplit).after($klonedTr);
