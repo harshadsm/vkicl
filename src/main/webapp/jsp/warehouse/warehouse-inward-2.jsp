@@ -1028,7 +1028,7 @@ function addRowOfSelectedRecord(recordObj) {
 
 			//+ "<td><div class='input-group'><input type='number' step='0.001' placeholder='Section Weight' min='0' readonly value='' name='secWt' class='form-control' aria-label='...'><div class='input-group-btn weight-group'><input type='hidden' name='secWtUnit' value='TON' /><button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown' disabled aria-expanded='false'>TON <span class='caret'></span></button><ul class='dropdown-menu dropdown-menu-right' role='menu'><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>TON</a></li><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>KG</a></li></ul></div></div></td>"
 			// + "<td><div class='input-group'><input type='number' step='0.001' placeholder='Actual Weight' min='0' value='' name='actualWt' onchange='calcSecWtRow(\"row-"+ id+ "\");' onblur='calcSecWtRow(\"row-"+ id+ "\");' class='form-control' aria-label='...'><div class='input-group-btn weight-group'><input type='hidden' onchange='calcSecWtRow(\"row-"+ id+ "\");' onblur='calcSecWtRow(\"row-"+ id+ "\");' name='actualWtUnit' value='TON' /><button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown' aria-expanded='false'>TON <span class='caret'></span></button><ul class='dropdown-menu dropdown-menu-right' role='menu'><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>TON</a></li><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>KG</a></li></ul></div></div></td>"
-			+ "<td><input type='button' class='btn btn-warn' onclick='split($(this).parent().parent().attr(\"id\"));' value='split' /></td>"
+			+ "<td><input type='button' class='btn btn-warn' onclick='split2($(this).parent().parent().attr(\"id\"));' value='split' /></td>"
 			+ "<td><input type='button' class='btn-danger delete-row' onclick='deleteRow($(this).parent().parent().attr(\"id\"));' value='-' /></td>"
 			+ "<td><input type='hidden' value='"+recordObjJson+"' id='"+jsonCellId+"'/></td>"
 			+ "</tr>";
@@ -1085,6 +1085,23 @@ function split(idOfRowToSplit){
 	$toBeCopiedPortOutItemQty.val(1);
 	
 	$("#"+idOfRowToSplit).after($rowToSplit);
+}
+
+function split2(idOfRowToSplit){
+
+	console.log("splitting the quantity into more than one locations.-"+idOfRowToSplit);
+	var $trToSplit = $("#"+idOfRowToSplit);
+	var $klonedTr = $trToSplit.clone(); 
+	$klonedTr.find("#port_out_item_quantity-"+idOfRowToSplit).val(1);
+	
+	var $portOutItemQty = $trToSplit.find("#port_out_item_quantity-"+idOfRowToSplit);
+	var qty = Number($portOutItemQty.val());
+	$portOutItemQty.val(qty - 1);
+
+	
+	
+	//$klonedTr.after($trToSplit);
+	$("#"+idOfRowToSplit).after($klonedTr);
 }
 
 //Below function will force the numeric input if type="number" for input tag.
