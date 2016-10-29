@@ -53,13 +53,16 @@
 								<span class="caret"></span>
 						</a>
 							<ul class="dropdown-menu" role="menu">
-								<li><a href="./warehouse-inward.do">Inwards</a></li>
-								<li><a href="./warehouse-outward.do">Outwards</a></li>
+								
+								
 								<%
 									if (userInfoVO.hasAccess(Constants.Apps.DISPATCH_ORDER)) {
 								%>
-								<li><a href="./warehouse-dispatch.do">Dispatch Order</a></li>
+								
 								<li><a href="./warehouse-inward-2.do">Inwards (New)</a></li>
+								<li><a href="./warehouse-inward.do">Inwards (Old)</a></li>
+								<li><a href="./warehouse-dispatch.do">Dispatch Order</a></li>
+								<li><a href="./warehouse-outward.do">Outwards</a></li>
 								<%
 									}
 								%>
