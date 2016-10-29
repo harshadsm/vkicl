@@ -131,21 +131,6 @@
 	<td>//tr[5]/td[7]</td>
 	<td></td>
 </tr>
-<tr>
-	<td>click</td>
-	<td>css=input.btn.pull-right</td>
-	<td></td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>css=button.btn.btn-primary</td>
-	<td></td>
-</tr>
-<tr>
-	<td>click</td>
-	<td>css=button.btn.btn-primary</td>
-	<td></td>
-</tr>
 </tbody></table>
 </body>
 </html>
