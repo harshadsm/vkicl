@@ -1099,17 +1099,25 @@ function split2(idOfRowToSplit){
 		//If splitted already into LOCATIONS_COUNT rows, then dont split further
 		console.log("splitting the quantity into more than one locations.-"+idOfRowToSplit);
 		var $trToSplit = $("#"+idOfRowToSplit);
-		var $klonedTr = $trToSplit.clone(); 
-		$klonedTr.find("#port_out_item_quantity-"+idOfRowToSplit).val(1);
-		$klonedTr.find("#split-button-td-"+idOfRowToSplit).html("");
-		
 		var $portOutItemQty = $trToSplit.find("#port_out_item_quantity-"+idOfRowToSplit);
 		var qty = Number($portOutItemQty.val());
-		$portOutItemQty.val(qty - 1);
-	
-		
-		//$klonedTr.after($trToSplit);
-		$("#"+idOfRowToSplit).after($klonedTr);
+
+		if(qty >1){
+			//If quantity is more than 1, then only let it split.
+			$portOutItemQty.val(qty - 1);
+			
+			var $klonedTr = $trToSplit.clone(); 
+			$klonedTr.find("#port_out_item_quantity-"+idOfRowToSplit).val(1);
+			$klonedTr.find("#split-button-td-"+idOfRowToSplit).html("");
+			
+			
+			
+			//$klonedTr.after($trToSplit);
+			$("#"+idOfRowToSplit).after($klonedTr);
+		}else{
+			bootbox.alert("Hey smarty, can't split further. How can you split 1 plate into multiple locations? Go learn some basics.");
+		}
+
 	
 	}else{
 		bootbox.alert("You have already split into all "+LOCATIONS_COUNT+" locations. There are no more locations to split.");
