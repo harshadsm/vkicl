@@ -14,9 +14,12 @@
 <%
 List<LocationDetailsVO> locationsList = (List<LocationDetailsVO> )request.getAttribute("locationsList");
 pageContext.setAttribute("locationsList", locationsList);
+
+Integer locationCount = locationsList.size();
 %>
 
 <script type="text/javascript">
+	var LOCATIONS_COUNT = <%=locationCount%>;
 	var SELECTED_PORT_INVENTORY_ITEMS = [];
 	var customer = [], vehicleNumber = [], vesselName = [], grade = [];
 	
@@ -1089,28 +1092,35 @@ function split(idOfRowToSplit){
 
 function split2(idOfRowToSplit){
 
-	
-	console.log("splitting the quantity into more than one locations.-"+idOfRowToSplit);
-	var $trToSplit = $("#"+idOfRowToSplit);
-	var $klonedTr = $trToSplit.clone(); 
-	$klonedTr.find("#port_out_item_quantity-"+idOfRowToSplit).val(1);
-	$klonedTr.find("#split-button-td-"+idOfRowToSplit).html("");
-	
-	var $portOutItemQty = $trToSplit.find("#port_out_item_quantity-"+idOfRowToSplit);
-	var qty = Number($portOutItemQty.val());
-	$portOutItemQty.val(qty - 1);
+	var recordsArrayOfGivenPortOutwardGroup = getPortOutwardGroupForId(idOfRowToSplit);
+	console.log("LOCATIONS_COUNT = "+LOCATIONS_COUNT);
 
+	if(recordsArrayOfGivenPortOutwardGroup.length < LOCATIONS_COUNT){
+		//If splitted already into LOCATIONS_COUNT rows, then dont split further
+		console.log("splitting the quantity into more than one locations.-"+idOfRowToSplit);
+		var $trToSplit = $("#"+idOfRowToSplit);
+		var $klonedTr = $trToSplit.clone(); 
+		$klonedTr.find("#port_out_item_quantity-"+idOfRowToSplit).val(1);
+		$klonedTr.find("#split-button-td-"+idOfRowToSplit).html("");
+		
+		var $portOutItemQty = $trToSplit.find("#port_out_item_quantity-"+idOfRowToSplit);
+		var qty = Number($portOutItemQty.val());
+		$portOutItemQty.val(qty - 1);
 	
-	//$klonedTr.after($trToSplit);
-	$("#"+idOfRowToSplit).after($klonedTr);
-
-	getPortOutwardGroupForId(idOfRowToSplit);
+		
+		//$klonedTr.after($trToSplit);
+		$("#"+idOfRowToSplit).after($klonedTr);
+	
+	}else{
+		bootbox.alert("You have already split into all "+LOCATIONS_COUNT+" locations. There are no more locations to split.");
+	}
 }
 
 function getPortOutwardGroupForId(idOfRowToSplit){
 	var portOutwardGroupClassName = composeCombinationClass(idOfRowToSplit);
 	var group = $("."+portOutwardGroupClassName);
 	console.log(group);
+	return group;
 }
 
 //Below function will force the numeric input if type="number" for input tag.
