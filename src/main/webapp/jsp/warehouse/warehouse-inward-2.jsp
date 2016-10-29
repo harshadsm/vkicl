@@ -1073,10 +1073,18 @@ function addQuantitySumRow(quantitySum,sectionwtSum) {
 function split(idOfRowToSplit){
 
 	console.log("splitting the quantity into more than one locations.-"+idOfRowToSplit);
-	var rowToSplit = $("#"+idOfRowToSplit).parent().html();
-	//console.log(rowToSplit);
+	var $trToSplit = $("#"+idOfRowToSplit);
+	var rowToSplit = $trToSplit.html();
+	var $rowToSplit = $(rowToSplit);
+	console.log(rowToSplit);
+	var $portOutItemQty = $trToSplit.find("#port_out_item_quantity-"+idOfRowToSplit);
+	var $toBeCopiedPortOutItemQty =  $rowToSplit.find("#port_out_item_quantity-"+idOfRowToSplit);
+	var qty = $portOutItemQty.val();
+	console.log(qty);
+	$portOutItemQty.val(Number(qty) - 1);
+	$toBeCopiedPortOutItemQty.val(1);
 	
-	$("#"+idOfRowToSplit).after(rowToSplit);
+	$("#"+idOfRowToSplit).after($rowToSplit);
 }
 
 //Below function will force the numeric input if type="number" for input tag.
