@@ -1018,7 +1018,7 @@ function addRowOfSelectedRecord(recordObj) {
 			+ "<td><input type='text' readonly placeholder='thickness' value='"+recordObj.thickness+"' name='thickness' class='form-control' /></td>"
 			+ "<td><input type='text' readonly placeholder='width' value='"+recordObj.width+"' name='width' class='form-control' /></td>"
 			+ "<td><input type='text' readonly placeholder='length' value='"+recordObj.length+"' name='length' class='form-control' /></td>"
-			+ "<td><input type='text'          placeholder='orderedQuantity' value='"+recordObj.availableQuantity+"' name='availableQuantity' class='form-control port_out_item_quantity' /></td>"
+			+ "<td><input type='text'          placeholder='orderedQuantity' value='"+recordObj.availableQuantity+"' name='availableQuantity' class='form-control port_out_item_quantity' id='port_out_item_quantity-" + id + "' /></td>"
 			+ "<td><input type='text' readonly placeholder='balQty' value='"+recordObj.balQty+"' name='balQty' class='form-control port_out_section_wt' /></td>"
 
 			+ "<td><input type='text' readonly placeholder='Actual Wt.' value='"+recordObj.actualWt+"' name='actualWt' class='form-control ' id='"+awId(recordObj)+"' /></td>"
@@ -1073,9 +1073,10 @@ function addQuantitySumRow(quantitySum,sectionwtSum) {
 function split(idOfRowToSplit){
 
 	console.log("splitting the quantity into more than one locations.-"+idOfRowToSplit);
-	var rowToSplit = $("#"+idOfRowToSplit).html();
-	console.log(rowToSplit);
-	$("#"+idOfRowToSplit).after("<tr>"+rowToSplit+"</tr>");
+	var rowToSplit = $("#"+idOfRowToSplit).parent().html();
+	//console.log(rowToSplit);
+	
+	$("#"+idOfRowToSplit).after(rowToSplit);
 }
 
 //Below function will force the numeric input if type="number" for input tag.

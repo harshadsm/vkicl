@@ -72,6 +72,71 @@
 	<td></td>
 </tr>
 <tr>
+	<td>selectWindow</td>
+	<td>null</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=input.btn-success.add-row</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>css=#row-2 &gt; td &gt; input[name=&quot;materialType&quot;]</td>
+	<td>TYP1</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>document.PortInwardForm.millName[1]</td>
+	<td>MILL1</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>document.PortInwardForm.millName[1]</td>
+	<td>MILL2</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>css=#row-2 &gt; td &gt; input[name=&quot;materialType&quot;]</td>
+	<td>TYP2</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>document.PortInwardForm.make[1]</td>
+	<td>Make2</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>document.PortInwardForm.grade[1]</td>
+	<td>GRADE2</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>document.PortInwardForm.desc[1]</td>
+	<td>Desc2</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=span.glyphicon-calendar.glyphicon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>document.PortInwardForm.beWt[1]</td>
+	<td>2</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//tr[5]/td[7]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=input.btn.pull-right</td>
+	<td></td>
+</tr>
+<tr>
 	<td>clickAndWait</td>
 	<td>css=button.btn.btn-primary</td>
 	<td></td>
@@ -81,7 +146,6 @@
 	<td>css=button.btn.btn-primary</td>
 	<td></td>
 </tr>
-
 </tbody></table>
 </body>
 </html>
