@@ -219,8 +219,48 @@ Integer locationCount = locationsList.size();
 	}
 
 	function isValidPlateCount(){
+		var distinctGroupClassNames = new StringSet();
+		$(".selected-port-outward-records").each(function(i,elem){
+			var $elem = $(elem);
+			var groupClassName = $elem.attr("data-attribute-group-class");
+			//console.log(groupClassName);
+			distinctGroupClassNames.add(groupClassName);
+		});	
+
+		
+		for(var i=0; i<distinctGroupClassNames.values().length; i++){
+			var uniqueGroupClass = distinctGroupClassNames.values()[i];
+			console.log(uniqueGroupClass);
+			isGroupPlateCountCorrect(uniqueGroupClass);
+		}
 		
 	}
+
+	function isGroupPlateCountCorrect(uniqueGroupClass){
+		var originalQty = 0;
+		var sum = 0;
+		$("."+uniqueGroupClass).each(function(i,elem){
+			var $elem = $(elem);
+			originalQty = $elem.attr("data-attribute-original-quantity");
+			var qty = $elem.find("[name=availableQuantity]").val();
+			sum = sum + Number(qty);
+		});
+
+		if(sum != originalQty){
+			//bootbox.alert("Quantity checksum is wrong for "+uniqueGroupClass);
+			var bgCss = $("."+uniqueGroupClass).css("background");
+			$("."+uniqueGroupClass).animate({
+			    color: "green",
+			    backgroundColor: "rgb( 20, 20, 20 )"
+			  }).animate({
+				    color: "green",
+				    backgroundColor: bgCss
+			});
+		}else{
+			console.log("Quantity checksum is correctly matching.");
+		}
+	}
+	
 	function validateForm() {
 		//updateHiddenField();
 		
@@ -910,6 +950,7 @@ function handleOnSelectRow(rowId, status){
 		//If already present, update the orderedQuantity in cache
 		
 		var isPresentObj = isObjectPresentInCache(objectForCaching);
+		console.log("isPresentObj = "+isPresentObj);
 		if(isPresentObj){
 			//updateOrderedQuantityInCache(objectForCaching);
 			$("#ordered_qty_"+rowId).val(isPresentObj.orderedQuantity);
@@ -1008,9 +1049,10 @@ function compareCachedObjects(one, two){
 	var flag1 = one.portInwardId == two.portInwardId;
 	var flag2 = one.portInwardDetailId == two.portInwardDetailId;
 	var flag3 = one.portInwardShipmentId == two.portInwardShipmentId;
+	var flag4 = one.portOutwardId == two.portOutwardId;
 	//var flag4 = one.orderedQuantity == two.orderedQuantity;
 	
-	var isSame = flag1 && flag2 && flag3;// && flag4;
+	var isSame = flag1 && flag2 && flag3 && flag4;// && flag4;
 	
 	return isSame;
 }
@@ -1104,7 +1146,7 @@ function editText() {
 
 function composeCombinationId(recordObj){
 	//var comboId = ""+ recordObj.portInwardId + "-"+recordObj.portInwardDetailId+"-"+recordObj.portInwardShipmentId;
-	var comboId = ""+ recordObj.portInwardId + "-"+recordObj.portInwardShipmentId;
+	var comboId = ""+ recordObj.portInwardId + "-"+recordObj.portInwardShipmentId+"-"+recordObj.portOutwardId ;
 	return comboId;
 }
 
@@ -1162,7 +1204,7 @@ function addRowOfSelectedRecord(recordObj) {
 	var jsonCellId = composeJsonCellId(id);
 	var warehouseInwardRecordClass = composeCombinationClass(id);
 	var recordObjJson = JSON.stringify(recordObj);		
-	var str = "<tr id='" + id + "' class='selected-port-outward-records "+warehouseInwardRecordClass+"'>"
+	var str = "<tr id='" + id + "' class='selected-port-outward-records "+warehouseInwardRecordClass+"' data-attribute-group-class='"+warehouseInwardRecordClass+"' data-attribute-original-quantity='"+recordObj.availableQuantity+"' >"
 			+ "<td><input type='text' readonly placeholder='vesselDate' value='"+recordObj.vesselDate+"' name='vesselDate' class='form-control'  /></td>"
 			+ "<td><input type='text' readonly placeholder='vendorName' value='"+recordObj.vendorName+"' name='vendorName' class='form-control' /></td>"
 			+ "<td><input type='text' readonly placeholder='vesselName' value='"+recordObj.vesselName+"' name='vesselName' class='form-control' /></td>"
@@ -1240,6 +1282,9 @@ function split2(idOfRowToSplit){
 	var recordsArrayOfGivenPortOutwardGroup = getPortOutwardGroupForId(idOfRowToSplit);
 	
 	var subRowsCount = recordsArrayOfGivenPortOutwardGroup.length;
+	console.log("Id Of the row to be split = "+idOfRowToSplit);
+	console.log("Available locations = "+LOCATIONS_COUNT);
+	console.log("Sub Rows Count = "+subRowsCount);
 	if(subRowsCount < LOCATIONS_COUNT){
 		//If splitted already into LOCATIONS_COUNT rows, then dont split further
 		console.log("splitting the quantity into more than one locations.-"+idOfRowToSplit);
