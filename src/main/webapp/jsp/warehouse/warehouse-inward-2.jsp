@@ -154,6 +154,7 @@ Integer locationCount = locationsList.size();
 
 	var id = 1;
 
+	// addRow() function is not used. You may delete it.
 	function addRow() {
 		var str = "<tr id='row-" + id + "'><td class='vessel-container'><input type='text' placeholder='Vessel Name' value='' onblur='fillDates(\"row-"+ id+ "\");' name='vesselName' class='form-control' /></td>"
 				+ "<td><select name='vesselDate' class='form-control' onChange='fillBeNo(\"row-"+ id+ "\");'><option value=''>--</option></select></td>"
@@ -201,10 +202,30 @@ Integer locationCount = locationsList.size();
 		applyTotalCalc();
 	}
 
+	function isValidLocations(){
+		var isValid = true;
+		
+		$("[name=location]").each(function(i,elem){
+			var $elem = $(elem);
+			console.log($elem);
+			console.log($elem.val());
+			if($elem.val() == "-"){
+				isValid = false;
+				console.log("Location not submitted.");
+			}
+		});
+
+		return isValid;
+	}
+
+	function isValidPlateCount(){
+		
+	}
 	function validateForm() {
-		updateHiddenField();
+		//updateHiddenField();
 		
-		
+		var isAllLocValid = isValidLocations();
+		var isPlateCountCorrectEvenAfterSplit = isValidPlateCount();
 		
 		
 		var	str = "Are you sure you want to Submit?";
@@ -252,8 +273,33 @@ Integer locationCount = locationsList.size();
 	}
 
 	function submitWarehouseInwards(){
-		var selectedWarehouseInwardsJson = composeSelectedWarehouseInwardsJson();
-		console.log(selectedWarehouseInwardsJson);
+		
+		var selected_port_inventory_items_JSON = composeSelectedWarehouseInwardsJson();
+		console.log(selected_port_inventory_items_JSON);
+		var postJsonObject = {
+				selectedPortInventoryItemsJson : selected_port_inventory_items_JSON
+		};
+		
+		var itemsToSaveWarehouseInwardJson = "genericListener=add&itemsToSaveWarehouseInwardJson="+JSON.stringify(postJsonObject);;
+		console.log(itemsToSaveWarehouseInwardJson);
+		$.ajax({
+			url: "warehouse-inward-save.do",
+			method: 'POST',
+			data: itemsToSaveWarehouseInwardJson,
+			success : function(msg){
+				console.log(msg);
+				bootbox.alert("Successfully saved records!", function(){
+					location.reload();	
+				});
+				
+			},
+			error : function(msg){
+				console.log(msg);
+				bootbox.alert("Some error at server! Please call administrator.");
+			}
+		});
+
+		
 		
 	}
 
@@ -264,6 +310,8 @@ Integer locationCount = locationsList.size();
 			var selectedWarehouseInwardsObj = composeWarehouseInwardsObject($elem);
 			warehouseInwardsObjectArray.push(selectedWarehouseInwardsObj);
 		});
+		var json = JSON.stringify(warehouseInwardsObjectArray);
+		return json;
 	}
 
 	function composeWarehouseInwardsObject($elem){
@@ -271,7 +319,8 @@ Integer locationCount = locationsList.size();
 		var portInwardId = getValueByName($elem, "portInwardId");
 		var portInwardDetailId = getValueByName($elem, "portInwardDetailId");
 		var portInwardShipmentId = getValueByName($elem, "portInwardShipmentId");
-		var orderedQuantity = qty;
+		var portOutwardId = getValueByName($elem, "portOutwardId");
+		
 		var length = getValueByName($elem, "length");
 		var width = getValueByName($elem, "width");
 		var thickness = getValueByName($elem, "thickness");
@@ -288,23 +337,23 @@ Integer locationCount = locationsList.size();
 		var vendorName = getValueByName($elem, "vendorName");
 		var make = getValueByName($elem, "make");
 
-		var heatNo = getValueByName($elem, "heeatNoInput");
+		var heatNo = getValueByName($elem, "heatNoInput");
 		var plateNo = getValueByName($elem, "plateNoInput");
 		var location = getValueByName($elem, "location");
 
 		
 		var warehouseInwardsObject = {
 				portInwardId : portInwardId,
+				portOutwardId:portOutwardId,
 				portInwardDetailId : portInwardDetailId,
 				portInwardShipmentId : portInwardShipmentId,
-				orderedQuantity : qty,
 				length : length,
 				width : width,
 				thickness : thickness,
 				vesselDate : vesselDate,
 				vesselName : vesselName,
 				millName : millName,
-				availableQuantity : quantity,
+				availableQuantity : availableQuantity,
 				grade : grade,
 				materialType : materialType,
 				balQty : balQty,
@@ -458,12 +507,26 @@ function populatePackingList(){
 			
 			mtype : 'POST',
 
-			colNames : [ 'portOutwardId','portInwardShipmentId','Date','Vendor Name','Vessel Name','Vehicle Date', 'Vehicle Number', 'Mill Name', 'Type', 'Make','Grade', 'Thickness', 'Width', 'Length', 'Bal Pcs', 'Sec. wt', 'Actual wt.' ],
+			colNames : [ 'portOutwardId','portInwardId','portInwardShipmentId','Date','Vendor Name','Vessel Name','Vehicle Date', 'Vehicle Number', 'Mill Name', 'Type', 'Make','Grade', 'Thickness', 'Width', 'Length', 'Bal Pcs', 'Sec. wt', 'Actual wt.' ],
 					
 			colModel : [  {
+				name : 'portOutwardId',
+				index : 'portOutwardId',
+				hidden: false,
+				width : 185,
+				editable : false,
+				editrules : {
+					required : true
+				},
+				editoptions : {
+					size : 10
+				},
+				search:false,
+				searchoptions: { sopt:['ge']}
+			},{
 				name : 'portInwardId',
 				index : 'portInwardId',
-				hidden: true,
+				hidden: false,
 				width : 185,
 				editable : false,
 				editrules : {
@@ -477,8 +540,8 @@ function populatePackingList(){
 			},{
 				name : 'portInwardShipmentId',
 				index : 'portInwardShipmentId',
-				hidden: true,
-				width : 5,
+				hidden: false,
+				width : 155,
 				editable : false,
 				editrules : {
 					required : true
@@ -486,8 +549,8 @@ function populatePackingList(){
 				editoptions : {
 					size : 10
 				},
-				search:false,
-				hidden:true
+				search:false
+				
 			}, {
 				name : 'vesselDate',
 				index : 'vessel_Date',
@@ -810,6 +873,7 @@ function composeObjectForCaching(rowObject,qty){
 			portInwardId : rowObject.portInwardId,
 			portInwardDetailId : rowObject.portInwardDetailId,
 			portInwardShipmentId : rowObject.portInwardShipmentId,
+			portOutwardId : rowObject.portOutwardId,
 			orderedQuantity : qty,
 			length : rowObject.length,
 			width : rowObject.width,
@@ -1100,7 +1164,7 @@ function addRowOfSelectedRecord(recordObj) {
 	var recordObjJson = JSON.stringify(recordObj);		
 	var str = "<tr id='" + id + "' class='selected-port-outward-records "+warehouseInwardRecordClass+"'>"
 			+ "<td><input type='text' readonly placeholder='vesselDate' value='"+recordObj.vesselDate+"' name='vesselDate' class='form-control'  /></td>"
-			+ "<td><input type='text' readonly placeholder='vendorlName' value='"+recordObj.vendorName+"' name='vesselName' class='form-control' /></td>"
+			+ "<td><input type='text' readonly placeholder='vendorName' value='"+recordObj.vendorName+"' name='vendorName' class='form-control' /></td>"
 			+ "<td><input type='text' readonly placeholder='vesselName' value='"+recordObj.vesselName+"' name='vesselName' class='form-control' /></td>"
 			+ "<td><input type='text' readonly placeholder='vehicleDate' value='"+recordObj.vehicleDate+"' name='vehicleDate' class='form-control' /></td>"
 			+ "<td><input type='text' readonly placeholder='vehicleName' value='"+recordObj.vehicleName+"' name='vehicleName' class='form-control' /></td>"
@@ -1127,6 +1191,9 @@ function addRowOfSelectedRecord(recordObj) {
 			// + "<td><div class='input-group'><input type='number' step='0.001' placeholder='Actual Weight' min='0' value='' name='actualWt' onchange='calcSecWtRow(\"row-"+ id+ "\");' onblur='calcSecWtRow(\"row-"+ id+ "\");' class='form-control' aria-label='...'><div class='input-group-btn weight-group'><input type='hidden' onchange='calcSecWtRow(\"row-"+ id+ "\");' onblur='calcSecWtRow(\"row-"+ id+ "\");' name='actualWtUnit' value='TON' /><button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown' aria-expanded='false'>TON <span class='caret'></span></button><ul class='dropdown-menu dropdown-menu-right' role='menu'><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>TON</a></li><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>KG</a></li></ul></div></div></td>"
 			+ "<td id='split-button-td-" + id + "' ><input type='button' class='btn btn-warn' onclick='split2($(this).parent().parent().attr(\"id\"));' value='split' /></td>"
 			+ "<td><input type='button' class='btn-danger delete-row' onclick='deleteRow($(this).parent().parent().attr(\"id\"));' value='-' /></td>"
+			+ "<td><input type='hidden' value='"+recordObj.portInwardId+"' name='portInwardId'/></td>"
+			+ "<td><input type='hidden' value='"+recordObj.portOutwardId+"' name='portOutwardId'/></td>"
+			+ "<td><input type='hidden' value='"+recordObj.portInwardShipmentId+"' name='portInwardShipmentId'/></td>"
 			+ "<td><input type='hidden' value='"+recordObjJson+"' id='"+jsonCellId+"'/></td>"
 
 			+ "</tr>";
