@@ -62,11 +62,16 @@ public class WarehouseInwardService {
 		
 		for (Map.Entry<String, List<WarehouseInwardRecordVO>> entry : map.entrySet()) {
 		    System.out.println("key=" + entry.getKey() + ", value=" + entry.getValue());
-		    List<WarehouseInwardRecordVO> plateEntry = entry.getValue();
-		    warehouseShipmentId = warehouseShipmentDaoImpl.saveWarehouseShipment(plateEntry.get(0), userInfo);
+		    List<WarehouseInwardRecordVO> plateEntries = entry.getValue();
+		    
+		    /**
+		     * Save the shipment detatils in warehouse_inward_shipment table.
+		     * We will use the 1st record in the group to get the submitted shipment details.
+		     */
+		    warehouseShipmentId = warehouseShipmentDaoImpl.saveWarehouseShipment(plateEntries.get(0), userInfo);
 		    
 		    
-		    for(WarehouseInwardRecordVO warehouseInwardRecordVO :plateEntry){
+		    for(WarehouseInwardRecordVO warehouseInwardRecordVO :plateEntries){
 		    	
 		    	warehouseInwardId= warehouseDaoImpl2.addWarehouseInwardData(warehouseInwardRecordVO, warehouseShipmentId, userInfo);
 		    	

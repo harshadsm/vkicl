@@ -210,7 +210,8 @@ Integer locationCount = locationsList.size();
 		var	str = "Are you sure you want to Submit?";
 		bootbox.confirm(str, function(result) {
 			if (result) {
-				submitCachedWarehouseInwardRecords();
+				//submitCachedWarehouseInwardRecords();
+				submitWarehouseInwards();
 			}
 		});
 		return false;
@@ -248,6 +249,82 @@ Integer locationCount = locationsList.size();
 		var elemId = locationId(item);
 		var location = $("#"+elemId).val();
 		return location;
+	}
+
+	function submitWarehouseInwards(){
+		var selectedWarehouseInwardsJson = composeSelectedWarehouseInwardsJson();
+		console.log(selectedWarehouseInwardsJson);
+		
+	}
+
+	function composeSelectedWarehouseInwardsJson(){
+		var warehouseInwardsObjectArray = [];
+		$(".selected-port-outward-records").each(function(i, elem){
+			var $elem = $(elem);
+			var selectedWarehouseInwardsObj = composeWarehouseInwardsObject($elem);
+			warehouseInwardsObjectArray.push(selectedWarehouseInwardsObj);
+		});
+	}
+
+	function composeWarehouseInwardsObject($elem){
+		var vesselDate = getValueByName($elem, "vesselDate");
+		var portInwardId = getValueByName($elem, "portInwardId");
+		var portInwardDetailId = getValueByName($elem, "portInwardDetailId");
+		var portInwardShipmentId = getValueByName($elem, "portInwardShipmentId");
+		var orderedQuantity = qty;
+		var length = getValueByName($elem, "length");
+		var width = getValueByName($elem, "width");
+		var thickness = getValueByName($elem, "thickness");
+		var vesselName = getValueByName($elem, "vesselName");
+		var millName = getValueByName($elem, "millName");
+		var availableQuantity = getValueByName($elem, "availableQuantity");
+		var grade = getValueByName($elem, "grade");
+		var materialType = getValueByName($elem, "Type");
+		var balQty = getValueByName($elem, "balQty");
+		var outQty = getValueByName($elem, "outQty");
+		var vehicleDate = getValueByName($elem, "vehicleDate");
+		var vehicleName = getValueByName($elem, "vehicleName");
+		var actualWt = getValueByName($elem, "actualWt");
+		var vendorName = getValueByName($elem, "vendorName");
+		var make = getValueByName($elem, "make");
+
+		var heatNo = getValueByName($elem, "heeatNoInput");
+		var plateNo = getValueByName($elem, "plateNoInput");
+		var location = getValueByName($elem, "location");
+
+		
+		var warehouseInwardsObject = {
+				portInwardId : portInwardId,
+				portInwardDetailId : portInwardDetailId,
+				portInwardShipmentId : portInwardShipmentId,
+				orderedQuantity : qty,
+				length : length,
+				width : width,
+				thickness : thickness,
+				vesselDate : vesselDate,
+				vesselName : vesselName,
+				millName : millName,
+				availableQuantity : quantity,
+				grade : grade,
+				materialType : materialType,
+				balQty : balQty,
+				outQty : outQty,
+				vehicleDate : vehicleDate,
+				vehicleName : vehicleName,
+				actualWt : actualWt,
+				vendorName : vendorName,
+				make : make,
+				heatNo : heatNo,
+				plateNo : plateNo,
+				location : location
+				
+		};
+		console.log(warehouseInwardsObject);
+		return warehouseInwardsObject;
+	}
+
+	function getValueByName($elem, elementName){
+		return $elem.find("[name="+elementName+"]").val();
 	}
 	
 	function submitCachedWarehouseInwardRecords(){
@@ -1014,13 +1091,14 @@ function getLocationDropdownHtml(recordObj){
 }
 
 function addRowOfSelectedRecord(recordObj) {
+	
 	console.log(recordObj);
 	var id = composeCombinationId(recordObj);
 
 	var jsonCellId = composeJsonCellId(id);
 	var warehouseInwardRecordClass = composeCombinationClass(id);
 	var recordObjJson = JSON.stringify(recordObj);		
-	var str = "<tr id='" + id + "' class='"+warehouseInwardRecordClass+"'>"
+	var str = "<tr id='" + id + "' class='selected-port-outward-records "+warehouseInwardRecordClass+"'>"
 			+ "<td><input type='text' readonly placeholder='vesselDate' value='"+recordObj.vesselDate+"' name='vesselDate' class='form-control'  /></td>"
 			+ "<td><input type='text' readonly placeholder='vendorlName' value='"+recordObj.vendorName+"' name='vesselName' class='form-control' /></td>"
 			+ "<td><input type='text' readonly placeholder='vesselName' value='"+recordObj.vesselName+"' name='vesselName' class='form-control' /></td>"
@@ -1029,7 +1107,7 @@ function addRowOfSelectedRecord(recordObj) {
 			+ "<td><input type='text' readonly placeholder='millName' value='"+recordObj.millName+"' name='millName' class='form-control' /></td>"
 			
 			+ "<td><input type='text' readonly placeholder='materialType' value='"+recordObj.materialType+"' name='Type' class='form-control' /></td>"
-			+ "<td><input type='text' readonly placeholder='make' value='"+recordObj.make+"' name='Type' class='form-control' /></td>"
+			+ "<td><input type='text' readonly placeholder='make' value='"+recordObj.make+"' name='make' class='form-control' /></td>"
 			//+ "<td>be no</td>"
 			//+ "<td>Material Type</td>"
 			+ "<td><input type='text' readonly placeholder='grade' value='"+recordObj.grade+"' name='grade' class='form-control' /></td>"
@@ -1050,6 +1128,7 @@ function addRowOfSelectedRecord(recordObj) {
 			+ "<td id='split-button-td-" + id + "' ><input type='button' class='btn btn-warn' onclick='split2($(this).parent().parent().attr(\"id\"));' value='split' /></td>"
 			+ "<td><input type='button' class='btn-danger delete-row' onclick='deleteRow($(this).parent().parent().attr(\"id\"));' value='-' /></td>"
 			+ "<td><input type='hidden' value='"+recordObjJson+"' id='"+jsonCellId+"'/></td>"
+
 			+ "</tr>";
 	$("#details-tbody").append(str);
 	
