@@ -39,7 +39,8 @@ public class PortInwardPackingListDaoImpl extends BaseDaoImpl {
 			String sql = " select pi.port_inward_id, pi.port_inwd_shipment_id,pid.port_inward_detail_id, "
 			+" pis.vessel_name, pis.vessel_date, pi.material_grade, pi.material_type, "
 			+" pid.length, pid.width, pid.thickness, pid.quantity , pi.mill_name, "
-			+" round(((pid.length * pid.width * pid.thickness * pid.quantity * 7.85)/1000000000),3) as BalQty"
+			+" round(((pid.length * pid.width * pid.thickness * pid.quantity * 7.85)/1000000000),3) as BalQty, pid.be_weight as ActualWt, "
+			+ " pid.be_wt_unit as ActualWt_unit"
 			+" from  "
 			+" port_inward pi "
 			+" left join port_inward_shipment pis on pis.port_inwd_shipment_id = pi.port_inwd_shipment_id "
@@ -70,6 +71,8 @@ public class PortInwardPackingListDaoImpl extends BaseDaoImpl {
 					p.setQuantity(rs.getInt(11));
 					p.setMillName(rs.getString(12));
 					p.setBalQty(rs.getDouble(13));
+					p.setActualWt(rs.getDouble(14));
+					p.setActualWt_unit(rs.getString(15));
 					list.add(p);
 				} while (rs.next());
 

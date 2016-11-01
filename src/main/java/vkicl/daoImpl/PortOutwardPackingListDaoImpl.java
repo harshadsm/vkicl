@@ -41,7 +41,8 @@ public class PortOutwardPackingListDaoImpl extends BaseDaoImpl {
 			String sql = " select po.port_out_id, pi.port_inwd_shipment_id, po.vessel_name, po.vessel_Date, po.grade, po.material_type, "
 					+" po.length, po.width, po.thickness, po.quantity, pi.mill_name, "
 					+" round(((po.length * po.width * po.thickness * po.quantity * 7.85)/1000000000),3) as balQty,"
-					+" pis.vehicle_number, pis.vehicle_date, pis.port_out_shipment_id, po.actual_wt, pi.material_make, pins.vendor_name "
+					+" pis.vehicle_number, pis.vehicle_date, pis.port_out_shipment_id, po.actual_wt, "
+					+ " pi.material_make, pins.vendor_name,po.actual_wt_Unit "
 					+" from port_outward_shipment pis "
 					+" inner join port_outward po on pis.port_out_shipment_id = po.port_out_shipment_id "
 					+" inner join port_inward_outward_intersection pios on pios.port_outward_id=po.port_out_id "
@@ -92,7 +93,7 @@ public class PortOutwardPackingListDaoImpl extends BaseDaoImpl {
 
 				   p.setMake(rs.getString(17));
 				   p.setVendorName(rs.getString(18));
-
+				   p.setActualWt_unit(rs.getString(19));
 					list.add(p);
 				} 
 				while (rs.next());

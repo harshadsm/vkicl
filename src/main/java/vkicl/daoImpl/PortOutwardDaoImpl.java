@@ -29,8 +29,8 @@ public class PortOutwardDaoImpl extends BaseDaoImpl {
 		try {
 			java.util.Date vesselDate = Converter.stringToDate(vo.getVesselDate(), Constants.Apps.DATE_FORMAT);
 			java.sql.Date vesseleDateSql = Converter.dateToSqlDate(vesselDate);
-			Double actual_wt = -1d;
-			String actual_wt_unit = "TON";
+			//Double actual_wt = -1d;
+			//String actual_wt_unit = "TON";
 			Double section_wt = -1d;
 			String section_wt_unit = "TON";
 			
@@ -54,8 +54,8 @@ public class PortOutwardDaoImpl extends BaseDaoImpl {
 			cs.setInt(6,vo.getLength());
 			cs.setInt(7, vo.getWidth());
 			cs.setDouble(8, vo.getThickness());
-			cs.setDouble(9, actual_wt);
-			cs.setString(10, actual_wt_unit);
+			cs.setDouble(9, vo.getActualWt());
+			cs.setString(10, vo.getActualWt_unit());
 			cs.setDouble(11, section_wt);
 			cs.setString(12, section_wt_unit);
 			cs.setInt(13, vo.getOrderedQuantity());

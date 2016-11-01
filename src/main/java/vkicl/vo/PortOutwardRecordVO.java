@@ -16,6 +16,23 @@ public class PortOutwardRecordVO {
 	private String desc;
 	private String vesselDate;
 	private String vesselName;
+	private Double actualWt;
+	private String actualWt_unit;
+	
+	
+	
+	public Double getActualWt() {
+		return actualWt;
+	}
+	public void setActualWt(Double actualWt) {
+		this.actualWt = actualWt;
+	}
+	public String getActualWt_unit() {
+		return actualWt_unit;
+	}
+	public void setActualWt_unit(String actualWt_unit) {
+		this.actualWt_unit = actualWt_unit;
+	}
 	public Integer getPortInwardDetailId() {
 		return portInwardDetailId;
 	}

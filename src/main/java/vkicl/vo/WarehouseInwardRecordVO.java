@@ -15,6 +15,21 @@ public class WarehouseInwardRecordVO {
 	
 	private String grade;
 	private String materialType;
+	private Double actualWt;
+	public Double getActualWt() {
+		return actualWt;
+	}
+	public void setActualWt(Double actualWt) {
+		this.actualWt = actualWt;
+	}
+	public String getActualWt_unit() {
+		return actualWt_unit;
+	}
+	public void setActualWt_unit(String actualWt_unit) {
+		this.actualWt_unit = actualWt_unit;
+	}
+	private String actualWt_unit;
+	
 	public String getMake() {
 		return make;
 	}

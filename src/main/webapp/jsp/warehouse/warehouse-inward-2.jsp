@@ -365,7 +365,7 @@ function populatePackingList(){
 			
 			mtype : 'POST',
 
-			colNames : [ 'portOutwardId','portInwardShipmentId','Date','Vendor Name','Vessel Name','Vehicle Date', 'Vehicle Number', 'Mill Name', 'Type', 'Make','Grade', 'Thickness', 'Width', 'Length', 'Bal Pcs', 'Sec. wt', 'Actual wt.' ],
+			colNames : [ 'portOutwardId','portInwardShipmentId','Date','Vendor Name','Vessel Name','Vehicle Date', 'Vehicle Number', 'Mill Name', 'Type', 'Make','Grade', 'Thickness', 'Width', 'Length', 'Bal Pcs', 'Sec. wt', 'Actual wt.','Actual wt unit' ],
 					
 			colModel : [  {
 				name : 'portInwardId',
@@ -625,7 +625,23 @@ function populatePackingList(){
 				
 			},
 			
-			
+			{
+				name : 'actualWt_unit',
+				index : 'actualWt_unit',
+				hidden: true,
+				width : 150,
+				editable : false,
+				editoptions : {
+					readonly : true,
+					size : 10
+				},
+				align : 'center',
+				search:false,
+				sortable:false,
+				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+				searchoptions: { sopt:[ 'eq']}
+				
+			},
 			],
 			postData : {
 			},
@@ -733,7 +749,8 @@ function composeObjectForCaching(rowObject,qty){
 			vehicleName:rowObject.vehicleName,
 			actualWt:rowObject.actualWt,
 			vendorName : rowObject.vendorName,
-			make:rowObject.make
+			make:rowObject.make,
+			actualWt_unit:rowObject.actualWt_unit
 	};
 	return cachedObj;
 }

@@ -26,6 +26,15 @@ public class PackingListItemVO {
 	private String vehicleDate;
 	private String vehicleName;
 	private Double actualWt;
+	private String actualWt_unit;
+	
+	public String getActualWt_unit() {
+		return actualWt_unit;
+	}
+	public void setActualWt_unit(String actualWt_unit) {
+		this.actualWt_unit = actualWt_unit;
+	}
+	
 	
 		public Double getActualWt() {
 		return actualWt;
