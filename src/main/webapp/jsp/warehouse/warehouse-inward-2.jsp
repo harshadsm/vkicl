@@ -154,6 +154,7 @@ Integer locationCount = locationsList.size();
 
 	var id = 1;
 
+	// addRow() function is not used. You may delete it.
 	function addRow() {
 		var str = "<tr id='row-" + id + "'><td class='vessel-container'><input type='text' placeholder='Vessel Name' value='' onblur='fillDates(\"row-"+ id+ "\");' name='vesselName' class='form-control' /></td>"
 				+ "<td><select name='vesselDate' class='form-control' onChange='fillBeNo(\"row-"+ id+ "\");'><option value=''>--</option></select></td>"
@@ -178,23 +179,100 @@ Integer locationCount = locationsList.size();
 	}
 
 	function deleteRow(id) {
-		if ($("#details-tbody tr").length > 1)
+		console.log(id);
+		if ($("#details-tbody tr").length > 1){
+			//Adjust the qty
+			//Get the qty of the selected row
+			var $qtyCell = $("#port_out_item_quantity-"+id);
+			var splitRecordQty = Number($qtyCell.val());
+			console.log("Qty to be added back = "+$qtyCell.val());
+			var parentPortOutRecordId = $qtyCell.attr("data-attribute-parent-port-out-id");
+			console.log("Id of the parent qty cell = "+parentPortOutRecordId);
+			var $parentPortOutRecordQtyCell = $("#"+parentPortOutRecordId);
+			console.log($parentPortOutRecordQtyCell);
+			var parentQty = Number($parentPortOutRecordQtyCell.val());
+			var revertedQty = parentQty + splitRecordQty;
+			$parentPortOutRecordQtyCell.val(revertedQty); 
+			
 			$("#" + id).remove();
-		else
+		}else{
 			bootbox.alert("Cannot Delete Last Row");
+		}
+		
 		applyTotalCalc();
 	}
 
+	function isValidLocations(){
+		var isValid = true;
+		
+		$("[name=location]").each(function(i,elem){
+			var $elem = $(elem);
+			console.log($elem);
+			console.log($elem.val());
+			if($elem.val() == "-"){
+				isValid = false;
+				console.log("Location not submitted.");
+			}
+		});
+
+		return isValid;
+	}
+
+	function isValidPlateCount(){
+		var distinctGroupClassNames = new StringSet();
+		$(".selected-port-outward-records").each(function(i,elem){
+			var $elem = $(elem);
+			var groupClassName = $elem.attr("data-attribute-group-class");
+			//console.log(groupClassName);
+			distinctGroupClassNames.add(groupClassName);
+		});	
+
+		
+		for(var i=0; i<distinctGroupClassNames.values().length; i++){
+			var uniqueGroupClass = distinctGroupClassNames.values()[i];
+			console.log(uniqueGroupClass);
+			isGroupPlateCountCorrect(uniqueGroupClass);
+		}
+		
+	}
+
+	function isGroupPlateCountCorrect(uniqueGroupClass){
+		var originalQty = 0;
+		var sum = 0;
+		$("."+uniqueGroupClass).each(function(i,elem){
+			var $elem = $(elem);
+			originalQty = $elem.attr("data-attribute-original-quantity");
+			var qty = $elem.find("[name=availableQuantity]").val();
+			sum = sum + Number(qty);
+		});
+
+		if(sum != originalQty){
+			//bootbox.alert("Quantity checksum is wrong for "+uniqueGroupClass);
+			var bgCss = $("."+uniqueGroupClass).css("background");
+			$("."+uniqueGroupClass).animate({
+			    color: "green",
+			    backgroundColor: "rgb( 20, 20, 20 )"
+			  }).animate({
+				    color: "green",
+				    backgroundColor: bgCss
+			});
+		}else{
+			console.log("Quantity checksum is correctly matching.");
+		}
+	}
+	
 	function validateForm() {
-		updateHiddenField();
+		//updateHiddenField();
 		
-		
+		var isAllLocValid = isValidLocations();
+		var isPlateCountCorrectEvenAfterSplit = isValidPlateCount();
 		
 		
 		var	str = "Are you sure you want to Submit?";
 		bootbox.confirm(str, function(result) {
 			if (result) {
-				submitCachedWarehouseInwardRecords();
+				//submitCachedWarehouseInwardRecords();
+				submitWarehouseInwards();
 			}
 		});
 		return false;
@@ -232,6 +310,110 @@ Integer locationCount = locationsList.size();
 		var elemId = locationId(item);
 		var location = $("#"+elemId).val();
 		return location;
+	}
+
+	function submitWarehouseInwards(){
+		
+		var selected_port_inventory_items_JSON = composeSelectedWarehouseInwardsJson();
+		console.log(selected_port_inventory_items_JSON);
+		var postJsonObject = {
+				selectedPortInventoryItemsJson : selected_port_inventory_items_JSON
+		};
+		
+		var itemsToSaveWarehouseInwardJson = "genericListener=add&itemsToSaveWarehouseInwardJson="+JSON.stringify(postJsonObject);;
+		console.log(itemsToSaveWarehouseInwardJson);
+		$.ajax({
+			url: "warehouse-inward-save.do",
+			method: 'POST',
+			data: itemsToSaveWarehouseInwardJson,
+			success : function(msg){
+				console.log(msg);
+				bootbox.alert("Successfully saved records!", function(){
+					location.reload();	
+				});
+				
+			},
+			error : function(msg){
+				console.log(msg);
+				bootbox.alert("Some error at server! Please call administrator.");
+			}
+		});
+
+		
+		
+	}
+
+	function composeSelectedWarehouseInwardsJson(){
+		var warehouseInwardsObjectArray = [];
+		$(".selected-port-outward-records").each(function(i, elem){
+			var $elem = $(elem);
+			var selectedWarehouseInwardsObj = composeWarehouseInwardsObject($elem);
+			warehouseInwardsObjectArray.push(selectedWarehouseInwardsObj);
+		});
+		var json = JSON.stringify(warehouseInwardsObjectArray);
+		return json;
+	}
+
+	function composeWarehouseInwardsObject($elem){
+		var vesselDate = getValueByName($elem, "vesselDate");
+		var portInwardId = getValueByName($elem, "portInwardId");
+		var portInwardDetailId = getValueByName($elem, "portInwardDetailId");
+		var portInwardShipmentId = getValueByName($elem, "portInwardShipmentId");
+		var portOutwardId = getValueByName($elem, "portOutwardId");
+		
+		var length = getValueByName($elem, "length");
+		var width = getValueByName($elem, "width");
+		var thickness = getValueByName($elem, "thickness");
+		var vesselName = getValueByName($elem, "vesselName");
+		var millName = getValueByName($elem, "millName");
+		var availableQuantity = getValueByName($elem, "availableQuantity");
+		var grade = getValueByName($elem, "grade");
+		var materialType = getValueByName($elem, "Type");
+		var balQty = getValueByName($elem, "balQty");
+		var outQty = getValueByName($elem, "outQty");
+		var vehicleDate = getValueByName($elem, "vehicleDate");
+		var vehicleName = getValueByName($elem, "vehicleName");
+		var actualWt = getValueByName($elem, "actualWt");
+		var vendorName = getValueByName($elem, "vendorName");
+		var make = getValueByName($elem, "make");
+
+		var heatNo = getValueByName($elem, "heatNoInput");
+		var plateNo = getValueByName($elem, "plateNoInput");
+		var location = getValueByName($elem, "location");
+
+		
+		var warehouseInwardsObject = {
+				portInwardId : portInwardId,
+				portOutwardId:portOutwardId,
+				portInwardDetailId : portInwardDetailId,
+				portInwardShipmentId : portInwardShipmentId,
+				length : length,
+				width : width,
+				thickness : thickness,
+				vesselDate : vesselDate,
+				vesselName : vesselName,
+				millName : millName,
+				availableQuantity : availableQuantity,
+				grade : grade,
+				materialType : materialType,
+				balQty : balQty,
+				outQty : outQty,
+				vehicleDate : vehicleDate,
+				vehicleName : vehicleName,
+				actualWt : actualWt,
+				vendorName : vendorName,
+				make : make,
+				heatNo : heatNo,
+				plateNo : plateNo,
+				location : location
+				
+		};
+		console.log(warehouseInwardsObject);
+		return warehouseInwardsObject;
+	}
+
+	function getValueByName($elem, elementName){
+		return $elem.find("[name="+elementName+"]").val();
 	}
 	
 	function submitCachedWarehouseInwardRecords(){
@@ -365,12 +547,28 @@ function populatePackingList(){
 			
 			mtype : 'POST',
 
-			colNames : [ 'portOutwardId','portInwardShipmentId','Date','Vendor Name','Vessel Name','Vehicle Date', 'Vehicle Number', 'Mill Name', 'Type', 'Make','Grade', 'Thickness', 'Width', 'Length', 'Bal Pcs', 'Sec. wt', 'Actual wt.','Actual wt unit' ],
+
+			colNames : [ 'portOutwardId','portInwardId','portInwardShipmentId','Date','Vendor Name','Vessel Name','Vehicle Date', 'Vehicle Number', 'Mill Name', 'Type', 'Make','Grade', 'Thickness', 'Width', 'Length', 'Bal Pcs', 'Sec. wt', 'Actual wt.' ],
+
 					
 			colModel : [  {
+				name : 'portOutwardId',
+				index : 'portOutwardId',
+				hidden: false,
+				width : 185,
+				editable : false,
+				editrules : {
+					required : true
+				},
+				editoptions : {
+					size : 10
+				},
+				search:false,
+				searchoptions: { sopt:['ge']}
+			},{
 				name : 'portInwardId',
 				index : 'portInwardId',
-				hidden: true,
+				hidden: false,
 				width : 185,
 				editable : false,
 				editrules : {
@@ -384,8 +582,8 @@ function populatePackingList(){
 			},{
 				name : 'portInwardShipmentId',
 				index : 'portInwardShipmentId',
-				hidden: true,
-				width : 5,
+				hidden: false,
+				width : 155,
 				editable : false,
 				editrules : {
 					required : true
@@ -393,8 +591,8 @@ function populatePackingList(){
 				editoptions : {
 					size : 10
 				},
-				search:false,
-				hidden:true
+				search:false
+				
 			}, {
 				name : 'vesselDate',
 				index : 'vessel_Date',
@@ -733,6 +931,7 @@ function composeObjectForCaching(rowObject,qty){
 			portInwardId : rowObject.portInwardId,
 			portInwardDetailId : rowObject.portInwardDetailId,
 			portInwardShipmentId : rowObject.portInwardShipmentId,
+			portOutwardId : rowObject.portOutwardId,
 			orderedQuantity : qty,
 			length : rowObject.length,
 			width : rowObject.width,
@@ -770,6 +969,7 @@ function handleOnSelectRow(rowId, status){
 		//If already present, update the orderedQuantity in cache
 		
 		var isPresentObj = isObjectPresentInCache(objectForCaching);
+		console.log("isPresentObj = "+isPresentObj);
 		if(isPresentObj){
 			//updateOrderedQuantityInCache(objectForCaching);
 			$("#ordered_qty_"+rowId).val(isPresentObj.orderedQuantity);
@@ -868,9 +1068,10 @@ function compareCachedObjects(one, two){
 	var flag1 = one.portInwardId == two.portInwardId;
 	var flag2 = one.portInwardDetailId == two.portInwardDetailId;
 	var flag3 = one.portInwardShipmentId == two.portInwardShipmentId;
+	var flag4 = one.portOutwardId == two.portOutwardId;
 	//var flag4 = one.orderedQuantity == two.orderedQuantity;
 	
-	var isSame = flag1 && flag2 && flag3;// && flag4;
+	var isSame = flag1 && flag2 && flag3 && flag4;// && flag4;
 	
 	return isSame;
 }
@@ -964,7 +1165,7 @@ function editText() {
 
 function composeCombinationId(recordObj){
 	//var comboId = ""+ recordObj.portInwardId + "-"+recordObj.portInwardDetailId+"-"+recordObj.portInwardShipmentId;
-	var comboId = ""+ recordObj.portInwardId + "-"+recordObj.portInwardShipmentId;
+	var comboId = ""+ recordObj.portInwardId + "-"+recordObj.portInwardShipmentId+"-"+recordObj.portOutwardId ;
 	return comboId;
 }
 
@@ -1015,22 +1216,23 @@ function getLocationDropdownHtml(recordObj){
 }
 
 function addRowOfSelectedRecord(recordObj) {
+	
 	console.log(recordObj);
 	var id = composeCombinationId(recordObj);
 
 	var jsonCellId = composeJsonCellId(id);
 	var warehouseInwardRecordClass = composeCombinationClass(id);
 	var recordObjJson = JSON.stringify(recordObj);		
-	var str = "<tr id='" + id + "' class='"+warehouseInwardRecordClass+"'>"
+	var str = "<tr id='" + id + "' class='selected-port-outward-records "+warehouseInwardRecordClass+"' data-attribute-group-class='"+warehouseInwardRecordClass+"' data-attribute-original-quantity='"+recordObj.availableQuantity+"' >"
 			+ "<td><input type='text' readonly placeholder='vesselDate' value='"+recordObj.vesselDate+"' name='vesselDate' class='form-control'  /></td>"
-			+ "<td><input type='text' readonly placeholder='vendorlName' value='"+recordObj.vendorName+"' name='vesselName' class='form-control' /></td>"
+			+ "<td><input type='text' readonly placeholder='vendorName' value='"+recordObj.vendorName+"' name='vendorName' class='form-control' /></td>"
 			+ "<td><input type='text' readonly placeholder='vesselName' value='"+recordObj.vesselName+"' name='vesselName' class='form-control' /></td>"
 			+ "<td><input type='text' readonly placeholder='vehicleDate' value='"+recordObj.vehicleDate+"' name='vehicleDate' class='form-control' /></td>"
 			+ "<td><input type='text' readonly placeholder='vehicleName' value='"+recordObj.vehicleName+"' name='vehicleName' class='form-control' /></td>"
 			+ "<td><input type='text' readonly placeholder='millName' value='"+recordObj.millName+"' name='millName' class='form-control' /></td>"
 			
 			+ "<td><input type='text' readonly placeholder='materialType' value='"+recordObj.materialType+"' name='Type' class='form-control' /></td>"
-			+ "<td><input type='text' readonly placeholder='make' value='"+recordObj.make+"' name='Type' class='form-control' /></td>"
+			+ "<td><input type='text' readonly placeholder='make' value='"+recordObj.make+"' name='make' class='form-control' /></td>"
 			//+ "<td>be no</td>"
 			//+ "<td>Material Type</td>"
 			+ "<td><input type='text' readonly placeholder='grade' value='"+recordObj.grade+"' name='grade' class='form-control' /></td>"
@@ -1038,7 +1240,7 @@ function addRowOfSelectedRecord(recordObj) {
 			+ "<td><input type='text' readonly placeholder='thickness' value='"+recordObj.thickness+"' name='thickness' class='form-control' /></td>"
 			+ "<td><input type='text' readonly placeholder='width' value='"+recordObj.width+"' name='width' class='form-control' /></td>"
 			+ "<td><input type='text' readonly placeholder='length' value='"+recordObj.length+"' name='length' class='form-control' /></td>"
-			+ "<td ><input type='text'          placeholder='orderedQuantity' value='"+recordObj.availableQuantity+"' name='availableQuantity' class='form-control port_out_item_quantity' id='port_out_item_quantity-" + id + "' /></td>"
+			+ "<td ><input type='text'          placeholder='Quantity' value='"+recordObj.availableQuantity+"' name='availableQuantity' class='form-control port_out_item_quantity' id='port_out_item_quantity-" + id + "' data-attribute-parent-port-out-id='port_out_item_quantity-" + id + "' /></td>"
 			+ "<td><input type='text' readonly placeholder='balQty' value='"+recordObj.balQty+"' name='balQty' class='form-control port_out_section_wt' /></td>"
 
 			+ "<td><input type='text' readonly placeholder='Actual Wt.' value='"+recordObj.actualWt+"' name='actualWt' class='form-control ' id='"+awId(recordObj)+"' /></td>"
@@ -1050,7 +1252,11 @@ function addRowOfSelectedRecord(recordObj) {
 			// + "<td><div class='input-group'><input type='number' step='0.001' placeholder='Actual Weight' min='0' value='' name='actualWt' onchange='calcSecWtRow(\"row-"+ id+ "\");' onblur='calcSecWtRow(\"row-"+ id+ "\");' class='form-control' aria-label='...'><div class='input-group-btn weight-group'><input type='hidden' onchange='calcSecWtRow(\"row-"+ id+ "\");' onblur='calcSecWtRow(\"row-"+ id+ "\");' name='actualWtUnit' value='TON' /><button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown' aria-expanded='false'>TON <span class='caret'></span></button><ul class='dropdown-menu dropdown-menu-right' role='menu'><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>TON</a></li><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>KG</a></li></ul></div></div></td>"
 			+ "<td id='split-button-td-" + id + "' ><input type='button' class='btn btn-warn' onclick='split2($(this).parent().parent().attr(\"id\"));' value='split' /></td>"
 			+ "<td><input type='button' class='btn-danger delete-row' onclick='deleteRow($(this).parent().parent().attr(\"id\"));' value='-' /></td>"
+			+ "<td><input type='hidden' value='"+recordObj.portInwardId+"' name='portInwardId'/></td>"
+			+ "<td><input type='hidden' value='"+recordObj.portOutwardId+"' name='portOutwardId'/></td>"
+			+ "<td><input type='hidden' value='"+recordObj.portInwardShipmentId+"' name='portInwardShipmentId'/></td>"
 			+ "<td><input type='hidden' value='"+recordObjJson+"' id='"+jsonCellId+"'/></td>"
+
 			+ "</tr>";
 	$("#details-tbody").append(str);
 	
@@ -1090,29 +1296,15 @@ function addQuantitySumRow(quantitySum,sectionwtSum) {
 }
 
 
-function split(idOfRowToSplit){
-
-	console.log("splitting the quantity into more than one locations.-"+idOfRowToSplit);
-	var $trToSplit = $("#"+idOfRowToSplit);
-	var rowToSplit = $trToSplit.html();
-	var $rowToSplit = $(rowToSplit);
-	console.log(rowToSplit);
-	var $portOutItemQty = $trToSplit.find("#port_out_item_quantity-"+idOfRowToSplit);
-	var $toBeCopiedPortOutItemQty =  $rowToSplit.find("#port_out_item_quantity-"+idOfRowToSplit);
-	var qty = Number($portOutItemQty.val());
-	console.log(qty);
-	$portOutItemQty.val(qty - 1);
-	$toBeCopiedPortOutItemQty.val(1);
-	
-	$("#"+idOfRowToSplit).after($rowToSplit);
-}
-
 function split2(idOfRowToSplit){
 
 	var recordsArrayOfGivenPortOutwardGroup = getPortOutwardGroupForId(idOfRowToSplit);
-	console.log("LOCATIONS_COUNT = "+LOCATIONS_COUNT);
-
-	if(recordsArrayOfGivenPortOutwardGroup.length < LOCATIONS_COUNT){
+	
+	var subRowsCount = recordsArrayOfGivenPortOutwardGroup.length;
+	console.log("Id Of the row to be split = "+idOfRowToSplit);
+	console.log("Available locations = "+LOCATIONS_COUNT);
+	console.log("Sub Rows Count = "+subRowsCount);
+	if(subRowsCount < LOCATIONS_COUNT){
 		//If splitted already into LOCATIONS_COUNT rows, then dont split further
 		console.log("splitting the quantity into more than one locations.-"+idOfRowToSplit);
 		var $trToSplit = $("#"+idOfRowToSplit);
@@ -1122,12 +1314,16 @@ function split2(idOfRowToSplit){
 		if(qty >1){
 			//If quantity is more than 1, then only let it split.
 			$portOutItemQty.val(qty - 1);
-			
-			var $klonedTr = $trToSplit.clone(); 
-			$klonedTr.find("#port_out_item_quantity-"+idOfRowToSplit).val(1);
+
+			//Change the ID of the cloned row
+			var $klonedTr = $trToSplit.clone();
+			$klonedTr.attr("id",idOfRowToSplit+"-"+subRowsCount); 
+
+			//Change the id of the cloned quantity cell.
+			var $quantityCell = $klonedTr.find("#port_out_item_quantity-"+idOfRowToSplit)
+			$quantityCell.val(1);
+			$quantityCell.attr("id","port_out_item_quantity-"+idOfRowToSplit+"-"+subRowsCount);
 			$klonedTr.find("#split-button-td-"+idOfRowToSplit).html("");
-			
-			
 			
 			//$klonedTr.after($trToSplit);
 			$("#"+idOfRowToSplit).after($klonedTr);

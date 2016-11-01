@@ -11,7 +11,6 @@ public class WarehouseInwardRecordVO {
 	private Integer width;
 	private Double thickness;
 	private Integer availableQuantity;
-	private Integer orderedQuantity;
 	
 	private String grade;
 	private String materialType;
@@ -136,12 +135,7 @@ public class WarehouseInwardRecordVO {
 	public void setAvailableQuantity(Integer availableQuantity) {
 		this.availableQuantity = availableQuantity;
 	}
-	public Integer getOrderedQuantity() {
-		return orderedQuantity;
-	}
-	public void setOrderedQuantity(Integer orderedQuantity) {
-		this.orderedQuantity = orderedQuantity;
-	}
+
 	public String getGrade() {
 		return grade;
 	}
@@ -199,8 +193,8 @@ public class WarehouseInwardRecordVO {
 	public String toString() {
 		return "WarehouseInwardRecordVO [portInwardDetailId=" + portInwardDetailId + ", portInwardShipmentId="
 				+ portInwardShipmentId + ", portInwardId=" + portInwardId + ", length=" + length + ", width=" + width
-				+ ", thickness=" + thickness + ", availableQuantity=" + availableQuantity + ", orderedQuantity="
-				+ orderedQuantity + ", grade=" + grade + ", materialType=" + materialType + ", desc=" + desc
+				+ ", thickness=" + thickness + ", availableQuantity=" + availableQuantity 
+				+ ", grade=" + grade + ", materialType=" + materialType + ", desc=" + desc
 				+ ", vesselDate=" + vesselDate + ", vesselName=" + vesselName + ", vehicleDate=" + vehicleDate
 				+ ", vehicleName=" + vehicleName + ", millName=" + millName + ", secWt=" + secWt + ", balQty=" + balQty
 				+ ", heatNo=" + heatNo + ", plateNo=" + plateNo + ", location=" + location + "]";

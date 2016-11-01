@@ -598,3 +598,35 @@ var tableToPDF = function() {
 		pdf.save('Report.pdf');
 	}, margins);
 }
+
+function StringSet() {
+    var setObj = {}, uniqueArr = [];
+
+    this.add = function(str) {
+        
+    	
+    	if(!this.contains(str)){
+    		setObj[str] = 1;
+    		uniqueArr.push(str);
+    		
+    	}
+        
+    };
+
+    this.contains = function(str) {
+        return setObj[str] === 1;
+    };
+    
+    this.has = function(str) {
+        return this.contains(str);
+    };
+
+    this.remove = function(str) {
+        delete setObj[str];
+    };
+
+    this.values = function() {
+        
+        return uniqueArr;
+    };
+}

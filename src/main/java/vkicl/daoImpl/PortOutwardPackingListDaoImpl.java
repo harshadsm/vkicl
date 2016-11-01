@@ -41,8 +41,8 @@ public class PortOutwardPackingListDaoImpl extends BaseDaoImpl {
 			String sql = " select po.port_out_id, pi.port_inwd_shipment_id, po.vessel_name, po.vessel_Date, po.grade, po.material_type, "
 					+" po.length, po.width, po.thickness, po.quantity, pi.mill_name, "
 					+" round(((po.length * po.width * po.thickness * po.quantity * 7.85)/1000000000),3) as balQty,"
-					+" pis.vehicle_number, pis.vehicle_date, pis.port_out_shipment_id, po.actual_wt, "
-					+ " pi.material_make, pins.vendor_name,po.actual_wt_Unit "
+					+" pis.vehicle_number, pis.vehicle_date, pis.port_out_shipment_id, po.actual_wt, pi.material_make, pins.vendor_name, "
+					+ " pi.port_inward_id "
 					+" from port_outward_shipment pis "
 					+" inner join port_outward po on pis.port_out_shipment_id = po.port_out_shipment_id "
 					+" inner join port_inward_outward_intersection pios on pios.port_outward_id=po.port_out_id "
@@ -63,14 +63,13 @@ public class PortOutwardPackingListDaoImpl extends BaseDaoImpl {
 				do {
 					PackingListItemVO p = new PackingListItemVO();
 					
-					p.setPortInwardId(rs.getInt(1));
+					p.setPortOutwardId(rs.getInt(1));
 					p.setPortInwardShipmentId(rs.getInt(2));
 					//p.setPortInwardDetailId(rs.getInt(3));
 					p.setVesselName(rs.getString(3));
-					if(rs.getDate(4)!=null)
-					   {
-					p.setVesselDate(dateToString(convertSqlDateToJavaDate(rs.getDate(4))));
-					   }
+					if(rs.getDate(4)!=null){
+						p.setVesselDate(dateToString(convertSqlDateToJavaDate(rs.getDate(4))));
+					}
 					p.setGrade(rs.getString(5));
 					p.setMaterialType(rs.getString(6));
 					p.setLength(rs.getInt(7));
@@ -93,7 +92,10 @@ public class PortOutwardPackingListDaoImpl extends BaseDaoImpl {
 
 				   p.setMake(rs.getString(17));
 				   p.setVendorName(rs.getString(18));
-				   p.setActualWt_unit(rs.getString(19));
+
+				   p.setPortInwardId(rs.getInt(19));
+
+
 					list.add(p);
 				} 
 				while (rs.next());
