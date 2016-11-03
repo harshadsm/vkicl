@@ -548,7 +548,7 @@ function populatePackingList(){
 			mtype : 'POST',
 
 
-			colNames : [ 'portOutwardId','portInwardId','portInwardShipmentId','Date','Vendor Name','Vessel Name','Vehicle Date', 'Vehicle Number', 'Mill Name', 'Type', 'Make','Grade', 'Thickness', 'Width', 'Length', 'Bal Pcs', 'Sec. wt', 'Actual wt.' ],
+			colNames : [ 'portOutwardId','portInwardId','portInwardShipmentId','Date','Vendor Name','Vessel Name','Vehicle Date', 'Vehicle Number', 'Mill Name', 'Type', 'Make','Grade', 'Thickness', 'Width', 'Length', 'Bal Pcs', 'Sec. wt', 'Actual wt.','Actual wt unit' ],
 
 					
 			colModel : [  {
