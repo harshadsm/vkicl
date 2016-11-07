@@ -34,16 +34,13 @@ public class PortOutwardService {
 				new TypeToken<List<PortOutwardRecordVO>>() {
 				}.getType());
 		
-
-		
 		PortOutwardShipmentDaoImpl portOutwardShipmentDaoImpl = new PortOutwardShipmentDaoImpl();
 		
 		// portOutwardForm = impl.addPortOutwardData(portOutwardForm,
 		// userInfoVO);
-		
+	
 		//Save Port Outward Shipment and get the Port outward shipment id
 		Long portOutwardShipmentId = portOutwardShipmentDaoImpl.savePortOutwardShipment(postDataContainer, userInfo);
-		
 		
 		PortOutwardDaoImpl portOutwardDaoImpl = new PortOutwardDaoImpl();
 		PortInwardOutwardIntersectionDaoImpl portInOutIntersectionDaoImpl = new PortInwardOutwardIntersectionDaoImpl();
@@ -58,10 +55,5 @@ public class PortOutwardService {
 			portInOutIntersectionDaoImpl.save(vo.getPortInwardId(), vo.getPortInwardDetailId(), portOutwardId);
 			
 		}
-		
-		
-
 	}
-
-
 }

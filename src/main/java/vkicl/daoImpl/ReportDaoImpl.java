@@ -650,14 +650,18 @@ public class ReportDaoImpl extends BaseDaoImpl {
 		CallableStatement cs = null;
 		String query = "";
 		String message = "";
+		String sql="";
 		ArrayList<StockBean> reportList = null;
 		try {
 			conn = getConnection();
 
 			query = prop.get("sp.report.stock.balance");
+		
+			
 			log.info("query = " + query);
 			log.info("form = " + form);
-			log.info("Grade = " + toString(form.getGrade()));
+			
+			//log.info("Grade = " + toString(form.getGrade()));
 			cs = conn.prepareCall(query);
 			if (toString(form.getGrade()).equalsIgnoreCase(""))
 				cs.setString(1, "ALL");
@@ -702,7 +706,10 @@ public class ReportDaoImpl extends BaseDaoImpl {
 					report.setFileSize(rs.getDouble("file_size"));
 					report.setReserved(rs.getBoolean("is_reserved"));
 					report.setCustomer(formatOutput(rs.getString("customer")));
-
+					report.setActualWt((rs.getDouble("weight")));
+					report.setActualUnit(formatOutput(rs
+							.getString("weight_unit")));
+					
 					reportList.add(report);
 					report = null;
 				} while (rs.next());
@@ -710,8 +717,8 @@ public class ReportDaoImpl extends BaseDaoImpl {
 			form.setReportList(reportList);
 		} catch (Exception e) {
 			e.printStackTrace();
-			message = e.getMessage();
-			userInfoVO.setMessage(message);
+			//message = e.getMessage();
+			//userInfoVO.setMessage(message);
 		} finally {
 			closeDatabaseResources(conn, rs, cs);
 		}
@@ -918,7 +925,9 @@ public class ReportDaoImpl extends BaseDaoImpl {
 		try {
 			conn = getConnection();
 
-			String sql = "SELECT stock_balance_id,MILL_NAME, MATERIAL_TYPE, MATERIAL_MAKE, GRADE, QUANTITY,LENGTH, THICKNESS, WIDTH, LOCATION FROM stock_balance";
+			String sql = "SELECT stock_balance_id,MILL_NAME, MATERIAL_TYPE, MATERIAL_MAKE, "
+					+ " GRADE, QUANTITY,LENGTH, THICKNESS, WIDTH, LOCATION , heat_no, plate_no "
+					+ " FROM stock_balance";
 			query = sql;
 			log.info("query = " + query);
 			
@@ -936,15 +945,15 @@ public class ReportDaoImpl extends BaseDaoImpl {
 					report.setMake(formatOutput(rs.getString("material_make")));
 					report.setGrade(formatOutput(rs.getString("grade")));
 					report.setMillName(formatOutput(rs.getString("mill_name")));
-					report.setMaterialType(formatOutput(rs
-							.getString("material_type")));
+					report.setMaterialType(formatOutput(rs.getString("material_type")));
 					report.setLength(rs.getInt("length"));
 					report.setWidth(rs.getInt("width"));
 					report.setThickness(rs.getDouble("thickness"));
-
-					
 					report.setLocation(formatOutput(rs.getString("location")));
 					report.setQty(rs.getInt("quantity"));
+					report.setHeatNo(rs.getString("heat_no"));
+					report.setPlateNo(rs.getString("plate_no"));
+					
 
 					reportList.add(report);
 					report = null;

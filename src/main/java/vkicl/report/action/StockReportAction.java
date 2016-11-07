@@ -46,7 +46,7 @@ public class StockReportAction extends BaseAction {
 					"query.unique.location");
 			stockReportForm.setLocationList(locationList);
 			
-			/*ArrayList<LabelValueBean> materialTypeList = impl.getList(
+			ArrayList<LabelValueBean> materialTypeList = impl.getList(
 					userInfoVO, "query.unique.materialType");
 			ArrayList<LabelValueBean> millNameList = impl.getList(userInfoVO,
 					"query.unique.millName");
@@ -54,20 +54,22 @@ public class StockReportAction extends BaseAction {
 					"query.unique.grade");
 			ArrayList<LabelValueBean> makeList = impl.getList(userInfoVO,
 					"query.unique.make");
-			ArrayList<LabelValueBean> locationList = impl.getList(userInfoVO,
-					"query.unique.location");
+		
 
 			stockReportForm.setMaterialTypeList(materialTypeList);
 			stockReportForm.setMillNameList(millNameList);
 			stockReportForm.setGradeList(gradeList);
 			stockReportForm.setMakeList(makeList);
-			stockReportForm.setLocationList(locationList);*/
+			stockReportForm.setLocationList(locationList);
 
 			//genericListener = stockReportForm.getGenericListener();
 			//if (genericListener.equalsIgnoreCase("getReport")) {
-				stockReportForm = impl.fetchStockBalReport(stockReportForm,
-						userInfoVO);
+				//stockReportForm = impl.fetchStockBalReport(stockReportForm,
+					//	userInfoVO);
 				//log.info("Fetched Stock Report Data");
+			stockReportForm = impl.fetchStockReport(stockReportForm,
+						userInfoVO);
+			
 			//}
 			log.info("Loaded Stock Report");
 

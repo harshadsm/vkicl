@@ -247,7 +247,7 @@ Integer locationCount = locationsList.size();
 		});
 
 		if(sum != originalQty){
-			//bootbox.alert("Quantity checksum is wrong for "+uniqueGroupClass);
+			bootbox.alert("Quantity checksum is wrong for "+uniqueGroupClass);
 			var bgCss = $("."+uniqueGroupClass).css("background");
 			$("."+uniqueGroupClass).animate({
 			    color: "green",
@@ -267,7 +267,8 @@ Integer locationCount = locationsList.size();
 		var isAllLocValid = isValidLocations();
 		var isPlateCountCorrectEvenAfterSplit = isValidPlateCount();
 		
-		
+		if(isPlateCountCorrectEvenAfterSplit==true)
+			{
 		var	str = "Are you sure you want to Submit?";
 		bootbox.confirm(str, function(result) {
 			if (result) {
@@ -275,6 +276,7 @@ Integer locationCount = locationsList.size();
 				submitWarehouseInwards();
 			}
 		});
+			}
 		return false;
 		
 		//return commonSubmit();

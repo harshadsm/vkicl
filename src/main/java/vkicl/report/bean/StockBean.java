@@ -29,7 +29,25 @@ public class StockBean extends BaseReportBean {
 	private boolean reserved = false;
 	private String customer = "";
 
+	private Double actualWt = 0.000;
+	public Double getActualWt() {
+		return actualWt;
+	}
 
+	public void setActualWt(Double actualWt) {
+		this.actualWt = actualWt;
+	}
+
+	public String getActualUnit() {
+		return actualUnit;
+	}
+
+	public void setActualUnit(String actualUnit) {
+		this.actualUnit = actualUnit;
+	}
+
+	private String actualUnit = "";
+	
 	public StockBean() {
 	}
 

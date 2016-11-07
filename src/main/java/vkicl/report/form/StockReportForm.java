@@ -15,7 +15,25 @@ public class StockReportForm extends BaseForm {
 	private String millName = null;
 	private String[] grade = null;
 	private String make = null;
+	public double getSectionWt() {
+		return sectionWt;
+	}
+
+	public void setSectionWt(double sectionWt) {
+		this.sectionWt = sectionWt;
+	}
+
 	private String location = null;
+	private double sectionWt = -1d;
+	private double actualWt = -1d;
+	public double getActualWt() {
+		return actualWt;
+	}
+
+	public void setActualWt(double actualWt) {
+		this.actualWt = actualWt;
+	}
+
 	private double thickness = 0;
 	
 	private Integer stock_Bal_id = null;

@@ -10,37 +10,68 @@
 <%@taglib uri="/WEB-INF/struts-core.tld" prefix="c"%>
 
 <script type="text/javascript">
-	// 	function fetchReport() {
-	// 		var fromDate = $("[name='fromDate']").val();
-	// 		var toDate = $("[name='toDate']").val();
-	// 		var customerLocation = $("[name='customerLocation']").val();
-	// 		var materialType = $("[name='materialType']").val();
-	// 		var vesselName = $("[name='vesselName']").val();
-	// 		var vesselDate = $("[name='vesselDate']").val();
+var noProcess = true;
 
-	// 		// 		if ("" == fromDate) {
-	// 		// 			bootbox.alert("Please select From Date");
-	// 		// 			$("[name='fromDate']").focus();
-	// 		// 			return false;
-	// 		// 		}
-	// 		// 		if ("" == toDate) {
-	// 		// 			bootbox.alert("Please select To Date");
-	// 		// 			$("[name='toDate']").focus();
-	// 		// 			return false;
-	// 		// 		}
-	// 		// 		if ("" == vesselName) {
-	// 		// 			bootbox.alert("Please select Vessel Name");
-	// 		// 			$("[name='vesselName']").focus();
-	// 		// 			return false;
-	// 		// 		}
-	// 		// 		if ("" == receivedFrom) {
-	// 		// 			bootbox.alert("Please select Material Type");
-	// 		// 			$("[name='receivedFrom']").focus();
-	// 		// 			return false;
-	// 		// 		}
-	// 		document.forms[0].genericListener = "getReport";
-	// 		document.forms[0].submit();
-	// 	}
+function downloadMTC(material_id){
+	var url = "./download?material_id="+material_id;
+	$('#downloadFrame').remove();
+	$('body').append('<iframe id="downloadFrame" style="display:none"></iframe>');
+	$('#downloadFrame').attr('src', url);
+}
+
+function uploadMTCRow(warehouse_inward_detail_id) {
+    $("#uploadForm [name='warehouse_inward_detail_id']").val(warehouse_inward_detail_id);
+}
+
+function uploadMTC() {
+    if ($("[name='file']").val() != "") {
+        var formData = new FormData($("[name='uploadForm']")[0]);
+        showLoader();
+        if (noProcess) {
+            noProcess = false;
+            $.ajax({
+                url: './upload?warehouse_inward_detail_id='+$("#uploadForm [name='warehouse_inward_detail_id']").val(),
+                type: 'POST',
+                xhr: function() {
+                    var myXhr = $.ajaxSettings.xhr();
+                    if (myXhr.upload) {
+                        myXhr.upload.addEventListener('progress',
+                            progressHandlingFunction, false);
+                    }
+                    return myXhr;
+                },
+                success: function() {
+                    hideLoader();
+                    bootbox.alert("File Uploaded Successfully", function() {
+                        noProcess = true;
+                        fetchReport();
+                    });
+                },
+                error: function() {
+                    hideLoader();
+                    bootbox.alert("File Upload Failed", function() {
+                        noProcess = true;
+                    });
+                },
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false
+            });
+        }
+    } else {
+        bootbox.alert("Please select a file for uploading");
+    }
+}
+
+function progressHandlingFunction(e) {
+    if (e.lengthComputable) {
+        $("#progressbar").progressbar({
+            value: e.loaded,
+            max: e.total
+        });
+    }
+}
 </script>
 
 <div class="row">
@@ -172,6 +203,8 @@
 							<th>Section Weight</th>
 							<th>Actual Weight</th>
 							<th>Location</th>
+							<th colspan="2" style="text-align: center;">MTC upload</th>
+						
 							<th class="cell-edit">Edit</th>
 						</tr>
 					</thead>
@@ -217,6 +250,27 @@
 										value="${report.actualWt}" /></td>
 								<td data-type="text" data-name="wlocation"><c:out
 										value="${report.wlocation}" /></td>
+										<td class="cell-edit" style="text-align: right;"><c:if
+										test="${report.fileSize > 0}">
+										<button title='<c:out value="${report.fileName}" />'
+											onclick='downloadMTC(<c:out value="${report.materialId}" />)'>
+											<span class="file-size"><c:out
+													value="${report.fileSize}" /></span> <span
+												class="glyphicon glyphicon-save"></span>
+										</button>
+									</c:if> <c:if test="${report.fileSize == 0}">
+										<center>
+											<b>----</b>
+										</center>
+									</c:if></td>
+								<td class="cell-edit">
+									<button name="btnUpload" title="Upload" data-toggle='modal'
+										href='#hidden-div-form'
+										onclick='uploadMTCRow(<c:out
+										value="${report.id}" />);'>
+										<span class="glyphicon glyphicon-open"></span>
+									</button>
+								</td>
 								<td class="cell-edit"><button name="btnEdit" title="Edit"
 										onclick="editReportRow(this);">
 										<span class="glyphicon glyphicon glyphicon-pencil"></span>
@@ -246,11 +300,45 @@
 							<th id="secWtTotal"></th>
 							<th id="actualWtTotal"></th>
 							<th></th>
+							<th></th>
+							<th></th>
 							<th class="cell-edit"></th>
 						</tr>
 					</tfoot>
 				</table>
 			</logic:notEmpty>
+		</div>
+	</div>
+</div>
+<div id="hidden-div">
+	<div id="hidden-div-form" class='modal fade' tabindex='-1'
+		role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
+		<div class='modal-dialog'>
+			<div class='modal-content'>
+				<div class='modal-div'>
+					<button type="button" class="bootbox-close-button close"
+						data-dismiss="modal" aria-hidden="true">×</button>
+					<form enctype="multipart/form-data" name="uploadForm"
+						id="uploadForm">
+						<table class="table table-responsive" id="upload-table">
+							<tr>
+								<th colspan="2">Upload Certificate</th>
+							</tr>
+							<tr>
+								<td><input name="file" type="file" /><input
+									name="warehouse_inward_detail_id" type="hidden" /></td>
+								<td><input type="button" class="btn btn-default pull-right"
+									value="Upload" name="upload" onclick="uploadMTC();" /></td>
+							</tr>
+							<tr>
+								<td colspan="2" class="progress-bar-td">
+									<div id="progressbar"></div>
+								</td>
+							</tr>
+						</table>
+					</form>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
