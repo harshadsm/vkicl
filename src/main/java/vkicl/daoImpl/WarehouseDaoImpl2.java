@@ -114,15 +114,15 @@ int count = cs.executeUpdate();
 			
 			
 			cs.setLong(1, warehouseId);
-			cs.setString(2, "");
-			cs.setString(3, "");
+			cs.setString(2, portOutwardRecordVO.getHeatNo());
+			cs.setString(3, portOutwardRecordVO.getPlateNo());
 			cs.setDouble(4, portOutwardRecordVO.getBalQty());
 			cs.setString(5, "");
 			cs.setDouble(6, portOutwardRecordVO.getActualWt());
 			cs.setString(7, portOutwardRecordVO.getActualWt_unit());
 			cs.setInt(8, portOutwardRecordVO.getAvailableQuantity());
 			cs.setString(9, "");
-			cs.setString(10, "");
+			cs.setString(10, portOutwardRecordVO.getLocation());
 			cs.setString(11, userInfoVO.getUserName());
 			cs.setString(12, userInfoVO.getUserName());
 			cs.setString(13, getCurentTime());

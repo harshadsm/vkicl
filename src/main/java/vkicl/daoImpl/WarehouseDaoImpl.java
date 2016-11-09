@@ -164,7 +164,7 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 			cs.setString(25, toString(form.getRemark()));
 
 			cs.setString(26, toCountString(form.getSubRow()));
-			cs.setInt(27, form.getBeNo().length);
+			cs.setInt(27, form.getRow().length);
 			cs.setString(28, userInfoVO.getUserName());
 			cs.registerOutParameter(29, java.sql.Types.VARCHAR);
 			cs.executeUpdate();

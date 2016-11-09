@@ -231,8 +231,12 @@ Integer locationCount = locationsList.size();
 		for(var i=0; i<distinctGroupClassNames.values().length; i++){
 			var uniqueGroupClass = distinctGroupClassNames.values()[i];
 			console.log(uniqueGroupClass);
-			isGroupPlateCountCorrect(uniqueGroupClass);
+			var flag=isGroupPlateCountCorrect(uniqueGroupClass);
 		}
+		if(flag==true)
+			{return true;}
+		else
+			return false;
 		
 	}
 
@@ -258,6 +262,7 @@ Integer locationCount = locationsList.size();
 			});
 		}else{
 			console.log("Quantity checksum is correctly matching.");
+			return true;
 		}
 	}
 	
@@ -556,7 +561,7 @@ function populatePackingList(){
 			colModel : [  {
 				name : 'portOutwardId',
 				index : 'portOutwardId',
-				hidden: false,
+				hidden: true,
 				width : 185,
 				editable : false,
 				editrules : {
@@ -570,7 +575,7 @@ function populatePackingList(){
 			},{
 				name : 'portInwardId',
 				index : 'portInwardId',
-				hidden: false,
+				hidden: true,
 				width : 185,
 				editable : false,
 				editrules : {
@@ -584,7 +589,7 @@ function populatePackingList(){
 			},{
 				name : 'portInwardShipmentId',
 				index : 'portInwardShipmentId',
-				hidden: false,
+				hidden: true,
 				width : 155,
 				editable : false,
 				editrules : {

@@ -160,9 +160,7 @@
 								<td data-type="text" data-name="location"><c:out
 										value="${report.location}" />
 						</td> 
-								
-						</logic:iterate>
-						<td><c:if test="${report.fileSize > 0}">
+								<td><c:if test="${report.fileSize > 0}">
 										<button title='<c:out value="${report.fileName}" />'
 											onclick='downloadMTC(<c:out value="${report.materialId}" />)'>
 											<span class="file-size"><c:out
@@ -174,6 +172,8 @@
 											<b>----</b>
 										</center>
 									</c:if></td>
+						</logic:iterate>
+						
 					</tbody>
 					<tfoot>
 						<tr>
@@ -239,3 +239,14 @@ function updateStockBal(recordId){
 	
 }
 	</script>
+	<script type="text/javascript">
+					
+					
+					function downloadMTC(material_id){
+						var url = "./download?material_id="+material_id;
+						$('#downloadFrame').remove();
+						$('body').append('<iframe id="downloadFrame" style="display:none"></iframe>');
+						$('#downloadFrame').attr('src', url);
+					}
+					</script>
+					

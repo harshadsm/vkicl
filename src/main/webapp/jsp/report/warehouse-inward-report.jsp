@@ -248,7 +248,7 @@ function progressHandlingFunction(e) {
 										value="${report.secWt}" /></td>
 										<td data-type="number" data-name="actualWt" data-step="0.001"><c:out
 										value="${report.actualWt}" /></td>
-								<td data-type="text" data-name="wlocation"><c:out
+								<td data-type="text" data-name="wlocation" ><c:out
 										value="${report.wlocation}" /></td>
 										<td class="cell-edit" style="text-align: right;"><c:if
 										test="${report.fileSize > 0}">
