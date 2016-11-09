@@ -56,12 +56,14 @@ Double[] firstCoordinate = plateCoordinates.get(0);
 								<tr>
 									<th>Stock Balance  #</th><td><%=vo.getStockBalId() %></td></tr><tr>
 									<th>Mill</th><td><%=vo.getMillName() %></td></tr><tr>
+									<th>Make</th><td><%=vo.getMake() %></td></tr><tr>
 									<th>Material Type</th><td><%=vo.getMaterialType() %></td></tr><tr>
 									<th>Grade</th><td><%=vo.getGrade() %></td></tr><tr>
 									<th>Thickness</th><td><%=vo.getThickness() %></td></tr><tr>
 									<th>Width</th><td><%=vo.getWidth() %></td></tr><tr>
 									<th>Length</th><td><%=vo.getLength() %></td></tr><tr>
 									<th>Quantity</th><td><%=vo.getQuantity() %></td></tr><tr>
+									<th>Location</th><td><%=vo.getLocation() %></td></tr><tr>
 									<th>Area</th><td><%=vo.getPlateArea() %></td></tr><tr>
 									
 								</tr>
@@ -107,6 +109,8 @@ Double[] firstCoordinate = plateCoordinates.get(0);
 									<input  type='hidden' name='thickness'  value="<%=vo.getThickness() %>"/>
 									<input  type='hidden' name='stock_Bal_id'  value="<%=vo.getStockBalId() %>"/>
 									<input  type='hidden' name='quantity'  value="<%=vo.getQuantity() %>"/>
+									<input  type='hidden' name='location'  value="<%=vo.getLocation() %>"/>
+									<input  type='hidden' name='make'  value="<%=vo.getMake() %>"/>
 									
 								</td>
 								<td >

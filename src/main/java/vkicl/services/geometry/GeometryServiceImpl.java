@@ -194,7 +194,7 @@ public class GeometryServiceImpl implements GeometryService {
 		sql.append(firstCoords[0]).append(" ").append(firstCoords[1]);
 
 		sql.append("))'))").append(",'"+vo.getMillName()+"','"+vo.getMake()+"','"+vo.getMaterialType()+"',"
-				+ " '"+vo.getGrade()+"',"+length+","+width+","+vo.getThickness()+","+(length * width)+", 1,"+isRectangular+","+vo.getLocation()+")");
+				+ " '"+vo.getGrade()+"',"+length+","+width+","+vo.getThickness()+","+(length * width)+", 1,"+isRectangular+",'"+vo.getLocation()+"')");
 
 
 		return sql.toString();

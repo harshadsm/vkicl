@@ -97,6 +97,7 @@ public class JSONService extends HttpServlet {
 					String width = request.getParameter("width");
 					String thickness = request.getParameter("thickness");
 					String dispatchNo = request.getParameter("dispatchNo");
+					String location = request.getParameter("location");
 					String dispatchDetailRowId = request.getParameter("dispatchDetailRowId");
 					
 					log.info("millName = " + millName);
@@ -110,7 +111,7 @@ public class JSONService extends HttpServlet {
 
 					
 					form = new WarehouseLocationForm(millName, make, grade,
-							length, width, thickness);
+							length, width, thickness,location);
 					
 					WarehouseDaoImpl impl = new WarehouseDaoImpl();
 					//form = impl.fetchWarehouseLocationDetails(

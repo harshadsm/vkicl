@@ -14,6 +14,13 @@ public class StockBalanceDetailsVO {
 	private String millName;
 	private String make;
 	private String grade;
+	private String location;
+	public String getLocation() {
+		return location;
+	}
+	public void setLocation(String location) {
+		this.location = location;
+	}
 	private Shape plateShape;
 	
 	private double plateArea;

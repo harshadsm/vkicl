@@ -12,7 +12,16 @@ public class StockForm extends BaseForm {
 		private String materialType = null;
 		private String  make = null;
 		private String  grade = null;
+		private String  location = null;
 		
+		public String getLocation() {
+			return location;
+		}
+
+		public void setLocation(String location) {
+			this.location = location;
+		}
+
 		private Integer  length = null;
 		private Integer  width = null;
 		private Double  thickness = null;
@@ -121,6 +130,7 @@ public Double getOrigin_x() {
 				+ (materialType) + ", make="
 				+ (make) + ", grade=" + (grade)
 				+ ", length="+ (length) + ", width=" + (width)
+				+ ",location="+(location)
 				+ ", thickness=" + (thickness)  + "]";
 	}
 

@@ -13,13 +13,14 @@ public class WarehouseLocationForm extends BaseForm {
 	private String length = null;
 	private String width = null;
 	private String thickness = null;
+	private String location = null;
 	private String previouslySelectedQtyFromWarehouseOutwardTemp;
 	private String dispatchDetailRowId;
 
 	private ArrayList<WarehouseLocationBean> resultList = null;
 
 	public WarehouseLocationForm(String millName, String make, String grade,
-			String length, String width, String thickness) {
+			String length, String width, String thickness, String location) {
 		super();
 		this.millName = millName;
 		this.make = make;
@@ -27,6 +28,15 @@ public class WarehouseLocationForm extends BaseForm {
 		this.length = length;
 		this.width = width;
 		this.thickness = thickness;
+		this.location=location;
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
 	}
 
 	public String getMillName() {

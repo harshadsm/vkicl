@@ -59,6 +59,7 @@
 		var str = "<tr id='row-"+row_id+"' class='main-row'><td class='row-id'><input type='hidden' name='row' value='"+row_id+"'>"+row_id+"</td>"
 				+ "<td><input type='hidden' name='location' value=''><input type='hidden' name='subQty' value=''><input readonly type='text' name='millName' value='' class='form-control' /></td>"
 				+ "<td><input readonly type='text' name='make' value='' class='form-control' /></td>"
+				
 				+ "<td><input readonly type='text' name='grade' value='' class='form-control' /></td>"
 				+ "<td><input readonly type='number' step='0.001' min='0' value='' name='thickness' onchange='calcSecWtRow(\"row-"+ row_id+ "\");' onblur='calcSecWtRow(\"row-"+ row_id+ "\");' class='form-control' /></td>"				
 				+ "<td><input readonly type='number' step='1' min='0' value='' name='width' onchange='calcSecWtRow(\"row-"+ row_id+ "\");' onblur='calcSecWtRow(\"row-"+ id	+ "\");' class='form-control' /></td>"
@@ -113,8 +114,9 @@
 			var length = $("#row-" + id + " [name=length]").val();
 			var width = $("#row-" + id + " [name=width]").val();
 			var thickness = $("#row-" + id + " [name=thickness]").val();			
+			var location = $("#row-" + id + " [name=location]").val();
 			showLoader();			
-			var params = "&millName=" + millName + "&make=" + make + "&grade=" + grade + "&length=" + length + "&width=" + width + "&thickness=" + thickness + "&dispatchNo=" + dispatchNo + "&dispatchDetailRowId=" + id;			
+			var params = "&millName=" + millName + "&make=" + make + "&grade=" + grade + "&length=" + length + "&width=" + width + "&thickness=" + thickness + "&dispatchNo=" + dispatchNo + "&dispatchDetailRowId=" + id+ "&location="+location;			
 			$.ajax({
 				url : "./json?method=fetchWarehouseLocationDetails" + params,
 				success : function(json, status, response) {
@@ -373,6 +375,7 @@
 							<th>Length</th>
 							<th>Quantity</th>
 							<th>Section Weight</th>
+							
 							<th class="margin-5-sides">Location</th>
 						</tr>
 					</thead>
