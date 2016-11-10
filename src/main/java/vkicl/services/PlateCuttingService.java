@@ -120,6 +120,8 @@ public class PlateCuttingService {
 						vo.setPlateArea(plateArea);
 						vo.setQuantity(form.getQuantity());
 						vo.setLocation(form.getLocation());
+						vo.setHeat_no(form.getHeat_no());
+						vo.setPlate_no(form.getPlate_no());
 						//vo.setBe_weight(actualWt[i]);
 //						vo.setBe_wt_unit(actualWtUnit[i]); //As explained by client, it will always be TON
 						//vo.setBe_wt_unit("TON");

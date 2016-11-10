@@ -15,6 +15,21 @@ public class StockBalanceDetailsVO {
 	private String make;
 	private String grade;
 	private String location;
+	private String plate_no;
+	public String getPlate_no() {
+		return plate_no;
+	}
+	public void setPlate_no(String plate_no) {
+		this.plate_no = plate_no;
+	}
+	public String getHeat_no() {
+		return heat_no;
+	}
+	public void setHeat_no(String heat_no) {
+		this.heat_no = heat_no;
+	}
+	private String heat_no;
+	
 	public String getLocation() {
 		return location;
 	}

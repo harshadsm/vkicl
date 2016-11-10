@@ -111,6 +111,8 @@ Double[] firstCoordinate = plateCoordinates.get(0);
 									<input  type='hidden' name='quantity'  value="<%=vo.getQuantity() %>"/>
 									<input  type='hidden' name='location'  value="<%=vo.getLocation() %>"/>
 									<input  type='hidden' name='make'  value="<%=vo.getMake() %>"/>
+									<input  type='hidden' name='heat_no'  value="<%=vo.getHeat_no() %>"/>
+									<input  type='hidden' name='plate_no'  value="<%=vo.getPlate_no() %>"/>
 									
 								</td>
 								<td >

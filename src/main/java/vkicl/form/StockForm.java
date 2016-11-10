@@ -13,6 +13,24 @@ public class StockForm extends BaseForm {
 		private String  make = null;
 		private String  grade = null;
 		private String  location = null;
+		private String  heat_no = null;
+		public String getHeat_no() {
+			return heat_no;
+		}
+
+		public void setHeat_no(String heat_no) {
+			this.heat_no = heat_no;
+		}
+
+		public String getPlate_no() {
+			return plate_no;
+		}
+
+		public void setPlate_no(String plate_no) {
+			this.plate_no = plate_no;
+		}
+
+		private String  plate_no = null;
 		
 		public String getLocation() {
 			return location;

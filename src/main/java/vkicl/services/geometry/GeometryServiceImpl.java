@@ -182,7 +182,7 @@ public class GeometryServiceImpl implements GeometryService {
 
 		
 		sql.append("INSERT INTO ").append("stock_balance").append(" (plate_shape, mill_name, material_make, material_type, ")
-				.append(" grade, length, width, thickness, plate_area, quantity, is_rectangular, location)  ").
+				.append(" grade, length, width, thickness, plate_area, quantity, is_rectangular, location,heat_no, plate_no)  ").
 		append(" VALUES (").append("(GeomFromText('POLYGON((");
 
 		for (Double[] coords : coordinatesList) {
@@ -194,7 +194,7 @@ public class GeometryServiceImpl implements GeometryService {
 		sql.append(firstCoords[0]).append(" ").append(firstCoords[1]);
 
 		sql.append("))'))").append(",'"+vo.getMillName()+"','"+vo.getMake()+"','"+vo.getMaterialType()+"',"
-				+ " '"+vo.getGrade()+"',"+length+","+width+","+vo.getThickness()+","+(length * width)+", 1,"+isRectangular+",'"+vo.getLocation()+"')");
+				+ " '"+vo.getGrade()+"',"+length+","+width+","+vo.getThickness()+","+(length * width)+", 1,"+isRectangular+",'"+vo.getLocation()+"','"+vo.getHeat_no()+"','"+vo.getPlate_no()+"')");
 
 
 		return sql.toString();

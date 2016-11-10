@@ -97,7 +97,7 @@ public class StockBalDaoImpl extends BaseDaoImpl {
 //			query= "SELECT stock_balance_id,mill_name, material_type, material_make, grade,length, thickness, width, ST_AsText(plate_shape) plate_shape_text, ST_Area(plate_shape) as plate_area"
 //					+ " from stock_balance where stock_balance_id=? and is_cut!=1 ";
 			query= "SELECT stock_balance_id,mill_name, material_type, material_make, grade,length, thickness, width, "
-					+ " AsText(plate_shape) plate_shape_text, Area(plate_shape) as plate_area, quantity, location"
+					+ " AsText(plate_shape) plate_shape_text, Area(plate_shape) as plate_area, quantity, location, heat_no, plate_no"
 					+ " from stock_balance where stock_balance_id=? and is_cut!=1 ";
 					
 			log.info("query = " + query);
@@ -135,6 +135,8 @@ public class StockBalDaoImpl extends BaseDaoImpl {
 					vo.setPlateShape(plateShape);
 					vo.setQuantity(quantity);
 					vo.setLocation(rs.getString("location"));
+					vo.setHeat_no(rs.getString("heat_no"));
+					vo.setPlate_no(rs.getString("plate_no"));
 					break; //WE EXPECT/WANT ONLY 1 record.
 				} while (rs.next());
 
@@ -159,7 +161,7 @@ public class StockBalDaoImpl extends BaseDaoImpl {
 		try {
 			conn = getConnection();
 
-			query= "SELECT stock_balance_id,mill_name, material_type, material_make, grade,length, thickness, width, location"
+			query= "SELECT stock_balance_id,mill_name, material_type, material_make, grade,length, thickness, width, location, heat_no, plate_no"
 					+ " FROM stock_balance WHERE stock_balance_id=? and is_cut!=1";
 					
 			log.info("query = " + query);
@@ -190,7 +192,8 @@ public class StockBalDaoImpl extends BaseDaoImpl {
 					vo.setThickness(thickness);
 					vo.setWidth(width);
 					vo.setLocation(rs.getString(9));
-					
+					vo.setHeat_no(rs.getString(10));
+					vo.setPlate_no(rs.getString(11));
 					list.add(vo);
 				}
 			}
@@ -220,7 +223,7 @@ public class StockBalDaoImpl extends BaseDaoImpl {
 			conn = getConnection();
 
 			String sql = "SELECT stock_balance_id,MILL_NAME, MATERIAL_TYPE, MATERIAL_MAKE, GRADE, QUANTITY,LENGTH, "
-					+ " THICKNESS, WIDTH, LOCATION, IS_RECTANGULAR, quantity  FROM stock_balance sb "
+					+ " THICKNESS, WIDTH, LOCATION, IS_RECTANGULAR, quantity, heat_no, plate_no  FROM stock_balance sb "
 			+ processSearchCriteria(searchParam) + " "+composeOrderByClause(orderByFieldName, order) + " " + composeLimitClause(pageNo, pageSize, total) + ";";
 			
 			query = sql;
@@ -247,6 +250,8 @@ public class StockBalDaoImpl extends BaseDaoImpl {
 					report.setThickness(rs.getDouble("thickness"));
 					report.setIsRectangular(rs.getInt("is_rectangular"));
 					report.setQuantity(rs.getInt("quantity"));
+					report.setHeat_no(formatOutput(rs.getString("heat_no")));
+					report.setPlate_no(formatOutput(rs.getString("plate_no")));
 					list.add(report);
 			}while(rs.next());
 			
