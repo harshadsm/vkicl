@@ -25,9 +25,60 @@ Double[] firstCoordinate = plateCoordinates.get(0);
 <script type="text/javascript">
 	var id = 1, row = {}, row_id = 1;
 	
+	//function validateForm() {
+		
+		//return commonSubmit();
+	//}
+	
 	function validateForm() {
-		return commonSubmit();
+		
+		
+		var flag=checkPlateDimension();
+		
+		
+		if(flag==true)
+		{
+	var	str = "Are you sure you want to Submit?";
+	bootbox.confirm(str, function(result) {
+		if (result) {
+			document.forms[0].submit();
+		}
+	});
+		}
+		else
+		{
+		 bootbox.alert("Cut not possible with given dimensions.");
+		 return false;
+		}
+	return false;
+		
+		//return commonSubmit();
 	}
+	
+	function checkPlateDimension()
+	{
+		var sLength=$("#length").val();
+		var sWidth=$("#width").val();
+		
+		var bLength=<%=vo.getLength() %>;
+		var bWidth=<%=vo.getWidth() %>;
+		
+		
+		console.log(bLength);
+		console.log(bWidth);
+		
+		if(bLength==sLength && bWidth==sWidth){
+			return false;}
+		else if(sLength>bLength){
+				return false;}
+		else if(sWidth > bWidth){
+				return false;}
+		else if(sLength<=bLength && sWidth<=bWidth){
+				return true;}
+		else{return false;}
+	}
+	
+	
 
 	function submit() {
 		return commonSubmit();
@@ -54,7 +105,7 @@ Double[] firstCoordinate = plateCoordinates.get(0);
 							
 							<tbody id="details-tbody">
 								<tr>
-									<th>Stock Balance  #</th><td><%=vo.getStockBalId() %></td></tr><tr>
+									<th>Stock Balance  #</th><td ><%=vo.getStockBalId() %></td></tr><tr>
 									<th>Mill</th><td><%=vo.getMillName() %></td></tr><tr>
 									<th>Make</th><td><%=vo.getMake() %></td></tr><tr>
 									<th>Material Type</th><td><%=vo.getMaterialType() %></td></tr><tr>
@@ -99,10 +150,10 @@ Double[] firstCoordinate = plateCoordinates.get(0);
 							<tr  class='sub-row' >
 								<input type='hidden' name='subPis' />
 								<td >
-									<input  type='number' step='1' min='0' name='length' placeholder='length' class='form-control' value="<%=vo.getLength() %>"/>
+									<input  type='number' step='1' min='0' name='length' id='length' placeholder='length' class='form-control' value="<%=vo.getLength() %>"/>
 								</td>
 								<td >
-									<input  type='number' step='1' min='0' name='width' placeholder='width' class='form-control' value="<%=vo.getWidth() %>"/>
+									<input  type='number' step='1' min='0' name='width' id='width' placeholder='width' class='form-control' value="<%=vo.getWidth() %>"/>
 									<input  type='hidden' name='millName'  value="<%=vo.getMillName() %>"/>
 									<input  type='hidden' name='materialType'  value="<%=vo.getMaterialType() %>"/>
 									<input  type='hidden' name='grade'  value="<%=vo.getGrade() %>"/>

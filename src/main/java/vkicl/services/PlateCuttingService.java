@@ -71,16 +71,8 @@ public class PlateCuttingService {
 		    		//And then Execute this sql in database to insert the two plates (cut-plate and remaining-plate) in database.
 		    	}
 		    	
-		    	//Shape shapeObj= goemetry.toPolygon(orginx, orginy,smallPlateLength, smallPlateWidth);
-		    	
-		    	//double area= smallPlateLength * smallPlateWidth;
-		    	
-		    	//String Sql=goemetry.toUpdateSql(shapeObj,stockBalId, area);
-		    	//impl.updateStockBalanceShape(Sql);
-		    	
-		    	//impl.updateStockBalanceCut(vo.getStockBalId(), vo.getQuantity() ,user);
 		    	impl.updateStockBalanceCut(vo.getStockBalId(), vo.getQuantity(), user);
-
+		    	
 			}
 		}
 		
