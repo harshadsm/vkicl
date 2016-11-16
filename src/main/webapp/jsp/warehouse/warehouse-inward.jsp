@@ -339,6 +339,7 @@
 		fillArray('vendorName', 'query.unique.vendorName');
 		
 		addRow();
+		
 		vendorCheck();
 	});
 
@@ -360,6 +361,118 @@
 		} else if ("" == getValByFieldName("body", "portVehicleDate")) {
 			bootbox.alert("Please enter Vehicle Number");
 			return false;
+		}
+		
+		var materialType = $("[name='materialType']");
+		for(var i=0; i<materialType.length; i++){
+			if($.trim(materialType[i].value) == ""){
+				bootbox.alert("Please enter Material Type");
+				return false;
+			}
+		}		
+		var millName = $("[name='millName']");
+		for(var i=0; i<millName.length; i++){
+			if($.trim(millName[i].value) == ""){
+				bootbox.alert("Please enter Mill Name");
+				return false;
+			}
+		}	
+		var make = $("[name='make']");
+		for(var i=0; i<make.length; i++){
+			if($.trim(make[i].value) == ""){
+				bootbox.alert("Please enter Material Make");
+				return false;
+			}
+		}	
+		var grade = $("[name='grade']");
+		for(var i=0; i<grade.length; i++){
+			if($.trim(grade[i].value) == ""){
+				bootbox.alert("Please enter Grade");
+				return false;
+			}
+		}		
+		var thickness = $("[name='thickness']");
+		for(var i=0; i<thickness.length; i++){
+			if($.trim(thickness[i].value) == "" || $.trim(thickness[i].value) <= 0){
+				bootbox.alert("Please enter Thickness");
+				return false;
+			}
+		}		
+		var width = $("[name='width']");
+		for(var i=0; i<width.length; i++){
+			if($.trim(width[i].value) == "" || $.trim(width[i].value) <= 0){
+				bootbox.alert("Please enter Width");
+				return false;
+			}
+		}		
+		var length = $("[name='length']");
+		for(var i=0; i<length.length; i++){
+			if($.trim(length[i].value) == "" || $.trim(length[i].value) <= 0){
+				bootbox.alert("Please enter Length");
+				return false;
+			}
+		}		
+		var qty = $("[name='qty']");
+		for(var i=0; i<qty.length; i++){
+			if($.trim(qty[i].value) == "" || $.trim(qty[i].value) <= 0){
+				bootbox.alert("Please enter Quantity");
+				return false;
+			}
+		}		
+			
+		var secWt = $("[name='secWt']");
+		for(var i=0; i<secWt.length; i++){
+			if($.trim(secWt[i].value) == "" || $.trim(secWt[i].value) <= 0){
+				bootbox.alert("Please enter Section Wt.");
+				return false;
+			}
+		}	
+		
+		var labelWt = $("[name='labelWt']");
+		for(var i=0; i<labelWt.length; i++){
+			if($.trim(labelWt[i].value) == "" || $.trim(labelWt[i].value) <= 0){
+				bootbox.alert("Please enter Label Wt.");
+				return false;
+			}
+		}
+		
+		var heatNo = $("[name='heatNo']");
+		for(var i=0; i<heatNo.length; i++){
+			if($.trim(heatNo[i].value) == "" || $.trim(heatNo[i].value) <= 0){
+				bootbox.alert("Please enter Heat No.");
+				return false;
+			}
+		}
+		
+		var plateNo = $("[name='plateNo']");
+		for(var i=0; i<plateNo.length; i++){
+			if($.trim(plateNo[i].value) == "" || $.trim(plateNo[i].value) <= 0){
+				bootbox.alert("Please enter Plate No");
+				return false;
+			}
+		}
+		
+		var subQty = $("[name='subQty']");
+		for(var i=0; i<subQty.length; i++){
+			if($.trim(subQty[i].value) == "" || $.trim(subQty[i].value) <= 0){
+				bootbox.alert("Please enter Quantity.");
+				return false;
+			}
+		}
+		
+		var subSecWt = $("[name='subSecWt']");
+		for(var i=0; i<subSecWt.length; i++){
+			if($.trim(subSecWt[i].value) == "" || $.trim(subSecWt[i].value) <= 0){
+				bootbox.alert("Please enter Section Wt.");
+				return false;
+			}
+		}
+		var wlocation = $("[name='wlocation']");
+		for(var i=0; i<wlocation.length; i++){
+			if($.trim(wlocation[i].value) == "" || $.trim(wlocation[i].value) <= 0){
+				bootbox.alert("Please enter location");
+				return false;
+			}
 		}
 		
 		return commonSubmit();
