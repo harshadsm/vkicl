@@ -86,7 +86,7 @@
 				+ "<div class='modal-dialog'><div class='modal-content'><div class='modal-div'>"
 				+ "<button type='button' class='bootbox-close-button close' data-dismiss='modal' aria-hidden='true'>×</button>"
 				+ "<table class='table table-responsive'>"
-				+ "<thead><tr><th>Mill Name</th><th>Thickness</th><th>Width</th><th>Length</th>"
+				+ "<thead><tr><th>Stock Id</th><th>Mill Name</th><th>Thickness</th><th>Width</th><th>Length</th>"
 				+ "<th>Location</th><th>Quantity Available</th><th>Quantity</th></tr></thead><tbody></tbody>"
 				+ "<tfoot></tfoot></table></div></div></div></div></div>"
 		$("#hidden-div").append(str);
@@ -114,9 +114,9 @@
 			var length = $("#row-" + id + " [name=length]").val();
 			var width = $("#row-" + id + " [name=width]").val();
 			var thickness = $("#row-" + id + " [name=thickness]").val();			
-			var location = $("#row-" + id + " [name=location]").val();
+			//var stockId = $("#row-" + id + " [name=stockId]").val();
 			showLoader();			
-			var params = "&millName=" + millName + "&make=" + make + "&grade=" + grade + "&length=" + length + "&width=" + width + "&thickness=" + thickness + "&dispatchNo=" + dispatchNo + "&dispatchDetailRowId=" + id+ "&location="+location;			
+			var params = "&millName=" + millName + "&make=" + make + "&grade=" + grade + "&length=" + length + "&width=" + width + "&thickness=" + thickness + "&dispatchNo=" + dispatchNo + "&dispatchDetailRowId=" + id;			
 			$.ajax({
 				url : "./json?method=fetchWarehouseLocationDetails" + params,
 				success : function(json, status, response) {
@@ -146,7 +146,8 @@
 						}
 						
 						
-						str = str + "<tr><td><input type='text' readonly='readonly' value='" + result.millName+ "' name='millname' class='form-control' />"
+						str = str + "<tr><td><input type='text' readonly='readonly' value='" + result.id+ "' name='id' class='form-control' />"
+						    + "<td><input type='text' readonly='readonly' value='" + result.millName+ "' name='millname' class='form-control' />"
 						    +"<td><input type='text' readonly='readonly' value='" + result.thickness + "' name='thickness' class='form-control' />"
 						    +"<td><input type='text' readonly='readonly' value='" + result.width + "' name='width' class='form-control' />"
 						    +"<td><input type='text' readonly='readonly' value='" + result.length + "' name='length' class='form-control' />"
