@@ -240,6 +240,7 @@
 			var id = $(tr).find("[name='row']")[0].value;
 			var txtSubQty = $(tr).find("[name='subQty']")[0];
 			var txtLocation = $(tr).find("[name='location']")[0];
+			var txtqtyAvailable = $(tr).find("[name='qtyAvailable']")[0];
 
 			var str = "";
 			$("#hidden-div-"+id + " [name='location']").each(function(){
@@ -250,6 +251,12 @@
 			
 			//Harshad Important Trace #3
 			txtLocation.value = str;
+			
+			var str = "";
+			$("#hidden-div-"+id + " [name='qtyAvailable']").each(function(){
+				str = str + $(this).val() + ",";
+			});
+			var txtqtyAvailable=str;
 			
 			var str = "";
 			var qtySelected = 0;
@@ -309,6 +316,7 @@
 				$("#"+current_row_id).find("[name='secWtUnit']")[0].value = result.actWtUnit;
 				$("#"+current_row_id).find("[name='secWtUnit']").html(result.actWtUnit + " <span class='caret'></span></button>");
 				$("#"+current_row_id).find("[name='qty']")[0].value = result.qty;
+				//$("#"+current_row_id).find("[name='qtyAvailable']")[0].value = result.qtyAvailable;
 			}
 			refreshSecWtRow();
 		} else
