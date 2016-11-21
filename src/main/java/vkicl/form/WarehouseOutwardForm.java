@@ -14,13 +14,7 @@ public class WarehouseOutwardForm extends BaseForm {
 
 	private String[] location = null;
 	private String[] qtyAvailable = null;
-	public String[] getQtyAvailable() {
-		return qtyAvailable;
-	}
-
-	public void setQtyAvailable(String[] qtyAvailable) {
-		this.qtyAvailable = qtyAvailable;
-	}
+	
 
 	private String[] subQty = null;
 
@@ -34,7 +28,9 @@ public class WarehouseOutwardForm extends BaseForm {
 	private Double[] secWt = null;
 	private String[] secWtUnit = null;
 	private Integer[] qty = null;
+	private Integer[] stockId = null;
 
+	
 	public WarehouseOutwardForm() {
 	}
 
@@ -62,7 +58,8 @@ public class WarehouseOutwardForm extends BaseForm {
 		secWtUnit = null;
 		qty = null;
 		subQty = null;
-
+		stockId=null;
+		
 		super.clear();
 	}
 
@@ -88,6 +85,13 @@ public class WarehouseOutwardForm extends BaseForm {
 
 	public void setActWt(Double actWt) {
 		this.actWt = actWt;
+	}
+	public String[] getQtyAvailable() {
+		return qtyAvailable;
+	}
+
+	public void setQtyAvailable(String[] qtyAvailable) {
+		this.qtyAvailable = qtyAvailable;
 	}
 
 	public String[] getLocation() {
@@ -188,6 +192,15 @@ public class WarehouseOutwardForm extends BaseForm {
 		this.qty = qty;
 	}
 
+	public Integer[] getStockId() {
+		return stockId;
+	}
+
+	public void setStockId(Integer[] stockId) {
+		this.stockId = stockId;
+	}
+
+	
 	@Override
 	public String toString() {
 		return "WarehouseOutwardForm [dispatchNo=" + dispatchNo
@@ -201,7 +214,7 @@ public class WarehouseOutwardForm extends BaseForm {
 				+ Arrays.toString(width) + ", thickness="
 				+ Arrays.toString(thickness) + ", secWt="
 				+ Arrays.toString(secWt) + ", secWtUnit="
-				+ Arrays.toString(secWtUnit) + ", qty=" + Arrays.toString(qty)
+				+ Arrays.toString(secWtUnit) + ", qty=" + Arrays.toString(qty)+",stockId="+Arrays.toString(stockId)
 				+ "]";
 	}
 

@@ -57,7 +57,7 @@
 
 	function addRow() {
 		var str = "<tr id='row-"+row_id+"' class='main-row'><td class='row-id'><input type='hidden' name='row' value='"+row_id+"'>"+row_id+"</td>"
-				+ "<td><input type='hidden' name='location' value=''><input type='hidden' name='subQty' value=''><input readonly type='text' name='millName' value='' class='form-control' /></td>"
+				+ "<td><input type='hidden' name='stockId' value=''><input type='hidden' name='location' value=''><input type='hidden' name='subQty' value=''><input readonly type='text' name='millName' value='' class='form-control' /></td>"
 				+ "<td><input readonly type='text' name='make' value='' class='form-control' /></td>"
 				
 				+ "<td><input readonly type='text' name='grade' value='' class='form-control' /></td>"
@@ -114,7 +114,7 @@
 			var length = $("#row-" + id + " [name=length]").val();
 			var width = $("#row-" + id + " [name=width]").val();
 			var thickness = $("#row-" + id + " [name=thickness]").val();			
-			//var stockId = $("#row-" + id + " [name=stockId]").val();
+			
 			showLoader();			
 			var params = "&millName=" + millName + "&make=" + make + "&grade=" + grade + "&length=" + length + "&width=" + width + "&thickness=" + thickness + "&dispatchNo=" + dispatchNo + "&dispatchDetailRowId=" + id;			
 			$.ajax({
@@ -146,7 +146,7 @@
 						}
 						
 						
-						str = str + "<tr><td><input type='text' readonly='readonly' value='" + result.id+ "' name='id' class='form-control' />"
+						str = str + "<tr><td><input type='text' readonly='readonly' value='" + result.id+ "' name='stockId' class='form-control' />"
 						    + "<td><input type='text' readonly='readonly' value='" + result.millName+ "' name='millname' class='form-control' />"
 						    +"<td><input type='text' readonly='readonly' value='" + result.thickness + "' name='thickness' class='form-control' />"
 						    +"<td><input type='text' readonly='readonly' value='" + result.width + "' name='width' class='form-control' />"
@@ -160,7 +160,7 @@
 						str = str + "<tr><th colspan='3'><br/>No Stock Available for this combination<br/><br/></th><tr>"
 					}
 					else {
-						tfoot = tfoot + "<tr><th></th><th></th><th></th><th></th><th style='text-align: right;'>Total</th><th>"+qtyAvailableTotal+"</th><th id='total'></th><tr>";
+						tfoot = tfoot + "<tr><th></th><th></th><th></th><th></th><th></th><th style='text-align: right;'>Total</th><th>"+qtyAvailableTotal+"</th><th id='total'></th><tr>";
 					}
 					$("#hidden-div-" + id + " tbody").html(str);
 					$("#hidden-div-" + id + " tfoot").html(tfoot);
@@ -240,8 +240,19 @@
 			var id = $(tr).find("[name='row']")[0].value;
 			var txtSubQty = $(tr).find("[name='subQty']")[0];
 			var txtLocation = $(tr).find("[name='location']")[0];
-			var txtqtyAvailable = $(tr).find("[name='qtyAvailable']")[0];
+			
+			var txtstockId = $(tr).find("[name='stockId']")[0];
 
+			var str = "";
+			$("#hidden-div-"+id + " [name='stockId']").each(function(){
+				str = str + $(this).val() + ",";
+			});
+			if(str.endsWith(","))
+				str = str.substr(0, str.length - 1);
+			
+			
+			txtstockId.value = str;
+			
 			var str = "";
 			$("#hidden-div-"+id + " [name='location']").each(function(){
 				str = str + $(this).val() + ",";
@@ -249,14 +260,9 @@
 			if(str.endsWith(","))
 				str = str.substr(0, str.length - 1);
 			
-			//Harshad Important Trace #3
+			
 			txtLocation.value = str;
 			
-			var str = "";
-			$("#hidden-div-"+id + " [name='qtyAvailable']").each(function(){
-				str = str + $(this).val() + ",";
-			});
-			var txtqtyAvailable=str;
 			
 			var str = "";
 			var qtySelected = 0;
@@ -273,6 +279,8 @@
 			txtSubQty.value = str;
 			
 			$("#hidden-div-"+id + " tfoot th#total").html(qtySelected);
+			
+			
 		});		
 	}
 	

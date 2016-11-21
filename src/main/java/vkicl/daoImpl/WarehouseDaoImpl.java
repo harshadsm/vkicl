@@ -17,9 +17,11 @@ import vkicl.form.WarehouseOutwardFinalForm;
 import vkicl.form.WarehouseOutwardForm;
 import vkicl.form.WarehouseOutwardProcessForm;
 import vkicl.report.bean.WarehouseLocationBean;
+import vkicl.util.JqGridSearchParameterHolder;
 import vkicl.util.PropFileReader;
 import vkicl.vo.StockBalanceDetailsVO;
 import vkicl.vo.UserInfoVO;
+
 
 public class WarehouseDaoImpl extends BaseDaoImpl {
 	static Logger log = Logger.getLogger(WarehouseDaoImpl.class);
@@ -305,7 +307,7 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 
 					report.setLocation(formatOutput(rs.getString("location")));
 					report.setAvailableQty(rs.getInt("quantity"));
-
+					report.setId(rs.getInt("stock_balance_id"));
 					resultList.add(report);
 					report = null;
 				} while (rs.next());
@@ -370,8 +372,8 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 							cs.setString(10, form.getSecWtUnit()[i]);
 							log.debug("form.getLocation()[i] = " + form.getLocation()[i]);
 							cs.setString(11, form.getLocation()[i]);
-							log.debug(" = ");
-							cs.setString(12, "0,0,0");
+							log.debug("form.getAvailableQty()[i] = " + form.getQtyAvailable()[i]);
+							cs.setString(12, form.getQtyAvailable()[i]);
 							log.debug("form.getSubQty()[i] = " + form.getSubQty()[i]);
 							cs.setString(13, form.getSubQty()[i]);
 							log.debug("userInfoVO.getUserName() = " + userInfoVO.getUserName());
@@ -382,6 +384,9 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 							log.info("dispatch_details_id = " + dispatch_details_id);
 
 							cs.setInt(15, dispatch_details_id);
+							
+							log.debug("form.getStockId()[i] = " + form.getStockId()[i]);
+							cs.setInt(17, form.getStockId()[i]);
 
 							cs.registerOutParameter(16, java.sql.Types.VARCHAR);
 
@@ -595,6 +600,7 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 		ResultSet rs = null;
 		CallableStatement cs = null;
 		String query = "", message = "";
+		//Integer warehouseOutwardId = -1;
 		try {
 			if (0 == form.getDispatchNo()) {
 				// message = "Unable to insert Outward entry";
@@ -703,7 +709,7 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 					
 			double area=(length*width);
 
-			query= "SELECT s.material_make, s.grade, s.mill_name, s.location, s.quantity, s.length, s.width, s.thickness "
+			query= "SELECT s.material_make, s.grade, s.mill_name, s.location, s.quantity, s.length, s.width, s.thickness, s.stock_balance_id "
 					+ " from stock_balance s where is_cut!=1 and plate_area >= "+area;
 					
 			log.info("query = " + query);
@@ -724,6 +730,7 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 
 					report.setLocation(formatOutput(rs.getString("location")));
 					report.setAvailableQty(rs.getInt("quantity"));
+					report.setStockId(rs.getInt("stock_balance_id"));
 
 					resultList.add(report);
 					report = null;
@@ -739,5 +746,149 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 		
 		return form;
 	}
+	
+	
+	/*public void updateStockBalanceData(
+			WarehouseOutwardForm form, UserInfoVO userInfoVO, Integer availableQty) {
+		Connection conn = null;
+		ResultSet rs = null;
+		CallableStatement cs = null;
+		String query = "", message = "";
+		//Integer warehouseOutwardId = -1;
+		try {
+		
+			for(int i=0; i<form.getMillName().length;i++)
+				
+			{
+				if(availableQty - Integer.parseInt(form.getSubQty()[i])==0)
+				{
+					
+					
+					query = "Update stock_balance set "
+							+ " (quantity = "+form.getQty()+", is_sold='1', sold_date="++", update_ui="+userInfoVO+", update_ts="+getCurentTime()+") "
+							+ " where stock_balance_id="+form.getStockId()+" ";
+								
+					
+				}
+				else
+				{
+					query = "Update stock_balance set "
+							+ " (quantity = "+form.getQty()+",update_ui="+userInfoVO+", update_ts="+getCurentTime()+") "
+							+ " where stock_balance_id="+form.getStockId()+" ";
+					
+				}
+				log.info(query);
+				
+				conn = getConnection();
+				cs = conn.prepareCall(query);
+				 cs.executeUpdate();
+			}
+			
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			message = e.getMessage();
+			userInfoVO.setMessage(message);
+		} finally {
+			closeDatabaseResources(conn, rs, cs);
+		}
+		
+	}
+	
+	public UserInfoVO addStockOutwardData(
+			WarehouseOutwardForm form, UserInfoVO userInfoVO) {
+		Connection conn = null;
+		ResultSet rs = null;
+		CallableStatement cs = null;
+		String query = "", message = "";
+		//Integer warehouseOutwardId = -1;
+		try {
+			if (0 == form.getDispatchNo()) {
+				// message = "Unable to insert Outward entry";
+				// log.error(message);
+				userInfoVO.setMessage("");
+				return userInfoVO;
+			}
+			conn = getConnection();
+
+			query = "insert into stock_outward (mill_name,material_make,heat_no,plate_no,"
+					+ " material_type,grade,length,width,thickness,quantity,location,"
+					+ " create_ui,update_ui,create_ts,update_ts, plate_area, warehouse_outward_id) "
+					+ "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+			log.info("query = " + query);
+			log.info("form = " + form);
+			cs = conn.prepareCall(query);
+
+			for (int i = 0; i < form.getMillName().length; i++)
+			{
+			cs.setString(1, (form.getMillName())[i]);
+			cs.setString(2, (form.getMake())[i]);
+			cs.setString(3, (form.getHeatNo())[i]);
+			cs.setString(4, (form.getPlateNo())[i]);
+			cs.setString(5, "");
+			cs.setString(6, (form.getGrade())[i]);
+			cs.setInt(7, (form.getLength())[i]);
+			cs.setInt(8, (form.getWidth())[i]);
+			cs.setDouble(9, (form.getThickness())[i]);
+			cs.setDouble(10, (form.getQty())[i]);
+			cs.setString(11, (form.getLocation())[i]);
+			cs.setString(12, userInfoVO.getUserName());
+			cs.setString(13, userInfoVO.getUserName());
+			cs.setString(14, getCurentTime());
+			cs.setString(15, getCurentTime());
+			
+			double plateArea=form.getLength()[i] *  form.getWidth()[i];
+			cs.setDouble(16, plateArea);
+			cs.setString(17, "");
+			
+			cs.executeUpdate();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			message = e.getMessage();
+			userInfoVO.setMessage(message);
+		} finally {
+			closeDatabaseResources(conn, rs, cs);
+		}
+		return userInfoVO;
+	}
+	
+	public Integer fetchStockBalQuantity(WarehouseOutwardForm form) throws SQLException {
+		
+		Connection conn = null;
+		ResultSet rs = null;
+		CallableStatement cs = null;
+
+		int availableQty = 0;
+		try {
+			conn = getConnection();
+			//String count_sql = " SELECT count(*) FROM port_inward_details "
+			
+			String sql = " select quantity "
+			+" from  "
+			+" stock_balance where stock_balance_id= "+form.getStockId();
+			
+			log.info("query = " + sql);
+
+			cs = conn.prepareCall(sql);
+
+			rs = cs.executeQuery();
+			if (null != rs && rs.next()) {
+
+				do {
+					availableQty = rs.getInt(1);
+
+					log.debug("Row count === " + availableQty);
+				} while (rs.next());
+
+			}
+
+		} catch (Exception e) {
+			log.error("Some error", e);
+		} finally {
+			closeDatabaseResources(conn, rs, cs);
+		}
+		return availableQty;
+	}*/
 
 }

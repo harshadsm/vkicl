@@ -45,7 +45,12 @@ public class WarehouseOutwardAction extends BaseAction {
 				log.info("genericListener = " + genericListener);
 				warehouseOutwardForm = impl.addWarehouseOutwardTempData(
 						warehouseOutwardForm, userInfoVO);
-
+				
+				//Integer availableQty=impl.fetchStockBalQuantity(warehouseOutwardForm);
+				
+				
+				//impl.updateStockBalanceData(warehouseOutwardForm, userInfoVO,availableQty);
+					//impl.addStockOutwardData(warehouseOutwRardForm, userInfoVO);
 				setUserProfile(request, userInfoVO);
 				actionForward = mapping
 						.findForward(Constants.Mapping.DISPATCH_REPORT_PAGE);

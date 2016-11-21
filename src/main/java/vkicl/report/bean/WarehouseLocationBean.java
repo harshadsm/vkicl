@@ -24,6 +24,16 @@ public class WarehouseLocationBean extends BaseReportBean {
 
 	private boolean processed = false;
 
+	private int stockId = 0;
+	
+	public int getStockId() {
+		return stockId;
+	}
+
+	public void setStockId(int stockId) {
+		this.stockId = stockId;
+	}
+
 	public int getId() {
 		return id;
 	}
