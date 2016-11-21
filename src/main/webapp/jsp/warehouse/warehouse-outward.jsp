@@ -146,7 +146,7 @@
 						}
 						
 						
-						str = str + "<tr><td><input type='text' readonly='readonly' value='" + result.id+ "' name='stockId' class='form-control' />"
+						str = str + "<tr><td><input type='text' readonly='readonly' value='" + result.stockId+ "' name='stockId' class='form-control' />"
 						    + "<td><input type='text' readonly='readonly' value='" + result.millName+ "' name='millname' class='form-control' />"
 						    +"<td><input type='text' readonly='readonly' value='" + result.thickness + "' name='thickness' class='form-control' />"
 						    +"<td><input type='text' readonly='readonly' value='" + result.width + "' name='width' class='form-control' />"
