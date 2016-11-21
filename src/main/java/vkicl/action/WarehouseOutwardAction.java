@@ -43,14 +43,15 @@ public class WarehouseOutwardAction extends BaseAction {
 			if (genericListener.equalsIgnoreCase("add")
 					&& warehouseOutwardForm.getDispatchNo() != 0) {
 				log.info("genericListener = " + genericListener);
+				
+				Integer availableQty=impl.fetchStockBalQuantity(warehouseOutwardForm);
+				
 				warehouseOutwardForm = impl.addWarehouseOutwardTempData(
 						warehouseOutwardForm, userInfoVO);
 				
-				//Integer availableQty=impl.fetchStockBalQuantity(warehouseOutwardForm);
-				
-				
-				//impl.updateStockBalanceData(warehouseOutwardForm, userInfoVO,availableQty);
-					//impl.addStockOutwardData(warehouseOutwRardForm, userInfoVO);
+				impl.updateStockBalanceData(warehouseOutwardForm, userInfoVO,availableQty);
+				impl.addStockOutwardData(warehouseOutwardForm, userInfoVO);
+					
 				setUserProfile(request, userInfoVO);
 				actionForward = mapping
 						.findForward(Constants.Mapping.DISPATCH_REPORT_PAGE);

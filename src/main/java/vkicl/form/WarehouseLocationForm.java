@@ -16,11 +16,20 @@ public class WarehouseLocationForm extends BaseForm {
 	private String location = null;
 	private String previouslySelectedQtyFromWarehouseOutwardTemp;
 	private String dispatchDetailRowId;
+	private String stockId;
+
+	public String getStockId() {
+		return stockId;
+	}
+
+	public void setStockId(String stockId) {
+		this.stockId = stockId;
+	}
 
 	private ArrayList<WarehouseLocationBean> resultList = null;
 
 	public WarehouseLocationForm(String millName, String make, String grade,
-			String length, String width, String thickness, String location) {
+			String length, String width, String thickness, String location,String stockId) {
 		super();
 		this.millName = millName;
 		this.make = make;
@@ -29,6 +38,7 @@ public class WarehouseLocationForm extends BaseForm {
 		this.width = width;
 		this.thickness = thickness;
 		this.location=location;
+		this.stockId=stockId;
 	}
 
 	public String getLocation() {
@@ -118,7 +128,7 @@ public class WarehouseLocationForm extends BaseForm {
 		return "WarehouseLocationForm [millName=" + millName + ", make=" + make + ", grade=" + grade + ", length="
 				+ length + ", width=" + width + ", thickness=" + thickness
 				+ ", previouslySelectedQtyFromWarehouseOutwardTemp=" + previouslySelectedQtyFromWarehouseOutwardTemp
-				+ ", dispatchDetailRowId=" + dispatchDetailRowId + ", resultList=" + resultList + "]";
+				+ ", dispatchDetailRowId=" + dispatchDetailRowId + ", resultList=" + resultList + ",stockId="+stockId+"]";
 	}
 
 	

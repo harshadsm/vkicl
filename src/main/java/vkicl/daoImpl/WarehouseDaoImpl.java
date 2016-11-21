@@ -372,8 +372,8 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 							cs.setString(10, form.getSecWtUnit()[i]);
 							log.debug("form.getLocation()[i] = " + form.getLocation()[i]);
 							cs.setString(11, form.getLocation()[i]);
-							log.debug("form.getAvailableQty()[i] = " + form.getQtyAvailable()[i]);
-							cs.setString(12, form.getQtyAvailable()[i]);
+							//log.debug("form.getAvailableQty()[i] = " + form.getQtyAvailable()[i]);
+							cs.setString(12, "");
 							log.debug("form.getSubQty()[i] = " + form.getSubQty()[i]);
 							cs.setString(13, form.getSubQty()[i]);
 							log.debug("userInfoVO.getUserName() = " + userInfoVO.getUserName());
@@ -386,7 +386,7 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 							cs.setInt(15, dispatch_details_id);
 							
 							log.debug("form.getStockId()[i] = " + form.getStockId()[i]);
-							cs.setInt(17, form.getStockId()[i]);
+							cs.setString(17, form.getStockId()[i]);
 
 							cs.registerOutParameter(16, java.sql.Types.VARCHAR);
 
@@ -748,7 +748,7 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 	}
 	
 	
-	/*public void updateStockBalanceData(
+	public void updateStockBalanceData(
 			WarehouseOutwardForm form, UserInfoVO userInfoVO, Integer availableQty) {
 		Connection conn = null;
 		ResultSet rs = null;
@@ -765,16 +765,16 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 					
 					
 					query = "Update stock_balance set "
-							+ " (quantity = "+form.getQty()+", is_sold='1', sold_date="++", update_ui="+userInfoVO+", update_ts="+getCurentTime()+") "
-							+ " where stock_balance_id="+form.getStockId()+" ";
+							+ " (quantity = "+form.getQty()[i]+",is_sold=1,sold_date="+getCurentTime()+",update_ui="+userInfoVO+", update_ts="+getCurentTime()+") "
+							+ " where stock_balance_id="+form.getStockId()[i]+" ";
 								
 					
 				}
 				else
 				{
 					query = "Update stock_balance set "
-							+ " (quantity = "+form.getQty()+",update_ui="+userInfoVO+", update_ts="+getCurentTime()+") "
-							+ " where stock_balance_id="+form.getStockId()+" ";
+							+ " (quantity = "+form.getQty()[i]+",update_ui="+userInfoVO+", update_ts="+getCurentTime()+") "
+							+ " where stock_balance_id="+form.getStockId()[i]+" ";
 					
 				}
 				log.info(query);
@@ -823,8 +823,8 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 			{
 			cs.setString(1, (form.getMillName())[i]);
 			cs.setString(2, (form.getMake())[i]);
-			cs.setString(3, (form.getHeatNo())[i]);
-			cs.setString(4, (form.getPlateNo())[i]);
+			cs.setString(3, "");
+			cs.setString(4, "");
 			cs.setString(5, "");
 			cs.setString(6, (form.getGrade())[i]);
 			cs.setInt(7, (form.getLength())[i]);
@@ -889,6 +889,6 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 			closeDatabaseResources(conn, rs, cs);
 		}
 		return availableQty;
-	}*/
+	}
 
 }
