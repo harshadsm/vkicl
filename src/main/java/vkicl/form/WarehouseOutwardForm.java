@@ -28,9 +28,17 @@ public class WarehouseOutwardForm extends BaseForm {
 	private Double[] secWt = null;
 	private String[] secWtUnit = null;
 	private Integer[] qty = null;
-	private Integer[] stockId = null;
+	private String[] stockId = null;
 
 	
+	public String[] getStockId() {
+		return stockId;
+	}
+
+	public void setStockId(String[] stockId) {
+		this.stockId = stockId;
+	}
+
 	public WarehouseOutwardForm() {
 	}
 
@@ -192,13 +200,7 @@ public class WarehouseOutwardForm extends BaseForm {
 		this.qty = qty;
 	}
 
-	public Integer[] getStockId() {
-		return stockId;
-	}
-
-	public void setStockId(Integer[] stockId) {
-		this.stockId = stockId;
-	}
+	
 
 	
 	@Override
