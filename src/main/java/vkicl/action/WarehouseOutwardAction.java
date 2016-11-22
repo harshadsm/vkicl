@@ -59,10 +59,6 @@ public class WarehouseOutwardAction extends BaseAction {
 				List<String> subQty = Arrays.<String> asList(warehouseOutwardForm.getSubQty());
 				List<String> stockId = Arrays.<String> asList(warehouseOutwardForm.getStockId());
 				List<Integer> qty = Arrays.<Integer> asList(warehouseOutwardForm.getQty());
-				log.info(availableQty.size());
-				log.info(subQty.size());
-				log.info(stockId.size());
-				log.info(qty.size());
 
 				List<WarehouseOutwardVO> warehouseVOList = composeVOList(availableQty, subQty, stockId);
 
