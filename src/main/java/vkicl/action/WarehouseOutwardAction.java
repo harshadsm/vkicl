@@ -113,19 +113,4 @@ public class WarehouseOutwardAction extends BaseAction {
 		return actionForward;
 	}
 
-	private List<WarehouseOutwardVO> composeVOList(List<String> availableQtyList, List<String> orderedQtyList,
-			List<String> stockIdList) {
-
-		Integer size = stockIdList.size();
-		log.info("stockIdList" + size);
-		for (int i = 0; i < size; i++) {
-			String stockIdstr = stockIdList.get(i);
-			String orderedQtystr = orderedQtyList.get(i);
-			String availableQtystr = availableQtyList.get(i);
-
-		}
-
-		// TODO Auto-generated method stub
-		return null;
-	}
 }
