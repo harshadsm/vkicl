@@ -2,6 +2,7 @@ package vkicl.daoImpl;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -748,41 +749,44 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 	}
 	
 	
+	
 	public void updateStockBalanceData(
-			WarehouseOutwardForm form, UserInfoVO userInfoVO, Integer availableQty) {
+			WarehouseOutwardForm form, UserInfoVO userInfoVO, Integer qty, Integer stockid, String flag) {
 		Connection conn = null;
 		ResultSet rs = null;
 		CallableStatement cs = null;
+		PreparedStatement statement = null;
 		String query = "", message = "";
 		//Integer warehouseOutwardId = -1;
 		try {
 		
-			for(int i=0; i<form.getMillName().length;i++)
-				
+			
+			
+			conn = getConnection();
+			
+			
+			if(flag=="1")
 			{
-				if(availableQty - Integer.parseInt(form.getSubQty()[i])==0)
-				{
+					query = "Update stock_balance set quantity = ?,is_sold=?,sold_date=NOW(),update_ui=?, update_ts=NOW() where stock_balance_id=?";
+					statement = conn.prepareStatement(query);
+					statement.setInt(1, qty);
+					statement.setString(2,"1");
+					statement.setString(3, userInfoVO.getUserName());
+					statement.setInt(4, stockid);
 					
-					
-					query = "Update stock_balance set "
-							+ " (quantity = "+form.getQty()[i]+",is_sold=1,sold_date="+getCurentTime()+",update_ui="+userInfoVO+", update_ts="+getCurentTime()+") "
-							+ " where stock_balance_id="+form.getStockId()[i]+" ";
-								
-					
-				}
-				else
-				{
-					query = "Update stock_balance set "
-							+ " (quantity = "+form.getQty()[i]+",update_ui="+userInfoVO+", update_ts="+getCurentTime()+") "
-							+ " where stock_balance_id="+form.getStockId()[i]+" ";
-					
-				}
-				log.info(query);
-				
-				conn = getConnection();
-				cs = conn.prepareCall(query);
-				 cs.executeUpdate();
 			}
+			else
+			{
+			query = "Update stock_balance set quantity = ?,update_ui=?, update_ts=NOW() where stock_balance_id=?";
+			
+			statement = conn.prepareStatement(query);
+			statement.setInt(1, qty);
+			statement.setString(2, userInfoVO.getUserName());
+			statement.setInt(3, stockid);
+			}
+								
+			statement.executeUpdate();
+			log.info("message = " + message);
 			
 		}
 		catch (Exception e) {

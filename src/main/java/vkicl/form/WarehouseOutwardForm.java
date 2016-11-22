@@ -13,8 +13,19 @@ public class WarehouseOutwardForm extends BaseForm {
 	private Double actWt = null;
 
 	private String[] location = null;
-	private String[] qtyAvailable = null;
+	private String[] availableQty = null;
 	
+
+	public String[] getAvailableQty() {
+		return availableQty;
+	}
+
+	public void setAvailableQty(String[] availableQty) {
+		this.availableQty = availableQty;
+	}
+
+
+
 
 	private String[] subQty = null;
 
@@ -52,7 +63,7 @@ public class WarehouseOutwardForm extends BaseForm {
 		actWt = null;
 
 		location = null;
-		qtyAvailable = null;
+		availableQty = null;
 		subQty = null;
 
 		row = null;
@@ -94,13 +105,7 @@ public class WarehouseOutwardForm extends BaseForm {
 	public void setActWt(Double actWt) {
 		this.actWt = actWt;
 	}
-	public String[] getQtyAvailable() {
-		return qtyAvailable;
-	}
-
-	public void setQtyAvailable(String[] qtyAvailable) {
-		this.qtyAvailable = qtyAvailable;
-	}
+	
 
 	public String[] getLocation() {
 		return location;
@@ -207,8 +212,8 @@ public class WarehouseOutwardForm extends BaseForm {
 	public String toString() {
 		return "WarehouseOutwardForm [dispatchNo=" + dispatchNo
 				+ ", dispatchNoList=" + dispatchNoList + ", actWt=" + actWt
-				+ ", location=" + Arrays.toString(location) + ", qtyAvailable="
-				+ Arrays.toString(qtyAvailable) + ", subQty="
+				+ ", location=" + Arrays.toString(location) + ", availableQty="
+				+ Arrays.toString(availableQty) + ", subQty="
 				+ Arrays.toString(subQty) + ", row=" + Arrays.toString(row)
 				+ ", millName=" + Arrays.toString(millName) + ", make="
 				+ Arrays.toString(make) + ", grade=" + Arrays.toString(grade)

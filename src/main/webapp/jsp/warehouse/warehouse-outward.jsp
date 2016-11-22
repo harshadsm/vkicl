@@ -57,7 +57,7 @@
 
 	function addRow() {
 		var str = "<tr id='row-"+row_id+"' class='main-row'><td class='row-id'><input type='hidden' name='row' value='"+row_id+"'>"+row_id+"</td>"
-				+ "<td><input type='hidden' name='stockId' value=''><input type='hidden' name='location' value=''><input type='hidden' name='subQty' value=''><input readonly type='text' name='millName' value='' class='form-control' /></td>"
+				+ "<td><input type='hidden' name='stockId' value=''><input type='hidden' name='location' value=''><input type='hidden' name='subQty' value=''><input  type='hidden' name='availableQty' value=''  /><input readonly type='text' name='millName' value='' class='form-control' /></td>"
 				+ "<td><input readonly type='text' name='make' value='' class='form-control' /></td>"
 				
 				+ "<td><input readonly type='text' name='grade' value='' class='form-control' /></td>"
@@ -152,7 +152,7 @@
 						    +"<td><input type='text' readonly='readonly' value='" + result.width + "' name='width' class='form-control' />"
 						    +"<td><input type='text' readonly='readonly' value='" + result.length + "' name='length' class='form-control' />"
 						    + "<td><input type='text' readonly='readonly' value='" + result.location + "' name='location' class='form-control' /></td>"
-							+ "<td><input type='text' value='" + result.availableQty + "' readonly='readonly' name='qtyAvailable' class='form-control' /></td>"
+							+ "<td><input type='text' value='" + result.availableQty + "' readonly='readonly' name='availableQty' class='form-control' /></td>"
 							+ "<td><input type='number' step='1' placeholder='Quantity' min='0' max='"+result.availableQty+"' name='subQty' onChange='fillDetails();' class='form-control' value='"+prevSelectedQty+"'/></td></tr>"
 							qtyAvailableTotal = qtyAvailableTotal + result.availableQty; 
 					}
@@ -242,7 +242,8 @@
 			var txtLocation = $(tr).find("[name='location']")[0];
 			
 			var txtstockId = $(tr).find("[name='stockId']")[0];
-
+			var txtavailableQty = $(tr).find("[name='availableQty']")[0];
+			
 			var str = "";
 			$("#hidden-div-"+id + " [name='stockId']").each(function(){
 				str = str + $(this).val() + ",";
@@ -278,9 +279,19 @@
 			//Harshad Important Trace #2
 			txtSubQty.value = str;
 			
+			
+			
+			var str = "";
+			$("#hidden-div-"+id + " [name='availableQty']").each(function(){
+				str = str + $(this).val() + ",";
+			});
+			if(str.endsWith(","))
+				str = str.substr(0, str.length - 1);
+			
+			
+			txtavailableQty.value = str;
+			
 			$("#hidden-div-"+id + " tfoot th#total").html(qtySelected);
-			
-			
 		});		
 	}
 	
