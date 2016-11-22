@@ -119,17 +119,21 @@ public class WarehouseOutwardAction extends BaseAction {
 
 	private List<WarehouseOutwardVO> composeVOList(List<String> availableQtyList, List<String> orderedQtyList,
 			List<String> stockIdList) {
-
+		List<WarehouseOutwardVO> list = new ArrayList<WarehouseOutwardVO>();
 		Integer size = stockIdList.size();
 		log.info("stockIdList" + size);
 		for (int i = 0; i < size; i++) {
 			String stockIdstr = stockIdList.get(i);
 			String orderedQtystr = orderedQtyList.get(i);
 			String availableQtystr = availableQtyList.get(i);
-
+			WarehouseOutwardVO vo = new WarehouseOutwardVO();
+			vo.setAvailableQty(Integer.parseInt(availableQtystr));
+			vo.setOrderedQty(Integer.parseInt(orderedQtystr));
+			vo.setStockId(Integer.parseInt(stockIdstr));
+			list.add(vo);
 		}
 
 		// TODO Auto-generated method stub
-		return null;
+		return list;
 	}
 }
