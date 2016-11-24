@@ -123,10 +123,26 @@ public class WarehouseOutwardAction extends BaseAction {
 			String orderedQtystr = orderedQtyList.get(i);
 			String availableQtystr = availableQtyList.get(i);
 			WarehouseOutwardVO vo = new WarehouseOutwardVO();
-			vo.setAvailableQty(Integer.parseInt(availableQtystr));
-			vo.setOrderedQty(Integer.parseInt(orderedQtystr));
-			vo.setStockId(Integer.parseInt(stockIdstr));
-			list.add(vo);
+			
+			String[] stockIdArr = stockIdstr.split(",");
+			String[] orderedQtyArr = orderedQtystr.split(",");
+			String[] availableQtyArr = availableQtystr.split(",");
+			
+			if(stockIdArr!=null){
+				Integer noOfStockRecords = stockIdArr.length;
+				
+				for(int j=0;j<=noOfStockRecords;j++){
+					
+					vo.setAvailableQty(Integer.parseInt(availableQtyArr[j]));
+					vo.setOrderedQty(Integer.parseInt(orderedQtyArr[j]));
+					vo.setStockId(Integer.parseInt(stockIdArr[i]));
+					list.add(vo);
+				}
+			}
+			
+			
+			
+			
 		}
 
 		// TODO Auto-generated method stub
