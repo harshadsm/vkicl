@@ -23,21 +23,18 @@ import vkicl.util.PropFileReader;
 import vkicl.vo.StockBalanceDetailsVO;
 import vkicl.vo.UserInfoVO;
 
-
 public class WarehouseDaoImpl extends BaseDaoImpl {
 	static Logger log = Logger.getLogger(WarehouseDaoImpl.class);
 	static PropFileReader prop = PropFileReader.getInstance();
 
-	public WarehouseInwardForm fetchWarehouseInwardDetails(
-			WarehouseInwardForm form, UserInfoVO userInfoVO) {
+	public WarehouseInwardForm fetchWarehouseInwardDetails(WarehouseInwardForm form, UserInfoVO userInfoVO) {
 		Connection conn = null;
 		ResultSet rs = null;
 		CallableStatement cs = null;
 		String query = "", message = "";
 		int count = 0;
 		try {
-			if ("".equalsIgnoreCase(form.getVendorVehicleDate())
-					&& "".equalsIgnoreCase(form.getPortVehicleDate())) {
+			if ("".equalsIgnoreCase(form.getVendorVehicleDate()) && "".equalsIgnoreCase(form.getPortVehicleDate())) {
 				form.clear();
 				return form;
 			}
@@ -56,8 +53,7 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 			count = cs.getInt(3);
 			message = cs.getString(4);
 			log.info("message = " + message);
-			if (null != message && message.equalsIgnoreCase("Success")
-					&& null != rs && rs.next()) {
+			if (null != message && message.equalsIgnoreCase("Success") && null != rs && rs.next()) {
 				int i = 0;
 				String beNo[] = new String[count];
 				String materialType[] = new String[count];
@@ -112,15 +108,14 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 		return form;
 	}
 
-	public WarehouseInwardForm addWarehouseInwardData(WarehouseInwardForm form,
-			UserInfoVO userInfoVO) throws SQLException {
+	public WarehouseInwardForm addWarehouseInwardData(WarehouseInwardForm form, UserInfoVO userInfoVO)
+			throws SQLException {
 		Connection conn = null;
 		ResultSet rs = null;
 		CallableStatement cs = null;
 		String query = "", message = "";
 		try {
-			if ("".equalsIgnoreCase(form.getVendorVehicleDate())
-					&& "".equalsIgnoreCase(form.getPortVehicleDate())) {
+			if ("".equalsIgnoreCase(form.getVendorVehicleDate()) && "".equalsIgnoreCase(form.getPortVehicleDate())) {
 				form.clear();
 				return form;
 			}
@@ -138,8 +133,7 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 			} else {
 				cs.setString(1, formatInput(form.getVendorVehicleNumber()));
 				cs.setString(2, formatInput(form.getVendorName()));
-				cs.setString(3,
-						convertStringToDate(form.getVendorVehicleDate()));
+				cs.setString(3, convertStringToDate(form.getVendorVehicleDate()));
 			}
 
 			cs.setString(4, toString(form.getBeNo()));
@@ -186,8 +180,7 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 		return form;
 	}
 
-	public WarehouseDispatchForm addWarehouseDispatchData(
-			WarehouseDispatchForm form, UserInfoVO userInfoVO) {
+	public WarehouseDispatchForm addWarehouseDispatchData(WarehouseDispatchForm form, UserInfoVO userInfoVO) {
 		Connection conn = null;
 		ResultSet rs = null;
 		CallableStatement cs = null;
@@ -269,8 +262,7 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 		return form;
 	}
 
-	public BaseForm fetchWarehouseLocationDetails(WarehouseLocationForm form,
-			UserInfoVO userInfoVO) {
+	public BaseForm fetchWarehouseLocationDetails(WarehouseLocationForm form, UserInfoVO userInfoVO) {
 		Connection conn = null;
 		ResultSet rs = null;
 		CallableStatement cs = null;
@@ -300,10 +292,10 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 					WarehouseLocationBean report = new WarehouseLocationBean();
 
 					report.setMake(formatOutput(rs.getString("material_make")));
-					 report.setGrade(formatOutput(rs.getString("grade")));
-					 report.setMillName(formatOutput(rs.getString("mill_name")));
-					 report.setLength(rs.getInt("length"));
-					 report.setWidth(rs.getInt("width"));
+					report.setGrade(formatOutput(rs.getString("grade")));
+					report.setMillName(formatOutput(rs.getString("mill_name")));
+					report.setLength(rs.getInt("length"));
+					report.setWidth(rs.getInt("width"));
 					report.setThickness(rs.getDouble("thickness"));
 
 					report.setLocation(formatOutput(rs.getString("location")));
@@ -324,12 +316,12 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 		return form;
 	}
 
-	public WarehouseOutwardForm addWarehouseOutwardTempData(
-			WarehouseOutwardForm form, UserInfoVO userInfoVO) {
+	public WarehouseOutwardForm addWarehouseOutwardTempData(WarehouseOutwardForm form, UserInfoVO userInfoVO) {
 		Connection conn = null;
 		ResultSet rs = null;
 		CallableStatement cs = null;
 		String query = "", message = "", result = "";
+		Long savedRecordId = -1L;
 		try {
 			if (0 == form.getMillName().length) {
 				form.clear();
@@ -373,7 +365,8 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 							cs.setString(10, form.getSecWtUnit()[i]);
 							log.debug("form.getLocation()[i] = " + form.getLocation()[i]);
 							cs.setString(11, form.getLocation()[i]);
-							//log.debug("form.getAvailableQty()[i] = " + form.getQtyAvailable()[i]);
+							// log.debug("form.getAvailableQty()[i] = " +
+							// form.getQtyAvailable()[i]);
 							cs.setString(12, "");
 							log.debug("form.getSubQty()[i] = " + form.getSubQty()[i]);
 							cs.setString(13, form.getSubQty()[i]);
@@ -385,7 +378,7 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 							log.info("dispatch_details_id = " + dispatch_details_id);
 
 							cs.setInt(15, dispatch_details_id);
-							
+
 							log.debug("form.getStockId()[i] = " + form.getStockId()[i]);
 							cs.setString(17, form.getStockId()[i]);
 
@@ -395,28 +388,6 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 							message = cs.getString(16);
 							log.info("i = " + dispatch_details_id + ", message = " + message + " dbId = " + id);
 
-							/////////////////// DELETE THIS : HARSHAD
-							// BaseForm locationForm = new
-							// WarehouseLocationForm(form.getMillName()[i],
-							// form.getMake()[i], form.getGrade()[i],
-							// Integer.toString(form.getLength()[i]),
-							// Integer.toString(form.getWidth()[i]),
-							// Double.toString(form.getThickness()[i]));
-							// locationForm =
-							// fetchWarehouseLocationDetails((WarehouseLocationForm)
-							// locationForm, userInfoVO);
-							// WarehouseLocationForm warehouselocationForm =
-							// (WarehouseLocationForm)locationForm;
-							// List<WarehouseLocationBean> locationBeanList =
-							// warehouselocationForm.getResultList();
-							// if (locationBeanList != null &&
-							// !locationBeanList.isEmpty()) {
-							// Integer qty = form.getQty()[i];
-							// log.info("Location Bean List Size = " +
-							// locationBeanList.size());
-							// log.info("Rows In Warehousetemp table = " +
-							// locationBeanList.size() * qty);
-							// }
 							closeDatabaseResources(null, rs, cs);
 						}
 					}
@@ -425,7 +396,6 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 				log.info("Dispatch No " + form.getDispatchNo() + " is already " + result);
 			}
 
-			form.clear();
 			userInfoVO.setMessage(message);
 
 		} catch (Exception e) {
@@ -438,8 +408,7 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 		return form;
 	}
 
-	public BaseForm fetchWarehouseOutwardFinalStockDetails(
-			WarehouseOutwardFinalForm form, UserInfoVO userInfoVO) {
+	public BaseForm fetchWarehouseOutwardFinalStockDetails(WarehouseOutwardFinalForm form, UserInfoVO userInfoVO) {
 		Connection conn = null;
 		ResultSet rs = null;
 		CallableStatement cs = null;
@@ -478,8 +447,7 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 		return form;
 	}
 
-	public UserInfoVO addWarehouseOutwardFinalData(
-			WarehouseOutwardFinalForm form, UserInfoVO userInfoVO) {
+	public UserInfoVO addWarehouseOutwardFinalData(WarehouseOutwardFinalForm form, UserInfoVO userInfoVO) {
 
 		Connection conn = null;
 		ResultSet rs = null;
@@ -541,8 +509,8 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 		return userInfoVO;
 	}
 
-	public WarehouseOutwardProcessForm fetchWarehouseOutwardProcessData(
-			WarehouseOutwardProcessForm form, UserInfoVO userInfoVO) {
+	public WarehouseOutwardProcessForm fetchWarehouseOutwardProcessData(WarehouseOutwardProcessForm form,
+			UserInfoVO userInfoVO) {
 		Connection conn = null;
 		ResultSet rs = null;
 		CallableStatement cs = null;
@@ -595,13 +563,12 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 		return form;
 	}
 
-	public UserInfoVO addWarehouseOutwardProcessData(
-			WarehouseOutwardProcessForm form, UserInfoVO userInfoVO) {
+	public UserInfoVO addWarehouseOutwardProcessData(WarehouseOutwardProcessForm form, UserInfoVO userInfoVO) {
 		Connection conn = null;
 		ResultSet rs = null;
 		CallableStatement cs = null;
 		String query = "", message = "";
-		//Integer warehouseOutwardId = -1;
+		// Integer warehouseOutwardId = -1;
 		try {
 			if (0 == form.getDispatchNo()) {
 				// message = "Unable to insert Outward entry";
@@ -637,9 +604,7 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 		}
 		return userInfoVO;
 	}
-	
-	
-	
+
 	public WarehouseLocationForm findWarehouseOutwardTempRecord(int dispatchOrderNo, int dispatchDetailRowId,
 			WarehouseLocationForm form, UserInfoVO userInfoVO) {
 		Connection conn = null;
@@ -648,74 +613,72 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 		String query = "";
 		String message = "";
 		List<WarehouseLocationBean> locations = form.getResultList();
-		if(locations!=null && !locations.isEmpty()){
-			for(WarehouseLocationBean l : locations){
-		try {
-			conn = getConnection();
+		if (locations != null && !locations.isEmpty()) {
+			for (WarehouseLocationBean l : locations) {
+				try {
+					conn = getConnection();
 
-			query = prop.get("sp.warehouse.outward.temp.find");
-			log.info("query = " + query);
-			log.info("form = " + form);
-			cs = conn.prepareCall(query);
-			cs.setInt(1, dispatchOrderNo);
-			cs.setString(2, form.getMillName());
-			cs.setString(3, form.getMake());
-			cs.setString(4, form.getGrade());
-			cs.setDouble(5,  Double.parseDouble(form.getThickness()));
-			cs.setInt(6, Integer.parseInt(form.getWidth()));
-			cs.setInt(7, Integer.parseInt(form.getLength()));
-			cs.setInt(8, dispatchDetailRowId);
-			cs.setString(9, l.getLocation());
-			
-			rs = cs.executeQuery();
-			if (null != rs && rs.next()) {
-				
-				do {
-					
-					Integer reqd_qty = rs.getInt("reqd_qty");
-					Integer locationWiseQty = rs.getInt("location_wise_qty");
-					l.setQty(locationWiseQty);
-					form.setPreviouslySelectedQtyFromWarehouseOutwardTemp(reqd_qty.toString());
-					
-				} while (rs.next());
+					query = prop.get("sp.warehouse.outward.temp.find");
+					log.info("query = " + query);
+					log.info("form = " + form);
+					cs = conn.prepareCall(query);
+					cs.setInt(1, dispatchOrderNo);
+					cs.setString(2, form.getMillName());
+					cs.setString(3, form.getMake());
+					cs.setString(4, form.getGrade());
+					cs.setDouble(5, Double.parseDouble(form.getThickness()));
+					cs.setInt(6, Integer.parseInt(form.getWidth()));
+					cs.setInt(7, Integer.parseInt(form.getLength()));
+					cs.setInt(8, dispatchDetailRowId);
+					cs.setString(9, l.getLocation());
+
+					rs = cs.executeQuery();
+					if (null != rs && rs.next()) {
+
+						do {
+
+							Integer reqd_qty = rs.getInt("reqd_qty");
+							Integer locationWiseQty = rs.getInt("location_wise_qty");
+							l.setQty(locationWiseQty);
+							form.setPreviouslySelectedQtyFromWarehouseOutwardTemp(reqd_qty.toString());
+
+						} while (rs.next());
+					}
+
+				} catch (Exception e) {
+					e.printStackTrace();
+					message = e.getMessage();
+					userInfoVO.setMessage(message);
+				} finally {
+					closeDatabaseResources(conn, rs, cs);
+				}
 			}
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-			message = e.getMessage();
-			userInfoVO.setMessage(message);
-		} finally {
-			closeDatabaseResources(conn, rs, cs);
-		}}}
+		}
 		return form;
 	}
 
-	
-	
-	public WarehouseLocationForm fetchWarehouseLocationData(WarehouseLocationForm form,
-			UserInfoVO userInfoVO) {
+	public WarehouseLocationForm fetchWarehouseLocationData(WarehouseLocationForm form, UserInfoVO userInfoVO) {
 		Connection conn = null;
 		ResultSet rs = null;
 		CallableStatement cs = null;
 		String query = "";
 		String message = "";
 		ArrayList<WarehouseLocationBean> resultList = null;
-		
-		
+
 		try {
 			conn = getConnection();
-			
-			double length=Double.parseDouble(form.getLength());
-			double width=Double.parseDouble(form.getWidth());
-					
-			double area=(length*width);
 
-			query= "SELECT s.material_make, s.grade, s.mill_name, s.location, s.quantity, s.length, s.width, s.thickness, s.stock_balance_id "
-					+ " from stock_balance s where is_cut!=1 and plate_area >= "+area;
-					
+			double length = Double.parseDouble(form.getLength());
+			double width = Double.parseDouble(form.getWidth());
+
+			double area = (length * width);
+
+			query = "SELECT s.material_make, s.grade, s.mill_name, s.location, s.quantity, s.length, s.width, s.thickness, s.stock_balance_id "
+					+ " from stock_balance s where is_cut!=1 and s.quantity!=0 and plate_area >= " + area;
+
 			log.info("query = " + query);
 			cs = conn.prepareCall(query);
-			//cs.setInt(1, id);
+			// cs.setInt(1, id);
 			rs = cs.executeQuery();
 			if (null != rs && rs.next()) {
 				resultList = new ArrayList<WarehouseLocationBean>();
@@ -724,10 +687,10 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 
 					report.setMake(formatOutput(rs.getString("material_make")));
 					report.setGrade(formatOutput(rs.getString("grade")));
-					 report.setMillName(formatOutput(rs.getString("mill_name")));
-					 report.setLength(rs.getInt("length"));
-					 report.setWidth(rs.getInt("width"));
-					 report.setThickness(rs.getDouble("thickness"));
+					report.setMillName(formatOutput(rs.getString("mill_name")));
+					report.setLength(rs.getInt("length"));
+					report.setWidth(rs.getInt("width"));
+					report.setThickness(rs.getDouble("thickness"));
 
 					report.setLocation(formatOutput(rs.getString("location")));
 					report.setAvailableQty(rs.getInt("quantity"));
@@ -740,72 +703,62 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 			form.setResultList(resultList);
 
 		} catch (Exception e) {
-			log.error("Some error",e);
+			log.error("Some error", e);
 		} finally {
 			closeDatabaseResources(conn, rs, cs);
 		}
-		
+
 		return form;
 	}
-	
-	
-	
-	public void updateStockBalanceData(
-			WarehouseOutwardForm form, UserInfoVO userInfoVO, Integer qty, Integer stockid, String flag) {
+
+	public void updateStockBalanceData(WarehouseOutwardForm form, UserInfoVO userInfoVO, Integer qty, Integer stockid,
+			String flag) {
 		Connection conn = null;
 		ResultSet rs = null;
 		CallableStatement cs = null;
 		PreparedStatement statement = null;
 		String query = "", message = "";
-		//Integer warehouseOutwardId = -1;
+		// Integer warehouseOutwardId = -1;
 		try {
-		
-			
-			
+
 			conn = getConnection();
-			
-			
-			if(flag=="1")
-			{
-					query = "Update stock_balance set quantity = ?,is_sold=?,sold_date=NOW(),update_ui=?, update_ts=NOW() where stock_balance_id=?";
-					statement = conn.prepareStatement(query);
-					statement.setInt(1, qty);
-					statement.setString(2,"1");
-					statement.setString(3, userInfoVO.getUserName());
-					statement.setInt(4, stockid);
-					
+
+			if (flag == "1") {
+				query = "Update stock_balance set quantity = ?,is_sold=?,sold_date=NOW(),update_ui=?, update_ts=NOW() where stock_balance_id=?";
+				statement = conn.prepareStatement(query);
+				statement.setInt(1, qty);
+				statement.setString(2, "1");
+				statement.setString(3, userInfoVO.getUserName());
+				statement.setInt(4, stockid);
+
+			} else {
+				query = "Update stock_balance set quantity = ?,update_ui=?, update_ts=NOW() where stock_balance_id=?";
+
+				statement = conn.prepareStatement(query);
+				statement.setInt(1, qty);
+				statement.setString(2, userInfoVO.getUserName());
+				statement.setInt(3, stockid);
 			}
-			else
-			{
-			query = "Update stock_balance set quantity = ?,update_ui=?, update_ts=NOW() where stock_balance_id=?";
-			
-			statement = conn.prepareStatement(query);
-			statement.setInt(1, qty);
-			statement.setString(2, userInfoVO.getUserName());
-			statement.setInt(3, stockid);
-			}
-								
+
 			statement.executeUpdate();
 			log.info("message = " + message);
-			
-		}
-		catch (Exception e) {
+
+		} catch (Exception e) {
 			e.printStackTrace();
 			message = e.getMessage();
 			userInfoVO.setMessage(message);
 		} finally {
 			closeDatabaseResources(conn, rs, cs);
 		}
-		
+
 	}
-	
-	public UserInfoVO addStockOutwardData(
-			WarehouseOutwardForm form, UserInfoVO userInfoVO) {
+
+	public UserInfoVO addStockOutwardData(WarehouseOutwardForm form, UserInfoVO userInfoVO) {
 		Connection conn = null;
 		ResultSet rs = null;
 		CallableStatement cs = null;
 		String query = "", message = "";
-		//Integer warehouseOutwardId = -1;
+		// Integer warehouseOutwardId = -1;
 		try {
 			if (0 == form.getDispatchNo()) {
 				// message = "Unable to insert Outward entry";
@@ -817,35 +770,33 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 
 			query = "insert into stock_outward (mill_name,material_make,heat_no,plate_no,"
 					+ " material_type,grade,length,width,thickness,quantity,location,"
-					+ " create_ui,update_ui,create_ts,update_ts, plate_area, warehouse_outward_id) "
-					+ "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+					+ " create_ui,update_ui,create_ts,update_ts, plate_area) "
+					+ "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 			log.info("query = " + query);
 			log.info("form = " + form);
 			cs = conn.prepareCall(query);
 
-			for (int i = 0; i < form.getMillName().length; i++)
-			{
-			cs.setString(1, (form.getMillName())[i]);
-			cs.setString(2, (form.getMake())[i]);
-			cs.setString(3, "");
-			cs.setString(4, "");
-			cs.setString(5, "");
-			cs.setString(6, (form.getGrade())[i]);
-			cs.setInt(7, (form.getLength())[i]);
-			cs.setInt(8, (form.getWidth())[i]);
-			cs.setDouble(9, (form.getThickness())[i]);
-			cs.setDouble(10, (form.getQty())[i]);
-			cs.setString(11, (form.getLocation())[i]);
-			cs.setString(12, userInfoVO.getUserName());
-			cs.setString(13, userInfoVO.getUserName());
-			cs.setString(14, getCurentTime());
-			cs.setString(15, getCurentTime());
-			
-			double plateArea=form.getLength()[i] *  form.getWidth()[i];
-			cs.setDouble(16, plateArea);
-			cs.setString(17, "");
-			
-			cs.executeUpdate();
+			for (int i = 0; i < form.getMillName().length; i++) {
+				cs.setString(1, (form.getMillName())[i]);
+				cs.setString(2, (form.getMake())[i]);
+				cs.setString(3, "");
+				cs.setString(4, "");
+				cs.setString(5, "");
+				cs.setString(6, (form.getGrade())[i]);
+				cs.setInt(7, (form.getLength())[i]);
+				cs.setInt(8, (form.getWidth())[i]);
+				cs.setDouble(9, (form.getThickness())[i]);
+				cs.setDouble(10, (form.getQty())[i]);
+				cs.setString(11, (form.getLocation())[i]);
+				cs.setString(12, userInfoVO.getUserName());
+				cs.setString(13, userInfoVO.getUserName());
+				cs.setString(14, getCurentTime());
+				cs.setString(15, getCurentTime());
+
+				double plateArea = form.getLength()[i] * form.getWidth()[i];
+				cs.setDouble(16, plateArea);
+
+				cs.executeUpdate();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -856,9 +807,9 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 		}
 		return userInfoVO;
 	}
-	
+
 	public Integer fetchStockBalQuantity(WarehouseOutwardForm form) throws SQLException {
-		
+
 		Connection conn = null;
 		ResultSet rs = null;
 		CallableStatement cs = null;
@@ -866,12 +817,11 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 		int availableQty = 0;
 		try {
 			conn = getConnection();
-			//String count_sql = " SELECT count(*) FROM port_inward_details "
-			
-			String sql = " select quantity "
-			+" from  "
-			+" stock_balance where stock_balance_id= "+form.getStockId();
-			
+			// String count_sql = " SELECT count(*) FROM port_inward_details "
+
+			String sql = " select quantity " + " from  " + " stock_balance where stock_balance_id= "
+					+ form.getStockId();
+
 			log.info("query = " + sql);
 
 			cs = conn.prepareCall(sql);
