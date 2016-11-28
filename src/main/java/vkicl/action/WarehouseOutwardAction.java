@@ -2,10 +2,12 @@ package vkicl.action;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Enumeration;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
@@ -28,6 +30,7 @@ public class WarehouseOutwardAction extends BaseAction {
 
 	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) {
+		printAllParams(request);
 		ActionForward actionForward = null;
 		WarehouseOutwardForm warehouseOutwardForm = null;
 		String genericListener = null;
@@ -83,6 +86,46 @@ public class WarehouseOutwardAction extends BaseAction {
 			e.printStackTrace();
 		}
 		return actionForward;
+	}
+
+	private void printAllParams(HttpServletRequest request) {
+		log.info("---------------------Printing all request params ----------------------");
+		Enumeration<String> paramNames = request.getParameterNames();
+		while(paramNames.hasMoreElements()){
+			String paramName = paramNames.nextElement();
+			String val = request.getParameter(paramName);
+			log.info(paramName +" = "+val);
+		}
+		
+		log.info("---------------------Printing all request attributes ----------------------");
+		Enumeration<String> attrNames = request.getAttributeNames();
+		while(attrNames.hasMoreElements()){
+			String attrName = attrNames.nextElement();
+			Object val = request.getAttribute(attrName);
+			log.info(attrName +" = "+val);
+		}
+		
+		log.info("---------------------Printing form from session ----------------------");
+		printBeanFromSession(request);
+		
+	}
+	
+	/**
+	 * I Was going to manually remove the bean from session.
+	 * However, after adding the below code, it 
+	 * @param request
+	 */
+	private void printBeanFromSession(HttpServletRequest request){
+		log.info("DO NOT REMOVE THIS METHOD. It somehow results into removing the actionForm bean from session. And it is necessary for proper page flow of warehouse outward.");
+		HttpSession session = request.getSession();
+		WarehouseOutwardForm formInSession = (WarehouseOutwardForm)session.getAttribute("WarehouseOutwardForm");
+		if(formInSession!=null){
+			log.info(formInSession.toString());	
+		}else{
+			log.info("No form in session.");
+		}
+		
+		
 	}
 
 	private List<WarehouseOutwardVO> composeVOList(List<String> availableQtyList, List<String> orderedQtyList,

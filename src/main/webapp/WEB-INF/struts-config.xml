@@ -105,12 +105,12 @@
 		</action>
 
 		<action path="/warehouse-outward" type="vkicl.action.WarehouseOutwardAction"
-			name="WarehouseOutwardForm">
+			name="WarehouseOutwardForm" scope="request">
 			<forward name="success" path="warehouseOutwardDefn" />
 		</action>
 
 		<action path="/warehouse-outward-process" type="vkicl.action.WarehouseOutwardProcessAction"
-			name="WarehouseOutwardProcessForm">
+			name="WarehouseOutwardProcessForm" scope="request">
 			<forward name="success" path="warehouseOutwardProcessDefn" />
 		</action>
 
