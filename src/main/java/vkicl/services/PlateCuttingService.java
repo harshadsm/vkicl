@@ -266,7 +266,12 @@ public class PlateCuttingService {
 
 	private Double getScalingFactor(Shape plateShape) {
 		Double width = plateShape.getBounds2D().getWidth();
+		Double length = plateShape.getBounds2D().getHeight();
 		Double scalingFactor = SVG_MAX_WIDTH_AND_LENGTH/width;
+		if(length > width  ){
+			scalingFactor = SVG_MAX_WIDTH_AND_LENGTH / length;
+		}
+		logger.info("Scaling Factor  = "+scalingFactor);
 		return scalingFactor;
 	}
 	

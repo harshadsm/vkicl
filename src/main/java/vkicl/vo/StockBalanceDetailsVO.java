@@ -16,6 +16,12 @@ public class StockBalanceDetailsVO {
 	private String grade;
 	private String location;
 	private String plate_no;
+	
+	private Shape plateShape;
+	private double plateArea;
+	private Integer isRectangular;
+	
+	
 	public String getPlate_no() {
 		return plate_no;
 	}
@@ -36,11 +42,6 @@ public class StockBalanceDetailsVO {
 	public void setLocation(String location) {
 		this.location = location;
 	}
-	private Shape plateShape;
-	
-	private double plateArea;
-	
-	private Integer isRectangular;
 	
 	public double getPlateArea() {
 		return plateArea;
