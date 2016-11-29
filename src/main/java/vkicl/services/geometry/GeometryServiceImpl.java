@@ -261,6 +261,7 @@ public class GeometryServiceImpl implements GeometryService {
 
 			pi.next();
 		}
+		
 		return coordinatesList;
 	}
 

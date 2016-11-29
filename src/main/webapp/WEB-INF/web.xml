@@ -65,6 +65,13 @@
 		<servlet-name>FileDownloadService</servlet-name>
 		<servlet-class>vkicl.services.FileDownloadService</servlet-class>
 	</servlet>
+	<servlet>
+		<servlet-name>SvgCoordinatesStringJsonServlet</servlet-name>
+		<servlet-class>vkicl.action.SvgCoordinatesStringJsonServlet</servlet-class>
+	</servlet>
+	
+	
+	
 	<servlet-mapping>
 		<servlet-name>action</servlet-name>
 		<url-pattern>*.do</url-pattern>
@@ -111,6 +118,12 @@
 		<servlet-name>FileDownloadService</servlet-name>
 		<url-pattern>/download</url-pattern>
 	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>SvgCoordinatesStringJsonServlet</servlet-name>
+		<url-pattern>/getSvgCoordinatesString</url-pattern>
+	</servlet-mapping>
+	
+	
 	<session-config>
 		<session-timeout>30</session-timeout>
 	</session-config>

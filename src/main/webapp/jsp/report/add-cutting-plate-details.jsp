@@ -89,8 +89,46 @@ Double[] firstCoordinate = plateCoordinates.get(0);
 		console.log(y);
 		$("#origin_x").val(x);
 		$("#origin_y").val(y);
+
+		redrawCutPlate();
 	}
 
+
+	function redrawCutPlate(){
+		console.log("Going to redraw the cut plate");
+		var x = $("#origin_x").val();
+		var y = $("#origin_y").val();
+		var lengthOfCut = $("#length").val();
+		var widthOfCut = $("#width").val();
+		var originalPlateLength = $("#originalPlateLength").html();
+		var originalPlateWidth = $("#originalPlateWidth").html();
+		
+		//var coordinateString = "0.0,0.0 150.0,0.0 150.0,150.0 0.0,150.0 0.0,0.0 0.0,0.0";
+
+		$.ajax({
+			method:"post",
+			url:"./getSvgCoordinatesString",
+			data:{
+				x:x,
+				y:y,
+				originalPlateLength:originalPlateLength,
+				originalPlateWidth : originalPlateWidth,
+				lengthOfCut:lengthOfCut,
+				widthOfCut:widthOfCut
+			},
+			success:function(resp){
+				console.log(resp);
+				var respObj = JSON.parse(resp);
+				var pointsString = respObj.svgPointsString;
+				$("#plateToBeCut").attr("points", pointsString);		
+			},
+			error:function(resp){
+				console.log(resp);
+			}
+		});
+		
+		
+	}
 </script>
 
 <div>
@@ -111,8 +149,8 @@ Double[] firstCoordinate = plateCoordinates.get(0);
 									<th>Material Type</th><td><%=vo.getMaterialType() %></td></tr><tr>
 									<th>Grade</th><td><%=vo.getGrade() %></td></tr><tr>
 									<th>Thickness</th><td><%=vo.getThickness() %></td></tr><tr>
-									<th>Width</th><td><%=vo.getWidth() %></td></tr><tr>
-									<th>Length</th><td><%=vo.getLength() %></td></tr><tr>
+									<th>Width</th><td id="originalPlateWidth"><%=vo.getWidth() %></td></tr><tr>
+									<th>Length</th><td id="originalPlateLength"><%=vo.getLength() %></td></tr><tr>
 									<th>Quantity</th><td><%=vo.getQuantity() %></td></tr><tr>
 									<th>Location</th><td><%=vo.getLocation() %></td></tr><tr>
 									<th>Area</th><td><%=vo.getPlateArea() %></td></tr><tr>
@@ -150,10 +188,11 @@ Double[] firstCoordinate = plateCoordinates.get(0);
 							<tr  class='sub-row' >
 								<input type='hidden' name='subPis' />
 								<td >
-									<input  type='number' step='1' min='0' name='length' id='length' placeholder='length' class='form-control' value="<%=vo.getLength() %>"/>
+									<input onchange="redrawCutPlate()"  
+									type='number' step='1' min='0' name='length' id='length' placeholder='length' class='form-control' value="<%=vo.getLength() %>"/>
 								</td>
 								<td >
-									<input  type='number' step='1' min='0' name='width' id='width' placeholder='width' class='form-control' value="<%=vo.getWidth() %>"/>
+									<input  onchange="redrawCutPlate()"  type='number' step='1' min='0' name='width' id='width' placeholder='width' class='form-control' value="<%=vo.getWidth() %>"/>
 									<input  type='hidden' name='millName'  value="<%=vo.getMillName() %>"/>
 									<input  type='hidden' name='materialType'  value="<%=vo.getMaterialType() %>"/>
 									<input  type='hidden' name='grade'  value="<%=vo.getGrade() %>"/>
@@ -167,10 +206,10 @@ Double[] firstCoordinate = plateCoordinates.get(0);
 									
 								</td>
 								<td >
-									<input  type='number' step='1' min='0' id='origin_x' name='origin_x' placeholder='0' class='form-control' value="<%=firstCoordinate[0] %>"/>
+									<input  onchange="redrawCutPlate()"  type='number' step='1' min='0' id='origin_x' name='origin_x' placeholder='0' class='form-control' value="<%=firstCoordinate[0] %>"/>
 								</td>
 								<td >
-									<input  type='number' step='1' min='0' id='origin_y' name='origin_y' placeholder='0' class='form-control' value="<%=firstCoordinate[1] %>"/>
+									<input  onchange="redrawCutPlate()"  type='number' step='1' min='0' id='origin_y' name='origin_y' placeholder='0' class='form-control' value="<%=firstCoordinate[1] %>"/>
 								</td>
 								
 									
@@ -237,7 +276,14 @@ Double[] firstCoordinate = plateCoordinates.get(0);
 						      stop-opacity:0" />
 						      <stop offset="100%" style="stop-color:rgb(0,0,0);stop-opacity:1" />
 						    </radialGradient>
+						    
+						    <radialGradient id="grad2" cx="50%" cy="50%" r="100%" fx="20%" fy="50%">
+						      <stop offset="0%" style="stop-color:rgb(50,70,63);
+						      stop-opacity:0" />
+						      <stop offset="100%" style="stop-color:rgb(0,0,0);stop-opacity:1" />
+						    </radialGradient>
 					  </defs>
+					<polygon id="plateToBeCut" fill="url(#grad2)" points="" />
   					<polygon fill="url(#grad1)" points="<%=plateCoordinatesAsString %>" />
 					  <% 
 					  int cnt = 1;
@@ -251,6 +297,20 @@ Double[] firstCoordinate = plateCoordinates.get(0);
 					  cnt++;
 					  } 
 					  %>
+				  
+				</svg>
+				
+				
+				<svg width="<%=maxWidthAndHeightForSvgTag %>" height="<%=maxWidthAndHeightForSvgTag %>">
+					 <defs>
+						  <radialGradient id="grad2" cx="50%" cy="50%" r="100%" fx="20%" fy="50%">
+						      <stop offset="0%" style="stop-color:rgb(50,70,63);
+						      stop-opacity:0" />
+						      <stop offset="100%" style="stop-color:rgb(0,0,0);stop-opacity:1" />
+						    </radialGradient>
+					  </defs>
+  					
+					  
 				  
 				</svg>
 				

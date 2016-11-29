@@ -26,6 +26,7 @@ import vkicl.util.JqGridParametersHolder;
 import vkicl.util.JqGridParametersHolder.JQGRID_PARAM_NAMES;
 import vkicl.util.JqGridSearchParameterHolder;
 import vkicl.vo.StockBalanceDetailsVO;
+import vkicl.vo.SvgPointsStringResponseJsonVO;
 import vkicl.vo.UserInfoVO;
 
 public class PlateCuttingService {
@@ -219,6 +220,29 @@ public class PlateCuttingService {
 		return sb.toString();
 	}
 	
+	public String getCustomScaledPlateCoordinatesAsString(Shape plateShape,Double scalingFactor) {
+		GeometryService geometryService = new GeometryServiceImpl();
+		List<Double[]> coordinates = geometryService.getCoordinatesList(plateShape);
+		
+		if(coordinates!=null && coordinates.size()>0){
+			int lastItemIndex = coordinates.size() - 1;
+			coordinates.remove(lastItemIndex);
+		}
+		List<Double[]> scaledCoordinates = scale(coordinates, scalingFactor);
+		
+		StringBuilder sb = new StringBuilder();
+		
+		for(Double[] coordinate : scaledCoordinates){
+			Double x = coordinate[0];
+			Double y = coordinate[1];
+			sb.append(x).append(",").append(y).append(" ");
+		}
+		
+		sb.trimToSize();
+		logger.info(sb.toString());
+		return sb.toString();
+	}
+	
 	public List<Double[]> getPlateCoordinates(Shape plateShape){
 		GeometryService geometryService = new GeometryServiceImpl();
 		List<Double[]> coordinates = geometryService.getCoordinatesList(plateShape);
@@ -277,5 +301,47 @@ public class PlateCuttingService {
 	
 	public Double getMaxWidthAndHeightForSvgTag(){
 		return SVG_MAX_WIDTH_AND_LENGTH;
+	}
+
+	public String getSvgCoordinatesStringJson(HttpServletRequest request) {
+//		originalPlateLength : originalPlateLength,
+//		originalPlateWidth : originalPlateWidth,
+//		lengthOfCut : lengthOfCut,
+//		widthOfCut : widthOfCut
+//		
+		String x = request.getParameter("x");
+		String y = request.getParameter("y");
+		String lengthOfCutStr = request.getParameter("lengthOfCut");
+		String widthOfCutStr = request.getParameter("widthOfCut");
+		String originalPlateLengthStr = request.getParameter("originalPlateLength");
+		String originalPlateWidthStr = request.getParameter("originalPlateWidth");
+		logger.info("x = "+x);
+		logger.info("y = "+y);
+		logger.info("l = "+lengthOfCutStr);
+		logger.info("w = "+widthOfCutStr);
+		
+		Double originX = Double.parseDouble(x);
+		Double originY = Double.parseDouble(y);
+		Double lengthOfCut = Double.parseDouble(lengthOfCutStr);
+		Double widthOfCut = Double.parseDouble(widthOfCutStr);
+		Double originalPlateLength = Double.parseDouble(originalPlateLengthStr);
+		Double originalPlateWidth = Double.parseDouble(originalPlateWidthStr);
+				
+		
+		
+		GeometryService geometryService = new GeometryServiceImpl();
+		Shape originalPlate = geometryService.toPolygon(0d, 0d, originalPlateLength, originalPlateWidth);
+		Double scalingFactor = getScalingFactor(originalPlate);
+//		Shape plateToBeCut = geometryService.toPolygon(originX, originY, lengthOfCut * scalingFactor, widthOfCut * scalingFactor);
+		Shape plateToBeCut = geometryService.toPolygon(originX, originY, lengthOfCut, widthOfCut);
+		String svgCoordinatesAsString = getCustomScaledPlateCoordinatesAsString(plateToBeCut,scalingFactor);
+		logger.info(svgCoordinatesAsString);
+		
+		SvgPointsStringResponseJsonVO svgPointsJson = new SvgPointsStringResponseJsonVO();
+		svgPointsJson.setSvgPointsString(svgCoordinatesAsString);
+		svgPointsJson.setStatus("success");
+		Gson gson = new Gson();
+		String json = gson.toJson(svgPointsJson);
+		return json;
 	}
 }
