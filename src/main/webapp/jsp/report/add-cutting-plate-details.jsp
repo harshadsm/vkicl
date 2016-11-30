@@ -277,6 +277,7 @@ Double[] firstCoordinate = plateCoordinates.get(0);
 						      <stop offset="100%" style="stop-color:rgb(0,0,0);stop-opacity:1" />
 						    </radialGradient>
 						    
+						    <!-- Shweta change the stop-color -->
 						    <radialGradient id="grad2" cx="50%" cy="50%" r="100%" fx="20%" fy="50%">
 						      <stop offset="0%" style="stop-color:rgb(50,70,63);
 						      stop-opacity:0" />
@@ -297,20 +298,6 @@ Double[] firstCoordinate = plateCoordinates.get(0);
 					  cnt++;
 					  } 
 					  %>
-				  
-				</svg>
-				
-				
-				<svg width="<%=maxWidthAndHeightForSvgTag %>" height="<%=maxWidthAndHeightForSvgTag %>">
-					 <defs>
-						  <radialGradient id="grad2" cx="50%" cy="50%" r="100%" fx="20%" fy="50%">
-						      <stop offset="0%" style="stop-color:rgb(50,70,63);
-						      stop-opacity:0" />
-						      <stop offset="100%" style="stop-color:rgb(0,0,0);stop-opacity:1" />
-						    </radialGradient>
-					  </defs>
-  					
-					  
 				  
 				</svg>
 				
