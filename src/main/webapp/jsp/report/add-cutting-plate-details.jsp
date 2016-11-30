@@ -137,7 +137,7 @@ Double[] firstCoordinate = plateCoordinates.get(0);
 		<div class="row">
 			<div class="col-md-2">
 				<div class="panel panel-default">
-					<div class="panel-heading">Selected Cutting plate details</div>
+					<div class="panel-heading">Details of original plate to be cut</div>
 					<div class="panel-body">
 						<table class="table">
 							
