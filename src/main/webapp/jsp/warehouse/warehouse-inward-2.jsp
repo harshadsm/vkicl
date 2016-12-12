@@ -497,7 +497,7 @@ Integer locationCount = locationsList.size();
 						<th>Vendor Name</th>
 							<th>Vessel Name</th>
 							<th>Vehicle Date</th>
-							<th>Vehicle Name</th>
+							<th>Vehicle No.</th>
 							<th>Mill Name</th>
 							
 							<th>Type</th>
@@ -509,7 +509,7 @@ Integer locationCount = locationsList.size();
 							<th>Thickness</th>
 							<th>Width</th>
 							<th>Length</th>
-							<th>Bal Pcs</th>
+							<th>No. of Pcs</th>
 							<th>Sec. wt</th>
 							<th>Actual Wt.</th>
 							<th>Heat No</th>
