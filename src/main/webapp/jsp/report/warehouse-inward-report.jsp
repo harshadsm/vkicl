@@ -106,6 +106,15 @@ function progressHandlingFunction(e) {
 								<html:optionsCollection property="receivedFromList" />
 							</html:select></td>
 					</tr>
+					<tr>
+						<td class="form-label"><label for="vesselName">Vessel
+								Name</label></td>
+						<td><html:select property="vesselName" styleId="vesselName"
+								styleClass="form-control">
+								<html:option value="ALL">ALL</html:option>
+								<html:optionsCollection property="vesselNameList" />
+							</html:select></td>
+					</tr>
 					
 				</table>
 			</div>
@@ -187,7 +196,7 @@ function progressHandlingFunction(e) {
 							<th>Vehicle No.</th>
 							<th>Vehicle Date</th>
 							<th>Vendor Name</th>
-							<!-- <th>Vessel Name</th> -->
+							<th>Vessel Name</th> 
 							<!-- <th>Vessel Date</th> -->
 							<!--<th>B/E No.</th>-->
 							<th>Type</th>
@@ -205,7 +214,7 @@ function progressHandlingFunction(e) {
 							<th>Location</th>
 							<th colspan="2" style="text-align: center;">MTC upload</th>
 						
-							<th class="cell-edit">Edit</th>
+							<!-- <th class="cell-edit">Edit</th> -->
 						</tr>
 					</thead>
 					<tbody id="details-tbody">
@@ -220,7 +229,7 @@ function progressHandlingFunction(e) {
 										value="${report.vehicleDate}" /></td>
 								<td data-type="text" data-name="vendorName"><c:out
 										value="${report.vendorName}" /></td>
-								<%-- <td><c:out value="${report.vesselName}" /></td> --%>
+								<td data-type="text" data-name="vesselName"><c:out value="${report.vesselName}" /></td> 
 								<%-- <td><c:out value="${report.vesselDate}" /></td> --%>
 								<%--<td data-type="text" data-name="beNo"><c:out
 										value="${report.beNo}" /></td>--%>
@@ -271,10 +280,10 @@ function progressHandlingFunction(e) {
 										<span class="glyphicon glyphicon-open"></span>
 									</button>
 								</td>
-								<td class="cell-edit"><button name="btnEdit" title="Edit"
+								<!-- <td class="cell-edit"><button name="btnEdit" title="Edit"
 										onclick="editReportRow(this);">
 										<span class="glyphicon glyphicon glyphicon-pencil"></span>
-									</button></td>
+									</button></td> -->
 							</tr>
 						</logic:iterate>
 					</tbody>
@@ -302,7 +311,7 @@ function progressHandlingFunction(e) {
 							<th></th>
 							<th></th>
 							<th></th>
-							<th class="cell-edit"></th>
+							
 						</tr>
 					</tfoot>
 				</table>

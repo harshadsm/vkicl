@@ -1,6 +1,5 @@
 package vkicl.daoImpl;
 
-
 import java.awt.geom.Area;
 import java.io.InputStream;
 import java.sql.Blob;
@@ -39,8 +38,7 @@ public class ReportDaoImpl extends BaseDaoImpl {
 	static Logger log = Logger.getLogger(ReportDaoImpl.class);
 	static PropFileReader prop = PropFileReader.getInstance();
 
-	public PortInwardReportForm fetchPortInwardReport(
-			PortInwardReportForm form, UserInfoVO userInfoVO) {
+	public PortInwardReportForm fetchPortInwardReport(PortInwardReportForm form, UserInfoVO userInfoVO) {
 		Connection conn = null;
 		ResultSet rs = null;
 		CallableStatement cs = null;
@@ -69,17 +67,13 @@ public class ReportDaoImpl extends BaseDaoImpl {
 					PortInwardBean report = new PortInwardBean();
 
 					report.setId(rs.getInt("port_inward_id"));
-					report.setVendorName(formatOutput(rs
-							.getString("vendor_name")));
-					report.setVesselName(formatOutput(rs
-							.getString("vessel_name")));
-					report.setVesselDate(convertDateToDisplayString(rs
-							.getString("vessel_date")));
+					report.setVendorName(formatOutput(rs.getString("vendor_name")));
+					report.setVesselName(formatOutput(rs.getString("vessel_name")));
+					report.setVesselDate(convertDateToDisplayString(rs.getString("vessel_date")));
 					report.setBeNo(formatOutput(rs.getString("be_no")));
 					report.setMillName(formatOutput(rs.getString("mill_name")));
 					report.setMake(formatOutput(rs.getString("material_make")));
-					report.setMaterialType(formatOutput(rs
-							.getString("material_type")));
+					report.setMaterialType(formatOutput(rs.getString("material_type")));
 					report.setGrade(formatOutput(rs.getString("material_grade")));
 					report.setLength(rs.getInt("length"));
 					report.setWidth(rs.getInt("width"));
@@ -103,8 +97,7 @@ public class ReportDaoImpl extends BaseDaoImpl {
 		return form;
 	}
 
-	public PortOutwardReportForm fetchPortOutwardReport(
-			PortOutwardReportForm form, UserInfoVO userInfoVO) {
+	public PortOutwardReportForm fetchPortOutwardReport(PortOutwardReportForm form, UserInfoVO userInfoVO) {
 		Connection conn = null;
 		ResultSet rs = null;
 		CallableStatement cs = null;
@@ -133,19 +126,13 @@ public class ReportDaoImpl extends BaseDaoImpl {
 					PortOutwardBean report = new PortOutwardBean();
 
 					report.setId(rs.getInt("port_out_id"));
-					report.setDispatchedTo(formatOutput(rs
-							.getString("Dispatched_To")));
-					report.setVehicleNumber(formatOutput(rs
-							.getString("vehicle_number")));
-					report.setVehicleDate(convertDateToDisplayString(rs
-							.getString("vehicle_date")));
-					report.setVesselName(formatOutput(rs
-							.getString("vessel_name")));
-					report.setVesselDate(convertDateToDisplayString(rs
-							.getString("vessel_Date")));
+					report.setDispatchedTo(formatOutput(rs.getString("Dispatched_To")));
+					report.setVehicleNumber(formatOutput(rs.getString("vehicle_number")));
+					report.setVehicleDate(convertDateToDisplayString(rs.getString("vehicle_date")));
+					report.setVesselName(formatOutput(rs.getString("vessel_name")));
+					report.setVesselDate(convertDateToDisplayString(rs.getString("vessel_Date")));
 					report.setBeNo(formatOutput(rs.getString("be_no")));
-					report.setMaterialType(formatOutput(rs
-							.getString("material_type")));
+					report.setMaterialType(formatOutput(rs.getString("material_type")));
 					report.setMillName(rs.getString("mill_name"));
 					// report.setMake(rs.getString("material_make"));
 					report.setGrade(formatOutput(rs.getString("grade")));
@@ -154,11 +141,9 @@ public class ReportDaoImpl extends BaseDaoImpl {
 					report.setThickness(rs.getDouble("thickness"));
 					report.setQty(rs.getInt("quantity"));
 					report.setSecWt(rs.getDouble("section_wt"));
-					report.setSecWtUnit(formatOutput(rs
-							.getString("actual_wt_Unit")));
+					report.setSecWtUnit(formatOutput(rs.getString("actual_wt_Unit")));
 					report.setActualWt(rs.getDouble("actual_wt"));
-					report.setActualWtUnit(formatOutput(rs
-							.getString("actual_wt_Unit")));
+					report.setActualWtUnit(formatOutput(rs.getString("actual_wt_Unit")));
 					report.setInvoice(rs.getString("invoice"));
 					reportList.add(report);
 					report = null;
@@ -175,8 +160,7 @@ public class ReportDaoImpl extends BaseDaoImpl {
 		return form;
 	}
 
-	public WarehouseInwardReportForm fetchWarehouseInwardReport(
-			WarehouseInwardReportForm form, UserInfoVO userInfoVO) {
+	public WarehouseInwardReportForm fetchWarehouseInwardReport(WarehouseInwardReportForm form, UserInfoVO userInfoVO) {
 		Connection conn = null;
 		ResultSet rs = null;
 		CallableStatement cs = null;
@@ -204,19 +188,14 @@ public class ReportDaoImpl extends BaseDaoImpl {
 					WarehouseInwardBean report = new WarehouseInwardBean();
 
 					report.setId(rs.getInt("warehouse_in_detail_id"));
-					report.setReceivedFrom(formatOutput(rs
-							.getString("Received_From")));
-					report.setVehicleNumber(formatOutput(rs
-							.getString("vehicle_number")));
-					report.setVehicleDate(convertDateToDisplayString(rs
-							.getString("received_date")));
-					report.setVendorName(formatOutput(rs
-							.getString("vendor_name")));
-					// report.setVesselName(rs.getString("vessel_name"));
+					report.setReceivedFrom(formatOutput(rs.getString("Received_From")));
+					report.setVehicleNumber(formatOutput(rs.getString("vehicle_number")));
+					report.setVehicleDate(convertDateToDisplayString(rs.getString("received_date")));
+					report.setVendorName(formatOutput(rs.getString("vendor_name")));
+					report.setVesselName(rs.getString("vessel_name"));
 					// report.setVesselDate(convertDateToDisplayString(rs.getString("vessel_Date")));
 					report.setBeNo(formatOutput(rs.getString("be_no")));
-					report.setMaterialType(formatOutput(rs
-							.getString("material_type")));
+					report.setMaterialType(formatOutput(rs.getString("material_type")));
 					report.setMillName(formatOutput(rs.getString("mill_name")));
 					report.setMake(formatOutput(rs.getString("material_make")));
 					report.setGrade(formatOutput(rs.getString("grade")));
@@ -226,11 +205,9 @@ public class ReportDaoImpl extends BaseDaoImpl {
 					report.setWidth(rs.getInt("width"));
 					report.setThickness(rs.getDouble("thickness"));
 					report.setSecWt(rs.getDouble("section_wt"));
-					report.setSecWtUnit(formatOutput(rs
-							.getString("weight_unit")));
+					report.setSecWtUnit(formatOutput(rs.getString("weight_unit")));
 					report.setActualWt(rs.getDouble("weight"));
-					report.setActualWtUnit(formatOutput(rs
-							.getString("weight_unit")));
+					report.setActualWtUnit(formatOutput(rs.getString("weight_unit")));
 					report.setQty(rs.getInt("quantity"));
 					report.setWlocation(formatOutput(rs.getString("location")));
 					report.setFileName(formatOutput(rs.getString("file_name")));
@@ -252,8 +229,7 @@ public class ReportDaoImpl extends BaseDaoImpl {
 		return form;
 	}
 
-	public String updatePortInwardReport(Map<String, String[]> map,
-			UserInfoVO userInfoVO) {
+	public String updatePortInwardReport(Map<String, String[]> map, UserInfoVO userInfoVO) {
 		Connection conn = null;
 		ResultSet rs = null;
 		CallableStatement cs = null;
@@ -295,8 +271,7 @@ public class ReportDaoImpl extends BaseDaoImpl {
 		return message;
 	}
 
-	public String updatePortOutwardReport(Map<String, String[]> map,
-			UserInfoVO userInfoVO) {
+	public String updatePortOutwardReport(Map<String, String[]> map, UserInfoVO userInfoVO) {
 		Connection conn = null;
 		ResultSet rs = null;
 		CallableStatement cs = null;
@@ -306,16 +281,16 @@ public class ReportDaoImpl extends BaseDaoImpl {
 			conn = getConnection();
 			query = prop.get("sp.report.port.outward.edit");
 			log.info("query = " + query);
-			cs = conn.prepareCall(query); 
+			cs = conn.prepareCall(query);
 
 			cs.setString(1, fetchFromMap(map, "id"));
 			cs.setString(2, fetchFromMap(map, "dispatchedTo"));
 			cs.setString(3, fetchFromMap(map, "vehicleNumber"));
 			cs.setString(4, fetchDateFromMap(map, "vehicleDate"));
-			//cs.setString(5, fetchFromMap(map, "vesselName"));
-			//cs.setString(6, fetchFromMap(map, "vesselDate"));
+			// cs.setString(5, fetchFromMap(map, "vesselName"));
+			// cs.setString(6, fetchFromMap(map, "vesselDate"));
 			cs.setString(5, fetchFromMap(map, "beNo"));
-			//cs.setString(8, fetchFromMap(map, "materialType"));
+			// cs.setString(8, fetchFromMap(map, "materialType"));
 			cs.setString(6, fetchFromMap(map, "grade"));
 			cs.setString(7, fetchFromMap(map, "length"));
 			cs.setString(8, fetchFromMap(map, "width"));
@@ -326,9 +301,9 @@ public class ReportDaoImpl extends BaseDaoImpl {
 			cs.setString(13, fetchFromMap(map, "actualWtUnit"));
 			cs.setString(14, fetchFromMap(map, "invoice"));
 			cs.setString(15, userInfoVO.getUserName());
-			//cs.setString(19, fetchFromMap(map, "millName"));
+			// cs.setString(19, fetchFromMap(map, "millName"));
 			cs.registerOutParameter(16, java.sql.Types.VARCHAR);
-						
+
 			rs = cs.executeQuery();
 			message = cs.getString(16);
 			log.info("message = " + message);
@@ -341,7 +316,7 @@ public class ReportDaoImpl extends BaseDaoImpl {
 		}
 		return message;
 	}
-	
+
 	public String deletePortOutward(Map<String, String[]> map) {
 		Connection conn = null;
 		ResultSet rs = null;
@@ -349,12 +324,12 @@ public class ReportDaoImpl extends BaseDaoImpl {
 		String message = "Success";
 		try {
 			conn = getConnection();
-			
+
 			String sql = "delete from port_outward where port_out_id = ?";
 			statement = conn.prepareStatement(sql);
-			statement.setInt(1, Integer.parseInt( fetchFromMap(map, "id")));
+			statement.setInt(1, Integer.parseInt(fetchFromMap(map, "id")));
 			statement.executeUpdate();
-			
+
 			log.info("message = " + message);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -366,8 +341,7 @@ public class ReportDaoImpl extends BaseDaoImpl {
 		return message;
 	}
 
-	public String updateWarehouseInwardReport(Map<String, String[]> map,
-			UserInfoVO userInfoVO) {
+	public String updateWarehouseInwardReport(Map<String, String[]> map, UserInfoVO userInfoVO) {
 		Connection conn = null;
 		ResultSet rs = null;
 		CallableStatement cs = null;
@@ -512,25 +486,21 @@ public class ReportDaoImpl extends BaseDaoImpl {
 				form.setDate(convertDateToDisplayString(rs.getString("date")));
 				form.setVehicleNumber(formatOutput(rs.getString("vehicle")));
 				form.setHandleBy(formatOutput(rs.getString("handleBy")));
-				form.setTransporterName(formatOutput(rs
-						.getString("transporter_name")));
+				form.setTransporterName(formatOutput(rs.getString("transporter_name")));
 				form.setTransport(formatOutput(rs.getString("toUs")));
 				form.setTo(formatOutput(rs.getString("toParty")));
 				form.setTransportRate(formatOutput(rs.getString("toPay")));
 				form.setTransportUnit(formatOutput(rs.getString("perMTFix")));
 				form.setLumsum(formatOutput(rs.getString("lumsum")));
 				form.setBuyerName(formatOutput(rs.getString("buyerName")));
-				form.setConsigneeName(formatOutput(rs
-						.getString("consigneeName")));
+				form.setConsigneeName(formatOutput(rs.getString("consigneeName")));
 				form.setBrokerName(formatOutput(rs.getString("brokerName")));
 				form.setBrokerage(formatOutput(rs.getString("brokerage")));
 				form.setBrokerageUnit(rs.getString("brokerageUnit"));
 				form.setPaymentTerms(formatOutput(rs.getString("paymentTerms")));
-				form.setLoadingCharges(formatOutput(rs
-						.getString("loadingCharges")));
+				form.setLoadingCharges(formatOutput(rs.getString("loadingCharges")));
 				form.setLoadingChargesUnit(rs.getString("loadingChargesUnit"));
-				form.setCuttingCharges(formatOutput(rs
-						.getString("cuttingCharges")));
+				form.setCuttingCharges(formatOutput(rs.getString("cuttingCharges")));
 				form.setCuttingChargesUnit(rs.getString("cuttingChargesUnit"));
 
 				form.setTotal(rs.getInt("total"));
@@ -589,8 +559,8 @@ public class ReportDaoImpl extends BaseDaoImpl {
 		return form;
 	}
 
-	public WarehouseDispatchReportForm fetchWarehouseDispatchReport(
-			WarehouseDispatchReportForm form, UserInfoVO userInfoVO) {
+	public WarehouseDispatchReportForm fetchWarehouseDispatchReport(WarehouseDispatchReportForm form,
+			UserInfoVO userInfoVO) {
 		Connection conn = null;
 		ResultSet rs = null;
 		CallableStatement cs = null;
@@ -618,14 +588,11 @@ public class ReportDaoImpl extends BaseDaoImpl {
 
 					report.setId(rs.getInt("dispatch_order_id"));
 					report.setPoNo(formatOutput(rs.getString("poNo")));
-					report.setDate(convertDateToDisplayString(rs
-							.getString("date")));
+					report.setDate(convertDateToDisplayString(rs.getString("date")));
 					report.setPending(rs.getString("is_pending"));
-					report.setConsigneeName(formatOutput(rs
-							.getString("consigneeName")));
+					report.setConsigneeName(formatOutput(rs.getString("consigneeName")));
 					report.setBuyerName(formatOutput(rs.getString("buyerName")));
-					report.setTransporterName(formatOutput(rs
-							.getString("transporter_name")));
+					report.setTransporterName(formatOutput(rs.getString("transporter_name")));
 					report.setComments(formatOutput(rs.getString("comments")));
 					report.setHandleBy(rs.getString("handleBy"));
 					reportList.add(report);
@@ -643,25 +610,23 @@ public class ReportDaoImpl extends BaseDaoImpl {
 		return form;
 	}
 
-	public StockReportForm fetchStockReport(StockReportForm form,
-			UserInfoVO userInfoVO) {
+	public StockReportForm fetchStockReport(StockReportForm form, UserInfoVO userInfoVO) {
 		Connection conn = null;
 		ResultSet rs = null;
 		CallableStatement cs = null;
 		String query = "";
 		String message = "";
-		String sql="";
+		String sql = "";
 		ArrayList<StockBean> reportList = null;
 		try {
 			conn = getConnection();
 
 			query = prop.get("sp.report.stock.balance");
-		
-			
+
 			log.info("query = " + query);
 			log.info("form = " + form);
-			
-			//log.info("Grade = " + toString(form.getGrade()));
+
+			// log.info("Grade = " + toString(form.getGrade()));
 			cs = conn.prepareCall(query);
 			if (toString(form.getGrade()).equalsIgnoreCase(""))
 				cs.setString(1, "ALL");
@@ -685,8 +650,7 @@ public class ReportDaoImpl extends BaseDaoImpl {
 					report.setMake(formatOutput(rs.getString("material_make")));
 					report.setGrade(formatOutput(rs.getString("grade")));
 					report.setMillName(formatOutput(rs.getString("mill_name")));
-					report.setMaterialType(formatOutput(rs
-							.getString("material_type")));
+					report.setMaterialType(formatOutput(rs.getString("material_type")));
 					report.setLength(rs.getInt("length"));
 					report.setWidth(rs.getInt("width"));
 					report.setThickness(rs.getDouble("thickness"));
@@ -696,20 +660,17 @@ public class ReportDaoImpl extends BaseDaoImpl {
 					report.setLocation(formatOutput(rs.getString("location")));
 					report.setQty(rs.getInt("quantity"));
 
-					report.setVehicleDate(formatOutput(rs
-							.getString("Date_Inward")));
+					report.setVehicleDate(formatOutput(rs.getString("Date_Inward")));
 					report.setSecWt(rs.getDouble("section_wt"));
-					report.setSecWtUnit(formatOutput(rs
-							.getString("section_wt_unit")));
+					report.setSecWtUnit(formatOutput(rs.getString("section_wt_unit")));
 					report.setMaterialId(rs.getInt("material_id"));
 					report.setFileName(rs.getString("file_name"));
 					report.setFileSize(rs.getDouble("file_size"));
 					report.setReserved(rs.getBoolean("is_reserved"));
 					report.setCustomer(formatOutput(rs.getString("customer")));
 					report.setActualWt((rs.getDouble("weight")));
-					report.setActualUnit(formatOutput(rs
-							.getString("weight_unit")));
-					
+					report.setActualUnit(formatOutput(rs.getString("weight_unit")));
+
 					reportList.add(report);
 					report = null;
 				} while (rs.next());
@@ -717,16 +678,15 @@ public class ReportDaoImpl extends BaseDaoImpl {
 			form.setReportList(reportList);
 		} catch (Exception e) {
 			e.printStackTrace();
-			//message = e.getMessage();
-			//userInfoVO.setMessage(message);
+			// message = e.getMessage();
+			// userInfoVO.setMessage(message);
 		} finally {
 			closeDatabaseResources(conn, rs, cs);
 		}
 		return form;
 	}
 
-	public String changeStockLocation(Map<String, String[]> map,
-			UserInfoVO userInfoVO) {
+	public String changeStockLocation(Map<String, String[]> map, UserInfoVO userInfoVO) {
 		Connection conn = null;
 		ResultSet rs = null;
 		CallableStatement cs = null;
@@ -812,8 +772,7 @@ public class ReportDaoImpl extends BaseDaoImpl {
 		return message;
 	}
 
-	public String deleteDispatchOrder(Map<String, String[]> map,
-			UserInfoVO userInfoVO) {
+	public String deleteDispatchOrder(Map<String, String[]> map, UserInfoVO userInfoVO) {
 		Connection conn = null;
 		ResultSet rs = null;
 		CallableStatement cs = null;
@@ -869,8 +828,7 @@ public class ReportDaoImpl extends BaseDaoImpl {
 					WarehouseOutwardBean report = new WarehouseOutwardBean();
 
 					report.setId(rs.getInt("dispatch_order_id"));
-					report.setOutwardDate(formatOutput(rs
-							.getString("Outward_Date")));
+					report.setOutwardDate(formatOutput(rs.getString("Outward_Date")));
 
 					report.setMillName(formatOutput(rs.getString("millName")));
 					// report.setMake(formatOutput(rs.getString("material_make")));
@@ -886,15 +844,12 @@ public class ReportDaoImpl extends BaseDaoImpl {
 					report.setSecWtUnit(formatOutput(rs.getString("actual_ut")));
 					report.setActualWt(rs.getDouble("ACT.WT"));
 					report.setActualWtSum(rs.getDouble("ACT.WT_SUM"));
-					report.setActualWtUnit(formatOutput(rs
-							.getString("actual_ut")));
+					report.setActualWtUnit(formatOutput(rs.getString("actual_ut")));
 
-					report.setVehicleNumber(formatOutput(rs
-							.getString("vehicle")));
+					report.setVehicleNumber(formatOutput(rs.getString("vehicle")));
 
 					report.setBuyerName(formatOutput(rs.getString("buyerName")));
-					report.setBrokerName(formatOutput(rs
-							.getString("brokerName")));
+					report.setBrokerName(formatOutput(rs.getString("brokerName")));
 					report.setHandleBy(rs.getString("handleBy"));
 
 					reportList.add(report);
@@ -911,11 +866,8 @@ public class ReportDaoImpl extends BaseDaoImpl {
 		}
 		return form;
 	}
-	
-	
-	
-	public StockReportForm fetchStockBalReport(StockReportForm form,
-			UserInfoVO userInfoVO) {
+
+	public StockReportForm fetchStockBalReport(StockReportForm form, UserInfoVO userInfoVO) {
 		Connection conn = null;
 		ResultSet rs = null;
 		CallableStatement cs = null;
@@ -930,12 +882,10 @@ public class ReportDaoImpl extends BaseDaoImpl {
 					+ " FROM stock_balance";
 			query = sql;
 			log.info("query = " + query);
-			
+
 			cs = conn.prepareCall(query);
 			rs = cs.executeQuery();
-			
-			
-			
+
 			if (null != rs && rs.next()) {
 				reportList = new ArrayList<StockBean>();
 				do {
@@ -953,7 +903,6 @@ public class ReportDaoImpl extends BaseDaoImpl {
 					report.setQty(rs.getInt("quantity"));
 					report.setHeatNo(rs.getString("heat_no"));
 					report.setPlateNo(rs.getString("plate_no"));
-					
 
 					reportList.add(report);
 					report = null;
@@ -969,6 +918,5 @@ public class ReportDaoImpl extends BaseDaoImpl {
 		}
 		return form;
 	}
-	
-	
+
 }

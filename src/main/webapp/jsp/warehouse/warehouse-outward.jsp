@@ -87,7 +87,7 @@
 				+ "<button type='button' class='bootbox-close-button close' data-dismiss='modal' aria-hidden='true'>×</button>"
 				+ "<table class='table table-responsive'>"
 				+ "<thead><tr><th>Stock Id</th><th>Mill Name</th><th>Thickness</th><th>Width</th><th>Length</th>"
-				+ "<th>Location</th><th>Quantity Available</th><th>Quantity</th></tr></thead><tbody></tbody>"
+				+ "<th>Location</th><th>Heat No.</th><th>Plate No.</th><th>Quantity Available</th><th>Quantity</th></tr></thead><tbody></tbody>"
 				+ "<tfoot></tfoot></table></div></div></div></div></div>"
 		$("#hidden-div").append(str);
 		refreshSecWtRow();
@@ -152,6 +152,8 @@
 						    +"<td><input type='text' readonly='readonly' value='" + result.width + "' name='width' class='form-control' />"
 						    +"<td><input type='text' readonly='readonly' value='" + result.length + "' name='length' class='form-control' />"
 						    + "<td><input type='text' readonly='readonly' value='" + result.location + "' name='location' class='form-control' /></td>"
+						    + "<td><input type='text' readonly='readonly' value='" + result.heatNo + "' name='heatNo' class='form-control' /></td>"
+						    + "<td><input type='text' readonly='readonly' value='" + result.plateNo + "' name='plateNo' class='form-control' /></td>"
 							+ "<td><input type='text' value='" + result.availableQty + "' readonly='readonly' name='availableQty' class='form-control' /></td>"
 							+ "<td><input type='number' step='1' placeholder='Quantity' min='0' max='"+result.availableQty+"' name='subQty' onChange='fillDetails();' class='form-control' value='"+prevSelectedQty+"'/></td></tr>"
 							qtyAvailableTotal = qtyAvailableTotal + result.availableQty; 
@@ -160,7 +162,7 @@
 						str = str + "<tr><th colspan='3'><br/>No Stock Available for this combination<br/><br/></th><tr>"
 					}
 					else {
-						tfoot = tfoot + "<tr><th></th><th></th><th></th><th></th><th></th><th style='text-align: right;'>Total</th><th>"+qtyAvailableTotal+"</th><th id='total'></th><tr>";
+						tfoot = tfoot + "<tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th style='text-align: right;'>Total</th><th>"+qtyAvailableTotal+"</th><th id='total'></th><tr>";
 					}
 					$("#hidden-div-" + id + " tbody").html(str);
 					$("#hidden-div-" + id + " tfoot").html(tfoot);

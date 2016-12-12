@@ -37,8 +37,8 @@ public class JSONService extends HttpServlet {
 		super();
 	}
 
-	protected void doGet(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		String method = null;
 		BaseForm form = null;
 		PrintWriter out = null;
@@ -47,8 +47,7 @@ public class JSONService extends HttpServlet {
 			if (null != method && method.length() > 0) {
 				log.info("method = " + method);
 
-				UserInfoVO userInfoVO = (UserInfoVO) request.getSession(true)
-						.getAttribute(Constants.USER_INFO_SESSION);
+				UserInfoVO userInfoVO = (UserInfoVO) request.getSession(true).getAttribute(Constants.USER_INFO_SESSION);
 
 				if (method.equalsIgnoreCase("fetchPortInwardDetails")) {
 					String vendorName = request.getParameter("vendorName");
@@ -57,35 +56,24 @@ public class JSONService extends HttpServlet {
 					log.info("vendorName = " + vendorName);
 					log.info("vesselName = " + vesselName);
 					log.info("vesselDate = " + vesselDate);
-					form = new PortInwardForm(vendorName, vesselName,
-							vesselDate);
+					form = new PortInwardForm(vendorName, vesselName, vesselDate);
 					PortDaoImpl impl = new PortDaoImpl();
-					form = impl.fetchPortInwardDetails((PortInwardForm) form,
-							userInfoVO);
-				} else if (method
-			.equalsIgnoreCase("fetchWarehouseInwardDetails")) {
-					String portVehicleNumber = request
-							.getParameter("portVehicleNumber");
-					String portVehicleDate = request
-							.getParameter("portVehicleDate");
+					form = impl.fetchPortInwardDetails((PortInwardForm) form, userInfoVO);
+				} else if (method.equalsIgnoreCase("fetchWarehouseInwardDetails")) {
+					String portVehicleNumber = request.getParameter("portVehicleNumber");
+					String portVehicleDate = request.getParameter("portVehicleDate");
 					log.info("portVehicleNumber = " + portVehicleNumber);
 					log.info("portVehicleDate = " + portVehicleDate);
-					form = new WarehouseInwardForm(portVehicleNumber,
-							portVehicleDate);
+					form = new WarehouseInwardForm(portVehicleNumber, portVehicleDate);
 					WarehouseDaoImpl impl = new WarehouseDaoImpl();
-					form = impl.fetchWarehouseInwardDetails(
-							(WarehouseInwardForm) form, userInfoVO);
-				} else if (method
-						.equalsIgnoreCase("fetchWarehouseOutwardDetails")) {
+					form = impl.fetchWarehouseInwardDetails((WarehouseInwardForm) form, userInfoVO);
+				} else if (method.equalsIgnoreCase("fetchWarehouseOutwardDetails")) {
 					String dispatchNo = request.getParameter("dispatchNo");
 					log.info("dispatchNo = " + dispatchNo);
-					if (null != dispatchNo || !StringUtils.isEmpty(dispatchNo)
-							|| "null".equalsIgnoreCase(dispatchNo)) {
-						form = new WarehouseDispatchDetailsReportForm(
-								Integer.parseInt(dispatchNo));
+					if (null != dispatchNo || !StringUtils.isEmpty(dispatchNo) || "null".equalsIgnoreCase(dispatchNo)) {
+						form = new WarehouseDispatchDetailsReportForm(Integer.parseInt(dispatchNo));
 						ReportDaoImpl impl = new ReportDaoImpl();
-						form = impl.fetchWarehouseDispatchDetailsReport(
-								(WarehouseDispatchDetailsReportForm) form,
+						form = impl.fetchWarehouseDispatchDetailsReport((WarehouseDispatchDetailsReportForm) form,
 								userInfoVO);
 
 					}
@@ -99,8 +87,10 @@ public class JSONService extends HttpServlet {
 					String dispatchNo = request.getParameter("dispatchNo");
 					String location = request.getParameter("location");
 					String dispatchDetailRowId = request.getParameter("dispatchDetailRowId");
-					String stockId=request.getParameter("stockId");
-					
+					String stockId = request.getParameter("stockId");
+					String heatNo = request.getParameter("heatNo");
+					String plateNo = request.getParameter("plateNo");
+
 					log.info("millName = " + millName);
 					log.info("make = " + make);
 					log.info("grade = " + grade);
@@ -110,19 +100,16 @@ public class JSONService extends HttpServlet {
 					log.info("dispatchNo = " + dispatchNo);
 					log.info("dispatchDetailRowId = " + dispatchDetailRowId);
 
-					
-					form = new WarehouseLocationForm(millName, make, grade,
-							length, width, thickness,location,stockId);
-					
-					WarehouseDaoImpl impl = new WarehouseDaoImpl();
-					//form = impl.fetchWarehouseLocationDetails(
-							//(WarehouseLocationForm) form, userInfoVO);
-					form = impl.fetchWarehouseLocationData(
-							(WarehouseLocationForm) form, userInfoVO);
-					
-					populatePreviouslySelectedQuantityIfAny(dispatchNo,dispatchDetailRowId, (WarehouseLocationForm)form, userInfoVO, impl);
-					
+					form = new WarehouseLocationForm(millName, make, grade, length, width, thickness, location, stockId,
+							heatNo, plateNo);
 
+					WarehouseDaoImpl impl = new WarehouseDaoImpl();
+					// form = impl.fetchWarehouseLocationDetails(
+					// (WarehouseLocationForm) form, userInfoVO);
+					form = impl.fetchWarehouseLocationData((WarehouseLocationForm) form, userInfoVO);
+
+					populatePreviouslySelectedQuantityIfAny(dispatchNo, dispatchDetailRowId,
+							(WarehouseLocationForm) form, userInfoVO, impl);
 
 				} else if (method.equalsIgnoreCase("fetchStockFinalDetails")) {
 					String millName = request.getParameter("millName");
@@ -144,13 +131,11 @@ public class JSONService extends HttpServlet {
 					log.info("heatNo = " + heatNo);
 					log.info("plateNo = " + plateNo);
 
-					form = new WarehouseOutwardFinalForm(location, heatNo,
-							plateNo, millName, make, grade, length, width,
-							thickness);
+					form = new WarehouseOutwardFinalForm(location, heatNo, plateNo, millName, make, grade, length,
+							width, thickness);
 
 					WarehouseDaoImpl impl = new WarehouseDaoImpl();
-					form = impl.fetchWarehouseOutwardFinalStockDetails(
-							(WarehouseOutwardFinalForm) form, userInfoVO);
+					form = impl.fetchWarehouseOutwardFinalStockDetails((WarehouseOutwardFinalForm) form, userInfoVO);
 				}
 				GsonBuilder builder = new GsonBuilder();
 				Gson gson = builder.create();
@@ -165,17 +150,17 @@ public class JSONService extends HttpServlet {
 		}
 	}
 
-	private void populatePreviouslySelectedQuantityIfAny(String dispatchOrderId, String dispatchDetailRowId, WarehouseLocationForm form, UserInfoVO userInfo, WarehouseDaoImpl daoImpl) {
+	private void populatePreviouslySelectedQuantityIfAny(String dispatchOrderId, String dispatchDetailRowId,
+			WarehouseLocationForm form, UserInfoVO userInfo, WarehouseDaoImpl daoImpl) {
 		log.info("Populating preselected quantity if any");
-		form = daoImpl.findWarehouseOutwardTempRecord(Integer.parseInt(dispatchOrderId), Integer.parseInt(dispatchDetailRowId), form, userInfo);
+		form = daoImpl.findWarehouseOutwardTempRecord(Integer.parseInt(dispatchOrderId),
+				Integer.parseInt(dispatchDetailRowId), form, userInfo);
 		log.info(form);
-		
-	}
-	
-	
 
-	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		doGet(request, response);
 	}
 

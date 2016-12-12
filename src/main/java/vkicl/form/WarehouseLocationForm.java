@@ -17,6 +17,8 @@ public class WarehouseLocationForm extends BaseForm {
 	private String previouslySelectedQtyFromWarehouseOutwardTemp;
 	private String dispatchDetailRowId;
 	private String stockId;
+	private String heatNo;
+	private String plateNo;
 
 	public String getStockId() {
 		return stockId;
@@ -28,8 +30,8 @@ public class WarehouseLocationForm extends BaseForm {
 
 	private ArrayList<WarehouseLocationBean> resultList = null;
 
-	public WarehouseLocationForm(String millName, String make, String grade,
-			String length, String width, String thickness, String location,String stockId) {
+	public WarehouseLocationForm(String millName, String make, String grade, String length, String width,
+			String thickness, String location, String stockId, String heatNo, String plateNo) {
 		super();
 		this.millName = millName;
 		this.make = make;
@@ -37,8 +39,10 @@ public class WarehouseLocationForm extends BaseForm {
 		this.length = length;
 		this.width = width;
 		this.thickness = thickness;
-		this.location=location;
-		this.stockId=stockId;
+		this.location = location;
+		this.stockId = stockId;
+		this.heatNo = heatNo;
+		this.plateNo = plateNo;
 	}
 
 	public String getLocation() {
@@ -104,8 +108,6 @@ public class WarehouseLocationForm extends BaseForm {
 	public void setResultList(ArrayList<WarehouseLocationBean> resultList) {
 		this.resultList = resultList;
 	}
-	
-	
 
 	public String getPreviouslySelectedQtyFromWarehouseOutwardTemp() {
 		return previouslySelectedQtyFromWarehouseOutwardTemp;
@@ -128,11 +130,8 @@ public class WarehouseLocationForm extends BaseForm {
 		return "WarehouseLocationForm [millName=" + millName + ", make=" + make + ", grade=" + grade + ", length="
 				+ length + ", width=" + width + ", thickness=" + thickness
 				+ ", previouslySelectedQtyFromWarehouseOutwardTemp=" + previouslySelectedQtyFromWarehouseOutwardTemp
-				+ ", dispatchDetailRowId=" + dispatchDetailRowId + ", resultList=" + resultList + ",stockId="+stockId+"]";
+				+ ", dispatchDetailRowId=" + dispatchDetailRowId + ", resultList=" + resultList + ",stockId=" + stockId
+				+ ", plateNo=" + plateNo + ", heatNo=" + heatNo + "]";
 	}
-
-	
-
-	
 
 }

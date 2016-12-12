@@ -673,8 +673,9 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 
 			double area = (length * width);
 
-			query = "SELECT s.material_make, s.grade, s.mill_name, s.location, s.quantity, s.length, s.width, s.thickness, s.stock_balance_id "
-					+ " from stock_balance s where is_cut!=1 and s.quantity!=0 and plate_area >= " + area;
+			query = "SELECT s.material_make, s.grade, s.mill_name, s.location, s.quantity, s.length, s.width, s.thickness, s.stock_balance_id, "
+					+ " s.heat_no, s.plate_no from stock_balance s where is_cut!=1 and s.quantity!=0 and plate_area >= "
+					+ area;
 
 			log.info("query = " + query);
 			cs = conn.prepareCall(query);
@@ -695,6 +696,8 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 					report.setLocation(formatOutput(rs.getString("location")));
 					report.setAvailableQty(rs.getInt("quantity"));
 					report.setStockId(rs.getInt("stock_balance_id"));
+					report.setHeatNo(rs.getString("heat_no"));
+					report.setPlateNo(rs.getString("plate_no"));
 
 					resultList.add(report);
 					report = null;
