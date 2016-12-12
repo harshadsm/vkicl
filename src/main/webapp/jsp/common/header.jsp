@@ -39,9 +39,13 @@
 						</a>
 							<ul class="dropdown-menu" role="menu">
 								<!-- <li><a href="./port-inward.do">Create New Inward Record</a></li> -->
-								<li><a href="./port-inward-details.do">Inward Records List (Create packing list for Inward)</a></li>
+								<li><a href="./port-inward.do">Port-Inward</a></li>
+								<li><a href="./port-inward-details.do">Port- Inward Packing List</a></li>
+								<li><a ">Port- Purchase Order</a></li>
+								<li><a href="./port-outward.do">Port Outward</a></li>
+								
 								<!-- <li><a href="./port-outward.do">Create Outward Record</a></li> -->
-								<li><a href="./port-outward.do">Create Outward Record</a></li>
+								
 							</ul></li>
 						<%
 							}
@@ -82,6 +86,7 @@
 								<%
 									if (userInfoVO.hasAccess(Constants.Apps.PORT_REPORT)) {
 								%>
+								<li><a href="./port-inward-details.do">Port Inward</a></li>
 								<li><a href="./port-inward-report.do">Port Inward </a></li>
 								<li><a href="./port-outward-report.do">Port Outward </a></li>
 								<%

@@ -25,6 +25,17 @@ String portInwardDetailsListSize = Integer.toString(portInwardDetailsList.size()
 		return commonSubmit();
 	}
 
+function setText() {
+		
+		
+		$("input[name='thickness']").attr("disabled", true);
+		$("input[name='width']").attr("disabled", true);
+		$("input[name='length']").attr("disabled", true);
+		$("input[name='qty']").attr("disabled", true);
+		$("input[name='actualWt']").attr("disabled", true);
+		
+	}
+	
 	function editText() {
 		
 		
@@ -198,7 +209,7 @@ String portInwardDetailsListSize = Integer.toString(portInwardDetailsList.size()
 		});
 
 		console.log("Checksum = " + checkSumQty);
-		$("#checksum-actual-weight").text(checkSumQty);
+		$("#checksum-actual-weight").text(checkSumQty.toFixed(3));
 	}
 
 	function addOnTabNewRowEventHandler(trId) {
@@ -359,6 +370,10 @@ style="display: none;" /> </span>
 </div>
 
 <script>
+window.onload = function() {
+	setText();
+	};
+	
 function prepareTableToExcelAndExport(){
 	var template = "<tr><td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td></tr>";
 	
