@@ -109,6 +109,20 @@
 									class="glyphicon-calendar glyphicon"></span></span>
 							</div></td>
 					</tr>
+					<tr>
+						<td class="form-label"><label for="invoiceNo">Invoice No.</label></td>
+						<td><input type="text" name="invoiceNo"
+							class="form-control" placeholder="Invoice No." /></td>
+					</tr>
+					<tr>
+						<td class="form-label"><label for="invoiceDate">Invoice
+								Date</label></td>
+						<td><div class="input-group date date-picker-div">
+								<input type="text" name="invoiceDate" class="form-control" />
+								<span class="input-group-addon"><span
+									class="glyphicon-calendar glyphicon"></span></span>
+							</div></td>
+					</tr>
 				</table>
 			</div>
 		</div>
@@ -420,13 +434,13 @@
 			}
 		}		
 			
-		var secWt = $("[name='secWt']");
-		for(var i=0; i<secWt.length; i++){
-			if($.trim(secWt[i].value) == "" || $.trim(secWt[i].value) <= 0){
-				bootbox.alert("Please enter Section Wt.");
-				return false;
-			}
-		}	
+		//var secWt = $("[name='secWt']");
+		//for(var i=0; i<secWt.length; i++){
+			//if($.trim(secWt[i].value) == "" || $.trim(secWt[i].value) <= 0){
+			//	bootbox.alert("Please enter Section Wt.");
+				//return false;
+			//}
+		//}	
 		
 		var labelWt = $("[name='labelWt']");
 		for(var i=0; i<labelWt.length; i++){

@@ -16,6 +16,26 @@ public class WarehouseInwardForm extends BaseForm {
 	private String vendorVehicleNumber = "";
 	private String vendorVehicleDate = "";
 
+	private String invoiceNo = "";
+
+	public String getInvoiceNo() {
+		return invoiceNo;
+	}
+
+	public void setInvoiceNo(String invoiceNo) {
+		this.invoiceNo = invoiceNo;
+	}
+
+	public String getInvoiceDate() {
+		return invoiceDate;
+	}
+
+	public void setInvoiceDate(String invoiceDate) {
+		this.invoiceDate = invoiceDate;
+	}
+
+	private String invoiceDate = "";
+
 	private Integer[] row = null;
 	private String[] beNo = null;
 	private String[] materialType = null;
@@ -348,31 +368,20 @@ public class WarehouseInwardForm extends BaseForm {
 
 	@Override
 	public String toString() {
-		return "WarehouseInwardForm [portVendor=" + portVendor + ", actWt="
-				+ actWt + ", actWtUnit=" + actWtUnit + ", portVehicleNumber="
-				+ portVehicleNumber + ", portVehicleDate=" + portVehicleDate
-				+ ", vendorName=" + vendorName + ", vendorVehicleNumber="
-				+ vendorVehicleNumber + ", vendorVehicleDate="
-				+ vendorVehicleDate + ", row=" + Arrays.toString(row)
-				+ ", beNo=" + Arrays.toString(beNo) + ", materialType="
-				+ Arrays.toString(materialType) + ", millName="
-				+ Arrays.toString(millName) + ", make=" + Arrays.toString(make)
-				+ ", grade=" + Arrays.toString(grade) + ", length="
-				+ Arrays.toString(length) + ", width=" + Arrays.toString(width)
-				+ ", thickness=" + Arrays.toString(thickness) + ", labelWt="
-				+ Arrays.toString(labelWt) + ", labelWtUnit="
-				+ Arrays.toString(labelWtUnit) + ", secWt="
-				+ Arrays.toString(secWt) + ", secWtUnit="
-				+ Arrays.toString(secWtUnit) + ", qty=" + Arrays.toString(qty)
-				+ ", subRow=" + Arrays.toString(subRow) + ", heatNo="
-				+ Arrays.toString(heatNo) + ", plateNo="
-				+ Arrays.toString(plateNo) + ", subSecWt="
-				+ Arrays.toString(subSecWt) + ", subSecWtUnit="
-				+ Arrays.toString(subSecWtUnit) + ", subWt="
-				+ Arrays.toString(subWt) + ", subWtUnit="
-				+ Arrays.toString(subWtUnit) + ", subQty="
-				+ Arrays.toString(subQty) + ", wlocation="
-				+ Arrays.toString(wlocation) + ", remark="
+		return "WarehouseInwardForm [portVendor=" + portVendor + ", actWt=" + actWt + ", actWtUnit=" + actWtUnit
+				+ ", portVehicleNumber=" + portVehicleNumber + ", portVehicleDate=" + portVehicleDate + ", vendorName="
+				+ vendorName + ", vendorVehicleNumber=" + vendorVehicleNumber + ", vendorVehicleDate="
+				+ vendorVehicleDate + ", row=" + Arrays.toString(row) + ", beNo=" + Arrays.toString(beNo)
+				+ ", materialType=" + Arrays.toString(materialType) + ", millName=" + Arrays.toString(millName)
+				+ ", make=" + Arrays.toString(make) + ", grade=" + Arrays.toString(grade) + ", length="
+				+ Arrays.toString(length) + ", width=" + Arrays.toString(width) + ", thickness="
+				+ Arrays.toString(thickness) + ", labelWt=" + Arrays.toString(labelWt) + ", labelWtUnit="
+				+ Arrays.toString(labelWtUnit) + ", secWt=" + Arrays.toString(secWt) + ", secWtUnit="
+				+ Arrays.toString(secWtUnit) + ", qty=" + Arrays.toString(qty) + ", subRow=" + Arrays.toString(subRow)
+				+ ", heatNo=" + Arrays.toString(heatNo) + ", plateNo=" + Arrays.toString(plateNo) + ", subSecWt="
+				+ Arrays.toString(subSecWt) + ", subSecWtUnit=" + Arrays.toString(subSecWtUnit) + ", subWt="
+				+ Arrays.toString(subWt) + ", subWtUnit=" + Arrays.toString(subWtUnit) + ", subQty="
+				+ Arrays.toString(subQty) + ", wlocation=" + Arrays.toString(wlocation) + ", remark="
 				+ Arrays.toString(remark) + "]";
 	}
 

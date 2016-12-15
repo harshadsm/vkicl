@@ -162,10 +162,14 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 
 			cs.setString(26, toCountString(form.getSubRow()));
 			cs.setInt(27, form.getRow().length);
-			cs.setString(28, userInfoVO.getUserName());
-			cs.registerOutParameter(29, java.sql.Types.VARCHAR);
+			cs.setString(28, (userInfoVO.getUserName()));
+			cs.setString(29, (form.getInvoiceNo()));
+
+			cs.setString(30, convertStringToDate(form.getInvoiceDate()));
+
+			cs.registerOutParameter(31, java.sql.Types.VARCHAR);
 			cs.executeUpdate();
-			message = cs.getString(29);
+			message = cs.getString(31);
 			log.info("message = " + message);
 
 			form.clear();
