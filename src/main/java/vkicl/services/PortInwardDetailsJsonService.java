@@ -27,25 +27,25 @@ import vkicl.vo.PackingListItemVO;
 import vkicl.vo.PortInwardRecordVO;
 
 public class PortInwardDetailsJsonService {
-	
+
 	private Logger logger = Logger.getLogger(PortInwardDetailsJsonService.class);
-	
-	public String getPortInwardListAsJson(HttpServletRequest req) throws SQLException, JsonParseException, JsonMappingException, IOException{
-		
+
+	public String getPortInwardListAsJson(HttpServletRequest req)
+			throws SQLException, JsonParseException, JsonMappingException, IOException {
+
 		JqGridParametersHolder params = new JqGridParametersHolder(req);
 		JqGridSearchParameterHolder searchParam = parseSerachFilters(params);
-		
+
 		String rows = params.getParam(JQGRID_PARAM_NAMES.rows);
 		String page = params.getParam(JQGRID_PARAM_NAMES.page);
 		String orderBy = params.getParam(JQGRID_PARAM_NAMES.sidx);
 		String order = params.getParam(JQGRID_PARAM_NAMES.sord);
-		
-		
+
 		PortDaoImpl portDao = new PortDaoImpl();
 		Integer totalRecordsCount = portDao.fetchPortInwardDetailsRecordCount(searchParam);
 		List<PortInwardRecordVO> records = portDao.fetchPortInwardDetails_2(Integer.parseInt(page),
 				Integer.parseInt(rows), totalRecordsCount, orderBy, order, searchParam);
-		
+
 		JqGridCustomResponse response = new JqGridCustomResponse();
 		response.setPage(page);
 		response.setRows(records);
@@ -55,8 +55,7 @@ public class PortInwardDetailsJsonService {
 		String json = gson.toJson(response);
 		return json;
 	}
-	
-	
+
 	private JqGridSearchParameterHolder parseSerachFilters(JqGridParametersHolder params)
 			throws JsonParseException, JsonMappingException, IOException {
 		JqGridSearchParameterHolder searchParam = null;
@@ -64,35 +63,34 @@ public class PortInwardDetailsJsonService {
 
 		if (filters != null) {
 			ObjectMapper mapper = new ObjectMapper();
-			searchParam = mapper.readValue(filters,
-					JqGridSearchParameterHolder.class);
+			searchParam = mapper.readValue(filters, JqGridSearchParameterHolder.class);
 			logger.info(searchParam);
 		}
 		return searchParam;
 	}
-	
-	public String getPackingListAsJson(HttpServletRequest req)
-			throws Exception {
-		
-//		String portInwardIdStr = req.getParameter("port_inward_database_id");
-//		logger.info("Port Inward Id = " + portInwardIdStr);
-//		Integer portInwardId = Integer.parseInt(portInwardIdStr);
-//		JqGridSearchParameterHolder.Rule portInwardIdRule = new JqGridSearchParameterHolder.Rule();
-//		portInwardIdRule.setField("port_inward_id");
-//		portInwardIdRule.setOp("eq");
-//		portInwardIdRule.setData(portInwardIdStr);
+
+	public String getPackingListAsJson(HttpServletRequest req) throws Exception {
+
+		// String portInwardIdStr = req.getParameter("port_inward_database_id");
+		// logger.info("Port Inward Id = " + portInwardIdStr);
+		// Integer portInwardId = Integer.parseInt(portInwardIdStr);
+		// JqGridSearchParameterHolder.Rule portInwardIdRule = new
+		// JqGridSearchParameterHolder.Rule();
+		// portInwardIdRule.setField("port_inward_id");
+		// portInwardIdRule.setOp("eq");
+		// portInwardIdRule.setData(portInwardIdStr);
 
 		JqGridParametersHolder params = new JqGridParametersHolder(req);
 		JqGridSearchParameterHolder searchParam = parseSerachFilters(params);
-		
-		if(searchParam==null){
+
+		if (searchParam == null) {
 			searchParam = new JqGridSearchParameterHolder();
 		}
-		if(searchParam.getRules() == null){
+		if (searchParam.getRules() == null) {
 			List<JqGridSearchParameterHolder.Rule> rules = new ArrayList<JqGridSearchParameterHolder.Rule>();
 			searchParam.setRules(rules);
 		}
-//		searchParam.getRules().add(portInwardIdRule);
+		// searchParam.getRules().add(portInwardIdRule);
 
 		String rows = params.getParam(JQGRID_PARAM_NAMES.rows);
 		String page = params.getParam(JQGRID_PARAM_NAMES.page);
@@ -100,10 +98,11 @@ public class PortInwardDetailsJsonService {
 		String order = params.getParam(JQGRID_PARAM_NAMES.sord);
 
 		PortInwardPackingListDaoImpl portDao = new PortInwardPackingListDaoImpl();
-		Integer totalRecordsCount = portDao.fetchPortInwardPackingListRecordCount(searchParam);//, portInwardId);
-		List<PackingListItemVO> records = portDao.fetchPortInwardPackingList( Integer.parseInt(page),
+		Integer totalRecordsCount = portDao.fetchPortInwardPackingListRecordCount(searchParam);// ,
+																								// portInwardId);
+		List<PackingListItemVO> records = portDao.fetchPortInwardPackingList(Integer.parseInt(page),
 				Integer.parseInt(rows), totalRecordsCount, orderBy, order, searchParam);
-		
+
 		records = updateAlreadyOutQuantity(records);
 
 		JqGridCustomResponse response = new JqGridCustomResponse();
@@ -116,40 +115,44 @@ public class PortInwardDetailsJsonService {
 		return json;
 	}
 
-
-	private List<PackingListItemVO>  updateAlreadyOutQuantity(List<PackingListItemVO> records) throws Exception {
+	private List<PackingListItemVO> updateAlreadyOutQuantity(List<PackingListItemVO> records) throws Exception {
 		List<PackingListItemVO> recordsWithQtyMoreThanZero = new ArrayList<PackingListItemVO>();
 		PortOutwardDaoImpl portOutDaoImpl = new PortOutwardDaoImpl();
-		
-		if(records!=null && !records.isEmpty()){
-			for(PackingListItemVO vo: records){
-				//Find All Port Outward records for the given PortInwardDetailsId
+
+		if (records != null && !records.isEmpty()) {
+			for (PackingListItemVO vo : records) {
+				// Find All Port Outward records for the given
+				// PortInwardDetailsId
 				Integer portInwardDetailId = vo.getPortInwardDetailId();
 				List<PortOutwardBean2> list = portOutDaoImpl.getByPortInwardDetailId(portInwardDetailId);
-				
-				if(list!=null && !list.isEmpty()){
+
+				if (list != null && !list.isEmpty()) {
 					int sum = 0;
-					//sum the already out quantity
-					for(PortOutwardBean2 b:list){
+					// sum the already out quantity
+					for (PortOutwardBean2 b : list) {
 						sum = sum + b.getQuantity();
 					}
-					//set it in the vo.
+					// set it in the vo.
 					vo.setQuantityAlreadyOut(sum);
 					int portInwardQuantity = vo.getQuantity();
 					int availableQuantity = portInwardQuantity - sum;
 					vo.setQuantity(availableQuantity);
+					double BalQty = (((vo.getLength() * vo.getWidth() * vo.getThickness() * availableQuantity * 7.85)
+							/ 1000000000));
+
+					vo.setBalQty(BalQty);
+
 				}
-				
-				if(vo.getQuantity()!=null && vo.getQuantity() > 0){
+
+				if (vo.getQuantity() != null && vo.getQuantity() > 0) {
 					recordsWithQtyMoreThanZero.add(vo);
 				}
-				
+
 			}
-				
+
 		}
 		return recordsWithQtyMoreThanZero;
-		
+
 	}
-	
 
 }
