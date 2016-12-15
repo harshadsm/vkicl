@@ -137,10 +137,10 @@ public class PortInwardDetailsJsonService {
 					int portInwardQuantity = vo.getQuantity();
 					int availableQuantity = portInwardQuantity - sum;
 					vo.setQuantity(availableQuantity);
-					double BalQty = (((vo.getLength() * vo.getWidth() * vo.getThickness() * availableQuantity * 7.85)
+					double balQty = (((vo.getLength() * vo.getWidth() * vo.getThickness() * availableQuantity * 7.85)
 							/ 1000000000));
 
-					vo.setBalQty(BalQty);
+					vo.setBalQty(balQty);
 
 				}
 
