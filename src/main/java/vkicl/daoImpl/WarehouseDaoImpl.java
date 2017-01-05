@@ -379,9 +379,9 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 							log.debug(" = ");
 							int dispatch_details_id = i + 1;
 
-							log.info("dispatch_details_id = " + dispatch_details_id);
+							log.info("form.getDispatchDetailsID()[i] = " + form.getDispatchDetailsID()[i]);
 
-							cs.setInt(15, dispatch_details_id);
+							cs.setString(15, form.getDispatchDetailsID()[i]);
 
 							log.debug("form.getStockId()[i] = " + form.getStockId()[i]);
 							cs.setString(17, form.getStockId()[i]);
@@ -574,12 +574,11 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 		String query = "", message = "";
 		// Integer warehouseOutwardId = -1;
 		try {
-			if (0 == form.getDispatchNo()) {
-				// message = "Unable to insert Outward entry";
-				// log.error(message);
-				userInfoVO.setMessage("");
-				return userInfoVO;
-			}
+			/*
+			 * if (0 == form.getDispatchNo()) { // message =
+			 * "Unable to insert Outward entry"; // log.error(message);
+			 * userInfoVO.setMessage(""); return userInfoVO; }
+			 */
 			conn = getConnection();
 
 			query = prop.get("sp.warehouse.outward.insert");

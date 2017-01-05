@@ -33,12 +33,12 @@ public class WarehouseOutwardProcessForm extends BaseForm {
 	public WarehouseOutwardProcessForm() {
 	}
 
-	public WarehouseOutwardProcessForm(int dispatchNo) {
-		this.dispatchNo = dispatchNo;
+	public WarehouseOutwardProcessForm(int dispatchOrderNo) {
+		this.dispatchNo = dispatchOrderNo;
 	}
 
 	public void clear() {
-		dispatchNo = 0;
+		// dispatchOrderNo = 0;
 		actWt = null;
 		actWtUnit = null;
 		vehicleNumber = null;
@@ -208,18 +208,13 @@ public class WarehouseOutwardProcessForm extends BaseForm {
 
 	@Override
 	public String toString() {
-		return "WarehouseOutwardProcessForm [dispatchNo=" + dispatchNo
-				+ ", actWt=" + actWt + ", actWtUnit=" + actWtUnit
-				+ ", vehicleNumber=" + vehicleNumber + ", vehicleDate="
-				+ vehicleDate + ", location=" + Arrays.toString(location)
-				+ ", heatNo=" + Arrays.toString(heatNo) + ", plateNo="
-				+ Arrays.toString(plateNo) + ", millName="
-				+ Arrays.toString(millName) + ", make=" + Arrays.toString(make)
-				+ ", grade=" + Arrays.toString(grade) + ", length="
-				+ Arrays.toString(length) + ", width=" + Arrays.toString(width)
-				+ ", thickness=" + Arrays.toString(thickness) + ", secWt="
-				+ Arrays.toString(secWt) + ", secWtUnit="
-				+ Arrays.toString(secWtUnit) + ", qty=" + Arrays.toString(qty)
+		return "WarehouseOutwardProcessForm [dispatchNo=" + dispatchNo + ", actWt=" + actWt + ", actWtUnit="
+				+ actWtUnit + ", vehicleNumber=" + vehicleNumber + ", vehicleDate=" + vehicleDate + ", location="
+				+ Arrays.toString(location) + ", heatNo=" + Arrays.toString(heatNo) + ", plateNo="
+				+ Arrays.toString(plateNo) + ", millName=" + Arrays.toString(millName) + ", make="
+				+ Arrays.toString(make) + ", grade=" + Arrays.toString(grade) + ", length=" + Arrays.toString(length)
+				+ ", width=" + Arrays.toString(width) + ", thickness=" + Arrays.toString(thickness) + ", secWt="
+				+ Arrays.toString(secWt) + ", secWtUnit=" + Arrays.toString(secWtUnit) + ", qty=" + Arrays.toString(qty)
 				+ ", resultList=" + resultList + "]";
 	}
 

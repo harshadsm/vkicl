@@ -542,6 +542,7 @@ public class ReportDaoImpl extends BaseDaoImpl {
 
 					bean.setActWt(rs.getDouble("actWt"));
 					bean.setActWtUnit(rs.getString("actWtUnit"));
+					bean.setDispatchDetailsID(rs.getInt("dispatch_details_ID"));
 
 					resultList.add(bean);
 					bean = null;

@@ -14,7 +14,6 @@ public class WarehouseOutwardForm extends BaseForm {
 
 	private String[] location = null;
 	private String[] availableQty = null;
-	
 
 	public String[] getAvailableQty() {
 		return availableQty;
@@ -23,9 +22,6 @@ public class WarehouseOutwardForm extends BaseForm {
 	public void setAvailableQty(String[] availableQty) {
 		this.availableQty = availableQty;
 	}
-
-
-
 
 	private String[] subQty = null;
 
@@ -41,7 +37,16 @@ public class WarehouseOutwardForm extends BaseForm {
 	private Integer[] qty = null;
 	private String[] stockId = null;
 
-	
+	private String[] dispatchDetailsID = null;
+
+	public String[] getDispatchDetailsID() {
+		return dispatchDetailsID;
+	}
+
+	public void setDispatchDetailsID(String[] dispatchDetailsID) {
+		this.dispatchDetailsID = dispatchDetailsID;
+	}
+
 	public String[] getStockId() {
 		return stockId;
 	}
@@ -77,8 +82,8 @@ public class WarehouseOutwardForm extends BaseForm {
 		secWtUnit = null;
 		qty = null;
 		subQty = null;
-		stockId=null;
-		
+		stockId = null;
+
 		super.clear();
 	}
 
@@ -105,7 +110,6 @@ public class WarehouseOutwardForm extends BaseForm {
 	public void setActWt(Double actWt) {
 		this.actWt = actWt;
 	}
-	
 
 	public String[] getLocation() {
 		return location;
@@ -114,8 +118,6 @@ public class WarehouseOutwardForm extends BaseForm {
 	public void setLocation(String[] location) {
 		this.location = location;
 	}
-
-	
 
 	public String[] getSubQty() {
 		return subQty;
@@ -205,23 +207,15 @@ public class WarehouseOutwardForm extends BaseForm {
 		this.qty = qty;
 	}
 
-	
-
-	
 	@Override
 	public String toString() {
-		return "WarehouseOutwardForm [dispatchNo=" + dispatchNo
-				+ ", dispatchNoList=" + dispatchNoList + ", actWt=" + actWt
-				+ ", location=" + Arrays.toString(location) + ", availableQty="
-				+ Arrays.toString(availableQty) + ", subQty="
-				+ Arrays.toString(subQty) + ", row=" + Arrays.toString(row)
-				+ ", millName=" + Arrays.toString(millName) + ", make="
-				+ Arrays.toString(make) + ", grade=" + Arrays.toString(grade)
-				+ ", length=" + Arrays.toString(length) + ", width="
-				+ Arrays.toString(width) + ", thickness="
-				+ Arrays.toString(thickness) + ", secWt="
-				+ Arrays.toString(secWt) + ", secWtUnit="
-				+ Arrays.toString(secWtUnit) + ", qty=" + Arrays.toString(qty)+",stockId="+Arrays.toString(stockId)
+		return "WarehouseOutwardForm [dispatchNo=" + dispatchNo + ", dispatchNoList=" + dispatchNoList + ", actWt="
+				+ actWt + ", location=" + Arrays.toString(location) + ", availableQty=" + Arrays.toString(availableQty)
+				+ ", subQty=" + Arrays.toString(subQty) + ", row=" + Arrays.toString(row) + ", millName="
+				+ Arrays.toString(millName) + ", make=" + Arrays.toString(make) + ", grade=" + Arrays.toString(grade)
+				+ ", length=" + Arrays.toString(length) + ", width=" + Arrays.toString(width) + ", thickness="
+				+ Arrays.toString(thickness) + ", secWt=" + Arrays.toString(secWt) + ", secWtUnit="
+				+ Arrays.toString(secWtUnit) + ", qty=" + Arrays.toString(qty) + ",stockId=" + Arrays.toString(stockId)
 				+ "]";
 	}
 

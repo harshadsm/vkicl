@@ -57,7 +57,7 @@
 
 	function addRow() {
 		var str = "<tr id='row-"+row_id+"' class='main-row'><td class='row-id'><input type='hidden' name='row' value='"+row_id+"'>"+row_id+"</td>"
-				+ "<td><input type='hidden' name='stockId' value=''><input type='hidden' name='location' value=''><input type='hidden' name='subQty' value=''><input  type='hidden' name='availableQty' value=''  /><input readonly type='text' name='millName' value='' class='form-control' /></td>"
+				+ "<td><input type='hidden' name='stockId' value=''><input type='hidden' name='location' value=''><input type='hidden' name='subQty' value=''><input  type='hidden' name='availableQty' value=''  /><input type='hidden' name='dispatchDetailsID' value=''><input readonly type='text' name='millName' value='' class='form-control' /></td>"
 				+ "<td><input readonly type='text' name='make' value='' class='form-control' /></td>"
 				
 				+ "<td><input readonly type='text' name='grade' value='' class='form-control' /></td>"
@@ -330,6 +330,7 @@
 				var millName = $("#"+current_row_id).find("[name='millName']")[0];
 				millName.value = result.millName;
 				$("#"+current_row_id).find("[name='make']")[0].value = result.make;
+				$("#"+current_row_id).find("[name='dispatchDetailsID']")[0].value = result.dispatchDetailsID;
 				$("#"+current_row_id).find("[name='grade']")[0].value = result.grade;
 				$("#"+current_row_id).find("[name='length']")[0].value = result.length;
 				$("#"+current_row_id).find("[name='width']")[0].value = result.width;

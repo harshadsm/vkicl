@@ -25,7 +25,16 @@ public class WarehouseLocationBean extends BaseReportBean {
 	private boolean processed = false;
 
 	private int stockId = 0;
-	
+	private int dispatchNo = 0;
+
+	public int getDispatchNo() {
+		return dispatchNo;
+	}
+
+	public void setDispatchNo(int dispatchNo) {
+		this.dispatchNo = dispatchNo;
+	}
+
 	public int getStockId() {
 		return stockId;
 	}
@@ -156,13 +165,11 @@ public class WarehouseLocationBean extends BaseReportBean {
 
 	@Override
 	public String toString() {
-		return "WarehouseLocationBean [id=" + id + ", millName=" + millName
-				+ ", make=" + make + ", grade=" + grade + ", length=" + length
-				+ ", width=" + width + ", thickness=" + thickness
-				+ ", location=" + location + ", availableQty=" + availableQty
-				+ ", qty=" + qty + ", heatNo=" + heatNo + ", plateNo="
-				+ plateNo + ", secWt=" + secWt + ", secWtUnit=" + secWtUnit
-				+ ", processed=" + processed + "]";
+		return "WarehouseLocationBean [id=" + id + ", millName=" + millName + ", make=" + make + ", grade=" + grade
+				+ ", length=" + length + ", width=" + width + ", thickness=" + thickness + ", location=" + location
+				+ ", availableQty=" + availableQty + ", qty=" + qty + ", heatNo=" + heatNo + ", plateNo=" + plateNo
+				+ ", secWt=" + secWt + ", secWtUnit=" + secWtUnit + ", dispatchNo=" + dispatchNo + ", processed="
+				+ processed + "]";
 	}
 
 }

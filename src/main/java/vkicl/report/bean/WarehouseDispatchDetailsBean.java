@@ -16,6 +16,15 @@ public class WarehouseDispatchDetailsBean extends BaseReportBean {
 	private String rateUnit = "";
 	private String taxes = "";
 	private String excise = "";
+	private Integer dispatchDetailsID = null;
+
+	public Integer getDispatchDetailsID() {
+		return dispatchDetailsID;
+	}
+
+	public void setDispatchDetailsID(Integer dispatchDetailsID) {
+		this.dispatchDetailsID = dispatchDetailsID;
+	}
 
 	public String getMake() {
 		return make;
@@ -123,12 +132,10 @@ public class WarehouseDispatchDetailsBean extends BaseReportBean {
 
 	@Override
 	public String toString() {
-		return "WarehouseDispatchDetailsBean [make=" + make + ", millName="
-				+ millName + ", grade=" + grade + ", length=" + length
-				+ ", width=" + width + ", thickness=" + thickness + ", qty="
-				+ qty + ", actWt=" + actWt + ", actWtUnit=" + actWtUnit
-				+ ", rate=" + rate + ", rateUnit=" + rateUnit + ", taxes="
-				+ taxes + ", excise=" + excise + "]";
+		return "WarehouseDispatchDetailsBean [make=" + make + ", millName=" + millName + ", grade=" + grade
+				+ ", length=" + length + ", width=" + width + ", thickness=" + thickness + ", qty=" + qty + ", actWt="
+				+ actWt + ", actWtUnit=" + actWtUnit + ", rate=" + rate + ", rateUnit=" + rateUnit + ", taxes=" + taxes
+				+ ", excise=" + excise + "]";
 	}
 
 }
