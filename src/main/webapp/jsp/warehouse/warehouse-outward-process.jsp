@@ -153,10 +153,11 @@
 					<tr>
 						<td class="form-label"><label for="dispatchNo">Dispatch
 								Order No.</label></td>
-						<td><input type="number" min="0" name="dispatchOrderNo"
-							disabled="disabled"
-							value='<c:out value="${WarehouseOutwardProcessForm.dispatchNo}" />'
-							class="form-control" /></td>
+						<td>
+							<label for="dispatchNo"><c:out value="${WarehouseOutwardProcessForm.dispatchNo}" /></label>
+							<input type="hidden" min="0" name="dispatchNo"
+								value='<c:out value="${WarehouseOutwardProcessForm.dispatchNo}" />' class="form-control" />
+						</td>
 					</tr>
 					<tr class=" after-result-1">
 						<td class="form-label"><label for="actWt">Actual
