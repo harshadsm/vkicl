@@ -8,12 +8,23 @@
 <%@taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
 <%@taglib uri="/WEB-INF/struts-core.tld" prefix="c" %>
 
+<% 
+String dispatchNo=request.getParameter("dispatchNo");
+
+
+%>
 <script type="text/javascript">
 
+var MYDISPATCHNO='<%= dispatchNo %>';
 	var id = 1, row = {}, row_id = 0, current_row_id = "", globalJson = {};
 
 	function fetchWarehouseOutwardDetails() {
-		var dispatchNo = $("[name='dispatchNo']").val();
+		
+		
+		//var dispatchNo = $("[name='dispatchNo']").val();
+		
+		var dispatchNo=MYDISPATCHNO;
+		
 
 		if ("--" == dispatchNo) {
 			bootbox.alert("Please select a valid Dispatch Number");
@@ -192,9 +203,15 @@
 	}
 
 	$(document).ready(function() {
-		if($("[name='dispatchNo']").val() == "--")
+		console.log($("[name='dispatchNo']").val());
+		console.log("SHWETA");
+		console.log(MYDISPATCHNO);
+		//$("[name='dispatchNo']").val()
+		
+		if( MYDISPATCHNO== "--")
 			resetWarehouseOutwardForm();
 		else
+			
 			fetchWarehouseOutwardDetails();
 			
 	});
@@ -312,10 +329,10 @@
 
 		$("[name='dispatchNo']").val(json.id);
 
-		if(json.pending != "Pending")
-			bootbox.alert("This order is already " + json.pending, function(){
-				resetWarehouseOutwardForm();
-			});
+// 		if(json.pending != "Pending")
+// 			bootbox.alert("This order is already " + json.pending, function(){
+// 				resetWarehouseOutwardForm();
+// 			});
 		
 		if (count > 0) {
 
@@ -397,7 +414,7 @@
 				<table class="table table-responsive table-excel after-result-1" id="main-table">
 					<thead>
 						<tr>
-							<th>No</th>
+							<th>No </th>
 							<th>Mill Name</th>
 							<th>Make</th>
 							<th>Grade</th>

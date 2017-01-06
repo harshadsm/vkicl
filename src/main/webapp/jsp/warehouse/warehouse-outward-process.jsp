@@ -213,7 +213,7 @@
 						<thead>
 							<tr>
 								<th style="min-width: 30px;">No.</th>
-								<th>Make</th>
+								<th>Make (Harshad_step_2)</th>
 								<th>Grade</th>
 								<th>Mill Name</th>
 								<th>Thickness</th>
