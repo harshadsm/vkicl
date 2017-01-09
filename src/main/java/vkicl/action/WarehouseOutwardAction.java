@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang.math.NumberUtils;
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -49,7 +50,7 @@ public class WarehouseOutwardAction extends BaseAction {
 			if (genericListener.equalsIgnoreCase("add") && warehouseOutwardForm.getDispatchNo() != 0) {
 				log.info("genericListener = " + genericListener);
 
-				warehouseOutwardForm = impl.addWarehouseOutwardTempData(warehouseOutwardForm, userInfoVO);
+				WarehouseOutwardForm warehouseOutwardFormResult = impl.addWarehouseOutwardTempData(warehouseOutwardForm, userInfoVO);
 
 				String flag = null;
 				Integer qtyAvailable = null;
@@ -147,10 +148,24 @@ public class WarehouseOutwardAction extends BaseAction {
 
 				for (int j = 0; j < noOfStockRecords; j++) {
 					WarehouseOutwardVO vo = new WarehouseOutwardVO();
-					vo.setAvailableQty(Integer.parseInt(availableQtyArr[j]));
-					vo.setOrderedQty(Integer.parseInt(orderedQtyArr[j]));
-					vo.setStockId(Integer.parseInt(stockIdArr[j]));
-					list.add(vo);
+					log.info(availableQtyArr[j]);
+					log.info(orderedQtyArr[j]);
+					log.info(stockIdArr[j]);
+					
+					if(NumberUtils.isNumber(availableQtyArr[j]) 
+							&& NumberUtils.isNumber(availableQtyArr[j])
+							&& NumberUtils.isNumber(stockIdArr[j])
+							){
+						
+						vo.setAvailableQty(Integer.parseInt(availableQtyArr[j]));
+						vo.setOrderedQty(Integer.parseInt(orderedQtyArr[j]));
+						vo.setStockId(Integer.parseInt(stockIdArr[j]));
+						list.add(vo);
+						
+					}else{
+						log.info("Some thing is not a number.");
+					}
+					
 				}
 			}
 		}

@@ -70,12 +70,14 @@ public class JSONService extends HttpServlet {
 				} else if (method.equalsIgnoreCase("fetchWarehouseOutwardDetails")) {
 					String dispatchNo = request.getParameter("dispatchNo");
 					log.info("dispatchNo = " + dispatchNo);
-					if (null != dispatchNo || !StringUtils.isEmpty(dispatchNo) || "null".equalsIgnoreCase(dispatchNo)) {
+					if (!StringUtils.isEmpty(dispatchNo) && !"null".equalsIgnoreCase(dispatchNo)) {
 						form = new WarehouseDispatchDetailsReportForm(Integer.parseInt(dispatchNo));
 						ReportDaoImpl impl = new ReportDaoImpl();
 						form = impl.fetchWarehouseDispatchDetailsReport((WarehouseDispatchDetailsReportForm) form,
 								userInfoVO);
 
+					}else{
+						throw new IllegalArgumentException("Invalid dispatchNo = "+dispatchNo);
 					}
 				} else if (method.equalsIgnoreCase("fetchWarehouseLocationDetails")) {
 					String millName = request.getParameter("millName");

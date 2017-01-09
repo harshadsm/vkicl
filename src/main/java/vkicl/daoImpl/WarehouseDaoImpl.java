@@ -369,9 +369,8 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 							cs.setString(10, form.getSecWtUnit()[i]);
 							log.debug("form.getLocation()[i] = " + form.getLocation()[i]);
 							cs.setString(11, form.getLocation()[i]);
-							// log.debug("form.getAvailableQty()[i] = " +
-							// form.getQtyAvailable()[i]);
-							cs.setString(12, "");
+							log.debug("form.getAvailableQty()[i] = " + form.getAvailableQty()[i]);
+							cs.setString(12, form.getAvailableQty()[i]);
 							log.debug("form.getSubQty()[i] = " + form.getSubQty()[i]);
 							cs.setString(13, form.getSubQty()[i]);
 							log.debug("userInfoVO.getUserName() = " + userInfoVO.getUserName());

@@ -10,8 +10,11 @@
 
 <% 
 String dispatchNo=request.getParameter("dispatchNo");
+if(dispatchNo == null){
+	dispatchNo = (String)request.getAttribute("dispatchNo_2");
+}
 
-
+System.out.println("harhads>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> "+dispatchNo);
 %>
 <script type="text/javascript">
 
@@ -25,7 +28,7 @@ var MYDISPATCHNO='<%= dispatchNo %>';
 		
 		var dispatchNo=MYDISPATCHNO;
 		
-
+		console.log(dispatchNo);
 		if ("--" == dispatchNo) {
 			bootbox.alert("Please select a valid Dispatch Number");
 			$("[name='dispatchNo']").focus();

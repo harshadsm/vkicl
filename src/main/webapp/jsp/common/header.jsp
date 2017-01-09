@@ -8,8 +8,7 @@
 <div class="mainmenu-wrapper">
 	<div class="menu-wrapper">
 		<div class="brand-name">
-			<img alt="VKICL" src="./img/logo.png" height="50px"> Inventory
-			Management System
+		<!-- <img alt="VKICL" src="./img/logo.png" height="50px"> Inventory Management System -->
 		</div>
 		<%
 			if (null != userInfoVO && userInfoVO.isLoggedIn()) {
