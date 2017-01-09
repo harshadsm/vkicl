@@ -119,7 +119,9 @@ var MYDISPATCHNO='<%= dispatchNo %>';
 		
 		if($("#hidden-div-"+id).find("[name='subQty']").length <= 0) {
 			
-			var dispatchNo = $("[name='dispatchNo']").val();
+			//var dispatchNo = $("[name='dispatchNo']").val();
+			
+			var dispatchNo=MYDISPATCHNO;
 			console.log("DispatchNO = "+dispatchNo);
 			
 			var millName = $("#row-" + id + " [name=millName]").val();
