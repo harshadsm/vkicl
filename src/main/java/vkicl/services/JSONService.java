@@ -2,11 +2,13 @@ package vkicl.services;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Enumeration;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -19,6 +21,7 @@ import vkicl.form.PortInwardForm;
 import vkicl.form.WarehouseInwardForm;
 import vkicl.form.WarehouseLocationForm;
 import vkicl.form.WarehouseOutwardFinalForm;
+import vkicl.form.WarehouseOutwardForm;
 import vkicl.report.form.WarehouseDispatchDetailsReportForm;
 import vkicl.util.Constants;
 import vkicl.util.PropFileReader;
@@ -68,6 +71,7 @@ public class JSONService extends HttpServlet {
 					WarehouseDaoImpl impl = new WarehouseDaoImpl();
 					form = impl.fetchWarehouseInwardDetails((WarehouseInwardForm) form, userInfoVO);
 				} else if (method.equalsIgnoreCase("fetchWarehouseOutwardDetails")) {
+					printAllParams(request);
 					String dispatchNo = request.getParameter("dispatchNo");
 					log.info("dispatchNo = " + dispatchNo);
 					if (!StringUtils.isEmpty(dispatchNo) && !"null".equalsIgnoreCase(dispatchNo)) {
@@ -164,6 +168,48 @@ public class JSONService extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		doGet(request, response);
+	}
+
+	private void printAllParams(HttpServletRequest request) {
+		log.info("---------------------Printing all request params ----------------------");
+		Enumeration<String> paramNames = request.getParameterNames();
+		while(paramNames.hasMoreElements()){
+			String paramName = paramNames.nextElement();
+			String val = request.getParameter(paramName);
+			log.info(paramName +" = "+val);
+		}
+		
+		log.info("---------------------Printing all request attributes ----------------------");
+		Enumeration<String> attrNames = request.getAttributeNames();
+		while(attrNames.hasMoreElements()){
+			String attrName = attrNames.nextElement();
+			Object val = request.getAttribute(attrName);
+			log.info(attrName +" = "+val);
+		}
+		
+		log.info("---------------------Printing form from session ----------------------");
+		printBeanFromSession(request);
+		
+	}
+	
+	
+	
+	/**
+	 * I Was going to manually remove the bean from session.
+	 * However, after adding the below code, it 
+	 * @param request
+	 */
+	private void printBeanFromSession(HttpServletRequest request){
+		log.info("DO NOT REMOVE THIS METHOD. It somehow results into removing the actionForm bean from session. And it is necessary for proper page flow of warehouse outward.");
+		HttpSession session = request.getSession();
+		WarehouseOutwardForm formInSession = (WarehouseOutwardForm)session.getAttribute("WarehouseOutwardForm");
+		if(formInSession!=null){
+			log.info(formInSession.toString());	
+		}else{
+			log.info("No form in session.");
+		}
+		
+		
 	}
 
 }
