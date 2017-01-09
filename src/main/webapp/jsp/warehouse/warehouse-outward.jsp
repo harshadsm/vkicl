@@ -119,9 +119,11 @@ var MYDISPATCHNO='<%= dispatchNo %>';
 		
 		if($("#hidden-div-"+id).find("[name='subQty']").length <= 0) {
 			
+
 			//var dispatchNo = $("[name='dispatchNo']").val();
 			
 			var dispatchNo=MYDISPATCHNO;
+
 			console.log("DispatchNO = "+dispatchNo);
 			
 			var millName = $("#row-" + id + " [name=millName]").val();
@@ -382,11 +384,8 @@ var MYDISPATCHNO='<%= dispatchNo %>';
 				<table class="table table-responsive">					
 					<tr>
 						<td class="form-label"><label for="dispatchNo">Dispatch Order No.</label></td>
-						<!-- td><input type="number" min="0" name="dispatchNo" class="form-control" /></td-->
-						<td><html:select property="dispatchNo" styleClass="form-control">
-							<html:optionsCollection property="dispatchNoList"/>
-						</html:select>
-						</td>
+						<input type="hidden" name="dispatchNo" value="<%=dispatchNo %>" />
+						
 						<td><input type='button' id="fetch-details" class="btn btn-default" value="Fetch" onclick="fetchWarehouseOutwardDetails();" /></td>
 					</tr>
 					<!--tr class=" after-result-1">

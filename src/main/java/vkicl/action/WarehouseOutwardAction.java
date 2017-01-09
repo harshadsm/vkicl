@@ -49,7 +49,8 @@ public class WarehouseOutwardAction extends BaseAction {
 
 			if (genericListener.equalsIgnoreCase("add") && warehouseOutwardForm.getDispatchNo() != 0) {
 				log.info("genericListener = " + genericListener);
-
+				String dispatchIdStr = Integer.toString(warehouseOutwardForm.getDispatchNo());
+				request.setAttribute("dispatchNo_2", dispatchIdStr);
 				impl.addWarehouseOutwardTempData(warehouseOutwardForm, userInfoVO);
 
 				String flag = null;
