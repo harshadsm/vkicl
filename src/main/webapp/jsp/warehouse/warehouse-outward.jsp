@@ -203,12 +203,11 @@ var MYDISPATCHNO='<%= dispatchNo %>';
 	}
 
 	$(document).ready(function() {
-		console.log($("[name='dispatchNo']").val());
-		console.log("SHWETA");
-		console.log(MYDISPATCHNO);
-		//$("[name='dispatchNo']").val()
+		
+		$("[name='dispatchNo']").val()
 		
 		if( MYDISPATCHNO== "--")
+			//if( $("[name='dispatchNo']").val()== "--")
 			resetWarehouseOutwardForm();
 		else
 			

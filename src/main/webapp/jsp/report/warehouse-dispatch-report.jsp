@@ -173,14 +173,11 @@ function processOutward(id) {
 								%>
 								<th class="cell-edit"><c:if
 										test="${report.pending == 'Processing'}">
-										<!-- <button title='Complete Order Processing'
-											onclick='processOutward(<c:out value="${report.id}" />);'>
-											<span class="glyphicon glyphicon-forward"></span>
-										</button> -->
 										<button title='Complete Order Processing'
 											onclick='startWarehouseOutward(<c:out value="${report.id}" />);'>
 											<span class="glyphicon glyphicon-forward"></span>
-										</button>
+										</button> 
+										
 									</c:if> <c:if test="${report.pending == 'Pending'}">
 										<button title='Start Order Processing'
 											onclick='startWarehouseOutward(<c:out value="${report.id}" />);'>

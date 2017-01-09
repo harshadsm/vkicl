@@ -574,11 +574,13 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 		String query = "", message = "";
 		// Integer warehouseOutwardId = -1;
 		try {
-			/*
-			 * if (0 == form.getDispatchNo()) { // message =
-			 * "Unable to insert Outward entry"; // log.error(message);
-			 * userInfoVO.setMessage(""); return userInfoVO; }
-			 */
+
+			if (0 == form.getDispatchNo()) {
+				message = "Unable to insert Outward entry"; // log.error(message);
+				userInfoVO.setMessage("");
+				return userInfoVO;
+			}
+
 			conn = getConnection();
 
 			query = prop.get("sp.warehouse.outward.insert");
