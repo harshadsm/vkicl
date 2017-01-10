@@ -341,7 +341,7 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 			rs = cs.executeQuery();
 			if (null != rs && rs.next()) {
 				result = rs.getString("is_pending");
-				if (result.equalsIgnoreCase("Pending")) {
+				if (result.equalsIgnoreCase("Pending") || result.equalsIgnoreCase("Processing")) {
 					query = prop.get("sp.warehouse.outward.temp.insert");
 					log.info("query = " + query);
 					for (int i = 0; i < form.getMillName().length; i++) {
