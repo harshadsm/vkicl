@@ -186,6 +186,13 @@ function processOutward(id) {
 									</c:if> <c:if test="${report.pending == 'Completed'}">
 										<span class="glyphicon glyphicon-ok"></span>
 									</c:if></th>
+									<!-- @TODO Harshad Remove this later -->
+									<th class="cell-edit">
+										<button title='Start Order Processing'
+											onclick='processOutward(<c:out value="${report.id}" />);'>
+											<span class="glyphicon glyphicon-play"></span>
+										</button>
+									</th>
 								<%
 									}
 								%>

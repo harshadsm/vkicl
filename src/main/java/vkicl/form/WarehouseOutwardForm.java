@@ -14,17 +14,7 @@ public class WarehouseOutwardForm extends BaseForm {
 
 	private String[] location = null;
 	private String[] availableQty = null;
-
-	public String[] getAvailableQty() {
-		return availableQty;
-	}
-
-	public void setAvailableQty(String[] availableQty) {
-		this.availableQty = availableQty;
-	}
-
 	private String[] subQty = null;
-
 	private Integer[] row = null;
 	private String[] millName = null;
 	private String[] make = null;
@@ -206,6 +196,16 @@ public class WarehouseOutwardForm extends BaseForm {
 	public void setQty(Integer[] qty) {
 		this.qty = qty;
 	}
+	
+
+	public String[] getAvailableQty() {
+		return availableQty;
+	}
+
+	public void setAvailableQty(String[] availableQty) {
+		this.availableQty = availableQty;
+	}
+
 
 	@Override
 	public String toString() {
