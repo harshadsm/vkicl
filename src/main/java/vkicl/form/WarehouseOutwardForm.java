@@ -27,6 +27,35 @@ public class WarehouseOutwardForm extends BaseForm {
 	private Integer[] qty = null;
 	private String[] stockId = null;
 
+	private String actWtUnit = null;
+
+	public String getActWtUnit() {
+		return actWtUnit;
+	}
+
+	public void setActWtUnit(String actWtUnit) {
+		this.actWtUnit = actWtUnit;
+	}
+
+	public String getVehicleNumber() {
+		return vehicleNumber;
+	}
+
+	public void setVehicleNumber(String vehicleNumber) {
+		this.vehicleNumber = vehicleNumber;
+	}
+
+	public String getVehicleDate() {
+		return vehicleDate;
+	}
+
+	public void setVehicleDate(String vehicleDate) {
+		this.vehicleDate = vehicleDate;
+	}
+
+	private String vehicleNumber = null;
+	private String vehicleDate = null;
+
 	private String[] dispatchDetailsID = null;
 
 	public String[] getDispatchDetailsID() {
@@ -196,7 +225,6 @@ public class WarehouseOutwardForm extends BaseForm {
 	public void setQty(Integer[] qty) {
 		this.qty = qty;
 	}
-	
 
 	public String[] getAvailableQty() {
 		return availableQty;
@@ -205,7 +233,6 @@ public class WarehouseOutwardForm extends BaseForm {
 	public void setAvailableQty(String[] availableQty) {
 		this.availableQty = availableQty;
 	}
-
 
 	@Override
 	public String toString() {

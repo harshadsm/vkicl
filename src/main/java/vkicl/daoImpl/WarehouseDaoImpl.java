@@ -411,6 +411,49 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 		return form;
 	}
 
+	public UserInfoVO addWarehouseOutwardProcessData(WarehouseOutwardForm form, UserInfoVO userInfoVO) {
+		Connection conn = null;
+		ResultSet rs = null;
+		CallableStatement cs = null;
+		String query = "", message = "";
+		// Integer warehouseOutwardId = -1;
+		try {
+
+			if (0 == form.getDispatchNo()) {
+				message = "Unable to insert Outward entry"; // log.error(message);
+				userInfoVO.setMessage("");
+				return userInfoVO;
+			}
+
+			conn = getConnection();
+
+			query = prop.get("sp.warehouse.outward.insert");
+			log.info("query = " + query);
+			log.info("form = " + form);
+			cs = conn.prepareCall(query);
+
+			cs.setDouble(1, form.getActWt());
+			cs.setString(2, formatInput(form.getActWtUnit()));
+			cs.setInt(3, form.getDispatchNo());
+			cs.setString(4, formatInput(form.getVehicleNumber()));
+			cs.setString(5, formatInput(form.getVehicleDate()));
+			cs.setString(6, userInfoVO.getUserName());
+			cs.registerOutParameter(7, java.sql.Types.VARCHAR);
+			cs.executeUpdate();
+			message = cs.getString(7);
+			log.info("message = " + message);
+			form.clear();
+			userInfoVO.setMessage(message);
+		} catch (Exception e) {
+			e.printStackTrace();
+			message = e.getMessage();
+			userInfoVO.setMessage(message);
+		} finally {
+			closeDatabaseResources(conn, rs, cs);
+		}
+		return userInfoVO;
+	}
+
 	public BaseForm fetchWarehouseOutwardFinalStockDetails(WarehouseOutwardFinalForm form, UserInfoVO userInfoVO) {
 		Connection conn = null;
 		ResultSet rs = null;

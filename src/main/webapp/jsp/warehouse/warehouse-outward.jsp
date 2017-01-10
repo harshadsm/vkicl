@@ -381,15 +381,19 @@ var MYDISPATCHNO='<%= dispatchNo %>';
 		method="post">
 		<div class="row">
 			<div class="col-md-4">
-				<table class="table table-responsive">					
+				<table class="table table-responsive">
 					<tr>
-						<td class="form-label"><label for="dispatchNo">Dispatch Order No.</label></td>
-						<input type="hidden" name="dispatchNo" value="<%=dispatchNo %>" />
-						
-						<td><input type='button' id="fetch-details" class="btn btn-default" value="Fetch" onclick="fetchWarehouseOutwardDetails();" /></td>
+						<td class="form-label"><label for="dispatchNo">Dispatch
+								Order No.</label></td>
+						<td>
+							<label for="dispatchNo"><c:out value="<%=dispatchNo %>" /></label>
+							<input type="hidden" min="0" name="dispatchNo"
+								value='<c:out value="<%=dispatchNo %>" />' class="form-control" />
+						</td>
 					</tr>
-					<!--tr class=" after-result-1">
-						<td class="form-label"><label for="actWt">Actual Weight</label></td>					
+					<tr class=" after-result-1">
+						<td class="form-label"><label for="actWt">Actual
+								Weight</label></td>
 						<td colspan="2">
 							<div class="input-group">
 								<input type="number" step="0.001" placeholder="Actual Weight"
@@ -408,7 +412,28 @@ var MYDISPATCHNO='<%= dispatchNo %>';
 								</div>
 							</div>
 						</td>
-					</tr-->
+					</tr>
+				</table>
+			</div>
+			<div class="col-md-4">
+				<table class="table table-responsive">
+					<tr>
+						<td class="form-label"><label for="vehicleNumber">Vehicle
+								Number</label></td>
+						<td><input type="text" name="vehicleNumber"
+							class="form-control" /></td>
+					</tr>
+					<tr>
+						<td class="form-label"><label for="vehicleDate">Vehicle
+								Date</label></td>
+						<td>
+							<div class="input-group date date-picker-div">
+								<input type="text" name="vehicleDate" class="form-control" /> <span
+									class="input-group-addon"><span
+									class="glyphicon-calendar glyphicon"></span></span>
+							</div>
+						</td>
+					</tr>
 				</table>
 			</div>
 		</div>
