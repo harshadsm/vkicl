@@ -71,7 +71,7 @@ var MYDISPATCHNO='<%= dispatchNo %>';
 
 	function addRow() {
 		var str = "<tr id='row-"+row_id+"' class='main-row'><td class='row-id'><input type='hidden' name='row' value='"+row_id+"'>"+row_id+"</td>"
-				+ "<td><input type='hidden' name='stockId' value=''><input type='hidden' name='location' value=''><input type='hidden' name='subQty' value=''><input  type='hidden' name='availableQty' value=''  /><input type='hidden' name='dispatchDetailsID' value=''><input readonly type='text' name='millName' value='' class='form-control' /></td>"
+				+ "<td><input type='hidden' name='stockId' value=''><input type='hidden' name='location' value=''><input type='hidden' name='subQty' value=''><input type='hidden' name='total' value=''><input  type='hidden' name='availableQty' value=''  /><input type='hidden' name='dispatchDetailsID' value=''><input readonly type='text' name='millName' value='' class='form-control' /></td>"
 				+ "<td><input readonly type='text' name='make' value='' class='form-control' /></td>"
 				
 				+ "<td><input readonly type='text' name='grade' value='' class='form-control' /></td>"
@@ -264,10 +264,13 @@ var MYDISPATCHNO='<%= dispatchNo %>';
 		$("#details-tbody tr").each(function(i, tr){
 			var id = $(tr).find("[name='row']")[0].value;
 			var txtSubQty = $(tr).find("[name='subQty']")[0];
+			var txttotal = $(tr).find("[name='total']")[0];
 			var txtLocation = $(tr).find("[name='location']")[0];
 			
 			var txtstockId = $(tr).find("[name='stockId']")[0];
 			var txtavailableQty = $(tr).find("[name='availableQty']")[0];
+			
+			
 			
 			var str = "";
 			$("#hidden-div-"+id + " [name='stockId']").each(function(){
@@ -278,6 +281,8 @@ var MYDISPATCHNO='<%= dispatchNo %>';
 			
 			
 			txtstockId.value = str;
+			
+			
 			
 			var str = "";
 			$("#hidden-div-"+id + " [name='location']").each(function(){
@@ -297,6 +302,8 @@ var MYDISPATCHNO='<%= dispatchNo %>';
 					$(this).val(0);
 				str = str + $(this).val() + ",";
 				qtySelected = qtySelected + parseInt($(this).val());
+				
+				txttotal.value=qtySelected;
 			});
 			if(str.endsWith(","))
 				str = str.substr(0, str.length - 1);

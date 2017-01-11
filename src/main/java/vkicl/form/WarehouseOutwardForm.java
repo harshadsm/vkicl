@@ -27,6 +27,16 @@ public class WarehouseOutwardForm extends BaseForm {
 	private String[] qty = null;
 	private String[] stockId = null;
 
+	private Integer totalQty = null;
+
+	public Integer getTotalQty() {
+		return totalQty;
+	}
+
+	public void setTotalQty(Integer totalQty) {
+		this.totalQty = totalQty;
+	}
+
 	private String actWtUnit = null;
 
 	public String getActWtUnit() {

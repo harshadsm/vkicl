@@ -60,6 +60,7 @@ public class WarehouseOutwardAction extends BaseAction {
 				List<String> subQty = Arrays.<String> asList(warehouseOutwardForm.getSubQty());
 				List<String> stockId = Arrays.<String> asList(warehouseOutwardForm.getStockId());
 				List<String> qty = Arrays.<String> asList(warehouseOutwardForm.getQty());
+				List<Integer> totalQty = Arrays.<Integer> asList(warehouseOutwardForm.getTotalQty());
 
 				List<WarehouseOutwardVO> warehouseVOList = composeVOList(availableQty, subQty, stockId);
 
@@ -82,13 +83,21 @@ public class WarehouseOutwardAction extends BaseAction {
 
 				impl.addWarehouseOutwardProcessData(warehouseOutwardForm, userInfoVO);
 
-				List<WarehouseOutwardVO2> warehouseOutwardVo2List = composeVOOutwardList(subQty, qty);
-				for (WarehouseOutwardVO2 warehouseoutwardvo2 : warehouseOutwardVo2List) {
+				// List<WarehouseOutwardVO2> warehouseOutwardVo2List =
+				// composeVOOutwardList(totalQty, qty);
 
-					Integer remainingqty = warehouseoutwardvo2.getQty() - warehouseoutwardvo2.getSubQty();
-					if (remainingqty == 0) {
-						impl.updateStatus(warehouseOutwardForm, userInfoVO);
-					}
+				for (int i = 0; i < warehouseOutwardForm.getMillName().length; i++) {
+					Integer remainingqty = Integer.parseInt(warehouseOutwardForm.getQty()[i])
+							- warehouseOutwardForm.getTotalQty();
+					// }
+					// for (WarehouseOutwardVO2 warehouseoutwardvo2 :
+					// warehouseOutwardVo2List) {
+
+					// Integer remainingqty = warehouseoutwardvo2.getQty() -
+					// warehouseoutwardvo2.getSubQty();
+					// if (remainingqty == 0) {
+					impl.updateStatus(warehouseOutwardForm, userInfoVO);
+					// }
 
 				}
 				// composeVOOutwardList(subQty, qty);
@@ -190,39 +199,32 @@ public class WarehouseOutwardAction extends BaseAction {
 		return list;
 	}
 
-	private List<WarehouseOutwardVO2> composeVOOutwardList(List<String> subQty, List<String> qty) {
-		List<WarehouseOutwardVO2> list = new ArrayList<WarehouseOutwardVO2>();
-		Integer size = subQty.size();
-		log.info("subQty" + size);
-		for (int i = 0; i < size; i++) {
-			String subQtystr = subQty.get(i);
-			String qtystr = qty.get(i);
-
-			String[] subQtyArr = subQtystr.split(",");
-			String[] qtyArr = qtystr.split(",");
-
-			if (subQtyArr != null) {
-				Integer noOfRecords = subQtyArr.length;
-
-				for (int j = 0; j < noOfRecords; j++) {
-					WarehouseOutwardVO2 vo = new WarehouseOutwardVO2();
-
-					if (NumberUtils.isNumber(subQtyArr[j])) {
-
-						vo.setSubQty(Integer.parseInt(subQtyArr[j]));
-						vo.setQty(Integer.parseInt(qtyArr[j]));
-
-						list.add(vo);
-
-					} else {
-						log.info("Some thing is not a number.");
-					}
-
-				}
-			}
-		}
-
-		// TODO Auto-generated method stub
-		return list;
-	}
+	/*
+	 * private List<WarehouseOutwardVO2> composeVOOutwardList(Integer totalQty,
+	 * List<String> qty) { List<WarehouseOutwardVO2> list = new
+	 * ArrayList<WarehouseOutwardVO2>(); Integer size = qty.size();
+	 * log.info("subQty" + size); for (int i = 0; i < size; i++) { String
+	 * subQtystr = subQty.get(i); String qtystr = qty.get(i);
+	 * 
+	 * String[] subQtyArr = subQtystr.split(","); String[] qtyArr =
+	 * qtystr.split(",");
+	 * 
+	 * if (subQtyArr != null) { Integer noOfRecords = subQtyArr.length;
+	 * 
+	 * for (int j = 0; j < noOfRecords; j++) { WarehouseOutwardVO2 vo = new
+	 * WarehouseOutwardVO2();
+	 * 
+	 * if (NumberUtils.isNumber(subQtyArr[j])) {
+	 * 
+	 * vo.setSubQty(Integer.parseInt(subQtyArr[j]));
+	 * vo.setQty(Integer.parseInt(qtyArr[j]));
+	 * 
+	 * list.add(vo);
+	 * 
+	 * } else { log.info("Some thing is not a number."); }
+	 * 
+	 * } } }
+	 * 
+	 * // TODO Auto-generated method stub return list; }
+	 */
 }
