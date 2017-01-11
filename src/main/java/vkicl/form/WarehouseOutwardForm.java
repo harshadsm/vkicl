@@ -24,7 +24,7 @@ public class WarehouseOutwardForm extends BaseForm {
 	private Double[] thickness = null;
 	private Double[] secWt = null;
 	private String[] secWtUnit = null;
-	private Integer[] qty = null;
+	private String[] qty = null;
 	private String[] stockId = null;
 
 	private String actWtUnit = null;
@@ -218,11 +218,11 @@ public class WarehouseOutwardForm extends BaseForm {
 		this.secWtUnit = secWtUnit;
 	}
 
-	public Integer[] getQty() {
+	public String[] getQty() {
 		return qty;
 	}
 
-	public void setQty(Integer[] qty) {
+	public void setQty(String[] qty) {
 		this.qty = qty;
 	}
 

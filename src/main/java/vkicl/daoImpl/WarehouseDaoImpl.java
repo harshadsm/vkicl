@@ -362,7 +362,7 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 							log.debug("form.getLength()[i] = " + form.getLength()[i]);
 							cs.setInt(7, form.getLength()[i]);
 							log.debug("form.getQty()[i] = " + form.getQty()[i]);
-							cs.setInt(8, form.getQty()[i]);
+							cs.setString(8, form.getQty()[i]);
 							log.debug("form.getSecWt()[i] = " + form.getSecWt()[i]);
 							cs.setDouble(9, form.getSecWt()[i]);
 							log.debug("form.getSecWtUnit()[i] = " + form.getSecWtUnit()[i]);
@@ -431,7 +431,7 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 			log.info("query = " + query);
 			log.info("form = " + form);
 			cs = conn.prepareCall(query);
-
+			// for (int i = 0; i < form.getMillName().length; i++) {
 			cs.setDouble(1, form.getActWt());
 			cs.setString(2, formatInput(form.getActWtUnit()));
 			cs.setInt(3, form.getDispatchNo());
@@ -440,6 +440,7 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 			cs.setString(6, userInfoVO.getUserName());
 			cs.registerOutParameter(7, java.sql.Types.VARCHAR);
 			cs.executeUpdate();
+			// }
 			message = cs.getString(7);
 			log.info("message = " + message);
 			form.clear();
@@ -803,6 +804,36 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 
 	}
 
+	public void updateStatus(WarehouseOutwardForm form, UserInfoVO userInfoVO) {
+		Connection conn = null;
+		ResultSet rs = null;
+		CallableStatement cs = null;
+		PreparedStatement statement = null;
+		String query = "", message = "";
+		// Integer warehouseOutwardId = -1;
+		try {
+
+			conn = getConnection();
+
+			query = "Update dispatch_order d  set d.is_pending = 'Completed',update_ui=?, update_ts=NOW() where d.dispatch_order_id=?";
+			statement = conn.prepareStatement(query);
+
+			statement.setString(1, userInfoVO.getUserName());
+			statement.setInt(2, form.getDispatchNo());
+
+			statement.executeUpdate();
+			log.info("message = " + message);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			message = e.getMessage();
+			userInfoVO.setMessage(message);
+		} finally {
+			closeDatabaseResources(conn, rs, cs);
+		}
+
+	}
+
 	public UserInfoVO addStockOutwardData(WarehouseOutwardForm form, UserInfoVO userInfoVO) {
 		Connection conn = null;
 		ResultSet rs = null;
@@ -836,7 +867,7 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 				cs.setInt(7, (form.getLength())[i]);
 				cs.setInt(8, (form.getWidth())[i]);
 				cs.setDouble(9, (form.getThickness())[i]);
-				cs.setDouble(10, (form.getQty())[i]);
+				cs.setString(10, (form.getQty())[i]);
 				cs.setString(11, (form.getLocation())[i]);
 				cs.setString(12, userInfoVO.getUserName());
 				cs.setString(13, userInfoVO.getUserName());
