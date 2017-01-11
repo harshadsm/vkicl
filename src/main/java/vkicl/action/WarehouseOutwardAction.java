@@ -52,7 +52,19 @@ public class WarehouseOutwardAction extends BaseAction {
 				log.info("genericListener = " + genericListener);
 				String dispatchIdStr = Integer.toString(warehouseOutwardForm.getDispatchNo());
 				request.setAttribute("dispatchNo_2", dispatchIdStr);
+				
+				//Add data to warehouse_outward_temp
 				impl.addWarehouseOutwardTempData(warehouseOutwardForm, userInfoVO);
+				
+				//Check if the DO is completely delivered
+				Integer pendingQuantity = impl.getPendingQuantity(warehouseOutwardForm.getDispatchNo(), userInfoVO);
+				if(pendingQuantity!=null && pendingQuantity == 0){
+					log.debug("DO is completely processed. Gonna update its status = completed.");
+					impl.updateStatus(warehouseOutwardForm.getDispatchNo(), userInfoVO);
+				}else{
+					log.debug("The DO still has total pending items = "+pendingQuantity);
+				}
+				
 
 				String flag = null;
 				Integer qtyAvailable = null;
@@ -82,15 +94,15 @@ public class WarehouseOutwardAction extends BaseAction {
 
 				impl.addWarehouseOutwardProcessData(warehouseOutwardForm, userInfoVO);
 
-				List<WarehouseOutwardVO2> warehouseOutwardVo2List = composeVOOutwardList(subQty, qty);
-				for (WarehouseOutwardVO2 warehouseoutwardvo2 : warehouseOutwardVo2List) {
-
-					Integer remainingqty = warehouseoutwardvo2.getQty() - warehouseoutwardvo2.getSubQty();
-					if (remainingqty == 0) {
-						impl.updateStatus(warehouseOutwardForm, userInfoVO);
-					}
-
-				}
+//				List<WarehouseOutwardVO2> warehouseOutwardVo2List = composeVOOutwardList(subQty, qty);
+//				for (WarehouseOutwardVO2 warehouseoutwardvo2 : warehouseOutwardVo2List) {
+//
+//					Integer remainingqty = warehouseoutwardvo2.getQty() - warehouseoutwardvo2.getSubQty();
+//					if (remainingqty == 0) {
+//						impl.updateStatus(warehouseOutwardForm, userInfoVO);
+//					}
+//
+//				}
 				// composeVOOutwardList(subQty, qty);
 
 				setUserProfile(request, userInfoVO);
