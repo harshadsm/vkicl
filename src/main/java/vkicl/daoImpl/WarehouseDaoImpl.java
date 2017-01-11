@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.math.NumberUtils;
 import org.apache.log4j.Logger;
 
 import vkicl.form.BaseForm;
@@ -344,54 +345,73 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 				if (result.equalsIgnoreCase("Pending") || result.equalsIgnoreCase("Processing")) {
 					query = prop.get("sp.warehouse.outward.temp.insert");
 					log.info("query = " + query);
-					for (int i = 0; i < form.getMillName().length; i++) {
-						if (form.getSubQty()[i] != null && !form.getSubQty()[i].isEmpty()) {
-							cs = conn.prepareCall(query);
-							log.debug("form.getDispatchNo() = " + form.getDispatchNo());
-							cs.setInt(1, form.getDispatchNo());
-							log.debug("form.getMillName()[i] = " + form.getMillName()[i]);
-							cs.setString(2, form.getMillName()[i]);
-							log.debug(" form.getMake()[i] = " + form.getMake()[i]);
-							cs.setString(3, form.getMake()[i]);
-							log.debug("form.getGrade()[i] = " + form.getGrade()[i]);
-							cs.setString(4, form.getGrade()[i]);
-							log.debug("form.getThickness()[i] = " + form.getThickness()[i]);
-							cs.setDouble(5, form.getThickness()[i]);
-							log.debug("form.getWidth()[i] = " + form.getWidth()[i]);
-							cs.setInt(6, form.getWidth()[i]);
-							log.debug("form.getLength()[i] = " + form.getLength()[i]);
-							cs.setInt(7, form.getLength()[i]);
-							log.debug("form.getQty()[i] = " + form.getQty()[i]);
-							cs.setString(8, form.getQty()[i]);
-							log.debug("form.getSecWt()[i] = " + form.getSecWt()[i]);
-							cs.setDouble(9, form.getSecWt()[i]);
-							log.debug("form.getSecWtUnit()[i] = " + form.getSecWtUnit()[i]);
-							cs.setString(10, form.getSecWtUnit()[i]);
-							log.debug("form.getLocation()[i] = " + form.getLocation()[i]);
-							cs.setString(11, form.getLocation()[i]);
-							log.debug("form.getAvailableQty()[i] = " + form.getAvailableQty()[i]);
-							cs.setString(12, form.getAvailableQty()[i]);
-							log.debug("form.getSubQty()[i] = " + form.getSubQty()[i]);
-							cs.setString(13, form.getSubQty()[i]);
-							log.debug("userInfoVO.getUserName() = " + userInfoVO.getUserName());
-							cs.setString(14, userInfoVO.getUserName());
-							log.debug(" = ");
-							int dispatch_details_id = i + 1;
-
-							log.info("form.getDispatchDetailsID()[i] = " + form.getDispatchDetailsID()[i]);
-
-							cs.setString(15, form.getDispatchDetailsID()[i]);
-
-							log.debug("form.getStockId()[i] = " + form.getStockId()[i]);
-							cs.setString(17, form.getStockId()[i]);
-
-							cs.registerOutParameter(16, java.sql.Types.VARCHAR);
-
-							int id = cs.executeUpdate();
-							message = cs.getString(16);
-							log.info("i = " + dispatch_details_id + ", message = " + message + " dbId = " + id);
-
-							closeDatabaseResources(null, rs, cs);
+					for (int i = 0; i < form.getDispatchDetailsID().length; i++) {
+						log.debug("Going to insert warehouse outward delivery of dispatch_detail_id = "+form.getDispatchDetailsID()[i]);
+						if (form.getLocation()[i] != null && !form.getLocation()[i].isEmpty()) {
+							String selectedLocations[] = form.getLocation()[i].split(",");
+							String locationWiseSubqty[] = form.getSubQty()[i].split(",");
+							String respectiveStockIdArr[] = form.getStockId()[i].split(",");
+							String locationWiseAvailableQuantityArr[] = form.getAvailableQty()[i].split(",");
+							
+							for(int j = 0; j < selectedLocations.length ; j++){
+								
+								String selectedLocation = selectedLocations[j];
+								String respectiveStockId = respectiveStockIdArr[j];
+								String locationWiseAvailableQuantity = locationWiseAvailableQuantityArr[j];
+								String locationWiseSubQty = locationWiseSubqty[j];
+								
+								if(NumberUtils.isNumber(locationWiseSubQty) && Integer.parseInt(locationWiseSubQty) > 0){
+									
+									
+									cs = conn.prepareCall(query);
+									log.debug("form.getDispatchNo() = " + form.getDispatchNo());
+									cs.setInt(1, form.getDispatchNo());
+									log.debug("form.getMillName()[i] = " + form.getMillName()[i]);
+									cs.setString(2, form.getMillName()[i]);
+									log.debug(" form.getMake()[i] = " + form.getMake()[i]);
+									cs.setString(3, form.getMake()[i]);
+									log.debug("form.getGrade()[i] = " + form.getGrade()[i]);
+									cs.setString(4, form.getGrade()[i]);
+									log.debug("form.getThickness()[i] = " + form.getThickness()[i]);
+									cs.setDouble(5, form.getThickness()[i]);
+									log.debug("form.getWidth()[i] = " + form.getWidth()[i]);
+									cs.setInt(6, form.getWidth()[i]);
+									log.debug("form.getLength()[i] = " + form.getLength()[i]);
+									cs.setInt(7, form.getLength()[i]);
+									log.debug("form.getQty()[i] = " + form.getQty()[i]);
+									cs.setString(8, form.getQty()[i]);
+									log.debug("form.getSecWt()[i] = " + form.getSecWt()[i]);
+									cs.setDouble(9, form.getSecWt()[i]);
+									log.debug("form.getSecWtUnit()[i] = " + form.getSecWtUnit()[i]);
+									cs.setString(10, form.getSecWtUnit()[i]);
+									log.debug("form.getLocation()[i] = " + selectedLocation);
+									cs.setString(11, selectedLocation);
+									log.debug("form.getAvailableQty()[i] = " + locationWiseAvailableQuantity);
+									cs.setString(12, locationWiseAvailableQuantity );
+									log.debug("form.getSubQty()[i] = " + locationWiseSubQty);
+									cs.setString(13, locationWiseSubQty);
+									log.debug("userInfoVO.getUserName() = " + userInfoVO.getUserName());
+									cs.setString(14, userInfoVO.getUserName());
+									log.debug(" = ");
+									int dispatch_details_id = i + 1;
+	
+									log.info("form.getDispatchDetailsID()[i] = " + form.getDispatchDetailsID()[i]);
+	
+									cs.setString(15, form.getDispatchDetailsID()[i]);
+	
+									log.debug("form.getStockId()[i] = " + respectiveStockId);
+									cs.setString(17, respectiveStockId);
+	
+									cs.registerOutParameter(16, java.sql.Types.VARCHAR);
+	
+									int id = cs.executeUpdate();
+									message = cs.getString(16);
+									log.info("i = " + dispatch_details_id + ", message = " + message + " dbId = " + id);
+	
+									closeDatabaseResources(null, rs, cs);
+								}
+							}
+							
 						}
 					}
 				}
@@ -804,7 +824,7 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 
 	}
 
-	public void updateStatus(WarehouseOutwardForm form, UserInfoVO userInfoVO) {
+	public void updateStatus(Integer dispatchOrderId, UserInfoVO userInfoVO) {
 		Connection conn = null;
 		ResultSet rs = null;
 		CallableStatement cs = null;
@@ -819,7 +839,7 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 			statement = conn.prepareStatement(query);
 
 			statement.setString(1, userInfoVO.getUserName());
-			statement.setInt(2, form.getDispatchNo());
+			statement.setInt(2, dispatchOrderId);
 
 			statement.executeUpdate();
 			log.info("message = " + message);
@@ -833,6 +853,60 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 		}
 
 	}
+	
+	
+	public Integer getPendingQuantity(Integer dispatchOrderId, UserInfoVO userInfoVO) {
+		Connection conn = null;
+		ResultSet rs = null;
+		CallableStatement cs = null;
+		PreparedStatement statement = null;
+		String query = "", message = "";
+		Integer pendingQuantity = null;
+		// Integer warehouseOutwardId = -1;
+		try {
+
+			conn = getConnection();
+
+			StringBuffer q = new StringBuffer();
+			q.append(" select  ");
+			q.append(" sum((ddt.qty - COALESCE(wott.taken_qty,0))) pending_qty");
+			q.append(" from ");
+			q.append(" (");
+			q.append(" select * from dispatch_details dd  ");
+			q.append(" where dd.dispatch_order_id = ").append(dispatchOrderId);
+			q.append(" ) ddt ");
+			q.append(" left join (");
+			q.append(" select wot.dispatch_details_id, sum(taken_qty) taken_qty from warehouse_outward_temp wot");
+			q.append(" where wot.dispatch_order_id = ").append(dispatchOrderId);
+			q.append(" group by wot.dispatch_details_id");
+			q.append(" ) wott ");
+			q.append(" on ddt.dispatch_details_id = wott.dispatch_details_id");
+			
+			statement = conn.prepareStatement(q.toString());
+
+//			statement.setInt(1, dispatchOrderId);
+//			statement.setInt(2, dispatchOrderId);
+
+			rs = statement.executeQuery();
+			if(rs!=null && rs.next()){
+				pendingQuantity = rs.getInt("pending_qty");
+				
+				
+			}
+			
+			log.info("message = " + message);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			message = e.getMessage();
+			userInfoVO.setMessage(message);
+		} finally {
+			closeDatabaseResources(conn, rs, cs);
+		}
+
+		return pendingQuantity;
+	}
+	
 
 	public UserInfoVO addStockOutwardData(WarehouseOutwardForm form, UserInfoVO userInfoVO) {
 		Connection conn = null;
