@@ -227,6 +227,23 @@ var MYDISPATCHNO='<%= dispatchNo %>';
 		var msg = "";
 	    var valid = true;
 	    
+	    if ("" == getValByFieldName("body", "vehicleNumber")) {
+			bootbox.alert("Please enter vehicle Number");
+			return false;
+		}
+	    
+	    if ("" == getValByFieldName("body", "actWt")) {
+			bootbox.alert("Please enter Actual Weight");
+			return false;
+		}
+	    
+	    if ("" == getValByFieldName("body", "vehicleDate")) {
+			bootbox.alert("Please select vehicle Date");
+			return false;
+		}
+	    
+	    
+	    
 // 	    $("tr.main-row [name=subQty]").each(function(row, txt) {
 // 	        var result = 0;
 
@@ -281,6 +298,7 @@ var MYDISPATCHNO='<%= dispatchNo %>';
 			
 			
 			txtstockId.value = str;
+			
 			
 			
 			
