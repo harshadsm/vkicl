@@ -96,8 +96,8 @@ var MYDISPATCHNO='<%= dispatchNo %>';
 
 	function addHiddenDiv(hidden_div_container_id) {
 
-		var str = "<div id='"+hidden_div_container_id+"' class='modal fade' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>"
-				+ "<div class='modal-dialog'><div class='modal-content'><div class='modal-div'>"
+		var str = "<div id='"+hidden_div_container_id+"' class='modal fade ' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>"
+				+ "<div class='modal-dialog'><div class='modal-content medium-modal-harshad'><div class='modal-div'>"
 				+ "<button type='button' class='bootbox-close-button close' data-dismiss='modal' aria-hidden='true'>×</button>"
 				+ "<table class='table table-responsive'>"
 				+ "<thead><tr><th>Stock Id</th><th>Mill Name</th><th>Thickness</th><th>Width</th><th>Length</th>"
@@ -173,7 +173,7 @@ var MYDISPATCHNO='<%= dispatchNo %>';
 						    + "<td><input type='text' readonly='readonly' value='" + result.heatNo + "' name='heatNo' class='form-control' /></td>"
 						    + "<td><input type='text' readonly='readonly' value='" + result.plateNo + "' name='plateNo' class='form-control' /></td>"
 							+ "<td><input type='text' value='" + result.availableQty + "' readonly='readonly' name='availableQty' class='form-control' /></td>"
-							+ "<td><input type='number' step='1' placeholder='Quantity' min='0' max='"+result.availableQty+"' name='subQty' onChange='fillDetails();' class='form-control' value='"+prevSelectedQty+"'/></td></tr>"
+							+ "<td><input type='number' step='1' placeholder='Quantity' min='0' max='"+result.availableQty+"' name='subQty' onChange='fillDetails();' class='form-control' value='"+prevSelectedQty+"'/></td></tr>";
 							qtyAvailableTotal = qtyAvailableTotal + result.availableQty; 
 					}
 					if(count == 0) {

@@ -355,3 +355,6 @@ input[name="userName"], input[name="password"], input[name="handleBy"] {
 	text-transform: lowercase;
 }
 
+.medium-modal-harshad{
+	width:800px !important;
+}
