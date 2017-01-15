@@ -78,7 +78,7 @@ public class WarehouseInwardService {
 				warehouseDaoImpl2.addIntersectionData(warehouseInwardRecordVO, warehouseInwardId, userInfo);
 
 				// Update stock
-				stockBalId = warehouseDaoImpl2.addStockBalData(warehouseInwardRecordVO, userInfo);
+				stockBalId = warehouseDaoImpl2.addStockBalData(warehouseInwardRecordVO, userInfo, warehouseInwardId);
 
 				// Mark the Port Outward entry as received
 				warehouseShipmentDaoImpl.updateWarehouseInwardFlag(warehouseInwardRecordVO, userInfo);

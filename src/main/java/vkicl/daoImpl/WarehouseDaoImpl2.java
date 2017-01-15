@@ -137,7 +137,7 @@ public class WarehouseDaoImpl2 extends BaseDaoImpl {
 
 	}
 
-	public long addStockBalData(WarehouseInwardRecordVO portOutwardRecordVO, UserInfoVO userInfoVO)
+	public long addStockBalData(WarehouseInwardRecordVO portOutwardRecordVO, UserInfoVO userInfoVO, Long warehouseInwardId)
 			throws SQLException {
 		Connection conn = null;
 		ResultSet rs = null;
@@ -149,8 +149,8 @@ public class WarehouseDaoImpl2 extends BaseDaoImpl {
 
 			query = "INSERT INTO stock_balance " + " (mill_name,material_make,heat_no,plate_no, "
 					+ "  material_type, grade, length, width, thickness, quantity, "
-					+ "  location,is_delete,is_reserved, is_modified, create_ui,update_ui,create_ts, update_ts,plate_area) "
-					+ " VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
+					+ "  location,is_delete,is_reserved, is_modified, create_ui,update_ui,create_ts, update_ts,plate_area, warehouse_inward_id ) "
+					+ " VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 			log.info(query);
 			conn = getConnection();
@@ -175,6 +175,7 @@ public class WarehouseDaoImpl2 extends BaseDaoImpl {
 			cs.setString(17, getCurentTime());
 			cs.setString(18, getCurentTime());
 			cs.setDouble(19, (portOutwardRecordVO.getLength() * portOutwardRecordVO.getWidth()));
+			cs.setLong(20, warehouseInwardId);
 
 			int count = cs.executeUpdate();
 

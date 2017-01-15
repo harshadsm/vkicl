@@ -8,14 +8,6 @@ public class WarehouseInwardRecordVO {
 	private Integer portInwardId;
 	private Integer portOutwardId;
 
-	public Integer getPortOutwardId() {
-		return portOutwardId;
-	}
-
-	public void setPortOutwardId(Integer portOutwardId) {
-		this.portOutwardId = portOutwardId;
-	}
-
 	private Integer length;
 	private Integer width;
 	private Double thickness;
@@ -25,6 +17,14 @@ public class WarehouseInwardRecordVO {
 	private String materialType;
 	private Double actualWt;
 
+	public Integer getPortOutwardId() {
+		return portOutwardId;
+	}
+
+	public void setPortOutwardId(Integer portOutwardId) {
+		this.portOutwardId = portOutwardId;
+	}
+	
 	public Double getActualWt() {
 		return actualWt;
 	}

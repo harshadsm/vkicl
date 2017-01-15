@@ -6,3 +6,5 @@ Please make note of these MySQL credentials again:
   Root User: adminWxmctfj
   Root Password: iGVEM4JJfMe5
 URL: https://vkicl-harshadsm2.rhcloud.com/phpmyadmin/
+
+Logs Path on server : ${catalina.base}/logs/InvMgmt.log
