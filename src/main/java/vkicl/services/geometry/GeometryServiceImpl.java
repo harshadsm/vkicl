@@ -32,7 +32,6 @@ public class GeometryServiceImpl implements GeometryService {
 		throw new NotImplementedException("Shweta, please implement this at DAO layer. And call it here.");
 	}
 
-	
 	@Override
 	public List<Area> cut(Double originX, Double originY, Double smallPlateLength, Double smallPlateWidth,
 			Shape biggerPlate) throws CutNotPossibleException {
@@ -43,29 +42,28 @@ public class GeometryServiceImpl implements GeometryService {
 		path.lineTo(originX + smallPlateWidth, originY + smallPlateLength);
 		path.lineTo(originX, originY + smallPlateLength);
 		path.closePath();
-		
+
 		Area smallPlate = new Area(path);
 		Area bigPlateForCutting = new Area(biggerPlate);
 		bigPlateForCutting.intersect(smallPlate);
-		
-		if(bigPlateForCutting.equals(smallPlate)){
+
+		if (bigPlateForCutting.equals(smallPlate)) {
 			isCutPossible = true;
-		}else{
+		} else {
 			isCutPossible = false;
 			throw new CutNotPossibleException("Cut not possible with given dimensions and positioning.");
 		}
-		
+
 		Area remainingPlateAfterCut = new Area(biggerPlate);
 		remainingPlateAfterCut.subtract(smallPlate);
-		
+
 		List<Area> cutPlates = new ArrayList<Area>();
 		cutPlates.add(smallPlate);
 		cutPlates.add(remainingPlateAfterCut);
-		
-		System.out.println("Small Plate area = "+smallPlate.toString());
-		System.out.println("Remaining Plate area = "+remainingPlateAfterCut.toString());
-		
-		
+
+		System.out.println("Small Plate area = " + smallPlate.toString());
+		System.out.println("Remaining Plate area = " + remainingPlateAfterCut.toString());
+
 		return cutPlates;
 	}
 
@@ -80,21 +78,20 @@ public class GeometryServiceImpl implements GeometryService {
 		return path;
 	}
 
-	
 	@Override
 	public String toInsertSql(Shape s, StockBalanceDetailsVO vo) {
 
-		return prepareInsertSql(s,vo);
+		return prepareInsertSql(s, vo);
 	}
 
 	public String toUpdateSql(Shape s, Long stockBalId, double area) {
 
-		return prepareUpdateSql(s,stockBalId,area);
+		return prepareUpdateSql(s, stockBalId, area);
 	}
-	
+
 	/**
-	 * If a query similar to "SELECT AsText(g) as gg FROM geom" is run,
-	 * whatever is returned by MySql should be passed to this function as
+	 * If a query similar to "SELECT AsText(g) as gg FROM geom" is run, whatever
+	 * is returned by MySql should be passed to this function as
 	 * mysqlGeometryPolygonAsText.
 	 */
 	@Override
@@ -146,13 +143,15 @@ public class GeometryServiceImpl implements GeometryService {
 
 		// Remove the last coordinate because it is a closing one. And usually
 		// contains 0,0.
-		coordinatesList.remove(coordinatesList.size() - 1);
+		if (coordinatesList != null && coordinatesList.size() >= 1) {
+			coordinatesList.remove(coordinatesList.size() - 1);
+		}
 
 		Double width = s.getBounds2D().getWidth();
 		Double length = s.getBounds2D().getHeight();
 		Area a = new Area(s);
-		Integer isRectangular = a.isRectangular()?1:0;
-		String sql = prepareInsertSql(coordinatesList,isRectangular, length, width, vo);
+		Integer isRectangular = a.isRectangular() ? 1 : 0;
+		String sql = prepareInsertSql(coordinatesList, isRectangular, length, width, vo);
 
 		return sql;
 	}
@@ -165,25 +164,29 @@ public class GeometryServiceImpl implements GeometryService {
 		// contains 0,0.
 		coordinatesList.remove(coordinatesList.size() - 1);
 		Area a = new Area(s);
-		Integer isRectangular = a.isRectangular()?1:0;
-		String sql = prepareUpdateSql(coordinatesList,isRectangular,stockBalId, area);
+		Integer isRectangular = a.isRectangular() ? 1 : 0;
+		String sql = prepareUpdateSql(coordinatesList, isRectangular, stockBalId, area);
 
 		return sql;
 	}
-	
-	private String prepareInsertSql(List<Double[]> coordinatesList, Integer isRectangular, Double length, Double width, StockBalanceDetailsVO vo) {
-		StringBuilder sql = new StringBuilder();
-		//For whatever weired reasons, ST_AsText does not work on server. AsText works.
-		//In fact any function prefixed with ST_ does not work on server.
-		//Hence removing ST_ prefix from the queries.
-//		sql.append("INSERT INTO ").append("stock_balance").append(" (plate_shape, mill_name, material_make, material_type, "
-//				+ " grade, length, width, thickness, plate_area, quantity, is_rectangular)  ").
-//		append(" VALUES (").append("(ST_GeomFromText('POLYGON((");
 
-		
-		sql.append("INSERT INTO ").append("stock_balance").append(" (plate_shape, mill_name, material_make, material_type, ")
-				.append(" grade, length, width, thickness, plate_area, quantity, is_rectangular, location,heat_no, plate_no)  ").
-		append(" VALUES (").append("(GeomFromText('POLYGON((");
+	private String prepareInsertSql(List<Double[]> coordinatesList, Integer isRectangular, Double length, Double width,
+			StockBalanceDetailsVO vo) {
+		StringBuilder sql = new StringBuilder();
+		// For whatever weired reasons, ST_AsText does not work on server.
+		// AsText works.
+		// In fact any function prefixed with ST_ does not work on server.
+		// Hence removing ST_ prefix from the queries.
+		// sql.append("INSERT INTO ").append("stock_balance").append("
+		// (plate_shape, mill_name, material_make, material_type, "
+		// + " grade, length, width, thickness, plate_area, quantity,
+		// is_rectangular) ").
+		// append(" VALUES (").append("(ST_GeomFromText('POLYGON((");
+
+		sql.append("INSERT INTO ").append("stock_balance")
+				.append(" (plate_shape, mill_name, material_make, material_type, ")
+				.append(" grade, length, width, thickness, plate_area, quantity, is_rectangular, location, heat_no, plate_no, warehouse_inward_id )  ")
+				.append(" VALUES (").append("(GeomFromText('POLYGON((");
 
 		for (Double[] coords : coordinatesList) {
 			sql.append(coords[0]).append(" ").append(coords[1]).append(",");
@@ -193,27 +196,29 @@ public class GeometryServiceImpl implements GeometryService {
 		Double[] firstCoords = coordinatesList.get(0);
 		sql.append(firstCoords[0]).append(" ").append(firstCoords[1]);
 
-		sql.append("))'))").append(",'"+vo.getMillName()+"','"+vo.getMake()+"','"+vo.getMaterialType()+"',"
-				+ " '"+vo.getGrade()+"',"+length+","+width+","+vo.getThickness()+","+(length * width)+", 1,"+isRectangular+",'"+vo.getLocation()+"','"+vo.getHeat_no()+"','"+vo.getPlate_no()+"')");
-
+		sql.append("))'))")
+				.append(",'" + vo.getMillName() + "','" + vo.getMake() + "','" + vo.getMaterialType() + "'," + " '"
+						+ vo.getGrade() + "'," + length + "," + width + "," + vo.getThickness() + "," + (length * width)
+						+ ", 1," + isRectangular + ",'" + vo.getLocation() + "','" + vo.getHeat_no() + "','"
+						+ vo.getPlate_no() + "','" + vo.getWarehouseInwardId() + "')");
 
 		return sql.toString();
 	}
-	
-	private String prepareUpdateSql(List<Double[]> coordinatesList, Integer isRectangular, Long stockBalId, double area) {
-		StringBuilder sql = new StringBuilder();
-		
-		//For whatever weired reasons, ST_AsText does not work on server. AsText works.
-				//In fact any function prefixed with ST_ does not work on server.
-				//Hence removing ST_ prefix from the queries.
-//		sql.append("update ").append("stock_balance").append(" set ")
-//		.append(" is_rectangular = ").append(isRectangular).append(", ")
-//		.append(" plate_shape= ").append("(ST_GeomFromText('POLYGON((");
 
-		
-		sql.append("update ").append("stock_balance").append(" set ")
-		.append(" is_rectangular = ").append(isRectangular).append(", ")
-		.append(" plate_shape= ").append("(GeomFromText('POLYGON((");
+	private String prepareUpdateSql(List<Double[]> coordinatesList, Integer isRectangular, Long stockBalId,
+			double area) {
+		StringBuilder sql = new StringBuilder();
+
+		// For whatever weired reasons, ST_AsText does not work on server.
+		// AsText works.
+		// In fact any function prefixed with ST_ does not work on server.
+		// Hence removing ST_ prefix from the queries.
+		// sql.append("update ").append("stock_balance").append(" set ")
+		// .append(" is_rectangular = ").append(isRectangular).append(", ")
+		// .append(" plate_shape= ").append("(ST_GeomFromText('POLYGON((");
+
+		sql.append("update ").append("stock_balance").append(" set ").append(" is_rectangular = ").append(isRectangular)
+				.append(", ").append(" plate_shape= ").append("(GeomFromText('POLYGON((");
 
 		for (Double[] coords : coordinatesList) {
 			sql.append(coords[0]).append(" ").append(coords[1]).append(",");
@@ -223,31 +228,31 @@ public class GeometryServiceImpl implements GeometryService {
 		Double[] firstCoords = coordinatesList.get(0);
 		sql.append(firstCoords[0]).append(" ").append(firstCoords[1]);
 
-		sql.append("))'))" ).append(", plate_area= "+ area).append(" where stock_balance_id="+stockBalId);
-		
-		//StockBalDaoImpl impl=new StockBalDaoImpl();
-		//impl.updateStockBalanceShape(sql.toString());
-		
+		sql.append("))'))").append(", plate_area= " + area).append(" where stock_balance_id=" + stockBalId);
+
+		// StockBalDaoImpl impl=new StockBalDaoImpl();
+		// impl.updateStockBalanceShape(sql.toString());
+
 		return sql.toString();
 	}
-	
-	
-	/*private String prepareInsertSql(List<Double[]> coordinatesList) {
-		StringBuilder sql = new StringBuilder();
-		sql.append("INSERT INTO ").append(TABLE_1).append(" ").append(" VALUES ").append("(GeomFromText('POLYGON((");
 
-		for (Double[] coords : coordinatesList) {
-			sql.append(coords[0]).append(" ").append(coords[1]).append(",");
-		}
-
-		// Add first coordinate as last coordinate. As required by MySql syntax
-		Double[] firstCoords = coordinatesList.get(0);
-		sql.append(firstCoords[0]).append(" ").append(firstCoords[1]);
-
-		sql.append("))'));");
-
-		return sql.toString();
-	}*/
+	/*
+	 * private String prepareInsertSql(List<Double[]> coordinatesList) {
+	 * StringBuilder sql = new StringBuilder(); sql.append("INSERT INTO "
+	 * ).append(TABLE_1).append(" ").append(" VALUES "
+	 * ).append("(GeomFromText('POLYGON((");
+	 * 
+	 * for (Double[] coords : coordinatesList) { sql.append(coords[0]).append(
+	 * " ").append(coords[1]).append(","); }
+	 * 
+	 * // Add first coordinate as last coordinate. As required by MySql syntax
+	 * Double[] firstCoords = coordinatesList.get(0);
+	 * sql.append(firstCoords[0]).append(" ").append(firstCoords[1]);
+	 * 
+	 * sql.append("))'));");
+	 * 
+	 * return sql.toString(); }
+	 */
 
 	public List<Double[]> getCoordinatesList(Shape s) {
 		List<Double[]> coordinatesList = new LinkedList<Double[]>();
@@ -261,7 +266,7 @@ public class GeometryServiceImpl implements GeometryService {
 
 			pi.next();
 		}
-		
+
 		return coordinatesList;
 	}
 
