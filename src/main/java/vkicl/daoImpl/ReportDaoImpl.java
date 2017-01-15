@@ -630,11 +630,11 @@ public class ReportDaoImpl extends BaseDaoImpl {
 
 			// log.info("Grade = " + toString(form.getGrade()));
 			cs = conn.prepareCall(query);
-			cs.setString(1, toAsterisk(toString(form.getGrade())));
-			cs.setString(2, toAsterisk(formatInput(form.getMake())));
-			cs.setString(3, toAsterisk(formatInput(form.getMaterialType())));
-			cs.setString(4, toAsterisk(formatInput(form.getLocation())));
-			cs.setString(5, toAsterisk(formatInput(form.getMillName())));
+			cs.setString(1, toWildCard(toString(form.getGrade())));
+			cs.setString(2, toWildCard(formatInput(form.getMake())));
+			cs.setString(3, toWildCard(formatInput(form.getMaterialType())));
+			cs.setString(4, toWildCard(formatInput(form.getLocation())));
+			cs.setString(5, toWildCard(formatInput(form.getMillName())));
 			cs.setDouble(6, form.getThickness());
 			cs.registerOutParameter(7, java.sql.Types.VARCHAR);
 			rs = cs.executeQuery();
@@ -685,12 +685,12 @@ public class ReportDaoImpl extends BaseDaoImpl {
 		return form;
 	}
 
-	private String toAsterisk(String s) {
+	private String toWildCard(String s) {
 		String ret = s;
 		if(StringUtils.isEmpty(s)){
-			ret = "*";
+			ret = "%";
 		}else if("ALL".equalsIgnoreCase(s)){
-			ret = "*";
+			ret = "%";
 		}
 		return ret;
 	}
