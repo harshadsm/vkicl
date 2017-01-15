@@ -98,7 +98,8 @@ public class StockBalDaoImpl extends BaseDaoImpl {
 			// + " from stock_balance where stock_balance_id=? and is_cut!=1 ";
 			query = "SELECT stock_balance_id,mill_name, material_type, material_make, grade,length, thickness, width, "
 					+ " AsText(plate_shape) plate_shape_text, Area(plate_shape) as plate_area, quantity, location, heat_no, plate_no, warehouse_inward_id"
-					+ " from stock_balance where stock_balance_id=? and is_cut!=1 ";
+					+ " from stock_balance where stock_balance_id=? ";
+					//+ " and is_cut!=1 ";
 
 			log.info("query = " + query);
 			cs = conn.prepareCall(query);
@@ -336,8 +337,8 @@ public class StockBalDaoImpl extends BaseDaoImpl {
 	private String processSearchCriteria(JqGridSearchParameterHolder searchParam) {
 		String sqlClause = "";
 		List<String> clauses = new ArrayList<String>();
-		String notNullClause = "is_cut !=1";
-		clauses.add(notNullClause);
+//		String notNullClause = "is_cut !=1";
+//		clauses.add(notNullClause);
 		if (null != searchParam && null != searchParam.getRules() && !searchParam.getRules().isEmpty()) {
 			for (JqGridSearchParameterHolder.Rule r : searchParam.getRules()) {
 				String clause = processSearchRule(r);

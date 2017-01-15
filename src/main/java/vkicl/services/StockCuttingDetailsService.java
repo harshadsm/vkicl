@@ -91,8 +91,8 @@ public class StockCuttingDetailsService {
 	}
 	
 	public List<StockBalanceDetailsVO> fetchCuttingDetailsList(Integer stockBalId){
-	StockBalDaoImpl portDao = new StockBalDaoImpl();
-		List<StockBalanceDetailsVO> records = portDao.fetchCuttingDetailsList(stockBalId);
+		StockBalDaoImpl stockBalDao = new StockBalDaoImpl();
+		List<StockBalanceDetailsVO> records = stockBalDao.fetchCuttingDetailsList(stockBalId);
 		return records;
 	}
 

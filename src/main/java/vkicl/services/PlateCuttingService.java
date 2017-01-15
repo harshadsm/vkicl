@@ -87,16 +87,70 @@ public class PlateCuttingService {
 
 	}
 
+//	public List<StockBalanceDetailsVO> toList(StockForm form, UserInfoVO user) throws SQLException {
+//		List<StockBalanceDetailsVO> list = new ArrayList<StockBalanceDetailsVO>();
+//		Integer stockBalId = form.getStock_Bal_id();
+//
+//		StockBalDaoImpl impl = new StockBalDaoImpl();
+//		StockBalanceDetailsVO vo = impl.fetchStockBalById(stockBalId);
+//		list.add(vo);
+//
+//		return list;
+//	}
+	
 	public List<StockBalanceDetailsVO> toList(StockForm form, UserInfoVO user) throws SQLException {
 		List<StockBalanceDetailsVO> list = new ArrayList<StockBalanceDetailsVO>();
 		Integer stockBalId = form.getStock_Bal_id();
-
 		StockBalDaoImpl impl = new StockBalDaoImpl();
-		StockBalanceDetailsVO vo = impl.fetchStockBalById(stockBalId);
-		list.add(vo);
+		StockBalanceDetailsVO voForWarehouseInwardId = impl.fetchStockBalById(stockBalId);
+		//if (form.getThickness() != null) {
+			//int recordCount = form.getThickness().length;
+			//Double[] thickness = form.getThickness();
+			//Integer[] width = form.getWidth();
+			//Integer[] length = form.getLength();
+		
+			//for (int i = 0; i < recordCount; i++) {
+			//	if (thickness[i] == 0d && width[i] == 0 && length[i] == 0)  {
+			//		logger.debug("Ignored empty row");
+			//	} else {
+
+					StockBalanceDetailsVO vo = new StockBalanceDetailsVO();
+					vo.setWarehouseInwardId(voForWarehouseInwardId.getWarehouseInwardId());
+					
+					vo.setThickness(form.getThickness());
+					vo.setWidth(form.getWidth());
+					vo.setLength(form.getLength());
+					vo.setGrade(form.getGrade());
+					vo.setMaterialType(form.getMaterialType());
+					vo.setMake(form.getMake());
+					vo.setMillName(form.getMillName());
+					vo.setStockBalId(form.getStock_Bal_id());
+					
+					double plateArea=(form.getLength()*form.getWidth());
+					
+					vo.setPlateArea(plateArea);
+					vo.setQuantity(form.getQuantity());
+					vo.setLocation(form.getLocation());
+					vo.setHeat_no(form.getHeat_no());
+					vo.setPlate_no(form.getPlate_no());
+					//vo.setBe_weight(actualWt[i]);
+//					vo.setBe_wt_unit(actualWtUnit[i]); //As explained by client, it will always be TON
+					//vo.setBe_wt_unit("TON");
+					//vo.setPort_inward_id(portInwardId);
+					//vo.setUpdate_ui(user.getUserName());
+					//vo.setCreate_ui(user.getUserName());
+					//vo.setCreate_ts(new Date());
+					//vo.setUpdate_ts(new Date());
+					
+					list.add(vo);
+				//}
+
+			//}
+		//}
 
 		return list;
 	}
+
 
 	public String getStockBalCuttingListAsJson(HttpServletRequest req) throws Exception {
 
@@ -117,11 +171,11 @@ public class PlateCuttingService {
 		String orderBy = params.getParam(JQGRID_PARAM_NAMES.sidx);
 		String order = params.getParam(JQGRID_PARAM_NAMES.sord);
 
-		StockBalDaoImpl portDao = new StockBalDaoImpl();
-		Integer totalRecordsCount = portDao.fetchStockBalRecordCount(searchParam);// ,
+		StockBalDaoImpl stockBalDao = new StockBalDaoImpl();
+		Integer totalRecordsCount = stockBalDao.fetchStockBalRecordCount(searchParam);// ,
 																					// portInwardId);
 
-		List<StockBalanceDetailsVO> outrecords = portDao.fetchStockBalList(Integer.parseInt(page),
+		List<StockBalanceDetailsVO> outrecords = stockBalDao.fetchStockBalList(Integer.parseInt(page),
 				Integer.parseInt(rows), totalRecordsCount, orderBy, order, searchParam);
 
 		// updateAlreadyOutQuantity(outrecords);
