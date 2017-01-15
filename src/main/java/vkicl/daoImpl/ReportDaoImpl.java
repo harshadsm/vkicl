@@ -179,6 +179,7 @@ public class ReportDaoImpl extends BaseDaoImpl {
 			cs.setString(2, convertStringToDate(form.getToDate()));
 			cs.setString(3, form.getReceivedFrom());
 			cs.setString(4, form.getMaterialType());
+			cs.setString(6, form.getVesselName());
 			cs.registerOutParameter(5, java.sql.Types.VARCHAR);
 			rs = cs.executeQuery();
 			message = cs.getString(5);
@@ -687,9 +688,9 @@ public class ReportDaoImpl extends BaseDaoImpl {
 
 	private String toWildCard(String s) {
 		String ret = s;
-		if(StringUtils.isEmpty(s)){
+		if (StringUtils.isEmpty(s)) {
 			ret = "%";
-		}else if("ALL".equalsIgnoreCase(s)){
+		} else if ("ALL".equalsIgnoreCase(s)) {
 			ret = "%";
 		}
 		return ret;
