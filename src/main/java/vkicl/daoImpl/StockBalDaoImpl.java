@@ -97,7 +97,7 @@ public class StockBalDaoImpl extends BaseDaoImpl {
 			// plate_area"
 			// + " from stock_balance where stock_balance_id=? and is_cut!=1 ";
 			query = "SELECT stock_balance_id,mill_name, material_type, material_make, grade,length, thickness, width, "
-					+ " AsText(plate_shape) plate_shape_text, Area(plate_shape) as plate_area, quantity, location, heat_no, plate_no"
+					+ " AsText(plate_shape) plate_shape_text, Area(plate_shape) as plate_area, quantity, location, heat_no, plate_no, warehouse_inward_id"
 					+ " from stock_balance where stock_balance_id=? and is_cut!=1 ";
 
 			log.info("query = " + query);
@@ -136,6 +136,7 @@ public class StockBalDaoImpl extends BaseDaoImpl {
 					vo.setLocation(rs.getString("location"));
 					vo.setHeat_no(rs.getString("heat_no"));
 					vo.setPlate_no(rs.getString("plate_no"));
+					vo.setWarehouseInwardId(rs.getInt("warehouse_inward_id"));
 					break; // WE EXPECT/WANT ONLY 1 record.
 				} while (rs.next());
 
