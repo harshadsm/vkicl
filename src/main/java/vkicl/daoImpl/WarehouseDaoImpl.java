@@ -346,23 +346,24 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 					query = prop.get("sp.warehouse.outward.temp.insert");
 					log.info("query = " + query);
 					for (int i = 0; i < form.getDispatchDetailsID().length; i++) {
-						log.debug("Going to insert warehouse outward delivery of dispatch_detail_id = "+form.getDispatchDetailsID()[i]);
+						log.debug("Going to insert warehouse outward delivery of dispatch_detail_id = "
+								+ form.getDispatchDetailsID()[i]);
 						if (form.getLocation()[i] != null && !form.getLocation()[i].isEmpty()) {
 							String selectedLocations[] = form.getLocation()[i].split(",");
 							String locationWiseSubqty[] = form.getSubQty()[i].split(",");
 							String respectiveStockIdArr[] = form.getStockId()[i].split(",");
 							String locationWiseAvailableQuantityArr[] = form.getAvailableQty()[i].split(",");
-							
-							for(int j = 0; j < selectedLocations.length ; j++){
-								
+
+							for (int j = 0; j < selectedLocations.length; j++) {
+
 								String selectedLocation = selectedLocations[j];
 								String respectiveStockId = respectiveStockIdArr[j];
 								String locationWiseAvailableQuantity = locationWiseAvailableQuantityArr[j];
 								String locationWiseSubQty = locationWiseSubqty[j];
-								
-								if(NumberUtils.isNumber(locationWiseSubQty) && Integer.parseInt(locationWiseSubQty) > 0){
-									
-									
+
+								if (NumberUtils.isNumber(locationWiseSubQty)
+										&& Integer.parseInt(locationWiseSubQty) > 0) {
+
 									cs = conn.prepareCall(query);
 									log.debug("form.getDispatchNo() = " + form.getDispatchNo());
 									cs.setInt(1, form.getDispatchNo());
@@ -387,31 +388,31 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 									log.debug("form.getLocation()[i] = " + selectedLocation);
 									cs.setString(11, selectedLocation);
 									log.debug("form.getAvailableQty()[i] = " + locationWiseAvailableQuantity);
-									cs.setString(12, locationWiseAvailableQuantity );
+									cs.setString(12, locationWiseAvailableQuantity);
 									log.debug("form.getSubQty()[i] = " + locationWiseSubQty);
 									cs.setString(13, locationWiseSubQty);
 									log.debug("userInfoVO.getUserName() = " + userInfoVO.getUserName());
 									cs.setString(14, userInfoVO.getUserName());
 									log.debug(" = ");
 									int dispatch_details_id = i + 1;
-	
+
 									log.info("form.getDispatchDetailsID()[i] = " + form.getDispatchDetailsID()[i]);
-	
+
 									cs.setString(15, form.getDispatchDetailsID()[i]);
-	
+
 									log.debug("form.getStockId()[i] = " + respectiveStockId);
 									cs.setString(17, respectiveStockId);
-	
+
 									cs.registerOutParameter(16, java.sql.Types.VARCHAR);
-	
+
 									int id = cs.executeUpdate();
 									message = cs.getString(16);
 									log.info("i = " + dispatch_details_id + ", message = " + message + " dbId = " + id);
-	
+
 									closeDatabaseResources(null, rs, cs);
 								}
 							}
-							
+
 						}
 					}
 				}
@@ -452,8 +453,10 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 			log.info("form = " + form);
 			cs = conn.prepareCall(query);
 			// for (int i = 0; i < form.getMillName().length; i++) {
-			cs.setDouble(1, form.getActWt());
-			cs.setString(2, formatInput(form.getActWtUnit()));
+			// cs.setDouble(1, form.getActWt());
+			// cs.setString(2, formatInput(form.getActWtUnit()));
+			cs.setDouble(1, 0d);
+			cs.setString(2, "");
 			cs.setInt(3, form.getDispatchNo());
 			cs.setString(4, formatInput(form.getVehicleNumber()));
 			cs.setString(5, formatInput(form.getVehicleDate()));
@@ -853,8 +856,7 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 		}
 
 	}
-	
-	
+
 	public Integer getPendingQuantity(Integer dispatchOrderId, UserInfoVO userInfoVO) {
 		Connection conn = null;
 		ResultSet rs = null;
@@ -881,19 +883,18 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 			q.append(" group by wot.dispatch_details_id");
 			q.append(" ) wott ");
 			q.append(" on ddt.dispatch_details_id = wott.dispatch_details_id");
-			
+
 			statement = conn.prepareStatement(q.toString());
 
-//			statement.setInt(1, dispatchOrderId);
-//			statement.setInt(2, dispatchOrderId);
+			// statement.setInt(1, dispatchOrderId);
+			// statement.setInt(2, dispatchOrderId);
 
 			rs = statement.executeQuery();
-			if(rs!=null && rs.next()){
+			if (rs != null && rs.next()) {
 				pendingQuantity = rs.getInt("pending_qty");
-				
-				
+
 			}
-			
+
 			log.info("message = " + message);
 
 		} catch (Exception e) {
@@ -906,7 +907,6 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 
 		return pendingQuantity;
 	}
-	
 
 	public UserInfoVO addStockOutwardData(WarehouseOutwardForm form, UserInfoVO userInfoVO) {
 		Connection conn = null;

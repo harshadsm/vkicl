@@ -232,10 +232,10 @@ var MYDISPATCHNO='<%= dispatchNo %>';
 			return false;
 		}
 	    
-	    if ("" == getValByFieldName("body", "actWt")) {
-			bootbox.alert("Please enter Actual Weight");
-			return false;
-		}
+	    //if ("" == getValByFieldName("body", "actWt")) {
+			//bootbox.alert("Please enter Actual Weight");
+			//return false;
+		//}
 	    
 	    if ("" == getValByFieldName("body", "vehicleDate")) {
 			bootbox.alert("Please select vehicle Date");
@@ -416,7 +416,7 @@ var MYDISPATCHNO='<%= dispatchNo %>';
 								value='<c:out value="<%=dispatchNo %>" />' class="form-control" />
 						</td>
 					</tr>
-					<tr class=" after-result-1">
+					<!-- <tr class=" after-result-1">
 						<td class="form-label"><label for="actWt">Actual
 								Weight</label></td>
 						<td colspan="2">
@@ -437,17 +437,7 @@ var MYDISPATCHNO='<%= dispatchNo %>';
 								</div>
 							</div>
 						</td>
-					</tr>
-				</table>
-			</div>
-			<div class="col-md-4">
-				<table class="table table-responsive">
-					<tr>
-						<td class="form-label"><label for="vehicleNumber">Vehicle
-								Number</label></td>
-						<td><input type="text" name="vehicleNumber"
-							class="form-control" /></td>
-					</tr>
+					</tr> -->
 					<tr>
 						<td class="form-label"><label for="vehicleDate">Vehicle
 								Date</label></td>
@@ -459,6 +449,17 @@ var MYDISPATCHNO='<%= dispatchNo %>';
 							</div>
 						</td>
 					</tr>
+				</table>
+			</div>
+			<div class="col-md-4">
+				<table class="table table-responsive">
+					<tr>
+						<td class="form-label"><label for="vehicleNumber">Vehicle
+								Number</label></td>
+						<td><input type="text" name="vehicleNumber"
+							class="form-control" /></td>
+					</tr>
+					
 				</table>
 			</div>
 		</div>
