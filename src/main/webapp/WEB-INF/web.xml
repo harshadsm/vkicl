@@ -58,6 +58,10 @@
 		<servlet-class>vkicl.action.StockBalCuttingJsonServlet</servlet-class>
 	</servlet>
 	<servlet>
+		<servlet-name>PortPurchaseOrderJsonServlet</servlet-name>
+		<servlet-class>vkicl.action.PortPurchaseOrderJsonServlet</servlet-class>
+	</servlet>
+	<servlet>
 		<servlet-name>FileUploadService</servlet-name>
 		<servlet-class>vkicl.services.FileUploadService</servlet-class>
 	</servlet>
@@ -109,7 +113,10 @@
 		<servlet-name>StockBalCuttingJsonServlet</servlet-name>
 		<url-pattern>/stockBalCuttingJsonServlet</url-pattern>
 	</servlet-mapping>
-	
+	<servlet-mapping>
+		<servlet-name>PortPurchaseOrderJsonServlet</servlet-name>
+		<url-pattern>/portPurchaseOrderJsonServlet</url-pattern>
+	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>FileUploadService</servlet-name>
 		<url-pattern>/upload</url-pattern>

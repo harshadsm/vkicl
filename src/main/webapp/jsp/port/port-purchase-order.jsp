@@ -162,14 +162,14 @@ input[name="length"], input[name="width"], input[name="thickness"], input[name="
   
   
   <ul class="nav nav-pills">
-    <li class="active"><a data-toggle="pill" href="#home">Home</a></li>
-    <li><a data-toggle="pill" href="#menu1">Menu 1</a></li>
+    <li class="active"><a data-toggle="pill" href="#home">Port Purchase Order- Step 1</a></li>
+    <li><a data-toggle="pill" href="#menu1">Port Purchase Order- Step 2</a></li>
 
   </ul>
   
   <div class="tab-content">
     <div id="home" class="tab-pane fade in active">
-      <h3>HOME</h3>
+      <h3>Port Purchase Order- Step 1</h3>
       <div class="row">
 			<div class="col-md-6">
 				<table class="table table-responsive dispatch-table">
@@ -314,24 +314,199 @@ input[name="length"], input[name="width"], input[name="thickness"], input[name="
 		</div>
     </div>
     <div id="menu1" class="tab-pane fade">
-      <h3>Menu 1</h3>
+      <h3>Port Purchase Order- Step 2</h3>
       <div class="row">
-			<div class="col-md-6">
-			fgdhg
-			</div>
-			<div class="col-md-6">
-			xfbx
-			</div>
-			</div>
-    </div>
-    <div class="row">
-			<div class="col-md-12">
-			hh
-			</div>
-			</div>
-    </div>
+      <div class="col-md-6">
+					<div>
+						<div id="portInwardTable">
+							<table id="portInwardGrid"></table>
+							<div id="portInwardPager"></div>
+						</div>
+					</div>
+				</div>
+	 <div class="col-md-6">
+				</div>
+				</div>
   </div>
 </div>
 	</html:form>
 </div>
+<script>
+
+$(function() {
+	$("#portInwardGrid").jqGrid(
+		{
+			url : './portPurchaseOrderJsonServlet',
+			datatype : 'json',
+			mtype : 'GET',
+			
+			
+			colNames : [ 'id', 'Date', 'Vessel Name', 'Vendor Name', 'Material Type', 'Mill Name', 'Make', 'Grade', 'Desc'],
+					
+			colModel : [ {
+				name : 'id',
+				index : 'id',
+				width : 30,
+				editable : true,
+				editrules : {
+					required : true
+				},
+				editoptions : {
+					size : 10
+				},
+				search:false,
+				searchoptions: { sopt:['ge']}
+			}, {
+				name : 'vesselDate',
+				index : 'vessel_date',
+				width : 80,
+				editable : false,
+				editoptions : {
+					readonly : true,
+					size : 10
+				},
+				search:true,
+				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+				searchoptions: { sopt:[ 'cn','eq']}
+				
+			},{
+				name : 'vesselName',
+				index : 'vessel_name',
+				width : 180,
+				editable : false,
+				editoptions : {
+					readonly : true,
+					size : 10
+				},
+				sortable:false,
+				search:true,
+				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+				searchoptions: { sopt:[ 'cn','eq']}
+				
+			},{
+				name : 'vendorName',
+				index : 'vendor_name',
+				width : 180,
+				editable : false,
+				editoptions : {
+					readonly : true,
+					size : 10
+				},
+				sortable:false,
+				search:true,
+				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+				searchoptions: { sopt:[ 'cn','eq']}
+				
+			},{
+				name : 'materialType',
+				index : 'materialType',
+				width : 130,
+				editable : false,
+				editoptions : {
+					readonly : true,
+					size : 10
+				},
+				search:false,
+				sortable:false,
+				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+				searchoptions: { sopt:[ 'cn','eq']}
+				
+			},{
+				name : 'millName',
+				index : 'millName',
+				width : 130,
+				editable : false,
+				editoptions : {
+					readonly : true,
+					size : 10
+				},
+				search:false,
+				sortable:false,
+				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+				searchoptions: { sopt:[ 'cn','eq']}
+				
+			},{
+				name : 'make',
+				index : 'make',
+				width : 130,
+				editable : false,
+				editoptions : {
+					readonly : true,
+					size : 10
+				},
+				sortable:false,
+				search:false,
+				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+				searchoptions: { sopt:[ 'cn','eq']}
+				
+			},{
+				name : 'grade',
+				index : 'grade',
+				width : 80,
+				editable : false,
+				editoptions : {
+					readonly : true,
+					size : 10
+				},
+				sortable:false,
+				search:false,
+				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+				searchoptions: { sopt:[ 'cn','eq']}
+				
+			},{
+				name : 'desc',
+				index : 'desc',
+				width : 180,
+				editable : false,
+				editoptions : {
+					readonly : true,
+					size : 10
+				},
+				sortable:false,
+				search:false,
+				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+				searchoptions: { sopt:[ 'cn','eq']}
+				
+			}
+			],
+			postData : {
+			},
+			rowNum : 20,
+			rowList : [ 20, 40, 60 ],
+			height : 280,
+			autowidth : true,
+			rownumbers : true,
+			pager : '#pager',
+			sortname : 'vessel_date',
+			viewrecords : true,
+			sortorder : "desc",
+			caption : "Port Inward List",
+			emptyrecords : "Empty records",
+			loadonce : false,
+			loadComplete : function() {
+
+			},
+			jsonReader : {
+				root : "rows",
+				page : "page",
+				total : "total",
+				records : "records",
+				repeatitems : false,
+				cell : "cell",
+				id : "id"
+			},
+	        gridComplete: function(){ 
+	        	var ids = $("#grid").jqGrid('getDataIDs');
+	        	console.log(ids);
+	        	for(var i=0;i < ids.length;i++){ 
+	        		
+	        		$("#grid").jqGrid('setRowData',ids[i],{actionLink:cust_lnk});
+	        		
+	        		$("#grid").jqGrid('filterToolbar',{stringResult: true,searchOnEnter : false, searchOperators:true, defaultSearch:"cn"});
+	        		
+	        		$("#grid").jqGrid('setColProp', "address", {searchoptions: { sopt:['cn','eq']}});
+	        		} }
+		});
+});		
+</script>
 
