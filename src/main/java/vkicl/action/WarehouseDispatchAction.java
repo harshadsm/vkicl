@@ -19,15 +19,14 @@ public class WarehouseDispatchAction extends BaseAction {
 	@SuppressWarnings("unused")
 	private static PropFileReader prop = PropFileReader.getInstance();
 
-	public ActionForward execute(ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response) {
+	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) {
 		ActionForward actionForward = null;
 		WarehouseDispatchForm warehouseDispatchForm = null;
 		String genericListener = null;
 		UserInfoVO userInfoVO = null;
 		try {
-			actionForward = checkAccess(mapping, request,
-					Constants.Apps.DISPATCH_ORDER);
+			actionForward = checkAccess(mapping, request, Constants.Apps.PORT_ENTRY);
 			if (null != actionForward)
 				return actionForward;
 

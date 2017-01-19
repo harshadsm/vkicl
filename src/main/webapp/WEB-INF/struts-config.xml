@@ -29,6 +29,7 @@
 			type="vkicl.report.form.WarehouseDispatchDetailsReportForm" />
 		<form-bean name="StockReportForm" type="vkicl.report.form.StockReportForm" />
 		<form-bean name="StockForm" type="vkicl.form.StockForm" />
+		<form-bean name="PortPurchaseOrderForm" type="vkicl.form.PortPurchaseOrderForm" />
 
 	</form-beans>
 	<global-forwards>
@@ -73,6 +74,11 @@
 			<forward name="showAddPackingListPage" path="showAddPackingListPage" />
 		</action>
 
+<action path="/port-purchase-order" type="vkicl.action.PortPurchaseOrderAction"
+			name="PortPurchaseOrderForm">
+			<forward name="success"  path="PortPurchaseOrderDefn" />
+		</action>
+		
 		<action path="/port-outward" type="vkicl.action.PortOutwardAction2"
 			name="PortOutwardForm">
 			<forward name="success"  path="portOutwardDetailsDefn_2" />
