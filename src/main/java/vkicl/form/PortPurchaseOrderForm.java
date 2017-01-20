@@ -7,8 +7,17 @@ import vkicl.form.*;
 public class PortPurchaseOrderForm extends BaseForm {
 
 	private int id;
-
 	private String customerName = "";
+	private String brokerName = "";
+	private String brokerage = "";
+	private String brokerageUnit = "";
+	private String deliveryAddress = "";
+	private Double rate = null;
+	private Double excise = null;
+	private Double tax = null;
+	private Double transport = null;
+	private String paymentTerms = null;
+	private Integer totalQuantity = null;
 
 	public int getId() {
 		return id;
@@ -58,35 +67,35 @@ public class PortPurchaseOrderForm extends BaseForm {
 		this.deliveryAddress = deliveryAddress;
 	}
 
-	public String getRate() {
+	public Double getRate() {
 		return rate;
 	}
 
-	public void setRate(String rate) {
+	public void setRate(Double rate) {
 		this.rate = rate;
 	}
 
-	public String getExcise() {
+	public Double getExcise() {
 		return excise;
 	}
 
-	public void setExcise(String excise) {
+	public void setExcise(Double excise) {
 		this.excise = excise;
 	}
 
-	public String getTax() {
+	public Double getTax() {
 		return tax;
 	}
 
-	public void setTax(String tax) {
+	public void setTax(Double tax) {
 		this.tax = tax;
 	}
 
-	public String getTransport() {
+	public Double getTransport() {
 		return transport;
 	}
 
-	public void setTransport(String transport) {
+	public void setTransport(Double transport) {
 		this.transport = transport;
 	}
 
@@ -98,58 +107,20 @@ public class PortPurchaseOrderForm extends BaseForm {
 		this.paymentTerms = paymentTerms;
 	}
 
-	private String brokerName = "";
-	private String brokerage = "";
-	private String brokerageUnit = "";
-	private String deliveryAddress = "";
-	private String rate = null;
-	private String excise = null;
-	private String tax = null;
-	private String transport = null;
-	private String paymentTerms = null;
-
-	public void clear() {
-
-		id = 0;
-
-		transport = "";
-
-		brokerName = "";
-		brokerage = "";
-		brokerageUnit = "";
-		paymentTerms = "";
-
-		rate = null;
-
-		excise = null;
-
-		// super.clear();
+	public Integer getTotalQuantity() {
+		return totalQuantity;
 	}
 
-	/*
-	 * @Override public String toString() { return "WarehouseDispatchForm [id="
-	 * + id + ", poNo=" + poNo + ", date=" + date + ", vehicleNumber=" +
-	 * vehicleNumber + ", handleBy=" + handleBy + ", transporterName=" +
-	 * transporterName + ", transport=" + transport + ", to=" + to +
-	 * ", transportRate=" + transportRate + ", transportUnit=" + transportUnit +
-	 * ", lumsum=" + lumsum + ", buyerName=" + buyerName + ", consigneeName=" +
-	 * consigneeName + ", brokerName=" + brokerName + ", brokerage=" + brokerage
-	 * + ", brokerageUnit=" + brokerageUnit + ", paymentTerms=" + paymentTerms +
-	 * ", loadingCharges=" + loadingCharges + ", loadingChargesUnit=" +
-	 * loadingChargesUnit + ", cuttingCharges=" + cuttingCharges +
-	 * ", cuttingChargesUnit=" + cuttingChargesUnit + ", make=" +
-	 * Arrays.toString(make) + ", millName=" + Arrays.toString(millName) +
-	 * ", grade=" + Arrays.toString(grade) + ", length=" +
-	 * Arrays.toString(length) + ", width=" + Arrays.toString(width) +
-	 * ", thickness=" + Arrays.toString(thickness) + ", qty=" +
-	 * Arrays.toString(qty) + ", actWt=" + Arrays.toString(actWt) +
-	 * ", actWtUnit=" + Arrays.toString(actWtUnit) + ", rate=" +
-	 * Arrays.toString(rate) + ", rateUnit=" + Arrays.toString(rateUnit) +
-	 * ", taxes=" + Arrays.toString(taxes) + ", excise=" +
-	 * Arrays.toString(excise) + ", total=" + total + ", mtc=" + mtc +
-	 * ", inspection=" + inspection + ", inspectionCharges=" + inspectionCharges
-	 * + ", utReport=" + utReport + ", labReport=" + labReport + ", toAcc=" +
-	 * toAcc + ", comments=" + comments + "]"; }
-	 */
+	public void setTotalQuantity(Integer totalQuantity) {
+		this.totalQuantity = totalQuantity;
+	}
+
+	@Override
+	public String toString() {
+		return "PortPurchaseOrderForm [id=" + id + ", customerName=" + customerName + ", brokerName=" + brokerName
+				+ ", brokerage=" + brokerage + ", brokerageUnit=" + brokerageUnit + ", deliveryAddress="
+				+ deliveryAddress + ", rate=" + rate + ", excise=" + excise + ", tax=" + tax + ", transport="
+				+ transport + ", paymentTerms=" + paymentTerms + ", totalQuantity=" + totalQuantity + "]";
+	}
 
 }

@@ -14,6 +14,37 @@
 %>
 <script type="text/javascript">
 var SELECTED_PORT_INVENTORY_ITEMS = [];
+
+function validateForm() {
+	
+	if ("" == getValByFieldName("body", "customerName")) {
+		bootbox.alert("Please enter Customer Name");
+		return false;
+	} 
+	
+	if ("" == getValByFieldName("body", "brokerName")) {
+		bootbox.alert("Please enter Brokerage Name");
+		return false;
+	}
+	
+	if ("" != getValByFieldName("body", "brokerName")) {
+		if ("" == getValByFieldName("body", "brokerage")) {
+			bootbox.alert("Please enter Brokerage");
+			return false;
+		}
+	} 
+	 
+	if ("" == getValByFieldName("body", "deliveryAddress")) {
+		bootbox.alert("Please enter Delivery Address");
+		return false;
+	} 
+	 
+	if ("" == getValByFieldName("body", "rate")) {
+		bootbox.alert("Please enter rate");
+		return false;
+	} 
+	return commonSubmit();	
+}
 </script>
 
 <style>
@@ -213,8 +244,8 @@ input[name="length"], input[name="width"], input[name="thickness"], input[name="
 						
 					</tr>
 					<tr>
-						<td class='excel' colspan="1"><label for="consigneeName">Rate (per metric ton)</label></td>
-						<td class='excel' colspan="5"><input type="text"
+						<td class='excel' colspan="1"><label for="rate">Rate (per metric ton)</label></td>
+						<td class='excel' colspan="5"><input type="number"
 							name="rate" placeholder=""
 							class="form-control" /></td>
 						
@@ -345,7 +376,16 @@ input[name="length"], input[name="width"], input[name="thickness"], input[name="
 	 </div>
 	 </div>
 </div>
-
+<div class="row">
+			<div class="col-md-12">
+				<input type="button" value="Reset" onclick="resetOutwardForm();"
+					class="btn pull-left" />
+					
+				<html:submit styleClass="btn pull-right"
+					onclick="return validateForm()" />
+			</div>
+		</div>
+		<html:hidden property="genericListener" value="add" />
 <script>
 
 $(function() {
@@ -498,20 +538,13 @@ $(function() {
 				id : "id"
 			},
 	        gridComplete: function(){ 
-	        	var ids = $("#grid").jqGrid('getDataIDs');
-	        	console.log(ids);
-	        	for(var i=0;i < ids.length;i++){ 
-	        		
-	        		$("#grid").jqGrid('setRowData',ids[i],{actionLink:cust_lnk});
-	        		
-	        		$("#grid").jqGrid('filterToolbar',{stringResult: true,searchOnEnter : false, searchOperators:true, defaultSearch:"cn"});
-	        		
-	        		$("#grid").jqGrid('setColProp', "address", {searchoptions: { sopt:['cn','eq']}});
-	        		} }
+	        	
+	        	}
 	        		,
 	           		
-	           		onSelectRow: function(rowId) {
-	           			var row = jQuery("#portpurchaseorderinwardGrid").jqGrid('getRowData',rowId); 
+	           		onSelectRow: function(rowid) {
+	           			
+	           			selectPortInwardDetails(rowid);
 	           			
 	           			
 	           			
@@ -528,9 +561,23 @@ $(function() {
 					mtype : 'GET',
 					
 					
-					colNames : [ 'port_inward_detail_id', 'Thickness', 'Width', 'Length', 'Quantity', 'Actual Weight'],
+					colNames : ['port_inward_id', 'port_inward_detail_id', 'Thickness', 'Width', 'Length', 'Quantity', 'Actual Weight'],
 							
 					colModel : [ {
+						name : 'port_inward_id',
+						index : 'port_inward_id',
+						width : 20,
+						hidden: true,
+						editable : true,
+						editrules : {
+							required : true
+						},
+						editoptions : {
+							size : 10
+						},
+						search:false,
+						searchoptions: { sopt:['ge']}
+					}, {
 						name : 'port_inward_detail_id',
 						index : 'port_inward_detail_id',
 						width : 20,
@@ -544,7 +591,7 @@ $(function() {
 						},
 						search:false,
 						searchoptions: { sopt:['ge']}
-					}, {
+					},{
 						name : 'thickness',
 						index : 'thickness',
 						width : 150,
@@ -600,8 +647,8 @@ $(function() {
 						searchoptions: { sopt:[ 'cn','eq']}
 						
 					},{
-						name : 'actualWt',
-						index : 'actualWt',
+						name : 'be_weight',
+						index : 'be_weight',
 						width : 100,
 						editable : false,
 						editoptions : {
@@ -666,7 +713,7 @@ $(function() {
 $(function() {
 	$("#portpurchaseorderfinalGrid").jqGrid(
 		{
-			url : './',
+			url : './portPurchaseOrderFinalJsonServlet',
 			datatype : 'json',
 			mtype : 'GET',
 			
@@ -674,8 +721,8 @@ $(function() {
 			colNames : [ 'id', 'Date', 'Vessel Name', 'Vendor Name', 'Material Type', 'Mill Name', 'Make', 'Grade', 'Thickness', 'Width', 'Length', 'Quantity'],
 					
 			colModel : [ {
-				name : 'id',
-				index : 'id',
+				name : 'port_inward_id',
+				index : 'port_inward_id',
 				hidden: true,
 				width : 30,
 				editable : true,

@@ -66,6 +66,10 @@
 		<servlet-class>vkicl.action.PortPurchaseOrderDetailJsonServlet</servlet-class>
 	</servlet>
 	<servlet>
+		<servlet-name>PortPurchaseOrderFinalJsonServlet</servlet-name>
+		<servlet-class>vkicl.action.PortPurchaseOrderFinalJsonServlet</servlet-class>
+	</servlet>
+	<servlet>
 		<servlet-name>FileUploadService</servlet-name>
 		<servlet-class>vkicl.services.FileUploadService</servlet-class>
 	</servlet>
@@ -124,6 +128,10 @@
 	<servlet-mapping>
 		<servlet-name>PortPurchaseOrderDetailJsonServlet</servlet-name>
 		<url-pattern>/portPurchaseOrderDetailJsonServlet</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>PortPurchaseOrderFinalJsonServlet</servlet-name>
+		<url-pattern>/portPurchaseOrderFinalJsonServlet</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>FileUploadService</servlet-name>
