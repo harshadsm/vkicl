@@ -551,9 +551,14 @@ $(function() {
 	        	}
 	        		,
 	           		
-	           		onSelectRow: function(rowid) {
+	           		onSelectRow: function(rowids) {
 	           			
-	           			selectPortInwardDetails(rowid);
+	           			var url="./portPurchaseOrderDetailJsonServlet?inwardId="+rowids;
+	           			$("#portpurchaseorderdetailGrid").jqGrid('setGridParam',{url:url});
+	           			$("#portpurchaseorderdetailGrid").trigger('reloadGrid');
+	           			
+	           			//celValue = myGrid.jqGrid ('getCell', selRowId, 'columnName');
+	           			//selectPortInwardDetails(rowid);
 	           			
 	           			
 	           			
@@ -565,7 +570,7 @@ $(function() {
 	
 	$("#portpurchaseorderdetailGrid").jqGrid(
 				{
-					url : './portPurchaseOrderDetailJsonServlet',
+					//url : './portPurchaseOrderDetailJsonServlet',
 					datatype : 'json',
 					mtype : 'GET',
 					

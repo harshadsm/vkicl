@@ -27,7 +27,43 @@ import vkicl.vo.UserInfoVO;
 
 public class PortDaoImpl extends BaseDaoImpl {
 	private static Logger log = Logger.getLogger(PortDaoImpl.class);
-	
+
+	public Integer fetchCumulativeBalPcsAtDockCount() throws SQLException {
+		List<PortInwardRecordVO> list = new ArrayList<PortInwardRecordVO>();
+		Connection conn = null;
+		ResultSet rs = null;
+		CallableStatement cs = null;
+
+		int count = 0;
+		try {
+			conn = getConnection();
+			String count_sql = " select (pi.quantity-ppol.ordered_quantity-(po.quantity) as count from port_inward_details pi "
+					+ " inner join ppo_line_items ppol on pi.port_inward_detail_id = ppol.port_inward_details_id "
+					+ " inner join port_inward_outward_intersection pioi on pi.port_inward_id=pioi.port_inward_id "
+					+ " inner join port_outward po on po.port_out_id=pioi.port_outward_id ";
+			log.info("query = " + count_sql);
+
+			cs = conn.prepareCall(count_sql);
+
+			rs = cs.executeQuery();
+			if (null != rs && rs.next()) {
+
+				do {
+					count = rs.getInt(1);
+
+					log.debug("Row count === " + count);
+				} while (rs.next());
+
+			}
+
+		} catch (Exception e) {
+			log.error("Some error", e);
+		} finally {
+			closeDatabaseResources(conn, rs, cs);
+		}
+		return count;
+	}
+
 	public PortInwardForm addPortInwardData(PortInwardForm form, UserInfoVO userInfoVO) throws SQLException {
 		Connection conn = null;
 		ResultSet rs = null;
@@ -48,7 +84,8 @@ public class PortDaoImpl extends BaseDaoImpl {
 			cs.setString(2, formatInput(form.getVesselName()));
 			cs.setString(3, convertStringToDate(form.getVesselDate()));
 			/**
-			 * TODO: Ideally we need to remove BE No altogether. Here I am saving time by adding a dummy value 99999. Its a kludge.
+			 * TODO: Ideally we need to remove BE No altogether. Here I am
+			 * saving time by adding a dummy value 99999. Its a kludge.
 			 */
 			cs.setString(4, "DUMMY");
 			cs.setString(5, toString(form.getMaterialType()));
@@ -58,7 +95,7 @@ public class PortDaoImpl extends BaseDaoImpl {
 			cs.setString(9, toString(form.getDesc()));
 			cs.setString(10, toString(form.getBeWt()));
 			cs.setString(11, toString(form.getBeWtUnit()));
-			
+
 			cs.setInt(12, form.getMaterialType().length);
 			cs.setString(13, userInfoVO.getUserName());
 			cs.registerOutParameter(14, java.sql.Types.VARCHAR);
@@ -153,18 +190,17 @@ public class PortDaoImpl extends BaseDaoImpl {
 		ResultSet rs = null;
 		CallableStatement cs = null;
 		String query = "";
-		
+
 		try {
 			conn = getConnection();
 
 			String sql = " SELECT " + " pin.port_inward_id" + " ,pin.be_no" + " ,pin.material_type" + " ,pin.mill_name"
 					+ " ,pin.material_make" + " ,pin.material_grade" + " ,pin.description" + " ,pin.be_weight"
 					+ " ,pin.be_wt_unit" + " ,pis.vessel_date " + " ,pis.vessel_name " + " ,pis.vendor_name "
-					+ ", count(pid.port_inward_id) as port_inward_detail_records_count "
-					+ " FROM port_inward pin "
+					+ ", count(pid.port_inward_id) as port_inward_detail_records_count " + " FROM port_inward pin "
 					+ " INNER JOIN port_inward_shipment pis ON pin.port_inwd_shipment_id = pis.port_inwd_shipment_id "
 					+ " LEFT JOIN port_inward_details pid ON pid.port_inward_id = pin.port_inward_id group by pin.port_inward_id"
-					+ processSearchCriteria(searchParam) + " "+composeOrderByClause(orderByFieldName, order)+ ";";
+					+ processSearchCriteria(searchParam) + " " + composeOrderByClause(orderByFieldName, order) + ";";
 			query = sql;
 			log.info("query = " + query);
 
@@ -204,12 +240,12 @@ public class PortDaoImpl extends BaseDaoImpl {
 
 	private String composeOrderByClause(String orderByFieldName, String order) {
 		String orderByClause = "";
-		if(orderByFieldName!=null){
+		if (orderByFieldName != null) {
 			orderByClause = " ORDER BY ";
-			if(orderByFieldName.equalsIgnoreCase("vessel_date")){
-				orderByClause = orderByClause + " pis.vessel_date "+order+" ";
-			}else if(orderByFieldName.equalsIgnoreCase("id")){
-				orderByClause = orderByClause + " pin.port_inward_id "+order+" ";
+			if (orderByFieldName.equalsIgnoreCase("vessel_date")) {
+				orderByClause = orderByClause + " pis.vessel_date " + order + " ";
+			} else if (orderByFieldName.equalsIgnoreCase("id")) {
+				orderByClause = orderByClause + " pin.port_inward_id " + order + " ";
 			}
 		}
 		return orderByClause;
@@ -250,36 +286,37 @@ public class PortDaoImpl extends BaseDaoImpl {
 		}
 		return count;
 	}
+
 	private String processSearchCriteria(JqGridSearchParameterHolder searchParam) {
 		String sqlClause = "";
 		List<String> clauses = new ArrayList<String>();
 		if (null != searchParam && null != searchParam.getRules() && !searchParam.getRules().isEmpty()) {
-			for(JqGridSearchParameterHolder.Rule r: searchParam.getRules()){
+			for (JqGridSearchParameterHolder.Rule r : searchParam.getRules()) {
 				String clause = processSearchRule(r);
-				if(!StringUtils.isEmpty(clause)){
+				if (!StringUtils.isEmpty(clause)) {
 					clauses.add(clause);
 				}
 			}
 		}
-		
-		//Prepare the sqlClause
+
+		// Prepare the sqlClause
 		sqlClause = prepareSqlClause(clauses);
-		
+
 		return sqlClause;
 	}
 
 	private String prepareSqlClause(List<String> clauses) {
 		String c = "";
 		int clausesCount = clauses.size();
-		for(int i=0;i<clausesCount;i++){
+		for (int i = 0; i < clausesCount; i++) {
 			String s = clauses.get(i);
-			if(i>0 ){
+			if (i > 0) {
 				s = " AND " + s;
 			}
-			c = c + " "+ s;
-			
+			c = c + " " + s;
+
 		}
-		if(!StringUtils.isEmpty(c)){
+		if (!StringUtils.isEmpty(c)) {
 			c = " HAVING " + c;
 		}
 		return c;
@@ -289,21 +326,18 @@ public class PortDaoImpl extends BaseDaoImpl {
 		String data = r.getData();
 		String field = r.getField();
 		String op = r.getOp();
-		
+
 		String clause = "";
-		if(field!=null && field.equalsIgnoreCase("vendor_name")){
-			clause = "pis.vendor_name like '%"+data+"%'";
-		}else if(field!=null && field.equalsIgnoreCase("vessel_name")){
-			clause = "pis.vessel_name like '%"+data+"%'";
-		}
-		else if(field!=null && field.equalsIgnoreCase("vessel_date")){
-			clause = "pis.vessel_date like '%"+data+"%'";
-		}
-		else if(field!=null && field.equalsIgnoreCase("vessel_date")){
+		if (field != null && field.equalsIgnoreCase("vendor_name")) {
+			clause = "pis.vendor_name like '%" + data + "%'";
+		} else if (field != null && field.equalsIgnoreCase("vessel_name")) {
+			clause = "pis.vessel_name like '%" + data + "%'";
+		} else if (field != null && field.equalsIgnoreCase("vessel_date")) {
+			clause = "pis.vessel_date like '%" + data + "%'";
+		} else if (field != null && field.equalsIgnoreCase("vessel_date")) {
 			clause = processDateClause(data);
 		}
-		
-		
+
 		return clause;
 	}
 
@@ -311,17 +345,15 @@ public class PortDaoImpl extends BaseDaoImpl {
 		String clause = "";
 		SimpleDateFormat sdf = new SimpleDateFormat(Constants.Apps.DATE_FORMAT);
 		SimpleDateFormat sdfSql = new SimpleDateFormat(Constants.Apps.DATE_FORMAT_SQL);
-		try{
+		try {
 			Date date = sdf.parse(data);
-			clause = "vessel_date = '"+sdfSql.format(date)+"'";
-			
-		}catch(Exception e){
-			log.error("some error",e);
+			clause = "vessel_date = '" + sdfSql.format(date) + "'";
+
+		} catch (Exception e) {
+			log.error("some error", e);
 		}
 		return clause;
 	}
-
-	
 
 	public PortInwardForm addPortInwardDetailsData(PortInwardForm form, UserInfoVO userInfoVO) throws SQLException {
 		Connection conn = null;
@@ -423,8 +455,10 @@ public class PortDaoImpl extends BaseDaoImpl {
 	}
 
 	/**
-	 * //port_inward_id,length,width,thickness,be_weight,be_wt_unit,quantity,create_ui,update_ui,create_ts,update_ts) VALUES (?,?,?,?,?,?,?,?,?,NOW(),NOW());
-		
+	 * //port_inward_id,length,width,thickness,be_weight,be_wt_unit,quantity,
+	 * create_ui,update_ui,create_ts,update_ts) VALUES
+	 * (?,?,?,?,?,?,?,?,?,NOW(),NOW());
+	 * 
 	 * @param vo
 	 */
 	public String addPortInwardDetailsData(PortInwardDetailsVO vo, UserInfoVO userVo) {
@@ -451,31 +485,31 @@ public class PortDaoImpl extends BaseDaoImpl {
 			cs.setString(9, vo.getUpdate_ui());
 			cs.setDate(10, Converter.dateToSqlDate(vo.getCreate_ts()));
 			cs.setDate(11, Converter.dateToSqlDate(vo.getUpdate_ts()));
-			
+
 			cs.executeUpdate();
 
 			log.info("message = " + message);
-			
+
 		} catch (Exception e) {
 
 			e.printStackTrace();
 			message = e.getMessage();
-			
+
 		} finally {
 			closeDatabaseResources(conn, rs, cs);
 		}
 		return message;
-		
+
 	}
-	
-	public void moveToDeleted(Integer portInwardId,UserInfoVO userVo) {
+
+	public void moveToDeleted(Integer portInwardId, UserInfoVO userVo) {
 		Connection conn = null;
 		ResultSet rs = null;
 		CallableStatement cs = null;
 		String query = "";
 		try {
 			List<PortInwardDetailsVO> list = fetchPortInwardDetailsById(portInwardId);
-			
+
 			conn = getConnection();
 			query = prop.get("port.inward.detail.deleted.insert");
 			log.info("query = " + query);
@@ -498,47 +532,47 @@ public class PortDaoImpl extends BaseDaoImpl {
 				cs.setDate(14, Converter.dateToSqlDate(new Date()));
 				cs.addBatch();
 			}
-			
+
 			cs.executeBatch();
-			
+
 		} catch (Exception e) {
-			log.error("some error",e);
-			
+			log.error("some error", e);
+
 		} finally {
 			closeDatabaseResources(conn, rs, cs);
 		}
 	}
-		public void deletePortInwardDetailsByPortInwardId(Integer portInwardId) {
-			Connection conn = null;
-			ResultSet rs = null;
-			CallableStatement cs = null;
-			String query = "";
-			try {
-				conn = getConnection();
-				query = prop.get("port.inward.detail.delete");
-				log.info("query = " + query);
-				cs = conn.prepareCall(query);
-				
-				cs.setInt(1, portInwardId);
-				
-				cs.executeUpdate();
-				
-				
-			} catch (Exception e) {
-				log.error("some error",e);
-				
-			} finally {
-				closeDatabaseResources(conn, rs, cs);
-			}
-		
-		
+
+	public void deletePortInwardDetailsByPortInwardId(Integer portInwardId) {
+		Connection conn = null;
+		ResultSet rs = null;
+		CallableStatement cs = null;
+		String query = "";
+		try {
+			conn = getConnection();
+			query = prop.get("port.inward.detail.delete");
+			log.info("query = " + query);
+			cs = conn.prepareCall(query);
+
+			cs.setInt(1, portInwardId);
+
+			cs.executeUpdate();
+
+		} catch (Exception e) {
+			log.error("some error", e);
+
+		} finally {
+			closeDatabaseResources(conn, rs, cs);
+		}
+
 	}
 
 	/**
 	 * port.inward.detail.select
+	 * 
 	 * @param portInwardId
 	 */
-	public List<PortInwardDetailsVO> fetchPortInwardDetailsById(Integer portInwardId){
+	public List<PortInwardDetailsVO> fetchPortInwardDetailsById(Integer portInwardId) {
 		List<PortInwardDetailsVO> list = new ArrayList<PortInwardDetailsVO>();
 		Connection conn = null;
 		ResultSet rs = null;
@@ -553,25 +587,24 @@ public class PortDaoImpl extends BaseDaoImpl {
 			log.info("portInwardId = " + portInwardId);
 			cs = conn.prepareCall(query);
 			cs.setInt(1, portInwardId);
-			
-			
+
 			rs = cs.executeQuery();
 			if (rs != null) {
 				while (rs.next()) {
-					
-					Integer port_inward_detail_id= rs.getInt("port_inward_detail_id");
-					Integer port_inward_id= rs.getInt("port_inward_id");
-					Integer length= rs.getInt("length");
-					Integer width= rs.getInt("width");
-					Double thickness= rs.getDouble("thickness");
-					Double be_weight= rs.getDouble("be_weight");
-					String be_wt_unit= rs.getString("be_wt_unit");
-					Integer quantity= rs.getInt("quantity");
-					String create_ui= rs.getString("create_ui");
-					String update_ui= rs.getString("update_ui");
-					Date create_ts= rs.getDate("create_ts");
-					Date update_ts= rs.getDate("update_ts");
-					
+
+					Integer port_inward_detail_id = rs.getInt("port_inward_detail_id");
+					Integer port_inward_id = rs.getInt("port_inward_id");
+					Integer length = rs.getInt("length");
+					Integer width = rs.getInt("width");
+					Double thickness = rs.getDouble("thickness");
+					Double be_weight = rs.getDouble("be_weight");
+					String be_wt_unit = rs.getString("be_wt_unit");
+					Integer quantity = rs.getInt("quantity");
+					String create_ui = rs.getString("create_ui");
+					String update_ui = rs.getString("update_ui");
+					Date create_ts = rs.getDate("create_ts");
+					Date update_ts = rs.getDate("update_ts");
+
 					PortInwardDetailsVO vo = new PortInwardDetailsVO();
 					vo.setBe_weight(be_weight);
 					vo.setBe_wt_unit(be_wt_unit);
@@ -585,17 +618,17 @@ public class PortDaoImpl extends BaseDaoImpl {
 					vo.setUpdate_ts(update_ts);
 					vo.setUpdate_ui(update_ui);
 					vo.setWidth(width);
-					
+
 					list.add(vo);
 				}
 			}
 			log.info("message = " + message);
-			
+
 		} catch (Exception e) {
 
 			e.printStackTrace();
 			message = e.getMessage();
-			
+
 		} finally {
 			closeDatabaseResources(conn, rs, cs);
 		}
