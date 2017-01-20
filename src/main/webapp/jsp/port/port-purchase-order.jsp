@@ -12,6 +12,9 @@
 	UserInfoVO userInfoVO = (UserInfoVO) session
 			.getAttribute(Constants.USER_INFO_SESSION);
 %>
+<script type="text/javascript">
+var SELECTED_PORT_INVENTORY_ITEMS = [];
+</script>
 
 <style>
 .dispatch-table, .dispatch-table td.excel, .dispatch-table th.excel {
@@ -317,35 +320,51 @@ input[name="length"], input[name="width"], input[name="thickness"], input[name="
       <h3>Port Purchase Order- Step 2</h3>
       <div class="row">
       <div class="col-md-6">
-					<div>
+					
 						<div id="portInwardTable">
-							<table id="portInwardGrid"></table>
+							<table id="portpurchaseorderinwardGrid"></table>
 							<div id="portInwardPager"></div>
 						</div>
-					</div>
-				</div>
-	 <div class="col-md-6">
-				</div>
+					
+	 </div>
+	<div class="col-md-6">
+				
+				<div id="portpurchaseorderTable">
+							<table id="portpurchaseorderdetailGrid"></table>
+							<div id="portInwarddetailPager"></div>
+						</div>
 				</div>
   </div>
+  
+	 <div class="row">
+	 <div class="col-md-12">
+					
+						<div id="portfinalTable">
+							<table id="portpurchaseorderfinalGrid"></table>
+							<div id="portInwardfinalPager"></div>
+						</div>
+					
+	 </div>
+	 </div>
 </div>
 	</html:form>
 </div>
 <script>
 
 $(function() {
-	$("#portInwardGrid").jqGrid(
+	$("#portpurchaseorderinwardGrid").jqGrid(
 		{
 			url : './portPurchaseOrderJsonServlet',
 			datatype : 'json',
 			mtype : 'GET',
 			
 			
-			colNames : [ 'id', 'Date', 'Vessel Name', 'Vendor Name', 'Material Type', 'Mill Name', 'Make', 'Grade', 'Desc'],
+			colNames : [ 'id', 'Date', 'Vessel Name', 'Vendor Name', 'Material Type', 'Mill Name', 'Make', 'Grade'],
 					
 			colModel : [ {
 				name : 'id',
 				index : 'id',
+				hidden: true,
 				width : 30,
 				editable : true,
 				editrules : {
@@ -359,7 +378,7 @@ $(function() {
 			}, {
 				name : 'vesselDate',
 				index : 'vessel_date',
-				width : 80,
+				width : 70,
 				editable : false,
 				editoptions : {
 					readonly : true,
@@ -372,7 +391,7 @@ $(function() {
 			},{
 				name : 'vesselName',
 				index : 'vessel_name',
-				width : 180,
+				width : 100,
 				editable : false,
 				editoptions : {
 					readonly : true,
@@ -386,7 +405,7 @@ $(function() {
 			},{
 				name : 'vendorName',
 				index : 'vendor_name',
-				width : 180,
+				width : 100,
 				editable : false,
 				editoptions : {
 					readonly : true,
@@ -400,7 +419,7 @@ $(function() {
 			},{
 				name : 'materialType',
 				index : 'materialType',
-				width : 130,
+				width : 90,
 				editable : false,
 				editoptions : {
 					readonly : true,
@@ -414,7 +433,7 @@ $(function() {
 			},{
 				name : 'millName',
 				index : 'millName',
-				width : 130,
+				width : 80,
 				editable : false,
 				editoptions : {
 					readonly : true,
@@ -428,7 +447,7 @@ $(function() {
 			},{
 				name : 'make',
 				index : 'make',
-				width : 130,
+				width : 60,
 				editable : false,
 				editoptions : {
 					readonly : true,
@@ -443,20 +462,6 @@ $(function() {
 				name : 'grade',
 				index : 'grade',
 				width : 80,
-				editable : false,
-				editoptions : {
-					readonly : true,
-					size : 10
-				},
-				sortable:false,
-				search:false,
-				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
-				searchoptions: { sopt:[ 'cn','eq']}
-				
-			},{
-				name : 'desc',
-				index : 'desc',
-				width : 180,
 				editable : false,
 				editoptions : {
 					readonly : true,
@@ -506,7 +511,435 @@ $(function() {
 	        		
 	        		$("#grid").jqGrid('setColProp', "address", {searchoptions: { sopt:['cn','eq']}});
 	        		} }
+	        		,
+	           		
+	           		onSelectRow: function(rowId) {
+	           			var row = jQuery("#portpurchaseorderinwardGrid").jqGrid('getRowData',rowId); 
+	           			
+	           			
+	           			
+	       	        }
 		});
 });		
+
+$(function() {
+	
+	$("#portpurchaseorderdetailGrid").jqGrid(
+				{
+					url : './portPurchaseOrderDetailJsonServlet',
+					datatype : 'json',
+					mtype : 'GET',
+					
+					
+					colNames : [ 'port_inward_detail_id', 'Thickness', 'Width', 'Length', 'Quantity', 'Actual Weight'],
+							
+					colModel : [ {
+						name : 'port_inward_detail_id',
+						index : 'port_inward_detail_id',
+						width : 20,
+						hidden: true,
+						editable : true,
+						editrules : {
+							required : true
+						},
+						editoptions : {
+							size : 10
+						},
+						search:false,
+						searchoptions: { sopt:['ge']}
+					}, {
+						name : 'thickness',
+						index : 'thickness',
+						width : 80,
+						editable : false,
+						editoptions : {
+							readonly : true,
+							size : 10
+						},
+						search:true,
+						//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+						searchoptions: { sopt:[ 'cn','eq']}
+						
+					},{
+						name : 'width',
+						index : 'width',
+						width : 80,
+						editable : false,
+						editoptions : {
+							readonly : true,
+							size : 10
+						},
+						sortable:false,
+						search:true,
+						//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+						searchoptions: { sopt:[ 'cn','eq']}
+						
+					},{
+						name : 'length',
+						index : 'length',
+						width : 80,
+						editable : false,
+						editoptions : {
+							readonly : true,
+							size : 10
+						},
+						sortable:false,
+						search:true,
+						//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+						searchoptions: { sopt:[ 'cn','eq']}
+						
+					},{
+						name : 'quantity',
+						index : 'quantity',
+						width : 60,
+						editable : false,
+						editoptions : {
+							readonly : true,
+							size : 10
+						},
+						search:false,
+						sortable:false,
+						//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+						searchoptions: { sopt:[ 'cn','eq']}
+						
+					},{
+						name : 'actualWt',
+						index : 'actualWt',
+						width : 80,
+						editable : false,
+						editoptions : {
+							readonly : true,
+							size : 10
+						},
+						search:false,
+						sortable:false,
+						//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+						searchoptions: { sopt:[ 'cn','eq']}
+						
+					}
+					],
+					postData : {
+					},
+					rowNum : 20,
+					rowList : [ 20, 40, 60 ],
+					height : 280,
+					autowidth : true,
+					rownumbers : true,
+					pager : '#pager',
+					sortname : 'port_inward_detail_id',
+					viewrecords : true,
+					sortorder : "desc",
+					caption : "Port Inward Details",
+					emptyrecords : "Empty records",
+					loadonce : false,
+					loadComplete : function() {
+
+					},
+					jsonReader : {
+						root : "rows",
+						page : "page",
+						total : "total",
+						records : "records",
+						repeatitems : false,
+						cell : "cell",
+						id : "id"
+					},
+			        gridComplete: function(){ 
+			        	var ids = $("#grid").jqGrid('getDataIDs');
+			        	console.log(ids);
+			        	for(var i=0;i < ids.length;i++){ 
+			        		
+			        		$("#grid").jqGrid('setRowData',ids[i],{actionLink:cust_lnk});
+			        		
+			        		$("#grid").jqGrid('filterToolbar',{stringResult: true,searchOnEnter : false, searchOperators:true, defaultSearch:"cn"});
+			        		
+			        		$("#grid").jqGrid('setColProp', "address", {searchoptions: { sopt:['cn','eq']}});
+			        		} }
+			        		,
+			           		
+			           		onSelectRow: function(rowId) {
+			           			 
+			           			
+			       	            
+			       	        }
+				});
+	
+});
+
+$(function() {
+	$("#portpurchaseorderfinalGrid").jqGrid(
+		{
+			url : './',
+			datatype : 'json',
+			mtype : 'GET',
+			
+			
+			colNames : [ 'id', 'Date', 'Vessel Name', 'Vendor Name', 'Material Type', 'Mill Name', 'Make', 'Grade', 'Thickness', 'Width', 'Length', 'Quantity'],
+					
+			colModel : [ {
+				name : 'id',
+				index : 'id',
+				hidden: true,
+				width : 30,
+				editable : true,
+				editrules : {
+					required : true
+				},
+				editoptions : {
+					size : 10
+				},
+				search:false,
+				searchoptions: { sopt:['ge']}
+			}, {
+				name : 'vesselDate',
+				index : 'vessel_date',
+				width : 70,
+				editable : false,
+				editoptions : {
+					readonly : true,
+					size : 10
+				},
+				search:true,
+				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+				searchoptions: { sopt:[ 'cn','eq']}
+				
+			},{
+				name : 'vesselName',
+				index : 'vessel_name',
+				width : 100,
+				editable : false,
+				editoptions : {
+					readonly : true,
+					size : 10
+				},
+				sortable:false,
+				search:true,
+				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+				searchoptions: { sopt:[ 'cn','eq']}
+				
+			},{
+				name : 'vendorName',
+				index : 'vendor_name',
+				width : 100,
+				editable : false,
+				editoptions : {
+					readonly : true,
+					size : 10
+				},
+				sortable:false,
+				search:true,
+				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+				searchoptions: { sopt:[ 'cn','eq']}
+				
+			},{
+				name : 'materialType',
+				index : 'materialType',
+				width : 90,
+				editable : false,
+				editoptions : {
+					readonly : true,
+					size : 10
+				},
+				search:false,
+				sortable:false,
+				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+				searchoptions: { sopt:[ 'cn','eq']}
+				
+			},{
+				name : 'millName',
+				index : 'millName',
+				width : 80,
+				editable : false,
+				editoptions : {
+					readonly : true,
+					size : 10
+				},
+				search:false,
+				sortable:false,
+				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+				searchoptions: { sopt:[ 'cn','eq']}
+				
+			},{
+				name : 'make',
+				index : 'make',
+				width : 60,
+				editable : false,
+				editoptions : {
+					readonly : true,
+					size : 10
+				},
+				sortable:false,
+				search:false,
+				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+				searchoptions: { sopt:[ 'cn','eq']}
+				
+			},{
+				name : 'grade',
+				index : 'grade',
+				width : 80,
+				editable : false,
+				editoptions : {
+					readonly : true,
+					size : 10
+				},
+				sortable:false,
+				search:false,
+				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+				searchoptions: { sopt:[ 'cn','eq']}
+				
+			}, {
+				name : 'thickness',
+				index : 'thickness',
+				width : 80,
+				editable : false,
+				editoptions : {
+					readonly : true,
+					size : 10
+				},
+				search:true,
+				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+				searchoptions: { sopt:[ 'cn','eq']}
+				
+			},{
+				name : 'width',
+				index : 'width',
+				width : 80,
+				editable : false,
+				editoptions : {
+					readonly : true,
+					size : 10
+				},
+				sortable:false,
+				search:true,
+				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+				searchoptions: { sopt:[ 'cn','eq']}
+				
+			},{
+				name : 'length',
+				index : 'length',
+				width : 80,
+				editable : false,
+				editoptions : {
+					readonly : true,
+					size : 10
+				},
+				sortable:false,
+				search:true,
+				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+				searchoptions: { sopt:[ 'cn','eq']}
+				
+			},{
+				name : 'quantity',
+				index : 'quantity',
+				width : 60,
+				editable : false,
+				editoptions : {
+					readonly : true,
+					size : 10
+				},
+				search:false,
+				sortable:false,
+				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+				searchoptions: { sopt:[ 'cn','eq']}
+				
+			}
+			],
+			postData : {
+			},
+			rowNum : 20,
+			rowList : [ 20, 40, 60 ],
+			height : 280,
+			autowidth : true,
+			rownumbers : true,
+			pager : '#pager',
+			sortname : 'vessel_date',
+			viewrecords : true,
+			sortorder : "desc",
+			caption : "Port Inward List",
+			emptyrecords : "Empty records",
+			loadonce : false,
+			loadComplete : function() {
+
+			},
+			jsonReader : {
+				root : "rows",
+				page : "page",
+				total : "total",
+				records : "records",
+				repeatitems : false,
+				cell : "cell",
+				id : "id"
+			},
+	        gridComplete: function(){ 
+	        	var ids = $("#grid").jqGrid('getDataIDs');
+	        	console.log(ids);
+	        	for(var i=0;i < ids.length;i++){ 
+	        		
+	        		$("#grid").jqGrid('setRowData',ids[i],{actionLink:cust_lnk});
+	        		
+	        		$("#grid").jqGrid('filterToolbar',{stringResult: true,searchOnEnter : false, searchOperators:true, defaultSearch:"cn"});
+	        		
+	        		$("#grid").jqGrid('setColProp', "address", {searchoptions: { sopt:['cn','eq']}});
+	        		} }
+	        		,
+	           		
+	           		onSelectRow: function(rowId) {
+	           			var row = jQuery("#portpurchaseorderinwardGrid").jqGrid('getRowData',rowId); 
+	           			
+	           			
+	           			
+	       	        }
+		});
+});		
+
+
+function composeObjectForCaching(rowObject,qty){
+	//var cachedObject = rowObject.portInwardId+"-"+rowObject.portInwardDetailId+"-"+rowObject.portInwardShipmentId;
+	//return cachedObject;
+	
+	var cachedObj = {
+			portInwardId : rowObject.portInwardId,
+			portInwardDetailId : rowObject.portInwardDetailId,
+			portInwardShipmentId : rowObject.portInwardShipmentId,
+			portOutwardId : rowObject.portOutwardId,
+			orderedQuantity : qty,
+			length : rowObject.length,
+			width : rowObject.width,
+			thickness : rowObject.thickness,
+			vesselDate : rowObject.vesselDate,
+			vesselName : rowObject.vesselName,
+			millName : rowObject.millName,
+			availableQuantity : rowObject.quantity,
+			grade : rowObject.grade,
+			materialType : rowObject.materialType,
+			balQty : rowObject.balQty,
+			outQty : rowObject.outQty,
+			vehicleDate:rowObject.vehicleDate,
+			vehicleName:rowObject.vehicleName,
+			actualWt:rowObject.actualWt,
+			vendorName : rowObject.vendorName,
+			make:rowObject.make,
+			actualWt_unit:rowObject.actualWt_unit
+	};
+	return cachedObj;
+}
+
+function isObjectPresentInCache(targetObj){
+	
+	if(SELECTED_PORT_INVENTORY_ITEMS.length > 0){
+		
+		for(var i=0;i<SELECTED_PORT_INVENTORY_ITEMS.length;i++){
+			var itemObj = SELECTED_PORT_INVENTORY_ITEMS[i];
+			var isPresent = compareCachedObjects(itemObj, targetObj);
+			
+			if(isPresent){
+				return itemObj;
+			}
+		}
+		
+	}
+	return false;
+}
+
 </script>
 
