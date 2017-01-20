@@ -855,7 +855,7 @@ $(function() {
 			sortname : 'vessel_date',
 			viewrecords : true,
 			sortorder : "desc",
-			caption : "Port Inward List",
+			caption : "Port Purchase Order Items",
 			emptyrecords : "Empty records",
 			loadonce : false,
 			loadComplete : function() {
