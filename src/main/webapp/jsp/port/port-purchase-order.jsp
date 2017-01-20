@@ -158,23 +158,19 @@ input[name="length"], input[name="width"], input[name="thickness"], input[name="
 		<h3 class="page-head">Port Purchase Order</h3>
 	</div>
 </div>
-<div>
-	<html:form enctype="multipart/form-data" action="/port-purchase-order"
-		method="post">
-		<div class="container">
-  
-  
-  <ul class="nav nav-pills">
+<div class="row">
+<ul class="nav nav-pills">
     <li class="active"><a data-toggle="pill" href="#home">Port Purchase Order- Step 1</a></li>
     <li><a data-toggle="pill" href="#menu1">Port Purchase Order- Step 2</a></li>
 
   </ul>
-  
+</div>
+	
   <div class="tab-content">
     <div id="home" class="tab-pane fade in active">
-      <h3>Port Purchase Order- Step 1</h3>
+      <h3>Step 1</h3>
       <div class="row">
-			<div class="col-md-6">
+			<div class="col-md-10">
 				<table class="table table-responsive dispatch-table">
 					<tr>
 						<td class='excel' colspan="1"><label for="customerName">Customer Name</label></td>
@@ -317,9 +313,9 @@ input[name="length"], input[name="width"], input[name="thickness"], input[name="
 		</div>
     </div>
     <div id="menu1" class="tab-pane fade">
-      <h3>Port Purchase Order- Step 2</h3>
+      <h3>Step 2</h3>
       <div class="row">
-      <div class="col-md-6">
+      <div class="col-md-12">
 					
 						<div id="portInwardTable">
 							<table id="portpurchaseorderinwardGrid"></table>
@@ -327,7 +323,9 @@ input[name="length"], input[name="width"], input[name="thickness"], input[name="
 						</div>
 					
 	 </div>
-	<div class="col-md-6">
+	 </div>
+	    <div class="row">
+	<div class="col-md-12">
 				
 				<div id="portpurchaseorderTable">
 							<table id="portpurchaseorderdetailGrid"></table>
@@ -347,8 +345,7 @@ input[name="length"], input[name="width"], input[name="thickness"], input[name="
 	 </div>
 	 </div>
 </div>
-	</html:form>
-</div>
+
 <script>
 
 $(function() {
@@ -378,7 +375,7 @@ $(function() {
 			}, {
 				name : 'vesselDate',
 				index : 'vessel_date',
-				width : 70,
+				width : 100,
 				editable : false,
 				editoptions : {
 					readonly : true,
@@ -391,7 +388,7 @@ $(function() {
 			},{
 				name : 'vesselName',
 				index : 'vessel_name',
-				width : 100,
+				width : 150,
 				editable : false,
 				editoptions : {
 					readonly : true,
@@ -405,7 +402,7 @@ $(function() {
 			},{
 				name : 'vendorName',
 				index : 'vendor_name',
-				width : 100,
+				width : 150,
 				editable : false,
 				editoptions : {
 					readonly : true,
@@ -419,7 +416,7 @@ $(function() {
 			},{
 				name : 'materialType',
 				index : 'materialType',
-				width : 90,
+				width : 120,
 				editable : false,
 				editoptions : {
 					readonly : true,
@@ -433,7 +430,7 @@ $(function() {
 			},{
 				name : 'millName',
 				index : 'millName',
-				width : 80,
+				width : 150,
 				editable : false,
 				editoptions : {
 					readonly : true,
@@ -447,7 +444,7 @@ $(function() {
 			},{
 				name : 'make',
 				index : 'make',
-				width : 60,
+				width : 100,
 				editable : false,
 				editoptions : {
 					readonly : true,
@@ -461,7 +458,7 @@ $(function() {
 			},{
 				name : 'grade',
 				index : 'grade',
-				width : 80,
+				width : 100,
 				editable : false,
 				editoptions : {
 					readonly : true,
@@ -550,7 +547,7 @@ $(function() {
 					}, {
 						name : 'thickness',
 						index : 'thickness',
-						width : 80,
+						width : 150,
 						editable : false,
 						editoptions : {
 							readonly : true,
@@ -563,7 +560,7 @@ $(function() {
 					},{
 						name : 'width',
 						index : 'width',
-						width : 80,
+						width : 150,
 						editable : false,
 						editoptions : {
 							readonly : true,
@@ -577,7 +574,7 @@ $(function() {
 					},{
 						name : 'length',
 						index : 'length',
-						width : 80,
+						width : 150,
 						editable : false,
 						editoptions : {
 							readonly : true,
@@ -591,7 +588,7 @@ $(function() {
 					},{
 						name : 'quantity',
 						index : 'quantity',
-						width : 60,
+						width : 100,
 						editable : false,
 						editoptions : {
 							readonly : true,
@@ -605,7 +602,7 @@ $(function() {
 					},{
 						name : 'actualWt',
 						index : 'actualWt',
-						width : 80,
+						width : 100,
 						editable : false,
 						editoptions : {
 							readonly : true,
@@ -693,7 +690,7 @@ $(function() {
 			}, {
 				name : 'vesselDate',
 				index : 'vessel_date',
-				width : 70,
+				width : 100,
 				editable : false,
 				editoptions : {
 					readonly : true,
@@ -706,7 +703,7 @@ $(function() {
 			},{
 				name : 'vesselName',
 				index : 'vessel_name',
-				width : 100,
+				width : 150,
 				editable : false,
 				editoptions : {
 					readonly : true,
@@ -720,7 +717,7 @@ $(function() {
 			},{
 				name : 'vendorName',
 				index : 'vendor_name',
-				width : 100,
+				width : 150,
 				editable : false,
 				editoptions : {
 					readonly : true,
@@ -734,7 +731,7 @@ $(function() {
 			},{
 				name : 'materialType',
 				index : 'materialType',
-				width : 90,
+				width : 100,
 				editable : false,
 				editoptions : {
 					readonly : true,
@@ -748,7 +745,7 @@ $(function() {
 			},{
 				name : 'millName',
 				index : 'millName',
-				width : 80,
+				width : 120,
 				editable : false,
 				editoptions : {
 					readonly : true,
@@ -762,7 +759,7 @@ $(function() {
 			},{
 				name : 'make',
 				index : 'make',
-				width : 60,
+				width : 100,
 				editable : false,
 				editoptions : {
 					readonly : true,
@@ -776,7 +773,7 @@ $(function() {
 			},{
 				name : 'grade',
 				index : 'grade',
-				width : 80,
+				width : 100,
 				editable : false,
 				editoptions : {
 					readonly : true,
@@ -790,7 +787,7 @@ $(function() {
 			}, {
 				name : 'thickness',
 				index : 'thickness',
-				width : 80,
+				width : 100,
 				editable : false,
 				editoptions : {
 					readonly : true,
@@ -803,7 +800,7 @@ $(function() {
 			},{
 				name : 'width',
 				index : 'width',
-				width : 80,
+				width : 100,
 				editable : false,
 				editoptions : {
 					readonly : true,
@@ -817,7 +814,7 @@ $(function() {
 			},{
 				name : 'length',
 				index : 'length',
-				width : 80,
+				width : 100,
 				editable : false,
 				editoptions : {
 					readonly : true,
@@ -831,7 +828,7 @@ $(function() {
 			},{
 				name : 'quantity',
 				index : 'quantity',
-				width : 60,
+				width : 100,
 				editable : false,
 				editoptions : {
 					readonly : true,
