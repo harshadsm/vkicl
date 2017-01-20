@@ -31,7 +31,7 @@ public class PortPurchaseOrderFinalJsonService {
 
 	private Logger logger = Logger.getLogger(PortPurchaseOrderFinalJsonService.class);
 
-	public String getPortPurchaseOrderFinalAsJson(HttpServletRequest req)
+	public String getPortPurchaseOrderFinalAsJson(HttpServletRequest req, String portInwardDetailId)
 			throws SQLException, JsonParseException, JsonMappingException, IOException {
 
 		JqGridParametersHolder params = new JqGridParametersHolder(req);
@@ -45,8 +45,8 @@ public class PortPurchaseOrderFinalJsonService {
 		PortPurchaseOrderDaoImpl portDao = new PortPurchaseOrderDaoImpl();
 		// Integer totalRecordsCount =
 		// portDao.fetchPortInwardDetailsRecordCount(searchParam);
-		Integer portInwardDetailId = 1;
-		List<PackingListItemVO> records = portDao.fetchPPOLineItems(portInwardDetailId);
+		// Integer portInwardDetailId = 1;
+		List<PackingListItemVO> records = portDao.fetchPPOLineItems(Integer.parseInt(portInwardDetailId));
 
 		JqGridCustomResponse response = new JqGridCustomResponse();
 		response.setPage(page);

@@ -26,18 +26,22 @@ public class PortPurchaseOrderFinalJsonServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		try {
-			PortPurchaseOrderFinalJsonService service = new PortPurchaseOrderFinalJsonService();
-			String json = service.getPortPurchaseOrderFinalAsJson(request);
+			if (request.getMethod() == "GET") {
+				String portInwardDetailId = request.getParameter("inwardDetailId");
 
-			logger.debug("Going to return PortPurchaseOrderJsonServlet json ");
-			logger.debug(json);
+				PortPurchaseOrderFinalJsonService service = new PortPurchaseOrderFinalJsonService();
+				String json = service.getPortPurchaseOrderFinalAsJson(request, portInwardDetailId);
 
-			response.setContentType("text/text;charset=utf-8");
-			response.setHeader("cache-control", "no-cache");
+				logger.debug("Going to return PortPurchaseOrderJsonServlet json ");
+				logger.debug(json);
 
-			PrintWriter out = response.getWriter();
-			out.println(json);
-			out.flush();
+				response.setContentType("text/text;charset=utf-8");
+				response.setHeader("cache-control", "no-cache");
+
+				PrintWriter out = response.getWriter();
+				out.println(json);
+				out.flush();
+			}
 
 		} catch (Exception e) {
 			logger.error("Some error", e);

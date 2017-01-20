@@ -553,14 +553,13 @@ $(function() {
 	           		
 	           		onSelectRow: function(rowids) {
 	           			
-	           			var url="./portPurchaseOrderDetailJsonServlet?inwardId="+rowids;
+	           			var grid = jQuery('#portpurchaseorderinwardGrid');
+	        			var sel_id = grid.jqGrid('getGridParam', 'selrow');
+	        			var portInwardId = grid.jqGrid('getCell', sel_id, 'id');
+	        			
+	           			var url="./portPurchaseOrderDetailJsonServlet?inwardId="+portInwardId;
 	           			$("#portpurchaseorderdetailGrid").jqGrid('setGridParam',{url:url});
 	           			$("#portpurchaseorderdetailGrid").trigger('reloadGrid');
-	           			
-	           			//celValue = myGrid.jqGrid ('getCell', selRowId, 'columnName');
-	           			//selectPortInwardDetails(rowid);
-	           			
-	           			
 	           			
 	       	        }
 		});
@@ -575,11 +574,11 @@ $(function() {
 					mtype : 'GET',
 					
 					
-					colNames : ['port_inward_id', 'port_inward_detail_id', 'Thickness', 'Width', 'Length', 'Quantity', 'Actual Weight'],
+					colNames : ['port_inward_detail_id', 'port_inward_id', 'Thickness', 'Width', 'Length', 'Quantity', 'Actual Weight'],
 							
 					colModel : [ {
-						name : 'port_inward_id',
-						index : 'port_inward_id',
+						name : 'port_inward_detail_id',
+						index : 'port_inward_detail_id',
 						width : 20,
 						hidden: true,
 						editable : true,
@@ -592,8 +591,8 @@ $(function() {
 						search:false,
 						searchoptions: { sopt:['ge']}
 					}, {
-						name : 'port_inward_detail_id',
-						index : 'port_inward_detail_id',
+						name : 'port_inward_id',
+						index : 'port_inward_id',
 						width : 20,
 						hidden: true,
 						editable : true,
@@ -703,23 +702,20 @@ $(function() {
 						id : "id"
 					},
 			        gridComplete: function(){ 
-			        	var ids = $("#grid").jqGrid('getDataIDs');
-			        	console.log(ids);
-			        	for(var i=0;i < ids.length;i++){ 
-			        		
-			        		$("#grid").jqGrid('setRowData',ids[i],{actionLink:cust_lnk});
-			        		
-			        		$("#grid").jqGrid('filterToolbar',{stringResult: true,searchOnEnter : false, searchOperators:true, defaultSearch:"cn"});
-			        		
-			        		$("#grid").jqGrid('setColProp', "address", {searchoptions: { sopt:['cn','eq']}});
-			        		} }
+			       }
 			        		,
 			           		
-			           		onSelectRow: function(rowId) {
-			           			 
+			        		onSelectRow: function(rowids) {
 			           			
-			       	            
-			       	        }
+			        			
+			        			var grid = jQuery('#portpurchaseorderdetailGrid');
+			        			var sel_id = grid.jqGrid('getGridParam', 'selrow');
+			        			var portInwardDetailId = grid.jqGrid('getCell', sel_id, 'port_inward_detail_id');
+			        			
+			           			var url="./portPurchaseOrderFinalJsonServlet?inwardDetailId="+portInwardDetailId;
+			           			$("#portpurchaseorderfinalGrid").jqGrid('setGridParam',{url:url});
+			           			$("#portpurchaseorderfinalGrid").trigger('reloadGrid');
+			        		}
 				});
 	
 });
