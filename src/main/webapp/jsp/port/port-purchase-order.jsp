@@ -13,8 +13,6 @@
 			.getAttribute(Constants.USER_INFO_SESSION);
 %>
 <script type="text/javascript">
-var SELECTED_PORT_INVENTORY_ITEMS = [];
-
 function validateForm() {
 	
 	if ("" == getValByFieldName("body", "customerName")) {
@@ -184,11 +182,13 @@ input[name="length"], input[name="width"], input[name="thickness"], input[name="
 }
 
 </style>
+
 <div class="row">
 	<div class="col-md-12">
 		<h3 class="page-head">Port Purchase Order</h3>
 	</div>
 </div>
+
 <div class="row">
 <ul class="nav nav-pills">
     <li class="active"><a data-toggle="pill" href="#home">Port Purchase Order- Step 1</a></li>
@@ -196,13 +196,15 @@ input[name="length"], input[name="width"], input[name="thickness"], input[name="
 
   </ul>
 </div>
-	
-  <div class="tab-content">
-    <div id="home" class="tab-pane fade in active">
+
+<div class="tab-content">
+
+<div id="home" class="tab-pane fade in active">
       <h3>Step 1</h3>
       <div class="row">
 			<div class="col-md-10">
-				<table class="table table-responsive dispatch-table">
+			
+			<table class="table table-responsive dispatch-table">
 					<tr>
 						<td class='excel' colspan="1"><label for="customerName">Customer Name</label></td>
 						<td class='excel' colspan="5"><input type="text" name="customerName"
@@ -340,22 +342,24 @@ input[name="length"], input[name="width"], input[name="thickness"], input[name="
 						</td>
 					</tr>
 				</table>
+				
 			</div>
-		</div>
-    </div>
-    <div id="menu1" class="tab-pane fade">
+			</div>
+			</div>
+			
+			<div id="menu1" class="tab-pane fade">
       <h3>Step 2</h3>
       <div class="row">
       <div class="col-md-12">
-					
-						<div id="portInwardTable">
+      
+      <div id="portInwardTable">
 							<table id="portpurchaseorderinwardGrid"></table>
 							<div id="portInwardPager"></div>
 						</div>
-					
-	 </div>
-	 </div>
-	    <div class="row">
+						
+      </div>
+      </div>
+      <div class="row">
 	<div class="col-md-12">
 				
 				<div id="portpurchaseorderTable">
@@ -374,8 +378,11 @@ input[name="length"], input[name="width"], input[name="thickness"], input[name="
 						</div>
 					
 	 </div>
-	 </div>
+      </div>
+      
+
 </div>
+
 <div class="row">
 			<div class="col-md-12">
 				<input type="button" value="Reset" onclick="resetOutwardForm();"
@@ -386,6 +393,8 @@ input[name="length"], input[name="width"], input[name="thickness"], input[name="
 			</div>
 		</div>
 		<html:hidden property="genericListener" value="add" />
+
+
 <script>
 
 $(function() {

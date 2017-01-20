@@ -8,6 +8,8 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
+import vkicl.daoImpl.PortDaoImpl;
+import vkicl.daoImpl.PortPurchaseOrderDaoImpl;
 import vkicl.daoImpl.WarehouseDaoImpl;
 import vkicl.form.PortPurchaseOrderForm;
 import vkicl.form.WarehouseDispatchForm;
@@ -34,15 +36,19 @@ public class PortPurchaseOrderAction extends BaseAction {
 
 			actionForward = mapping.findForward(Constants.Mapping.SUCCESS);
 			userInfoVO = getUserProfile(request);
-			/*
-			 * portpurchaseform = (PortPurchaseOrderForm) form; genericListener
-			 * = portpurchaseform.getGenericListener();
-			 * 
-			 * if (genericListener.equalsIgnoreCase("add")) { log.info(
-			 * "genericListener = " + genericListener);
-			 * 
-			 * }
-			 */
+
+			portpurchaseform = (PortPurchaseOrderForm) form;
+			genericListener = portpurchaseform.getGenericListener();
+
+			if (genericListener.equalsIgnoreCase("add")) {
+				log.info("genericListener = " + genericListener);
+
+				PortPurchaseOrderDaoImpl impl = new PortPurchaseOrderDaoImpl();
+
+				Long portPurchaseOrderId = impl.addPortPurchaseOrderData(portpurchaseform, userInfoVO);
+
+				impl.addPortPurchaseLineItemData(portpurchaseform, portPurchaseOrderId, userInfoVO);
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
