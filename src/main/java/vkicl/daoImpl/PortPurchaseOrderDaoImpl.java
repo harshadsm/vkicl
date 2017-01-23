@@ -94,7 +94,8 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 		return list;
 	}
 
-	public List<PackingListItemVO> fetchPPOLineItems(int portInwardDetailId) throws SQLException {
+	public List<PackingListItemVO> fetchPPOLineItems(int portInwardId, int pageNo, int pageSize,
+			String orderByFieldName, String order, JqGridSearchParameterHolder searchParam) throws SQLException {
 		List<PackingListItemVO> list = new ArrayList<PackingListItemVO>();
 		Connection conn = null;
 		ResultSet rs = null;
@@ -104,14 +105,13 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 		try {
 			conn = getConnection();
 
-			String sql = " SELECT " + " pin.port_inward_id" + " ,pin.material_type" + " ,pin.mill_name"
-					+ " ,pin.material_make" + " ,pin.material_grade" + " ,pin.description" + " ,pis.vessel_date "
-					+ " ,pis.vessel_name " + " ,pis.vendor_name " + ", pid.port_inward_detail_id " + " , pid.thickness "
-					+ ", pid.width " + ",pid.length " + ",pid.quantity  FROM port_inward pin "
-					+ " INNER JOIN port_inward_shipment pis ON pin.port_inwd_shipment_id = pis.port_inwd_shipment_id "
-					+ " LEFT JOIN port_inward_details pid ON pid.port_inward_id = pin.port_inward_id group by pin.port_inward_id";
-			// + processSearchCriteria(searchParam) + " " +
-			// composeOrderByClause(orderByFieldName, order) + ";";
+			String sql = "select pin.port_inward_id ,pin.material_type, pin.mill_name,pin.material_make,pin.material_grade,"
+					+ " pin.description, pis.vessel_date, pis.vessel_name, pis.vendor_name ,pid.port_inward_detail_id,"
+					+ " pid.thickness,pid.width,pid.length,pid.quantity, pid.be_weight from port_inward_details pid "
+					+ " left join port_inward pin on pid.port_inward_id=pin.port_inward_id "
+					+ " left join port_inward_shipment pis on pin.port_inwd_shipment_id=pis.port_inwd_shipment_id "
+					+ " where pid.port_inward_id=" + portInwardId + " group by pid.port_inward_detail_id"
+					+ processSearchCriteria(searchParam) + " " + composeOrderByClause(orderByFieldName, order) + ";";
 			query = sql;
 			log.info("query = " + query);
 
@@ -137,6 +137,7 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 					p.setWidth(rs.getInt(12));
 					p.setLength(rs.getInt(13));
 					p.setQuantity(rs.getInt(14));
+					p.setActualWt(rs.getDouble(15));
 					list.add(p);
 				} while (rs.next());
 
@@ -156,7 +157,7 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 			orderByClause = " ORDER BY ";
 			if (orderByFieldName.equalsIgnoreCase("vessel_date")) {
 				orderByClause = orderByClause + " pis.vessel_date " + order + " ";
-			} else if (orderByFieldName.equalsIgnoreCase("id")) {
+			} else if (orderByFieldName.equalsIgnoreCase("port_inward_id")) {
 				orderByClause = orderByClause + " pin.port_inward_id " + order + " ";
 			}
 		}
@@ -244,7 +245,7 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 					+ " (customer_name, broker_name, brokerage,brokerage_unit, delivery_address, rate, "
 					+ " excise, tax, transport, payment_terms, total_quantity, comments, "
 					+ " create_ui, update_ui, create_ts, update_ts) "
-					+ " VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+					+ " VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
 
 			log.info(query);
 
@@ -255,17 +256,18 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 			cs.setString(2, portpurchaseform.getBrokerName());
 			cs.setString(3, portpurchaseform.getBrokerage());
 			cs.setString(4, portpurchaseform.getBrokerageUnit());
-			cs.setString(5, portpurchaseform.getDeliveryAddress());
-			cs.setDouble(6, portpurchaseform.getRate());
-			cs.setDouble(7, portpurchaseform.getExcise());
-			cs.setDouble(8, portpurchaseform.getTax());
-			cs.setDouble(9, portpurchaseform.getTransport());
-			cs.setString(10, portpurchaseform.getPaymentTerms());
-			cs.setInt(11, portpurchaseform.getTotalQuantity());
-			cs.setString(12, userInfoVO.getUserName());
+			cs.setDouble(5, portpurchaseform.getRate());
+			cs.setString(6, portpurchaseform.getDeliveryAddress());
+			cs.setDouble(7, portpurchaseform.getRate());
+			cs.setDouble(8, portpurchaseform.getExcise());
+			cs.setDouble(9, portpurchaseform.getTax());
+			cs.setDouble(10, portpurchaseform.getTransport());
+			cs.setString(11, portpurchaseform.getPaymentTerms());
+			cs.setInt(12, 0);
 			cs.setString(13, userInfoVO.getUserName());
-			cs.setString(14, getCurentTime());
+			cs.setString(14, userInfoVO.getUserName());
 			cs.setString(15, getCurentTime());
+			cs.setString(16, getCurentTime());
 
 			int count = cs.executeUpdate();
 

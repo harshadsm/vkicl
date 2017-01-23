@@ -46,7 +46,9 @@ public class PortPurchaseOrderFinalJsonService {
 		// Integer totalRecordsCount =
 		// portDao.fetchPortInwardDetailsRecordCount(searchParam);
 		// Integer portInwardDetailId = 1;
-		List<PackingListItemVO> records = portDao.fetchPPOLineItems(Integer.parseInt(portInwardDetailId));
+
+		List<PackingListItemVO> records = portDao.fetchPPOLineItems(Integer.parseInt(portInwardDetailId),
+				Integer.parseInt(page), Integer.parseInt(rows), orderBy, order, searchParam);
 
 		JqGridCustomResponse response = new JqGridCustomResponse();
 		response.setPage(page);

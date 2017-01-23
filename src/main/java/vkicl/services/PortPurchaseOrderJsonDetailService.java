@@ -17,6 +17,7 @@ import vkicl.daoImpl.PortDaoImpl;
 import vkicl.daoImpl.PortInwardOutwardIntersectionDaoImpl;
 import vkicl.daoImpl.PortInwardPackingListDaoImpl;
 import vkicl.daoImpl.PortOutwardDaoImpl;
+import vkicl.daoImpl.PortPurchaseOrderDaoImpl;
 import vkicl.report.bean.PortOutwardBean2;
 import vkicl.util.JqGridCustomResponse;
 import vkicl.util.JqGridParametersHolder;
@@ -41,11 +42,14 @@ public class PortPurchaseOrderJsonDetailService {
 		String orderBy = params.getParam(JQGRID_PARAM_NAMES.sidx);
 		String order = params.getParam(JQGRID_PARAM_NAMES.sord);
 
-		PortDaoImpl portDao = new PortDaoImpl();
+		// PortDaoImpl portDao = new PortDaoImpl();
 		// Integer totalRecordsCount =
 		// portDao.fetchPortInwardDetailsRecordCount(searchParam);
-
-		List<PortInwardDetailsVO> records = portDao.fetchPortInwardDetailsById(Integer.parseInt(portInwardId));
+		PortPurchaseOrderDaoImpl portDao = new PortPurchaseOrderDaoImpl();
+		// List<PortInwardDetailsVO> records =
+		// portDao.fetchPortInwardDetailsById(Integer.parseInt(portInwardId));
+		List<PackingListItemVO> records = portDao.fetchPPOLineItems(Integer.parseInt(portInwardId),
+				Integer.parseInt(page), Integer.parseInt(rows), orderBy, order, searchParam);
 
 		JqGridCustomResponse response = new JqGridCustomResponse();
 		response.setPage(page);

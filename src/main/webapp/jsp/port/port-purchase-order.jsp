@@ -13,6 +13,9 @@
 			.getAttribute(Constants.USER_INFO_SESSION);
 %>
 <script type="text/javascript">
+
+var SELECTED_PORT_INVENTORY_ITEMS = [];
+
 function validateForm() {
 	
 	if ("" == getValByFieldName("body", "customerName")) {
@@ -182,7 +185,8 @@ input[name="length"], input[name="width"], input[name="thickness"], input[name="
 }
 
 </style>
-
+<div>
+<html:form action="/port-purchase-order" >
 <div class="row">
 	<div class="col-md-12">
 		<h3 class="page-head">Port Purchase Order</h3>
@@ -369,17 +373,33 @@ input[name="length"], input[name="width"], input[name="thickness"], input[name="
 				</div>
   </div>
   
-	 <div class="row">
-	 <div class="col-md-12">
-					
-						<div id="portfinalTable">
-							<table id="portpurchaseorderfinalGrid"></table>
-							<div id="portInwardfinalPager"></div>
-						</div>
-					
-	 </div>
-      </div>
-      
+	<div class="row">
+			<div class="col-xs-12">
+				<h3>Review the selected Entries below</h3>
+				<table class="table table-responsive table-form" id="portPurchaseOrderTable">
+					<thead>
+						<tr>
+						
+							<th>Date</th>
+							<th>Vendor Name</th>
+							<th>Vessel Name</th>
+							<th>Mill Name</th>
+							
+							<th>Material Type</th>
+							<th>Make</th>
+							<th>Grade</th>
+							<th>Thickness</th>
+							<th>Width</th>
+							<th>Length</th>
+							<th>Quantity</th> 
+							
+						</tr>
+					</thead>
+					<tbody id="details-tbody">
+					</tbody>
+				</table>
+			</div>
+		</div>
 
 </div>
 
@@ -393,8 +413,9 @@ input[name="length"], input[name="width"], input[name="thickness"], input[name="
 			</div>
 		</div>
 		<html:hidden property="genericListener" value="add" />
-
-
+			</html:form>
+</div>
+		
 <script>
 
 $(function() {
@@ -574,11 +595,11 @@ $(function() {
 					mtype : 'GET',
 					
 					
-					colNames : ['port_inward_detail_id', 'port_inward_id', 'Thickness', 'Width', 'Length', 'Quantity', 'Actual Weight'],
+					colNames : ['port_inward_detail_id', 'port_inward_id', 'Thickness', 'Width', 'Length', 'Quantity', 'Actual Weight','Date', 'Vessel Name', 'Vendor Name', 'Material Type', 'Mill Name', 'Make', 'Grade'],
 							
 					colModel : [ {
-						name : 'port_inward_detail_id',
-						index : 'port_inward_detail_id',
+						name : 'portInwardDetailId',
+						index : 'portInwardDetailId',
 						width : 20,
 						hidden: true,
 						editable : true,
@@ -591,8 +612,8 @@ $(function() {
 						search:false,
 						searchoptions: { sopt:['ge']}
 					}, {
-						name : 'port_inward_id',
-						index : 'port_inward_id',
+						name : 'portInwardId',
+						index : 'portInwardId',
 						width : 20,
 						hidden: true,
 						editable : true,
@@ -660,8 +681,8 @@ $(function() {
 						searchoptions: { sopt:[ 'cn','eq']}
 						
 					},{
-						name : 'be_weight',
-						index : 'be_weight',
+						name : 'actualWt',
+						index : 'actualWt',
 						width : 100,
 						editable : false,
 						editoptions : {
@@ -670,6 +691,110 @@ $(function() {
 						},
 						search:false,
 						sortable:false,
+						//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+						searchoptions: { sopt:[ 'cn','eq']}
+						
+					}, {
+						name : 'vesselDate',
+						index : 'vessel_date',
+						width : 100,
+						editable : false,
+						hidden: true,
+						editoptions : {
+							readonly : true,
+							size : 10
+						},
+						search:true,
+						//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+						searchoptions: { sopt:[ 'cn','eq']}
+						
+					},{
+						name : 'vesselName',
+						index : 'vessel_name',
+						width : 150,
+						editable : false,
+						hidden: true,
+						editoptions : {
+							readonly : true,
+							size : 10
+						},
+						sortable:false,
+						search:true,
+						//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+						searchoptions: { sopt:[ 'cn','eq']}
+						
+					},{
+						name : 'vendorName',
+						index : 'vendor_name',
+						width : 150,
+						editable : false,
+						hidden: true,
+						editoptions : {
+							readonly : true,
+							size : 10
+						},
+						sortable:false,
+						search:true,
+						//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+						searchoptions: { sopt:[ 'cn','eq']}
+						
+					},{
+						name : 'materialType',
+						index : 'materialType',
+						width : 120,
+						editable : false,
+						hidden: true,
+						editoptions : {
+							readonly : true,
+							size : 10
+						},
+						search:false,
+						sortable:false,
+						//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+						searchoptions: { sopt:[ 'cn','eq']}
+						
+					},{
+						name : 'millName',
+						index : 'millName',
+						width : 150,
+						editable : false,
+						hidden: true,
+						editoptions : {
+							readonly : true,
+							size : 10
+						},
+						search:false,
+						sortable:false,
+						//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+						searchoptions: { sopt:[ 'cn','eq']}
+						
+					},{
+						name : 'make',
+						index : 'make',
+						width : 100,
+						editable : false,
+						hidden: true,
+						editoptions : {
+							readonly : true,
+							size : 10
+						},
+						sortable:false,
+						search:false,
+						//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+						searchoptions: { sopt:[ 'cn','eq']}
+						
+					},{
+						name : 'grade',
+						index : 'grade',
+						width : 100,
+						editable : false,
+						hidden: true,
+						editoptions : {
+							readonly : true,
+							size : 10
+						},
+						sortable:false,
+						search:false,
 						//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
 						searchoptions: { sopt:[ 'cn','eq']}
 						
@@ -682,8 +807,9 @@ $(function() {
 					height : 280,
 					autowidth : true,
 					rownumbers : true,
+					multiselect : true,
 					pager : '#pager',
-					sortname : 'port_inward_detail_id',
+					sortname : 'port_inward_id',
 					viewrecords : true,
 					sortorder : "desc",
 					caption : "Port Inward Details",
@@ -702,250 +828,64 @@ $(function() {
 						id : "id"
 					},
 			        gridComplete: function(){ 
+			        	
+			        	var $grid = $("#portpurchaseorderdetailGrid");
+			        	var ids = $("#portpurchaseorderdetailGrid").jqGrid('getDataIDs');
+			        	
+			        	for(var i=0;i < ids.length;i++){ 
+			        		var rowObject = $grid.jqGrid('getRowData',ids[i]); 
+			        		
+			        		var composedObj = composeObjectForCaching(rowObject, 0);
+							
+			        		$grid.jqGrid('filterToolbar',{stringResult: true,searchOnEnter : false, searchOperators:true, defaultSearch:"cn"});
+			        		
+			        		//Pre-select the customers if user had them selected already
+							if(SELECTED_PORT_INVENTORY_ITEMS.length > 0){
+								
+								var cachedObj = isObjectPresentInCache(composedObj);
+								if(cachedObj){
+									console.log("cachedObj.orderedQuantity = "+cachedObj.orderedQuantity);
+									$grid.jqGrid("setSelection", ids[i]);
+									
+									$("#ordered_qty_"+ids[i]).val(cachedObj.orderedQuantity);
+									var val = calculateOutQty(rowId, cachedObj.orderedQuantity);
+									$("#portpurchaseorderdetailGrid").jqGrid("setCell", rowId, "outQty", val);
+								}else{
+									console.log("Not present in cache "+composedObj.thickness);
+								}
+							}
+		        		} 
 			       }
 			        		,
 			           		
-			        		onSelectRow: function(rowids) {
-			           			
-			        			
-			        			var grid = jQuery('#portpurchaseorderdetailGrid');
-			        			var sel_id = grid.jqGrid('getGridParam', 'selrow');
-			        			var portInwardDetailId = grid.jqGrid('getCell', sel_id, 'port_inward_detail_id');
-			        			
-			           			var url="./portPurchaseOrderFinalJsonServlet?inwardDetailId="+portInwardDetailId;
-			           			$("#portpurchaseorderfinalGrid").jqGrid('setGridParam',{url:url});
-			           			$("#portpurchaseorderfinalGrid").trigger('reloadGrid');
-			        		}
+			        		onSelectRow: handleOnSelectRow,
+			       	        onSelectAll: function(aRowids, status) {
+			       	        	for(var i=0;i<aRowids.length;i++){
+			       	            	handleOnSelectRow(aRowids[i],status);
+			       	            }
+			       	        }
 				});
 	
 });
 
-$(function() {
-	$("#portpurchaseorderfinalGrid").jqGrid(
-		{
-			url : './portPurchaseOrderFinalJsonServlet',
-			datatype : 'json',
-			mtype : 'GET',
+	
+
+function isObjectPresentInCache(targetObj){
+	
+	if(SELECTED_PORT_INVENTORY_ITEMS.length > 0){
+		
+		for(var i=0;i<SELECTED_PORT_INVENTORY_ITEMS.length;i++){
+			var itemObj = SELECTED_PORT_INVENTORY_ITEMS[i];
+			var isPresent = compareCachedObjects(itemObj, targetObj);
 			
-			
-			colNames : [ 'id', 'Date', 'Vessel Name', 'Vendor Name', 'Material Type', 'Mill Name', 'Make', 'Grade', 'Thickness', 'Width', 'Length', 'Quantity'],
-					
-			colModel : [ {
-				name : 'port_inward_id',
-				index : 'port_inward_id',
-				hidden: true,
-				width : 30,
-				editable : true,
-				editrules : {
-					required : true
-				},
-				editoptions : {
-					size : 10
-				},
-				search:false,
-				searchoptions: { sopt:['ge']}
-			}, {
-				name : 'vesselDate',
-				index : 'vessel_date',
-				width : 100,
-				editable : false,
-				editoptions : {
-					readonly : true,
-					size : 10
-				},
-				search:true,
-				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
-				searchoptions: { sopt:[ 'cn','eq']}
-				
-			},{
-				name : 'vesselName',
-				index : 'vessel_name',
-				width : 150,
-				editable : false,
-				editoptions : {
-					readonly : true,
-					size : 10
-				},
-				sortable:false,
-				search:true,
-				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
-				searchoptions: { sopt:[ 'cn','eq']}
-				
-			},{
-				name : 'vendorName',
-				index : 'vendor_name',
-				width : 150,
-				editable : false,
-				editoptions : {
-					readonly : true,
-					size : 10
-				},
-				sortable:false,
-				search:true,
-				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
-				searchoptions: { sopt:[ 'cn','eq']}
-				
-			},{
-				name : 'materialType',
-				index : 'materialType',
-				width : 100,
-				editable : false,
-				editoptions : {
-					readonly : true,
-					size : 10
-				},
-				search:false,
-				sortable:false,
-				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
-				searchoptions: { sopt:[ 'cn','eq']}
-				
-			},{
-				name : 'millName',
-				index : 'millName',
-				width : 120,
-				editable : false,
-				editoptions : {
-					readonly : true,
-					size : 10
-				},
-				search:false,
-				sortable:false,
-				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
-				searchoptions: { sopt:[ 'cn','eq']}
-				
-			},{
-				name : 'make',
-				index : 'make',
-				width : 100,
-				editable : false,
-				editoptions : {
-					readonly : true,
-					size : 10
-				},
-				sortable:false,
-				search:false,
-				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
-				searchoptions: { sopt:[ 'cn','eq']}
-				
-			},{
-				name : 'grade',
-				index : 'grade',
-				width : 100,
-				editable : false,
-				editoptions : {
-					readonly : true,
-					size : 10
-				},
-				sortable:false,
-				search:false,
-				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
-				searchoptions: { sopt:[ 'cn','eq']}
-				
-			}, {
-				name : 'thickness',
-				index : 'thickness',
-				width : 100,
-				editable : false,
-				editoptions : {
-					readonly : true,
-					size : 10
-				},
-				search:true,
-				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
-				searchoptions: { sopt:[ 'cn','eq']}
-				
-			},{
-				name : 'width',
-				index : 'width',
-				width : 100,
-				editable : false,
-				editoptions : {
-					readonly : true,
-					size : 10
-				},
-				sortable:false,
-				search:true,
-				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
-				searchoptions: { sopt:[ 'cn','eq']}
-				
-			},{
-				name : 'length',
-				index : 'length',
-				width : 100,
-				editable : false,
-				editoptions : {
-					readonly : true,
-					size : 10
-				},
-				sortable:false,
-				search:true,
-				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
-				searchoptions: { sopt:[ 'cn','eq']}
-				
-			},{
-				name : 'quantity',
-				index : 'quantity',
-				width : 100,
-				editable : false,
-				editoptions : {
-					readonly : true,
-					size : 10
-				},
-				search:false,
-				sortable:false,
-				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
-				searchoptions: { sopt:[ 'cn','eq']}
-				
+			if(isPresent){
+				return itemObj;
 			}
-			],
-			postData : {
-			},
-			rowNum : 20,
-			rowList : [ 20, 40, 60 ],
-			height : 280,
-			autowidth : true,
-			rownumbers : true,
-			pager : '#pager',
-			sortname : 'vessel_date',
-			viewrecords : true,
-			sortorder : "desc",
-			caption : "Port Purchase Order Items",
-			emptyrecords : "Empty records",
-			loadonce : false,
-			loadComplete : function() {
-
-			},
-			jsonReader : {
-				root : "rows",
-				page : "page",
-				total : "total",
-				records : "records",
-				repeatitems : false,
-				cell : "cell",
-				id : "id"
-			},
-	        gridComplete: function(){ 
-	        	var ids = $("#grid").jqGrid('getDataIDs');
-	        	console.log(ids);
-	        	for(var i=0;i < ids.length;i++){ 
-	        		
-	        		$("#grid").jqGrid('setRowData',ids[i],{actionLink:cust_lnk});
-	        		
-	        		$("#grid").jqGrid('filterToolbar',{stringResult: true,searchOnEnter : false, searchOperators:true, defaultSearch:"cn"});
-	        		
-	        		$("#grid").jqGrid('setColProp', "address", {searchoptions: { sopt:['cn','eq']}});
-	        		} }
-	        		,
-	           		
-	           		onSelectRow: function(rowId) {
-	           			var row = jQuery("#portpurchaseorderinwardGrid").jqGrid('getRowData',rowId); 
-	           			
-	           			
-	           			
-	       	        }
-		});
-});		
-
+		}
+		
+	}
+	return false;
+}
 
 function composeObjectForCaching(rowObject,qty){
 	//var cachedObject = rowObject.portInwardId+"-"+rowObject.portInwardDetailId+"-"+rowObject.portInwardShipmentId;
@@ -978,22 +918,359 @@ function composeObjectForCaching(rowObject,qty){
 	return cachedObj;
 }
 
-function isObjectPresentInCache(targetObj){
+function handleOnSelectRow(rowId, status){
 	
-	if(SELECTED_PORT_INVENTORY_ITEMS.length > 0){
+	var row = jQuery("#portpurchaseorderdetailGrid").jqGrid('getRowData',rowId); 
+	var orderedQty = $("#ordered_qty_"+rowId).val()
+	try{
+		var x = Number(orderedQty);
+	}catch (e){
+		orderedQty = 1;
+	}
+	var objectForCaching = composeObjectForCaching(row, orderedQty);
+	
+	if(status){
+		//If already present, update the orderedQuantity in cache
 		
-		for(var i=0;i<SELECTED_PORT_INVENTORY_ITEMS.length;i++){
-			var itemObj = SELECTED_PORT_INVENTORY_ITEMS[i];
-			var isPresent = compareCachedObjects(itemObj, targetObj);
+		var isPresentObj = isObjectPresentInCache(objectForCaching);
+		console.log("isPresentObj = "+isPresentObj);
+		if(isPresentObj){
+			//updateOrderedQuantityInCache(objectForCaching);
+			$("#ordered_qty_"+rowId).val(isPresentObj.orderedQuantity);
+			var val = calculateOutQty(rowId, isPresentObj.orderedQuantity);
+			$("#portpurchaseorderdetailGrid").jqGrid("setCell", rowId, "outQty", val);
+		}else{
+			//Now add the customer code to array.
+			try{
+				var x = Number(objectForCaching.orderedQuantity);
+				if(x <= 0){
+					objectForCaching.orderedQuantity = 1;
+				}
+			}catch(e){
+				objectForCaching.orderedQuantity = 1;
+			}
 			
-			if(isPresent){
-				return itemObj;
+			//Push items into cache as selected.
+			SELECTED_PORT_INVENTORY_ITEMS.push(objectForCaching);
+			
+			if($("#ordered_qty_"+rowId).val()==""){
+				$("#ordered_qty_"+rowId).val("1");
+				var val = calculateOutQty(rowId, objectForCaching.orderedQuantity);
+				$("#portpurchaseorderdetailGrid").jqGrid("setCell", rowId, "outQty", val);
 			}
 		}
 		
+	}else{
+		/* SELECTED_PORT_INVENTORY_ITEMS = $.grep(SELECTED_PORT_INVENTORY_ITEMS, function (value){
+			return compareCachedObjects(value, objectForCaching);
+			
+			//return value != objectForCaching;
+		}); */
+		removeItemFromCache(objectForCaching);
+		$("#ordered_qty_"+rowId).val("");
+		$("#portpurchaseorderdetailGrid").jqGrid("setCell", rowId, "outQty", " ");
 	}
-	return false;
+	
+	//Refresh the table.
+	refreshPortOutwardTable();
 }
 
+function calculateOutQty(rowId, orderedQuantity){
+	var data = $("#portpurchaseorderdetailGrid").jqGrid('getRowData');
+	var row = data[rowId-1];
+	var outqtyval= (row.length * row.width * row.thickness * orderedQuantity * 7.85) / 1000000000;
+	return outqtyval.toFixed(3);
+}
+
+function refreshPortOutwardTable(){
+	//$("#portOutwardRecordsTable").empty();
+	$("#details-tbody").empty();
+	
+	
+	for(var i=0;i<SELECTED_PORT_INVENTORY_ITEMS.length;i++){
+		addRowOfSelectedRecord(SELECTED_PORT_INVENTORY_ITEMS[i]);
+	}
+	
+	//Calculate total item quantity
+	var quantitySum = 0;
+	var sectionwtSum=0;
+	console.log("calculating checksum");
+	$(".port_out_item_quantity").each(function (index, elem){
+		console.log(elem);
+		var q = Number($(elem).val());
+		quantitySum = quantitySum + q;
+	});
+	
+	$(".port_out_section_wt").each(function (index, elem){
+		console.log(elem);
+		var secwt = Number($(elem).val());
+		sectionwtSum = sectionwtSum + secwt;
+	});
+	addQuantitySumRow(quantitySum,sectionwtSum);
+		
+}
+
+function removeItemFromCache(objectToRemove){
+	var newArr = [];
+	for(var i=0;i<SELECTED_PORT_INVENTORY_ITEMS.length;i++){
+		var cachedObj = SELECTED_PORT_INVENTORY_ITEMS[i];
+		var isSame = compareCachedObjects(cachedObj,objectToRemove );
+		if(!isSame){
+			newArr.push(cachedObj);
+		}else{
+			console.log("Matched object. So will be removed.");
+		}
+		
+	}
+	
+	SELECTED_PORT_INVENTORY_ITEMS = newArr;
+}
+
+function compareCachedObjects(one, two){
+	
+	var flag1 = one.portInwardId == two.portInwardId;
+	var flag2 = one.portInwardDetailId == two.portInwardDetailId;
+	var flag3 = one.portInwardShipmentId == two.portInwardShipmentId;
+	var flag4 = one.portOutwardId == two.portOutwardId;
+	//var flag4 = one.orderedQuantity == two.orderedQuantity;
+	
+	var isSame = flag1 && flag2 && flag3 && flag4;// && flag4;
+	
+	return isSame;
+}
+
+function isOrderedQtyLessThanAvailableQtyAtPort(orderedQty, jqGridRowId){
+	var $packingListGrid = $("#portpurchaseorderdetailGrid");
+	var row = jQuery("#portpurchaseorderdetailGrid").jqGrid('getRowData',jqGridRowId); 
+	var availableQty = Number(row.quantity);
+	var isMore = false;
+	if(orderedQty > availableQty){
+		isMore = true;
+	}
+	return isMore;
+}
+
+function setTick(jqGridRowId){
+	
+	try{
+		jqGridRowId = jqGridRowId+"";
+		var $packingListGrid = $("#portpurchaseorderdetailGrid");
+		var orderedQty = Number($("#ordered_qty_"+jqGridRowId).val());
+		//console.log("Ordered Qty = "+orderedQty);
+		var val = calculateOutQty(jqGridRowId, orderedQty);
+	    $("#portpurchaseorderdetailGrid").jqGrid("setCell", jqGridRowId, "outQty", val);
+				
+		
+		var isMore = isOrderedQtyLessThanAvailableQtyAtPort(orderedQty, jqGridRowId);
+		if(isMore){
+			alert("You have entered quantity more than that is available at port.");
+		}
+		
+		if(orderedQty > 0){
+			
+			var selRowIds = $packingListGrid.jqGrid("getGridParam", "selarrrow");
+			if ($.inArray(jqGridRowId, selRowIds) >= 0) {
+			    // the row having rowId is selected
+			    console.log("Already selected");
+			    
+			    updateQuantityInCache(jqGridRowId, orderedQty);
+			  	//Refresh the table.
+				refreshPortOutwardTable();
+			    
+			}else{
+				$packingListGrid.jqGrid("setSelection", jqGridRowId);
+				
+			}
+				
+		}else{
+			$packingListGrid.jqGrid("setSelection", jqGridRowId);
+		}
+			
+	}catch(e){
+		console.log(e);
+	}
+	
+	
+	
+}
+
+function updateQuantityInCache(jqGridRowId, orderedQty){
+	var $packingListGrid = $("#portpurchaseorderdetailGrid");
+	var rowObject = $packingListGrid.jqGrid('getRowData',jqGridRowId); 
+	var objectForCompare = composeObjectForCaching(rowObject, orderedQty);
+	var objectFromCache = isObjectPresentInCache(objectForCompare);
+	if(objectFromCache){
+		objectFromCache.orderedQuantity = orderedQty;
+	}
+	
+	
+}
+
+function editText() {
+	
+	$("input[name='vesselDate']").removeAttr("readonly");
+	$("input[name='vesselName']").removeAttr("readonly");
+	$("input[name='vehicleDate']").removeAttr("readonly");
+	$("input[name='vehicleName']").removeAttr("readonly");
+	$("input[name='millName']").removeAttr("readonly");
+	$("input[name='Type']").removeAttr("readonly");
+	$("input[name='grade']").removeAttr("readonly");
+	$("input[name='thickness']").removeAttr("readonly");
+	$("input[name='width']").removeAttr("readonly");
+	$("input[name='length']").removeAttr("readonly");
+	$("input[name='availableQuantity']").removeAttr("readonly");
+	$("input[name='balQty']").removeAttr("readonly");
+	$("input[name='actualWt']").removeAttr("readonly");
+	$("input[name='make']").removeAttr("readonly");
+	$("input[name='vendorName']").removeAttr("readonly");
+}
+
+
+function composeCombinationId(recordObj){
+	//var comboId = ""+ recordObj.portInwardId + "-"+recordObj.portInwardDetailId+"-"+recordObj.portInwardShipmentId;
+	var comboId = ""+ recordObj.portInwardId + "-"+recordObj.portInwardShipmentId ;
+	return comboId;
+}
+
+function composeCombinationClass(id){
+	//var comboId = ""+ recordObj.portInwardId + "-"+recordObj.portInwardDetailId+"-"+recordObj.portInwardShipmentId;
+	var comboId = "portoutward-group-"+ id;
+	return comboId;
+}
+
+
+
+function composeJsonCellId(parentTrId){
+	var jsonCellId = "jsonstr-"+parentTrId;
+	return jsonCellId;
+}
+
+
+
+function addRowOfSelectedRecord(recordObj) {
+	
+	console.log(recordObj);
+	var id = composeCombinationId(recordObj);
+
+	var jsonCellId = composeJsonCellId(id);
+	var warehouseInwardRecordClass = composeCombinationClass(id);
+	var recordObjJson = JSON.stringify(recordObj);		
+	var str = "<tr id='" + id + "' class='selected-port-outward-records "+warehouseInwardRecordClass+"' data-attribute-group-class='"+warehouseInwardRecordClass+"' data-attribute-original-quantity='"+recordObj.availableQuantity+"' >"
+			+ "<td><input type='text' readonly placeholder='vesselDate' value='"+recordObj.vesselDate+"' name='vesselDate' class='form-control'  /></td>"
+			+ "<td><input type='text' readonly placeholder='vendorName' value='"+recordObj.vendorName+"' name='vendorName' class='form-control' /></td>"
+			+ "<td><input type='text' readonly placeholder='vesselName' value='"+recordObj.vesselName+"' name='vesselName' class='form-control' /></td>"
+			+ "<td><input type='text' readonly placeholder='materialType' value='"+recordObj.materialType+"' name='Type' class='form-control' /></td>"
+			+ "<td><input type='text' readonly placeholder='millName' value='"+recordObj.millName+"' name='millName' class='form-control' /></td>"
+			+ "<td><input type='text' readonly placeholder='make' value='"+recordObj.make+"' name='make' class='form-control' /></td>"
+			+ "<td><input type='text' readonly placeholder='grade' value='"+recordObj.grade+"' name='grade' class='form-control' /></td>"
+			+ "<td><input type='text' readonly placeholder='thickness' value='"+recordObj.thickness+"' name='thickness' class='form-control' /></td>"
+			+ "<td><input type='text' readonly placeholder='width' value='"+recordObj.width+"' name='width' class='form-control' /></td>"
+			+ "<td><input type='text' readonly placeholder='length' value='"+recordObj.length+"' name='length' class='form-control' /></td>"
+			+ "<td ><input type='text' readonly placeholder='Quantity' value='"+recordObj.availableQuantity+"' name='availableQuantity' class='form-control port_out_item_quantity' id='port_out_item_quantity-" + id + "' data-attribute-parent-port-out-id='port_out_item_quantity-" + id + "' /></td>"
+			
+			+ "<td><input type='hidden' value='"+recordObj.portInwardId+"' name='portInwardId'/></td>"
+			+ "<td><input type='hidden' value='"+recordObj.portOutwardId+"' name='portOutwardId'/></td>"
+			+ "<td><input type='hidden' value='"+recordObj.portInwardShipmentId+"' name='portInwardShipmentId'/></td>"
+			+ "<td><input type='hidden' value='"+recordObjJson+"' id='"+jsonCellId+"'/></td>"
+
+			+ "</tr>";
+	$("#details-tbody").append(str);
+	
+
+	//applyNumericConstraint();
+	//applyTotalCalc();
+}
+function addQuantitySumRow(quantitySum,sectionwtSum) {
+	
+	
+	var str = "<tr id='quantity-sum-row'><td class='vessel-container'></td>"
+			+ "<td></td>"
+			//+ "<td>be no</td>"
+			//+ "<td>Material Type</td>"
+			+ "<td></td>"
+			+ "<td></td>"
+			+ "<td></td>"
+			+ "<td></td>"
+			+ "<td></td>"
+			+ "<td></td>"
+			+ "<td></td>"
+			+ "<td>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Checksum </td>"
+			+ "<td class='port_out_item_quantity' >&nbsp&nbsp"+quantitySum+"</td>";
+	$("#details-tbody").append(str);
+	
+
+	//applyNumericConstraint();
+	//applyTotalCalc();
+}
+function calculateOutQty(rowId, orderedQuantity){
+	var data = $("#portpurchaseorderdetailGrid").jqGrid('getRowData');
+	var row = data[rowId-1];
+	var outqtyval= (row.length * row.width * row.thickness * orderedQuantity * 7.85) / 1000000000;
+	return outqtyval.toFixed(3);
+}
+function composeCombinationId(recordObj){
+	//var comboId = ""+ recordObj.portInwardId + "-"+recordObj.portInwardDetailId+"-"+recordObj.portInwardShipmentId;
+	var comboId = ""+ recordObj.portInwardId + "-"+recordObj.portInwardShipmentId ;
+	return comboId;
+}
+
+function composeJsonCellId(parentTrId){
+	var jsonCellId = "jsonstr-"+parentTrId;
+	return jsonCellId;
+}
+function composeCombinationClass(id){
+	//var comboId = ""+ recordObj.portInwardId + "-"+recordObj.portInwardDetailId+"-"+recordObj.portInwardShipmentId;
+	var comboId = "portoutward-group-"+ id;
+	return comboId;
+}
+
+function locationId(recordObj){
+	var trElementId = composeCombinationId(recordObj);
+	var locationCellId = "location-"+trElementId;
+	return locationCellId;
+}
+function setTick(jqGridRowId){
+	
+	try{
+		jqGridRowId = jqGridRowId+"";
+		var $packingListGrid = $("#portpurchaseorderdetailGrid");
+		var orderedQty = Number($("#ordered_qty_"+jqGridRowId).val());
+		//console.log("Ordered Qty = "+orderedQty);
+		var val = calculateOutQty(jqGridRowId, orderedQty);
+	    $("#portpurchaseorderdetailGrid").jqGrid("setCell", jqGridRowId, "outQty", val);
+				
+		
+		var isMore = isOrderedQtyLessThanAvailableQtyAtPort(orderedQty, jqGridRowId);
+		if(isMore){
+			alert("You have entered quantity more than that is available at port.");
+		}
+		
+		if(orderedQty > 0){
+			
+			var selRowIds = $packingListGrid.jqGrid("getGridParam", "selarrrow");
+			if ($.inArray(jqGridRowId, selRowIds) >= 0) {
+			    // the row having rowId is selected
+			    console.log("Already selected");
+			    
+			    updateQuantityInCache(jqGridRowId, orderedQty);
+			  	//Refresh the table.
+				refreshPortOutwardTable();
+			    
+			}else{
+				$packingListGrid.jqGrid("setSelection", jqGridRowId);
+				
+			}
+				
+		}else{
+			$packingListGrid.jqGrid("setSelection", jqGridRowId);
+		}
+			
+	}catch(e){
+		console.log(e);
+	}
+	
+	
+	
+}
 </script>
 
