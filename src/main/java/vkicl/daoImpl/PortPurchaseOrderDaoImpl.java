@@ -25,6 +25,8 @@ import vkicl.util.PropFileReader;
 import vkicl.vo.PackingListItemVO;
 import vkicl.vo.PortInwardDetailsVO;
 import vkicl.vo.PortInwardRecordVO;
+import vkicl.vo.PortOutwardPostDataContainerVO;
+import vkicl.vo.PortPurchaseOrderPostDataContainerVO;
 import vkicl.vo.UserInfoVO;
 import vkicl.vo.WarehouseInwardRecordVO;
 
@@ -287,8 +289,8 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 
 	}
 
-	public Long addPortPurchaseLineItemData(PortPurchaseOrderForm portpurchaseform, Long portPurchaseOrderId,
-			UserInfoVO userInfoVO) throws SQLException {
+	public Long addPortPurchaseLineItemData(PortPurchaseOrderPostDataContainerVO postDataContainer,
+			Long portPurchaseOrderId, UserInfoVO userInfoVO) throws SQLException {
 		Connection conn = null;
 		ResultSet rs = null;
 		CallableStatement cs = null;
@@ -304,17 +306,15 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 
 			conn = getConnection();
 			cs = conn.prepareCall(query);
-			for (int i = 0; i <= portpurchaseform.getPortInwardDetailId(); i++) {
 
-				cs.setLong(1, portPurchaseOrderId);
-				cs.setInt(2, portpurchaseform.getPortInwardDetailId());
-				cs.setInt(3, 0);
+			cs.setLong(1, portPurchaseOrderId);
+			cs.setInt(2, postDataContainer.getPortInwardDetailId());
+			cs.setString(3, postDataContainer.getQty());
 
-				cs.setString(4, userInfoVO.getUserName());
-				cs.setString(5, userInfoVO.getUserName());
-				cs.setString(6, getCurentTime());
-				cs.setString(7, getCurentTime());
-			}
+			cs.setString(4, userInfoVO.getUserName());
+			cs.setString(5, userInfoVO.getUserName());
+			cs.setString(6, getCurentTime());
+			cs.setString(7, getCurentTime());
 
 			int count = cs.executeUpdate();
 

@@ -13,11 +13,13 @@ import com.google.gson.Gson;
 import vkicl.daoImpl.WarehouseDaoImpl2;
 import vkicl.form.PortOutwardForm;
 import vkicl.form.PortPurchaseOrderForm;
+import vkicl.services.PortPurchaseOrderJsonDetailService;
 import vkicl.services.WarehouseInwardService;
 import vkicl.util.Constants;
 import vkicl.util.Converter;
 import vkicl.util.PropFileReader;
 import vkicl.vo.PortOutwardPostDataContainerVO;
+import vkicl.vo.PortPurchaseOrderPostDataContainerVO;
 import vkicl.vo.UserInfoVO;
 
 public class PortPurchaseOrderAction1 extends BaseAction {
@@ -36,15 +38,17 @@ public class PortPurchaseOrderAction1 extends BaseAction {
 			if (null != actionForward)
 				return actionForward;
 
+			portpurchaseForm = (PortPurchaseOrderForm) form;
+
 			userInfoVO = getUserProfile(request);
 			actionForward = mapping.findForward(Constants.Mapping.SUCCESS);
 			Gson gson = new Gson();
 			String postDataContainerStr = request.getParameter("itemsToSavePortPurchaseOrderJson");
 			log.info(postDataContainerStr);
-			PortOutwardPostDataContainerVO postDataContainer = gson.fromJson(postDataContainerStr,
-					PortOutwardPostDataContainerVO.class);
-			WarehouseInwardService warehouseInwardService = new WarehouseInwardService();
-			warehouseInwardService.processWarehouseInwardEntries(postDataContainer, request, userInfoVO);
+			PortPurchaseOrderPostDataContainerVO postDataContainer = gson.fromJson(postDataContainerStr,
+					PortPurchaseOrderPostDataContainerVO.class);
+			PortPurchaseOrderJsonDetailService portpurchaseService = new PortPurchaseOrderJsonDetailService();
+			portpurchaseService.processPurchaseOrderEntries(postDataContainer, portpurchaseForm, request, userInfoVO);
 
 		} catch (Exception e) {
 			e.printStackTrace();

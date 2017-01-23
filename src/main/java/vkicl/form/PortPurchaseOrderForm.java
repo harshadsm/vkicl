@@ -7,7 +7,7 @@ import vkicl.form.*;
 public class PortPurchaseOrderForm extends BaseForm {
 
 	private int id;
-	private Integer portInwardDetailId = null;
+	// private Integer portInwardDetailId = null;
 
 	private String customerName = "";
 	private String brokerName = "";
@@ -21,12 +21,33 @@ public class PortPurchaseOrderForm extends BaseForm {
 	private String paymentTerms = null;
 	private Integer totalQuantity = null;
 
-	public Integer getPortInwardDetailId() {
+	private Integer[] portPurchaseOrderId = null;
+
+	public Integer[] getPortPurchaseOrderId() {
+		return portPurchaseOrderId;
+	}
+
+	public void setPortPurchaseOrderId(Integer[] portPurchaseOrderId) {
+		this.portPurchaseOrderId = portPurchaseOrderId;
+	}
+
+	public Integer[] getPortInwardDetailId() {
 		return portInwardDetailId;
 	}
 
-	public void setPortInwardDetailId(Integer portInwardDetailId) {
+	public void setPortInwardDetailId(Integer[] portInwardDetailId) {
 		this.portInwardDetailId = portInwardDetailId;
+	}
+
+	private Integer[] portInwardDetailId = null;
+	private Double[] Quantity = null;
+
+	public Double[] getQuantity() {
+		return Quantity;
+	}
+
+	public void setQuantity(Double[] quantity) {
+		Quantity = quantity;
 	}
 
 	public int getId() {

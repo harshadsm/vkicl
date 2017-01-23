@@ -1,9 +1,12 @@
 package vkicl.services;
 
+import java.awt.Shape;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -13,11 +16,17 @@ import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import vkicl.daoImpl.PortDaoImpl;
 import vkicl.daoImpl.PortInwardOutwardIntersectionDaoImpl;
 import vkicl.daoImpl.PortInwardPackingListDaoImpl;
 import vkicl.daoImpl.PortOutwardDaoImpl;
 import vkicl.daoImpl.PortPurchaseOrderDaoImpl;
+import vkicl.daoImpl.StockBalDaoImpl;
+import vkicl.daoImpl.WarehouseDaoImpl2;
+import vkicl.daoImpl.WarehouseShipmentDaoImpl;
+import vkicl.form.PortPurchaseOrderForm;
 import vkicl.report.bean.PortOutwardBean2;
 import vkicl.util.JqGridCustomResponse;
 import vkicl.util.JqGridParametersHolder;
@@ -26,6 +35,10 @@ import vkicl.util.JqGridSearchParameterHolder;
 import vkicl.vo.PackingListItemVO;
 import vkicl.vo.PortInwardDetailsVO;
 import vkicl.vo.PortInwardRecordVO;
+import vkicl.vo.PortOutwardPostDataContainerVO;
+import vkicl.vo.PortPurchaseOrderPostDataContainerVO;
+import vkicl.vo.UserInfoVO;
+import vkicl.vo.WarehouseInwardRecordVO;
 
 public class PortPurchaseOrderJsonDetailService {
 
@@ -160,6 +173,44 @@ public class PortPurchaseOrderJsonDetailService {
 		}
 		return recordsWithQtyMoreThanZero;
 
+	}
+
+	public void processPurchaseOrderEntries(PortPurchaseOrderPostDataContainerVO postDataContainer,
+			PortPurchaseOrderForm portPurchaseOrderForm, HttpServletRequest request, UserInfoVO userInfo)
+			throws Exception {
+		Long portPurchaseOrderId = -1L;
+		Long warehouseInwardId = -1L;
+		Long stockBalId = -1L;
+		String itemsToSaveJson = postDataContainer.getSelectedPortInventoryItemsJson();
+
+		Gson gson = new Gson();
+
+		List<WarehouseInwardRecordVO> warehouseInwardRecordsToBeSaved = gson.fromJson(itemsToSaveJson,
+				new TypeToken<List<WarehouseInwardRecordVO>>() {
+				}.getType());
+
+		PortPurchaseOrderDaoImpl portPurchaseOrderDaoImpl = new PortPurchaseOrderDaoImpl();
+		portPurchaseOrderId = portPurchaseOrderDaoImpl.addPortPurchaseOrderData(portPurchaseOrderForm, userInfo);
+
+		Map<String, List<WarehouseInwardRecordVO>> map = new HashMap<String, List<WarehouseInwardRecordVO>>();
+		for (WarehouseInwardRecordVO warehouseInwardRecordVO : warehouseInwardRecordsToBeSaved) {
+			String key = warehouseInwardRecordVO.getVehicleDate() + "_" + warehouseInwardRecordVO.getVehicleName();
+			if (map.get(key) == null) {
+				map.put(key, new ArrayList<WarehouseInwardRecordVO>());
+			}
+			map.get(key).add(warehouseInwardRecordVO);
+		}
+
+		for (Map.Entry<String, List<WarehouseInwardRecordVO>> entry : map.entrySet()) {
+			System.out.println("key=" + entry.getKey() + ", value=" + entry.getValue());
+			List<WarehouseInwardRecordVO> plateEntries = entry.getValue();
+
+			for (WarehouseInwardRecordVO warehouseInwardRecordVO : plateEntries) {
+
+				portPurchaseOrderDaoImpl.addPortPurchaseLineItemData(postDataContainer, portPurchaseOrderId, userInfo);
+
+			}
+		}
 	}
 
 }
