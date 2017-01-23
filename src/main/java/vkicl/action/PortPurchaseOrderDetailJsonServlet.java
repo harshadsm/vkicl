@@ -27,18 +27,25 @@ public class PortPurchaseOrderDetailJsonServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		try {
-			PortPurchaseOrderJsonDetailService service = new PortPurchaseOrderJsonDetailService();
-			String json = service.getPortPurchaseOrderDetailAsJson(request);
 
-			logger.debug("Going to return PortPurchaseOrderJsonServlet json ");
-			logger.debug(json);
+			if (request.getMethod() == "GET") {
+				String portInwardId = request.getParameter("inwardId");
 
-			response.setContentType("text/text;charset=utf-8");
-			response.setHeader("cache-control", "no-cache");
+				if (portInwardId != null) {
+					PortPurchaseOrderJsonDetailService service = new PortPurchaseOrderJsonDetailService();
+					String json = service.getPortPurchaseOrderDetailAsJson(request, portInwardId);
 
-			PrintWriter out = response.getWriter();
-			out.println(json);
-			out.flush();
+					logger.debug("Going to return PortPurchaseOrderJsonServlet json ");
+					logger.debug(json);
+
+					response.setContentType("text/text;charset=utf-8");
+					response.setHeader("cache-control", "no-cache");
+
+					PrintWriter out = response.getWriter();
+					out.println(json);
+					out.flush();
+				}
+			}
 
 		} catch (Exception e) {
 			logger.error("Some error", e);

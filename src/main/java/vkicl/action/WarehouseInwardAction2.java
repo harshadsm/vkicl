@@ -25,39 +25,38 @@ public class WarehouseInwardAction2 extends BaseAction {
 	@SuppressWarnings("unused")
 	private static PropFileReader prop = PropFileReader.getInstance();
 
-	public ActionForward execute(ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response) {
+	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) {
 		ActionForward actionForward = null;
-//		PortOutwardForm portOutwardForm = null;
-//		String genericListener = null;
-//		UserInfoVO userInfoVO = null;
+		// PortOutwardForm portOutwardForm = null;
+		// String genericListener = null;
+		// UserInfoVO userInfoVO = null;
 		try {
-			actionForward = checkAccess(mapping, request,
-					Constants.Apps.PORT_ENTRY);
+			actionForward = checkAccess(mapping, request, Constants.Apps.PORT_ENTRY);
 			if (null != actionForward)
 				return actionForward;
 
-			//Get the related Port Inward Record
-//			String portInwardId = request.getParameter("port_inward_id");
-//			PortInwardService portInwardService = new PortInwardService();
-//			PortInwardRecordVO portInward = portInwardService.getPortInwardById(portInwardId);
-//			request.setAttribute("portInward", portInward);
-			
-			
-			
+			// Get the related Port Inward Record
+			// String portInwardId = request.getParameter("port_inward_id");
+			// PortInwardService portInwardService = new PortInwardService();
+			// PortInwardRecordVO portInward =
+			// portInwardService.getPortInwardById(portInwardId);
+			// request.setAttribute("portInward", portInward);
+
 			actionForward = mapping.findForward(Constants.Mapping.SUCCESS);
-//			userInfoVO = getUserProfile(request);
-//			portOutwardForm = (PortOutwardForm) form;
-//			genericListener = portOutwardForm.getGenericListener();
-//			if (genericListener.equalsIgnoreCase("add")) {
-//				String portInwardIdForLinking = request.getParameter("port_inward_id_for_linking_to_port_outward");
-//				log.info("portInwardIdForLinking = " + portInwardIdForLinking);
-//				
-//				PortDaoImpl impl = new PortDaoImpl();
-//				portOutwardForm = impl.addPortOutwardData(portOutwardForm,
-//						userInfoVO);
-//			}
-			
+			// userInfoVO = getUserProfile(request);
+			// portOutwardForm = (PortOutwardForm) form;
+			// genericListener = portOutwardForm.getGenericListener();
+			// if (genericListener.equalsIgnoreCase("add")) {
+			// String portInwardIdForLinking =
+			// request.getParameter("port_inward_id_for_linking_to_port_outward");
+			// log.info("portInwardIdForLinking = " + portInwardIdForLinking);
+			//
+			// PortDaoImpl impl = new PortDaoImpl();
+			// portOutwardForm = impl.addPortOutwardData(portOutwardForm,
+			// userInfoVO);
+			// }
+
 			LocationService locationService = new LocationService();
 			List<LocationDetailsVO> list = locationService.getAllLocationsAsList();
 			request.setAttribute("locationsList", list);

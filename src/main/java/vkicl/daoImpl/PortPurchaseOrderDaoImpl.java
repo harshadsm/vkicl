@@ -304,15 +304,17 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 
 			conn = getConnection();
 			cs = conn.prepareCall(query);
+			for (int i = 0; i <= portpurchaseform.getPortInwardDetailId(); i++) {
 
-			cs.setLong(1, portPurchaseOrderId);
-			cs.setString(2, portpurchaseform.getBrokerName());
-			cs.setString(3, portpurchaseform.getBrokerage());
+				cs.setLong(1, portPurchaseOrderId);
+				cs.setInt(2, portpurchaseform.getPortInwardDetailId());
+				cs.setInt(3, 0);
 
-			cs.setString(4, userInfoVO.getUserName());
-			cs.setString(5, userInfoVO.getUserName());
-			cs.setString(6, getCurentTime());
-			cs.setString(7, getCurentTime());
+				cs.setString(4, userInfoVO.getUserName());
+				cs.setString(5, userInfoVO.getUserName());
+				cs.setString(6, getCurentTime());
+				cs.setString(7, getCurentTime());
+			}
 
 			int count = cs.executeUpdate();
 
