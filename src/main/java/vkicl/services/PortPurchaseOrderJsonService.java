@@ -42,20 +42,17 @@ public class PortPurchaseOrderJsonService {
 		String orderBy = params.getParam(JQGRID_PARAM_NAMES.sidx);
 		String order = params.getParam(JQGRID_PARAM_NAMES.sord);
 
-		// PortPurchaseOrderDaoImpl portPurchaseOrderDao = new
-		// PortPurchaseOrderDaoImpl();
-		// portPurchaseOrderDao.
+		PortPurchaseOrderDaoImpl portPurchaseDao = new PortPurchaseOrderDaoImpl();
 
-		PortDaoImpl portDao = new PortDaoImpl();
-		Integer totalRecordsCount = portDao.fetchPortInwardDetailsRecordCount(searchParam);
-		List<PortInwardRecordVO> records = portDao.fetchPortInwardDetails_2(Integer.parseInt(page),
-				Integer.parseInt(rows), totalRecordsCount, orderBy, order, searchParam);
-
+		// Integer totalRecordsCount =
+		// portDao.fetchPortInwardDetailsRecordCount(searchParam);
+		List<PortInwardRecordVO> records = portPurchaseDao.fetchPortInwardDetails(Integer.parseInt(page),
+				Integer.parseInt(rows), orderBy, order, searchParam);
 		JqGridCustomResponse response = new JqGridCustomResponse();
 		response.setPage(page);
 		response.setRows(records);
-		response.setRecords(totalRecordsCount.toString());
-		response.setTotal((totalRecordsCount / Long.valueOf(rows)) + 1 + "");
+		// response.setRecords(totalRecordsCount.toString());
+		// response.setTotal((totalRecordsCount / Long.valueOf(rows)) + 1 + "");
 		Gson gson = new Gson();
 		String json = gson.toJson(response);
 		return json;

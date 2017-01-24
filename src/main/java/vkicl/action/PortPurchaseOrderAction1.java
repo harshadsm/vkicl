@@ -34,21 +34,21 @@ public class PortPurchaseOrderAction1 extends BaseAction {
 		String genericListener = null;
 		UserInfoVO userInfoVO = null;
 		try {
-			actionForward = checkAccess(mapping, request, Constants.Apps.WAREHOUSE_ENTRY);
+			actionForward = checkAccess(mapping, request, Constants.Apps.PORT_ENTRY);
 			if (null != actionForward)
 				return actionForward;
-
-			portpurchaseForm = (PortPurchaseOrderForm) form;
 
 			userInfoVO = getUserProfile(request);
 			actionForward = mapping.findForward(Constants.Mapping.SUCCESS);
 			Gson gson = new Gson();
-			String postDataContainerStr = request.getParameter("itemsToSavePortPurchaseOrderJson");
+			String postDataContainerStr = request.getParameter("itemsToSaveJson");
 			log.info(postDataContainerStr);
+			// portpurchaseForm = (PortPurchaseOrderForm) form;
+
 			PortPurchaseOrderPostDataContainerVO postDataContainer = gson.fromJson(postDataContainerStr,
 					PortPurchaseOrderPostDataContainerVO.class);
 			PortPurchaseOrderJsonDetailService portpurchaseService = new PortPurchaseOrderJsonDetailService();
-			portpurchaseService.processPurchaseOrderEntries(postDataContainer, portpurchaseForm, request, userInfoVO);
+			portpurchaseService.processPurchaseOrderEntries(postDataContainer, request, userInfoVO);
 
 		} catch (Exception e) {
 			e.printStackTrace();

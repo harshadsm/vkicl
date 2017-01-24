@@ -49,6 +49,13 @@
 			</div>
 		</div>
 	</div>
+	<div class="col-sm-2">
+		<div class="portfolio-item">
+			<div class="portfolio-image">
+				<a href="./port-purchase-order-delivery.do">Port- Purchase-Order-Delivery</a>
+			</div>
+		</div>
+	</div>
 	<%
 		}
 		if (userInfoVO.hasAccess(Constants.Apps.WAREHOUSE_ENTRY)) {

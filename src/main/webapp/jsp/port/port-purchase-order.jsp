@@ -44,11 +44,14 @@ function validateForm() {
 		bootbox.alert("Please enter rate");
 		return false;
 	} 
-
+	if ("" == getValByFieldName("body", "comments")) {
+		bootbox.alert("Please enter comments");
+		return false;
+	} 
 	var	str = "Are you sure you want to Submit?";
 	bootbox.confirm(str, function(result) {
 		if (result) {
-			//submitCachedWarehouseInwardRecords();
+			
 			submitPortPurchaseOrder();
 		}
 	});
@@ -332,12 +335,12 @@ input[name="length"], input[name="width"], input[name="thickness"], input[name="
 						</td>
 					</tr>
 					<tr>
-						<td class='excel' colspan="1"><label for="paymentterms">Payment Terms
+						<td class='excel' colspan="1"><label for="paymentTerms">Payment Terms
 								</label></td>
 						<td class='excel excel-100' colspan="5">
 							<div class='input-group'>
 								<div class='input-group-btn weight-group'>
-									<input type='hidden' name='paymentterms' value='Extra' />
+									<input type='hidden' name='paymentTerms' value='Extra' />
 									<button type="button" class="btn btn-default dropdown-toggle"
 										data-toggle="dropdown" aria-expanded="false"
 										style="width: 100%; text-align: right;">
@@ -352,6 +355,12 @@ input[name="length"], input[name="width"], input[name="thickness"], input[name="
 								</div>
 							</div>
 						</td>
+					</tr>
+					<tr>
+						<td class='excel' colspan="1"><label for="comments">Comments</label></td>
+						<td class='excel' colspan="5"><input type="text"
+							name="comments" placeholder="" class="form-control" /></td>
+						
 					</tr>
 				</table>
 				
@@ -1156,8 +1165,7 @@ function addRowOfSelectedRecord(recordObj) {
 			+ "<td><input type='text' readonly placeholder='length' value='"+recordObj.length+"' name='length' class='form-control' /></td>"
 			+ "<td ><input type='text' readonly placeholder='Quantity' value='"+recordObj.availableQuantity+"' name='availableQuantity' class='form-control port_out_item_quantity' id='port_out_item_quantity-" + id + "' data-attribute-parent-port-out-id='port_out_item_quantity-" + id + "' /></td>"
 			+ "<td><input type='hidden' value='"+recordObj.portInwardId+"' name='portInwardId'/></td>"
-			+ "<td><input type='hidden' value='port_out_item_quantity' name='port_out_item_quantity'/></td>"
-			
+
 			+ "<td><input type='hidden' value='"+recordObj.portInwardDetailId+"' name='portInwardDetailId'/></td>"
 			+ "<td><input type='hidden' value='"+recordObj.portInwardShipmentId+"' name='portInwardShipmentId'/></td>"
 			+ "<td><input type='hidden' value='"+recordObjJson+"' id='"+jsonCellId+"'/></td>"
@@ -1254,22 +1262,54 @@ function setTick(jqGridRowId){
 	
 function submitPortPurchaseOrder(){
 	
+	var custName = getValByFieldName("body", "customerName");
+	var brokerName = getValByFieldName("body", "brokerName");
+	var brokerage = getValByFieldName("body", "brokerage");
+	var brokerageUnit = getValByFieldName("body", "brokerageUnit");
+	
+	var deliveryAddrs = getValByFieldName("body", "deliveryAddress");
+	var rate = getValByFieldName("body", "rate");
+	var excise = getValByFieldName("body", "excise");
+	var tax = getValByFieldName("body", "tax");
+	var transport = getValByFieldName("body", "transport");
+	var paymanetTerms = getValByFieldName("body", "paymentTerms");
+	var comments = getValByFieldName("body", "comments");
+	
+	
+	var parseTotal=  $(portpurchaseorderdetailGrid).jqGrid('getCol', 'quantity', false, 'sum');
+	
+	
+	
 	var selected_port_inventory_items_JSON = composeSelectedPortPurchaseOrderJson();
 	console.log(selected_port_inventory_items_JSON);
 	var postJsonObject = {
+			
+			custName : custName,
+			 brokerName  : brokerName,
+			 brokerage: brokerage,
+			 deliveryAddr: deliveryAddrs,
+			 rate:rate,
+			 excise:excise,
+			 tax:tax,
+			 transport:transport,
+			 paymentTerms:paymanetTerms,
+			 comments : comments,
+			 totalQty:parseTotal,
+			 brokerageUnit:brokerageUnit,
+			 
 			selectedPortInventoryItemsJson : selected_port_inventory_items_JSON
 	};
 	
-	var itemsToSavePortPurchaseOrderJson = "genericListener=add&itemsToSavePortPurchaseOrderJson="+JSON.stringify(postJsonObject);;
+	var itemsToSaveJson  = "genericListener=add&itemsToSaveJson="+JSON.stringify(postJsonObject);
 	
 	$.ajax({
 		url: "port-purchase-order-save.do",
 		method: 'POST',
-		data: itemsToSavePortPurchaseOrderJson,
+		data: itemsToSaveJson,
 		success : function(msg){
 			console.log(msg);
 			bootbox.alert("Successfully saved records!", function(){
-				location.reload();	
+			
 			});
 			
 		},

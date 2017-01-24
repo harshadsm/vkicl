@@ -36,7 +36,9 @@ import vkicl.vo.PackingListItemVO;
 import vkicl.vo.PortInwardDetailsVO;
 import vkicl.vo.PortInwardRecordVO;
 import vkicl.vo.PortOutwardPostDataContainerVO;
+import vkicl.vo.PortOutwardRecordVO;
 import vkicl.vo.PortPurchaseOrderPostDataContainerVO;
+import vkicl.vo.PortPurchaseOrderVO;
 import vkicl.vo.UserInfoVO;
 import vkicl.vo.WarehouseInwardRecordVO;
 
@@ -176,8 +178,7 @@ public class PortPurchaseOrderJsonDetailService {
 	}
 
 	public void processPurchaseOrderEntries(PortPurchaseOrderPostDataContainerVO postDataContainer,
-			PortPurchaseOrderForm portPurchaseOrderForm, HttpServletRequest request, UserInfoVO userInfo)
-			throws Exception {
+			HttpServletRequest request, UserInfoVO userInfo) throws Exception {
 		Long portPurchaseOrderId = -1L;
 		Long warehouseInwardId = -1L;
 		Long stockBalId = -1L;
@@ -185,31 +186,20 @@ public class PortPurchaseOrderJsonDetailService {
 
 		Gson gson = new Gson();
 
-		List<WarehouseInwardRecordVO> warehouseInwardRecordsToBeSaved = gson.fromJson(itemsToSaveJson,
-				new TypeToken<List<WarehouseInwardRecordVO>>() {
+		List<PortPurchaseOrderVO> portPurchaseOrderToBeSaved = gson.fromJson(itemsToSaveJson,
+				new TypeToken<List<PortPurchaseOrderVO>>() {
 				}.getType());
 
 		PortPurchaseOrderDaoImpl portPurchaseOrderDaoImpl = new PortPurchaseOrderDaoImpl();
-		portPurchaseOrderId = portPurchaseOrderDaoImpl.addPortPurchaseOrderData(portPurchaseOrderForm, userInfo);
+		portPurchaseOrderId = portPurchaseOrderDaoImpl.addPortPurchaseOrderData(postDataContainer, userInfo);
 
-		Map<String, List<WarehouseInwardRecordVO>> map = new HashMap<String, List<WarehouseInwardRecordVO>>();
-		for (WarehouseInwardRecordVO warehouseInwardRecordVO : warehouseInwardRecordsToBeSaved) {
-			String key = warehouseInwardRecordVO.getVehicleDate() + "_" + warehouseInwardRecordVO.getVehicleName();
-			if (map.get(key) == null) {
-				map.put(key, new ArrayList<WarehouseInwardRecordVO>());
-			}
-			map.get(key).add(warehouseInwardRecordVO);
-		}
+		for (PortPurchaseOrderVO vo : portPurchaseOrderToBeSaved) {
+			logger.info(vo);
+			// Save Port Outward Records with Port outward shipment id
+			// Get the port outward id
 
-		for (Map.Entry<String, List<WarehouseInwardRecordVO>> entry : map.entrySet()) {
-			System.out.println("key=" + entry.getKey() + ", value=" + entry.getValue());
-			List<WarehouseInwardRecordVO> plateEntries = entry.getValue();
+			portPurchaseOrderDaoImpl.addPortPurchaseLineItemData(vo, portPurchaseOrderId, userInfo);
 
-			for (WarehouseInwardRecordVO warehouseInwardRecordVO : plateEntries) {
-
-				portPurchaseOrderDaoImpl.addPortPurchaseLineItemData(postDataContainer, portPurchaseOrderId, userInfo);
-
-			}
 		}
 	}
 

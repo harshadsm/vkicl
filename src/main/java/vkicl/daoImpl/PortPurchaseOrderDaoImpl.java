@@ -27,11 +27,70 @@ import vkicl.vo.PortInwardDetailsVO;
 import vkicl.vo.PortInwardRecordVO;
 import vkicl.vo.PortOutwardPostDataContainerVO;
 import vkicl.vo.PortPurchaseOrderPostDataContainerVO;
+import vkicl.vo.PortPurchaseOrderVO;
 import vkicl.vo.UserInfoVO;
 import vkicl.vo.WarehouseInwardRecordVO;
 
 public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 	private static Logger log = Logger.getLogger(PortPurchaseOrderDaoImpl.class);
+
+	public List<PortInwardRecordVO> fetchPortInwardDetails(int pageNo, int pageSize, String orderByFieldName,
+			String order, JqGridSearchParameterHolder searchParam) throws SQLException {
+		List<PortInwardRecordVO> list = new ArrayList<PortInwardRecordVO>();
+		Connection conn = null;
+		ResultSet rs = null;
+		CallableStatement cs = null;
+		String query = "";
+
+		try {
+			conn = getConnection();
+
+			String sql = "  SELECT pin.port_inward_id ,pin.be_no ,pin.material_type ,pin.mill_name ,pin.material_make ,pin.material_grade ,pin.description ,"
+					+ " pin.be_weight ,pin.be_wt_unit ,pis.vessel_date ,pis.vessel_name ,pis.vendor_name , count(pid.port_inward_id) as port_inward_detail_records_count , "
+					+ " (SUM(pid.quantity)-SUM(ppli.ordered_quantity)-SUM(po.quantity) ) as cumulative_Bal_Pcs_At_Dock FROM port_inward pin "
+					+ " INNER JOIN port_inward_shipment pis ON pin.port_inwd_shipment_id = pis.port_inwd_shipment_id "
+					+ " inner JOIN port_inward_details pid ON pid.port_inward_id = pin.port_inward_id "
+					+ " inner join ppo_line_items ppli on ppli.port_inward_details_id=pid.port_inward_detail_id "
+					+ " inner join port_inward_outward_intersection pioi on pioi.port_inward_details_id=pid.port_inward_detail_id "
+					+ " inner join port_outward po on po.port_out_id=pioi.port_outward_id "
+					+ " group by pin.port_inward_id having cumulative_Bal_Pcs_At_Dock > 0 "
+					+ processSearchCriteria(searchParam) + " " + composeOrderByClause(orderByFieldName, order) + ";";
+			query = sql;
+			log.info("query = " + query);
+
+			cs = conn.prepareCall(query);
+
+			rs = cs.executeQuery();
+			if (null != rs && rs.next()) {
+
+				do {
+					PortInwardRecordVO p = new PortInwardRecordVO();
+					p.setId(rs.getInt(1));
+					p.setBeNo(formatOutput(rs.getString(2)));
+					p.setMaterialType(formatOutput(rs.getString(3)));
+					p.setMillName(formatOutput(rs.getString(4)));
+					p.setMake(formatOutput(rs.getString(5)));
+					p.setGrade(formatOutput(rs.getString(6)));
+					p.setDesc(formatOutput(rs.getString(7)));
+					p.setBeWt(rs.getDouble(8));
+					p.setBeWtUnit(formatOutput(rs.getString(9)));
+					p.setBeWtUnit(formatOutput(rs.getString(9)));
+					p.setVesselDate(Converter.dateToString(Converter.sqlDateToDate(rs.getDate(10))));
+					p.setVesselName(rs.getString(11));
+					p.setVendorName(rs.getString(12));
+					p.setCountOfPortInwardDetailRecords(rs.getInt(13));
+					list.add(p);
+				} while (rs.next());
+
+			}
+
+		} catch (Exception e) {
+			log.error("Some error", e);
+		} finally {
+			closeDatabaseResources(conn, rs, cs);
+		}
+		return list;
+	}
 
 	public List<PortInwardDetailsVO> fetchPortInwardDetailsById(Integer portInwardId) {
 		List<PortInwardDetailsVO> list = new ArrayList<PortInwardDetailsVO>();
@@ -107,12 +166,14 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 		try {
 			conn = getConnection();
 
-			String sql = "select pin.port_inward_id ,pin.material_type, pin.mill_name,pin.material_make,pin.material_grade,"
-					+ " pin.description, pis.vessel_date, pis.vessel_name, pis.vendor_name ,pid.port_inward_detail_id,"
-					+ " pid.thickness,pid.width,pid.length,pid.quantity, pid.be_weight from port_inward_details pid "
-					+ " left join port_inward pin on pid.port_inward_id=pin.port_inward_id "
-					+ " left join port_inward_shipment pis on pin.port_inwd_shipment_id=pis.port_inwd_shipment_id "
-					+ " where pid.port_inward_id=" + portInwardId + " group by pid.port_inward_detail_id"
+			String sql = "SELECT pis.vessel_date, pis.vessel_name, pis.vendor_name ,pid.port_inward_detail_id, pid.thickness,pid.width,pid.length,"
+					+ " pid.quantity, pid.be_weight, (SUM(ppli.ordered_quantity)-SUM(po.quantity) ) as Bal_Pcs_At_Dock "
+					+ " from port_inward_details pid left join port_inward pin on pid.port_inward_id=pin.port_inward_id "
+					+ " left join port_inward_shipment pis on pin.port_inwd_shipment_id=pis.port_inwd_shipment_id"
+					+ " inner join ppo_line_items ppli on ppli.port_inward_details_id=pid.port_inward_detail_id"
+					+ " inner join port_inward_outward_intersection pioi on pioi.port_inward_details_id=pid.port_inward_detail_id "
+					+ " inner join port_outward po on po.port_out_id=pioi.port_outward_id where pid.port_inward_id="
+					+ portInwardId + " group by pid.port_inward_detail_id HAVING Bal_Pcs_At_Dock>0 "
 					+ processSearchCriteria(searchParam) + " " + composeOrderByClause(orderByFieldName, order) + ";";
 			query = sql;
 			log.info("query = " + query);
@@ -234,7 +295,7 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 		return clause;
 	}
 
-	public Long addPortPurchaseOrderData(PortPurchaseOrderForm portpurchaseform, UserInfoVO userInfoVO)
+	public Long addPortPurchaseOrderData(PortPurchaseOrderPostDataContainerVO vo, UserInfoVO userInfoVO)
 			throws SQLException {
 		Connection conn = null;
 		ResultSet rs = null;
@@ -244,7 +305,7 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 		try {
 
 			query = "INSERT INTO port_purchase_order "
-					+ " (customer_name, broker_name, brokerage,brokerage_unit, delivery_address, rate, "
+					+ " (customer_name, broker_name, brokerage,brokerage_unit, rate,delivery_address, "
 					+ " excise, tax, transport, payment_terms, total_quantity, comments, "
 					+ " create_ui, update_ui, create_ts, update_ts) "
 					+ " VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
@@ -254,18 +315,18 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 			conn = getConnection();
 			cs = conn.prepareCall(query);
 
-			cs.setString(1, portpurchaseform.getCustomerName());
-			cs.setString(2, portpurchaseform.getBrokerName());
-			cs.setString(3, portpurchaseform.getBrokerage());
-			cs.setString(4, portpurchaseform.getBrokerageUnit());
-			cs.setDouble(5, portpurchaseform.getRate());
-			cs.setString(6, portpurchaseform.getDeliveryAddress());
-			cs.setDouble(7, portpurchaseform.getRate());
-			cs.setDouble(8, portpurchaseform.getExcise());
-			cs.setDouble(9, portpurchaseform.getTax());
-			cs.setDouble(10, portpurchaseform.getTransport());
-			cs.setString(11, portpurchaseform.getPaymentTerms());
-			cs.setInt(12, 0);
+			cs.setString(1, vo.getCustName());
+			cs.setString(2, vo.getBrokerName());
+			cs.setDouble(3, vo.getBrokerage());
+			cs.setString(4, vo.getBrokerageUnit());
+			cs.setDouble(5, vo.getRate());
+			cs.setString(6, vo.getDeliveryAddr());
+			cs.setString(7, vo.getExcise());
+			cs.setString(8, vo.getTax());
+			cs.setString(9, vo.getTransport());
+			cs.setString(10, vo.getPaymentTerms());
+			cs.setInt(11, vo.getTotalQty());
+			cs.setString(12, vo.getComments());
 			cs.setString(13, userInfoVO.getUserName());
 			cs.setString(14, userInfoVO.getUserName());
 			cs.setString(15, getCurentTime());
@@ -289,8 +350,8 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 
 	}
 
-	public Long addPortPurchaseLineItemData(PortPurchaseOrderPostDataContainerVO postDataContainer,
-			Long portPurchaseOrderId, UserInfoVO userInfoVO) throws SQLException {
+	public Long addPortPurchaseLineItemData(PortPurchaseOrderVO vo, Long portPurchaseOrderId, UserInfoVO userInfoVO)
+			throws SQLException {
 		Connection conn = null;
 		ResultSet rs = null;
 		CallableStatement cs = null;
@@ -299,7 +360,7 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 		try {
 
 			query = "INSERT INTO ppo_line_items "
-					+ " (port_purchase_order_id, port_inward_details_id, ordered_quantity "
+					+ " (port_purchase_order_id, port_inward_details_id, ordered_quantity, "
 					+ " create_ui, update_ui, create_ts, update_ts) " + " VALUES ( ?, ?, ?, ?, ?, ?, ?)";
 
 			log.info(query);
@@ -308,8 +369,8 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 			cs = conn.prepareCall(query);
 
 			cs.setLong(1, portPurchaseOrderId);
-			cs.setInt(2, postDataContainer.getPortInwardDetailId());
-			cs.setString(3, postDataContainer.getQty());
+			cs.setInt(2, vo.getPortInwardDetailId());
+			cs.setInt(3, vo.getAvailableQuantity());
 
 			cs.setString(4, userInfoVO.getUserName());
 			cs.setString(5, userInfoVO.getUserName());

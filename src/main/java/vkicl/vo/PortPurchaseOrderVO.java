@@ -1,17 +1,8 @@
 package vkicl.vo;
 
-public class PortPurchaseOrderPostDataContainerVO {
+import java.awt.Shape;
 
-	private String selectedPortInventoryItemsJson;
-
-	public String getSelectedPortInventoryItemsJson() {
-		return selectedPortInventoryItemsJson;
-	}
-
-	public void setSelectedPortInventoryItemsJson(String selectedPortInventoryItemsJson) {
-		this.selectedPortInventoryItemsJson = selectedPortInventoryItemsJson;
-	}
-
+public class PortPurchaseOrderVO {
 	private Integer portInwardDetailId;
 
 	private Integer portInwardId;
@@ -22,11 +13,11 @@ public class PortPurchaseOrderPostDataContainerVO {
 	private String brokerageUnit;
 	private String deliveryAddr;
 
-	private Double rate;
+	private Integer rate;
 
-	private String excise;
-	private String tax;
-	private String transport;
+	private Double excise;
+	private Double tax;
+	private Double transport;
 
 	private String paymentTerms;
 	private String comments;
@@ -109,35 +100,35 @@ public class PortPurchaseOrderPostDataContainerVO {
 		this.brokerage = brokerage;
 	}
 
-	public Double getRate() {
+	public Integer getRate() {
 		return rate;
 	}
 
-	public void setRate(Double rate) {
+	public void setRate(Integer rate) {
 		this.rate = rate;
 	}
 
-	public String getExcise() {
+	public Double getExcise() {
 		return excise;
 	}
 
-	public void setExcise(String excise) {
+	public void setExcise(Double excise) {
 		this.excise = excise;
 	}
 
-	public String getTax() {
+	public Double getTax() {
 		return tax;
 	}
 
-	public void setTax(String tax) {
+	public void setTax(Double tax) {
 		this.tax = tax;
 	}
 
-	public String getTransport() {
+	public Double getTransport() {
 		return transport;
 	}
 
-	public void setTransport(String transport) {
+	public void setTransport(Double transport) {
 		this.transport = transport;
 	}
 
