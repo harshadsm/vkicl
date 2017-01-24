@@ -43,11 +43,14 @@ public class PortPurchaseOrderAction extends BaseAction {
 			if (genericListener.equalsIgnoreCase("add")) {
 				log.info("genericListener = " + genericListener);
 
-				PortPurchaseOrderDaoImpl impl = new PortPurchaseOrderDaoImpl();
+				// PortPurchaseOrderDaoImpl impl = new
+				// PortPurchaseOrderDaoImpl();
 
-				Long portPurchaseOrderId = impl.addPortPurchaseOrderData(portpurchaseform, userInfoVO);
+				// Long portPurchaseOrderId =
+				// impl.addPortPurchaseOrderData(portpurchaseform, userInfoVO);
 
-				impl.addPortPurchaseLineItemData(portpurchaseform, portPurchaseOrderId, userInfoVO);
+				// impl.addPortPurchaseLineItemData(portpurchaseform,
+				// portPurchaseOrderId, userInfoVO);
 			}
 
 		} catch (Exception e) {
