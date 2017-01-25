@@ -184,15 +184,37 @@ Integer locationCount = locationsList.size();
 			//Adjust the qty
 			//Get the qty of the selected row
 			var $qtyCell = $("#port_out_item_quantity-"+id);
+			
+			var $secWtCell = $("#port_out_section_wt-"+id);
+			
 			var splitRecordQty = Number($qtyCell.val());
 			console.log("Qty to be added back = "+$qtyCell.val());
+			
+			var splitRecordSecWt = Number($secWtCell.val());
+			console.log("Qty to be added back = "+$secWtCell.val());
+			
+			
 			var parentPortOutRecordId = $qtyCell.attr("data-attribute-parent-port-out-id");
+
+			var parentPortOutSecWtRecordId = $secWtCell.attr("data-attribute-parent-port-out-sec-id");
+			
 			console.log("Id of the parent qty cell = "+parentPortOutRecordId);
+			
 			var $parentPortOutRecordQtyCell = $("#"+parentPortOutRecordId);
+			
+			var $parentPortOutRecordSecWtCell = $("#"+parentPortOutSecWtRecordId);
+			
 			console.log($parentPortOutRecordQtyCell);
+			
 			var parentQty = Number($parentPortOutRecordQtyCell.val());
 			var revertedQty = parentQty + splitRecordQty;
 			$parentPortOutRecordQtyCell.val(revertedQty); 
+			
+			var parentSecWt = Number($parentPortOutRecordSecWtCell.val());
+			var revertedSecWt = parentSecWt + splitRecordSecWt;
+			$parentPortOutRecordSecWtCell.val(revertedSecWt); 
+			
+			
 			
 			$("#" + id).remove();
 		}else{
