@@ -1269,7 +1269,7 @@ function addRowOfSelectedRecord(recordObj) {
 			+ "<td><input type='text' readonly placeholder='thickness' value='"+recordObj.thickness+"' name='thickness' class='form-control' /></td>"
 			+ "<td><input type='text' readonly placeholder='width' value='"+recordObj.width+"' name='width' class='form-control' /></td>"
 			+ "<td><input type='text' readonly placeholder='length' value='"+recordObj.length+"' name='length' class='form-control' /></td>"
-			+ "<td ><input type='text'          placeholder='Quantity' value='"+recordObj.availableQuantity+"' name='availableQuantity' class='form-control port_out_item_quantity' id='port_out_item_quantity-" + id + "' data-attribute-parent-port-out-id='port_out_item_quantity-" + id + "' /></td>"
+			+ "<td ><input type='text'          placeholder='Quantity' value='"+recordObj.availableQuantity+"' name='availableQuantity' class='form-control port_out_item_quantity' id='port_out_item_quantity-" + id + "' data-attribute-parent-port-out-id='port_out_item_quantity-" + id + "' onchange='splitOnChange($(this).parent().parent().attr(\"id\"));'/></td>"
 			+ "<td><input type='text' readonly placeholder='balQty' value='"+recordObj.balQty+"' name='balQty' class='form-control port_out_section_wt' id='port_out_section_wt-" + id + "' data-attribute-parent-port-out-sec-id='port_out_section_wt-" + id + "' /></td>"
 
 			+ "<td><input type='text' readonly placeholder='Actual Wt.' value='"+recordObj.actualWt+"' name='actualWt' class='form-control ' id='"+awId(recordObj)+"' /></td>"
@@ -1387,6 +1387,99 @@ function split2(idOfRowToSplit){
 		bootbox.alert("You have already split into all "+LOCATIONS_COUNT+" locations. There are no more locations to split.");
 	}
 }
+
+function split2(idOfRowToSplit){
+
+	var recordsArrayOfGivenPortOutwardGroup = getPortOutwardGroupForId(idOfRowToSplit);
+	
+	var subRowsCount = recordsArrayOfGivenPortOutwardGroup.length;
+	console.log("Id Of the row to be split = "+idOfRowToSplit);
+	console.log("Available locations = "+LOCATIONS_COUNT);
+	console.log("Sub Rows Count = "+subRowsCount);
+	if(subRowsCount < LOCATIONS_COUNT){
+		//If splitted already into LOCATIONS_COUNT rows, then dont split further
+		console.log("splitting the quantity into more than one locations.-"+idOfRowToSplit);
+		var $trToSplit = $("#"+idOfRowToSplit);
+		
+		var $portOutItemQty = $trToSplit.find("#port_out_item_quantity-"+idOfRowToSplit);
+		var qty = Number($portOutItemQty.val());
+		
+		var $grid = $("#packingListGrid");
+		
+		var selectedRowId = $grid.jqGrid ('getGridParam', 'selrow');
+		var celSecWtValue = $grid.jqGrid('getCell', selectedRowId, 'balQty');
+		var celQtyValue = $grid.jqGrid('getCell', selectedRowId, 'quantity');
+		
+		
+		if(qty >1){
+			//If quantity is more than 1, then only let it split.
+			$portOutItemQty.val(qty - 1);
+
+			var newSecWt= (( (qty-1) * celSecWtValue )/celQtyValue);
+
+			$trToSplit.find("#port_out_section_wt-"+idOfRowToSplit).val(newSecWt);
+			
+			//Change the ID of the cloned row
+			var $klonedTr = $trToSplit.clone();
+			$klonedTr.attr("id",idOfRowToSplit+"-"+subRowsCount); 
+
+			//Change the id of the cloned quantity cell.
+			var $quantityCell = $klonedTr.find("#port_out_item_quantity-"+idOfRowToSplit)
+			$quantityCell.val(1);
+			$quantityCell.attr("id","port_out_item_quantity-"+idOfRowToSplit+"-"+subRowsCount);
+			$klonedTr.find("#split-button-td-"+idOfRowToSplit).html("");
+			
+			//$klonedTr.after($trToSplit);
+			$("#"+idOfRowToSplit).after($klonedTr);
+			
+		
+			var newCloneSecWt= (( (1) * celSecWtValue )/celQtyValue);
+			
+			var $secWtCell = $klonedTr.find("#port_out_section_wt-"+idOfRowToSplit)
+			
+			$secWtCell.attr("id","port_out_section_wt-"+idOfRowToSplit+"-"+subRowsCount);
+			$secWtCell.val(newCloneSecWt);
+			//$trToSplit.find("#port_out_section_wt-"+idOfRowToSplit).val(newCloneSecWt);
+			
+		}else{
+			bootbox.alert("Hey smarty, can't split further. How can you split 1 plate into multiple locations? Go learn some basics.");
+		}
+
+	
+	}else{
+		bootbox.alert("You have already split into all "+LOCATIONS_COUNT+" locations. There are no more locations to split.");
+	}
+}
+
+
+function splitOnChange(idOfRowToSplit){
+
+	var recordsArrayOfGivenPortOutwardGroup = getPortOutwardGroupForId(idOfRowToSplit);
+	
+	var subRowsCount = recordsArrayOfGivenPortOutwardGroup.length;
+	console.log("Id Of the row to be split = "+idOfRowToSplit);
+	console.log("Available locations = "+LOCATIONS_COUNT);
+	console.log("Sub Rows Count = "+subRowsCount);
+	//if(subRowsCount < LOCATIONS_COUNT){
+		//If splitted already into LOCATIONS_COUNT rows, then dont split further
+		console.log("splitting the quantity into more than one locations.-"+idOfRowToSplit);
+		var $trToSplit = $("#"+idOfRowToSplit);
+		
+		var $portOutItemQty = $trToSplit.find("#port_out_item_quantity-"+idOfRowToSplit);
+		var qty = Number($portOutItemQty.val());
+		
+		var $grid = $("#packingListGrid");
+		
+		var selectedRowId = $grid.jqGrid ('getGridParam', 'selrow');
+		var celSecWtValue = $grid.jqGrid('getCell', selectedRowId, 'balQty');
+		var celQtyValue = $grid.jqGrid('getCell', selectedRowId, 'quantity');
+		
+		var newSecWt= (( (qty) * celSecWtValue )/celQtyValue);
+
+		$trToSplit.find("#port_out_section_wt-"+idOfRowToSplit).val(newSecWt);
+	
+}
+
 
 function getPortOutwardGroupForId(idOfRowToSplit){
 	var portOutwardGroupClassName = composeCombinationClass(idOfRowToSplit);
