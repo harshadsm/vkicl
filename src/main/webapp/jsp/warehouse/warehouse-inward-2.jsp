@@ -1272,7 +1272,7 @@ function addRowOfSelectedRecord(recordObj) {
 			+ "<td ><input type='text'          placeholder='Quantity' value='"+recordObj.availableQuantity+"' name='availableQuantity' class='form-control port_out_item_quantity' id='port_out_item_quantity-" + id + "' data-attribute-parent-port-out-id='port_out_item_quantity-" + id + "' onchange='splitOnChange($(this).parent().parent().attr(\"id\"));'/></td>"
 			+ "<td><input type='text' readonly placeholder='balQty' value='"+recordObj.balQty+"' name='balQty' class='form-control port_out_section_wt' id='port_out_section_wt-" + id + "' data-attribute-parent-port-out-sec-id='port_out_section_wt-" + id + "' /></td>"
 
-			+ "<td><input type='text' readonly placeholder='Actual Wt.' value='"+recordObj.actualWt+"' name='actualWt' class='form-control ' id='"+awId(recordObj)+"' /></td>"
+			+ "<td><input type='text' readonly placeholder='Actual Wt.' value='"+recordObj.actualWt+"' name='actualWt' class='form-control ' id='"+awId(recordObj)+"' data-attribute-parent-port-out-id='actualWt-" + id + "'/></td>"
 			+ "<td><input type='text'          placeholder='Heat No' name='heatNoInput' class='form-control ' id='"+heatId(recordObj)+"'/></td>"
 			+ "<td><input type='text'          placeholder='Plate No' name='plateNoInput' class='form-control ' id='"+plateId(recordObj)+"'/></td>"
 			+ getLocationDropdownHtml(recordObj)
@@ -1514,14 +1514,35 @@ function distributeActualWeightTotal(){
 		//Actual Wt for row 1 = ((Sec Wt of row 1/Total sec Wt) * (Total Actual Wt – Total Sec Wt.)) + Sec Wt of row 1
 		console.log(SELECTED_PORT_INVENTORY_ITEMS.length);
 		var secWtTotal = getTotalSectionWeightOfSelectedRecords();
+
+
+	
 		for(var i=0;i<SELECTED_PORT_INVENTORY_ITEMS.length;i++){
+		
 			var item = SELECTED_PORT_INVENTORY_ITEMS[i];
-			var secWt = Number(item.balQty);
+			var id = composeCombinationId(item);
+	
+			var recordsArrayOfGivenPortOutwardGroup = getPortOutwardGroupForId(id);
+			
+			var subRowsCount = recordsArrayOfGivenPortOutwardGroup.length;
+			
+			var $trToSplit = $("#"+id);
+			
+			var $portSecWt = $trToSplit.find("#port_out_section_wt-"+id);
+			var secWt = Number($portSecWt.val());
+			
+			
+			//var secWt = Number(item.balQty);
 			var actualWeightElementId = awId(item);
 			var actWt = ((secWt / secWtTotal) * (actWtTotalNumber - secWtTotal)) + secWt;
 			console.log(actWt);
 			actWt = dp2(actWt);
 			$("#"+actualWeightElementId).val(actWt);
+			
+			var re=actWtTotalNumber-actWt;
+			
+			var sf=$("#"+actualWeightElementId+"-"+subRowsCount);
+			$("#"+actualWeightElementId+"-"+subRowsCount).val(re);
 		}
 		
 		
