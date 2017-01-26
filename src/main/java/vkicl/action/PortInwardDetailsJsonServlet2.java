@@ -10,17 +10,18 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
+import vkicl.services.PortInwardDetailsJsonService;
 import vkicl.services.PortPurchaseOrderJsonDetailService;
 import vkicl.services.PortPurchaseOrderJsonService;
 
-public class PortPurchaseOrderDetailJsonServlet extends HttpServlet {
+public class PortInwardDetailsJsonServlet2 extends HttpServlet {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 4896344374052419351L;
 
-	private Logger logger = Logger.getLogger(PortPurchaseOrderDetailJsonServlet.class);
+	private Logger logger = Logger.getLogger(PortInwardDetailsJsonServlet2.class);
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -32,9 +33,11 @@ public class PortPurchaseOrderDetailJsonServlet extends HttpServlet {
 				String portInwardId = request.getParameter("inwardId");
 
 				if (portInwardId != null) {
-					PortPurchaseOrderJsonDetailService service = new PortPurchaseOrderJsonDetailService();
-					String json = service.getPortPurchaseOrderDetailAsJson(request, portInwardId);
+//					PortPurchaseOrderJsonDetailService service = new PortPurchaseOrderJsonDetailService();
+//					String json = service.getPortPurchaseOrderDetailAsJson(request, portInwardId);
 
+					PortInwardDetailsJsonService portInwardDetailsJsonService = new PortInwardDetailsJsonService();
+					String json = portInwardDetailsJsonService.getPackingListAsJson(request);
 					logger.debug("Going to return PortPurchaseOrderJsonServlet json ");
 					logger.debug(json);
 

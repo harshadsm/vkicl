@@ -445,7 +445,7 @@ $(function() {
 			colNames : [ 'id', 'Date', 'Vessel Name', 'Vendor Name', 'Material Type', 'Mill Name', 'Make', 'Grade'],
 					
 			colModel : [ {
-				name : 'id',
+				name : 'portInwardId',
 				index : 'id',
 				hidden: true,
 				width : 30,
@@ -594,7 +594,7 @@ $(function() {
 	        			var sel_id = grid.jqGrid('getGridParam', 'selrow');
 	        			var portInwardId = grid.jqGrid('getCell', sel_id, 'id');
 	        			
-	           			var url="./portPurchaseOrderDetailJsonServlet?inwardId="+portInwardId;
+	           			var url="./portInwardDetailsJsonServlet2?inwardId="+portInwardId;
 	           			$("#portpurchaseorderdetailGrid").jqGrid('setGridParam',{url:url});
 	           			$("#portpurchaseorderdetailGrid").trigger('reloadGrid');
 	           			
