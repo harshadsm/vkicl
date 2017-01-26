@@ -1366,6 +1366,8 @@ function split2(idOfRowToSplit){
 			$quantityCell.attr("id","port_out_item_quantity-"+idOfRowToSplit+"-"+subRowsCount);
 			$klonedTr.find("#split-button-td-"+idOfRowToSplit).html("");
 			
+			var $actualWtCell = $klonedTr.find("#actualWeight-"+idOfRowToSplit);
+			$actualWtCell.attr("id","actualWeight-"+idOfRowToSplit+"-"+subRowsCount);
 			//$klonedTr.after($trToSplit);
 			$("#"+idOfRowToSplit).after($klonedTr);
 			
@@ -1388,68 +1390,6 @@ function split2(idOfRowToSplit){
 	}
 }
 
-function split2(idOfRowToSplit){
-
-	var recordsArrayOfGivenPortOutwardGroup = getPortOutwardGroupForId(idOfRowToSplit);
-	
-	var subRowsCount = recordsArrayOfGivenPortOutwardGroup.length;
-	console.log("Id Of the row to be split = "+idOfRowToSplit);
-	console.log("Available locations = "+LOCATIONS_COUNT);
-	console.log("Sub Rows Count = "+subRowsCount);
-	if(subRowsCount < LOCATIONS_COUNT){
-		//If splitted already into LOCATIONS_COUNT rows, then dont split further
-		console.log("splitting the quantity into more than one locations.-"+idOfRowToSplit);
-		var $trToSplit = $("#"+idOfRowToSplit);
-		
-		var $portOutItemQty = $trToSplit.find("#port_out_item_quantity-"+idOfRowToSplit);
-		var qty = Number($portOutItemQty.val());
-		
-		var $grid = $("#packingListGrid");
-		
-		var selectedRowId = $grid.jqGrid ('getGridParam', 'selrow');
-		var celSecWtValue = $grid.jqGrid('getCell', selectedRowId, 'balQty');
-		var celQtyValue = $grid.jqGrid('getCell', selectedRowId, 'quantity');
-		
-		
-		if(qty >1){
-			//If quantity is more than 1, then only let it split.
-			$portOutItemQty.val(qty - 1);
-
-			var newSecWt= (( (qty-1) * celSecWtValue )/celQtyValue);
-
-			$trToSplit.find("#port_out_section_wt-"+idOfRowToSplit).val(newSecWt);
-			
-			//Change the ID of the cloned row
-			var $klonedTr = $trToSplit.clone();
-			$klonedTr.attr("id",idOfRowToSplit+"-"+subRowsCount); 
-
-			//Change the id of the cloned quantity cell.
-			var $quantityCell = $klonedTr.find("#port_out_item_quantity-"+idOfRowToSplit)
-			$quantityCell.val(1);
-			$quantityCell.attr("id","port_out_item_quantity-"+idOfRowToSplit+"-"+subRowsCount);
-			$klonedTr.find("#split-button-td-"+idOfRowToSplit).html("");
-			
-			//$klonedTr.after($trToSplit);
-			$("#"+idOfRowToSplit).after($klonedTr);
-			
-		
-			var newCloneSecWt= (( (1) * celSecWtValue )/celQtyValue);
-			
-			var $secWtCell = $klonedTr.find("#port_out_section_wt-"+idOfRowToSplit)
-			
-			$secWtCell.attr("id","port_out_section_wt-"+idOfRowToSplit+"-"+subRowsCount);
-			$secWtCell.val(newCloneSecWt);
-			//$trToSplit.find("#port_out_section_wt-"+idOfRowToSplit).val(newCloneSecWt);
-			
-		}else{
-			bootbox.alert("Hey smarty, can't split further. How can you split 1 plate into multiple locations? Go learn some basics.");
-		}
-
-	
-	}else{
-		bootbox.alert("You have already split into all "+LOCATIONS_COUNT+" locations. There are no more locations to split.");
-	}
-}
 
 
 function splitOnChange(idOfRowToSplit){
@@ -1521,10 +1461,11 @@ function distributeActualWeightTotal(){
 		
 			var item = SELECTED_PORT_INVENTORY_ITEMS[i];
 			var id = composeCombinationId(item);
-	
+			
 			var recordsArrayOfGivenPortOutwardGroup = getPortOutwardGroupForId(id);
 			
 			var subRowsCount = recordsArrayOfGivenPortOutwardGroup.length;
+			
 			
 			var $trToSplit = $("#"+id);
 			
@@ -1539,10 +1480,21 @@ function distributeActualWeightTotal(){
 			actWt = dp2(actWt);
 			$("#"+actualWeightElementId).val(actWt);
 			
-			var re=actWtTotalNumber-actWt;
+			for(var j=1; j<=(subRowsCount-1);j++)
+			{
+			 $trToSplit = $("#"+id+"-"+j);
 			
-			var sf=$("#"+actualWeightElementId+"-"+subRowsCount);
-			$("#"+actualWeightElementId+"-"+subRowsCount).val(re);
+			 $portSecWt = $trToSplit.find("#port_out_section_wt-"+id+"-"+j);
+			 secWt = Number($portSecWt.val());
+			 
+			 var actualWeightElementId = awId(item);
+				var actWt = ((secWt / secWtTotal) * (actWtTotalNumber - secWtTotal)) + secWt;
+				console.log(actWt);
+				actWt = dp2(actWt);
+				$("#"+actualWeightElementId+"-"+j).val(actWt);
+			}
+			
+			
 		}
 		
 		
