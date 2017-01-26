@@ -17,6 +17,9 @@ import org.apache.log4j.Logger;
 import vkicl.form.PortInwardForm;
 import vkicl.form.PortOutwardForm;
 import vkicl.form.PortPurchaseOrderForm;
+import vkicl.report.bean.PortPurchaseOrderDeliveryBean;
+import vkicl.report.bean.WarehouseDispatchBean;
+import vkicl.form.PortPurchaseOrderDeliveryForm;
 import vkicl.util.Constants;
 import vkicl.util.Converter;
 import vkicl.util.JqGridSearchParameterHolder;
@@ -477,6 +480,52 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 		}
 		return savedRecordId;
 
+	}
+
+	public PortPurchaseOrderDeliveryForm fetchPPO(PortPurchaseOrderDeliveryForm form, UserInfoVO userInfoVO)
+			throws SQLException {
+
+		Connection conn = null;
+		ResultSet rs = null;
+		CallableStatement cs = null;
+		String query = "";
+		ArrayList<PortPurchaseOrderDeliveryBean> reportList = null;
+		try {
+			conn = getConnection();
+
+			String sql = "  SELECT ppo.port_purchase_order_id , ppo.create_ts,ppo.customer_name, ppo.delivery_address, "
+					+ " (SUM(ppo.total_quantity)-a.orderQty) as pending FROM port_purchase_order ppo "
+					+ " inner join (select ppoli.port_purchase_order_id,SUM(ppoli.ordered_quantity) as orderQty "
+					+ " from ppo_line_items ppoli ) a on ppo.port_purchase_order_id=a.port_purchase_order_id ";
+
+			query = sql;
+			log.info("query = " + query);
+
+			cs = conn.prepareCall(query);
+
+			rs = cs.executeQuery();
+			if (null != rs && rs.next()) {
+				reportList = new ArrayList<PortPurchaseOrderDeliveryBean>();
+				do {
+					PortPurchaseOrderDeliveryBean report = new PortPurchaseOrderDeliveryBean();
+					report.setPpoNo(rs.getInt(1));
+					report.setPpoDate(Converter.dateToString(Converter.sqlDateToDate(rs.getDate(2))));
+					report.setCustomerName(rs.getString(3));
+					report.setDeliveryAddress(rs.getString(4));
+					report.setPendingQuantity(rs.getInt(5));
+
+					reportList.add(report);
+					report = null;
+				} while (rs.next());
+			}
+			form.setReportList(reportList);
+
+		} catch (Exception e) {
+			log.error("Some error", e);
+		} finally {
+			closeDatabaseResources(conn, rs, cs);
+		}
+		return form;
 	}
 
 }
