@@ -369,28 +369,27 @@ input[name="length"], input[name="width"], input[name="thickness"], input[name="
 			</div>
 			
 			<div id="menu1" class="tab-pane fade">
-      <h3>Step 2</h3>
-      <div class="row">
-      <div class="col-md-12">
-      
-      <div id="portInwardTable">
+				<h3>Step 2</h3>
+				<div class="row">
+					<div class="col-md-12">
+
+						<div id="portInwardTable">
 							<table id="portpurchaseorderinwardGrid"></table>
 							<div id="portInwardPager"></div>
 						</div>
-						
-      </div>
-      </div>
-      <div class="row">
-	<div class="col-md-12">
-				
-				<div id="portpurchaseorderTable">
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+
+						<div id="portpurchaseorderTable">
 							<table id="portpurchaseorderdetailGrid"></table>
 							<div id="portInwarddetailPager"></div>
 						</div>
+					</div>
 				</div>
-  </div>
-  
-	<div class="row">
+
+				<div class="row">
 			<div class="col-xs-12">
 				<h3>Review the selected Entries below</h3>
 				<table class="table table-responsive table-form" id="portPurchaseOrderTable">
