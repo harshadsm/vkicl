@@ -28,26 +28,33 @@ public class PortInwardDetailsJsonServlet2 extends HttpServlet {
 			throws ServletException, IOException {
 
 		try {
-
+			String json = "some error at server. Need to debug";
 			if (request.getMethod() == "GET") {
-				String portInwardId = request.getParameter("inwardId");
+				String portInwardId = request.getParameter("portInwardId");
 
 				if (portInwardId != null) {
-//					PortPurchaseOrderJsonDetailService service = new PortPurchaseOrderJsonDetailService();
-//					String json = service.getPortPurchaseOrderDetailAsJson(request, portInwardId);
+					// PortPurchaseOrderJsonDetailService service = new
+					// PortPurchaseOrderJsonDetailService();
+					// String json =
+					// service.getPortPurchaseOrderDetailAsJson(request,
+					// portInwardId);
 
 					PortInwardDetailsJsonService portInwardDetailsJsonService = new PortInwardDetailsJsonService();
-					String json = portInwardDetailsJsonService.getPackingListAsJson(request);
+					json = portInwardDetailsJsonService.getPackingListAsJson2(request);
 					logger.debug("Going to return PortPurchaseOrderJsonServlet json ");
 					logger.debug(json);
 
-					response.setContentType("text/text;charset=utf-8");
-					response.setHeader("cache-control", "no-cache");
+				} else {
+					logger.debug("no parameter foiund");
 
-					PrintWriter out = response.getWriter();
-					out.println(json);
-					out.flush();
 				}
+				response.setContentType("text/text;charset=utf-8");
+				response.setHeader("cache-control", "no-cache");
+
+				PrintWriter out = response.getWriter();
+				out.println(json);
+				out.flush();
+
 			}
 
 		} catch (Exception e) {

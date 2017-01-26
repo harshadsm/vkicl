@@ -23,6 +23,7 @@ import vkicl.util.JqGridCustomResponse;
 import vkicl.util.JqGridParametersHolder;
 import vkicl.util.JqGridParametersHolder.JQGRID_PARAM_NAMES;
 import vkicl.util.JqGridSearchParameterHolder;
+import vkicl.util.JqGridSearchParameterHolder.Rule;
 import vkicl.vo.PackingListItemVO;
 import vkicl.vo.PortInwardRecordVO;
 
@@ -66,6 +67,33 @@ public class PortInwardDetailsJsonService {
 			searchParam = mapper.readValue(filters, JqGridSearchParameterHolder.class);
 			logger.info(searchParam);
 		}
+		return searchParam;
+	}
+	
+	private JqGridSearchParameterHolder parseSerachFilters2(JqGridParametersHolder params, HttpServletRequest request)
+			throws JsonParseException, JsonMappingException, IOException {
+		JqGridSearchParameterHolder searchParam = null;
+		String filters = params.getParam(JQGRID_PARAM_NAMES.filters);
+
+		if (filters != null) {
+			ObjectMapper mapper = new ObjectMapper();
+			searchParam = mapper.readValue(filters, JqGridSearchParameterHolder.class);
+			logger.info(searchParam);
+		}
+		
+		String portInwardIdStr = request.getParameter("portInwardId");
+		Rule portInwardIdRule = new Rule();
+		portInwardIdRule.setField("port_inward_id");
+		portInwardIdRule.setData(portInwardIdStr);
+		portInwardIdRule.setOp("eq");
+		if(searchParam==null){
+			searchParam = new JqGridSearchParameterHolder();
+		}
+		
+		if(searchParam.getRules() == null){
+			searchParam.setRules(new ArrayList<Rule>());
+		}
+		searchParam.getRules().add(portInwardIdRule);
 		return searchParam;
 	}
 
@@ -155,6 +183,54 @@ public class PortInwardDetailsJsonService {
 		}
 		return recordsWithQtyMoreThanZero;
 
+	}
+	
+	
+	
+	public String getPackingListAsJson2(HttpServletRequest req) throws Exception {
+
+		// String portInwardIdStr = req.getParameter("port_inward_database_id");
+		// logger.info("Port Inward Id = " + portInwardIdStr);
+		// Integer portInwardId = Integer.parseInt(portInwardIdStr);
+		// JqGridSearchParameterHolder.Rule portInwardIdRule = new
+		// JqGridSearchParameterHolder.Rule();
+		// portInwardIdRule.setField("port_inward_id");
+		// portInwardIdRule.setOp("eq");
+		// portInwardIdRule.setData(portInwardIdStr);
+
+		JqGridParametersHolder params = new JqGridParametersHolder(req);
+		JqGridSearchParameterHolder searchParam = parseSerachFilters2(params, req);
+
+		if (searchParam == null) {
+			searchParam = new JqGridSearchParameterHolder();
+		}
+		if (searchParam.getRules() == null) {
+			List<JqGridSearchParameterHolder.Rule> rules = new ArrayList<JqGridSearchParameterHolder.Rule>();
+			searchParam.setRules(rules);
+		}
+		// searchParam.getRules().add(portInwardIdRule);
+
+		String rows = params.getParam(JQGRID_PARAM_NAMES.rows);
+		String page = params.getParam(JQGRID_PARAM_NAMES.page);
+		String orderBy = params.getParam(JQGRID_PARAM_NAMES.sidx);
+		String order = params.getParam(JQGRID_PARAM_NAMES.sord);
+
+		PortInwardPackingListDaoImpl portDao = new PortInwardPackingListDaoImpl();
+		Integer totalRecordsCount = portDao.fetchPortInwardPackingListRecordCount(searchParam);// ,
+																								// portInwardId);
+		List<PackingListItemVO> records = portDao.fetchPortInwardPackingList(Integer.parseInt(page),
+				Integer.parseInt(rows), totalRecordsCount, orderBy, order, searchParam);
+
+		records = updateAlreadyOutQuantity(records);
+
+		JqGridCustomResponse response = new JqGridCustomResponse();
+		response.setPage(page);
+		response.setRows(records);
+		response.setRecords(totalRecordsCount.toString());
+		response.setTotal((totalRecordsCount / Long.valueOf(rows)) + 1 + "");
+		Gson gson = new Gson();
+		String json = gson.toJson(response);
+		return json;
 	}
 
 }

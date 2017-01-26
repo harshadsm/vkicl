@@ -446,7 +446,7 @@ $(function() {
 					
 			colModel : [ {
 				name : 'portInwardId',
-				index : 'id',
+				index : 'port_inward_id',
 				hidden: true,
 				width : 30,
 				editable : true,
@@ -590,12 +590,14 @@ $(function() {
 	           		
 	           		onSelectRow: function(rowids) {
 	           			
-	           			var grid = jQuery('#portpurchaseorderinwardGrid');
-	        			var sel_id = grid.jqGrid('getGridParam', 'selrow');
-	        			var portInwardId = grid.jqGrid('getCell', sel_id, 'id');
-	        			
-	           			var url="./portInwardDetailsJsonServlet2?inwardId="+portInwardId;
-	           			$("#portpurchaseorderdetailGrid").jqGrid('setGridParam',{url:url});
+	           			var grid = $('#portpurchaseorderinwardGrid');
+	           			var sel_id = grid.jqGrid('getGridParam', 'selrow');
+	           			
+	           			
+	           			var portInwardId = grid.jqGrid('getCell', sel_id, 'portInwardId');
+	           			var url="./portInwardDetailsJsonServlet2?portInwardId="+portInwardId;
+	           			console.log(url);
+	           			$("#portpurchaseorderdetailGrid").setGridParam({url:url});
 	           			$("#portpurchaseorderdetailGrid").trigger('reloadGrid');
 	           			
 	       	        }
@@ -607,6 +609,7 @@ $(function() {
 	$("#portpurchaseorderdetailGrid").jqGrid(
 				{
 					//url : './portPurchaseOrderDetailJsonServlet',
+					url: './portInwardDetailsJsonServlet2?portInwardId=6',
 					datatype : 'json',
 					mtype : 'GET',
 					
@@ -858,14 +861,13 @@ $(function() {
 							
 			        		$grid.jqGrid('filterToolbar',{stringResult: true,searchOnEnter : false, searchOperators:true, defaultSearch:"cn"});
 			        		
-			        		//Pre-select the customers if user had them selected already
+			        		
 							
 		        		} 
-			       }
-			        		,
+			       },
 			           		
-			        		onSelectRow: handleOnSelectRow,
-			       	        onSelectAll: function(aRowids, status) {
+			        onSelectRow: handleOnSelectRow,
+			       	onSelectAll: function(aRowids, status) {
 			       	        	for(var i=0;i<aRowids.length;i++){
 			       	            	handleOnSelectRow(aRowids[i],status);
 			       	            }
