@@ -28,11 +28,11 @@ String portInwardDetailsListSize = Integer.toString(portInwardDetailsList.size()
 function setText() {
 		
 		
-		$("input[name='thickness']").attr("disabled", true);
-		$("input[name='width']").attr("disabled", true);
-		$("input[name='length']").attr("disabled", true);
-		$("input[name='qty']").attr("disabled", true);
-		$("input[name='actualWt']").attr("disabled", true);
+		//$("input[name='thickness']").attr("disabled", true);
+		//$("input[name='width']").attr("disabled", true);
+		//$("input[name='length']").attr("disabled", true);
+		//$("input[name='qty']").attr("disabled", true);
+		//$("input[name='actualWt']").attr("disabled", true);
 		
 	}
 	
@@ -300,12 +300,21 @@ style="display: none;" /> </span>
 						<tr id="row-sub-<%=cnt %>" class='sub-row' >
 							<input type='hidden' name='subPis' />
 							<td >
-								<input  type='number' step='1' min='0' name='thickness' placeholder='Thickness' class='form-control' value="<%=record.getThickness() %>"/>
+								<input  type='number' disabled="disabled" step='1' min='0' name='thickness' placeholder='Thickness' class='form-control' value="<%=record.getThickness() %>"/>
+								<input  type='hidden' step='1' min='0' name='thickness' placeholder='Thickness' class='form-control' value="<%=record.getThickness() %>"/>
 							</td>
-							<td><input  type='number' step='1' min='0' name='width' placeholder='Width' class='form-control' value="<%=record.getWidth() %>" /></td>
-							<td><input  type='number' step='1' min='0' name='length' placeholder='Length' class='form-control' value="<%=record.getLength() %>"/></td>
-							<td><input  type='number' step='1' min='0' name='qty' placeholder='Quantity' class='form-control' value="<%=record.getQuantity() %>" /></td>
-							<td><div class='input-group'><input  type='number' step='0.001' min='0' name='actualWt' placeholder='Actual Weight' class='form-control' aria-label='...' value="<%=record.getBe_weight() %>">
+							<td><input  type='number' disabled="disabled" step='1' min='0' name='width' placeholder='Width' class='form-control' value="<%=record.getWidth() %>" />
+							<input  type='hidden' step='1' min='0' name='width' placeholder='Width' class='form-control' value="<%=record.getWidth() %>" />
+							</td>
+							<td><input  type='number' disabled="disabled" step='1' min='0' name='length' placeholder='Length' class='form-control' value="<%=record.getLength() %>"/>
+							<input  type='hidden' step='1' min='0' name='length' placeholder='Length' class='form-control' value="<%=record.getLength() %>"/>
+							</td>
+							<td><input  type='number' disabled="disabled" step='1' min='0' name='qty' placeholder='Quantity' class='form-control' value="<%=record.getQuantity() %>" />
+							<input  type='hidden' step='1' min='0' name='qty' placeholder='Quantity' class='form-control' value="<%=record.getQuantity() %>" /></td>
+							<td>
+							<div class='input-group'>
+							<input  type='number' disabled="disabled" step='0.001' min='0' name='actualWt' placeholder='Actual Weight' class='form-control' aria-label='...' value="<%=record.getBe_weight() %>">
+							<input  type='hidden'  step='0.001' min='0' name='actualWt' placeholder='Actual Weight' class='form-control' aria-label='...' value="<%=record.getBe_weight() %>">
 							<div class='input-group-btn weight-group'>
 							<input  type='hidden' name='actualWtUnit' value='TON' />
 							<button type='button'class='btn btn-default dropdown-toggle' disabled data-toggle='dropdown' aria-expanded='false'>TON</button>
