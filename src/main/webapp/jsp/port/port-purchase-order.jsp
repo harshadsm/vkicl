@@ -369,28 +369,27 @@ input[name="length"], input[name="width"], input[name="thickness"], input[name="
 			</div>
 			
 			<div id="menu1" class="tab-pane fade">
-      <h3>Step 2</h3>
-      <div class="row">
-      <div class="col-md-12">
-      
-      <div id="portInwardTable">
+				<h3>Step 2</h3>
+				<div class="row">
+					<div class="col-md-12">
+
+						<div id="portInwardTable">
 							<table id="portpurchaseorderinwardGrid"></table>
 							<div id="portInwardPager"></div>
 						</div>
-						
-      </div>
-      </div>
-      <div class="row">
-	<div class="col-md-12">
-				
-				<div id="portpurchaseorderTable">
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+
+						<div id="portpurchaseorderTable">
 							<table id="portpurchaseorderdetailGrid"></table>
 							<div id="portInwarddetailPager"></div>
 						</div>
+					</div>
 				</div>
-  </div>
-  
-	<div class="row">
+
+				<div class="row">
 			<div class="col-xs-12">
 				<h3>Review the selected Entries below</h3>
 				<table class="table table-responsive table-form" id="portPurchaseOrderTable">
@@ -446,8 +445,8 @@ $(function() {
 			colNames : [ 'id', 'Date', 'Vessel Name', 'Vendor Name', 'Material Type', 'Mill Name', 'Make', 'Grade'],
 					
 			colModel : [ {
-				name : 'id',
-				index : 'id',
+				name : 'portInwardId',
+				index : 'port_inward_id',
 				hidden: true,
 				width : 30,
 				editable : true,
@@ -591,12 +590,14 @@ $(function() {
 	           		
 	           		onSelectRow: function(rowids) {
 	           			
-	           			var grid = jQuery('#portpurchaseorderinwardGrid');
-	        			var sel_id = grid.jqGrid('getGridParam', 'selrow');
-	        			var portInwardId = grid.jqGrid('getCell', sel_id, 'id');
-	        			
-	           			var url="./portPurchaseOrderDetailJsonServlet?inwardId="+portInwardId;
-	           			$("#portpurchaseorderdetailGrid").jqGrid('setGridParam',{url:url});
+	           			var grid = $('#portpurchaseorderinwardGrid');
+	           			var sel_id = grid.jqGrid('getGridParam', 'selrow');
+	           			
+	           			
+	           			var portInwardId = grid.jqGrid('getCell', sel_id, 'portInwardId');
+	           			var url="./portInwardDetailsJsonServlet2?portInwardId="+portInwardId;
+	           			console.log(url);
+	           			$("#portpurchaseorderdetailGrid").setGridParam({url:url});
 	           			$("#portpurchaseorderdetailGrid").trigger('reloadGrid');
 	           			
 	       	        }
@@ -608,6 +609,7 @@ $(function() {
 	$("#portpurchaseorderdetailGrid").jqGrid(
 				{
 					//url : './portPurchaseOrderDetailJsonServlet',
+					url: './portInwardDetailsJsonServlet2?portInwardId=6',
 					datatype : 'json',
 					mtype : 'GET',
 					
@@ -859,14 +861,13 @@ $(function() {
 							
 			        		$grid.jqGrid('filterToolbar',{stringResult: true,searchOnEnter : false, searchOperators:true, defaultSearch:"cn"});
 			        		
-			        		//Pre-select the customers if user had them selected already
+			        		
 							
 		        		} 
-			       }
-			        		,
+			       },
 			           		
-			        		onSelectRow: handleOnSelectRow,
-			       	        onSelectAll: function(aRowids, status) {
+			        onSelectRow: handleOnSelectRow,
+			       	onSelectAll: function(aRowids, status) {
 			       	        	for(var i=0;i<aRowids.length;i++){
 			       	            	handleOnSelectRow(aRowids[i],status);
 			       	            }

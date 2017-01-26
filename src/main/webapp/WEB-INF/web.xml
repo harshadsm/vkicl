@@ -62,8 +62,8 @@
 		<servlet-class>vkicl.action.PortPurchaseOrderJsonServlet</servlet-class>
 	</servlet>
 	<servlet>
-		<servlet-name>PortPurchaseOrderDetailJsonServlet</servlet-name>
-		<servlet-class>vkicl.action.PortPurchaseOrderDetailJsonServlet</servlet-class>
+		<servlet-name>PortInwardDetailsJsonServlet2</servlet-name>
+		<servlet-class>vkicl.action.PortInwardDetailsJsonServlet2</servlet-class>
 	</servlet>
 	<servlet>
 		<servlet-name>PortPurchaseOrderFinalJsonServlet</servlet-name>
@@ -126,8 +126,8 @@
 		<url-pattern>/portPurchaseOrderJsonServlet</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
-		<servlet-name>PortPurchaseOrderDetailJsonServlet</servlet-name>
-		<url-pattern>/portPurchaseOrderDetailJsonServlet</url-pattern>
+		<servlet-name>PortInwardDetailsJsonServlet2</servlet-name>
+		<url-pattern>/portInwardDetailsJsonServlet2</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>PortPurchaseOrderFinalJsonServlet</servlet-name>

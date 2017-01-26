@@ -28,6 +28,7 @@ import vkicl.util.PropFileReader;
 import vkicl.vo.PackingListItemVO;
 import vkicl.vo.PortInwardDetailsVO;
 import vkicl.vo.PortInwardRecordVO;
+import vkicl.vo.PortInwardRecordVOForPPO;
 import vkicl.vo.PortOutwardPostDataContainerVO;
 import vkicl.vo.PortPurchaseOrderPostDataContainerVO;
 import vkicl.vo.PortPurchaseOrderVO;
@@ -82,6 +83,59 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 					p.setVesselName(rs.getString(11));
 					p.setVendorName(rs.getString(12));
 					p.setCountOfPortInwardDetailRecords(rs.getInt(13));
+					list.add(p);
+				} while (rs.next());
+
+			}
+
+		} catch (Exception e) {
+			log.error("Some error", e);
+		} finally {
+			closeDatabaseResources(conn, rs, cs);
+		}
+		return list;
+	}
+	
+	
+	public List<PortInwardRecordVOForPPO> fetchPortInwardDetails_harshad(int pageNo, int pageSize, String orderByFieldName,
+			String order, JqGridSearchParameterHolder searchParam, Integer totalRecordsCount) throws SQLException {
+		List<PortInwardRecordVOForPPO> list = new ArrayList<PortInwardRecordVOForPPO>();
+		Connection conn = null;
+		ResultSet rs = null;
+		CallableStatement cs = null;
+		String query = "";
+
+		try {
+			conn = getConnection();
+
+			
+			query = getQueryOfPortInwardRecordsWithCumulativeBalGreaterThan0(
+					pageNo,
+					pageSize, orderByFieldName, order, searchParam, totalRecordsCount);
+			log.info("query = " + query);
+
+			cs = conn.prepareCall(query);
+
+			rs = cs.executeQuery();
+			if (null != rs && rs.next()) {
+
+				do {
+					PortInwardRecordVOForPPO p = new PortInwardRecordVOForPPO();
+					p.setPortInwardId(rs.getInt("port_inward_id"));
+					p.setCreateTs(rs.getString("create_ts"));
+					p.setVesselDate(rs.getString("vessel_date"));
+					p.setVesselName(rs.getString("vessel_name"));
+					p.setVendorName(rs.getString("vendor_name"));
+					p.setMaterialType(rs.getString("material_type"));
+					p.setMillName(rs.getString("mill_name"));
+					p.setMake(rs.getString("material_make"));
+					p.setGrade(rs.getString("material_grade"));
+					p.setDescription(rs.getString("description"));
+					p.setPortInwardRecordTotalQuantity(rs.getInt("port_inward_record_total_quantity"));
+					p.setTotalPpoQuantityOrderedAgainstThatPortInwardRecord(rs.getInt("total_ppo_quantity_ordered_against_that_port_inward_record"));
+					p.setTotalQuantityDeliveredToTaloja(rs.getInt("total_quantity_delivered_to_taloja"));
+					p.setCumulativeBalPcsAtDock(rs.getInt("cumulative_bal_pcs_at_dock"));
+					
 					list.add(p);
 				} while (rs.next());
 
@@ -228,6 +282,21 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 			}
 		}
 		return orderByClause;
+	}
+	
+	
+	private String composeOrderByClause_2(String orderByFieldName, String order) {
+		StringBuffer orderByClause = new StringBuffer();
+		if (orderByFieldName != null) {
+			orderByClause.append(" ORDER BY ").append(orderByFieldName).append(" ").append(order);
+//			if (orderByFieldName.equalsIgnoreCase("vessel_date")) {
+//				orderByClause = orderByClause + " pis.vessel_date " + order + " ";
+//			} else if (orderByFieldName.equalsIgnoreCase("port_inward_id")) {
+//				orderByClause = orderByClause + " pin.port_inward_id " + order + " ";
+//			}
+			
+		}
+		return orderByClause.toString();
 	}
 
 	private String processSearchCriteria(JqGridSearchParameterHolder searchParam) {
@@ -480,6 +549,190 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 		}
 		return savedRecordId;
 
+	}
+	
+	public Integer getCountOfPortInwardRecordsWithCumulativeBalGreaterThan0(JqGridSearchParameterHolder searchParam){
+		
+		Connection conn = null;
+		ResultSet rs = null;
+		CallableStatement cs = null;
+		String query = "", message = "";
+		Integer count = null;
+		
+		try {
+
+			query = getQueryCountOfPortInwardRecordsWithCumulativeBalGreaterThan0(searchParam);
+
+			log.info(query);
+
+			conn = getConnection();
+			cs = conn.prepareCall(query);
+
+			
+
+			ResultSet result = cs.executeQuery();
+
+			while (result.next()) {
+				count = result.getInt(1);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			message = e.getMessage();
+			
+		} finally {
+			closeDatabaseResources(conn, rs, cs);
+		}
+		return count;
+	}
+	public String getQueryCountOfPortInwardRecordsWithCumulativeBalGreaterThan0(JqGridSearchParameterHolder searchParam){
+		StringBuffer q = new StringBuffer();
+		q.append(" select count(*) from (");
+		q.append(" select");
+		q.append(" one.port_inward_id,");
+		q.append(" one.create_ts,");
+		q.append(" one.vessel_name,");
+		q.append(" one.vessel_date,");
+		q.append(" one.vendor_name,");
+		q.append(" one.material_type,");
+		q.append(" one.mill_name,");
+		q.append(" one.material_make,");
+		q.append(" one.material_grade,");
+		q.append(" one.description,");
+		q.append(" ifnull(one.port_inward_record_total_quantity,0) port_inward_record_total_quantity,");
+		q.append(" ifnull(two.total_ppo_raised_against_that_port_inward_record,0) total_ppo_quantity_ordered_against_that_port_inward_record,");
+		q.append(" ifnull(three.total_quantity_delivered_to_taloja,0) total_quantity_delivered_to_taloja,");
+		q.append(" ifnull(port_inward_record_total_quantity,0)");
+		q.append("  - ifnull(total_ppo_raised_against_that_port_inward_record,0)");
+		q.append("  - ifnull(total_quantity_delivered_to_taloja,0)");
+		q.append(" cumulative_bal_pcs_at_dock");
+		q.append("  from (");
+		q.append(" select pin.port_inward_id");
+		q.append(" ,pin.create_ts, pis.vessel_name,  pis.vessel_date, pis.vendor_name");
+		q.append(" ,pin.material_type, pin.mill_name, pin.material_make, pin.material_grade, pin.description,");
+		q.append(" ifnull(sum(pid.quantity),0)");
+		q.append(" port_inward_record_total_quantity");
+		q.append(" from port_inward pin");
+		q.append(" left join port_inward_shipment pis on pin.port_inwd_shipment_id = pis.port_inwd_shipment_id");
+		q.append(" left join port_inward_details pid on pid.port_inward_id = pin.port_inward_id");
+		q.append(" group by pin.port_inward_id");
+		q.append(" ) one");
+		q.append(" left join");
+		q.append(" ");
+		q.append(" (");
+		q.append(" select");
+		q.append("  pin.port_inward_id,");
+		q.append(" ifnull(sum(ppoli.ordered_quantity),0) total_ppo_raised_against_that_port_inward_record");
+		q.append(" from port_inward pin");
+		q.append(" left join port_inward_details pid on pid.port_inward_id = pin.port_inward_id");
+		q.append(" left join ppo_line_items ppoli on ppoli.port_inward_details_id = pid.port_inward_detail_id");
+		q.append(" group by pin.port_inward_id");
+		q.append(" ) two");
+		q.append(" on one.port_inward_id = two.port_inward_id");
+		q.append(" ");
+		q.append(" left join");
+		q.append(" (");
+		q.append(" ");
+		q.append(" select pin.port_inward_id");
+		q.append(" , ifnull(sum(po.quantity),0) total_quantity_delivered_to_taloja");
+		q.append("  from port_inward pin");
+		q.append(" left join port_inward_outward_intersection pioi on pioi.port_inward_id = pin.port_inward_id");
+		q.append(" left join port_outward po on po.port_out_id = pioi.port_outward_id");
+		q.append("     group by pin.port_inward_id");
+		q.append(" ) three");
+		q.append(" on one.port_inward_id = three.port_inward_id");
+		q.append(" ) a");
+		q.append(" where a.cumulative_bal_pcs_at_dock > 0");
+		//q.append(" order by port_inward_id desc");
+		//q.append(" limit 0,2;");
+		
+		return q.toString();
+	}
+	
+	
+	public String getQueryOfPortInwardRecordsWithCumulativeBalGreaterThan0(
+			int pageNo, int pageSize, String orderByFieldName,
+			String order, JqGridSearchParameterHolder searchParam, Integer totalRecordsCount
+			){
+		
+		
+		
+		StringBuffer q = new StringBuffer();
+		q.append(" select * from (");
+		q.append(" select");
+		q.append(" one.port_inward_id,");
+		q.append(" one.create_ts,");
+		q.append(" one.vessel_name,");
+		q.append(" one.vessel_date,");
+		q.append(" one.vendor_name,");
+		q.append(" one.material_type,");
+		q.append(" one.mill_name,");
+		q.append(" one.material_make,");
+		q.append(" one.material_grade,");
+		q.append(" one.description,");
+		q.append(" ifnull(one.port_inward_record_total_quantity,0) port_inward_record_total_quantity,");
+		q.append(" ifnull(two.total_ppo_raised_against_that_port_inward_record,0) total_ppo_quantity_ordered_against_that_port_inward_record,");
+		q.append(" ifnull(three.total_quantity_delivered_to_taloja,0) total_quantity_delivered_to_taloja,");
+		q.append(" ifnull(port_inward_record_total_quantity,0)");
+		q.append("  - ifnull(total_ppo_raised_against_that_port_inward_record,0)");
+		q.append("  - ifnull(total_quantity_delivered_to_taloja,0)");
+		q.append(" cumulative_bal_pcs_at_dock");
+		q.append("  from (");
+		q.append(" select pin.port_inward_id");
+		q.append(" ,pin.create_ts, pis.vessel_name,  pis.vessel_date, pis.vendor_name");
+		q.append(" ,pin.material_type, pin.mill_name, pin.material_make, pin.material_grade, pin.description,");
+		q.append(" ifnull(sum(pid.quantity),0)");
+		q.append(" port_inward_record_total_quantity");
+		q.append(" from port_inward pin");
+		q.append(" left join port_inward_shipment pis on pin.port_inwd_shipment_id = pis.port_inwd_shipment_id");
+		q.append(" left join port_inward_details pid on pid.port_inward_id = pin.port_inward_id");
+		q.append(" group by pin.port_inward_id");
+		q.append(" ) one");
+		q.append(" left join");
+		q.append(" ");
+		q.append(" (");
+		q.append(" select");
+		q.append("  pin.port_inward_id,");
+		q.append(" ifnull(sum(ppoli.ordered_quantity),0) total_ppo_raised_against_that_port_inward_record");
+		q.append(" from port_inward pin");
+		q.append(" left join port_inward_details pid on pid.port_inward_id = pin.port_inward_id");
+		q.append(" left join ppo_line_items ppoli on ppoli.port_inward_details_id = pid.port_inward_detail_id");
+		q.append(" group by pin.port_inward_id");
+		q.append(" ) two");
+		q.append(" on one.port_inward_id = two.port_inward_id");
+		q.append(" ");
+		q.append(" left join");
+		q.append(" (");
+		q.append(" ");
+		q.append(" select pin.port_inward_id");
+		q.append(" , ifnull(sum(po.quantity),0) total_quantity_delivered_to_taloja");
+		q.append("  from port_inward pin");
+		q.append(" left join port_inward_outward_intersection pioi on pioi.port_inward_id = pin.port_inward_id");
+		q.append(" left join port_outward po on po.port_out_id = pioi.port_outward_id");
+		q.append("     group by pin.port_inward_id");
+		q.append(" ) three");
+		q.append(" on one.port_inward_id = three.port_inward_id");
+		q.append(" ) a");
+		q.append(" where a.cumulative_bal_pcs_at_dock > 0");
+		String searchCriteria = processSearchCriteria(searchParam);
+		log.info(searchCriteria);
+		String orderByClause = composeOrderByClause_2(orderByFieldName, order);
+		log.info(orderByClause);
+		
+		q.append("  ").append(searchCriteria);
+		q.append("  ").append(orderByClause);
+		
+
+		int pageCount = totalRecordsCount/pageSize;
+		
+		if(pageNo > pageCount){
+			pageNo = pageCount;
+		}
+		
+		int start = pageSize * pageNo;
+		
+		q.append(" limit ").append(start).append(", ").append(pageSize);
+		
+		return q.toString();
 	}
 
 	public PortPurchaseOrderDeliveryForm fetchPPO(PortPurchaseOrderDeliveryForm form, UserInfoVO userInfoVO)

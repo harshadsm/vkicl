@@ -239,6 +239,8 @@ public class PortInwardPackingListDaoImpl extends BaseDaoImpl {
 		return sqlClause;
 	}
 
+	
+	
 	private String prepareSqlClause(List<String> clauses) {
 		String c = "";
 		int clausesCount = clauses.size();
@@ -293,7 +295,7 @@ public class PortInwardPackingListDaoImpl extends BaseDaoImpl {
 		} else if (field != null && field.equalsIgnoreCase("vessel_date")) {
 			clause = processDateClause(data);
 		} else if (field != null && field.equalsIgnoreCase("port_inward_id")) {
-			clause = "port_inward_id = " + data ;
+			clause = "pi.port_inward_id = " + data ;
 		}
 
 		return clause;

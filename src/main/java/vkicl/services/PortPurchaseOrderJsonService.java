@@ -26,6 +26,7 @@ import vkicl.util.JqGridParametersHolder.JQGRID_PARAM_NAMES;
 import vkicl.util.JqGridSearchParameterHolder;
 import vkicl.vo.PackingListItemVO;
 import vkicl.vo.PortInwardRecordVO;
+import vkicl.vo.PortInwardRecordVOForPPO;
 
 public class PortPurchaseOrderJsonService {
 
@@ -44,14 +45,14 @@ public class PortPurchaseOrderJsonService {
 
 		PortPurchaseOrderDaoImpl portPurchaseDao = new PortPurchaseOrderDaoImpl();
 
-		// Integer totalRecordsCount =
-		// portDao.fetchPortInwardDetailsRecordCount(searchParam);
-		List<PortInwardRecordVO> records = portPurchaseDao.fetchPortInwardDetails(Integer.parseInt(page),
-				Integer.parseInt(rows), orderBy, order, searchParam);
+		
+		Integer totalRecordsCount = portPurchaseDao.getCountOfPortInwardRecordsWithCumulativeBalGreaterThan0(searchParam);
+		List<PortInwardRecordVOForPPO> records = portPurchaseDao.fetchPortInwardDetails_harshad(Integer.parseInt(page),
+				Integer.parseInt(rows), orderBy, order, searchParam, totalRecordsCount);
 		JqGridCustomResponse response = new JqGridCustomResponse();
 		response.setPage(page);
 		response.setRows(records);
-		// response.setRecords(totalRecordsCount.toString());
+		response.setRecords(totalRecordsCount.toString());
 		// response.setTotal((totalRecordsCount / Long.valueOf(rows)) + 1 + "");
 		Gson gson = new Gson();
 		String json = gson.toJson(response);
