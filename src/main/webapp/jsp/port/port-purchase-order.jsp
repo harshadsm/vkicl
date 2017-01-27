@@ -375,7 +375,7 @@ input[name="length"], input[name="width"], input[name="thickness"], input[name="
 
 						<div id="portInwardTable">
 							<table id="portpurchaseorderinwardGrid"></table>
-							<div id="portInwardPager"></div>
+							<div id="portInnwardListpager"></div>
 						</div>
 					</div>
 				</div>
@@ -384,7 +384,7 @@ input[name="length"], input[name="width"], input[name="thickness"], input[name="
 
 						<div id="portpurchaseorderTable">
 							<table id="portpurchaseorderdetailGrid"></table>
-							<div id="portInwarddetailPager"></div>
+							<div id="packingListPager"></div>
 						</div>
 					</div>
 				</div>
@@ -564,7 +564,7 @@ $(function() {
 			height : 280,
 			autowidth : true,
 			rownumbers : true,
-			pager : '#pager',
+			pager : '#portInnwardListpager',
 			sortname : 'vessel_date',
 			viewrecords : true,
 			sortorder : "desc",
@@ -828,7 +828,7 @@ $(function() {
 					rownumbers : true,
 					multiselect : true,
 					footerrow: true,
-					pager : '#pager',
+					pager : '#packingListPager',
 					sortname : 'port_inward_id',
 					viewrecords : true,
 					sortorder : "desc",
