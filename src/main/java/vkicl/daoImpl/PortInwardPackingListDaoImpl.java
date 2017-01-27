@@ -17,6 +17,7 @@ import vkicl.util.Converter;
 import vkicl.util.JqGridSearchParameterHolder;
 import vkicl.util.JqGridSearchParameterHolder.Rule;
 import vkicl.vo.PackingListItemVO;
+import vkicl.vo.PackingListItemVO2;
 import vkicl.vo.PortInwardRecordVO;
 
 public class PortInwardPackingListDaoImpl extends BaseDaoImpl {
@@ -234,6 +235,26 @@ public class PortInwardPackingListDaoImpl extends BaseDaoImpl {
 
 		return sqlClause;
 	}
+	
+
+	private String processSearchCriteria2(JqGridSearchParameterHolder searchParam) {
+		String sqlClause = "";
+		List<String> clauses = new ArrayList<String>();
+//		String notNullClause = "pid.port_inward_detail_id is not null";
+//		clauses.add(notNullClause);
+		if (null != searchParam && null != searchParam.getRules() && !searchParam.getRules().isEmpty()) {
+			for (JqGridSearchParameterHolder.Rule r : searchParam.getRules()) {
+				String clause = processSearchRule2(r);
+				if (!StringUtils.isEmpty(clause)) {
+					clauses.add(clause);
+				}
+			}
+		}
+		// Prepare the sqlClause
+		sqlClause = prepareSqlClause(clauses);
+
+		return sqlClause;
+	}
 
 	private String prepareSqlClause(List<String> clauses) {
 		String c = "";
@@ -300,6 +321,24 @@ public class PortInwardPackingListDaoImpl extends BaseDaoImpl {
 
 		return clause;
 	}
+	
+	
+	private String processSearchRule2(Rule r) {
+		String data = r.getData();
+		String field = r.getField();
+		String op = r.getOp();
+
+		String clause = "";
+			if (field != null && field.equalsIgnoreCase("thickness")) {
+				clause = "thickness = " + data ;
+			} else if (field != null && field.equalsIgnoreCase("width")) {
+				clause = "width = " + data;
+			} else if (field != null && field.equalsIgnoreCase("length")) {
+				clause = "pid.length = " + data;
+			} 
+
+		return clause;
+	}
 
 	private String processDateClause(String data) {
 		String clause = "";
@@ -337,5 +376,236 @@ public class PortInwardPackingListDaoImpl extends BaseDaoImpl {
 
 		}
 		return orderByClause;
+	}
+	
+	
+	
+	
+	public Integer fetchPortInwardPackingListRecordCount_2(JqGridSearchParameterHolder searchParam, String portInwardIdStr ) throws SQLException {
+		List<PortInwardRecordVO> list = new ArrayList<PortInwardRecordVO>();
+		Connection conn = null;
+		ResultSet rs = null;
+		CallableStatement cs = null;
+
+		int count = 0;
+		try {
+			conn = getConnection();
+			//String count_sql = " SELECT count(*) FROM port_inward_details "
+			
+//			String count_sql = " select count(*) "
+//			+" from  "
+//			+" port_inward pi "
+//			+" left join port_inward_shipment pis on pis.port_inwd_shipment_id = pi.port_inwd_shipment_id "
+//			+" left join port_inward_details pid on pid.port_inward_id = pi.port_inward_id "
+//			+ processSearchCriteria(searchParam);
+			
+			String count_sql = getCountQueryFor2ndTable(searchParam, portInwardIdStr);
+
+			log.info("query = " + count_sql);
+
+			cs = conn.prepareCall(count_sql);
+
+			rs = cs.executeQuery();
+			if (null != rs && rs.next()) {
+
+				do {
+					count = rs.getInt(1);
+
+					log.debug("Row count === " + count);
+				} while (rs.next());
+
+			}
+
+		} catch (Exception e) {
+			log.error("Some error", e);
+		} finally {
+			closeDatabaseResources(conn, rs, cs);
+		}
+		return count;
+	}
+	
+	public String getCountQueryFor2ndTable(JqGridSearchParameterHolder searchParam, String port_inward_id){
+		StringBuffer q = new StringBuffer();
+		q.append(" select count(*) from ( ");
+		q.append("  SELECT port_inward_id, ");
+		q.append("  port_inward_detail_id, ");
+		q.append("  thickness, ");
+		q.append("  width, ");
+		q.append("  length, ");
+		q.append("  ifnull(quantity,0) quantity, ");
+		q.append("  ifnull(total_ppo_ordered_quantity,0) total_ppo_ordered_quantity, ");
+		q.append("  ifnull(total_to_taloja,0) total_to_taloja, ");
+		q.append("  ifnull(quantity,0) ");
+		q.append("  - ifnull(total_ppo_ordered_quantity,0)  ");
+		q.append("  - ifnull(total_to_taloja,0) bal_pcs_at_dock ");
+		q.append("  ");
+		q.append(" FROM   (SELECT pid.port_inward_id, ");
+		q.append("                pid.port_inward_detail_id, ");
+		q.append("                pid.thickness, ");
+		q.append("                pid.width, ");
+		q.append("                pid.length, ");
+		q.append("                pid.quantity ");
+		q.append("         FROM   port_inward_details pid ");
+		q.append("         WHERE  pid.port_inward_id = ").append(port_inward_id).append(" ) one ");
+		q.append("        LEFT JOIN (SELECT pli.port_inward_details_id, ");
+		q.append("                          Sum(ordered_quantity) total_ppo_ordered_quantity ");
+		q.append("                   FROM   ppo_line_items pli ");
+		q.append("                   WHERE  pli.port_inward_details_id IN ");
+		q.append("                          (SELECT pid.port_inward_detail_id ");
+		q.append("                           FROM   port_inward_details pid ");
+		q.append("                           WHERE  pid.port_inward_id = ").append(port_inward_id).append(" ) ");
+		q.append("                   GROUP  BY pli.port_inward_details_id) two ");
+		q.append("               ON one.port_inward_detail_id = two.port_inward_details_id ");
+		q.append("        LEFT JOIN (SELECT port_inward_details_id, ");
+		q.append("                          Sum(quantity) total_to_taloja ");
+		q.append("                   FROM   (SELECT port_inward_details_id, ");
+		q.append("                                  port_inward_id, ");
+		q.append("                                  port_outward_id ");
+		q.append("                           FROM   port_inward_outward_intersection pioi ");
+		q.append("                           WHERE  port_inward_id = ").append(port_inward_id).append(" ) a ");
+		q.append("                          LEFT JOIN (SELECT po.port_out_id, ");
+		q.append("                                            po.port_out_shipment_id, ");
+		q.append("                                            po.quantity, ");
+		q.append("                                            pos.warehouse_name ");
+		q.append("                                     FROM   port_outward po ");
+		q.append("                                            LEFT JOIN port_outward_shipment pos ");
+		q.append("                                                   ON pos.port_out_shipment_id = ");
+		q.append("                                                      po.port_out_shipment_id ");
+		q.append("                                     WHERE  warehouse_name = 'Taloja') b ");
+		q.append("                                 ON a.port_outward_id = b.port_out_id ");
+		q.append("                   WHERE  warehouse_name = 'Taloja' ");
+		q.append("                   GROUP  BY port_inward_details_id) three ");
+		q.append("               ON three.port_inward_details_id = one.port_inward_detail_id ");
+		q.append(" ) r where bal_pcs_at_dock > 0 ");
+		q.append(processSearchCriteria2(searchParam));
+		
+		return q.toString();
+	}
+	
+	
+	public String getQueryFor2ndTable(String port_inward_id){
+		StringBuffer q = new StringBuffer();
+		q.append(" select * from ( ");
+		q.append("  SELECT port_inward_id, ");
+		q.append("  port_inward_detail_id, ");
+		q.append("  thickness, ");
+		q.append("  width, ");
+		q.append("  length, ");
+		q.append("  ifnull(quantity,0) quantity, ");
+		q.append("  ifnull(total_ppo_ordered_quantity,0) total_ppo_ordered_quantity, ");
+		q.append("  ifnull(total_to_taloja,0) total_to_taloja, ");
+		q.append("  ifnull(quantity,0) ");
+		q.append("  - ifnull(total_ppo_ordered_quantity,0)  ");
+		q.append("  - ifnull(total_to_taloja,0) bal_pcs_at_dock ");
+		q.append("  ");
+		q.append(" FROM   (SELECT pid.port_inward_id, ");
+		q.append("                pid.port_inward_detail_id, ");
+		q.append("                pid.thickness, ");
+		q.append("                pid.width, ");
+		q.append("                pid.length, ");
+		q.append("                pid.quantity ");
+		q.append("         FROM   port_inward_details pid ");
+		q.append("         WHERE  pid.port_inward_id = ").append(port_inward_id).append(" ) one ");
+		q.append("        LEFT JOIN (SELECT pli.port_inward_details_id, ");
+		q.append("                          Sum(ordered_quantity) total_ppo_ordered_quantity ");
+		q.append("                   FROM   ppo_line_items pli ");
+		q.append("                   WHERE  pli.port_inward_details_id IN ");
+		q.append("                          (SELECT pid.port_inward_detail_id ");
+		q.append("                           FROM   port_inward_details pid ");
+		q.append("                           WHERE  pid.port_inward_id = ").append(port_inward_id).append(" ) ");
+		q.append("                   GROUP  BY pli.port_inward_details_id) two ");
+		q.append("               ON one.port_inward_detail_id = two.port_inward_details_id ");
+		q.append("        LEFT JOIN (SELECT port_inward_details_id, ");
+		q.append("                          Sum(quantity) total_to_taloja ");
+		q.append("                   FROM   (SELECT port_inward_details_id, ");
+		q.append("                                  port_inward_id, ");
+		q.append("                                  port_outward_id ");
+		q.append("                           FROM   port_inward_outward_intersection pioi ");
+		q.append("                           WHERE  port_inward_id = ").append(port_inward_id).append(" ) a ");
+		q.append("                          LEFT JOIN (SELECT po.port_out_id, ");
+		q.append("                                            po.port_out_shipment_id, ");
+		q.append("                                            po.quantity, ");
+		q.append("                                            pos.warehouse_name ");
+		q.append("                                     FROM   port_outward po ");
+		q.append("                                            LEFT JOIN port_outward_shipment pos ");
+		q.append("                                                   ON pos.port_out_shipment_id = ");
+		q.append("                                                      po.port_out_shipment_id ");
+		q.append("                                     WHERE  warehouse_name = 'Taloja') b ");
+		q.append("                                 ON a.port_outward_id = b.port_out_id ");
+		q.append("                   WHERE  warehouse_name = 'Taloja' ");
+		q.append("                   GROUP  BY port_inward_details_id) three ");
+		q.append("               ON three.port_inward_details_id = one.port_inward_detail_id ");
+		q.append(" ) r where bal_pcs_at_dock > 0 ");
+		//q.append(processSearchCriteria(searchParam));
+		
+		return q.toString();
+	}
+	
+	
+	
+	
+	public List<PackingListItemVO2> fetchPortInwardPackingList_2( int pageNo, int pageSize, long total,
+			String orderByFieldName, String order, JqGridSearchParameterHolder searchParam, String portInwardIdStr ) throws SQLException {
+		List<PackingListItemVO2> list = new ArrayList<PackingListItemVO2>();
+		Connection conn = null;
+		ResultSet rs = null; 
+		CallableStatement cs = null;
+		String query = ""; 
+		String message = "";  
+		int count = 0;
+		try {
+			conn = getConnection();
+
+			//String sql = " SELECT * FROM port_inward_details "
+//			String sql = " select pi.port_inward_id, pi.port_inwd_shipment_id,pid.port_inward_detail_id, "
+//			+" pis.vessel_name, pis.vessel_date, pi.material_grade, pi.material_type, "
+//			+" pid.length, pid.width, pid.thickness, pid.quantity , pi.mill_name, "
+//			+" round(((pid.length * pid.width * pid.thickness * pid.quantity * 7.85)/1000000000),3) as BalQty, pid.be_weight as ActualWt, "
+//			+ " pid.be_wt_unit as ActualWt_unit"
+//			+" from  "
+//			+" port_inward pi "
+//			+" left join port_inward_shipment pis on pis.port_inwd_shipment_id = pi.port_inwd_shipment_id "
+//			+" left join port_inward_details pid on pid.port_inward_id = pi.port_inward_id "
+			//+" where pid.port_inward_detail_id is not null; "
+			String sql = getQueryFor2ndTable(portInwardIdStr)
+			+ processSearchCriteria2(searchParam) 
+			+ " "+composeOrderByClause(orderByFieldName, order) 
+			+ " " + composeLimitClause(pageNo, pageSize, total) + ";";
+			query = sql;
+			log.info("query = " + query);
+
+			cs = conn.prepareCall(query);
+
+			rs = cs.executeQuery();
+			if (null != rs && rs.next()) {
+
+				do {
+					PackingListItemVO2 p = new PackingListItemVO2();
+					p.setPortInwardId(rs.getInt("port_inward_id"));
+					//p.setPortInwardShipmentId(rs.getInt(2));
+					p.setPortInwardDetailId(rs.getInt("port_inward_detail_id"));
+//					p.setVesselName(rs.getString(4));
+//					p.setVesselDate(dateToString(convertSqlDateToJavaDate(rs.getDate(5))));
+//					p.setGrade(rs.getString(6));
+//					p.setMaterialType(rs.getString(7));
+					p.setLength(rs.getInt("length"));
+					p.setWidth(rs.getInt("width"));
+					p.setThickness(rs.getDouble("thickness"));
+					p.setQuantity(rs.getInt("bal_pcs_at_dock"));
+					//p.setQuantity(rs.getInt("quantity"));
+					p.setBalQty(rs.getDouble("bal_pcs_at_dock"));
+					p.setActualWt(9999d);
+					
+					list.add(p);
+				} while (rs.next());
+
+			}
+
+		} catch (Exception e) {
+			log.error("Some error", e);
+		} finally {
+			closeDatabaseResources(conn, rs, cs);
+		}
+		return list;
 	}
 }
