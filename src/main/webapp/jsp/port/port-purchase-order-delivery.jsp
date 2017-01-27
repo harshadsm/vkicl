@@ -45,6 +45,7 @@
 						<td><html:select property="status" styleClass="form-control">
 								<html:option value="ALL">ALL</html:option>
 								<html:option value="Pending">Pending</html:option>
+								<html:option value="Processing">Processing</html:option>
 								<html:option value="Completed">Completed</html:option>
 							</html:select></td>
 					</tr>
@@ -77,127 +78,68 @@
 		<html:hidden property="genericListener" value="getReport" />
 	</html:form>
 
-	<logic:notEmpty name="WarehouseDispatchReportForm" property="fromDate">
-		<script type="text/javascript">
-			var fromDate = '<c:out value="${WarehouseDispatchReportForm.fromDate}" />';
-			var toDate = '<c:out value="${WarehouseDispatchReportForm.toDate}" />';
-			$("[name='fromDate']").val(fromDate);
-			$("[name='toDate']").val(toDate);
-		</script>
-	</logic:notEmpty>
+
 
 	<div class="row details-container">
 		<div class="col-md-12">
-			<logic:empty name="WarehouseDispatchReportForm" property="reportList">
+			<logic:empty name="PortPurchaseOrderDeliveryForm" property="reportList">
 				<br />
 				<h3>No Records Found</h3>
 			</logic:empty>
-			<logic:notEmpty name="WarehouseDispatchReportForm"
+			<logic:notEmpty name="PortPurchaseOrderDeliveryForm"
 				property="reportList">
 				<jsp:include page="../common/report-export.jsp"></jsp:include>
 				<table class="table table-responsive table-report" id="result-table">
 					<thead>
 						<tr>
-							<th width="">ID</th>
-							<th width="5%">Date of PPO</th>
-							<th width="10%">PPO Number</th>
-							<th width="15%">Customer Name</th>
-							<th width="15%">Delivery Address</th>
-							<th width="15%">Total items pending to be delivered</th>
 							
-							<th width="10%">Status</th>
+							<th width="15%">Date of PPO</th>
+							<th width="10%">PPO Number</th>
+							<th width="20%">Customer Name</th>
+							<th width="25%">Delivery Address</th>
+							<th width="10%">Total items pending to be delivered</th>
 							<%
-								if (userInfoVO.hasAccess(Constants.Apps.DISPATCH_ORDER)) {
+								if (userInfoVO.hasAccess(Constants.Apps.PORT_ENTRY)) {
 							%>
 							<th class="cell-edit"><span
 								class="glyphicon glyphicon-remove"></span></th>
-							
-							<%
-								}
-							%>
+							<% } %>
 							<th class="cell-edit"><span
 								class="glyphicon glyphicon-chevron-right"></span></th>
 						</tr>
 					</thead>
 					<tbody id="details-tbody">
-						<logic:iterate id="report" name="PortPurchaseOrderForm"
+						<logic:iterate id="report" name="PortPurchaseOrderDeliveryForm"
 							property="reportList">
-							<tr data-method="updatePortInwardReport"
+							<tr 
 								id='row-<c:out value="${report.id}" />'>
-								<td><c:out value="" /></td>
-								<td><c:out value="" /></td>
-								<td><c:out value="" /></td>
+								<td><c:out value="${report.ppoDate}" /></td>
+								<td><c:out value="${report.ppoNo}" /></td>
 								<td><c:out value="${report.customerName}" /></td>
 								<td><c:out value="${report.deliveryAddress}" /></td>
-								<td><c:out value="" /></td>
-								
-								<td><c:out value="${report.pending}" /></td>
-								<%
+							   <td><c:out value="${report.pendingQuantity}" /></td>
+							   <%
 									if (userInfoVO.hasAccess(Constants.Apps.DISPATCH_ORDER)) {
 								%>
 
 								<c:if
-									test="${(userInfoVO.userName == report.handleBy || userInfoVO.userName == 'admin') && report.pending == 'Pending'}">
+									test="${(userInfoVO.userName == 'admin')}">
 									<th class="cell-edit"><button
 											title='Delete Dispatch Order'
 											onclick='deleteDispatchOrder(<c:out value="${report.id}" />);'>
 											<span class="glyphicon glyphicon-remove"></span>
 										</button></th>
 								</c:if>
-
-								<c:if
-									test="${(userInfoVO.userName != report.handleBy && userInfoVO.userName != 'admin') || report.pending != 'Pending'}">
-									<th class="cell-edit"><span
-										class="glyphicon glyphicon-remove"></span></th>
-								</c:if>
-
-								
-								<%
-									}
-											if (userInfoVO.hasAccess(Constants.Apps.WAREHOUSE_ENTRY)) {
-								%>
-								<th class="cell-edit"><c:if
-										test="${report.pending == 'Processing'}">
-										<button title='Complete Order Processing'
-											onclick='startWarehouseOutward(<c:out value="${report.id}" />);'>
-											<span class="glyphicon glyphicon-forward"></span>
-										</button> 
-										
-									</c:if> <c:if test="${report.pending == 'Pending'}">
-										<button title='Start Order Processing'
+								<% } %>
+								<th class="cell-edit">
+								<button title='Start Order Processing'
 											onclick='startWarehouseOutward(<c:out value="${report.id}" />);'>
 											<span class="glyphicon glyphicon-play"></span>
-										</button>
-									</c:if> <c:if test="${report.pending == 'Completed'}">
-										<span class="glyphicon glyphicon-ok"></span>
-									</c:if></th>
-									
-								<%
-									}
-								%>
+										</button></th>
 							</tr>
 						</logic:iterate>
 					</tbody>
-					<!-- <tfoot>
-						<tr>
-							<th width="0%" class="cell-hide"></th>
-							<th width="15%"></th>
-							<th width="10%"></th>
-							<th width="10%"></th>
-							<th width="5%"></th>
-							<th width="15%"></th>
-							<th width="5%"></th>
-							<th width="5%"></th>
-							<th width="5%"></th>
-							<th width="5%"></th>
-							<th width="5%"></th>
-							<th width="5%">Total</th>
-							<th width="5%" id="qtyTotal"></th>
-							<th width="5%"></th>
-							<th width="5%"></th>
-							<th class="cell-edit"></th>
-						</tr>
-					</tfoot> -->
+					
 				</table>
 
 				<script type="text/javascript">

@@ -1,16 +1,11 @@
-package vkicl.form;
+package vkicl.report.bean;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import vkicl.form.*;
-import vkicl.report.bean.PortPurchaseOrderDeliveryBean;
-import vkicl.report.bean.WarehouseDispatchBean;
+
+import vkicl.form.PortPurchaseOrderForm;
 
 @SuppressWarnings("serial")
-public class PortPurchaseOrderForm extends BaseForm {
-
-	private int id;
-	// private Integer portInwardDetailId = null;
+public class PortPurchaseOrderDeliveryBean extends BaseReportBean {
 
 	private String customerName = "";
 	private String brokerName = "";
@@ -24,25 +19,8 @@ public class PortPurchaseOrderForm extends BaseForm {
 	private String paymentTerms = null;
 	private Integer totalQuantity = null;
 	private Integer pendingQuantity = null;
-	private Integer PpoNo = null;
-
 	private String ppoDate = "";
-
-	public Integer getPendingQuantity() {
-		return pendingQuantity;
-	}
-
-	public void setPendingQuantity(Integer pendingQuantity) {
-		this.pendingQuantity = pendingQuantity;
-	}
-
-	public String getPpoDate() {
-		return ppoDate;
-	}
-
-	public void setPpoDate(String ppoDate) {
-		this.ppoDate = ppoDate;
-	}
+	private Integer ppoNo = null;
 
 	public Integer getPpoNo() {
 		return ppoNo;
@@ -52,42 +30,13 @@ public class PortPurchaseOrderForm extends BaseForm {
 		this.ppoNo = ppoNo;
 	}
 
-	private Integer ppoNo = null;
+	private Integer id = null;
 
-	private Integer[] portPurchaseOrderId = null;
-
-	public Integer[] getPortPurchaseOrderId() {
-		return portPurchaseOrderId;
-	}
-
-	public void setPortPurchaseOrderId(Integer[] portPurchaseOrderId) {
-		this.portPurchaseOrderId = portPurchaseOrderId;
-	}
-
-	public Integer[] getPortInwardDetailId() {
-		return portInwardDetailId;
-	}
-
-	public void setPortInwardDetailId(Integer[] portInwardDetailId) {
-		this.portInwardDetailId = portInwardDetailId;
-	}
-
-	private Integer[] portInwardDetailId = null;
-	private Double[] Quantity = null;
-
-	public Double[] getQuantity() {
-		return Quantity;
-	}
-
-	public void setQuantity(Double[] quantity) {
-		Quantity = quantity;
-	}
-
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -179,13 +128,29 @@ public class PortPurchaseOrderForm extends BaseForm {
 		this.totalQuantity = totalQuantity;
 	}
 
+	public Integer getPendingQuantity() {
+		return pendingQuantity;
+	}
+
+	public void setPendingQuantity(Integer pendingQuantity) {
+		this.pendingQuantity = pendingQuantity;
+	}
+
+	public String getPpoDate() {
+		return ppoDate;
+	}
+
+	public void setPpoDate(String ppoDate) {
+		this.ppoDate = ppoDate;
+	}
+
 	@Override
 	public String toString() {
-		return "PortPurchaseOrderForm [id=" + id + ", PpoNo=" + PpoNo + ",customerName=" + customerName
+		return "PortPurchaseOrderDeliveryBean [id=" + id + ",ppoNo=" + ppoNo + ",customerName=" + customerName
 				+ ", brokerName=" + brokerName + ", brokerage=" + brokerage + ", brokerageUnit=" + brokerageUnit
 				+ ", deliveryAddress=" + deliveryAddress + ", rate=" + rate + ", excise=" + excise + ", tax=" + tax
 				+ ", transport=" + transport + ", paymentTerms=" + paymentTerms + ", totalQuantity=" + totalQuantity
-				+ "]";
+				+ ", pendingQuantity=" + pendingQuantity + "]";
 	}
 
 }

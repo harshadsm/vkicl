@@ -22,32 +22,31 @@ import vkicl.vo.PortInwardRecordVO;
 public class PortInwardPackingListDaoImpl extends BaseDaoImpl {
 	private Logger log = Logger.getLogger(PortInwardPackingListDaoImpl.class);
 
-	
-	public List<PackingListItemVO> fetchPortInwardPackingList( int pageNo, int pageSize, long total,
+	public List<PackingListItemVO> fetchPortInwardPackingList(int pageNo, int pageSize, long total,
 			String orderByFieldName, String order, JqGridSearchParameterHolder searchParam) throws SQLException {
 		List<PackingListItemVO> list = new ArrayList<PackingListItemVO>();
 		Connection conn = null;
-		ResultSet rs = null; 
+		ResultSet rs = null;
 		CallableStatement cs = null;
-		String query = ""; 
-		String message = "";  
+		String query = "";
+		String message = "";
 		int count = 0;
 		try {
 			conn = getConnection();
 
-			//String sql = " SELECT * FROM port_inward_details "
+			// String sql = " SELECT * FROM port_inward_details "
 			String sql = " select pi.port_inward_id, pi.port_inwd_shipment_id,pid.port_inward_detail_id, "
-			+" pis.vessel_name, pis.vessel_date, pi.material_grade, pi.material_type, "
-			+" pid.length, pid.width, pid.thickness, pid.quantity , pi.mill_name, "
-			+" round(((pid.length * pid.width * pid.thickness * pid.quantity * 7.85)/1000000000),3) as BalQty, pid.be_weight as ActualWt, "
-			+ " pid.be_wt_unit as ActualWt_unit"
-			+" from  "
-			+" port_inward pi "
-			+" left join port_inward_shipment pis on pis.port_inwd_shipment_id = pi.port_inwd_shipment_id "
-			+" left join port_inward_details pid on pid.port_inward_id = pi.port_inward_id "
-			//+" where pid.port_inward_detail_id is not null; "
-			
-			+ processSearchCriteria(searchParam) + " "+composeOrderByClause(orderByFieldName, order) + " " + composeLimitClause(pageNo, pageSize, total) + ";";
+					+ " pis.vessel_name, pis.vessel_date, pi.material_grade, pi.material_type, "
+					+ " pid.length, pid.width, pid.thickness, pid.quantity , pi.mill_name, "
+					+ " round(((pid.length * pid.width * pid.thickness * pid.quantity * 7.85)/1000000000),3) as BalQty, pid.be_weight as ActualWt, "
+					+ " pid.be_wt_unit as ActualWt_unit, pi.material_make, pis.vendor_name" + " from  "
+					+ " port_inward pi "
+					+ " left join port_inward_shipment pis on pis.port_inwd_shipment_id = pi.port_inwd_shipment_id "
+					+ " left join port_inward_details pid on pid.port_inward_id = pi.port_inward_id "
+					// +" where pid.port_inward_detail_id is not null; "
+
+					+ processSearchCriteria(searchParam) + " " + composeOrderByClause(orderByFieldName, order) + " "
+					+ composeLimitClause(pageNo, pageSize, total) + ";";
 			query = sql;
 			log.info("query = " + query);
 
@@ -73,6 +72,8 @@ public class PortInwardPackingListDaoImpl extends BaseDaoImpl {
 					p.setBalQty(rs.getDouble(13));
 					p.setActualWt(rs.getDouble(14));
 					p.setActualWt_unit(rs.getString(15));
+					p.setMake(rs.getString(16));
+					p.setVendorName(rs.getString(17));
 					list.add(p);
 				} while (rs.next());
 
@@ -86,28 +87,27 @@ public class PortInwardPackingListDaoImpl extends BaseDaoImpl {
 		return list;
 	}
 
-	
-	public List<PackingListItemVO> fetchPortOnwardPackingList( int pageNo, int pageSize, long total,
+	public List<PackingListItemVO> fetchPortOnwardPackingList(int pageNo, int pageSize, long total,
 			String orderByFieldName, String order, JqGridSearchParameterHolder searchParam) throws SQLException {
 		List<PackingListItemVO> list = new ArrayList<PackingListItemVO>();
 		Connection conn = null;
-		ResultSet rs = null; 
+		ResultSet rs = null;
 		CallableStatement cs = null;
-		String query = ""; 
-		String message = "";  
+		String query = "";
+		String message = "";
 		int count = 0;
 		try {
 			conn = getConnection();
 
-			//String sql = " SELECT * FROM port_inward_details "
+			// String sql = " SELECT * FROM port_inward_details "
 			String sql = " select po.port_out_id,,po.vessel_Date, po.vessel_name, pi.mill_name, po.material_type, po.grade,po.thickness,po.width,po.length,po.quantity "
-			+" from port_outward_shipment pos "
-			+"inner join port_outward po on pos.port_out_shipment_id = po.port_out_shipment_id "
-			+" inner join port_inward_outward_intersection pios on pios.port_outward_id=po.port_out_id "
-			+" inner join port_inward pi on pi.port_inward_id=pios.port_inward_id "
-			
-			
-			+ processSearchCriteria(searchParam) + " "+composeOrderByClause(orderByFieldName, order) + " " + composeLimitClause(pageNo, pageSize, total) + ";";
+					+ " from port_outward_shipment pos "
+					+ "inner join port_outward po on pos.port_out_shipment_id = po.port_out_shipment_id "
+					+ " inner join port_inward_outward_intersection pios on pios.port_outward_id=po.port_out_id "
+					+ " inner join port_inward pi on pi.port_inward_id=pios.port_inward_id "
+
+					+ processSearchCriteria(searchParam) + " " + composeOrderByClause(orderByFieldName, order) + " "
+					+ composeLimitClause(pageNo, pageSize, total) + ";";
 			query = sql;
 			log.info("query = " + query);
 
@@ -143,11 +143,10 @@ public class PortInwardPackingListDaoImpl extends BaseDaoImpl {
 		}
 		return list;
 	}
-	
+
 	/**
-	 * 1 = 0 - 20
-	 * 2 = 20 - 20
-	 * 3 = 40 - 20
+	 * 1 = 0 - 20 2 = 20 - 20 3 = 40 - 20
+	 * 
 	 * @param pageNo
 	 * @param pageSize
 	 * @param total
@@ -157,21 +156,21 @@ public class PortInwardPackingListDaoImpl extends BaseDaoImpl {
 		Integer start = 0;
 		Integer noOfRecordsToFetch = pageSize;
 		String limitClause = "LIMIT " + start + "," + noOfRecordsToFetch;
-		
+
 		Integer totalPages = total.intValue() / pageSize;
-		if(total.intValue() % pageSize > 0){
+		if (total.intValue() % pageSize > 0) {
 			totalPages++;
 		}
-		if(pageNo > totalPages){
+		if (pageNo > totalPages) {
 			pageNo = totalPages;
 		}
-		
+
 		if (pageSize > total) {
 			return limitClause;
 		} else {
 
 			start = (pageNo - 1) * pageSize;
-			
+
 			limitClause = "LIMIT " + start + "," + noOfRecordsToFetch;
 		}
 
@@ -187,15 +186,12 @@ public class PortInwardPackingListDaoImpl extends BaseDaoImpl {
 		int count = 0;
 		try {
 			conn = getConnection();
-			//String count_sql = " SELECT count(*) FROM port_inward_details "
-			
-			String count_sql = " select count(*) "
-			+" from  "
-			+" port_inward pi "
-			+" left join port_inward_shipment pis on pis.port_inwd_shipment_id = pi.port_inwd_shipment_id "
-			+" left join port_inward_details pid on pid.port_inward_id = pi.port_inward_id "
-			+ processSearchCriteria(searchParam);
-			
+			// String count_sql = " SELECT count(*) FROM port_inward_details "
+
+			String count_sql = " select count(*) " + " from  " + " port_inward pi "
+					+ " left join port_inward_shipment pis on pis.port_inwd_shipment_id = pi.port_inwd_shipment_id "
+					+ " left join port_inward_details pid on pid.port_inward_id = pi.port_inward_id "
+					+ processSearchCriteria(searchParam);
 
 			log.info("query = " + count_sql);
 
@@ -239,8 +235,6 @@ public class PortInwardPackingListDaoImpl extends BaseDaoImpl {
 		return sqlClause;
 	}
 
-	
-	
 	private String prepareSqlClause(List<String> clauses) {
 		String c = "";
 		int clausesCount = clauses.size();
@@ -268,34 +262,40 @@ public class PortInwardPackingListDaoImpl extends BaseDaoImpl {
 			clause = "pis.vendor_name like '%" + data + "%'";
 		} else if (field != null && field.equalsIgnoreCase("vessel_name")) {
 			clause = "pis.vessel_name like '%" + data + "%'";
-		}else if (field != null && field.equalsIgnoreCase("vessel_date")) {
+		} else if (field != null && field.equalsIgnoreCase("vessel_date")) {
 			clause = "pis.vessel_date like '%" + data + "%'";
 		}
-		//Changes-Shweta
-			else if (field != null && field.equalsIgnoreCase("mill_name")) {
-				clause = "pi.mill_name like '%" + data + "%'";} 
-		
-			else if (field != null && field.equalsIgnoreCase("material_type")) {
-				clause = "pi.material_type like '%" + data + "%'";} 
-		
-			else if (field != null && field.equalsIgnoreCase("material_grade")) {
-				clause = "pi.material_grade like '%" + data + "%'";} 
-		
-			else if (field != null && field.equalsIgnoreCase("thickness")) {
-				clause = "pid.thickness like '%" + data + "%'";} 
-		
-			else if (field != null && field.equalsIgnoreCase("width")) {
-				clause = "pid.width like '%" + data + "%'";} 
-		
-			else if (field != null && field.equalsIgnoreCase("length")) {
-				clause = "pid.length like '%" + data + "%'";}
-		
-			else if (field != null && field.equalsIgnoreCase("grade")) {
+		// Changes-Shweta
+		else if (field != null && field.equalsIgnoreCase("mill_name")) {
+			clause = "pi.mill_name like '%" + data + "%'";
+		}
+
+		else if (field != null && field.equalsIgnoreCase("material_type")) {
+			clause = "pi.material_type like '%" + data + "%'";
+		}
+
+		else if (field != null && field.equalsIgnoreCase("material_grade")) {
+			clause = "pi.material_grade like '%" + data + "%'";
+		}
+
+		else if (field != null && field.equalsIgnoreCase("thickness")) {
+			clause = "pid.thickness like '%" + data + "%'";
+		}
+
+		else if (field != null && field.equalsIgnoreCase("width")) {
+			clause = "pid.width like '%" + data + "%'";
+		}
+
+		else if (field != null && field.equalsIgnoreCase("length")) {
+			clause = "pid.length like '%" + data + "%'";
+		}
+
+		else if (field != null && field.equalsIgnoreCase("grade")) {
 			clause = "pi.material_grade like '%" + data + "%'";
 		} else if (field != null && field.equalsIgnoreCase("vessel_date")) {
 			clause = processDateClause(data);
 		} else if (field != null && field.equalsIgnoreCase("port_inward_id")) {
-			clause = "pi.port_inward_id = " + data ;
+			clause = "pi.port_inward_id = " + data;
 		}
 
 		return clause;
@@ -314,27 +314,27 @@ public class PortInwardPackingListDaoImpl extends BaseDaoImpl {
 		}
 		return clause;
 	}
+
 	private String composeOrderByClause(String orderByFieldName, String order) {
 		String orderByClause = "";
-		if(orderByFieldName!=null){
-			
-			if(orderByFieldName.equalsIgnoreCase("length")){
-				orderByClause = " ORDER BY  length "+order+" ";
-			}else if(orderByFieldName.equalsIgnoreCase("width")){
-				orderByClause = " ORDER BY  width "+order+" ";
-			}else if(orderByFieldName.equalsIgnoreCase("thickness")){
-				orderByClause = " ORDER BY  thickness "+order+" ";
-			}else if(orderByFieldName.equalsIgnoreCase("port_inward_detail_id")){
-				orderByClause = " ORDER BY  port_inward_detail_id "+order+" ";
-			}else if(orderByFieldName.equalsIgnoreCase("vessel_date")){
-				orderByClause = " ORDER BY  pis.vessel_date "+order+" ";
-			}else if(orderByFieldName.equalsIgnoreCase("vessel_name")){
-				orderByClause = " ORDER BY  pis.vessel_name "+order+" ";
-			}else if(orderByFieldName.equalsIgnoreCase("grade")){
-				orderByClause = " ORDER BY  pi.material_grade "+order+" ";
+		if (orderByFieldName != null) {
+
+			if (orderByFieldName.equalsIgnoreCase("length")) {
+				orderByClause = " ORDER BY  length " + order + " ";
+			} else if (orderByFieldName.equalsIgnoreCase("width")) {
+				orderByClause = " ORDER BY  width " + order + " ";
+			} else if (orderByFieldName.equalsIgnoreCase("thickness")) {
+				orderByClause = " ORDER BY  thickness " + order + " ";
+			} else if (orderByFieldName.equalsIgnoreCase("port_inward_detail_id")) {
+				orderByClause = " ORDER BY  port_inward_detail_id " + order + " ";
+			} else if (orderByFieldName.equalsIgnoreCase("vessel_date")) {
+				orderByClause = " ORDER BY  pis.vessel_date " + order + " ";
+			} else if (orderByFieldName.equalsIgnoreCase("vessel_name")) {
+				orderByClause = " ORDER BY  pis.vessel_name " + order + " ";
+			} else if (orderByFieldName.equalsIgnoreCase("grade")) {
+				orderByClause = " ORDER BY  pi.material_grade " + order + " ";
 			}
-			
-			 
+
 		}
 		return orderByClause;
 	}

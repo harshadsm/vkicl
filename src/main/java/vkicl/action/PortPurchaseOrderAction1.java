@@ -49,9 +49,10 @@ public class PortPurchaseOrderAction1 extends BaseAction {
 					PortPurchaseOrderPostDataContainerVO.class);
 			PortPurchaseOrderJsonDetailService portpurchaseService = new PortPurchaseOrderJsonDetailService();
 			portpurchaseService.processPurchaseOrderEntries(postDataContainer, request, userInfoVO);
-
+			request.setAttribute("is_success", "success");
 		} catch (Exception e) {
 			e.printStackTrace();
+			request.setAttribute("is_success", "failed");
 		}
 		return actionForward;
 	}

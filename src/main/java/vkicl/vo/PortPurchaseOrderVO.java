@@ -24,6 +24,34 @@ public class PortPurchaseOrderVO {
 	private Integer totalQty;
 	private Integer availableQuantity;
 
+	private Integer pendingItems;
+	private String ppoDate;
+	private Integer ppoNo;
+
+	public Integer getPpoNo() {
+		return ppoNo;
+	}
+
+	public void setPpoNo(Integer ppoNo) {
+		this.ppoNo = ppoNo;
+	}
+
+	public String getPpoDate() {
+		return ppoDate;
+	}
+
+	public void setPpoDate(String ppoDate) {
+		this.ppoDate = ppoDate;
+	}
+
+	public Integer getPendingItems() {
+		return pendingItems;
+	}
+
+	public void setPendingItems(Integer pendingItems) {
+		this.pendingItems = pendingItems;
+	}
+
 	public Integer getAvailableQuantity() {
 		return availableQuantity;
 	}

@@ -95,10 +95,10 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 		}
 		return list;
 	}
-	
-	
-	public List<PortInwardRecordVOForPPO> fetchPortInwardDetails_harshad(int pageNo, int pageSize, String orderByFieldName,
-			String order, JqGridSearchParameterHolder searchParam, Integer totalRecordsCount) throws SQLException {
+
+	public List<PortInwardRecordVOForPPO> fetchPortInwardDetails_harshad(int pageNo, int pageSize,
+			String orderByFieldName, String order, JqGridSearchParameterHolder searchParam, Integer totalRecordsCount)
+			throws SQLException {
 		List<PortInwardRecordVOForPPO> list = new ArrayList<PortInwardRecordVOForPPO>();
 		Connection conn = null;
 		ResultSet rs = null;
@@ -108,10 +108,8 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 		try {
 			conn = getConnection();
 
-			
-			query = getQueryOfPortInwardRecordsWithCumulativeBalGreaterThan0(
-					pageNo,
-					pageSize, orderByFieldName, order, searchParam, totalRecordsCount);
+			query = getQueryOfPortInwardRecordsWithCumulativeBalGreaterThan0(pageNo, pageSize, orderByFieldName, order,
+					searchParam, totalRecordsCount);
 			log.info("query = " + query);
 
 			cs = conn.prepareCall(query);
@@ -132,10 +130,11 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 					p.setGrade(rs.getString("material_grade"));
 					p.setDescription(rs.getString("description"));
 					p.setPortInwardRecordTotalQuantity(rs.getInt("port_inward_record_total_quantity"));
-					p.setTotalPpoQuantityOrderedAgainstThatPortInwardRecord(rs.getInt("total_ppo_quantity_ordered_against_that_port_inward_record"));
+					p.setTotalPpoQuantityOrderedAgainstThatPortInwardRecord(
+							rs.getInt("total_ppo_quantity_ordered_against_that_port_inward_record"));
 					p.setTotalQuantityDeliveredToTaloja(rs.getInt("total_quantity_delivered_to_taloja"));
 					p.setCumulativeBalPcsAtDock(rs.getInt("cumulative_bal_pcs_at_dock"));
-					
+
 					list.add(p);
 				} while (rs.next());
 
@@ -227,9 +226,9 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 					+ " pid.quantity, pid.be_weight, (SUM(ppli.ordered_quantity)-SUM(po.quantity) ) as Bal_Pcs_At_Dock "
 					+ " from port_inward_details pid left join port_inward pin on pid.port_inward_id=pin.port_inward_id "
 					+ " left join port_inward_shipment pis on pin.port_inwd_shipment_id=pis.port_inwd_shipment_id"
-					+ " inner join ppo_line_items ppli on ppli.port_inward_details_id=pid.port_inward_detail_id"
-					+ " inner join port_inward_outward_intersection pioi on pioi.port_inward_details_id=pid.port_inward_detail_id "
-					+ " inner join port_outward po on po.port_out_id=pioi.port_outward_id where pid.port_inward_id="
+					+ " left join ppo_line_items ppli on ppli.port_inward_details_id=pid.port_inward_detail_id"
+					+ " left join port_inward_outward_intersection pioi on pioi.port_inward_details_id=pid.port_inward_detail_id "
+					+ " left join port_outward po on po.port_out_id=pioi.port_outward_id where pid.port_inward_id="
 					+ portInwardId + " group by pid.port_inward_detail_id HAVING Bal_Pcs_At_Dock>0 "
 					+ processSearchCriteria(searchParam) + " " + composeOrderByClause(orderByFieldName, order) + ";";
 			query = sql;
@@ -283,18 +282,19 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 		}
 		return orderByClause;
 	}
-	
-	
+
 	private String composeOrderByClause_2(String orderByFieldName, String order) {
 		StringBuffer orderByClause = new StringBuffer();
 		if (orderByFieldName != null) {
 			orderByClause.append(" ORDER BY ").append(orderByFieldName).append(" ").append(order);
-//			if (orderByFieldName.equalsIgnoreCase("vessel_date")) {
-//				orderByClause = orderByClause + " pis.vessel_date " + order + " ";
-//			} else if (orderByFieldName.equalsIgnoreCase("port_inward_id")) {
-//				orderByClause = orderByClause + " pin.port_inward_id " + order + " ";
-//			}
-			
+			// if (orderByFieldName.equalsIgnoreCase("vessel_date")) {
+			// orderByClause = orderByClause + " pis.vessel_date " + order + "
+			// ";
+			// } else if (orderByFieldName.equalsIgnoreCase("port_inward_id")) {
+			// orderByClause = orderByClause + " pin.port_inward_id " + order +
+			// " ";
+			// }
+
 		}
 		return orderByClause.toString();
 	}
@@ -550,15 +550,15 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 		return savedRecordId;
 
 	}
-	
-	public Integer getCountOfPortInwardRecordsWithCumulativeBalGreaterThan0(JqGridSearchParameterHolder searchParam){
-		
+
+	public Integer getCountOfPortInwardRecordsWithCumulativeBalGreaterThan0(JqGridSearchParameterHolder searchParam) {
+
 		Connection conn = null;
 		ResultSet rs = null;
 		CallableStatement cs = null;
 		String query = "", message = "";
 		Integer count = null;
-		
+
 		try {
 
 			query = getQueryCountOfPortInwardRecordsWithCumulativeBalGreaterThan0(searchParam);
@@ -568,8 +568,6 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 			conn = getConnection();
 			cs = conn.prepareCall(query);
 
-			
-
 			ResultSet result = cs.executeQuery();
 
 			while (result.next()) {
@@ -578,13 +576,15 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 		} catch (Exception e) {
 			e.printStackTrace();
 			message = e.getMessage();
-			
+
 		} finally {
 			closeDatabaseResources(conn, rs, cs);
 		}
 		return count;
 	}
-	public String getQueryCountOfPortInwardRecordsWithCumulativeBalGreaterThan0(JqGridSearchParameterHolder searchParam){
+
+	public String getQueryCountOfPortInwardRecordsWithCumulativeBalGreaterThan0(
+			JqGridSearchParameterHolder searchParam) {
 		StringBuffer q = new StringBuffer();
 		q.append(" select count(*) from (");
 		q.append(" select");
@@ -599,7 +599,8 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 		q.append(" one.material_grade,");
 		q.append(" one.description,");
 		q.append(" ifnull(one.port_inward_record_total_quantity,0) port_inward_record_total_quantity,");
-		q.append(" ifnull(two.total_ppo_raised_against_that_port_inward_record,0) total_ppo_quantity_ordered_against_that_port_inward_record,");
+		q.append(
+				" ifnull(two.total_ppo_raised_against_that_port_inward_record,0) total_ppo_quantity_ordered_against_that_port_inward_record,");
 		q.append(" ifnull(three.total_quantity_delivered_to_taloja,0) total_quantity_delivered_to_taloja,");
 		q.append(" ifnull(port_inward_record_total_quantity,0)");
 		q.append("  - ifnull(total_ppo_raised_against_that_port_inward_record,0)");
@@ -642,20 +643,15 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 		q.append(" on one.port_inward_id = three.port_inward_id");
 		q.append(" ) a");
 		q.append(" where a.cumulative_bal_pcs_at_dock > 0");
-		//q.append(" order by port_inward_id desc");
-		//q.append(" limit 0,2;");
-		
+		// q.append(" order by port_inward_id desc");
+		// q.append(" limit 0,2;");
+
 		return q.toString();
 	}
-	
-	
-	public String getQueryOfPortInwardRecordsWithCumulativeBalGreaterThan0(
-			int pageNo, int pageSize, String orderByFieldName,
-			String order, JqGridSearchParameterHolder searchParam, Integer totalRecordsCount
-			){
-		
-		
-		
+
+	public String getQueryOfPortInwardRecordsWithCumulativeBalGreaterThan0(int pageNo, int pageSize,
+			String orderByFieldName, String order, JqGridSearchParameterHolder searchParam, Integer totalRecordsCount) {
+
 		StringBuffer q = new StringBuffer();
 		q.append(" select * from (");
 		q.append(" select");
@@ -670,7 +666,8 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 		q.append(" one.material_grade,");
 		q.append(" one.description,");
 		q.append(" ifnull(one.port_inward_record_total_quantity,0) port_inward_record_total_quantity,");
-		q.append(" ifnull(two.total_ppo_raised_against_that_port_inward_record,0) total_ppo_quantity_ordered_against_that_port_inward_record,");
+		q.append(
+				" ifnull(two.total_ppo_raised_against_that_port_inward_record,0) total_ppo_quantity_ordered_against_that_port_inward_record,");
 		q.append(" ifnull(three.total_quantity_delivered_to_taloja,0) total_quantity_delivered_to_taloja,");
 		q.append(" ifnull(port_inward_record_total_quantity,0)");
 		q.append("  - ifnull(total_ppo_raised_against_that_port_inward_record,0)");
@@ -717,21 +714,20 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 		log.info(searchCriteria);
 		String orderByClause = composeOrderByClause_2(orderByFieldName, order);
 		log.info(orderByClause);
-		
+
 		q.append("  ").append(searchCriteria);
 		q.append("  ").append(orderByClause);
-		
 
-		int pageCount = totalRecordsCount/pageSize;
-		
-		if(pageNo > pageCount){
+		int pageCount = totalRecordsCount / pageSize;
+
+		if (pageNo > pageCount) {
 			pageNo = pageCount;
 		}
-		
+
 		int start = pageSize * pageNo;
-		
+
 		q.append(" limit ").append(start).append(", ").append(pageSize);
-		
+
 		return q.toString();
 	}
 
