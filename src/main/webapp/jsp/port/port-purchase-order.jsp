@@ -609,7 +609,7 @@ $(function() {
 	$("#portpurchaseorderdetailGrid").jqGrid(
 				{
 					//url : './portPurchaseOrderDetailJsonServlet',
-					url: './portInwardDetailsJsonServlet2?portInwardId=6',
+					//url: './portInwardDetailsJsonServlet2?portInwardId=6',
 					datatype : 'json',
 					mtype : 'GET',
 					

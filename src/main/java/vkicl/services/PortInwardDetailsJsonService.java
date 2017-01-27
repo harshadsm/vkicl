@@ -25,6 +25,7 @@ import vkicl.util.JqGridParametersHolder.JQGRID_PARAM_NAMES;
 import vkicl.util.JqGridSearchParameterHolder;
 import vkicl.util.JqGridSearchParameterHolder.Rule;
 import vkicl.vo.PackingListItemVO;
+import vkicl.vo.PackingListItemVO2;
 import vkicl.vo.PortInwardRecordVO;
 
 public class PortInwardDetailsJsonService {
@@ -215,13 +216,14 @@ public class PortInwardDetailsJsonService {
 		String orderBy = params.getParam(JQGRID_PARAM_NAMES.sidx);
 		String order = params.getParam(JQGRID_PARAM_NAMES.sord);
 
+		String portInwardIdStr = req.getParameter("portInwardId");
 		PortInwardPackingListDaoImpl portDao = new PortInwardPackingListDaoImpl();
-		Integer totalRecordsCount = portDao.fetchPortInwardPackingListRecordCount(searchParam);// ,
+		Integer totalRecordsCount = portDao.fetchPortInwardPackingListRecordCount_2(searchParam, portInwardIdStr);// ,
 																								// portInwardId);
-		List<PackingListItemVO> records = portDao.fetchPortInwardPackingList(Integer.parseInt(page),
-				Integer.parseInt(rows), totalRecordsCount, orderBy, order, searchParam);
+		List<PackingListItemVO2> records = portDao.fetchPortInwardPackingList_2(Integer.parseInt(page),
+				Integer.parseInt(rows), totalRecordsCount, orderBy, order, searchParam, portInwardIdStr);
 
-		records = updateAlreadyOutQuantity(records);
+		//records = updateAlreadyOutQuantity(records);
 
 		JqGridCustomResponse response = new JqGridCustomResponse();
 		response.setPage(page);
