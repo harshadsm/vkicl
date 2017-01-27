@@ -41,6 +41,12 @@ function setText() {
 		$("input[name='qty']").removeAttr("disabled");
 		$("input[name='actualWt']").removeAttr("disabled");
 		
+		
+		$('#thickness').attr('disabled', true);
+		$('#width').attr('disabled', true);
+		$('#length').attr('disabled', true);
+		$('#qty').attr('disabled', true);
+		$('#actualWt').attr('disabled', true);
 	}
 	
 	$(function(){
@@ -297,24 +303,24 @@ style="display: none;" /> </span>
 							<input type='hidden' name='subPis' />
 							<td >
 							<input  disabled  type='number' step='1' min='0' name='thickness' placeholder='Thickness' class='form-control' value="<%=record.getThickness() %>"/>
-								<input type="hidden" name='thickness' value="<%=record.getThickness() %>"/>
+								<input type="hidden" name='thickness' id="thickness" value="<%=record.getThickness() %>"/>
 							</td>
 							<td>
 								<input  disabled  type='number' step='1' min='0' name='width' placeholder='Width' class='form-control' value="<%=record.getWidth() %>" />
-								<input type="hidden" name='width' value="<%=record.getWidth() %>"/>
+								<input type="hidden" name='width' id='width' value="<%=record.getWidth() %>"/>
 							</td>
 							<td>
 								<input  disabled  type='number' step='1' min='0' name='length' placeholder='Length' class='form-control' value="<%=record.getLength() %>"/>
-								<input type="hidden" name='length' value="<%=record.getLength() %>"/>
+								<input type="hidden" name='length' id='length' value="<%=record.getLength() %>"/>
 							</td>
 							<td>
 								<input  disabled  type='number' step='1' min='0' name='qty' placeholder='Quantity' class='form-control' value="<%=record.getQuantity() %>" />
-								<input type="hidden" name='qty' value="<%=record.getQuantity() %>"/>
+								<input type="hidden" name='qty' id='qty' value="<%=record.getQuantity() %>"/>
 							</td>
 							<td>
 								<div class='input-group'>
 									<input   disabled  type='number' step='0.001' min='0' name='actualWt' placeholder='Actual Weight' class='form-control' aria-label='...' value="<%=record.getBe_weight() %>">
-									<input type="hidden" name='actualWt' value="<%=record.getBe_weight() %>"/>
+									<input type="hidden" name='actualWt' id='actualWt' value="<%=record.getBe_weight() %>"/>
 									<div class='input-group-btn weight-group'>
 										<input  type='hidden' name='actualWtUnit' value='TON' />
 
