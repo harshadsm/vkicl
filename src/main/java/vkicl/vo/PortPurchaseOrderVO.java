@@ -1,7 +1,5 @@
 package vkicl.vo;
 
-import java.awt.Shape;
-
 public class PortPurchaseOrderVO {
 	private Integer portInwardDetailId;
 

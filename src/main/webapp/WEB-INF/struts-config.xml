@@ -74,7 +74,7 @@
 			<forward name="showAddPackingListPage" path="showAddPackingListPage" />
 		</action>
 
-<action path="/port-purchase-order" type="vkicl.action.PortPurchaseOrderAction"
+		<action path="/port-purchase-order" type="vkicl.action.PortPurchaseOrderAction"
 			name="PortPurchaseOrderForm">
 			<forward name="success"  path="PortPurchaseOrderDefn" />
 		</action>
