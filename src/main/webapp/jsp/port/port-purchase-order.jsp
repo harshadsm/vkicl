@@ -947,16 +947,13 @@ function handleOnSelectRow(rowId, status){
 			$("#portpurchaseorderdetailGrid").jqGrid("setCell", rowId, "outQty", val);
 		}else{
 			//Now add the customer code to array.
-			try{
-				var x = Number(objectForCaching.orderedQuantity);
-				if(x <= 0){
-					objectForCaching.orderedQuantity = 1;
-				}
-			}catch(e){
-				objectForCaching.orderedQuantity = 1;
-			}
+			
+			objectForCaching.orderedQuantity = 1;
+			
 			
 			//Push items into cache as selected.
+			console.log("<<<<<<<>>>>>>>>>>>>>>>>>>>");
+			console.log(objectForCaching);
 			SELECTED_PORT_INVENTORY_ITEMS.push(objectForCaching);
 			
 		}
@@ -1162,7 +1159,7 @@ function onOrderedQuantityChanged(portInwardId, portInwardDetailId){
 }
 
 function addRowOfSelectedRecord(recordObj) {
-	
+	console.log(">>>>>>>>>>>>>>>");
 	console.log(recordObj);
 	var id = composeCombinationId(recordObj);
 
