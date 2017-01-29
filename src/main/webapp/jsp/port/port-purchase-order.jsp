@@ -1154,7 +1154,9 @@ function onOrderedQuantityChanged(portInwardId, portInwardDetailId){
 		var chachedPortInwardDetailId = elem.portInwardDetailId;
 		console.log(cachedPortInwardId+" ==== "+chachedPortInwardDetailId);
 		if(portInwardId == cachedPortInwardId && portInwardDetailId == chachedPortInwardDetailId){
-			elem.quantity = newQuantity;
+			console.log(elem);
+			elem.orderedQuantity = newQuantity;
+			console.log(elem);
 		}
 	});
 }
@@ -1178,7 +1180,7 @@ function addRowOfSelectedRecord(recordObj) {
 			+ "<td><input type='text' readonly placeholder='thickness' value='"+recordObj.thickness+"' name='thickness' class='form-control' /></td>"
 			+ "<td><input type='text' readonly placeholder='width' value='"+recordObj.width+"' name='width' class='form-control' /></td>"
 			+ "<td><input type='text' readonly placeholder='length' value='"+recordObj.length+"' name='length' class='form-control' /></td>"
-			+ "<td ><input type='number' onChange='onOrderedQuantityChanged("+recordObj.portInwardId + ","+recordObj.portInwardDetailId+")' placeholder='Quantity' max='"+recordObj.availableQuantity+"' value='1' name='availableQuantity' class='form-control port_out_item_quantity' id='port_out_item_quantity-" + id + "' data-attribute-parent-port-out-id='port_out_item_quantity-" + id + "' /></td>"
+			+ "<td ><input type='number' onChange='onOrderedQuantityChanged("+recordObj.portInwardId + ","+recordObj.portInwardDetailId+")' placeholder='Quantity' max='"+recordObj.availableQuantity+"' value='"+recordObj.orderedQuantity+"' name='availableQuantity' class='form-control port_out_item_quantity' id='port_out_item_quantity-" + id + "' data-attribute-parent-port-out-id='port_out_item_quantity-" + id + "' /></td>"
 			+ "<td><input type='hidden'  value='"+recordObj.portInwardId+"' name='portInwardId'/></td>"
 
 			+ "<td><input type='hidden' value='"+recordObj.portInwardDetailId+"' name='portInwardDetailId'/></td>"
