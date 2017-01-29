@@ -1272,17 +1272,25 @@ function submitPortPurchaseOrder(){
 			selectedPortInventoryItemsJson : selected_port_inventory_items_JSON
 	};
 	
-	var itemsToSaveJson  = "genericListener=add&itemsToSaveJson="+JSON.stringify(postJsonObject);
-	
+	var itemsToSaveJson  = "itemsToSaveJson="+encodeURIComponent(JSON.stringify(postJsonObject));//+"&genericListener=add";
+	console.log(itemsToSaveJson);
+	//itemsToSaveJson = encodeURIComponent(itemsToSaveJson);
+	//console.log(itemsToSaveJson);
 	$.ajax({
-		url: "port-purchase-order-save.do",
+		url: "port-purchase-order-save",
 		method: 'POST',
 		data: itemsToSaveJson,
-		success : function(msg){
-			console.log(msg);
-			bootbox.alert("Successfully saved records!", function(){
+		dataType: "json",
+		success : function(result){
+			console.log(result);
 			
-			});
+			if(result && result.status == 'success'){
+				var portPurchaseOrderId = result.portPurchaseOrderId;
+				bootbox.alert("Successfully saved order : "+portPurchaseOrderId);
+			}else{
+				bootbox.alert("Failed to save record. Reason: "+result.errorMessage);
+			}
+			
 			
 		},
 		error : function(msg){
@@ -1303,45 +1311,43 @@ function composeSelectedPortPurchaseOrderJson(){
 }
 
 function composePortPurchaseOrderObject($elem){
-	var vesselDate = getValueByName($elem, "vesselDate");
+	//var vesselDate = getValueByName($elem, "vesselDate");
 	var portInwardId = getValueByName($elem, "portInwardId");
 	var portInwardDetailId = getValueByName($elem, "portInwardDetailId");
 	
-	var length = getValueByName($elem, "length");
-	var width = getValueByName($elem, "width");
-	var thickness = getValueByName($elem, "thickness");
-	var vesselName = getValueByName($elem, "vesselName");
-	var millName = getValueByName($elem, "millName");
-	var availableQuantity = getValueByName($elem, "availableQuantity");
-	var grade = getValueByName($elem, "grade");
-	var materialType = getValueByName($elem, "Type");
+	//var length = getValueByName($elem, "length");
+	//var width = getValueByName($elem, "width");
+	//var thickness = getValueByName($elem, "thickness");
+	//var vesselName = getValueByName($elem, "vesselName");
+	//var millName = getValueByName($elem, "millName");
+	var orderedQuantity = getValueByName($elem, "availableQuantity");
+	//var grade = getValueByName($elem, "grade");
+	//var materialType = getValueByName($elem, "Type");
 
-	var vehicleDate = getValueByName($elem, "vehicleDate");
-	var vehicleName = getValueByName($elem, "vehicleName");
-	var actualWt = getValueByName($elem, "actualWt");
-	var vendorName = getValueByName($elem, "vendorName");
-	var make = getValueByName($elem, "make");
+	//var vehicleDate = getValueByName($elem, "vehicleDate");
+	//var vehicleName = getValueByName($elem, "vehicleName");
+	//var actualWt = getValueByName($elem, "actualWt");
+	//var vendorName = getValueByName($elem, "vendorName");
+	//var make = getValueByName($elem, "make");
 
 	var portPurchaseOrdersObject = {
 			portInwardId : portInwardId,
-		
 			portInwardDetailId : portInwardDetailId,
-			
-			length : length,
-			width : width,
-			thickness : thickness,
-			vesselDate : vesselDate,
-			vesselName : vesselName,
-			millName : millName,
-			availableQuantity : availableQuantity,
-			grade : grade,
-			materialType : materialType,
-			
-			vehicleDate : vehicleDate,
-			vehicleName : vehicleName,
-			actualWt : actualWt,
-			vendorName : vendorName,
-			make : make
+			orderedQuantity : orderedQuantity
+			//length : length,
+			//width : width,
+			//thickness : thickness,
+			//vesselDate : vesselDate,
+			//vesselName : vesselName,
+			//millName : millName,
+			//availableQuantity : availableQuantity,
+			//grade : grade,
+			//materialType : materialType,
+			//vehicleDate : vehicleDate,
+			//vehicleName : vehicleName,
+			//actualWt : actualWt,
+			//vendorName : vendorName,
+			//make : make
 	
 			
 	};

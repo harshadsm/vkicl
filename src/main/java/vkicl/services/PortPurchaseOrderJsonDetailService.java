@@ -37,7 +37,9 @@ import vkicl.vo.PortInwardDetailsVO;
 import vkicl.vo.PortInwardRecordVO;
 import vkicl.vo.PortOutwardPostDataContainerVO;
 import vkicl.vo.PortOutwardRecordVO;
+import vkicl.vo.PortPurchaseOrderLineItemVO;
 import vkicl.vo.PortPurchaseOrderPostDataContainerVO;
+import vkicl.vo.PortPurchaseOrderSavingStatusVO;
 import vkicl.vo.PortPurchaseOrderVO;
 import vkicl.vo.UserInfoVO;
 import vkicl.vo.WarehouseInwardRecordVO;
@@ -177,30 +179,33 @@ public class PortPurchaseOrderJsonDetailService {
 
 	}
 
-	public void processPurchaseOrderEntries(PortPurchaseOrderPostDataContainerVO postDataContainer,
+	public PortPurchaseOrderSavingStatusVO processPurchaseOrderEntries(PortPurchaseOrderPostDataContainerVO portPurchaseOrder,
 			HttpServletRequest request, UserInfoVO userInfo) throws Exception {
+		PortPurchaseOrderSavingStatusVO status = new PortPurchaseOrderSavingStatusVO();
 		Long portPurchaseOrderId = -1L;
 		Long warehouseInwardId = -1L;
 		Long stockBalId = -1L;
-		String itemsToSaveJson = postDataContainer.getSelectedPortInventoryItemsJson();
+		String ppoLineItemsString = portPurchaseOrder.getSelectedPortInventoryItemsJson();
 
 		Gson gson = new Gson();
 
-		List<PortPurchaseOrderVO> portPurchaseOrderToBeSaved = gson.fromJson(itemsToSaveJson,
-				new TypeToken<List<PortPurchaseOrderVO>>() {
+		List<PortPurchaseOrderLineItemVO> portPurchaseOrderToBeSaved = gson.fromJson(ppoLineItemsString,
+				new TypeToken<List<PortPurchaseOrderLineItemVO>>() {
 				}.getType());
 
 		PortPurchaseOrderDaoImpl portPurchaseOrderDaoImpl = new PortPurchaseOrderDaoImpl();
-		portPurchaseOrderId = portPurchaseOrderDaoImpl.addPortPurchaseOrderData(postDataContainer, userInfo);
+		portPurchaseOrderId = portPurchaseOrderDaoImpl.addPortPurchaseOrderData(portPurchaseOrder, userInfo);
 
-		for (PortPurchaseOrderVO vo : portPurchaseOrderToBeSaved) {
-			logger.info(vo);
+		for (PortPurchaseOrderLineItemVO lineItem : portPurchaseOrderToBeSaved) {
+			logger.info(lineItem);
 			// Save Port Outward Records with Port outward shipment id
 			// Get the port outward id
-
-			portPurchaseOrderDaoImpl.addPortPurchaseLineItemData(vo, portPurchaseOrderId, userInfo);
-
+			portPurchaseOrderDaoImpl.addPortPurchaseLineItemData(lineItem, portPurchaseOrderId, userInfo);	
 		}
+		
+		status.setPortPurchaseOrderId(portPurchaseOrderId);
+		status.setStatus("success");
+		return status;
 	}
 
 }
