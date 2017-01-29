@@ -702,7 +702,7 @@ $(function() {
 					},{
 						name : 'actualWt',
 						index : 'actualWt',
-						width : 100,
+						width : 300,
 						editable : false,
 						editoptions : {
 							readonly : true,
@@ -805,7 +805,7 @@ $(function() {
 					},{
 						name : 'grade',
 						index : 'grade',
-						width : 100,
+						width : 300,
 						editable : false,
 						hidden: true,
 						editoptions : {
@@ -827,7 +827,7 @@ $(function() {
 					autowidth : true,
 					rownumbers : true,
 					multiselect : true,
-					footerrow: true,
+					footerrow: false,
 					pager : '#packingListPager',
 					sortname : 'port_inward_id',
 					viewrecords : true,
@@ -924,7 +924,8 @@ function composeObjectForCaching(rowObject,qty){
 }
 
 function handleOnSelectRow(rowId, status){
-	
+	console.log("---------->>>> "+rowId);
+	console.log("---------->>>> "+status);
 	var row = jQuery("#portpurchaseorderdetailGrid").jqGrid('getRowData',rowId); 
 	var orderedQty = $("#ordered_qty_"+rowId).val()
 	try{
@@ -958,7 +959,6 @@ function handleOnSelectRow(rowId, status){
 			//Push items into cache as selected.
 			SELECTED_PORT_INVENTORY_ITEMS.push(objectForCaching);
 			
-			
 		}
 		
 	}else{
@@ -968,8 +968,7 @@ function handleOnSelectRow(rowId, status){
 			//return value != objectForCaching;
 		}); */
 		removeItemFromCache(objectForCaching);
-		$("#ordered_qty_"+rowId).val("");
-		$("#portpurchaseorderdetailGrid").jqGrid("setCell", rowId, "outQty", " ");
+		
 	}
 	
 	//Refresh the table.
@@ -1164,7 +1163,7 @@ function addRowOfSelectedRecord(recordObj) {
 			+ "<td><input type='text' readonly placeholder='thickness' value='"+recordObj.thickness+"' name='thickness' class='form-control' /></td>"
 			+ "<td><input type='text' readonly placeholder='width' value='"+recordObj.width+"' name='width' class='form-control' /></td>"
 			+ "<td><input type='text' readonly placeholder='length' value='"+recordObj.length+"' name='length' class='form-control' /></td>"
-			+ "<td ><input type='text' readonly placeholder='Quantity' value='"+recordObj.availableQuantity+"' name='availableQuantity' class='form-control port_out_item_quantity' id='port_out_item_quantity-" + id + "' data-attribute-parent-port-out-id='port_out_item_quantity-" + id + "' /></td>"
+			+ "<td ><input type='text' placeholder='Quantity' value='"+recordObj.availableQuantity+"' name='availableQuantity' class='form-control port_out_item_quantity' id='port_out_item_quantity-" + id + "' data-attribute-parent-port-out-id='port_out_item_quantity-" + id + "' /></td>"
 			+ "<td><input type='hidden' value='"+recordObj.portInwardId+"' name='portInwardId'/></td>"
 
 			+ "<td><input type='hidden' value='"+recordObj.portInwardDetailId+"' name='portInwardDetailId'/></td>"
