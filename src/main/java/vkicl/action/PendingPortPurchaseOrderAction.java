@@ -22,8 +22,8 @@ import vkicl.util.PropFileReader;
 import vkicl.vo.PortPurchaseOrderVO;
 import vkicl.vo.UserInfoVO;
 
-public class PortPurchaseOrderDeliveryAction extends BaseAction {
-	private static Logger log = Logger.getLogger(PortPurchaseOrderDeliveryAction.class);
+public class PendingPortPurchaseOrderAction extends BaseAction {
+	private static Logger log = Logger.getLogger(PendingPortPurchaseOrderAction.class);
 	@SuppressWarnings("unused")
 	private static PropFileReader prop = PropFileReader.getInstance();
 
