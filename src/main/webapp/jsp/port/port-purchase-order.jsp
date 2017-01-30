@@ -702,7 +702,7 @@ $(function() {
 					},{
 						name : 'actualWt',
 						index : 'actualWt',
-						width : 100,
+						width : 300,
 						editable : false,
 						editoptions : {
 							readonly : true,
@@ -805,7 +805,7 @@ $(function() {
 					},{
 						name : 'grade',
 						index : 'grade',
-						width : 100,
+						width : 300,
 						editable : false,
 						hidden: true,
 						editoptions : {
@@ -827,7 +827,7 @@ $(function() {
 					autowidth : true,
 					rownumbers : true,
 					multiselect : true,
-					footerrow: true,
+					footerrow: false,
 					pager : '#packingListPager',
 					sortname : 'port_inward_id',
 					viewrecords : true,
@@ -924,7 +924,8 @@ function composeObjectForCaching(rowObject,qty){
 }
 
 function handleOnSelectRow(rowId, status){
-	
+	console.log("---------->>>> "+rowId);
+	console.log("---------->>>> "+status);
 	var row = jQuery("#portpurchaseorderdetailGrid").jqGrid('getRowData',rowId); 
 	var orderedQty = $("#ordered_qty_"+rowId).val()
 	try{
@@ -946,18 +947,14 @@ function handleOnSelectRow(rowId, status){
 			$("#portpurchaseorderdetailGrid").jqGrid("setCell", rowId, "outQty", val);
 		}else{
 			//Now add the customer code to array.
-			try{
-				var x = Number(objectForCaching.orderedQuantity);
-				if(x <= 0){
-					objectForCaching.orderedQuantity = 1;
-				}
-			}catch(e){
-				objectForCaching.orderedQuantity = 1;
-			}
+			
+			objectForCaching.orderedQuantity = 1;
+			
 			
 			//Push items into cache as selected.
+			console.log("<<<<<<<>>>>>>>>>>>>>>>>>>>");
+			console.log(objectForCaching);
 			SELECTED_PORT_INVENTORY_ITEMS.push(objectForCaching);
-			
 			
 		}
 		
@@ -968,8 +965,7 @@ function handleOnSelectRow(rowId, status){
 			//return value != objectForCaching;
 		}); */
 		removeItemFromCache(objectForCaching);
-		$("#ordered_qty_"+rowId).val("");
-		$("#portpurchaseorderdetailGrid").jqGrid("setCell", rowId, "outQty", " ");
+		
 	}
 	
 	//Refresh the table.
@@ -1047,6 +1043,8 @@ function isOrderedQtyLessThanAvailableQtyAtPort(orderedQty, jqGridRowId){
 	}
 	return isMore;
 }
+
+
 
 function setTick(jqGridRowId){
 	
@@ -1143,10 +1141,25 @@ function composeJsonCellId(parentTrId){
 	return jsonCellId;
 }
 
-
+function onOrderedQuantityChanged(portInwardId, portInwardDetailId){
+	console.log(portInwardId+" -- "+ portInwardDetailId);
+	var comboId = ""+ portInwardId + "-" + portInwardDetailId ;
+	var qtyElementId = "port_out_item_quantity-"+comboId;
+	var newQuantity = $("#"+qtyElementId).val();
+	$.each(SELECTED_PORT_INVENTORY_ITEMS, function(i,elem){
+		var cachedPortInwardId = elem.portInwardId;
+		var chachedPortInwardDetailId = elem.portInwardDetailId;
+		console.log(cachedPortInwardId+" ==== "+chachedPortInwardDetailId);
+		if(portInwardId == cachedPortInwardId && portInwardDetailId == chachedPortInwardDetailId){
+			console.log(elem);
+			elem.orderedQuantity = newQuantity;
+			console.log(elem);
+		}
+	});
+}
 
 function addRowOfSelectedRecord(recordObj) {
-	
+	console.log(">>>>>>>>>>>>>>>");
 	console.log(recordObj);
 	var id = composeCombinationId(recordObj);
 
@@ -1166,8 +1179,8 @@ function addRowOfSelectedRecord(recordObj) {
 			+ "<td><input type='text' readonly placeholder='thickness' value='"+recordObj.thickness+"' name='thickness' class='form-control' /></td>"
 			+ "<td><input type='text' readonly placeholder='width' value='"+recordObj.width+"' name='width' class='form-control' /></td>"
 			+ "<td><input type='text' readonly placeholder='length' value='"+recordObj.length+"' name='length' class='form-control' /></td>"
-			+ "<td ><input type='text' readonly placeholder='Quantity' value='"+recordObj.availableQuantity+"' name='availableQuantity' class='form-control port_out_item_quantity' id='port_out_item_quantity-" + id + "' data-attribute-parent-port-out-id='port_out_item_quantity-" + id + "' /></td>"
-			+ "<td><input type='hidden' value='"+recordObj.portInwardId+"' name='portInwardId'/></td>"
+			+ "<td ><input type='number' onChange='onOrderedQuantityChanged("+recordObj.portInwardId + ","+recordObj.portInwardDetailId+")' placeholder='Quantity' max='"+recordObj.availableQuantity+"' value='"+recordObj.orderedQuantity+"' name='availableQuantity' class='form-control port_out_item_quantity' id='port_out_item_quantity-" + id + "' data-attribute-parent-port-out-id='port_out_item_quantity-" + id + "' /></td>"
+			+ "<td><input type='hidden'  value='"+recordObj.portInwardId+"' name='portInwardId'/></td>"
 
 			+ "<td><input type='hidden' value='"+recordObj.portInwardDetailId+"' name='portInwardDetailId'/></td>"
 			+ "<td><input type='hidden' value='"+recordObj.portInwardShipmentId+"' name='portInwardShipmentId'/></td>"
@@ -1221,48 +1234,6 @@ function locationId(recordObj){
 	return locationCellId;
 }
 
-
-function setTick(jqGridRowId){
-	
-	try{
-		jqGridRowId = jqGridRowId+"";
-		var $packingListGrid = $("#portpurchaseorderdetailGrid");
-		var orderedQty = Number($("#ordered_qty_"+jqGridRowId).val());
-		//console.log("Ordered Qty = "+orderedQty);
-		var val = calculateOutQty(jqGridRowId, orderedQty);
-	    $("#portpurchaseorderdetailGrid").jqGrid("setCell", jqGridRowId, "outQty", val);
-				
-		
-		var isMore = isOrderedQtyLessThanAvailableQtyAtPort(orderedQty, jqGridRowId);
-		if(isMore){
-			alert("You have entered quantity more than that is available at port.");
-		}
-		
-		if(orderedQty > 0){
-			
-			var selRowIds = $packingListGrid.jqGrid("getGridParam", "selarrrow");
-			if ($.inArray(jqGridRowId, selRowIds) >= 0) {
-			    // the row having rowId is selected
-			    console.log("Already selected");
-			    
-			    updateQuantityInCache(jqGridRowId, orderedQty);
-			  	//Refresh the table.
-				refreshPortOutwardTable();
-			    
-			}else{
-				$packingListGrid.jqGrid("setSelection", jqGridRowId);
-				
-			}
-				
-		}else{
-			$packingListGrid.jqGrid("setSelection", jqGridRowId);
-		}
-			
-	}catch(e){
-		console.log(e);
-	}
-}
-	
 function submitPortPurchaseOrder(){
 	
 	var custName = getValByFieldName("body", "customerName");
@@ -1303,17 +1274,25 @@ function submitPortPurchaseOrder(){
 			selectedPortInventoryItemsJson : selected_port_inventory_items_JSON
 	};
 	
-	var itemsToSaveJson  = "genericListener=add&itemsToSaveJson="+JSON.stringify(postJsonObject);
-	
+	var itemsToSaveJson  = "itemsToSaveJson="+encodeURIComponent(JSON.stringify(postJsonObject));//+"&genericListener=add";
+	console.log(itemsToSaveJson);
+	//itemsToSaveJson = encodeURIComponent(itemsToSaveJson);
+	//console.log(itemsToSaveJson);
 	$.ajax({
-		url: "port-purchase-order-save.do",
+		url: "port-purchase-order-save",
 		method: 'POST',
 		data: itemsToSaveJson,
-		success : function(msg){
-			console.log(msg);
-			bootbox.alert("Successfully saved records!", function(){
+		dataType: "json",
+		success : function(result){
+			console.log(result);
 			
-			});
+			if(result && result.status == 'success'){
+				var portPurchaseOrderId = result.portPurchaseOrderId;
+				bootbox.alert("Successfully saved order : "+portPurchaseOrderId);
+			}else{
+				bootbox.alert("Failed to save record. Reason: "+result.errorMessage);
+			}
+			
 			
 		},
 		error : function(msg){
@@ -1334,45 +1313,43 @@ function composeSelectedPortPurchaseOrderJson(){
 }
 
 function composePortPurchaseOrderObject($elem){
-	var vesselDate = getValueByName($elem, "vesselDate");
+	//var vesselDate = getValueByName($elem, "vesselDate");
 	var portInwardId = getValueByName($elem, "portInwardId");
 	var portInwardDetailId = getValueByName($elem, "portInwardDetailId");
 	
-	var length = getValueByName($elem, "length");
-	var width = getValueByName($elem, "width");
-	var thickness = getValueByName($elem, "thickness");
-	var vesselName = getValueByName($elem, "vesselName");
-	var millName = getValueByName($elem, "millName");
-	var availableQuantity = getValueByName($elem, "availableQuantity");
-	var grade = getValueByName($elem, "grade");
-	var materialType = getValueByName($elem, "Type");
+	//var length = getValueByName($elem, "length");
+	//var width = getValueByName($elem, "width");
+	//var thickness = getValueByName($elem, "thickness");
+	//var vesselName = getValueByName($elem, "vesselName");
+	//var millName = getValueByName($elem, "millName");
+	var orderedQuantity = getValueByName($elem, "availableQuantity");
+	//var grade = getValueByName($elem, "grade");
+	//var materialType = getValueByName($elem, "Type");
 
-	var vehicleDate = getValueByName($elem, "vehicleDate");
-	var vehicleName = getValueByName($elem, "vehicleName");
-	var actualWt = getValueByName($elem, "actualWt");
-	var vendorName = getValueByName($elem, "vendorName");
-	var make = getValueByName($elem, "make");
+	//var vehicleDate = getValueByName($elem, "vehicleDate");
+	//var vehicleName = getValueByName($elem, "vehicleName");
+	//var actualWt = getValueByName($elem, "actualWt");
+	//var vendorName = getValueByName($elem, "vendorName");
+	//var make = getValueByName($elem, "make");
 
 	var portPurchaseOrdersObject = {
 			portInwardId : portInwardId,
-		
 			portInwardDetailId : portInwardDetailId,
-			
-			length : length,
-			width : width,
-			thickness : thickness,
-			vesselDate : vesselDate,
-			vesselName : vesselName,
-			millName : millName,
-			availableQuantity : availableQuantity,
-			grade : grade,
-			materialType : materialType,
-			
-			vehicleDate : vehicleDate,
-			vehicleName : vehicleName,
-			actualWt : actualWt,
-			vendorName : vendorName,
-			make : make
+			orderedQuantity : orderedQuantity
+			//length : length,
+			//width : width,
+			//thickness : thickness,
+			//vesselDate : vesselDate,
+			//vesselName : vesselName,
+			//millName : millName,
+			//availableQuantity : availableQuantity,
+			//grade : grade,
+			//materialType : materialType,
+			//vehicleDate : vehicleDate,
+			//vehicleName : vehicleName,
+			//actualWt : actualWt,
+			//vendorName : vendorName,
+			//make : make
 	
 			
 	};

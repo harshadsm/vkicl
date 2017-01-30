@@ -1,12 +1,10 @@
 package vkicl.vo;
 
-import java.awt.Shape;
+import java.util.List;
 
 public class PortPurchaseOrderVO {
-	private Integer portInwardDetailId;
-
-	private Integer portInwardId;
-
+	
+	private List<PortPurchaseOrderLineItemVO> portPurchaseOrderLineItems;
 	private String custName;
 	private String brokerName;
 	private Double brokerage;
@@ -22,8 +20,7 @@ public class PortPurchaseOrderVO {
 	private String paymentTerms;
 	private String comments;
 	private Integer totalQty;
-	private Integer availableQuantity;
-
+	
 	private Integer pendingItems;
 	private String ppoDate;
 	private Integer ppoNo;
@@ -52,14 +49,6 @@ public class PortPurchaseOrderVO {
 		this.pendingItems = pendingItems;
 	}
 
-	public Integer getAvailableQuantity() {
-		return availableQuantity;
-	}
-
-	public void setAvailableQuantity(Integer availableQuantity) {
-		this.availableQuantity = availableQuantity;
-	}
-
 	public void setDeliveryAddr(String deliveryAddr) {
 		this.deliveryAddr = deliveryAddr;
 	}
@@ -86,22 +75,6 @@ public class PortPurchaseOrderVO {
 
 	public void setTotalQty(Integer totalQty) {
 		this.totalQty = totalQty;
-	}
-
-	public Integer getPortInwardDetailId() {
-		return portInwardDetailId;
-	}
-
-	public void setPortInwardDetailId(Integer portInwardDetailId) {
-		this.portInwardDetailId = portInwardDetailId;
-	}
-
-	public Integer getPortInwardId() {
-		return portInwardId;
-	}
-
-	public void setPortInwardId(Integer portInwardId) {
-		this.portInwardId = portInwardId;
 	}
 
 	public String getCustName() {
@@ -176,10 +149,18 @@ public class PortPurchaseOrderVO {
 		this.comments = comments;
 	}
 
+	public List<PortPurchaseOrderLineItemVO> getPortPurchaseOrderLineItems() {
+		return portPurchaseOrderLineItems;
+	}
+
+	public void setPortPurchaseOrderLineItems(List<PortPurchaseOrderLineItemVO> portPurchaseOrderLineItems) {
+		this.portPurchaseOrderLineItems = portPurchaseOrderLineItems;
+	}
+
 	@Override
 	public String toString() {
-		return "PortPurchaseOrderVO [portInwardDetailId=" + portInwardDetailId + "," + " portInwardId=" + portInwardId
-				+ ", custName=" + custName + ", brokerName=" + brokerName + ", brokerage=" + brokerage
+		return "PortPurchaseOrderVO ["
+				+ "custName=" + custName + ", brokerName=" + brokerName + ", brokerage=" + brokerage
 				+ ",brokerageUnit=" + brokerageUnit + ",rate=" + rate + ", excise=" + excise + ", deliveryAddr="
 				+ deliveryAddr + ",tax=" + tax + ", totalQty=" + totalQty + ",transport=" + transport
 				+ ", paymentTerms=" + paymentTerms + ", comments=" + comments + "]";

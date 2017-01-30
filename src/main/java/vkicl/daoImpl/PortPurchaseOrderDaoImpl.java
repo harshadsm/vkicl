@@ -30,6 +30,7 @@ import vkicl.vo.PortInwardDetailsVO;
 import vkicl.vo.PortInwardRecordVO;
 import vkicl.vo.PortInwardRecordVOForPPO;
 import vkicl.vo.PortOutwardPostDataContainerVO;
+import vkicl.vo.PortPurchaseOrderLineItemVO;
 import vkicl.vo.PortPurchaseOrderPostDataContainerVO;
 import vkicl.vo.PortPurchaseOrderVO;
 import vkicl.vo.UserInfoVO;
@@ -422,7 +423,7 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 
 	}
 
-	public Long addPortPurchaseLineItemData(PortPurchaseOrderVO vo, Long portPurchaseOrderId, UserInfoVO userInfoVO)
+	public Long addPortPurchaseLineItemData(PortPurchaseOrderLineItemVO vo, Long portPurchaseOrderId, UserInfoVO userInfoVO)
 			throws SQLException {
 		Connection conn = null;
 		ResultSet rs = null;
@@ -442,7 +443,7 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 
 			cs.setLong(1, portPurchaseOrderId);
 			cs.setInt(2, vo.getPortInwardDetailId());
-			cs.setInt(3, vo.getAvailableQuantity());
+			cs.setInt(3, vo.getOrderedQuantity());
 
 			cs.setString(4, userInfoVO.getUserName());
 			cs.setString(5, userInfoVO.getUserName());

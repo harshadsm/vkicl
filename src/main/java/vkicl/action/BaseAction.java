@@ -1,5 +1,8 @@
 package vkicl.action;
 
+import java.util.Map;
+import java.util.Set;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -55,5 +58,21 @@ public class BaseAction extends Action {
 		if (null == userInfoVO.getMessage())
 			userInfoVO.setMessage("");
 		session.setAttribute(Constants.USER_INFO_SESSION, userInfoVO);
+	}
+	
+	public void printParameterMap(HttpServletRequest request){
+		if(request!=null){
+			Map<String, String[]> paramMap = request.getParameterMap();
+			Set<String> keys = paramMap.keySet();
+			
+			for(String key : keys){
+				String[] values = paramMap.get(key);
+				log.info("====> Key = "+key);
+				for(String v:values){
+					log.info(v);
+				}
+				log.info("-----------------------");
+			}
+		}
 	}
 }
