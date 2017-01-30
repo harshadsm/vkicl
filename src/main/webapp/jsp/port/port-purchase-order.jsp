@@ -1152,7 +1152,9 @@ function addRowOfSelectedRecord(recordObj) {
 
 	var jsonCellId = composeJsonCellId(id);
 	var warehouseInwardRecordClass = composeCombinationClass(id);
-	var recordObjJson = JSON.stringify(recordObj);		
+	var recordObjJson = JSON.stringify(recordObj);	
+	
+	
 	var str = "<tr id='" + id + "' class='selected-port-outward-records "+warehouseInwardRecordClass+"' data-attribute-group-class='"+warehouseInwardRecordClass+"' data-attribute-original-quantity='"+recordObj.availableQuantity+"' >"
 			+ "<td><input type='text' readonly placeholder='vesselDate' value='"+recordObj.vesselDate+"' name='vesselDate' class='form-control'  /></td>"
 			+ "<td><input type='text' readonly placeholder='vendorName' value='"+recordObj.vendorName+"' name='vendorName' class='form-control' /></td>"
