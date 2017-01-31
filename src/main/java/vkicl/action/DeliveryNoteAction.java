@@ -94,7 +94,7 @@ public class DeliveryNoteAction extends BaseAction {
 				PortPurchaseOrderDaoImpl impl = new PortPurchaseOrderDaoImpl();
 				Long deliveryNoteId = impl.addPortPurchaseDeliveryData(portPurchaseDeliveryForm, userInfoVO);
 			} else {
-				log.info("Loaded Port - Inward Details");
+				log.info("Loaded Port Purchase Order Line Item Details");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
