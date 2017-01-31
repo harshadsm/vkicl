@@ -411,7 +411,7 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 
 	}
 
-	public Long addPortPurchaseDeliveryData(PortPurchaseOrderForm portpurchaseform, Long portPurchaseOrderId,
+	public Long addPortPurchaseDeliveryData(PortPurchaseDeliveryNoteForm portpurchasedeliverynoteform,
 			UserInfoVO userInfoVO) throws SQLException {
 		Connection conn = null;
 		ResultSet rs = null;
@@ -429,7 +429,7 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 			conn = getConnection();
 			cs = conn.prepareCall(query);
 
-			cs.setLong(1, portPurchaseOrderId);
+			cs.setLong(1, portpurchasedeliverynoteform.getPpoNo());
 			cs.setString(2, userInfoVO.getUserName());
 			cs.setString(3, userInfoVO.getUserName());
 			cs.setString(4, getCurentTime());

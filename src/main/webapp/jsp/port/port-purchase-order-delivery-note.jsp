@@ -14,6 +14,31 @@ PortPurchaseOrderVO vo = (PortPurchaseOrderVO)request.getAttribute("port_purchas
 System.out.print("hi");
 %>
 
+<script type="text/javascript">
+
+function validateForm() {
+	updateHiddenField();
+	if ("" == getValByFieldName("body", "destinationName")) {
+		bootbox.alert("Please enter Destination Name");
+		return false;
+	} else if ("" == getValByFieldName("body", "vehicleNumber")) {
+		bootbox.alert("Please enter Vehicle Number");
+		return false;
+	} else if ("" == getValByFieldName("body", "vehicleDate")) {
+		bootbox.alert("Please enter Vehicle Date");
+		return false;
+	}
+	
+	
+	
+	
+	return false;
+	
+return commonSubmit();
+}
+
+
+</script> 
 
 <div class="row">
 	<div class="col-md-12">
@@ -58,16 +83,17 @@ System.out.print("hi");
 			</div>
 			<div class="row">
 			
-			<div class="col-md-12">
-				<table class="table table-responsive table-excel after-result-1" id="delivery-table">
+			<div class="col-md-10">
+				<h3>Port Purchase Order Line Items</h3>
+				<table class="table table-responsive table-report" id="delivery-table">
 					<thead>
 						<tr>
-							<th>No </th>
-							<th>Thickness</th>
-							<th>Width</th>
-							<th>Length</th>
-							<th>Ordered Quantity</th>
-							<th>Delivery Quantity</th>
+							<th width="5%">No </th>
+							<th width="10%">Thickness</th>
+							<th width="20%">Width</th>
+							<th width="20%">Length</th>
+							<th width="20%">Ordered Quantity</th>
+							<th width="20%">Delivery Quantity</th>
 							
 						</tr>
 					</thead>
@@ -76,26 +102,32 @@ System.out.print("hi");
 							property="reportList">
 							<tr 
 								id='row-<c:out value="${report.itemNo}" />'>
+								<td><c:out value="${report.itemNo}" /></td>
 								<td><c:out value="${report.thickness}" /></td>
 								<td><c:out value="${report.length}" /></td>
 								<td><c:out value="${report.width}" /></td>
 								<td><c:out value="${report.orderedQty}" /></td>
-							   
-							   
+								<td>
+							   <input number digits="" type="number"  name="txtDeliveryQty" id="deliveryQty"/>
+							   </td>
 							</tr>
 						</logic:iterate>
 					</tbody>
 				</table>
 			</div>
 		</div>
-		<html:hidden property="genericListener" value="add" />
-	</html:form>
-	<div class="row">
-		<div class="col-md-12">
-			<div id="hidden-div">
+		<div class="row">
+			<div class="col-md-12">
+				
+				<html:submit styleClass="btn pull-right"
+					onclick="return validateForm()" />
 			</div>
 		</div>
-	</div>
+		<html:hidden property="genericListener" value="addDetails" />
+
+	</html:form>
+</div>
+	
 </div>
 
 <style>

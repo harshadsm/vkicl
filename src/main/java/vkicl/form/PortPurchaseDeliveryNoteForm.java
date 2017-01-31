@@ -10,6 +10,16 @@ import vkicl.report.bean.WarehouseDispatchBean;
 public class PortPurchaseDeliveryNoteForm extends BaseForm {
 
 	private Integer ppoLineItemsId = null;
+	private Integer ppoNo = null;
+
+	public Integer getPpoNo() {
+		return ppoNo;
+	}
+
+	public void setPpoNo(Integer ppoNo) {
+		this.ppoNo = ppoNo;
+	}
+
 	ArrayList<PortPurchaseOrderDeliveryNoteBean> reportList = null;
 
 	public ArrayList<PortPurchaseOrderDeliveryNoteBean> getReportList() {

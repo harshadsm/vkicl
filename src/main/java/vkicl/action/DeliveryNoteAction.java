@@ -16,8 +16,12 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.util.LabelValueBean;
 
+import vkicl.daoImpl.PortDaoImpl;
 import vkicl.daoImpl.PortPurchaseOrderDaoImpl;
 import vkicl.daoImpl.WarehouseDaoImpl;
+import vkicl.form.PortInwardForm;
+import vkicl.form.PortPurchaseDeliveryNoteForm;
+import vkicl.form.PortPurchaseOrderDeliveryForm;
 import vkicl.form.WarehouseOutwardForm;
 import vkicl.util.Constants;
 import vkicl.util.PropFileReader;
@@ -38,7 +42,43 @@ public class DeliveryNoteAction extends BaseAction {
 			HttpServletResponse response) {
 
 		ActionForward actionForward = null;
+		PortPurchaseDeliveryNoteForm portpurchasedeliverynoteForm = null;
+		String genericListener = null;
+		UserInfoVO userInfoVO = null;
+		if (request.getMethod() == "GET") {
+			try {
+				actionForward = checkAccess(mapping, request, Constants.Apps.PORT_ENTRY);
+				if (null != actionForward)
+					return actionForward;
 
+				actionForward = mapping.findForward(Constants.Mapping.SUCCESS);
+				userInfoVO = getUserProfile(request);
+				portpurchasedeliverynoteForm = (PortPurchaseDeliveryNoteForm) form;
+				Integer purchaseOrderNo = Integer.parseInt(request.getParameter("purchaseOrderNo"));
+
+				if (purchaseOrderNo != null) {
+					PortPurchaseOrderDaoImpl impl = new PortPurchaseOrderDaoImpl();
+					PortPurchaseOrderVO portPurchaseOrderVO = impl.fetchPPODetails(purchaseOrderNo);
+					request.setAttribute("port_purchase_order_details", portPurchaseOrderVO);
+
+					portpurchasedeliverynoteForm = impl.fetchPPOLineItems(portpurchasedeliverynoteForm, purchaseOrderNo,
+							userInfoVO);
+				}
+				actionForward = mapping.findForward(Constants.Mapping.SUCCESS);
+				userInfoVO = getUserProfile(request);
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} else {
+			actionForward = processPPOList(mapping, form, request);
+		}
+		return actionForward;
+	}
+
+	private ActionForward processPPOList(ActionMapping mapping, ActionForm form, HttpServletRequest request) {
+		ActionForward actionForward = null;
+		PortPurchaseDeliveryNoteForm portPurchaseDeliveryForm = null;
 		String genericListener = null;
 		UserInfoVO userInfoVO = null;
 		try {
@@ -48,15 +88,14 @@ public class DeliveryNoteAction extends BaseAction {
 
 			actionForward = mapping.findForward(Constants.Mapping.SUCCESS);
 			userInfoVO = getUserProfile(request);
-			Integer purchaseOrderNo = Integer.parseInt(request.getParameter("purchaseOrderNo"));
-
-			PortPurchaseOrderDaoImpl impl = new PortPurchaseOrderDaoImpl();
-			PortPurchaseOrderVO portPurchaseOrderVO = impl.fetchPPODetails(purchaseOrderNo);
-			request.setAttribute("port_purchase_order_details", portPurchaseOrderVO);
-
-			actionForward = mapping.findForward(Constants.Mapping.SUCCESS);
-			userInfoVO = getUserProfile(request);
-
+			portPurchaseDeliveryForm = (PortPurchaseDeliveryNoteForm) form;
+			genericListener = portPurchaseDeliveryForm.getGenericListener();
+			if (genericListener.equalsIgnoreCase("addDetails")) {
+				PortPurchaseOrderDaoImpl impl = new PortPurchaseOrderDaoImpl();
+				Long deliveryNoteId = impl.addPortPurchaseDeliveryData(portPurchaseDeliveryForm, userInfoVO);
+			} else {
+				log.info("Loaded Port - Inward Details");
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
