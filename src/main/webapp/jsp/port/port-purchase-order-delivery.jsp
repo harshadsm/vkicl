@@ -15,6 +15,10 @@
 
 <script type="text/javascript">
 
+function startPurchaseOrderDelivery(id) {
+	location.href = './delivery-note.do?purchaseOrderNo=' + id;
+}
+
 </script>
 
 
@@ -133,7 +137,7 @@
 								<% } %>
 								<th class="cell-edit">
 								<button title='Start Order Processing'
-											onclick='startWarehouseOutward(<c:out value="${report.id}" />);'>
+											onclick='startPurchaseOrderDelivery(<c:out value="${report.ppoNo}" />);'>
 											<span class="glyphicon glyphicon-play"></span>
 										</button></th>
 							</tr>

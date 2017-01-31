@@ -9,16 +9,16 @@
 <%@taglib uri="/WEB-INF/struts-core.tld" prefix="c" %>
 
 <% 
-String dispatchNo=request.getParameter("dispatchNo");
-if(dispatchNo == null){
-	dispatchNo = (String)request.getAttribute("dispatchNo_2");
+String purchaseOrderNo=request.getParameter("purchaseOrderNo");
+if(purchaseOrderNo == null){
+	purchaseOrderNo = (String)request.getAttribute("purchaseOrderNo");
 }
 
-System.out.println("harhads>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> "+dispatchNo);
+
 %>
 <script type="text/javascript">
 
-var MYDISPATCHNO='<%= dispatchNo %>';
+var MypurchaseOrderNo='<%= purchaseOrderNo %>';
 	var id = 1, row = {}, row_id = 0, current_row_id = "", globalJson = {};
 
 	function fetchWarehouseOutwardDetails() {
@@ -26,7 +26,7 @@ var MYDISPATCHNO='<%= dispatchNo %>';
 		
 		//var dispatchNo = $("[name='dispatchNo']").val();
 		
-		var dispatchNo=MYDISPATCHNO;
+		var dispatchNo=MypurchaseOrderNo;
 		
 		console.log(dispatchNo);
 		if ("--" == dispatchNo) {
@@ -37,7 +37,7 @@ var MYDISPATCHNO='<%= dispatchNo %>';
 		}
 		showLoader();
 		$.ajax({
-			url : "./json?method=fetchWarehouseOutwardDetails&dispatchNo=" + dispatchNo,
+			url : "./json?method=fetchPPOLineItemsDetails&MypurchaseOrderNo=" + MypurchaseOrderNo,
 			success : function(json, status, response) {
 				processJSON(json);
 			},
@@ -216,15 +216,12 @@ var MYDISPATCHNO='<%= dispatchNo %>';
 			<table class="table table-responsive dispatch-table">
 					<tr>
 						<td class='excel' colspan="1"><label for="ppoNo">PPO Number</label></td>
-						<td class='excel' colspan="5"><input type="text" name="ppoNo"
-							placeholder="" class="form-control" /></td>
+						<td class='excel' colspan="5"><label for="ppoNo">PPO Number</label></td>
 						
 					</tr>
 					<tr>
 						<td class='excel' colspan="1"><label for="ppoDate">PPO Date</label></td>
-						<td class='excel' colspan="5"><input type="text"
-							name="brokerName" placeholder=""
-							class="form-control" /></td>
+						<td class='excel' colspan="5"><label for="ppoNo">PPO Number</label></td>
 						
 					</tr>
 					</table>
@@ -234,15 +231,12 @@ var MYDISPATCHNO='<%= dispatchNo %>';
 			<div class="col-md-10">
 			<tr>
 						<td class='excel' colspan="1"><label for="customerName">Customer Name</label></td>
-						<td class='excel' colspan="5"><input type="text" name="customerName"
-							placeholder="" class="form-control" /></td>
+						<td class='excel' colspan="5"><label for="ppoNo">PPO Number</label></td>
 						
 					</tr>
 					<tr>
 						<td class='excel' colspan="1"><label for="deliveryAddress">Delivery address</label></td>
-						<td class='excel' colspan="5"><input type="text"
-							name="brokerName" placeholder=""
-							class="form-control" /></td>
+						<td class='excel' colspan="5"><label for="ppoNo">PPO Number</label></td>
 						
 					</tr>
 			</div>
@@ -251,15 +245,12 @@ var MYDISPATCHNO='<%= dispatchNo %>';
 			<div class="col-md-10">
 			<tr>
 						<td class='excel' colspan="1"><label for="paymentTerms">Payment Terms</label></td>
-						<td class='excel' colspan="5"><input type="text" name="customerName"
-							placeholder="" class="form-control" /></td>
+						<td class='excel' colspan="5"><label for="ppoNo">PPO Number</label></td>
 						
 					</tr>
 					<tr>
 						<td class='excel' colspan="1"><label for="excise">Excise</label></td>
-						<td class='excel' colspan="5"><input type="text"
-							name="brokerName" placeholder=""
-							class="form-control" /></td>
+						<td class='excel' colspan="5"><label for="ppoNo">PPO Number</label></td>
 						
 					</tr>
 			</div>
@@ -268,15 +259,12 @@ var MYDISPATCHNO='<%= dispatchNo %>';
 			<div class="col-md-10">
 			<tr>
 						<td class='excel' colspan="1"><label for="tax">Tax</label></td>
-						<td class='excel' colspan="5"><input type="text" name="customerName"
-							placeholder="" class="form-control" /></td>
+						<td class='excel' colspan="5"><label for="ppoNo">PPO Number</label></td>
 						
 					</tr>
 					<tr>
 						<td class='excel' colspan="1"><label for="transport">Transport</label></td>
-						<td class='excel' colspan="5"><input type="text"
-							name="brokerName" placeholder=""
-							class="form-control" /></td>
+						<td class='excel' colspan="5"><label for="ppoNo">PPO Number</label></td>
 						
 					</tr>
 			</div>

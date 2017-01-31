@@ -46,14 +46,19 @@
 		<put name="body" value="/jsp/port/port-inward-packing.jsp" />
 	</definition>
 	
-	<definition name="PortPurchaseOrderDefn" extends="baseDefn">
+	<definition name="portPurchaseOrderDefn" extends="baseDefn">
 		<put name="title" value="Port-Purchase-Order" />
 		<put name="body" value="/jsp/port/port-purchase-order.jsp" />
 	</definition>
 	
-	<definition name="PortPurchaseOrderDeliveryDefn" extends="baseDefn">
+	<definition name="portPurchaseOrderDeliveryDefn" extends="baseDefn">
 		<put name="title" value="Port-Purchase-Order-Delivery" />
 		<put name="body" value="/jsp/port/port-purchase-order-delivery.jsp" />
+	</definition>
+	
+	<definition name="deliveryNoteDefn" extends="baseDefn">
+		<put name="title" value="Delivery Note" />
+		<put name="body" value="/jsp/port/port-purchase-order-delivery-note.jsp" />
 	</definition>
 	
 	<definition name="portOutwardDetailsDefn" extends="baseDefn">

@@ -45,15 +45,15 @@ public class PortPurchaseOrderJsonService {
 
 		PortPurchaseOrderDaoImpl portPurchaseDao = new PortPurchaseOrderDaoImpl();
 
-		
-		Integer totalRecordsCount = portPurchaseDao.getCountOfPortInwardRecordsWithCumulativeBalGreaterThan0(searchParam);
+		Integer totalRecordsCount = portPurchaseDao
+				.getCountOfPortInwardRecordsWithCumulativeBalGreaterThan0(searchParam);
 		List<PortInwardRecordVOForPPO> records = portPurchaseDao.fetchPortInwardDetails_harshad(Integer.parseInt(page),
 				Integer.parseInt(rows), orderBy, order, searchParam, totalRecordsCount);
 		JqGridCustomResponse response = new JqGridCustomResponse();
 		response.setPage(page);
 		response.setRows(records);
 		response.setRecords(totalRecordsCount.toString());
-		// response.setTotal((totalRecordsCount / Long.valueOf(rows)) + 1 + "");
+		response.setTotal((totalRecordsCount / Long.valueOf(rows)) + 1 + "");
 		Gson gson = new Gson();
 		String json = gson.toJson(response);
 		return json;

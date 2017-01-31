@@ -80,8 +80,8 @@ public class JSONService extends HttpServlet {
 						form = impl.fetchWarehouseDispatchDetailsReport((WarehouseDispatchDetailsReportForm) form,
 								userInfoVO);
 
-					}else{
-						throw new IllegalArgumentException("Invalid dispatchNo = "+dispatchNo);
+					} else {
+						throw new IllegalArgumentException("Invalid dispatchNo = " + dispatchNo);
 					}
 				} else if (method.equalsIgnoreCase("fetchWarehouseLocationDetails")) {
 					String millName = request.getParameter("millName");
@@ -142,6 +142,25 @@ public class JSONService extends HttpServlet {
 
 					WarehouseDaoImpl impl = new WarehouseDaoImpl();
 					form = impl.fetchWarehouseOutwardFinalStockDetails((WarehouseOutwardFinalForm) form, userInfoVO);
+				} else if (method.equalsIgnoreCase("fetchPPOLineItemsDetails")) {
+					printAllParams(request);
+					// String MypurchaseOrderNo =
+					// request.getParameter("MypurchaseOrderNo");
+					// log.info("MypurchaseOrderNo = " + MypurchaseOrderNo);
+					// if (!StringUtils.isEmpty(MypurchaseOrderNo) &&
+					// !"null".equalsIgnoreCase(MypurchaseOrderNo)) {
+					// form = new
+					// WarehouseDispatchDetailsReportForm(Integer.parseInt(dispatchNo));
+					// ReportDaoImpl impl = new ReportDaoImpl();
+					// form =
+					// impl.fetchWarehouseDispatchDetailsReport((WarehouseDispatchDetailsReportForm)
+					// form,
+					// userInfoVO);
+
+					// } else {
+					// throw new IllegalArgumentException("Invalid dispatchNo =
+					// " + MypurchaseOrderNo);
+					// }
 				}
 				GsonBuilder builder = new GsonBuilder();
 				Gson gson = builder.create();
@@ -173,43 +192,42 @@ public class JSONService extends HttpServlet {
 	private void printAllParams(HttpServletRequest request) {
 		log.info("---------------------Printing all request params ----------------------");
 		Enumeration<String> paramNames = request.getParameterNames();
-		while(paramNames.hasMoreElements()){
+		while (paramNames.hasMoreElements()) {
 			String paramName = paramNames.nextElement();
 			String val = request.getParameter(paramName);
-			log.info(paramName +" = "+val);
+			log.info(paramName + " = " + val);
 		}
-		
+
 		log.info("---------------------Printing all request attributes ----------------------");
 		Enumeration<String> attrNames = request.getAttributeNames();
-		while(attrNames.hasMoreElements()){
+		while (attrNames.hasMoreElements()) {
 			String attrName = attrNames.nextElement();
 			Object val = request.getAttribute(attrName);
-			log.info(attrName +" = "+val);
+			log.info(attrName + " = " + val);
 		}
-		
+
 		log.info("---------------------Printing form from session ----------------------");
 		printBeanFromSession(request);
-		
+
 	}
-	
-	
-	
+
 	/**
-	 * I Was going to manually remove the bean from session.
-	 * However, after adding the below code, it 
+	 * I Was going to manually remove the bean from session. However, after
+	 * adding the below code, it
+	 * 
 	 * @param request
 	 */
-	private void printBeanFromSession(HttpServletRequest request){
-		log.info("DO NOT REMOVE THIS METHOD. It somehow results into removing the actionForm bean from session. And it is necessary for proper page flow of warehouse outward.");
+	private void printBeanFromSession(HttpServletRequest request) {
+		log.info(
+				"DO NOT REMOVE THIS METHOD. It somehow results into removing the actionForm bean from session. And it is necessary for proper page flow of warehouse outward.");
 		HttpSession session = request.getSession();
-		WarehouseOutwardForm formInSession = (WarehouseOutwardForm)session.getAttribute("WarehouseOutwardForm");
-		if(formInSession!=null){
-			log.info(formInSession.toString());	
-		}else{
+		WarehouseOutwardForm formInSession = (WarehouseOutwardForm) session.getAttribute("WarehouseOutwardForm");
+		if (formInSession != null) {
+			log.info(formInSession.toString());
+		} else {
 			log.info("No form in session.");
 		}
-		
-		
+
 	}
 
 }

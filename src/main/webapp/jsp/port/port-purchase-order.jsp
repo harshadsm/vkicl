@@ -1165,19 +1165,32 @@ function addRowOfSelectedRecord(recordObj) {
 
 	var jsonCellId = composeJsonCellId(id);
 	var warehouseInwardRecordClass = composeCombinationClass(id);
-	var recordObjJson = JSON.stringify(recordObj);		
+	var recordObjJson = JSON.stringify(recordObj);	
+	
+	var $grid = $("#portpurchaseorderinwardGrid");
+	
+	var selectedRowId = $grid.jqGrid ('getGridParam', 'selrow');
+	var vesselDate = $grid.jqGrid('getCell', selectedRowId, 'vesselDate');
+	var vendorName = $grid.jqGrid('getCell', selectedRowId, 'vendorName');
+	var vesselName = $grid.jqGrid('getCell', selectedRowId, 'vesselName');
+	var materialType = $grid.jqGrid('getCell', selectedRowId, 'materialType');
+	var millName = $grid.jqGrid('getCell', selectedRowId, 'millName');
+	var make = $grid.jqGrid('getCell', selectedRowId, 'make');
+	var grade = $grid.jqGrid('getCell', selectedRowId, 'grade');
+	
+	
 	var str = "<tr id='" + id + "' class='selected-port-outward-records "+warehouseInwardRecordClass+"' data-attribute-group-class='"+warehouseInwardRecordClass+"' data-attribute-original-quantity='"+recordObj.availableQuantity+"' >"
-			+ "<td><input type='text' readonly placeholder='vesselDate' value='"+recordObj.vesselDate+"' name='vesselDate' class='form-control'  /></td>"
-			+ "<td><input type='text' readonly placeholder='vendorName' value='"+recordObj.vendorName+"' name='vendorName' class='form-control' /></td>"
-			+ "<td><input type='text' readonly placeholder='vesselName' value='"+recordObj.vesselName+"' name='vesselName' class='form-control' /></td>"
-			+ "<td><input type='text' readonly placeholder='materialType' value='"+recordObj.materialType+"' name='Type' class='form-control' /></td>"
-			+ "<td><input type='text' readonly placeholder='millName' value='"+recordObj.millName+"' name='millName' class='form-control' /></td>"
-			+ "<td><input type='text' readonly placeholder='make' value='"+recordObj.make+"' name='make' class='form-control' /></td>"
-			+ "<td><input type='text' readonly placeholder='grade' value='"+recordObj.grade+"' name='grade' class='form-control' /></td>"
+			+ "<td><input type='text' readonly placeholder='vesselDate' value='"+vesselDate+"' name='vesselDate' class='form-control'  /></td>"
+			+ "<td><input type='text' readonly placeholder='vendorName' value='"+vendorName+"' name='vendorName' class='form-control' /></td>"
+			+ "<td><input type='text' readonly placeholder='vesselName' value='"+vesselName+"' name='vesselName' class='form-control' /></td>"
+			+ "<td><input type='text' readonly placeholder='materialType' value='"+materialType+"' name='Type' class='form-control' /></td>"
+			+ "<td><input type='text' readonly placeholder='millName' value='"+millName+"' name='millName' class='form-control' /></td>"
+			+ "<td><input type='text' readonly placeholder='make' value='"+make+"' name='make' class='form-control' /></td>"
+			+ "<td><input type='text' readonly placeholder='grade' value='"+grade+"' name='grade' class='form-control' /></td>"
 			+ "<td><input type='text' readonly placeholder='thickness' value='"+recordObj.thickness+"' name='thickness' class='form-control' /></td>"
 			+ "<td><input type='text' readonly placeholder='width' value='"+recordObj.width+"' name='width' class='form-control' /></td>"
 			+ "<td><input type='text' readonly placeholder='length' value='"+recordObj.length+"' name='length' class='form-control' /></td>"
-			+ "<td ><input type='number' onChange='onOrderedQuantityChanged("+recordObj.portInwardId + ","+recordObj.portInwardDetailId+")' placeholder='Quantity' max='"+recordObj.availableQuantity+"' value='"+recordObj.orderedQuantity+"' name='availableQuantity' class='form-control port_out_item_quantity' id='port_out_item_quantity-" + id + "' data-attribute-parent-port-out-id='port_out_item_quantity-" + id + "' /></td>"
+			+ "<td ><input type='number'  onChange='onOrderedQuantityChanged("+recordObj.portInwardId + ","+recordObj.portInwardDetailId+")' placeholder='Quantity' max='"+recordObj.availableQuantity+"' value='"+recordObj.orderedQuantity+"' name='availableQuantity' class='form-control port_out_item_quantity' id='port_out_item_quantity-" + id + "' data-attribute-parent-port-out-id='port_out_item_quantity-" + id + "' /></td>"
 			+ "<td><input type='hidden'  value='"+recordObj.portInwardId+"' name='portInwardId'/></td>"
 
 			+ "<td><input type='hidden' value='"+recordObj.portInwardDetailId+"' name='portInwardDetailId'/></td>"
