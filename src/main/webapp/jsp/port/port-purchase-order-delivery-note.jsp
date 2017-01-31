@@ -57,7 +57,8 @@ return commonSubmit();
 							
 							<tbody id="details-tbody">
 								<tr>
-									<th>PPO Number</th><td><%=vo.getPpoNo() %></td>
+									<th>PPO Number</th><td><%=vo.getPpoNo() %>
+									<input type="hidden" name='ppoNo' id="ppoNo" value="<%=vo.getPpoNo() %>"/></td>
 								
 									<th>PPO Date</th><td><%=vo.getPpoDate() %></td>
 								</tr>

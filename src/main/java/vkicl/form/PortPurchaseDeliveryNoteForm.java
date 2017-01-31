@@ -59,8 +59,9 @@ public class PortPurchaseDeliveryNoteForm extends BaseForm {
 
 	@Override
 	public String toString() {
-		return "PortPurchaseDeliveryNoteForm [ppoLineItemsId=" + ppoLineItemsId + ", deliveredQuantity="
-				+ deliveredQuantity + "" + ",deliveryNoteId=" + deliveryNoteId + ",reportList=" + reportList + "]";
+		return "PortPurchaseDeliveryNoteForm [ppoNo=" + ppoNo + ", ppoLineItemsId=" + ppoLineItemsId
+				+ ", deliveredQuantity=" + deliveredQuantity + "" + ",deliveryNoteId=" + deliveryNoteId + ",reportList="
+				+ reportList + "]";
 	}
 
 }
