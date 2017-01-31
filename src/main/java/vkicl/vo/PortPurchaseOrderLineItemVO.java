@@ -8,6 +8,35 @@ public class PortPurchaseOrderLineItemVO {
 
 	private Integer orderedQuantity;
 
+	private Integer length;
+
+	public Integer getLength() {
+		return length;
+	}
+
+	public void setLength(Integer length) {
+		this.length = length;
+	}
+
+	public Integer getWidth() {
+		return width;
+	}
+
+	public void setWidth(Integer width) {
+		this.width = width;
+	}
+
+	public Double getThickness() {
+		return thickness;
+	}
+
+	public void setThickness(Double thickness) {
+		this.thickness = thickness;
+	}
+
+	private Integer width;
+	private Double thickness;
+
 	public Integer getPortInwardDetailId() {
 		return portInwardDetailId;
 	}

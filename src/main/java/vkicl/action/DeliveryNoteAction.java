@@ -16,10 +16,14 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.util.LabelValueBean;
 
+import vkicl.daoImpl.PortPurchaseOrderDaoImpl;
 import vkicl.daoImpl.WarehouseDaoImpl;
 import vkicl.form.WarehouseOutwardForm;
 import vkicl.util.Constants;
 import vkicl.util.PropFileReader;
+import vkicl.vo.PortInwardDetailsVO;
+import vkicl.vo.PortPurchaseOrderLineItemVO;
+import vkicl.vo.PortPurchaseOrderVO;
 import vkicl.vo.StockBalanceDetailsVO;
 import vkicl.vo.UserInfoVO;
 import vkicl.vo.WarehouseOutwardVO;
@@ -34,13 +38,21 @@ public class DeliveryNoteAction extends BaseAction {
 			HttpServletResponse response) {
 
 		ActionForward actionForward = null;
-		WarehouseOutwardForm warehouseOutwardForm = null;
+
 		String genericListener = null;
 		UserInfoVO userInfoVO = null;
 		try {
-			actionForward = checkAccess(mapping, request, Constants.Apps.WAREHOUSE_ENTRY);
+			actionForward = checkAccess(mapping, request, Constants.Apps.PORT_ENTRY);
 			if (null != actionForward)
 				return actionForward;
+
+			actionForward = mapping.findForward(Constants.Mapping.SUCCESS);
+			userInfoVO = getUserProfile(request);
+			Integer purchaseOrderNo = Integer.parseInt(request.getParameter("purchaseOrderNo"));
+
+			PortPurchaseOrderDaoImpl impl = new PortPurchaseOrderDaoImpl();
+			PortPurchaseOrderVO portPurchaseOrderVO = impl.fetchPPODetails(purchaseOrderNo);
+			request.setAttribute("port_purchase_order_details", portPurchaseOrderVO);
 
 			actionForward = mapping.findForward(Constants.Mapping.SUCCESS);
 			userInfoVO = getUserProfile(request);

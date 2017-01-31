@@ -14,6 +14,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 import vkicl.daoImpl.PortDaoImpl;
+import vkicl.daoImpl.PortPurchaseOrderDaoImpl;
 import vkicl.daoImpl.ReportDaoImpl;
 import vkicl.daoImpl.WarehouseDaoImpl;
 import vkicl.form.BaseForm;
@@ -144,23 +145,17 @@ public class JSONService extends HttpServlet {
 					form = impl.fetchWarehouseOutwardFinalStockDetails((WarehouseOutwardFinalForm) form, userInfoVO);
 				} else if (method.equalsIgnoreCase("fetchPPOLineItemsDetails")) {
 					printAllParams(request);
-					// String MypurchaseOrderNo =
-					// request.getParameter("MypurchaseOrderNo");
-					// log.info("MypurchaseOrderNo = " + MypurchaseOrderNo);
-					// if (!StringUtils.isEmpty(MypurchaseOrderNo) &&
-					// !"null".equalsIgnoreCase(MypurchaseOrderNo)) {
-					// form = new
-					// WarehouseDispatchDetailsReportForm(Integer.parseInt(dispatchNo));
-					// ReportDaoImpl impl = new ReportDaoImpl();
-					// form =
-					// impl.fetchWarehouseDispatchDetailsReport((WarehouseDispatchDetailsReportForm)
-					// form,
-					// userInfoVO);
+					String purchaseOrderNo = request.getParameter("MypurchaseOrderNo");
+					log.info("purchaseOrderNo = " + purchaseOrderNo);
+					if (!StringUtils.isEmpty(purchaseOrderNo) && !"null".equalsIgnoreCase(purchaseOrderNo)) {
 
-					// } else {
-					// throw new IllegalArgumentException("Invalid dispatchNo =
-					// " + MypurchaseOrderNo);
-					// }
+						// PortPurchaseOrderDaoImpl impl = new
+						// PortPurchaseOrderDaoImpl();
+						// form = impl.fetchPPOLineItemDetails(purchaseOrderNo);
+
+					} else {
+						throw new IllegalArgumentException("Invalid purchaseOrderNo =" + purchaseOrderNo);
+					}
 				}
 				GsonBuilder builder = new GsonBuilder();
 				Gson gson = builder.create();

@@ -778,4 +778,90 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 		return form;
 	}
 
+	public List<PortPurchaseOrderLineItemVO> fetchPPOLineItemDetails(int purchaseOrderNo) throws SQLException {
+		List<PortPurchaseOrderLineItemVO> list = new ArrayList<PortPurchaseOrderLineItemVO>();
+		Connection conn = null;
+		ResultSet rs = null;
+		CallableStatement cs = null;
+		String query = "";
+
+		try {
+			conn = getConnection();
+
+			String sql = "select pid.length, pid.width, pid.thickness,ppoli.ordered_quantity "
+					+ " from ppo_line_items ppoli " + " left join port_inward_details  pid "
+					+ " on ppoli.port_inward_details_id=pid.port_inward_detail_id where ppoli.port_purchase_order_id="
+					+ purchaseOrderNo;
+			query = sql;
+			log.info("query = " + query);
+
+			cs = conn.prepareCall(query);
+
+			rs = cs.executeQuery();
+			if (null != rs && rs.next()) {
+
+				do {
+					PortPurchaseOrderLineItemVO p = new PortPurchaseOrderLineItemVO();
+					p.setThickness(rs.getDouble(1));
+					p.setWidth(rs.getInt(2));
+					p.setLength(rs.getInt(3));
+					p.setOrderedQuantity(rs.getInt(4));
+
+					list.add(p);
+				} while (rs.next());
+
+			}
+
+		} catch (Exception e) {
+			log.error("Some error", e);
+		} finally {
+			closeDatabaseResources(conn, rs, cs);
+		}
+		return list;
+	}
+
+	public PortPurchaseOrderVO fetchPPODetails(int purchaseOrderNo) throws SQLException {
+		PortPurchaseOrderVO vo = null;
+		Connection conn = null;
+		ResultSet rs = null;
+		CallableStatement cs = null;
+		String query = "";
+
+		try {
+			conn = getConnection();
+
+			String sql = "select ppo.port_purchase_order_id, ppo.create_ts, ppo.customer_name, ppo.delivery_address, ppo.payment_terms,"
+					+ " ppo.excise, ppo.tax, ppo.transport"
+					+ " from port_purchase_order ppo  where ppo.port_purchase_order_id=" + purchaseOrderNo;
+			query = sql;
+			log.info("query = " + query);
+
+			cs = conn.prepareCall(query);
+
+			rs = cs.executeQuery();
+			if (null != rs && rs.next()) {
+
+				do {
+					vo = new PortPurchaseOrderVO();
+					vo.setPpoNo(rs.getInt(1));
+					vo.setPpoDate(rs.getString(2));
+					vo.setCustName(rs.getString(3));
+					vo.setDeliveryAddr(rs.getString(4));
+					vo.setPaymentTerms(rs.getString(5));
+					vo.setExcise(rs.getString(6));
+					vo.setTax(rs.getString(7));
+					vo.setTransport(rs.getString(8));
+
+				} while (rs.next());
+
+			}
+
+		} catch (Exception e) {
+			log.error("Some error", e);
+		} finally {
+			closeDatabaseResources(conn, rs, cs);
+		}
+		return vo;
+	}
+
 }

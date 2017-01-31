@@ -374,8 +374,8 @@ input[name="length"], input[name="width"], input[name="thickness"], input[name="
 					<div class="col-md-12">
 
 						<div id="portInwardTable">
-							<table id="portpurchaseorderinwardGrid"></table>
-							<div id="portInnwardListpager"></div>
+							<table id="portInwardGrid"></table>
+							<div id="portInwardPager"></div>
 						</div>
 					</div>
 				</div>
@@ -383,7 +383,7 @@ input[name="length"], input[name="width"], input[name="thickness"], input[name="
 					<div class="col-md-12">
 
 						<div id="portpurchaseorderTable">
-							<table id="portpurchaseorderdetailGrid"></table>
+							<table id="portInwardPackingList"></table>
 							<div id="packingListPager"></div>
 						</div>
 					</div>
@@ -392,24 +392,20 @@ input[name="length"], input[name="width"], input[name="thickness"], input[name="
 				<div class="row">
 			<div class="col-xs-12">
 				<h3>Review the selected Entries below</h3>
-				<table class="table table-responsive table-form" id="portPurchaseOrderTable">
+				<table class="table table-responsive table-form" id="portInwardTable">
 					<thead>
 						<tr>
-						
 							<th>Date</th>
 							<th>Vendor Name</th>
 							<th>Vessel Name</th>
 							<th>Mill Name</th>
-							
 							<th>Material Type</th>
 							<th>Make</th>
 							<th>Grade</th>
 							<th>Thickness</th>
 							<th>Width</th>
 							<th>Length</th>
-							<th>Quantity</th> 
-							
-						</tr>
+							<th>Quantity</th> </tr>
 					</thead>
 					<tbody id="details-tbody">
 					</tbody>
@@ -435,7 +431,7 @@ input[name="length"], input[name="width"], input[name="thickness"], input[name="
 <script>
 
 $(function() {
-	$("#portpurchaseorderinwardGrid").jqGrid(
+	$("#portInwardGrid").jqGrid(
 		{
 			url : './portPurchaseOrderJsonServlet',
 			datatype : 'json',
@@ -564,7 +560,7 @@ $(function() {
 			height : 280,
 			autowidth : true,
 			rownumbers : true,
-			pager : '#portInnwardListpager',
+			pager : '#portInwardPager',
 			sortname : 'vessel_date',
 			viewrecords : true,
 			sortorder : "desc",
@@ -590,15 +586,15 @@ $(function() {
 	           		
 	           		onSelectRow: function(rowids) {
 	           			
-	           			var grid = $('#portpurchaseorderinwardGrid');
+	           			var grid = $('#portInwardGrid');
 	           			var sel_id = grid.jqGrid('getGridParam', 'selrow');
 	           			
 	           			
 	           			var portInwardId = grid.jqGrid('getCell', sel_id, 'portInwardId');
 	           			var url="./portInwardDetailsJsonServlet2?portInwardId="+portInwardId;
 	           			console.log(url);
-	           			$("#portpurchaseorderdetailGrid").setGridParam({url:url});
-	           			$("#portpurchaseorderdetailGrid").trigger('reloadGrid');
+	           			$("#portInwardPackingList").setGridParam({url:url});
+	           			$("#portInwardPackingList").trigger('reloadGrid');
 	           			
 	       	        }
 		});
@@ -606,7 +602,7 @@ $(function() {
 
 $(function() {
 	
-	$("#portpurchaseorderdetailGrid").jqGrid(
+	$("#portInwardPackingList").jqGrid(
 				{
 					//url : './portPurchaseOrderDetailJsonServlet',
 					//url: './portInwardDetailsJsonServlet2?portInwardId=6',
@@ -614,7 +610,7 @@ $(function() {
 					mtype : 'GET',
 					
 					
-					colNames : ['port_inward_detail_id', 'port_inward_id', 'Thickness', 'Width', 'Length', 'Quantity', 'Actual Weight','Date', 'Vessel Name', 'Vendor Name', 'Material Type', 'Mill Name', 'Make', 'Grade'],
+					colNames : ['port_inward_detail_id', 'port_inward_id', 'Thickness', 'Width', 'Length', 'Quantity', 'Actual Weight'],
 							
 					colModel : [ {
 						name : 'portInwardDetailId',
@@ -713,110 +709,6 @@ $(function() {
 						//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
 						searchoptions: { sopt:[ 'cn','eq']}
 						
-					}, {
-						name : 'vesselDate',
-						index : 'vessel_date',
-						width : 100,
-						editable : false,
-						hidden: true,
-						editoptions : {
-							readonly : true,
-							size : 10
-						},
-						search:true,
-						//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
-						searchoptions: { sopt:[ 'cn','eq']}
-						
-					},{
-						name : 'vesselName',
-						index : 'vessel_name',
-						width : 150,
-						editable : false,
-						hidden: true,
-						editoptions : {
-							readonly : true,
-							size : 10
-						},
-						sortable:false,
-						search:true,
-						//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
-						searchoptions: { sopt:[ 'cn','eq']}
-						
-					},{
-						name : 'vendorName',
-						index : 'vendor_name',
-						width : 150,
-						editable : false,
-						hidden: true,
-						editoptions : {
-							readonly : true,
-							size : 10
-						},
-						sortable:false,
-						search:true,
-						//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
-						searchoptions: { sopt:[ 'cn','eq']}
-						
-					},{
-						name : 'materialType',
-						index : 'materialType',
-						width : 120,
-						editable : false,
-						hidden: true,
-						editoptions : {
-							readonly : true,
-							size : 10
-						},
-						search:false,
-						sortable:false,
-						//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
-						searchoptions: { sopt:[ 'cn','eq']}
-						
-					},{
-						name : 'millName',
-						index : 'millName',
-						width : 150,
-						editable : false,
-						hidden: true,
-						editoptions : {
-							readonly : true,
-							size : 10
-						},
-						search:false,
-						sortable:false,
-						//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
-						searchoptions: { sopt:[ 'cn','eq']}
-						
-					},{
-						name : 'make',
-						index : 'make',
-						width : 100,
-						editable : false,
-						hidden: true,
-						editoptions : {
-							readonly : true,
-							size : 10
-						},
-						sortable:false,
-						search:false,
-						//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
-						searchoptions: { sopt:[ 'cn','eq']}
-						
-					},{
-						name : 'grade',
-						index : 'grade',
-						width : 300,
-						editable : false,
-						hidden: true,
-						editoptions : {
-							readonly : true,
-							size : 10
-						},
-						sortable:false,
-						search:false,
-						//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
-						searchoptions: { sopt:[ 'cn','eq']}
-						
 					}
 					],
 					postData : {
@@ -829,10 +721,10 @@ $(function() {
 					multiselect : true,
 					footerrow: false,
 					pager : '#packingListPager',
-					sortname : 'port_inward_id',
+					//sortname : 'port_inward_id',
 					viewrecords : true,
 					sortorder : "desc",
-					caption : "Port Inward Details",
+					caption : "Port Inward Packing List",
 					emptyrecords : "Empty records",
 					loadonce : false,
 					loadComplete : function() {
@@ -849,8 +741,8 @@ $(function() {
 					},
 			        gridComplete: function(){ 
 			        	
-			        	var $grid = $("#portpurchaseorderdetailGrid");
-			        	var ids = $("#portpurchaseorderdetailGrid").jqGrid('getDataIDs');
+			        	var $grid = $("#portInwardPackingList");
+			        	var ids = $("#portInwardPackingList").jqGrid('getDataIDs');
 			        	
 			        	
 			        	
@@ -926,7 +818,7 @@ function composeObjectForCaching(rowObject,qty){
 function handleOnSelectRow(rowId, status){
 	console.log("---------->>>> "+rowId);
 	console.log("---------->>>> "+status);
-	var row = jQuery("#portpurchaseorderdetailGrid").jqGrid('getRowData',rowId); 
+	var row = jQuery("#portInwardPackingList").jqGrid('getRowData',rowId); 
 	var orderedQty = $("#ordered_qty_"+rowId).val()
 	try{
 		var x = Number(orderedQty);
@@ -944,7 +836,7 @@ function handleOnSelectRow(rowId, status){
 			//updateOrderedQuantityInCache(objectForCaching);
 			$("#ordered_qty_"+rowId).val(isPresentObj.orderedQuantity);
 			var val = calculateOutQty(rowId, isPresentObj.orderedQuantity);
-			$("#portpurchaseorderdetailGrid").jqGrid("setCell", rowId, "outQty", val);
+			$("#portInwardPackingList").jqGrid("setCell", rowId, "outQty", val);
 		}else{
 			//Now add the customer code to array.
 			
@@ -992,7 +884,7 @@ function refreshPortOutwardTable(){
 		var q = Number($(elem).val());
 		quantitySum = quantitySum + q;
 		
-		$("#portpurchaseorderdetailGrid").jqGrid('footerData', 'set', {  'quantity': quantitySum });
+		$("#portInwardPackingList").jqGrid('footerData', 'set', {  'quantity': quantitySum });
 	});
 	
 	$(".port_out_section_wt").each(function (index, elem){
@@ -1034,8 +926,8 @@ function compareCachedObjects(one, two){
 }
 
 function isOrderedQtyLessThanAvailableQtyAtPort(orderedQty, jqGridRowId){
-	var $packingListGrid = $("#portpurchaseorderdetailGrid");
-	var row = jQuery("#portpurchaseorderdetailGrid").jqGrid('getRowData',jqGridRowId); 
+	var $packingListGrid = $("#portInwardPackingList");
+	var row = jQuery("#portInwardPackingList").jqGrid('getRowData',jqGridRowId); 
 	var availableQty = Number(row.quantity);
 	var isMore = false;
 	if(orderedQty > availableQty){
@@ -1050,11 +942,11 @@ function setTick(jqGridRowId){
 	
 	try{
 		jqGridRowId = jqGridRowId+"";
-		var $packingListGrid = $("#portpurchaseorderdetailGrid");
+		var $packingListGrid = $("#portInwardPackingList");
 		var orderedQty = Number($("#ordered_qty_"+jqGridRowId).val());
 		//console.log("Ordered Qty = "+orderedQty);
 		var val = calculateOutQty(jqGridRowId, orderedQty);
-	    $("#portpurchaseorderdetailGrid").jqGrid("setCell", jqGridRowId, "outQty", val);
+	    $("#portInwardPackingList").jqGrid("setCell", jqGridRowId, "outQty", val);
 				
 		
 		var isMore = isOrderedQtyLessThanAvailableQtyAtPort(orderedQty, jqGridRowId);
@@ -1091,7 +983,7 @@ function setTick(jqGridRowId){
 }
 
 function updateQuantityInCache(jqGridRowId, orderedQty){
-	var $packingListGrid = $("#portpurchaseorderdetailGrid");
+	var $packingListGrid = $("#portInwardPackingList");
 	var rowObject = $packingListGrid.jqGrid('getRowData',jqGridRowId); 
 	var objectForCompare = composeObjectForCaching(rowObject, orderedQty);
 	var objectFromCache = isObjectPresentInCache(objectForCompare);
@@ -1167,7 +1059,7 @@ function addRowOfSelectedRecord(recordObj) {
 	var warehouseInwardRecordClass = composeCombinationClass(id);
 	var recordObjJson = JSON.stringify(recordObj);	
 	
-	var $grid = $("#portpurchaseorderinwardGrid");
+	var $grid = $("#portInwardGrid");
 	
 	var selectedRowId = $grid.jqGrid ('getGridParam', 'selrow');
 	var vesselDate = $grid.jqGrid('getCell', selectedRowId, 'vesselDate');
@@ -1223,7 +1115,7 @@ function addQuantitySumRow(quantitySum,sectionwtSum) {
 	//applyTotalCalc();
 }
 function calculateOutQty(rowId, orderedQuantity){
-	var data = $("#portpurchaseorderdetailGrid").jqGrid('getRowData');
+	var data = $("#portInwardPackingList").jqGrid('getRowData');
 	var row = data[rowId-1];
 	var outqtyval= (row.length * row.width * row.thickness * orderedQuantity * 7.85) / 1000000000;
 	return outqtyval.toFixed(3);
@@ -1261,7 +1153,7 @@ function submitPortPurchaseOrder(){
 	var comments = getValByFieldName("body", "comments");
 	
 	
-	var parseTotal=  $(portpurchaseorderdetailGrid).jqGrid('getCol', 'quantity', false, 'sum');
+	var parseTotal=  $(portInwardPackingList).jqGrid('getCol', 'quantity', false, 'sum');
 	
 	
 	

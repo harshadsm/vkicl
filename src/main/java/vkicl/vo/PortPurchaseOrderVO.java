@@ -3,7 +3,7 @@ package vkicl.vo;
 import java.util.List;
 
 public class PortPurchaseOrderVO {
-	
+
 	private List<PortPurchaseOrderLineItemVO> portPurchaseOrderLineItems;
 	private String custName;
 	private String brokerName;
@@ -13,14 +13,14 @@ public class PortPurchaseOrderVO {
 
 	private Integer rate;
 
-	private Double excise;
-	private Double tax;
-	private Double transport;
+	private String excise;
+	private String tax;
+	private String transport;
 
 	private String paymentTerms;
 	private String comments;
 	private Integer totalQty;
-	
+
 	private Integer pendingItems;
 	private String ppoDate;
 	private Integer ppoNo;
@@ -109,27 +109,27 @@ public class PortPurchaseOrderVO {
 		this.rate = rate;
 	}
 
-	public Double getExcise() {
+	public String getExcise() {
 		return excise;
 	}
 
-	public void setExcise(Double excise) {
+	public void setExcise(String excise) {
 		this.excise = excise;
 	}
 
-	public Double getTax() {
+	public String getTax() {
 		return tax;
 	}
 
-	public void setTax(Double tax) {
+	public void setTax(String tax) {
 		this.tax = tax;
 	}
 
-	public Double getTransport() {
+	public String getTransport() {
 		return transport;
 	}
 
-	public void setTransport(Double transport) {
+	public void setTransport(String transport) {
 		this.transport = transport;
 	}
 
@@ -159,11 +159,10 @@ public class PortPurchaseOrderVO {
 
 	@Override
 	public String toString() {
-		return "PortPurchaseOrderVO ["
-				+ "custName=" + custName + ", brokerName=" + brokerName + ", brokerage=" + brokerage
-				+ ",brokerageUnit=" + brokerageUnit + ",rate=" + rate + ", excise=" + excise + ", deliveryAddr="
-				+ deliveryAddr + ",tax=" + tax + ", totalQty=" + totalQty + ",transport=" + transport
-				+ ", paymentTerms=" + paymentTerms + ", comments=" + comments + "]";
+		return "PortPurchaseOrderVO [" + "custName=" + custName + ", brokerName=" + brokerName + ", brokerage="
+				+ brokerage + ",brokerageUnit=" + brokerageUnit + ",rate=" + rate + ", excise=" + excise
+				+ ", deliveryAddr=" + deliveryAddr + ",tax=" + tax + ", totalQty=" + totalQty + ",transport="
+				+ transport + ", paymentTerms=" + paymentTerms + ", comments=" + comments + "]";
 	}
 
 }

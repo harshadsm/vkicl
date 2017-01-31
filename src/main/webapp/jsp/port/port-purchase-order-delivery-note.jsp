@@ -9,266 +9,36 @@
 <%@taglib uri="/WEB-INF/struts-core.tld" prefix="c" %>
 
 <% 
-String purchaseOrderNo=request.getParameter("purchaseOrderNo");
-if(purchaseOrderNo == null){
-	purchaseOrderNo = (String)request.getAttribute("purchaseOrderNo");
-}
-
-
+PortPurchaseOrderVO vo = (PortPurchaseOrderVO)request.getAttribute("port_purchase_order_details");
 %>
-<script type="text/javascript">
 
-var MypurchaseOrderNo='<%= purchaseOrderNo %>';
-	var id = 1, row = {}, row_id = 0, current_row_id = "", globalJson = {};
-
-	function fetchWarehouseOutwardDetails() {
-		
-		
-		//var dispatchNo = $("[name='dispatchNo']").val();
-		
-		var dispatchNo=MypurchaseOrderNo;
-		
-		console.log(dispatchNo);
-		if ("--" == dispatchNo) {
-			bootbox.alert("Please select a valid Dispatch Number");
-			$("[name='dispatchNo']").focus();
-			resetWarehouseOutwardForm();
-			return false;
-		}
-		showLoader();
-		$.ajax({
-			url : "./json?method=fetchPPOLineItemsDetails&MypurchaseOrderNo=" + MypurchaseOrderNo,
-			success : function(json, status, response) {
-				processJSON(json);
-			},
-			error : function() {
-				$(".details-container").hide();
-				hideLoader();
-				bootbox.alert("Unable to fetch Required Details");
-			}
-		});
-
-	}
-
-	$(document).ready(function() {
-		
-		
-			fetchWarehouseOutwardDetails();
-			
-	});
-
-	function validateForm() {
-	    fillDetails();
-		var msg = "";
-	    var valid = true;
-	    
-	    if ("" == getValByFieldName("body", "vehicleNumber")) {
-			bootbox.alert("Please enter vehicle Number");
-			return false;
-		}
-	    
-	    //if ("" == getValByFieldName("body", "actWt")) {
-			//bootbox.alert("Please enter Actual Weight");
-			//return false;
-		//}
-	    
-	    if ("" == getValByFieldName("body", "vehicleDate")) {
-			bootbox.alert("Please select vehicle Date");
-			return false;
-		}
-	    
-	    
-	    
-    return commonSubmit();
-	}
-	
-	// Harshad Important Trace #2
-	function fillDetails(){
-		$("#details-tbody tr").each(function(i, tr){
-			var id = $(tr).find("[name='row']")[0].value;
-			var txtSubQty = $(tr).find("[name='subQty']")[0];
-			var txttotal = $(tr).find("[name='total']")[0];
-			var txtLocation = $(tr).find("[name='location']")[0];
-			
-			var txtstockId = $(tr).find("[name='stockId']")[0];
-			var txtavailableQty = $(tr).find("[name='availableQty']")[0];
-			
-			
-			
-			var str = "";
-			$("#hidden-div-"+id + " [name='stockId']").each(function(){
-				str = str + $(this).val() + ",";
-			});
-			if(str.endsWith(","))
-				str = str.substr(0, str.length - 1);
-			
-			
-			txtstockId.value = str;
-			
-			
-			
-			
-			var str = "";
-			$("#hidden-div-"+id + " [name='location']").each(function(){
-				str = str + $(this).val() + ",";
-			});
-			if(str.endsWith(","))
-				str = str.substr(0, str.length - 1);
-			
-			
-			txtLocation.value = str;
-			
-			
-			var str = "";
-			var qtySelected = 0;
-			$("#hidden-div-"+id + " [name='subQty']").each(function(){
-				if($.trim($(this).val()) == "")
-					$(this).val(0);
-				str = str + $(this).val() + ",";
-				qtySelected = qtySelected + parseInt($(this).val());
-				
-				txttotal.value=qtySelected;
-			});
-			if(str.endsWith(","))
-				str = str.substr(0, str.length - 1);
-			
-			//Harshad Important Trace #2
-			txtSubQty.value = str;
-			
-			
-			
-			var str = "";
-			$("#hidden-div-"+id + " [name='availableQty']").each(function(){
-				str = str + $(this).val() + ",";
-			});
-			if(str.endsWith(","))
-				str = str.substr(0, str.length - 1);
-			
-			
-			txtavailableQty.value = str;
-			
-			$("#hidden-div-"+id + " tfoot th#total").html(qtySelected);
-		});		
-	}
-	
-	function processJSON(json) {
-		try{
-			json = JSON.parse(json);
-			globalJson = json;
-		}catch(e){
-			return false;
-		}
-		resetWarehouseOutwardForm();
-
-		var count = 0;
-		if (null != json.resultList)
-			count = json.resultList.length;
-
-		$("[name='dispatchNo']").val(json.id);
-
-// 		if(json.pending != "Pending")
-// 			bootbox.alert("This order is already " + json.pending, function(){
-// 				resetWarehouseOutwardForm();
-// 			});
-		
-		if (count > 0) {
-
-			$("#details-tbody").html('');
-			$("#hidden-div").html('');
-
-			for (var i = 0; i < count; i++) {
-				addRow();
-				applyNumericConstraint();
-				
-				var result = json.resultList[i];
-				var millName = $("#"+current_row_id).find("[name='millName']")[0];
-				millName.value = result.millName;
-				$("#"+current_row_id).find("[name='make']")[0].value = result.make;
-				$("#"+current_row_id).find("[name='dispatchDetailsID']")[0].value = result.dispatchDetailsID;
-				$("#"+current_row_id).find("[name='grade']")[0].value = result.grade;
-				$("#"+current_row_id).find("[name='length']")[0].value = result.length;
-				$("#"+current_row_id).find("[name='width']")[0].value = result.width;
-				$("#"+current_row_id).find("[name='thickness']")[0].value = result.thickness;
-				$("#"+current_row_id).find("[name='secWtUnit']")[0].value = result.actWtUnit;
-				$("#"+current_row_id).find("[name='secWtUnit']").html(result.actWtUnit + " <span class='caret'></span></button>");
-				$("#"+current_row_id).find("[name='qty']")[0].value = result.qty;
-				//$("#"+current_row_id).find("[name='qtyAvailable']")[0].value = result.qtyAvailable;
-			}
-			refreshSecWtRow();
-		} else
-			bootbox.alert("No Record Found");
-		$(".after-result-1").show();
-		hideLoader();
-	}
-</script>
 
 <div class="row">
 	<div class="col-md-12">
-		<h3 class="page-head">Warehouse Outward</h3>
+		<h3 class="page-head">Port Purchase Order Delivery Note</h3>
 	</div>
 </div>
 <div>
-	<html:form enctype="multipart/form-data" action="/warehouse-outward"
+	<html:form enctype="multipart/form-data" action="/delivery-note"
 		method="post">
 		<div class="row">
-			<div class="col-md-10">
-			
-			<table class="table table-responsive dispatch-table">
-					<tr>
-						<td class='excel' colspan="1"><label for="ppoNo">PPO Number</label></td>
-						<td class='excel' colspan="5"><label for="ppoNo">PPO Number</label></td>
-						
-					</tr>
-					<tr>
-						<td class='excel' colspan="1"><label for="ppoDate">PPO Date</label></td>
-						<td class='excel' colspan="5"><label for="ppoNo">PPO Number</label></td>
-						
-					</tr>
-					</table>
+			<div class="col-md-3">
+				<div class="panel panel-default">
+					<div class="panel-heading"></div>
+					<div class="panel-body">
+						<table class="table">
+							
+							<tbody id="details-tbody">
+								<tr>
+									<th>PPO Number #</th><td><%=vo.getPpoNo() %></td>
+									</tr>
+								
+							</tbody>
+						</table>
 					</div>
+				</div>
+			</div>
 					</div>
-					<div class="row">
-			<div class="col-md-10">
-			<tr>
-						<td class='excel' colspan="1"><label for="customerName">Customer Name</label></td>
-						<td class='excel' colspan="5"><label for="ppoNo">PPO Number</label></td>
-						
-					</tr>
-					<tr>
-						<td class='excel' colspan="1"><label for="deliveryAddress">Delivery address</label></td>
-						<td class='excel' colspan="5"><label for="ppoNo">PPO Number</label></td>
-						
-					</tr>
-			</div>
-			</div>
-			<div class="row">
-			<div class="col-md-10">
-			<tr>
-						<td class='excel' colspan="1"><label for="paymentTerms">Payment Terms</label></td>
-						<td class='excel' colspan="5"><label for="ppoNo">PPO Number</label></td>
-						
-					</tr>
-					<tr>
-						<td class='excel' colspan="1"><label for="excise">Excise</label></td>
-						<td class='excel' colspan="5"><label for="ppoNo">PPO Number</label></td>
-						
-					</tr>
-			</div>
-			</div>
-			<div class="row">
-			<div class="col-md-10">
-			<tr>
-						<td class='excel' colspan="1"><label for="tax">Tax</label></td>
-						<td class='excel' colspan="5"><label for="ppoNo">PPO Number</label></td>
-						
-					</tr>
-					<tr>
-						<td class='excel' colspan="1"><label for="transport">Transport</label></td>
-						<td class='excel' colspan="5"><label for="ppoNo">PPO Number</label></td>
-						
-					</tr>
-			</div>
-			</div>
 		<html:hidden property="genericListener" value="add" />
 	</html:form>
 	<div class="row">
