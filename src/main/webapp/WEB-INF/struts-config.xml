@@ -92,7 +92,7 @@
 		</action>
 		
 		<action path="/delivery-note" type="vkicl.action.DeliveryNoteAction"
-			name="PortPurchaseOrderDeliveryForm" scope="request">
+			name="PortPurchaseOrderDeliveryNoteForm" >
 			<forward name="success" path="deliveryNoteDefn" />
 		</action>
 		

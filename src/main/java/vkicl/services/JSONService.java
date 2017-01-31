@@ -143,19 +143,7 @@ public class JSONService extends HttpServlet {
 
 					WarehouseDaoImpl impl = new WarehouseDaoImpl();
 					form = impl.fetchWarehouseOutwardFinalStockDetails((WarehouseOutwardFinalForm) form, userInfoVO);
-				} else if (method.equalsIgnoreCase("fetchPPOLineItemsDetails")) {
-					printAllParams(request);
-					String purchaseOrderNo = request.getParameter("MypurchaseOrderNo");
-					log.info("purchaseOrderNo = " + purchaseOrderNo);
-					if (!StringUtils.isEmpty(purchaseOrderNo) && !"null".equalsIgnoreCase(purchaseOrderNo)) {
 
-						// PortPurchaseOrderDaoImpl impl = new
-						// PortPurchaseOrderDaoImpl();
-						// form = impl.fetchPPOLineItemDetails(purchaseOrderNo);
-
-					} else {
-						throw new IllegalArgumentException("Invalid purchaseOrderNo =" + purchaseOrderNo);
-					}
 				}
 				GsonBuilder builder = new GsonBuilder();
 				Gson gson = builder.create();

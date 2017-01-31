@@ -1,3 +1,4 @@
+<%@page import="vkicl.vo.PortPurchaseOrderVO"%>
 <%@page import="org.apache.commons.lang.StringEscapeUtils"%>
 <%@page import="vkicl.util.Constants"%>
 <%@page import="vkicl.vo.UserInfoVO"%>
@@ -10,6 +11,7 @@
 
 <% 
 PortPurchaseOrderVO vo = (PortPurchaseOrderVO)request.getAttribute("port_purchase_order_details");
+System.out.print("hi");
 %>
 
 
@@ -22,23 +24,70 @@ PortPurchaseOrderVO vo = (PortPurchaseOrderVO)request.getAttribute("port_purchas
 	<html:form enctype="multipart/form-data" action="/delivery-note"
 		method="post">
 		<div class="row">
-			<div class="col-md-3">
+			<div class="col-md-10">
 				<div class="panel panel-default">
 					<div class="panel-heading"></div>
-					<div class="panel-body">
+					
 						<table class="table">
 							
 							<tbody id="details-tbody">
 								<tr>
-									<th>PPO Number #</th><td><%=vo.getPpoNo() %></td>
-									</tr>
+									<th>PPO Number</th><td><%=vo.getPpoNo() %></td>
 								
+									<th>PPO Date</th><td><%=vo.getPpoDate() %></td>
+								</tr>
+								<tr>
+									<th>Customer Name</th><td><%=vo.getCustName() %></td>
+								<th>Delivery address</th><td><%=vo.getDeliveryAddr() %></td>
+									
+								</tr>
+								<tr>
+									<th>Payment Terms</th><td><%=vo.getPaymentTerms() %></td>
+								
+									<th>Excise</th><td><%=vo.getExcise() %></td>
+								</tr>
+								<tr>
+									<th>Tax</th><td><%=vo.getTax() %></td>
+								
+									<th>Transport</th><td><%=vo.getTransport() %></td>
+								</tr>
 							</tbody>
 						</table>
-					</div>
+					
 				</div>
 			</div>
-					</div>
+			<div class="row">
+			
+			<div class="col-md-12">
+				<table class="table table-responsive table-excel after-result-1" id="delivery-table">
+					<thead>
+						<tr>
+							<th>No </th>
+							<th>Thickness</th>
+							<th>Width</th>
+							<th>Length</th>
+							<th>Ordered Quantity</th>
+							<th>Delivery Quantity</th>
+							
+						</tr>
+					</thead>
+					<tbody id="details-tbody">
+					<logic:iterate id="report" name="PortPurchaseOrderDeliveryNoteForm"
+							property="reportList">
+							<tr 
+								id='row-<c:out value="${report.itemNo}" />'>
+								<td><c:out value="${report.thickness}" /></td>
+								<td><c:out value="${report.length}" /></td>
+								<td><c:out value="${report.width}" /></td>
+								<td><c:out value="${report.orderedQty}" /></td>
+							   
+							   
+							</tr>
+						</logic:iterate>
+					</tbody>
+				</table>
+			</div>
+		</div>
 		<html:hidden property="genericListener" value="add" />
 	</html:form>
 	<div class="row">
@@ -128,53 +177,7 @@ PortPurchaseOrderVO vo = (PortPurchaseOrderVO)request.getAttribute("port_purchas
 	padding: 0;
 }
 
-/* div.input-group input[type=number] {
-	border-right: 1px solid #e67e22;
-}
 
-div.weight-group .btn, .date-picker-div .input-group-addon {
-	background-color: rgba(230, 126, 34, 0.05);
-	border-color: #E4DCD4;
-	border-radius: 0px;
-	color: #5C5B60;
-	font-weight: 600;
-	border-left: 1px solid #e67e22;
-	margin-left: 0;
-}
-
-div.weight-group .btn .caret {
-	border-top: 4px solid #000000;
-}
-
-td .input-group {
-	width: 100%
-}
-
-.td-100 {
-	width: 100px;
-}
-
-.td-100 .weight-group button {
-	width: 100%;
-	text-align: right;
-}
-
-.input-group-btn:last-child>.btn, .input-group-btn:last-child>.btn-group
-	{
-	background: #FFFFFF;
-	margin: 0px;
-	border: 0px;
-}
-
-#page-title {
-	width: 100%;
-	font-size: 1.6em;
-	text-align: center;
-	font-weight: bold;
-	background-color: rgba(230, 126, 34, 0.05);
-	border: 1px solid #e67e22;
-	padding: 15px;
-} */
 
 .table-excel td.center-input {
 	text-align: center;
@@ -211,3 +214,170 @@ padding: 0;
 	height: 35px;
 }
 </style>
+<script>
+
+$(function() {
+	populatePpoItemList();
+});		
+
+
+
+
+
+
+function populatePackingList(){
+	
+	$("#ppoLineItemsGrid").jqGrid(
+		{
+			url : './packingListJsonServlet',
+			datatype : 'json',
+			
+			mtype : 'POST',
+			
+			
+			colNames : [ 'portInwardId', 'portInwardDetailId', 'Thickness', 'Width', 'Length', 'Ordered Quantity', 'Delivery Quantity'],
+					
+			colModel : [  {
+				name : 'portInwardId',
+				index : 'portInwardId',
+				hidden: true,
+				width : 185,
+				editable : false,
+				editrules : {
+					required : true
+				},
+				editoptions : {
+					size : 10
+				},
+				search:false,
+				searchoptions: { sopt:['ge']}
+			}, {
+				name : 'portInwardDetailId',
+				index : 'portInwardDetailId',
+				hidden: true,
+				width : 185,
+				editable :false,
+				editrules : {
+					required : true
+				},
+				editoptions : {
+					size : 10
+				},
+				search:false,
+				searchoptions: { sopt:['ge']}
+			},{
+				name : 'thickness',
+				index : 'thickness',
+				width : 200,
+				editable : false,
+				editoptions : {
+					readonly : true,
+					size : 10
+				},
+				align : 'center',
+				search:true,
+				sortable:true,
+				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+				searchoptions: { sopt:[ 'eq']}
+				
+			},{
+				name : 'width',
+				index : 'width',
+				width : 200,
+				editable : false,
+				editoptions : {
+					readonly : true,
+					size : 10
+				},
+				align : 'center',
+				search:true,
+				sortable:true,
+				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+				searchoptions: { sopt:[ 'eq']}
+				
+			},
+			{
+				name : 'length',
+				index : 'length',
+				width : 200,
+				editable : false,
+				editoptions : {
+					readonly : true,
+					size : 10
+				},
+				align : 'center',
+				search:true,
+				sortable:true,
+				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+				searchoptions: { sopt:[ 'eq']}
+				
+			}
+			, 
+			{
+				name : 'Ordered_quantity',
+				index : 'Ordered_quantity',
+				width : 150,
+				editable : false,
+				editoptions : {
+					readonly : true,
+					size : 10
+				},
+				align : 'center',
+				search:false,
+				sortable:false,
+				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+				searchoptions: { sopt:[ 'eq']}
+				
+			},
+			{
+			    name: 'txtVAlue',
+			    width: 100,
+			    search:false,
+			    align: 'center',
+			    formatter: function (cellValue, option) {
+			    	//console.log(option);
+			        return '<input number digits="" type="number" size="7" style="color:black;" name="txtBox" id="ordered_qty_' + option.rowId +'" value="" onchange="setTick('+option.rowId+')"/>';
+			}
+			
+			}
+			
+			],
+			postData : {
+			},
+			rowNum : 10,
+			rowList : [ 10, 20, 30 ,40, 50, 60 ],
+			height : 280,
+			autowidth : true,
+			rownumbers : true,
+			multiselect : true,
+			pager : '#packingListPager',
+			sortname : 'port_inward_detail_id',
+			viewrecords : true,
+			sortorder : "desc",
+			caption : "Inventory available at Port",
+			emptyrecords : "Empty records",
+			loadonce : false,
+			loadComplete : function() {
+
+			},
+			jsonReader : {
+				root : "rows",
+				page : "page",
+				total : "total",
+				records : "records",
+				repeatitems : false,
+				cell : "cell",
+				id : "id"
+			},
+	        gridComplete: function(){
+	        	
+	        	},
+       		onSelectRow: handleOnSelectRow,
+   	        onSelectAll: function(aRowids, status) {
+   	        	for(var i=0;i<aRowids.length;i++){
+   	            	
+   	            }
+   	            
+   	        }
+		});
+}
