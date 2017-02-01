@@ -2,6 +2,7 @@ package vkicl.action;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
 
@@ -93,9 +94,10 @@ public class DeliveryNoteAction extends BaseAction {
 			portpurchasedeliverynoteForm = (PortPurchaseDeliveryNoteForm) form;
 			genericListener = portpurchasedeliverynoteForm.getGenericListener();
 			if (genericListener.equalsIgnoreCase("addDetails")) {
-				PortPurchaseOrderDaoImpl impl = new PortPurchaseOrderDaoImpl();
-				Long deliveryNoteId = impl.addPortPurchaseDeliveryData(portpurchasedeliverynoteForm, userInfoVO);
-				impl.addPortPurchaseDeliveryLineItemsData(portpurchasedeliverynoteForm, deliveryNoteId, userInfoVO);
+
+				PortPurchaseOrderService ppoService = new PortPurchaseOrderService();
+				ppoService.processDeliveryNote(portpurchasedeliverynoteForm, userInfoVO);
+
 			} else {
 				log.info("Loaded Port Purchase Order Line Item Details");
 			}
@@ -105,4 +107,5 @@ public class DeliveryNoteAction extends BaseAction {
 		return actionForward;
 
 	}
+
 }

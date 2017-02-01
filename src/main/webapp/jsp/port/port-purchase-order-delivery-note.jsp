@@ -99,17 +99,17 @@ return commonSubmit();
 					%>
 					
 					<tr id="row-sub-<%=cnt %>" class='sub-row'>
-								<td><input id="ppoLineitemNo"  type='label' value="<%=record.getPpoLineItemNo() %>"/>
-								<input type="hidden"  id="ppoLineitemNo" value="<%=record.getPpoLineItemNo() %>"/>
+								<td><input disabled id="ppoLineitemNo"  type='label' value="<%=record.getPpoLineItemNo() %>"/>
+								<input type="hidden" name='ppoLineitemNo' id="ppoLineitemNo" value="<%=record.getPpoLineItemNo() %>"/>
 								</td>
-								<td><input  type='label' value="<%=record.getThickness() %>"/></td>
-								<td><input  type='label' value="<%=record.getWidth() %>"/></td>
-								<td><input  type='label' value="<%=record.getLength() %>"/></td>
-								<td><input  type='label' value="<%=record.getOrderedQuantity() %>"/></td>
+								<td><input  disabled type='label' value="<%=record.getThickness() %>"/></td>
+								<td><input  disabled type='label' value="<%=record.getWidth() %>"/></td>
+								<td><input disabled  type='label' value="<%=record.getLength() %>"/></td>
+								<td><input disabled  type='label' value="<%=record.getOrderedQuantity() %>"/></td>
 								
 								<td>
 							   <input number digits="" type="number"  name="txtDeliveryQty" id="deliveryQuantity" value="<%=record.getDeliveryQuantity() %>/>
-							   <input type="hidden" id="deliveryQuantity" value="<%=record.getDeliveryQuantity() %>"/>
+							   <input type="hidden" name='deliveryQuantity' id="deliveryQuantity" value="<%=record.getDeliveryQuantity() %>"/>
 							   </td>
 							</tr>
 					<% } %>
