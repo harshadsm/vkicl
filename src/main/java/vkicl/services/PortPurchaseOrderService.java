@@ -1,5 +1,6 @@
 package vkicl.services;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,10 +11,13 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import vkicl.daoImpl.PortDaoImpl;
+import vkicl.daoImpl.PortInwardDaoImpl;
 import vkicl.daoImpl.PortInwardOutwardIntersectionDaoImpl;
 import vkicl.daoImpl.PortOutwardDaoImpl;
 import vkicl.daoImpl.PortOutwardShipmentDaoImpl;
 import vkicl.daoImpl.PortPurchaseOrderDaoImpl;
+import vkicl.vo.PortInwardDetailsVO;
+import vkicl.vo.PortInwardRecordVO;
 import vkicl.vo.PortOutwardPostDataContainerVO;
 import vkicl.vo.PortOutwardRecordVO;
 import vkicl.vo.PortPurchaseOrderLineItemVO;
@@ -54,5 +58,24 @@ public class PortPurchaseOrderService {
 		status.setPortPurchaseOrderId(portPurchaseOrderId);
 		status.setStatus("success");
 		// return status;
+	}
+
+	public PortPurchaseOrderVO getPPODetailsById(Integer purchaseOrderNo) {
+		PortPurchaseOrderVO vo = null;
+		PortPurchaseOrderDaoImpl dao = new PortPurchaseOrderDaoImpl();
+
+		try {
+			vo = dao.getPPODetailsById(purchaseOrderNo);
+		} catch (SQLException e) {
+			logger.error("Some error", e);
+		}
+		return vo;
+	}
+
+	public List<PortPurchaseOrderLineItemVO> fetchPPOLineItems(Integer purchaseOrderNo, UserInfoVO userInfo)
+			throws SQLException {
+		PortPurchaseOrderDaoImpl dao = new PortPurchaseOrderDaoImpl();
+		List<PortPurchaseOrderLineItemVO> records = dao.fetchPPOLineItems(purchaseOrderNo, userInfo);
+		return records;
 	}
 }

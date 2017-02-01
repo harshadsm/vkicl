@@ -23,6 +23,7 @@ import vkicl.form.PortInwardForm;
 import vkicl.form.PortPurchaseDeliveryNoteForm;
 import vkicl.form.PortPurchaseOrderDeliveryForm;
 import vkicl.form.WarehouseOutwardForm;
+import vkicl.services.PortPurchaseOrderService;
 import vkicl.util.Constants;
 import vkicl.util.PropFileReader;
 import vkicl.vo.PortInwardDetailsVO;
@@ -57,12 +58,13 @@ public class DeliveryNoteAction extends BaseAction {
 				Integer purchaseOrderNo = Integer.parseInt(request.getParameter("purchaseOrderNo"));
 
 				if (purchaseOrderNo != null) {
-					PortPurchaseOrderDaoImpl impl = new PortPurchaseOrderDaoImpl();
-					PortPurchaseOrderVO portPurchaseOrderVO = impl.fetchPPODetails(purchaseOrderNo);
-					request.setAttribute("port_purchase_order_details", portPurchaseOrderVO);
 
-					portpurchasedeliverynoteForm = impl.fetchPPOLineItems(portpurchasedeliverynoteForm, purchaseOrderNo,
-							userInfoVO);
+					PortPurchaseOrderService ppoService = new PortPurchaseOrderService();
+					PortPurchaseOrderVO portPurchaseOrderVO = ppoService.getPPODetailsById(purchaseOrderNo);
+					request.setAttribute("port_purchase_order_details", portPurchaseOrderVO);
+					List<PortPurchaseOrderLineItemVO> portPurchaseOrderLineItemVO = ppoService
+							.fetchPPOLineItems(portPurchaseOrderVO.getPpoNo(), userInfoVO);
+					request.setAttribute("port_purchase_order_line_items", portPurchaseOrderLineItemVO);
 				}
 				actionForward = mapping.findForward(Constants.Mapping.SUCCESS);
 				userInfoVO = getUserProfile(request);

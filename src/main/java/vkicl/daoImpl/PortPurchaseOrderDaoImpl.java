@@ -471,8 +471,8 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 			conn = getConnection();
 			cs = conn.prepareCall(query);
 
-			cs.setLong(1, );
-			cs.setInt(2, );
+			// cs.setLong(1, );
+			// cs.setInt(2, );
 			cs.setLong(3, deliveryNoteId);
 			cs.setString(4, userInfoVO.getUserName());
 			cs.setString(5, userInfoVO.getUserName());
@@ -722,14 +722,14 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 		return form;
 	}
 
-	public PortPurchaseDeliveryNoteForm fetchPPOLineItems(PortPurchaseDeliveryNoteForm form, Integer purchaseOrderNo,
-			UserInfoVO userInfoVO) throws SQLException {
-
+	public List<PortPurchaseOrderLineItemVO> fetchPPOLineItems(Integer purchaseOrderNo, UserInfoVO userInfoVO)
+			throws SQLException {
+		List<PortPurchaseOrderLineItemVO> list = new ArrayList<PortPurchaseOrderLineItemVO>();
 		Connection conn = null;
 		ResultSet rs = null;
 		CallableStatement cs = null;
 		String query = "";
-		ArrayList<PortPurchaseOrderDeliveryNoteBean> reportList = null;
+
 		try {
 			conn = getConnection();
 
@@ -744,30 +744,29 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 
 			rs = cs.executeQuery();
 			if (null != rs && rs.next()) {
-				reportList = new ArrayList<PortPurchaseOrderDeliveryNoteBean>();
-				do {
-					PortPurchaseOrderDeliveryNoteBean report = new PortPurchaseOrderDeliveryNoteBean();
-					report.setPpoLineitemNo(rs.getInt(1));
-					report.setLength(rs.getInt(2));
-					report.setWidth(rs.getInt(3));
-					report.setThickness(rs.getDouble(4));
-					report.setOrderedQty(rs.getInt(5));
 
-					reportList.add(report);
-					report = null;
+				do {
+					PortPurchaseOrderLineItemVO vo = new PortPurchaseOrderLineItemVO();
+					vo.setPpoNo(rs.getInt(1));
+					vo.setLength(rs.getInt(2));
+					vo.setWidth(rs.getInt(3));
+					vo.setThickness(rs.getDouble(4));
+					vo.setOrderedQuantity(rs.getInt(5));
+
+					list.add(vo);
+
 				} while (rs.next());
 			}
-			form.setReportList(reportList);
 
 		} catch (Exception e) {
 			log.error("Some error", e);
 		} finally {
 			closeDatabaseResources(conn, rs, cs);
 		}
-		return form;
+		return list;
 	}
 
-	public PortPurchaseOrderVO fetchPPODetails(int purchaseOrderNo) throws SQLException {
+	public PortPurchaseOrderVO getPPODetailsById(int purchaseOrderNo) throws SQLException {
 		PortPurchaseOrderVO vo = null;
 		Connection conn = null;
 		ResultSet rs = null;

@@ -6,9 +6,32 @@ public class PortPurchaseOrderLineItemVO {
 
 	private Integer portInwardId;
 
+	private Integer ppoNo;
+
+	private Integer ppoLineItemNo;
+
 	private Integer orderedQuantity;
 
 	private Integer length;
+
+	private Integer width;
+	private Double thickness;
+
+	public Integer getPpoLineItemNo() {
+		return ppoLineItemNo;
+	}
+
+	public void setPpoLineItemNo(Integer ppoLineItemNo) {
+		this.ppoLineItemNo = ppoLineItemNo;
+	}
+
+	public Integer getPpoNo() {
+		return ppoNo;
+	}
+
+	public void setPpoNo(Integer ppoNo) {
+		this.ppoNo = ppoNo;
+	}
 
 	public Integer getLength() {
 		return length;
@@ -33,9 +56,6 @@ public class PortPurchaseOrderLineItemVO {
 	public void setThickness(Double thickness) {
 		this.thickness = thickness;
 	}
-
-	private Integer width;
-	private Double thickness;
 
 	public Integer getPortInwardDetailId() {
 		return portInwardDetailId;

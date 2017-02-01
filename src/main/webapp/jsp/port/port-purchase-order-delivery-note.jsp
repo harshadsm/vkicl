@@ -1,4 +1,6 @@
+<%@page import="vkicl.vo.PortPurchaseOrderLineItemVO"%>
 <%@page import="vkicl.vo.PortPurchaseOrderVO"%>
+
 <%@page import="org.apache.commons.lang.StringEscapeUtils"%>
 <%@page import="vkicl.util.Constants"%>
 <%@page import="vkicl.vo.UserInfoVO"%>
@@ -11,7 +13,9 @@
 
 <% 
 PortPurchaseOrderVO vo = (PortPurchaseOrderVO)request.getAttribute("port_purchase_order_details");
+//List<PortPurchaseOrderLineItemVO> portPurchaseOrderLineItemVO =(List<PortPurchaseOrderLineItemVO>)request.getAttribute("port_purchase_order_line_items");
 
+System.out.print(request.getAttribute("port_purchase_order_line_items"));
 %>
 
 <script type="text/javascript">
@@ -85,20 +89,10 @@ return commonSubmit();
 						</tr>
 					</thead>
 					<tbody id="details-tbody">
-					<logic:iterate id="report" name="PortPurchaseOrderDeliveryNoteForm"
-							property="reportList">
-							<tr 
-								id='row-<c:out value="${report.ppoLineitemNo}" />'>
-								<td><c:out value="${report.ppoLineitemNo}" /></td>
-								<td><c:out value="${report.thickness}" /></td>
-								<td><c:out value="${report.length}" /></td>
-								<td><c:out value="${report.width}" /></td>
-								<td><c:out value="${report.orderedQty}" /></td>
-								<td>
-							   <input number digits="" type="number"  name="txtDeliveryQty" id="deliveryQty"/>
-							   </td>
-							</tr>
-						</logic:iterate>
+					
+					
+							
+						
 					</tbody>
 				</table>
 			</div>
