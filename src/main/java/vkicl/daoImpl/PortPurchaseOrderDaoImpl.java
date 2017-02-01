@@ -809,8 +809,8 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 		return vo;
 	}
 
-	public String updateOrderQty(Integer ppoNo, PortPurchaseOrderLineItemVO vo, UserInfoVO userInfoVO)
-			throws SQLException {
+	public String updateOrderQty(PortPurchaseDeliveryNoteForm form, PortPurchaseOrderLineItemVO vo,
+			UserInfoVO userInfoVO) throws SQLException {
 
 		Connection conn = null;
 		ResultSet rs = null;
@@ -822,11 +822,12 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 		try {
 			conn = getConnection();
 			Integer orderQty = vo.getOrderedQuantity() - vo.getDeliveryQuantity();
-			String sql = "update ppo_line_items s set s.ordered_quantity = ?, s.update_ui = ?,s.update_ts = NOW()  WHERE port_purchase_order_id=?";
+			String sql = "update ppo_line_items s set s.ordered_quantity = ?, s.update_ui = ?,s.update_ts = NOW()  WHERE port_purchase_order_id=? and id=?";
 			statement = conn.prepareStatement(sql);
 			statement.setInt(1, orderQty);
 			statement.setString(2, userInfoVO.getUserName());
-			statement.setInt(3, ppoNo);
+			statement.setInt(3, form.getPpoNo());
+			statement.setInt(4, vo.getPpoLineItemNo());
 
 			statement.executeUpdate();
 			log.info("message = " + message);

@@ -74,6 +74,7 @@ public class DeliveryNoteAction extends BaseAction {
 				e.printStackTrace();
 			}
 		} else {
+			actionForward = mapping.findForward(Constants.Mapping.SUCCESS);
 			processPPOList(mapping, form, request);
 		}
 		return actionForward;
