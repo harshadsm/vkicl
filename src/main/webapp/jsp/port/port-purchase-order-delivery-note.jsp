@@ -11,7 +11,7 @@
 
 <% 
 PortPurchaseOrderVO vo = (PortPurchaseOrderVO)request.getAttribute("port_purchase_order_details");
-System.out.print("hi");
+
 %>
 
 <script type="text/javascript">
