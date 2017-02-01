@@ -17,20 +17,6 @@ System.out.print("hi");
 <script type="text/javascript">
 
 function validateForm() {
-	updateHiddenField();
-	if ("" == getValByFieldName("body", "destinationName")) {
-		bootbox.alert("Please enter Destination Name");
-		return false;
-	} else if ("" == getValByFieldName("body", "vehicleNumber")) {
-		bootbox.alert("Please enter Vehicle Number");
-		return false;
-	} else if ("" == getValByFieldName("body", "vehicleDate")) {
-		bootbox.alert("Please enter Vehicle Date");
-		return false;
-	}
-	
-	
-	
 	
 	return false;
 	
