@@ -471,8 +471,8 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 			conn = getConnection();
 			cs = conn.prepareCall(query);
 
-			cs.setLong(1, portpurchasedeliveryForm.getPpoLineItemsId());
-			cs.setInt(2, portpurchasedeliveryForm.getDeliveredQuantity());
+			cs.setLong(1, );
+			cs.setInt(2, );
 			cs.setLong(3, deliveryNoteId);
 			cs.setString(4, userInfoVO.getUserName());
 			cs.setString(5, userInfoVO.getUserName());

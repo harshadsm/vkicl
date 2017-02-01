@@ -9,7 +9,6 @@ import vkicl.report.bean.WarehouseDispatchBean;
 @SuppressWarnings("serial")
 public class PortPurchaseDeliveryNoteForm extends BaseForm {
 
-	private Integer ppoLineItemsId = null;
 	private Integer ppoNo = null;
 
 	public Integer getPpoNo() {
@@ -30,38 +29,9 @@ public class PortPurchaseDeliveryNoteForm extends BaseForm {
 		this.reportList = reportList;
 	}
 
-	private Integer deliveredQuantity = null;
-	private Integer deliveryNoteId = null;
-
-	public Integer getPpoLineItemsId() {
-		return ppoLineItemsId;
-	}
-
-	public void setPpoLineItemsId(Integer ppoLineItemsId) {
-		this.ppoLineItemsId = ppoLineItemsId;
-	}
-
-	public Integer getDeliveredQuantity() {
-		return deliveredQuantity;
-	}
-
-	public void setDeliveredQuantity(Integer deliveredQuantity) {
-		this.deliveredQuantity = deliveredQuantity;
-	}
-
-	public Integer getDeliveryNoteId() {
-		return deliveryNoteId;
-	}
-
-	public void setDeliveryNoteId(Integer deliveryNoteId) {
-		this.deliveryNoteId = deliveryNoteId;
-	}
-
 	@Override
 	public String toString() {
-		return "PortPurchaseDeliveryNoteForm [ppoNo=" + ppoNo + ", ppoLineItemsId=" + ppoLineItemsId
-				+ ", deliveredQuantity=" + deliveredQuantity + "" + ",deliveryNoteId=" + deliveryNoteId + ",reportList="
-				+ reportList + "]";
+		return "PortPurchaseDeliveryNoteForm [ppoNo=" + ppoNo + ",reportList=" + reportList + "]";
 	}
 
 }
