@@ -9,12 +9,12 @@ public class PortPurchaseOrderDeliveryNoteBean extends BaseReportBean {
 
 	private Integer ppoLineitemNo = null;
 
-	public Integer getItemNo() {
+	public Integer getPpoLineitemNo() {
 		return ppoLineitemNo;
 	}
 
-	public void setItemNo(Integer itemNo) {
-		this.ppoLineitemNo = itemNo;
+	public void setPpoLineitemNo(Integer ppoLineitemNo) {
+		this.ppoLineitemNo = ppoLineitemNo;
 	}
 
 	public Double getThickness() {

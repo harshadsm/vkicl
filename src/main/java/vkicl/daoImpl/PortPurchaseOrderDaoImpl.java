@@ -453,8 +453,8 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 
 	}
 
-	public Long addPortPurchaseDeliveryLineItemsData(PortPurchaseOrderForm portpurchaseform, Long portPurchaseOrderId,
-			UserInfoVO userInfoVO) throws SQLException {
+	public void addPortPurchaseDeliveryLineItemsData(PortPurchaseDeliveryNoteForm portpurchasedeliveryForm,
+			Long deliveryNoteId, UserInfoVO userInfoVO) throws SQLException {
 		Connection conn = null;
 		ResultSet rs = null;
 		CallableStatement cs = null;
@@ -471,11 +471,13 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 			conn = getConnection();
 			cs = conn.prepareCall(query);
 
-			cs.setLong(1, portPurchaseOrderId);
-			cs.setString(2, userInfoVO.getUserName());
-			cs.setString(3, userInfoVO.getUserName());
-			cs.setString(4, getCurentTime());
-			cs.setString(5, getCurentTime());
+			cs.setLong(1, portpurchasedeliveryForm.getPpoLineItemsId());
+			cs.setInt(2, portpurchasedeliveryForm.getDeliveredQuantity());
+			cs.setLong(3, deliveryNoteId);
+			cs.setString(4, userInfoVO.getUserName());
+			cs.setString(5, userInfoVO.getUserName());
+			cs.setString(6, getCurentTime());
+			cs.setString(7, getCurentTime());
 
 			int count = cs.executeUpdate();
 
@@ -491,7 +493,6 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 		} finally {
 			closeDatabaseResources(conn, rs, cs);
 		}
-		return savedRecordId;
 
 	}
 
@@ -746,7 +747,7 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 				reportList = new ArrayList<PortPurchaseOrderDeliveryNoteBean>();
 				do {
 					PortPurchaseOrderDeliveryNoteBean report = new PortPurchaseOrderDeliveryNoteBean();
-					report.setItemNo(rs.getInt(1));
+					report.setPpoLineitemNo(rs.getInt(1));
 					report.setLength(rs.getInt(2));
 					report.setWidth(rs.getInt(3));
 					report.setThickness(rs.getDouble(4));

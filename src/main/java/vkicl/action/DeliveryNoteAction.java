@@ -78,7 +78,7 @@ public class DeliveryNoteAction extends BaseAction {
 
 	private ActionForward processPPOList(ActionMapping mapping, ActionForm form, HttpServletRequest request) {
 		ActionForward actionForward = null;
-		PortPurchaseDeliveryNoteForm portPurchaseDeliveryForm = null;
+		PortPurchaseDeliveryNoteForm portpurchasedeliveryForm = null;
 		String genericListener = null;
 		UserInfoVO userInfoVO = null;
 		try {
@@ -88,11 +88,12 @@ public class DeliveryNoteAction extends BaseAction {
 
 			actionForward = mapping.findForward(Constants.Mapping.SUCCESS);
 			userInfoVO = getUserProfile(request);
-			portPurchaseDeliveryForm = (PortPurchaseDeliveryNoteForm) form;
-			genericListener = portPurchaseDeliveryForm.getGenericListener();
+			portpurchasedeliveryForm = (PortPurchaseDeliveryNoteForm) form;
+			genericListener = portpurchasedeliveryForm.getGenericListener();
 			if (genericListener.equalsIgnoreCase("addDetails")) {
 				PortPurchaseOrderDaoImpl impl = new PortPurchaseOrderDaoImpl();
-				Long deliveryNoteId = impl.addPortPurchaseDeliveryData(portPurchaseDeliveryForm, userInfoVO);
+				Long deliveryNoteId = impl.addPortPurchaseDeliveryData(portpurchasedeliveryForm, userInfoVO);
+				impl.addPortPurchaseDeliveryLineItemsData(portpurchasedeliveryForm, deliveryNoteId, userInfoVO);
 			} else {
 				log.info("Loaded Port Purchase Order Line Item Details");
 			}
