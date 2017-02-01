@@ -74,7 +74,7 @@ public class DeliveryNoteAction extends BaseAction {
 				e.printStackTrace();
 			}
 		} else {
-			actionForward = processPPOList(mapping, form, request);
+			processPPOList(mapping, form, request);
 		}
 		return actionForward;
 	}

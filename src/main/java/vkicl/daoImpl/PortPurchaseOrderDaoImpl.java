@@ -2,6 +2,7 @@ package vkicl.daoImpl;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -35,6 +36,7 @@ import vkicl.vo.PortOutwardPostDataContainerVO;
 import vkicl.vo.PortPurchaseOrderLineItemVO;
 import vkicl.vo.PortPurchaseOrderPostDataContainerVO;
 import vkicl.vo.PortPurchaseOrderVO;
+import vkicl.vo.StockBalanceDetailsVO;
 import vkicl.vo.UserInfoVO;
 import vkicl.vo.WarehouseInwardRecordVO;
 
@@ -805,6 +807,39 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 			closeDatabaseResources(conn, rs, cs);
 		}
 		return vo;
+	}
+
+	public String updateOrderQty(Integer ppoNo, PortPurchaseOrderLineItemVO vo, UserInfoVO userInfoVO)
+			throws SQLException {
+
+		Connection conn = null;
+		ResultSet rs = null;
+		CallableStatement cs = null;
+		String query = "";
+		String message = "Success";
+		int count = 0;
+		PreparedStatement statement = null;
+		try {
+			conn = getConnection();
+			Integer orderQty = vo.getOrderedQuantity() - vo.getDeliveryQuantity();
+			String sql = "update ppo_line_items s set s.ordered_quantity = ?, s.update_ui = ?,s.update_ts = NOW()  WHERE port_purchase_order_id=?";
+			statement = conn.prepareStatement(sql);
+			statement.setInt(1, orderQty);
+			statement.setString(2, userInfoVO.getUserName());
+			statement.setInt(3, ppoNo);
+
+			statement.executeUpdate();
+			log.info("message = " + message);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			message = e.getMessage();
+			log.error(message);
+		} finally {
+			closeDatabaseResources(conn, rs, statement);
+		}
+
+		return message;
 	}
 
 }

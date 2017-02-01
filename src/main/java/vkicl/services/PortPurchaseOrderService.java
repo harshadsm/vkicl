@@ -91,6 +91,8 @@ public class PortPurchaseOrderService {
 
 		for (PortPurchaseOrderLineItemVO vo : list) {
 			impl.addPortPurchaseDeliveryLineItemsData(vo, deliveryNoteId, userInfoVO);
+
+			// impl.updateOrderQty(form.getPpoNo(), vo, userInfoVO);
 		}
 	}
 
@@ -102,9 +104,10 @@ public class PortPurchaseOrderService {
 
 			Integer[] ppoLineItems = form.getPpoLineitemNo();
 			Integer[] deliveryQty = form.getDeliveryQuantity();
+			Integer[] orderedQty = form.getOrderedQuantity();
 
 			for (int i = 0; i < recordCount; i++) {
-				if (ppoLineItems[i] == 0 && deliveryQty[i] == 0) {
+				if (deliveryQty[i] == 0) {
 					logger.debug("Ignored empty row");
 				} else {
 
@@ -112,6 +115,7 @@ public class PortPurchaseOrderService {
 
 					vo.setPpoLineItemNo(ppoLineItems[i]);
 					vo.setDeliveryQuantity(deliveryQty[i]);
+					vo.setOrderedQuantity(orderedQty[i]);
 
 					list.add(vo);
 				}

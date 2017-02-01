@@ -30,6 +30,15 @@ public class PortPurchaseDeliveryNoteForm extends BaseForm {
 	}
 
 	private Integer[] deliveryQuantity = null;
+	private Integer[] orderedQuantity = null;
+
+	public Integer[] getOrderedQuantity() {
+		return orderedQuantity;
+	}
+
+	public void setOrderedQuantity(Integer[] orderedQuantity) {
+		this.orderedQuantity = orderedQuantity;
+	}
 
 	public Integer[] getDeliveryQuantity() {
 		return deliveryQuantity;
@@ -42,7 +51,8 @@ public class PortPurchaseDeliveryNoteForm extends BaseForm {
 	@Override
 	public String toString() {
 		return "PortPurchaseDeliveryNoteForm [ppoNo=" + ppoNo + ",ppoLineitemNo=" + Arrays.toString(ppoLineitemNo)
-				+ ", deliveryQuantity=" + Arrays.toString(deliveryQuantity) + "]";
+				+ ", deliveryQuantity=" + Arrays.toString(deliveryQuantity) + ", orderedQuantity="
+				+ Arrays.toString(orderedQuantity) + "]";
 	}
 
 }

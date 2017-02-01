@@ -40,14 +40,13 @@ return commonSubmit();
 	<html:form enctype="multipart/form-data" action="/delivery-note"
 		method="post">
 		<div class="row">
-			<div class="col-md-10">
+		<div class="col-md-10">
 				<div class="panel panel-default">
 					<div class="panel-heading"></div>
-					
-						<table class="table">
+					<table class="table">
 							
 							<tbody id="details-tbody">
-								<tr>
+							<tr>
 									<th>PPO Number</th><td><%=vo.getPpoNo() %>
 									<input type="hidden" name='ppoNo' id="ppoNo" value="<%=vo.getPpoNo() %>"/></td>
 								
@@ -69,17 +68,17 @@ return commonSubmit();
 									<th>Transport</th><td><%=vo.getTransport() %></td>
 								</tr>
 							</tbody>
-						</table>
-					
-				</div>
-			</div>
-			<div class="row">
-			
-			<div class="col-md-10">
+							</table>
+					</div>
+					</div>
+		</div>
+		
+<div class="row">
+<div class="col-md-10">
 				<h3>Port Purchase Order Line Items</h3>
 				<table class="table table-responsive table-report" id="delivery-table">
 					<thead>
-						<tr>
+					<tr>
 							<th width="5%">No </th>
 							<th width="10%">Thickness</th>
 							<th width="20%">Width</th>
@@ -90,36 +89,32 @@ return commonSubmit();
 						</tr>
 					</thead>
 					<tbody id="details-tbody">
-					
-					
-							<%
+					<%
 						int cnt = 0;
 						for(PortPurchaseOrderLineItemVO record:portPurchaseOrderLineItemVO){
 							cnt++;
 					%>
 					
 					<tr id="row-sub-<%=cnt %>" class='sub-row'>
-								<td><input disabled id="ppoLineitemNo"  type='label' value="<%=record.getPpoLineItemNo() %>"/>
-								<input type="hidden" name='ppoLineitemNo' id="ppoLineitemNo" value="<%=record.getPpoLineItemNo() %>"/>
+								<td><input disabled id="ppoLineitemNo" name="ppoLineitemNo"  type='label' value="<%=record.getPpoLineItemNo() %>"/>
+								<input   type='hidden' name="ppoLineitemNo" id="ppoLineitemNo" value="<%=record.getPpoLineItemNo() %>"
 								</td>
 								<td><input  disabled type='label' value="<%=record.getThickness() %>"/></td>
 								<td><input  disabled type='label' value="<%=record.getWidth() %>"/></td>
 								<td><input disabled  type='label' value="<%=record.getLength() %>"/></td>
-								<td><input disabled  type='label' value="<%=record.getOrderedQuantity() %>"/></td>
-								
-								<td>
-							   <input number digits="" type="number"  name="txtDeliveryQty" id="deliveryQuantity" value="<%=record.getDeliveryQuantity() %>/>
-							   <input type="hidden" name='deliveryQuantity' id="deliveryQuantity" value="<%=record.getDeliveryQuantity() %>"/>
-							   </td>
+								<td><input disabled  type='label' value="<%=record.getOrderedQuantity() %>"/>
+								<input   type='hidden' name="orderedQuantity" id="orderedQuantity" value="<%=record.getOrderedQuantity() %>"
+								</td>
+								<td><input number digits="" type="number"  name="deliveryQuantity" id="deliveryQuantity" value="<%=record.getDeliveryQuantity() %>"/></td>
 							</tr>
 					<% } %>
 						
 					</tbody>
-				</table>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-12">
+					</table>
+					</div>
+</div>
+<div class="row">
+			<div class="col-md-10">
 				
 				<html:submit styleClass="btn pull-right"
 					onclick="return validateForm()" />
@@ -130,125 +125,3 @@ return commonSubmit();
 	</html:form>
 </div>
 	
-</div>
-
-<style>
-
-.table-excel, .table-excel td, .table-excel th, .table-excel tr {
-	background-color: rgba(230, 126, 34, 0.05);
-	margin: 10px 0;
-	border: 1px solid #e67e22;
-}
-
-.table-excel td {
-	/*min-width: 165px;*/
-	text-align: left;
-}
-
-.table-excel td.td-1-input {
-	width: 70px;
-}
-
-.table-excel td label {
-	width: 100%;
-	text-align: right;
-	padding-top: 5px;
-}
-
-.table-excel td input[type='text'] {
-	min-width: 100px;
-}
-
-.table-excel td input[type='checkbox'], .table-excel td input[type='radio']
-	{
-	text-align: left;
-	margin: 0 10px;
-}
-
-.table-excel td, .table-excel th {
-	border: 1px solid #e67e22;
-	padding: 0 0;
-	margin: 0;
-}
-
-.table-excel td.row-id{
-	text-align: center;
-    font-weight: bold;
-    min-width: 35px;
-}
-
-.table-excel th {
-	padding: 2px 0;
-}
-
-.table-excel label {
-	padding: 0 5px;
-}
-
-.table-excel td input, .table-excel td textarea, .table-excel td select {
-	border: 0px;
-	border-radius: 0;
-	padding: 0 0 0 8px;
-}
-
-.table-excel td textarea {
-	padding: 5px;
-}
-
-.table-excel .input-group-addon {
-	border-radius: 0;
-	border: 1px solid #eee;
-	margin: 0;
-}
-
-.table-excel td.input-td {
-	background-color: #FFFFFF;
-}
-
-.table-excel input[type=button].add-row, .table-excel input[type=button].delete-row
-	{
-	margin: 5px;
-	padding: 0;
-}
-
-
-
-.table-excel td.center-input {
-	text-align: center;
-}
-
-.table-excel>thead>tr>th, .table-excel>tbody>tr>th, .table-excel>tfoot>tr>th, .table-excel>thead>tr>td, .table-excel>tbody>tr>td, .table-excel>tfoot>tr>td{
-padding: 0;
-	border: 1px solid #e67e22;
-}
-
-.table>thead:first-child>tr:first-child>th.margin-5-sides {
-	padding: 0 5px;
-}
-
-.table-excel input[name="length"], .table-excel input[name="width"], .table-excel input[name="thickness"], .table-excel input[name="qty"]{
-	min-width: 70px;
-    max-width: 100px;
-}
-
-.table-excel td input[type='text'], .table-excel td input[type='number'] {
-	min-width: 70px;
-    max-width: 180px;
-}
-
-.table-excel .td-excel-pop-btn {
-	text-align: center;
-}
-
-#main-table {
-	width: 100%;
-}
-
-#main-table th{
-	height: 35px;
-}
-</style>
-<script>
-
-
-
