@@ -102,8 +102,8 @@ return commonSubmit();
 					<logic:iterate id="report" name="PortPurchaseOrderDeliveryNoteForm"
 							property="reportList">
 							<tr 
-								id='row-<c:out value="${report.itemNo}" />'>
-								<td><c:out value="${report.itemNo}" /></td>
+								id='row-<c:out value="${report.ppoLineitemNo}" />'>
+								<td><c:out value="${report.ppoLineitemNo}" /></td>
 								<td><c:out value="${report.thickness}" /></td>
 								<td><c:out value="${report.length}" /></td>
 								<td><c:out value="${report.width}" /></td>
