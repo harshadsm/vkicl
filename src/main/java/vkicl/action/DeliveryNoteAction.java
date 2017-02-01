@@ -65,10 +65,10 @@ public class DeliveryNoteAction extends BaseAction {
 					List<PortPurchaseOrderLineItemVO> portPurchaseOrderLineItemVO = ppoService
 							.fetchPPOLineItems(portPurchaseOrderVO.getPpoNo(), userInfoVO);
 					request.setAttribute("port_purchase_order_line_items", portPurchaseOrderLineItemVO);
-				}
-				actionForward = mapping.findForward(Constants.Mapping.SUCCESS);
-				userInfoVO = getUserProfile(request);
 
+					actionForward = mapping.findForward(Constants.Mapping.SUCCESS);
+					userInfoVO = getUserProfile(request);
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

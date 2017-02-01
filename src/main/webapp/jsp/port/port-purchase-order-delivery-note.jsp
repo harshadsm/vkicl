@@ -13,7 +13,7 @@
 
 <% 
 PortPurchaseOrderVO vo = (PortPurchaseOrderVO)request.getAttribute("port_purchase_order_details");
-//List<PortPurchaseOrderLineItemVO> portPurchaseOrderLineItemVO =(List<PortPurchaseOrderLineItemVO>)request.getAttribute("port_purchase_order_line_items");
+List<PortPurchaseOrderLineItemVO> portPurchaseOrderLineItemVO =(List<PortPurchaseOrderLineItemVO>)request.getAttribute("port_purchase_order_line_items");
 
 System.out.print(request.getAttribute("port_purchase_order_line_items"));
 %>
