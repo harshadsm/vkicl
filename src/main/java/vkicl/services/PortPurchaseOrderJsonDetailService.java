@@ -48,35 +48,36 @@ public class PortPurchaseOrderJsonDetailService {
 
 	private Logger logger = Logger.getLogger(PortPurchaseOrderJsonDetailService.class);
 
-	public String getPortPurchaseOrderDetailAsJson(HttpServletRequest req, String portInwardId)
-			throws SQLException, JsonParseException, JsonMappingException, IOException {
-
-		JqGridParametersHolder params = new JqGridParametersHolder(req);
-		JqGridSearchParameterHolder searchParam = parseSerachFilters(params);
-
-		String rows = params.getParam(JQGRID_PARAM_NAMES.rows);
-		String page = params.getParam(JQGRID_PARAM_NAMES.page);
-		String orderBy = params.getParam(JQGRID_PARAM_NAMES.sidx);
-		String order = params.getParam(JQGRID_PARAM_NAMES.sord);
-
-		// PortDaoImpl portDao = new PortDaoImpl();
-		// Integer totalRecordsCount =
-		// portDao.fetchPortInwardDetailsRecordCount(searchParam);
-		PortPurchaseOrderDaoImpl portDao = new PortPurchaseOrderDaoImpl();
-		// List<PortInwardDetailsVO> records =
-		// portDao.fetchPortInwardDetailsById(Integer.parseInt(portInwardId));
-		List<PackingListItemVO> records = portDao.fetchPPOLineItems(Integer.parseInt(portInwardId),
-				Integer.parseInt(page), Integer.parseInt(rows), orderBy, order, searchParam);
-
-		JqGridCustomResponse response = new JqGridCustomResponse();
-		response.setPage(page);
-		response.setRows(records);
-		// response.setRecords(totalRecordsCount.toString());
-		// response.setTotal((totalRecordsCount / Long.valueOf(rows)) + 1 + "");
-		Gson gson = new Gson();
-		String json = gson.toJson(response);
-		return json;
-	}
+	/*
+	 * public String getPortPurchaseOrderDetailAsJson(HttpServletRequest req,
+	 * String portInwardId) throws SQLException, JsonParseException,
+	 * JsonMappingException, IOException {
+	 * 
+	 * JqGridParametersHolder params = new JqGridParametersHolder(req);
+	 * JqGridSearchParameterHolder searchParam = parseSerachFilters(params);
+	 * 
+	 * String rows = params.getParam(JQGRID_PARAM_NAMES.rows); String page =
+	 * params.getParam(JQGRID_PARAM_NAMES.page); String orderBy =
+	 * params.getParam(JQGRID_PARAM_NAMES.sidx); String order =
+	 * params.getParam(JQGRID_PARAM_NAMES.sord);
+	 * 
+	 * // PortDaoImpl portDao = new PortDaoImpl(); // Integer totalRecordsCount
+	 * = // portDao.fetchPortInwardDetailsRecordCount(searchParam);
+	 * PortPurchaseOrderDaoImpl portDao = new PortPurchaseOrderDaoImpl(); //
+	 * List<PortInwardDetailsVO> records = //
+	 * portDao.fetchPortInwardDetailsById(Integer.parseInt(portInwardId));
+	 * List<PackingListItemVO> records =
+	 * portDao.fetchPPOLineItems(Integer.parseInt(portInwardId),
+	 * Integer.parseInt(page), Integer.parseInt(rows), orderBy, order,
+	 * searchParam);
+	 * 
+	 * JqGridCustomResponse response = new JqGridCustomResponse();
+	 * response.setPage(page); response.setRows(records); //
+	 * response.setRecords(totalRecordsCount.toString()); //
+	 * response.setTotal((totalRecordsCount / Long.valueOf(rows)) + 1 + "");
+	 * Gson gson = new Gson(); String json = gson.toJson(response); return json;
+	 * }
+	 */
 
 	private JqGridSearchParameterHolder parseSerachFilters(JqGridParametersHolder params)
 			throws JsonParseException, JsonMappingException, IOException {

@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 import vkicl.services.PortInwardDetailsJsonService;
-import vkicl.services.PortPurchaseOrderJsonDetailService;
+
 import vkicl.services.PortPurchaseOrderJsonService;
 
 public class PortInwardDetailsJsonServlet2 extends HttpServlet {

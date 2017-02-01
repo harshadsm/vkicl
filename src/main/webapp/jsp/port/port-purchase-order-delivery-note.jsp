@@ -1,3 +1,4 @@
+<%@page import="vkicl.vo.PortPurchaseOrderVO"%>
 <%@page import="org.apache.commons.lang.StringEscapeUtils"%>
 <%@page import="vkicl.util.Constants"%>
 <%@page import="vkicl.vo.UserInfoVO"%>
@@ -9,274 +10,125 @@
 <%@taglib uri="/WEB-INF/struts-core.tld" prefix="c" %>
 
 <% 
-String purchaseOrderNo=request.getParameter("purchaseOrderNo");
-if(purchaseOrderNo == null){
-	purchaseOrderNo = (String)request.getAttribute("purchaseOrderNo");
+PortPurchaseOrderVO vo = (PortPurchaseOrderVO)request.getAttribute("port_purchase_order_details");
+System.out.print("hi");
+%>
+
+<script type="text/javascript">
+
+function validateForm() {
+	updateHiddenField();
+	if ("" == getValByFieldName("body", "destinationName")) {
+		bootbox.alert("Please enter Destination Name");
+		return false;
+	} else if ("" == getValByFieldName("body", "vehicleNumber")) {
+		bootbox.alert("Please enter Vehicle Number");
+		return false;
+	} else if ("" == getValByFieldName("body", "vehicleDate")) {
+		bootbox.alert("Please enter Vehicle Date");
+		return false;
+	}
+	
+	
+	
+	
+	return false;
+	
+return commonSubmit();
 }
 
 
-%>
-<script type="text/javascript">
-
-var MypurchaseOrderNo='<%= purchaseOrderNo %>';
-	var id = 1, row = {}, row_id = 0, current_row_id = "", globalJson = {};
-
-	function fetchWarehouseOutwardDetails() {
-		
-		
-		//var dispatchNo = $("[name='dispatchNo']").val();
-		
-		var dispatchNo=MypurchaseOrderNo;
-		
-		console.log(dispatchNo);
-		if ("--" == dispatchNo) {
-			bootbox.alert("Please select a valid Dispatch Number");
-			$("[name='dispatchNo']").focus();
-			resetWarehouseOutwardForm();
-			return false;
-		}
-		showLoader();
-		$.ajax({
-			url : "./json?method=fetchPPOLineItemsDetails&MypurchaseOrderNo=" + MypurchaseOrderNo,
-			success : function(json, status, response) {
-				processJSON(json);
-			},
-			error : function() {
-				$(".details-container").hide();
-				hideLoader();
-				bootbox.alert("Unable to fetch Required Details");
-			}
-		});
-
-	}
-
-	$(document).ready(function() {
-		
-		
-			fetchWarehouseOutwardDetails();
-			
-	});
-
-	function validateForm() {
-	    fillDetails();
-		var msg = "";
-	    var valid = true;
-	    
-	    if ("" == getValByFieldName("body", "vehicleNumber")) {
-			bootbox.alert("Please enter vehicle Number");
-			return false;
-		}
-	    
-	    //if ("" == getValByFieldName("body", "actWt")) {
-			//bootbox.alert("Please enter Actual Weight");
-			//return false;
-		//}
-	    
-	    if ("" == getValByFieldName("body", "vehicleDate")) {
-			bootbox.alert("Please select vehicle Date");
-			return false;
-		}
-	    
-	    
-	    
-    return commonSubmit();
-	}
-	
-	// Harshad Important Trace #2
-	function fillDetails(){
-		$("#details-tbody tr").each(function(i, tr){
-			var id = $(tr).find("[name='row']")[0].value;
-			var txtSubQty = $(tr).find("[name='subQty']")[0];
-			var txttotal = $(tr).find("[name='total']")[0];
-			var txtLocation = $(tr).find("[name='location']")[0];
-			
-			var txtstockId = $(tr).find("[name='stockId']")[0];
-			var txtavailableQty = $(tr).find("[name='availableQty']")[0];
-			
-			
-			
-			var str = "";
-			$("#hidden-div-"+id + " [name='stockId']").each(function(){
-				str = str + $(this).val() + ",";
-			});
-			if(str.endsWith(","))
-				str = str.substr(0, str.length - 1);
-			
-			
-			txtstockId.value = str;
-			
-			
-			
-			
-			var str = "";
-			$("#hidden-div-"+id + " [name='location']").each(function(){
-				str = str + $(this).val() + ",";
-			});
-			if(str.endsWith(","))
-				str = str.substr(0, str.length - 1);
-			
-			
-			txtLocation.value = str;
-			
-			
-			var str = "";
-			var qtySelected = 0;
-			$("#hidden-div-"+id + " [name='subQty']").each(function(){
-				if($.trim($(this).val()) == "")
-					$(this).val(0);
-				str = str + $(this).val() + ",";
-				qtySelected = qtySelected + parseInt($(this).val());
-				
-				txttotal.value=qtySelected;
-			});
-			if(str.endsWith(","))
-				str = str.substr(0, str.length - 1);
-			
-			//Harshad Important Trace #2
-			txtSubQty.value = str;
-			
-			
-			
-			var str = "";
-			$("#hidden-div-"+id + " [name='availableQty']").each(function(){
-				str = str + $(this).val() + ",";
-			});
-			if(str.endsWith(","))
-				str = str.substr(0, str.length - 1);
-			
-			
-			txtavailableQty.value = str;
-			
-			$("#hidden-div-"+id + " tfoot th#total").html(qtySelected);
-		});		
-	}
-	
-	function processJSON(json) {
-		try{
-			json = JSON.parse(json);
-			globalJson = json;
-		}catch(e){
-			return false;
-		}
-		resetWarehouseOutwardForm();
-
-		var count = 0;
-		if (null != json.resultList)
-			count = json.resultList.length;
-
-		$("[name='dispatchNo']").val(json.id);
-
-// 		if(json.pending != "Pending")
-// 			bootbox.alert("This order is already " + json.pending, function(){
-// 				resetWarehouseOutwardForm();
-// 			});
-		
-		if (count > 0) {
-
-			$("#details-tbody").html('');
-			$("#hidden-div").html('');
-
-			for (var i = 0; i < count; i++) {
-				addRow();
-				applyNumericConstraint();
-				
-				var result = json.resultList[i];
-				var millName = $("#"+current_row_id).find("[name='millName']")[0];
-				millName.value = result.millName;
-				$("#"+current_row_id).find("[name='make']")[0].value = result.make;
-				$("#"+current_row_id).find("[name='dispatchDetailsID']")[0].value = result.dispatchDetailsID;
-				$("#"+current_row_id).find("[name='grade']")[0].value = result.grade;
-				$("#"+current_row_id).find("[name='length']")[0].value = result.length;
-				$("#"+current_row_id).find("[name='width']")[0].value = result.width;
-				$("#"+current_row_id).find("[name='thickness']")[0].value = result.thickness;
-				$("#"+current_row_id).find("[name='secWtUnit']")[0].value = result.actWtUnit;
-				$("#"+current_row_id).find("[name='secWtUnit']").html(result.actWtUnit + " <span class='caret'></span></button>");
-				$("#"+current_row_id).find("[name='qty']")[0].value = result.qty;
-				//$("#"+current_row_id).find("[name='qtyAvailable']")[0].value = result.qtyAvailable;
-			}
-			refreshSecWtRow();
-		} else
-			bootbox.alert("No Record Found");
-		$(".after-result-1").show();
-		hideLoader();
-	}
-</script>
+</script> 
 
 <div class="row">
 	<div class="col-md-12">
-		<h3 class="page-head">Warehouse Outward</h3>
+		<h3 class="page-head">Port Purchase Order Delivery Note</h3>
 	</div>
 </div>
 <div>
-	<html:form enctype="multipart/form-data" action="/warehouse-outward"
+	<html:form enctype="multipart/form-data" action="/delivery-note"
 		method="post">
 		<div class="row">
 			<div class="col-md-10">
+				<div class="panel panel-default">
+					<div class="panel-heading"></div>
+					
+						<table class="table">
+							
+							<tbody id="details-tbody">
+								<tr>
+									<th>PPO Number</th><td><%=vo.getPpoNo() %>
+									<input type="hidden" name='ppoNo' id="ppoNo" value="<%=vo.getPpoNo() %>"/></td>
+								
+									<th>PPO Date</th><td><%=vo.getPpoDate() %></td>
+								</tr>
+								<tr>
+									<th>Customer Name</th><td><%=vo.getCustName() %></td>
+								<th>Delivery address</th><td><%=vo.getDeliveryAddr() %></td>
+									
+								</tr>
+								<tr>
+									<th>Payment Terms</th><td><%=vo.getPaymentTerms() %></td>
+								
+									<th>Excise</th><td><%=vo.getExcise() %></td>
+								</tr>
+								<tr>
+									<th>Tax</th><td><%=vo.getTax() %></td>
+								
+									<th>Transport</th><td><%=vo.getTransport() %></td>
+								</tr>
+							</tbody>
+						</table>
+					
+				</div>
+			</div>
+			<div class="row">
 			
-			<table class="table table-responsive dispatch-table">
-					<tr>
-						<td class='excel' colspan="1"><label for="ppoNo">PPO Number</label></td>
-						<td class='excel' colspan="5"><label for="ppoNo">PPO Number</label></td>
-						
-					</tr>
-					<tr>
-						<td class='excel' colspan="1"><label for="ppoDate">PPO Date</label></td>
-						<td class='excel' colspan="5"><label for="ppoNo">PPO Number</label></td>
-						
-					</tr>
-					</table>
-					</div>
-					</div>
-					<div class="row">
 			<div class="col-md-10">
-			<tr>
-						<td class='excel' colspan="1"><label for="customerName">Customer Name</label></td>
-						<td class='excel' colspan="5"><label for="ppoNo">PPO Number</label></td>
-						
-					</tr>
-					<tr>
-						<td class='excel' colspan="1"><label for="deliveryAddress">Delivery address</label></td>
-						<td class='excel' colspan="5"><label for="ppoNo">PPO Number</label></td>
-						
-					</tr>
-			</div>
-			</div>
-			<div class="row">
-			<div class="col-md-10">
-			<tr>
-						<td class='excel' colspan="1"><label for="paymentTerms">Payment Terms</label></td>
-						<td class='excel' colspan="5"><label for="ppoNo">PPO Number</label></td>
-						
-					</tr>
-					<tr>
-						<td class='excel' colspan="1"><label for="excise">Excise</label></td>
-						<td class='excel' colspan="5"><label for="ppoNo">PPO Number</label></td>
-						
-					</tr>
-			</div>
-			</div>
-			<div class="row">
-			<div class="col-md-10">
-			<tr>
-						<td class='excel' colspan="1"><label for="tax">Tax</label></td>
-						<td class='excel' colspan="5"><label for="ppoNo">PPO Number</label></td>
-						
-					</tr>
-					<tr>
-						<td class='excel' colspan="1"><label for="transport">Transport</label></td>
-						<td class='excel' colspan="5"><label for="ppoNo">PPO Number</label></td>
-						
-					</tr>
-			</div>
-			</div>
-		<html:hidden property="genericListener" value="add" />
-	</html:form>
-	<div class="row">
-		<div class="col-md-12">
-			<div id="hidden-div">
+				<h3>Port Purchase Order Line Items</h3>
+				<table class="table table-responsive table-report" id="delivery-table">
+					<thead>
+						<tr>
+							<th width="5%">No </th>
+							<th width="10%">Thickness</th>
+							<th width="20%">Width</th>
+							<th width="20%">Length</th>
+							<th width="20%">Ordered Quantity</th>
+							<th width="20%">Delivery Quantity</th>
+							
+						</tr>
+					</thead>
+					<tbody id="details-tbody">
+					<logic:iterate id="report" name="PortPurchaseOrderDeliveryNoteForm"
+							property="reportList">
+							<tr 
+								id='row-<c:out value="${report.itemNo}" />'>
+								<td><c:out value="${report.itemNo}" /></td>
+								<td><c:out value="${report.thickness}" /></td>
+								<td><c:out value="${report.length}" /></td>
+								<td><c:out value="${report.width}" /></td>
+								<td><c:out value="${report.orderedQty}" /></td>
+								<td>
+							   <input number digits="" type="number"  name="txtDeliveryQty" id="deliveryQty"/>
+							   </td>
+							</tr>
+						</logic:iterate>
+					</tbody>
+				</table>
 			</div>
 		</div>
-	</div>
+		<div class="row">
+			<div class="col-md-12">
+				
+				<html:submit styleClass="btn pull-right"
+					onclick="return validateForm()" />
+			</div>
+		</div>
+		<html:hidden property="genericListener" value="addDetails" />
+
+	</html:form>
+</div>
+	
 </div>
 
 <style>
@@ -358,53 +210,7 @@ var MypurchaseOrderNo='<%= purchaseOrderNo %>';
 	padding: 0;
 }
 
-/* div.input-group input[type=number] {
-	border-right: 1px solid #e67e22;
-}
 
-div.weight-group .btn, .date-picker-div .input-group-addon {
-	background-color: rgba(230, 126, 34, 0.05);
-	border-color: #E4DCD4;
-	border-radius: 0px;
-	color: #5C5B60;
-	font-weight: 600;
-	border-left: 1px solid #e67e22;
-	margin-left: 0;
-}
-
-div.weight-group .btn .caret {
-	border-top: 4px solid #000000;
-}
-
-td .input-group {
-	width: 100%
-}
-
-.td-100 {
-	width: 100px;
-}
-
-.td-100 .weight-group button {
-	width: 100%;
-	text-align: right;
-}
-
-.input-group-btn:last-child>.btn, .input-group-btn:last-child>.btn-group
-	{
-	background: #FFFFFF;
-	margin: 0px;
-	border: 0px;
-}
-
-#page-title {
-	width: 100%;
-	font-size: 1.6em;
-	text-align: center;
-	font-weight: bold;
-	background-color: rgba(230, 126, 34, 0.05);
-	border: 1px solid #e67e22;
-	padding: 15px;
-} */
 
 .table-excel td.center-input {
 	text-align: center;
@@ -441,3 +247,170 @@ padding: 0;
 	height: 35px;
 }
 </style>
+<script>
+
+$(function() {
+	populatePpoItemList();
+});		
+
+
+
+
+
+
+function populatePackingList(){
+	
+	$("#ppoLineItemsGrid").jqGrid(
+		{
+			url : './packingListJsonServlet',
+			datatype : 'json',
+			
+			mtype : 'POST',
+			
+			
+			colNames : [ 'portInwardId', 'portInwardDetailId', 'Thickness', 'Width', 'Length', 'Ordered Quantity', 'Delivery Quantity'],
+					
+			colModel : [  {
+				name : 'portInwardId',
+				index : 'portInwardId',
+				hidden: true,
+				width : 185,
+				editable : false,
+				editrules : {
+					required : true
+				},
+				editoptions : {
+					size : 10
+				},
+				search:false,
+				searchoptions: { sopt:['ge']}
+			}, {
+				name : 'portInwardDetailId',
+				index : 'portInwardDetailId',
+				hidden: true,
+				width : 185,
+				editable :false,
+				editrules : {
+					required : true
+				},
+				editoptions : {
+					size : 10
+				},
+				search:false,
+				searchoptions: { sopt:['ge']}
+			},{
+				name : 'thickness',
+				index : 'thickness',
+				width : 200,
+				editable : false,
+				editoptions : {
+					readonly : true,
+					size : 10
+				},
+				align : 'center',
+				search:true,
+				sortable:true,
+				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+				searchoptions: { sopt:[ 'eq']}
+				
+			},{
+				name : 'width',
+				index : 'width',
+				width : 200,
+				editable : false,
+				editoptions : {
+					readonly : true,
+					size : 10
+				},
+				align : 'center',
+				search:true,
+				sortable:true,
+				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+				searchoptions: { sopt:[ 'eq']}
+				
+			},
+			{
+				name : 'length',
+				index : 'length',
+				width : 200,
+				editable : false,
+				editoptions : {
+					readonly : true,
+					size : 10
+				},
+				align : 'center',
+				search:true,
+				sortable:true,
+				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+				searchoptions: { sopt:[ 'eq']}
+				
+			}
+			, 
+			{
+				name : 'Ordered_quantity',
+				index : 'Ordered_quantity',
+				width : 150,
+				editable : false,
+				editoptions : {
+					readonly : true,
+					size : 10
+				},
+				align : 'center',
+				search:false,
+				sortable:false,
+				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+				searchoptions: { sopt:[ 'eq']}
+				
+			},
+			{
+			    name: 'txtVAlue',
+			    width: 100,
+			    search:false,
+			    align: 'center',
+			    formatter: function (cellValue, option) {
+			    	//console.log(option);
+			        return '<input number digits="" type="number" size="7" style="color:black;" name="txtBox" id="ordered_qty_' + option.rowId +'" value="" onchange="setTick('+option.rowId+')"/>';
+			}
+			
+			}
+			
+			],
+			postData : {
+			},
+			rowNum : 10,
+			rowList : [ 10, 20, 30 ,40, 50, 60 ],
+			height : 280,
+			autowidth : true,
+			rownumbers : true,
+			multiselect : true,
+			pager : '#packingListPager',
+			sortname : 'port_inward_detail_id',
+			viewrecords : true,
+			sortorder : "desc",
+			caption : "Inventory available at Port",
+			emptyrecords : "Empty records",
+			loadonce : false,
+			loadComplete : function() {
+
+			},
+			jsonReader : {
+				root : "rows",
+				page : "page",
+				total : "total",
+				records : "records",
+				repeatitems : false,
+				cell : "cell",
+				id : "id"
+			},
+	        gridComplete: function(){
+	        	
+	        	},
+       		onSelectRow: handleOnSelectRow,
+   	        onSelectAll: function(aRowids, status) {
+   	        	for(var i=0;i<aRowids.length;i++){
+   	            	
+   	            }
+   	            
+   	        }
+		});
+}

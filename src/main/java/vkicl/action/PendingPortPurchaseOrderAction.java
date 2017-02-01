@@ -42,13 +42,6 @@ public class PendingPortPurchaseOrderAction extends BaseAction {
 			portpurchaseorderdeliveryForm = (PortPurchaseOrderDeliveryForm) form;
 			PortPurchaseOrderDaoImpl impl = new PortPurchaseOrderDaoImpl();
 
-			// if
-			// (StringUtils.isBlank(porturchaseorderForm.getGenericListener()))
-			// {
-			// porturchaseorderForm.setFromDate("");
-			// porturchaseorderForm.setToDate("");
-			// porturchaseorderForm.setStatus("ALL");
-			// }
 			portpurchaseorderdeliveryForm = impl.fetchPPO(portpurchaseorderdeliveryForm, userInfoVO);
 
 			setUserProfile(request, userInfoVO);
