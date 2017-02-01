@@ -18,7 +18,7 @@ System.out.print("hi");
 
 function validateForm() {
 	
-	return false;
+	
 	
 return commonSubmit();
 }
