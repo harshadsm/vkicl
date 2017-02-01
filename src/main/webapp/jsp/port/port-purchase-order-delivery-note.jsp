@@ -1,3 +1,4 @@
+<%@page import="java.util.List"%>
 <%@page import="vkicl.vo.PortPurchaseOrderLineItemVO"%>
 <%@page import="vkicl.vo.PortPurchaseOrderVO"%>
 
@@ -91,7 +92,27 @@ return commonSubmit();
 					<tbody id="details-tbody">
 					
 					
-							
+							<%
+						int cnt = 0;
+						for(PortPurchaseOrderLineItemVO record:portPurchaseOrderLineItemVO){
+							cnt++;
+					%>
+					
+					<tr id="row-sub-<%=cnt %>" class='sub-row'>
+								<td><input id="ppoLineitemNo"  type='label' value="<%=record.getPpoLineItemNo() %>"/>
+								<input type="hidden"  id="ppoLineitemNo" value="<%=record.getPpoLineItemNo() %>"/>
+								</td>
+								<td><input  type='label' value="<%=record.getThickness() %>"/></td>
+								<td><input  type='label' value="<%=record.getWidth() %>"/></td>
+								<td><input  type='label' value="<%=record.getLength() %>"/></td>
+								<td><input  type='label' value="<%=record.getOrderedQuantity() %>"/></td>
+								
+								<td>
+							   <input number digits="" type="number"  name="txtDeliveryQty" id="deliveryQuantity" value="<%=record.getDeliveryQuantity() %>/>
+							   <input type="hidden" id="deliveryQuantity" value="<%=record.getDeliveryQuantity() %>"/>
+							   </td>
+							</tr>
+					<% } %>
 						
 					</tbody>
 				</table>

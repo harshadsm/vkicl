@@ -453,13 +453,13 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 
 	}
 
-	public void addPortPurchaseDeliveryLineItemsData(PortPurchaseDeliveryNoteForm portpurchasedeliveryForm,
-			Long deliveryNoteId, UserInfoVO userInfoVO) throws SQLException {
+	public void addPortPurchaseDeliveryLineItemsData(PortPurchaseOrderLineItemVO vo, Long deliveryNoteId,
+			UserInfoVO userInfoVO) throws SQLException {
 		Connection conn = null;
 		ResultSet rs = null;
 		CallableStatement cs = null;
 		String query = "", message = "";
-		Long savedRecordId = -1L;
+
 		try {
 
 			query = "INSERT INTO delivery_note_line_items "
@@ -471,8 +471,8 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 			conn = getConnection();
 			cs = conn.prepareCall(query);
 
-			// cs.setLong(1, );
-			// cs.setInt(2, );
+			cs.setLong(1, vo.getPpoLineItemNo());
+			cs.setInt(2, vo.getDeliveryQuantity());
 			cs.setLong(3, deliveryNoteId);
 			cs.setString(4, userInfoVO.getUserName());
 			cs.setString(5, userInfoVO.getUserName());
@@ -482,10 +482,7 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 			int count = cs.executeUpdate();
 
 			ResultSet result = cs.getGeneratedKeys();
-			if (count > 0) {
-				result.next();
-				savedRecordId = result.getLong(1);
-			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			message = e.getMessage();
@@ -747,7 +744,7 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 
 				do {
 					PortPurchaseOrderLineItemVO vo = new PortPurchaseOrderLineItemVO();
-					vo.setPpoNo(rs.getInt(1));
+					vo.setPpoLineItemNo(rs.getInt(1));
 					vo.setLength(rs.getInt(2));
 					vo.setWidth(rs.getInt(3));
 					vo.setThickness(rs.getDouble(4));

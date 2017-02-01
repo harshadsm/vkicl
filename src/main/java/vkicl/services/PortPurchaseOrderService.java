@@ -1,6 +1,7 @@
 package vkicl.services;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +17,8 @@ import vkicl.daoImpl.PortInwardOutwardIntersectionDaoImpl;
 import vkicl.daoImpl.PortOutwardDaoImpl;
 import vkicl.daoImpl.PortOutwardShipmentDaoImpl;
 import vkicl.daoImpl.PortPurchaseOrderDaoImpl;
+import vkicl.form.PortInwardForm;
+import vkicl.form.PortPurchaseDeliveryNoteForm;
 import vkicl.vo.PortInwardDetailsVO;
 import vkicl.vo.PortInwardRecordVO;
 import vkicl.vo.PortOutwardPostDataContainerVO;
@@ -77,5 +80,45 @@ public class PortPurchaseOrderService {
 		PortPurchaseOrderDaoImpl dao = new PortPurchaseOrderDaoImpl();
 		List<PortPurchaseOrderLineItemVO> records = dao.fetchPPOLineItems(purchaseOrderNo, userInfo);
 		return records;
+	}
+
+	public void processDeliveryNote(PortPurchaseDeliveryNoteForm form, UserInfoVO userInfoVO) throws SQLException {
+
+		PortPurchaseOrderDaoImpl impl = new PortPurchaseOrderDaoImpl();
+		Long deliveryNoteId = impl.addPortPurchaseDeliveryData(form, userInfoVO);
+
+		List<PortPurchaseOrderLineItemVO> list = toList(form, userInfoVO);
+
+		for (PortPurchaseOrderLineItemVO vo : list) {
+			impl.addPortPurchaseDeliveryLineItemsData(vo, deliveryNoteId, userInfoVO);
+		}
+	}
+
+	public List<PortPurchaseOrderLineItemVO> toList(PortPurchaseDeliveryNoteForm form, UserInfoVO user) {
+		List<PortPurchaseOrderLineItemVO> list = new ArrayList<PortPurchaseOrderLineItemVO>();
+
+		if (form.getDeliveryQuantity() != null) {
+			int recordCount = form.getDeliveryQuantity().length;
+
+			Integer[] ppoLineItems = form.getPpoLineitemNo();
+			Integer[] deliveryQty = form.getDeliveryQuantity();
+
+			for (int i = 0; i < recordCount; i++) {
+				if (ppoLineItems[i] == 0 && deliveryQty[i] == 0) {
+					logger.debug("Ignored empty row");
+				} else {
+
+					PortPurchaseOrderLineItemVO vo = new PortPurchaseOrderLineItemVO();
+
+					vo.setPpoLineItemNo(ppoLineItems[i]);
+					vo.setDeliveryQuantity(deliveryQty[i]);
+
+					list.add(vo);
+				}
+
+			}
+		}
+
+		return list;
 	}
 }

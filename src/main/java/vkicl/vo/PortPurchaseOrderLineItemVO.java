@@ -11,6 +11,15 @@ public class PortPurchaseOrderLineItemVO {
 	private Integer ppoLineItemNo;
 
 	private Integer orderedQuantity;
+	private Integer deliveryQuantity;
+
+	public Integer getDeliveryQuantity() {
+		return deliveryQuantity;
+	}
+
+	public void setDeliveryQuantity(Integer deliveryQuantity) {
+		this.deliveryQuantity = deliveryQuantity;
+	}
 
 	private Integer length;
 

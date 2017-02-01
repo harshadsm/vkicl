@@ -19,19 +19,30 @@ public class PortPurchaseDeliveryNoteForm extends BaseForm {
 		this.ppoNo = ppoNo;
 	}
 
-	ArrayList<PortPurchaseOrderDeliveryNoteBean> reportList = null;
+	private Integer[] ppoLineitemNo = null;
 
-	public ArrayList<PortPurchaseOrderDeliveryNoteBean> getReportList() {
-		return reportList;
+	public Integer[] getPpoLineitemNo() {
+		return ppoLineitemNo;
 	}
 
-	public void setReportList(ArrayList<PortPurchaseOrderDeliveryNoteBean> reportList) {
-		this.reportList = reportList;
+	public void setPpoLineitemNo(Integer[] ppoLineitemNo) {
+		this.ppoLineitemNo = ppoLineitemNo;
+	}
+
+	private Integer[] deliveryQuantity = null;
+
+	public Integer[] getDeliveryQuantity() {
+		return deliveryQuantity;
+	}
+
+	public void setDeliveryQuantity(Integer[] deliveryQuantity) {
+		this.deliveryQuantity = deliveryQuantity;
 	}
 
 	@Override
 	public String toString() {
-		return "PortPurchaseDeliveryNoteForm [ppoNo=" + ppoNo + ",reportList=" + reportList + "]";
+		return "PortPurchaseDeliveryNoteForm [ppoNo=" + ppoNo + ",ppoLineitemNo=" + Arrays.toString(ppoLineitemNo)
+				+ ", deliveryQuantity=" + Arrays.toString(deliveryQuantity) + "]";
 	}
 
 }
