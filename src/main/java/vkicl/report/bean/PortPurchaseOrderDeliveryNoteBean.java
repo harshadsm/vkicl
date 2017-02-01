@@ -7,14 +7,14 @@ import vkicl.form.PortPurchaseOrderForm;
 @SuppressWarnings("serial")
 public class PortPurchaseOrderDeliveryNoteBean extends BaseReportBean {
 
-	private Integer itemNo = null;
+	private Integer ppoLineitemNo = null;
 
 	public Integer getItemNo() {
-		return itemNo;
+		return ppoLineitemNo;
 	}
 
 	public void setItemNo(Integer itemNo) {
-		this.itemNo = itemNo;
+		this.ppoLineitemNo = itemNo;
 	}
 
 	public Double getThickness() {
@@ -65,8 +65,9 @@ public class PortPurchaseOrderDeliveryNoteBean extends BaseReportBean {
 
 	@Override
 	public String toString() {
-		return "PortPurchaseOrderDeliveryNoteBean [itemNo=" + itemNo + ",thickness=" + thickness + ",length=" + length
-				+ ", width=" + width + ", orderedQty=" + orderedQty + ", deliveryQty=" + deliveryQty + "]";
+		return "PortPurchaseOrderDeliveryNoteBean [ppoLineitemNo=" + ppoLineitemNo + ",thickness=" + thickness
+				+ ",length=" + length + ", width=" + width + ", orderedQty=" + orderedQty + ", deliveryQty="
+				+ deliveryQty + "]";
 	}
 
 }
