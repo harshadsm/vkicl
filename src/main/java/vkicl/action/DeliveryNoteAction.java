@@ -75,6 +75,7 @@ public class DeliveryNoteAction extends BaseAction {
 			} else {
 
 				actionForward = processPPOList(mapping, form, request);
+				
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -100,6 +101,13 @@ public class DeliveryNoteAction extends BaseAction {
 
 				PortPurchaseOrderService ppoService = new PortPurchaseOrderService();
 				ppoService.processDeliveryNote(portpurchasedeliverynoteForm, userInfoVO);
+				
+				PortPurchaseOrderVO portPurchaseOrderVO = ppoService.getPPODetailsById(portpurchasedeliverynoteForm.getPpoNo());
+				request.setAttribute("port_purchase_order_details", portPurchaseOrderVO);
+				
+				List<PortPurchaseOrderLineItemVO> portPurchaseOrderLineItemVO = ppoService
+						.fetchPPOLineItems(portpurchasedeliverynoteForm.getPpoNo(), userInfoVO);
+				request.setAttribute("port_purchase_order_line_items", portPurchaseOrderLineItemVO);
 
 			} else {
 				log.info("Loaded Port Purchase Order Line Item Details");

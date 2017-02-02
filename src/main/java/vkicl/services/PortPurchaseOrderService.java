@@ -92,7 +92,7 @@ public class PortPurchaseOrderService {
 		for (PortPurchaseOrderLineItemVO vo : list) {
 			impl.addPortPurchaseDeliveryLineItemsData(vo, deliveryNoteId, userInfoVO);
 
-			impl.updateOrderQty(form, vo, userInfoVO);
+			//impl.updateOrderQty(form, vo, userInfoVO);
 		}
 	}
 
