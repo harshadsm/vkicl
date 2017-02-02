@@ -42,7 +42,7 @@ public class PendingPortPurchaseOrderAction extends BaseAction {
 			portpurchaseorderdeliveryForm = (PortPurchaseOrderDeliveryForm) form;
 			PortPurchaseOrderDaoImpl impl = new PortPurchaseOrderDaoImpl();
 
-			portpurchaseorderdeliveryForm = impl.fetchPPO(portpurchaseorderdeliveryForm, userInfoVO);
+			portpurchaseorderdeliveryForm = impl.fetchPendingPPO(portpurchaseorderdeliveryForm, userInfoVO);
 
 			setUserProfile(request, userInfoVO);
 			log.info("Loading Port Purchase Order Delivery");

@@ -79,11 +79,12 @@ return commonSubmit();
 				<table class="table table-responsive table-report" id="delivery-table">
 					<thead>
 					<tr>
-							<th width="5%">No </th>
-							<th width="10%">Thickness</th>
-							<th width="20%">Width</th>
-							<th width="20%">Length</th>
-							<th width="20%">Ordered Quantity</th>
+							<th width="5%" 	>No </th>
+							<th width="8%">Thickness</th>
+							<th width="15%">Width</th>
+							<th width="15%">Length</th>
+							<th width="15%">Ordered Quantity</th>
+							<th width="15%">Pending Quantity</th>
 							<th width="20%">Delivery Quantity</th>
 							
 						</tr>
@@ -105,6 +106,7 @@ return commonSubmit();
 								<td><input disabled  type='label' value="<%=record.getOrderedQuantity() %>"/>
 								<input   type='hidden' name="orderedQuantity" id="orderedQuantity" value="<%=record.getOrderedQuantity() %>"
 								</td>
+								<td><input disabled  type='label' value="<%=record.getPendingQuantity() %>"/>
 								<td><input number digits="" type="number"  name="deliveryQuantity" id="deliveryQuantity" value="<%=record.getDeliveryQuantity() %>"/></td>
 							</tr>
 					<% } %>

@@ -47,8 +47,9 @@ public class DeliveryNoteAction extends BaseAction {
 		PortPurchaseDeliveryNoteForm portpurchasedeliverynoteForm = null;
 		String genericListener = null;
 		UserInfoVO userInfoVO = null;
-		if (request.getMethod() == "GET") {
-			try {
+		try {
+			if (request.getMethod() == "GET") {
+
 				actionForward = checkAccess(mapping, request, Constants.Apps.PORT_ENTRY);
 				if (null != actionForward)
 					return actionForward;
@@ -70,12 +71,13 @@ public class DeliveryNoteAction extends BaseAction {
 					actionForward = mapping.findForward(Constants.Mapping.SUCCESS);
 					userInfoVO = getUserProfile(request);
 				}
-			} catch (Exception e) {
-				e.printStackTrace();
+
+			} else {
+
+				processPPOList(mapping, form, request);
 			}
-		} else {
-			actionForward = mapping.findForward(Constants.Mapping.SUCCESS);
-			processPPOList(mapping, form, request);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		return actionForward;
 	}

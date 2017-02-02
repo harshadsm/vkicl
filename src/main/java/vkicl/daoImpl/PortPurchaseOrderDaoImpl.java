@@ -675,7 +675,7 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 		return q.toString();
 	}
 
-	public PortPurchaseOrderDeliveryForm fetchPPO(PortPurchaseOrderDeliveryForm form, UserInfoVO userInfoVO)
+	public PortPurchaseOrderDeliveryForm fetchPendingPPO(PortPurchaseOrderDeliveryForm form, UserInfoVO userInfoVO)
 			throws SQLException {
 
 		Connection conn = null;
@@ -732,10 +732,13 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 		try {
 			conn = getConnection();
 
-			String sql = "select ppoli.id,pid.length, pid.width, pid.thickness,ppoli.ordered_quantity "
-					+ " from ppo_line_items ppoli " + " left join port_inward_details  pid "
-					+ " on ppoli.port_inward_details_id=pid.port_inward_detail_id where ppoli.port_purchase_order_id="
-					+ purchaseOrderNo;
+			String sql = "select ppoli.id,pid.length, pid.width, pid.thickness,ppoli.ordered_quantity,"
+					+ "  ( ppoli.ordered_quantity- ifnull(SUM(dl.delivered_quantity),0) ) as pending_quantity "
+					+ " from ppo_line_items ppoli "
+					+ " left join port_inward_details pid on ppoli.port_inward_details_id=pid.port_inward_detail_id "
+					+ " left join delivery_note_line_items  dl on dl.ppo_line_items_id=ppoli.id"
+					+ "  where ppoli.port_purchase_order_id=" + purchaseOrderNo
+					+ " group by ppo_line_items_id order by ppoli.id";
 			query = sql;
 			log.info("query = " + query);
 
@@ -751,7 +754,7 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 					vo.setWidth(rs.getInt(3));
 					vo.setThickness(rs.getDouble(4));
 					vo.setOrderedQuantity(rs.getInt(5));
-
+					vo.setPendingQuantity(rs.getInt(6));
 					list.add(vo);
 
 				} while (rs.next());
