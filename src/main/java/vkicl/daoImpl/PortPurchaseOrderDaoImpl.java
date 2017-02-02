@@ -686,12 +686,43 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 		try {
 			conn = getConnection();
 
-			String sql = "  SELECT ppo.port_purchase_order_id , ppo.create_ts,ppo.customer_name, ppo.delivery_address, "
-					+ " (SUM(ppo.total_quantity)-a.orderQty) as pending FROM port_purchase_order ppo "
-					+ " inner join (select ppoli.port_purchase_order_id,SUM(ppoli.ordered_quantity) as orderQty "
-					+ " from ppo_line_items ppoli ) a on ppo.port_purchase_order_id=a.port_purchase_order_id ";
-
-			query = sql;
+			StringBuffer q = new StringBuffer();
+			q.append(" select pending_ppo.* from (");
+			q.append(" select ");
+			q.append(" ppo_outer.port_purchase_order_id,");
+			q.append(" ppo_outer.create_ts,");
+			q.append(" ppo_outer.customer_name,");
+			q.append(" ppo_outer.broker_name,");
+			q.append(" ppo_outer.delivery_address, ppo_outer.total_quantity, ");
+			q.append(" ppo_outer.total_ordered_quantity,");
+			q.append(" ifnull(delivered.delivered_quantity,0) delivered_quantity,");
+			q.append(" ppo_outer.total_ordered_quantity-");
+			q.append(" ifnull(delivered.delivered_quantity,0) pending_quantity");
+			q.append(" from (");
+			q.append(" select ");
+			q.append(" ppo.port_purchase_order_id,");
+			q.append(" ppo.create_ts,");
+			q.append(" ppo.customer_name,");
+			q.append(" ppo.broker_name,");
+			q.append(" ppo.delivery_address, ppo.total_quantity, ");
+			q.append(" ifnull(sum(pli.ordered_quantity),0) total_ordered_quantity");
+			q.append(" from port_purchase_order ppo");
+			q.append(" left join ppo_line_items pli on ppo.port_purchase_order_id = pli.port_purchase_order_id");
+			q.append(" group by pli.port_purchase_order_id");
+			q.append(" ) ppo_outer");
+			q.append(" left join");
+			q.append(" (");
+			q.append(" select port_purchase_order_id, ifnull(sum(delivered_quantity),0) delivered_quantity from  (");
+			q.append(" select dn.id, dn.port_purchase_order_id, ");
+			q.append(" ifnull(sum(delivered_quantity),0) delivered_quantity from delivery_notes dn");
+			q.append(" left join delivery_note_line_items dnli on dnli.delivery_note_id = dn.id");
+			q.append(" group by dnli.delivery_note_id");
+			q.append(" ) d ");
+			q.append(" group by d.port_purchase_order_id");
+			q.append(" ) delivered on  ppo_outer.port_purchase_order_id = delivered.port_purchase_order_id");
+			q.append(" ) pending_ppo");
+			q.append(" where pending_ppo.pending_quantity > 0;");
+			query = q.toString();
 			log.info("query = " + query);
 
 			cs = conn.prepareCall(query);
@@ -701,11 +732,12 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 				reportList = new ArrayList<PortPurchaseOrderDeliveryBean>();
 				do {
 					PortPurchaseOrderDeliveryBean report = new PortPurchaseOrderDeliveryBean();
-					report.setPpoNo(rs.getInt(1));
-					report.setPpoDate(Converter.dateToString(Converter.sqlDateToDate(rs.getDate(2))));
-					report.setCustomerName(rs.getString(3));
-					report.setDeliveryAddress(rs.getString(4));
-					report.setPendingQuantity(rs.getInt(5));
+					report.setPpoNo(rs.getInt("port_purchase_order_id"));
+					report.setPpoDate(Converter.dateToString(Converter.sqlDateToDate(rs.getDate("create_ts"))));
+					report.setCustomerName(rs.getString("customer_name"));
+					report.setDeliveryAddress(rs.getString("delivery_address"));
+					report.setTotalQuantity(rs.getInt("total_quantity"));
+					report.setPendingQuantity(rs.getInt("pending_quantity"));
 
 					reportList.add(report);
 					report = null;
@@ -732,13 +764,16 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 		try {
 			conn = getConnection();
 
-			String sql = "select ppoli.id,pid.length, pid.width, pid.thickness,ppoli.ordered_quantity,"
-					+ "  ( ppoli.ordered_quantity- ifnull(SUM(dl.delivered_quantity),0) ) as pending_quantity "
-					+ " from ppo_line_items ppoli "
-					+ " left join port_inward_details pid on ppoli.port_inward_details_id=pid.port_inward_detail_id "
-					+ " left join delivery_note_line_items  dl on dl.ppo_line_items_id=ppoli.id"
-					+ "  where ppoli.port_purchase_order_id=" + purchaseOrderNo
-					+ " group by ppo_line_items_id order by ppoli.id";
+			String sql = "select a.* from (select ppoli.id,pid.length, pid.width, pid.thickness,ppoli.ordered_quantity,"
+					+ " ppoli.ordered_quantity-ifnull((dq.delivered_quantity),0) pending_quantity,"
+					+ " ifnull((dq.delivered_quantity),0) delivered_quantity"
+					+ " from ppo_line_items ppoli left join port_inward_details pid "
+					+ " on ppoli.port_inward_details_id=pid.port_inward_detail_id "
+					+ " left join (select dnli.ppo_line_items_id,sum(dnli.delivered_quantity) delivered_quantity "
+					+ " from delivery_note_line_items dnli where dnli.delivery_note_id"
+					+ " in (select id from delivery_notes dn where dn.port_purchase_order_id=" + purchaseOrderNo + ") "
+					+ " group by dnli.ppo_line_items_id) dq" + " on dq.ppo_line_items_id=ppoli.id "
+					+ " where ppoli.port_purchase_order_id=" + purchaseOrderNo + ") a " + " where a.pending_quantity>0";
 			query = sql;
 			log.info("query = " + query);
 

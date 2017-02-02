@@ -101,7 +101,8 @@ function startPurchaseOrderDelivery(id) {
 							<th width="10%">PPO Number</th>
 							<th width="20%">Customer Name</th>
 							<th width="25%">Delivery Address</th>
-							<th width="10%">Total items pending to be delivered</th>
+							<th width="25%">Total Items</th>
+							<th width="10%">pending to be delivered</th>
 							<%
 								if (userInfoVO.hasAccess(Constants.Apps.PORT_ENTRY)) {
 							%>
@@ -121,6 +122,7 @@ function startPurchaseOrderDelivery(id) {
 								<td><c:out value="${report.ppoNo}" /></td>
 								<td><c:out value="${report.customerName}" /></td>
 								<td><c:out value="${report.deliveryAddress}" /></td>
+								<td><c:out value="${report.totalQuantity}" /></td>
 							   <td><c:out value="${report.pendingQuantity}" /></td>
 							   <%
 									if (userInfoVO.hasAccess(Constants.Apps.DISPATCH_ORDER)) {
