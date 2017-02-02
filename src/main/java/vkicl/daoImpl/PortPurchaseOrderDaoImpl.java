@@ -764,7 +764,7 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 		try {
 			conn = getConnection();
 
-			String sql = "select a.* from (select ppoli.id,pid.length, pid.width, pid.thickness,ppoli.ordered_quantity,"
+			String sql = "select a.* from (select ppoli.id,pid.length, pid.width, pid.thickness,ppo_outer.total_ordered_quantity"
 					+ " ppoli.ordered_quantity-ifnull((dq.delivered_quantity),0) pending_quantity,"
 					+ " ifnull((dq.delivered_quantity),0) delivered_quantity"
 					+ " from ppo_line_items ppoli left join port_inward_details pid "

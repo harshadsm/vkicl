@@ -102,7 +102,7 @@ function startPurchaseOrderDelivery(id) {
 							<th width="20%">Customer Name</th>
 							<th width="25%">Delivery Address</th>
 							<th width="25%">Total Items</th>
-							<th width="10%">pending to be delivered</th>
+							<th width="10%">Pending to be delivered</th>
 							<%
 								if (userInfoVO.hasAccess(Constants.Apps.PORT_ENTRY)) {
 							%>
