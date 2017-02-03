@@ -61,6 +61,7 @@ public class PortPurchaseOrderService {
 		status.setPortPurchaseOrderId(portPurchaseOrderId);
 		status.setStatus("success");
 		// return status;
+		request.setAttribute("is_success", "success");
 	}
 
 	public PortPurchaseOrderVO getPPODetailsById(Integer purchaseOrderNo) {
@@ -92,7 +93,7 @@ public class PortPurchaseOrderService {
 		for (PortPurchaseOrderLineItemVO vo : list) {
 			impl.addPortPurchaseDeliveryLineItemsData(vo, deliveryNoteId, userInfoVO);
 
-			//impl.updateOrderQty(form, vo, userInfoVO);
+			// impl.updateOrderQty(form, vo, userInfoVO);
 		}
 	}
 

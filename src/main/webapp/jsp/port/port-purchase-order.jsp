@@ -55,8 +55,12 @@ function validateForm() {
 			submitPortPurchaseOrder();
 		}
 	});
+	
+	
 	return false;
 }
+
+
 </script>
 
 <style>
@@ -994,24 +998,6 @@ function updateQuantityInCache(jqGridRowId, orderedQty){
 	
 }
 
-function editText() {
-	
-	$("input[name='vesselDate']").removeAttr("readonly");
-	$("input[name='vesselName']").removeAttr("readonly");
-	$("input[name='vehicleDate']").removeAttr("readonly");
-	$("input[name='vehicleName']").removeAttr("readonly");
-	$("input[name='millName']").removeAttr("readonly");
-	$("input[name='Type']").removeAttr("readonly");
-	$("input[name='grade']").removeAttr("readonly");
-	$("input[name='thickness']").removeAttr("readonly");
-	$("input[name='width']").removeAttr("readonly");
-	$("input[name='length']").removeAttr("readonly");
-	$("input[name='availableQuantity']").removeAttr("readonly");
-	$("input[name='balQty']").removeAttr("readonly");
-	$("input[name='actualWt']").removeAttr("readonly");
-	$("input[name='make']").removeAttr("readonly");
-	$("input[name='vendorName']").removeAttr("readonly");
-}
 
 
 function composeCombinationId(recordObj){
@@ -1191,7 +1177,10 @@ function submitPortPurchaseOrder(){
 			
 			if(result && result.status == 'success'){
 				var portPurchaseOrderId = result.portPurchaseOrderId;
-				bootbox.alert("Successfully saved order : "+portPurchaseOrderId);
+				bootbox.alert("Successfully saved order : "+portPurchaseOrderId, function(){
+					location.reload();	
+				});
+			
 			}else{
 				bootbox.alert("Failed to save record. Reason: "+result.errorMessage);
 			}
