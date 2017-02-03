@@ -109,6 +109,13 @@
 	<div class="col-sm-2">
 		<div class="portfolio-item">
 			<div class="portfolio-image">
+				<a href="./port-stock-report.do">Cumulative Stock at Port</a>
+			</div>
+		</div>
+	</div>
+	<div class="col-sm-2">
+		<div class="portfolio-item">
+			<div class="portfolio-image">
 				<a href="./port-outward-report.do">Report - Port Outward</a>
 			</div>
 		</div>
@@ -124,6 +131,8 @@
 			</div>
 		</div>
 	</div>
+	</div>
+	<div class="row">
 	<div class="col-sm-2">
 		<div class="portfolio-item">
 			<div class="portfolio-image">

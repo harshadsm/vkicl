@@ -32,6 +32,7 @@
 		<form-bean name="PortPurchaseOrderForm" type="vkicl.form.PortPurchaseOrderForm" />
 <form-bean name="PortPurchaseOrderDeliveryForm" type="vkicl.form.PortPurchaseOrderDeliveryForm" />
 <form-bean name="PortPurchaseOrderDeliveryNoteForm" type="vkicl.form.PortPurchaseDeliveryNoteForm" />
+<form-bean name="PortStockReportForm" type="vkicl.form.PortStockReportForm" />
 
 	</form-beans>
 	<global-forwards>
@@ -196,6 +197,11 @@
 			name="StockForm">
 			<forward name="success" path="showAddCuttingPage" />
 			<forward name="showAddCuttingPage" path="showAddCuttingPage" />
+		</action>
+		
+		<action path="/port-stock-report" type="vkicl.report.action.PortStockReportAction"
+			name="PortStockReportForm">
+			<forward name="success" path="PortStockReportDefn" />
 		</action>
 		
 	</action-mappings>

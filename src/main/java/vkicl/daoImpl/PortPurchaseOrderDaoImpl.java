@@ -19,9 +19,13 @@ import vkicl.form.PortInwardForm;
 import vkicl.form.PortOutwardForm;
 import vkicl.form.PortPurchaseDeliveryNoteForm;
 import vkicl.form.PortPurchaseOrderForm;
+import vkicl.form.PortStockReportForm;
+import vkicl.report.bean.PortInwardBean;
 import vkicl.report.bean.PortPurchaseOrderDeliveryBean;
 import vkicl.report.bean.PortPurchaseOrderDeliveryNoteBean;
+import vkicl.report.bean.PortStockBean;
 import vkicl.report.bean.WarehouseDispatchBean;
+import vkicl.report.form.PortInwardReportForm;
 import vkicl.form.PortPurchaseOrderDeliveryForm;
 import vkicl.util.Constants;
 import vkicl.util.Converter;
@@ -879,6 +883,77 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 		}
 
 		return message;
+	}
+
+	public PortStockReportForm fetchPortCumulativeStockReport(PortStockReportForm form, UserInfoVO userInfoVO) {
+		Connection conn = null;
+		ResultSet rs = null;
+		CallableStatement cs = null;
+		String query = "";
+		String message = "";
+		String sql = "";
+		ArrayList<PortStockBean> reportList = null;
+		try {
+			conn = getConnection();
+
+			sql = " select one.port_inward_id, one.port_inward_detail_id, one.port_inwd_shipment_id, one.mill_name, "
+					+ " one.material_make, one.material_grade, one.material_type, one.description, one.length, "
+					+ " one.width, one.thickness, one.quantity, two.ppo_quantity, three.delivered_taloja, "
+					+ " ( one.quantity-two.ppo_quantity-three.delivered_taloja) balance_qty from ("
+					+ " ( select pi.port_inward_id, pi.mill_name, pi.material_make, pi.material_grade,"
+					+ " pi.material_type, pi.description, pid.length, pid.width, pid.thickness, pid.quantity,"
+					+ " pid.port_inward_detail_id, pi.port_inwd_shipment_id from port_inward pi "
+					+ " left join port_inward_details pid on pi.port_inward_id=pid.port_inward_id"
+					+ " group by pid.port_inward_detail_id) one"
+					+ " left join (select ifnull(sum(ppoli.ordered_quantity),0) ppo_quantity , "
+					+ " ppoli.port_inward_details_id from ppo_line_items ppoli "
+					+ " group by port_inward_details_id) two "
+					+ " on two.port_inward_details_id=one.port_inward_detail_id left join"
+					+ " (Select ifnull(sum(po.quantity),0) delivered_taloja, po.port_out_id ,pioi.port_inward_details_id"
+					+ " from port_outward po Left join port_inward_outward_intersection pioi "
+					+ " On po.port_out_id = pioi.port_outward_id  group by pioi.port_inward_details_id) three"
+					+ " on three.port_inward_details_id=one.port_inward_detail_id)";
+
+			query = sql;
+			log.info("query = " + query);
+
+			cs = conn.prepareCall(query);
+
+			rs = cs.executeQuery();
+			if (null != rs && rs.next()) {
+				reportList = new ArrayList<PortStockBean>();
+				do {
+					PortStockBean report = new PortStockBean();
+
+					report.setPortInwardId(rs.getInt("port_inward_id"));
+					report.setPortInwardDetailId(rs.getInt("port_inward_detail_id"));
+					report.setPortInwardShipmentId(rs.getInt("port_inwd_shipment_id"));
+					report.setMillName(formatOutput(rs.getString("mill_name")));
+					report.setMake(formatOutput(rs.getString("material_make")));
+					report.setMaterialType(formatOutput(rs.getString("material_type")));
+					report.setGrade(formatOutput(rs.getString("material_grade")));
+					report.setDesc(formatOutput(rs.getString("description")));
+					report.setLength(rs.getInt("length"));
+					report.setWidth(rs.getInt("width"));
+					report.setThickness(rs.getDouble("thickness"));
+					report.setQty(rs.getInt("quantity"));
+					report.setDeliveredTalojaQty(rs.getInt("delivered_taloja"));
+					report.setBalanceQty(rs.getInt("balance_qty"));
+					report.setPpoQty(rs.getInt("ppo_quantity"));
+
+					reportList.add(report);
+					report = null;
+				} while (rs.next());
+			}
+			form.setReportList(reportList);
+		} catch (Exception e) {
+			e.printStackTrace();
+			message = e.getMessage();
+			userInfoVO.setMessage(message);
+		} finally {
+			closeDatabaseResources(conn, rs, cs);
+		}
+		return form;
 	}
 
 }

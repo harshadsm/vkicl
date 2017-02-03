@@ -38,8 +38,7 @@ public class PortPurchaseOrderService {
 
 		PortPurchaseOrderSavingStatusVO status = new PortPurchaseOrderSavingStatusVO();
 		Long portPurchaseOrderId = -1L;
-		Long warehouseInwardId = -1L;
-		Long stockBalId = -1L;
+
 		String ppoLineItemsString = portPurchaseOrder.getSelectedPortInventoryItemsJson();
 
 		Gson gson = new Gson();
@@ -61,7 +60,7 @@ public class PortPurchaseOrderService {
 		status.setPortPurchaseOrderId(portPurchaseOrderId);
 		status.setStatus("success");
 		// return status;
-		request.setAttribute("is_success", "success");
+
 	}
 
 	public PortPurchaseOrderVO getPPODetailsById(Integer purchaseOrderNo) {

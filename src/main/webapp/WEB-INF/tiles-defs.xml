@@ -169,4 +169,10 @@
 		<put name="body" value="/jsp/report/add-cutting-plate-details.jsp" />
 	</definition>
 	
+	<definition name="PortStockReportDefn" extends="baseDefn">
+		<put name="title" value="Port-Stock-Report" />
+		<put name="pageType" value="Report" />
+		<put name="body" value="/jsp/report/port-stock-report.jsp" />
+	</definition>
+	
 </tiles-definitions>
