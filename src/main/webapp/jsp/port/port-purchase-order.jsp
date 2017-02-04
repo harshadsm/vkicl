@@ -209,19 +209,26 @@ input[name="length"], input[name="width"], input[name="thickness"], input[name="
 </div>
 
 <div class="row">
+<div class="col-md-12">
 <ul class="nav nav-pills">
-    <li class="active"><a data-toggle="pill" href="#home">Port Purchase Order- Step 1</a></li>
-    <li><a data-toggle="pill" href="#menu1">Port Purchase Order- Step 2</a></li>
+    <li class="active"><a data-toggle="pill" href="#home">Step 1 : Customer Details</a></li>
+    <li><a data-toggle="pill" href="#menu1">Step 2 : Ordered Items</a></li>
 
   </ul>
+  </div>
 </div>
 
 <div class="tab-content">
 
 <div id="home" class="tab-pane fade in active">
-      <h3>Step 1</h3>
       <div class="row">
-			<div class="col-md-10">
+					<div class="col-md-12">
+						<h3>Step 1 of 2</h3>
+					</div>
+					
+		</div>
+      <div class="row">
+			<div class="col-md-5">
 			
 			<table class="table table-responsive dispatch-table">
 					<tr>
@@ -373,7 +380,13 @@ input[name="length"], input[name="width"], input[name="thickness"], input[name="
 			</div>
 			
 			<div id="menu1" class="tab-pane fade">
-				<h3>Step 2</h3>
+				<div class="row">
+					<div class="col-md-12">
+						<h3>Step 2 of 2</h3>
+					</div>
+					
+				</div>
+				
 				<div class="row">
 					<div class="col-md-12">
 
@@ -393,7 +406,7 @@ input[name="length"], input[name="width"], input[name="thickness"], input[name="
 					</div>
 				</div>
 
-				<div class="row">
+		<div class="row">
 			<div class="col-xs-12">
 				<h3>Review the selected Entries below</h3>
 				<table class="table table-responsive table-form" id="portInwardTable">
@@ -416,10 +429,7 @@ input[name="length"], input[name="width"], input[name="thickness"], input[name="
 				</table>
 			</div>
 		</div>
-
-</div>
-
-<div class="row">
+		<div class="row">
 			<div class="col-md-12">
 				<input type="button" value="Reset" onclick="resetOutwardForm();"
 					class="btn pull-left" />
@@ -429,7 +439,11 @@ input[name="length"], input[name="width"], input[name="thickness"], input[name="
 			</div>
 		</div>
 		<html:hidden property="genericListener" value="add" />
-			</html:form>
+
+</div>
+
+		
+	</html:form>
 </div>
 		
 <script>
