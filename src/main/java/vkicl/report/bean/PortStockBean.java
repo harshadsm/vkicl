@@ -7,24 +7,26 @@ public class PortStockBean extends BaseReportBean {
 	private int portInwardDetailId = 0;
 
 	private int portInwardShipmentId = 0;
-	private String vendorName = null;
-	private String vesselName = null;
-	private String vesselDate = null;
+	private String vendorName;
+	private String vesselName;
+	private String vesselDate;
 
-	private String millName = null;
-	private String materialType = null;
-	private String make = null;
-	private String grade = null;
-	private String desc = null;
+	private String millName;
+	private String materialType;
+	private String make;
+	private String grade;
+	private String desc;
 
-	private Integer length = null;
-	private Integer width = null;
-	private Double thickness = null;
-	private Integer qty = null;
-	private Integer deliveredTalojaQty = null;
-	private Integer ppoQty = null;
+	private Integer length;
+	private Integer width;
+	private Double thickness;
+	private Integer inwardQuantity;
+	private Integer deliveredTalojaQty;
+	private Integer ppoOrderedQty;
+	private Integer ppoDeliveredQty;
 
-	private Integer balanceQty = null;
+	private Integer balanceQtyForSale;
+	private Integer balanceAtDock;
 
 	public String getVendorName() {
 		return vendorName;
@@ -138,14 +140,6 @@ public class PortStockBean extends BaseReportBean {
 		this.portInwardShipmentId = portInwardShipmentId;
 	}
 
-	public Integer getQty() {
-		return qty;
-	}
-
-	public void setQty(Integer qty) {
-		this.qty = qty;
-	}
-
 	public Integer getDeliveredTalojaQty() {
 		return deliveredTalojaQty;
 	}
@@ -154,30 +148,46 @@ public class PortStockBean extends BaseReportBean {
 		this.deliveredTalojaQty = deliveredTalojaQty;
 	}
 
-	public Integer getPpoQty() {
-		return ppoQty;
+	public Integer getBalanceQtyForSale() {
+		return balanceQtyForSale;
 	}
 
-	public void setPpoQty(Integer ppoQty) {
-		this.ppoQty = ppoQty;
+	public void setBalanceQtyForSale(Integer balanceQtyForSale) {
+		this.balanceQtyForSale = balanceQtyForSale;
 	}
 
-	public Integer getBalanceQty() {
-		return balanceQty;
+	public Integer getPpoOrderedQty() {
+		return ppoOrderedQty;
 	}
 
-	public void setBalanceQty(Integer balanceQty) {
-		this.balanceQty = balanceQty;
+	public void setPpoOrderedQty(Integer ppoOrderedQty) {
+		this.ppoOrderedQty = ppoOrderedQty;
 	}
 
-	@Override
-	public String toString() {
-		return "PortStockBean [portInwardId=" + portInwardId + ",portInwardDetailId=" + portInwardDetailId
-				+ ",portInwardShipmentId=" + portInwardShipmentId + "," + " vendorName=" + vendorName + ", vesselName="
-				+ vesselName + ", vesselDate=" + vesselDate + ", millName=" + millName + ", materialType="
-				+ materialType + ", make=" + make + ", grade=" + grade + ", desc=" + desc + ",  length=" + length
-				+ ", width=" + width + ", thickness=" + thickness + ", qty=" + qty + ", ppoQty=" + ppoQty
-				+ ",deliveredTalojaQty=" + deliveredTalojaQty + ", balanceQty=" + balanceQty + "]";
+	public Integer getPpoDeliveredQty() {
+		return ppoDeliveredQty;
 	}
+
+	public void setPpoDeliveredQty(Integer ppoDeliveredQty) {
+		this.ppoDeliveredQty = ppoDeliveredQty;
+	}
+
+	public Integer getBalanceAtDock() {
+		return balanceAtDock;
+	}
+
+	public void setBalanceAtDock(Integer balanceAtDock) {
+		this.balanceAtDock = balanceAtDock;
+	}
+
+	public Integer getInwardQuantity() {
+		return inwardQuantity;
+	}
+
+	public void setInwardQuantity(Integer inwardQuantity) {
+		this.inwardQuantity = inwardQuantity;
+	}
+
+
 
 }

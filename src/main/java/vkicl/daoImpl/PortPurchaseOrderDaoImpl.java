@@ -896,23 +896,25 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 		try {
 			conn = getConnection();
 
-			sql = " select one.port_inward_id, one.port_inward_detail_id, one.port_inwd_shipment_id, one.mill_name, "
-					+ " one.material_make, one.material_grade, one.material_type, one.description, one.length, "
-					+ " one.width, one.thickness, one.quantity, two.ppo_quantity, three.delivered_taloja, "
-					+ " ( one.quantity-two.ppo_quantity-three.delivered_taloja) balance_qty from ("
-					+ " ( select pi.port_inward_id, pi.mill_name, pi.material_make, pi.material_grade,"
-					+ " pi.material_type, pi.description, pid.length, pid.width, pid.thickness, pid.quantity,"
-					+ " pid.port_inward_detail_id, pi.port_inwd_shipment_id from port_inward pi "
-					+ " left join port_inward_details pid on pi.port_inward_id=pid.port_inward_id"
-					+ " group by pid.port_inward_detail_id) one"
-					+ " left join (select ifnull(sum(ppoli.ordered_quantity),0) ppo_quantity , "
-					+ " ppoli.port_inward_details_id from ppo_line_items ppoli "
-					+ " group by port_inward_details_id) two "
-					+ " on two.port_inward_details_id=one.port_inward_detail_id left join"
-					+ " (Select ifnull(sum(po.quantity),0) delivered_taloja, po.port_out_id ,pioi.port_inward_details_id"
-					+ " from port_outward po Left join port_inward_outward_intersection pioi "
-					+ " On po.port_out_id = pioi.port_outward_id  group by pioi.port_inward_details_id) three"
-					+ " on three.port_inward_details_id=one.port_inward_detail_id)";
+//			sql = " select one.port_inward_id, one.port_inward_detail_id, one.port_inwd_shipment_id, one.mill_name, "
+//					+ " one.material_make, one.material_grade, one.material_type, one.description, one.length, "
+//					+ " one.width, one.thickness, one.quantity, two.ppo_quantity, three.delivered_taloja, "
+//					+ " ( one.quantity-two.ppo_quantity-three.delivered_taloja) balance_qty from ("
+//					+ " ( select pi.port_inward_id, pi.mill_name, pi.material_make, pi.material_grade,"
+//					+ " pi.material_type, pi.description, pid.length, pid.width, pid.thickness, pid.quantity,"
+//					+ " pid.port_inward_detail_id, pi.port_inwd_shipment_id from port_inward pi "
+//					+ " left join port_inward_details pid on pi.port_inward_id=pid.port_inward_id"
+//					+ " group by pid.port_inward_detail_id) one"
+//					+ " left join (select ifnull(sum(ppoli.ordered_quantity),0) ppo_quantity , "
+//					+ " ppoli.port_inward_details_id from ppo_line_items ppoli "
+//					+ " group by port_inward_details_id) two "
+//					+ " on two.port_inward_details_id=one.port_inward_detail_id left join"
+//					+ " (Select ifnull(sum(po.quantity),0) delivered_taloja, po.port_out_id ,pioi.port_inward_details_id"
+//					+ " from port_outward po Left join port_inward_outward_intersection pioi "
+//					+ " On po.port_out_id = pioi.port_outward_id  group by pioi.port_inward_details_id) three"
+//					+ " on three.port_inward_details_id=one.port_inward_detail_id)";
+			
+			sql = composeQueryForCumulativeStockReportAtPort();
 
 			query = sql;
 			log.info("query = " + query);
@@ -936,10 +938,12 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 					report.setLength(rs.getInt("length"));
 					report.setWidth(rs.getInt("width"));
 					report.setThickness(rs.getDouble("thickness"));
-					report.setQty(rs.getInt("quantity"));
-					report.setDeliveredTalojaQty(rs.getInt("delivered_taloja"));
-					report.setBalanceQty(rs.getInt("balance_qty"));
-					report.setPpoQty(rs.getInt("ppo_quantity"));
+					report.setInwardQuantity(rs.getInt("inward_quantity"));
+					report.setDeliveredTalojaQty(rs.getInt("quantity_delivered_to_taloja"));
+					report.setBalanceQtyForSale(rs.getInt("balance_qty_for_sale"));
+					report.setPpoOrderedQty(rs.getInt("ppo_ordered_quantity"));
+					report.setPpoDeliveredQty(rs.getInt("ppoli_delivered_quantity"));
+					report.setBalanceAtDock(rs.getInt("balance_at_dock"));
 
 					reportList.add(report);
 					report = null;
@@ -954,6 +958,77 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 			closeDatabaseResources(conn, rs, cs);
 		}
 		return form;
+	}
+
+	private String composeQueryForCumulativeStockReportAtPort() {
+		StringBuffer q = new StringBuffer();
+		
+		q.append(" SELECT one.port_inward_id, ");
+		q.append("        one.port_inward_detail_id, ");
+		q.append("        one.port_inwd_shipment_id, ");
+		q.append("        one.mill_name, ");
+		q.append("        one.material_make, ");
+		q.append("        one.material_grade, ");
+		q.append("        one.material_type, ");
+		q.append("        one.description, ");
+		q.append("        one.length, ");
+		q.append("        one.width, ");
+		q.append("        one.thickness, ");
+		q.append("        ifnull(one.quantity,0) inward_quantity, ");
+		q.append("        ifnull(two.ppo_quantity,0) ppo_ordered_quantity, ");
+		q.append("        ifnull(three.Delivered_taloja,0) quantity_delivered_to_taloja,  ");
+		q.append("        ( ");
+		q.append(" 		ifnull(one.quantity,0)  ");
+		q.append("         - ifnull(two.ppo_quantity,0)  ");
+		q.append("         - ifnull(three.delivered_taloja,0) ");
+		q.append("         ) balance_qty_for_sale, ");
+		q.append("         ifnull(four.ppoli_delivered_quantity,0) ppoli_delivered_quantity, ");
+		q.append("         ( ");
+		q.append(" 			ifnull(one.quantity,0)  ");
+		q.append("            - ifnull(four.ppoli_delivered_quantity,0)  ");
+		q.append("            - ifnull(three.Delivered_taloja,0) ");
+		q.append("         ) balance_at_dock ");
+		q.append("          ");
+		q.append("          ");
+		q.append(" FROM   ((SELECT pi.port_inward_id, ");
+		q.append("                pi.mill_name, ");
+		q.append("                pi.material_make, ");
+		q.append("                pi.material_grade, ");
+		q.append("                pi.material_type, ");
+		q.append("                pi.description, ");
+		q.append("                pid.length, ");
+		q.append("                pid.width, ");
+		q.append("                pid.thickness, ");
+		q.append("                pid.quantity, ");
+		q.append("                pid.port_inward_detail_id, ");
+		q.append("                pi.port_inwd_shipment_id ");
+		q.append("         FROM   port_inward pi ");
+		q.append("                LEFT JOIN port_inward_details pid ");
+		q.append("                       ON pi.port_inward_id = pid.port_inward_id ");
+		q.append("         GROUP  BY pid.port_inward_detail_id) one ");
+		q.append("         LEFT JOIN (SELECT Ifnull(Sum(ppoli.ordered_quantity), 0) ppo_quantity, ");
+		q.append("                           ppoli.port_inward_details_id ");
+		q.append("                    FROM   ppo_line_items ppoli ");
+		q.append("                    GROUP  BY port_inward_details_id) two ");
+		q.append("                ON two.port_inward_details_id = one.port_inward_detail_id ");
+		q.append("         LEFT JOIN (SELECT Ifnull(Sum(po.quantity), 0) delivered_taloja, ");
+		q.append("                           po.port_out_id, ");
+		q.append("                           pioi.port_inward_details_id ");
+		q.append("                    FROM   port_outward po ");
+		q.append("                           LEFT JOIN port_inward_outward_intersection pioi ");
+		q.append("                                  ON po.port_out_id = pioi.port_outward_id ");
+		q.append("                    GROUP  BY pioi.port_inward_details_id) three ");
+		q.append("                ON three.port_inward_details_id = one.port_inward_detail_id) ");
+		q.append(" 		LEFT JOIN (SELECT ifnull(sum(dnli.delivered_quantity),0) ppoli_delivered_quantity, ");
+		q.append(" 						ppoli.port_inward_details_id ");
+		q.append(" 					FROM delivery_note_line_items dnli ");
+		q.append("                     LEFT JOIN ppo_line_items ppoli  ");
+		q.append(" 							ON dnli.ppo_line_items_id = ppoli.id  ");
+		q.append(" 					GROUP BY ppoli.port_inward_details_id ");
+		q.append(" 					) four ");
+		q.append(" 			   ON four.port_inward_details_id = one.port_inward_detail_id ");
+		q.append(" where one.port_inward_detail_id is not null;   ");
+		return q.toString();
 	}
 
 }
