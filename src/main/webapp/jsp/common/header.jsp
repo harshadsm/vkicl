@@ -38,10 +38,12 @@
 						</a>
 							<ul class="dropdown-menu" role="menu">
 								<!-- <li><a href="./port-inward.do">Create New Inward Record</a></li> -->
-								<li><a href="./port-inward.do">Port-Inward</a></li>
-								<li><a href="./port-inward-details.do">Port- Inward Packing List</a></li>
-								<li><a ">Port- Purchase Order</a></li>
+								<li><a href="./port-inward.do">Port Inward</a></li>
+								<li><a href="./port-inward-details.do">Port Inward Packing List</a></li>
 								<li><a href="./port-outward.do">Port Outward</a></li>
+								<li><a href="./port-purchase-order.do">Port Purchase Order</a></li>
+								<li><a href="./port-purchase-order-delivery.do">Port Delivery Note</a></li>
+								<li><a href="./port-stock-report.do">Port Stock</a></li>
 								
 								<!-- <li><a href="./port-outward.do">Create Outward Record</a></li> -->
 								
@@ -115,7 +117,8 @@
 									}
 											if (userInfoVO.hasAccess(Constants.Apps.STOCK)) {
 								%>
-								<li><a href="./stock-report.do">Stock</a></li>
+								<li><a href="./stock-report.do">Stock at Warehouse</a></li>
+								<li><a href="./port-stock-report.do">Stock at Port</a></li>
 								<%
 									}
 								%>
