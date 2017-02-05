@@ -97,6 +97,10 @@
 			<forward name="success" path="deliveryNoteDefn" />
 		</action>
 		
+		<action path="/delivery-note-view" type="vkicl.action.DeliveryNoteViewAction" >
+			<forward name="viewDeliveryNote" path="viewDeliveryNote" />
+		</action>
+		
 		<action path="/port-outward" type="vkicl.action.PortOutwardAction2"
 			name="PortOutwardForm">
 			<forward name="success"  path="portOutwardDetailsDefn_2" />

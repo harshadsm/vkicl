@@ -139,7 +139,7 @@ return commonSubmit();
 	for(DeliveryNoteVO deliveryNote : deliveryNotes){
 		List<DeliveryNoteLineItemVO> deliveryNoteLineItems = deliveryNote.getDeliveryNoteLineItems();
 		%>
-		<h3><a href="editDeliveryNote.do?deliveryNoteId=<%=deliveryNote.getId() %>">Delivery Note - <%=deliveryNote.getId() %></a></h3>
+		<h3><a href="delivery-note-view.do?deliveryNoteId=<%=deliveryNote.getId() %>">Delivery Note - <%=deliveryNote.getId() %></a></h3>
 		<table class="table table-striped">
 		<thead>
 			<tr>

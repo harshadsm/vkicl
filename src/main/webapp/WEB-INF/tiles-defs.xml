@@ -61,6 +61,11 @@
 		<put name="body" value="/jsp/port/port-purchase-order-delivery-note.jsp" />
 	</definition>
 	
+	<definition name="viewDeliveryNote" extends="baseDefn">
+		<put name="title" value="View Delivery Note" />
+		<put name="body" value="/jsp/delivery_notes/view.jsp" />
+	</definition>
+	
 	<definition name="portOutwardDetailsDefn" extends="baseDefn">
 		<put name="title" value="Port - Outward" />
 		<put name="body" value="/jsp/port/port-outward.jsp" />
