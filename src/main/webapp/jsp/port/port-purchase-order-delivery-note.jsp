@@ -127,14 +127,19 @@ return commonSubmit();
 		<html:hidden property="genericListener" value="addDetails" />
 
 	</html:form>
+	
+	
 </div>
 
+
+<div class="row">
+<div class="col-md-6">
 <div>
 	<%
 	for(DeliveryNoteVO deliveryNote : deliveryNotes){
 		List<DeliveryNoteLineItemVO> deliveryNoteLineItems = deliveryNote.getDeliveryNoteLineItems();
 		%>
-		<h3>Delivery Note - <%=deliveryNote.getId() %></h3>
+		<h3><a href="editDeliveryNote.do?deliveryNoteId=<%=deliveryNote.getId() %>">Delivery Note - <%=deliveryNote.getId() %></a></h3>
 		<table class="table table-striped">
 		<thead>
 		
@@ -163,5 +168,7 @@ return commonSubmit();
 		
 	} 
 	%>
+</div>
+</div>
 </div>
 	
