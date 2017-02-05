@@ -142,7 +142,14 @@ return commonSubmit();
 		<h3><a href="editDeliveryNote.do?deliveryNoteId=<%=deliveryNote.getId() %>">Delivery Note - <%=deliveryNote.getId() %></a></h3>
 		<table class="table table-striped">
 		<thead>
-		
+			<tr>
+				<th>Id</th>
+				<th>Date</th>
+				<th>Length</th>
+				<th>Width</th>
+				<th>Thickness</th>
+				<th>Delivered Quantity</th>
+			</tr>
 		
 		</thead>
 		<tbody>
