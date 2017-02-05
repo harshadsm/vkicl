@@ -68,6 +68,9 @@ public class DeliveryNoteAction extends BaseAction {
 							.fetchPPOLineItems(portPurchaseOrderVO.getPpoNo(), userInfoVO);
 					request.setAttribute("port_purchase_order_line_items", portPurchaseOrderLineItemVO);
 
+					//Get existing delivery notes if any
+					
+					
 					actionForward = mapping.findForward(Constants.Mapping.SUCCESS);
 					userInfoVO = getUserProfile(request);
 				}
