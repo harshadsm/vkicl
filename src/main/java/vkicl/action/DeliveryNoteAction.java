@@ -24,9 +24,11 @@ import vkicl.form.PortInwardForm;
 import vkicl.form.PortPurchaseDeliveryNoteForm;
 import vkicl.form.PortPurchaseOrderDeliveryForm;
 import vkicl.form.WarehouseOutwardForm;
+import vkicl.services.DeliveryNoteService;
 import vkicl.services.PortPurchaseOrderService;
 import vkicl.util.Constants;
 import vkicl.util.PropFileReader;
+import vkicl.vo.DeliveryNoteVO;
 import vkicl.vo.PortInwardDetailsVO;
 import vkicl.vo.PortPurchaseOrderLineItemVO;
 import vkicl.vo.PortPurchaseOrderVO;
@@ -69,7 +71,9 @@ public class DeliveryNoteAction extends BaseAction {
 					request.setAttribute("port_purchase_order_line_items", portPurchaseOrderLineItemVO);
 
 					//Get existing delivery notes if any
-					
+					DeliveryNoteService deliveryNoteService = new DeliveryNoteService();
+					List<DeliveryNoteVO> deliveryNotes = deliveryNoteService.findDeliveryNotesByPPOId(purchaseOrderNo);
+					request.setAttribute("deliveryNotes", deliveryNotes);
 					
 					actionForward = mapping.findForward(Constants.Mapping.SUCCESS);
 					userInfoVO = getUserProfile(request);
@@ -111,6 +115,12 @@ public class DeliveryNoteAction extends BaseAction {
 				List<PortPurchaseOrderLineItemVO> portPurchaseOrderLineItemVO = ppoService
 						.fetchPPOLineItems(portpurchasedeliverynoteForm.getPpoNo(), userInfoVO);
 				request.setAttribute("port_purchase_order_line_items", portPurchaseOrderLineItemVO);
+				
+
+				//Get existing delivery notes if any
+				DeliveryNoteService deliveryNoteService = new DeliveryNoteService();
+				List<DeliveryNoteVO> deliveryNotes = deliveryNoteService.findDeliveryNotesByPPOId(portpurchasedeliverynoteForm.getPpoNo());
+				request.setAttribute("deliveryNotes", deliveryNotes);
 
 			} else {
 				log.info("Loaded Port Purchase Order Line Item Details");

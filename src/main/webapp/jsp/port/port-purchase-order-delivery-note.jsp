@@ -1,3 +1,5 @@
+<%@page import="vkicl.vo.DeliveryNoteLineItemVO"%>
+<%@page import="vkicl.vo.DeliveryNoteVO"%>
 <%@page import="java.util.List"%>
 <%@page import="vkicl.vo.PortPurchaseOrderLineItemVO"%>
 <%@page import="vkicl.vo.PortPurchaseOrderVO"%>
@@ -15,7 +17,7 @@
 <% 
 PortPurchaseOrderVO vo = (PortPurchaseOrderVO)request.getAttribute("port_purchase_order_details");
 List<PortPurchaseOrderLineItemVO> portPurchaseOrderLineItemVO =(List<PortPurchaseOrderLineItemVO>)request.getAttribute("port_purchase_order_line_items");
-
+List<DeliveryNoteVO> deliveryNotes = (List<DeliveryNoteVO>)request.getAttribute("deliveryNotes");
 System.out.print(request.getAttribute("port_purchase_order_line_items"));
 %>
 
@@ -125,5 +127,41 @@ return commonSubmit();
 		<html:hidden property="genericListener" value="addDetails" />
 
 	</html:form>
+</div>
+
+<div>
+	<%
+	for(DeliveryNoteVO deliveryNote : deliveryNotes){
+		List<DeliveryNoteLineItemVO> deliveryNoteLineItems = deliveryNote.getDeliveryNoteLineItems();
+		%>
+		<h3>Delivery Note - <%=deliveryNote.getId() %></h3>
+		<table class="table table-striped">
+		<thead>
+		
+		
+		</thead>
+		<tbody>
+			<%
+			for(DeliveryNoteLineItemVO deliveryNoteLineItem : deliveryNoteLineItems){
+			%>
+			<tr>
+				<td><%=deliveryNoteLineItem.getId() %></td>
+				<td><%=deliveryNoteLineItem.getDate() %></td>
+				<td><%=deliveryNoteLineItem.getLength() %></td>
+				<td><%=deliveryNoteLineItem.getWidth() %></td>
+				<td><%=deliveryNoteLineItem.getThickness() %></td>
+				<td><%=deliveryNoteLineItem.getDeliveredQuantity() %></td>
+				
+			</tr>	
+			<%	
+			} 
+			%>
+			
+		</tbody>
+		</table>
+		<% 
+		
+	} 
+	%>
 </div>
 	
