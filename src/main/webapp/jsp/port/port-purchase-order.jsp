@@ -583,11 +583,7 @@ $(function() {
 				cell : "cell",
 				id : "id"
 			},
-	        gridComplete: function(){ 
-	        	
-	        	}
-	        		,
-	           		
+	        
 	           		onSelectRow: function(rowids) {
 	           			
 	           			var grid = $('#portInwardGrid');
@@ -609,7 +605,6 @@ $(function() {
 	$("#portInwardPackingList").jqGrid(
 				{
 					//url : './portPurchaseOrderDetailJsonServlet',
-					//url: './portInwardDetailsJsonServlet2?portInwardId=6',
 					datatype : 'json',
 					mtype : 'GET',
 					
@@ -753,7 +748,7 @@ $(function() {
 			        	for(var i=0;i < ids.length;i++){ 
 			        		var rowObject = $grid.jqGrid('getRowData',ids[i]); 
 			        		
-			        		var composedObj = composeObjectForCaching(rowObject, 0);
+			        		var composedObj = composeObjectForCaching(rowObject);
 							
 			        		$grid.jqGrid('filterToolbar',{stringResult: true,searchOnEnter : false, searchOperators:true, defaultSearch:"cn"});
 			        		
@@ -791,29 +786,16 @@ function isObjectPresentInCache(targetObj){
 	return false;
 }
 
-function composeObjectForCaching(rowObject,qty){
-	//var cachedObject = rowObject.portInwardId+"-"+rowObject.portInwardDetailId+"-"+rowObject.portInwardShipmentId;
-	//return cachedObject;
+function composeObjectForCaching(rowObject){
 	
 	var cachedObj = {
 			portInwardId : rowObject.portInwardId,
 			portInwardDetailId : rowObject.portInwardDetailId,
-			
 			length : rowObject.length,
 			width : rowObject.width,
 			thickness : rowObject.thickness,
-			vesselDate : rowObject.vesselDate,
-			vesselName : rowObject.vesselName,
-			millName : rowObject.millName,
 			availableQuantity : rowObject.quantity,
-			grade : rowObject.grade,
-			materialType : rowObject.materialType,
-			
-			vehicleDate:rowObject.vehicleDate,
-			vehicleName:rowObject.vehicleName,
 			actualWt:rowObject.actualWt,
-			vendorName : rowObject.vendorName,
-			make:rowObject.make,
 			actualWt_unit:rowObject.actualWt_unit
 	};
 	return cachedObj;
@@ -823,13 +805,8 @@ function handleOnSelectRow(rowId, status){
 	console.log("---------->>>> "+rowId);
 	console.log("---------->>>> "+status);
 	var row = jQuery("#portInwardPackingList").jqGrid('getRowData',rowId); 
-	var orderedQty = $("#ordered_qty_"+rowId).val()
-	try{
-		var x = Number(orderedQty);
-	}catch (e){
-		orderedQty = 1;
-	}
-	var objectForCaching = composeObjectForCaching(row, orderedQty);
+	
+	var objectForCaching = composeObjectForCaching(row);
 	
 	if(status){
 		//If already present, update the orderedQuantity in cache
@@ -837,17 +814,9 @@ function handleOnSelectRow(rowId, status){
 		var isPresentObj = isObjectPresentInCache(objectForCaching);
 		console.log("isPresentObj = "+isPresentObj);
 		if(isPresentObj){
-			//updateOrderedQuantityInCache(objectForCaching);
-			$("#ordered_qty_"+rowId).val(isPresentObj.orderedQuantity);
-			var val = calculateOutQty(rowId, isPresentObj.orderedQuantity);
-			$("#portInwardPackingList").jqGrid("setCell", rowId, "outQty", val);
-		}else{
-			//Now add the customer code to array.
-			
+			}else{
 			objectForCaching.orderedQuantity = 1;
-			
-			
-			//Push items into cache as selected.
+
 			console.log("<<<<<<<>>>>>>>>>>>>>>>>>>>");
 			console.log(objectForCaching);
 			SELECTED_PORT_INVENTORY_ITEMS.push(objectForCaching);
@@ -855,11 +824,7 @@ function handleOnSelectRow(rowId, status){
 		}
 		
 	}else{
-		/* SELECTED_PORT_INVENTORY_ITEMS = $.grep(SELECTED_PORT_INVENTORY_ITEMS, function (value){
-			return compareCachedObjects(value, objectForCaching);
-			
-			//return value != objectForCaching;
-		}); */
+	
 		removeItemFromCache(objectForCaching);
 		
 	}
@@ -888,15 +853,11 @@ function refreshPortOutwardTable(){
 		var q = Number($(elem).val());
 		quantitySum = quantitySum + q;
 		
-		$("#portInwardPackingList").jqGrid('footerData', 'set', {  'quantity': quantitySum });
+		//$("#portInwardPackingList").jqGrid('footerData', 'set', {  'quantity': quantitySum });
 	});
 	
-	$(".port_out_section_wt").each(function (index, elem){
-		console.log(elem);
-		var secwt = Number($(elem).val());
-		sectionwtSum = sectionwtSum + secwt;
-	});
-	addQuantitySumRow(quantitySum,sectionwtSum);
+	
+	addQuantitySumRow(quantitySum);
 		
 }
 
@@ -942,59 +903,12 @@ function isOrderedQtyLessThanAvailableQtyAtPort(orderedQty, jqGridRowId){
 
 
 
-function setTick(jqGridRowId){
-	
-	try{
-		jqGridRowId = jqGridRowId+"";
-		var $packingListGrid = $("#portInwardPackingList");
-		var orderedQty = Number($("#ordered_qty_"+jqGridRowId).val());
-		//console.log("Ordered Qty = "+orderedQty);
-		var val = calculateOutQty(jqGridRowId, orderedQty);
-	    $("#portInwardPackingList").jqGrid("setCell", jqGridRowId, "outQty", val);
-				
-		
-		var isMore = isOrderedQtyLessThanAvailableQtyAtPort(orderedQty, jqGridRowId);
-		if(isMore){
-			alert("You have entered quantity more than that is available at port.");
-		}
-		
-		if(orderedQty > 0){
-			
-			var selRowIds = $packingListGrid.jqGrid("getGridParam", "selarrrow");
-			if ($.inArray(jqGridRowId, selRowIds) >= 0) {
-			    // the row having rowId is selected
-			    console.log("Already selected");
-			    
-			    updateQuantityInCache(jqGridRowId, orderedQty);
-			  	//Refresh the table.
-				refreshPortOutwardTable();
-			    
-			}else{
-				$packingListGrid.jqGrid("setSelection", jqGridRowId);
-				
-			}
-				
-		}else{
-			$packingListGrid.jqGrid("setSelection", jqGridRowId);
-		}
-			
-	}catch(e){
-		console.log(e);
-	}
-	
-	
-	
-}
+
 
 function updateQuantityInCache(jqGridRowId, orderedQty){
 	var $packingListGrid = $("#portInwardPackingList");
 	var rowObject = $packingListGrid.jqGrid('getRowData',jqGridRowId); 
-	var objectForCompare = composeObjectForCaching(rowObject, orderedQty);
-	var objectFromCache = isObjectPresentInCache(objectForCompare);
-	if(objectFromCache){
-		objectFromCache.orderedQuantity = orderedQty;
-	}
-	
+	var objectForCompare = composeObjectForCaching(rowObject);
 	
 }
 
@@ -1032,8 +946,10 @@ function onOrderedQuantityChanged(portInwardId, portInwardDetailId){
 			console.log(elem);
 			elem.orderedQuantity = newQuantity;
 			console.log(elem);
+	
 		}
 	});
+
 }
 
 function addRowOfSelectedRecord(recordObj) {
@@ -1042,7 +958,7 @@ function addRowOfSelectedRecord(recordObj) {
 	var id = composeCombinationId(recordObj);
 
 	var jsonCellId = composeJsonCellId(id);
-	var warehouseInwardRecordClass = composeCombinationClass(id);
+	var portPurchaseOrderRecordClass = composeCombinationClass(id);
 	var recordObjJson = JSON.stringify(recordObj);	
 	
 	var $grid = $("#portInwardGrid");
@@ -1057,7 +973,7 @@ function addRowOfSelectedRecord(recordObj) {
 	var grade = $grid.jqGrid('getCell', selectedRowId, 'grade');
 	
 	
-	var str = "<tr id='" + id + "' class='selected-port-outward-records "+warehouseInwardRecordClass+"' data-attribute-group-class='"+warehouseInwardRecordClass+"' data-attribute-original-quantity='"+recordObj.availableQuantity+"' >"
+	var str = "<tr id='" + id + "' class='selected-port-purchase-order-records "+portPurchaseOrderRecordClass+"' data-attribute-group-class='"+portPurchaseOrderRecordClass+"' data-attribute-original-quantity='"+recordObj.availableQuantity+"' >"
 			+ "<td><input type='text' readonly placeholder='vesselDate' value='"+vesselDate+"' name='vesselDate' class='form-control'  /></td>"
 			+ "<td><input type='text' readonly placeholder='vendorName' value='"+vendorName+"' name='vendorName' class='form-control' /></td>"
 			+ "<td><input type='text' readonly placeholder='vesselName' value='"+vesselName+"' name='vesselName' class='form-control' /></td>"
@@ -1078,7 +994,7 @@ function addRowOfSelectedRecord(recordObj) {
 	$("#details-tbody").append(str);
 
 }
-function addQuantitySumRow(quantitySum,sectionwtSum) {
+function addQuantitySumRow(quantitySum) {
 	
 	
 	var str = "<tr id='quantity-sum-row'><td class='vessel-container'></td>"
@@ -1117,11 +1033,7 @@ function composeCombinationClass(id){
 	return comboId;
 }
 
-function locationId(recordObj){
-	var trElementId = composeCombinationId(recordObj);
-	var locationCellId = "location-"+trElementId;
-	return locationCellId;
-}
+
 
 function submitPortPurchaseOrder(){
 	
@@ -1195,7 +1107,7 @@ function submitPortPurchaseOrder(){
 }
 function composeSelectedPortPurchaseOrderJson(){
 	var portPurchaseOrderObjectArray = [];
-	$(".selected-port-outward-records").each(function(i, elem){
+	$(".selected-port-purchase-order-records").each(function(i, elem){
 		var $elem = $(elem);
 		var selectedPortPurchaseOrderObj = composePortPurchaseOrderObject($elem);
 		portPurchaseOrderObjectArray.push(selectedPortPurchaseOrderObj);
@@ -1205,44 +1117,17 @@ function composeSelectedPortPurchaseOrderJson(){
 }
 
 function composePortPurchaseOrderObject($elem){
-	//var vesselDate = getValueByName($elem, "vesselDate");
+	
 	var portInwardId = getValueByName($elem, "portInwardId");
 	var portInwardDetailId = getValueByName($elem, "portInwardDetailId");
 	
-	//var length = getValueByName($elem, "length");
-	//var width = getValueByName($elem, "width");
-	//var thickness = getValueByName($elem, "thickness");
-	//var vesselName = getValueByName($elem, "vesselName");
-	//var millName = getValueByName($elem, "millName");
+	
 	var orderedQuantity = getValueByName($elem, "availableQuantity");
-	//var grade = getValueByName($elem, "grade");
-	//var materialType = getValueByName($elem, "Type");
-
-	//var vehicleDate = getValueByName($elem, "vehicleDate");
-	//var vehicleName = getValueByName($elem, "vehicleName");
-	//var actualWt = getValueByName($elem, "actualWt");
-	//var vendorName = getValueByName($elem, "vendorName");
-	//var make = getValueByName($elem, "make");
-
+	
 	var portPurchaseOrdersObject = {
 			portInwardId : portInwardId,
 			portInwardDetailId : portInwardDetailId,
 			orderedQuantity : orderedQuantity
-			//length : length,
-			//width : width,
-			//thickness : thickness,
-			//vesselDate : vesselDate,
-			//vesselName : vesselName,
-			//millName : millName,
-			//availableQuantity : availableQuantity,
-			//grade : grade,
-			//materialType : materialType,
-			//vehicleDate : vehicleDate,
-			//vehicleName : vehicleName,
-			//actualWt : actualWt,
-			//vendorName : vendorName,
-			//make : make
-	
 			
 	};
 	console.log(portPurchaseOrdersObject);
