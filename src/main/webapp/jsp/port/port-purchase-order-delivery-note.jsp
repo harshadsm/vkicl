@@ -77,7 +77,7 @@ return commonSubmit();
 		
 <div class="row">
 <div class="col-md-10">
-				<h3>Port Purchase Order Line Items</h3>
+				<h3>Enter quantity to be delivered in this delivery note</h3>
 				<table class="table table-responsive table-report" id="delivery-table">
 					<thead>
 					<tr>
