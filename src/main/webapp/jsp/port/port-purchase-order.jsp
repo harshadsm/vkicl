@@ -1051,6 +1051,13 @@ function onOrderedQuantityChanged(portInwardId, portInwardDetailId){
 	var comboId = ""+ portInwardId + "-" + portInwardDetailId ;
 	var qtyElementId = "port_out_item_quantity-"+comboId;
 	var newQuantity = $("#"+qtyElementId).val();
+
+	//Do not allow -ve quantity.
+	if(Number(newQuantity) < 1){
+		newQuantity = 1;
+		$("#"+qtyElementId).val(newQuantity);
+	}
+	
 	$.each(SELECTED_PORT_INVENTORY_ITEMS, function(i,elem){
 		var cachedPortInwardId = elem.portInwardId;
 		var chachedPortInwardDetailId = elem.portInwardDetailId;
@@ -1097,7 +1104,7 @@ function addRowOfSelectedRecord(recordObj) {
 			+ "<td><input type='text' readonly placeholder='thickness' value='"+recordObj.thickness+"' name='thickness' class='form-control' /></td>"
 			+ "<td><input type='text' readonly placeholder='width' value='"+recordObj.width+"' name='width' class='form-control' /></td>"
 			+ "<td><input type='text' readonly placeholder='length' value='"+recordObj.length+"' name='length' class='form-control' /></td>"
-			+ "<td ><input type='number'  onChange='onOrderedQuantityChanged("+recordObj.portInwardId + ","+recordObj.portInwardDetailId+")' placeholder='Quantity' max='"+recordObj.availableQuantity+"' value='"+recordObj.orderedQuantity+"' name='availableQuantity' class='form-control port_out_item_quantity' id='port_out_item_quantity-" + id + "' data-attribute-parent-port-out-id='port_out_item_quantity-" + id + "' /></td>"
+			+ "<td ><input type='number'  onChange='onOrderedQuantityChanged("+recordObj.portInwardId + ","+recordObj.portInwardDetailId+")' placeholder='Quantity' min='1' max='"+recordObj.availableQuantity+"' value='"+recordObj.orderedQuantity+"' name='availableQuantity' class='form-control port_out_item_quantity' id='port_out_item_quantity-" + id + "' data-attribute-parent-port-out-id='port_out_item_quantity-" + id + "' /></td>"
 			+ "<td><input type='hidden'  value='"+recordObj.portInwardId+"' name='portInwardId'/></td>"
 
 			+ "<td><input type='hidden' value='"+recordObj.portInwardDetailId+"' name='portInwardDetailId'/></td>"
