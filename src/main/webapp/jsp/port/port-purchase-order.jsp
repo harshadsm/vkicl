@@ -1110,7 +1110,9 @@ function addRowOfSelectedRecord(recordObj) {
 			+ "<td><input type='hidden' value='"+recordObj.portInwardDetailId+"' name='portInwardDetailId'/></td>"
 			+ "<td><input type='hidden' value='"+recordObj.portInwardShipmentId+"' name='portInwardShipmentId'/></td>"
 			+ "<td><input type='hidden' value='"+recordObjJson+"' id='"+jsonCellId+"'/></td>"
-			+ "</tr>";
+			+ "<td class='excel' colspan='1'><input type='button' class='btn-danger delete-row' onclick='deleteOrderItemw(\""
+			+ id + "\");' value='-' /></td></tr>";
+			//+ "</tr>";
 	$("#details-tbody").append(str);
 
 }
@@ -1136,6 +1138,13 @@ function addQuantitySumRow(quantitySum,sectionwtSum) {
 	//applyNumericConstraint();
 	//applyTotalCalc();
 }
+
+function deleteOrderItemw(id){
+	$("#"+id).remove();
+	calculateSumOfOrderedQuantity();
+		
+}
+
 function calculateOutQty(rowId, orderedQuantity){
 	var data = $("#portInwardPackingList").jqGrid('getRowData');
 	var row = data[rowId-1];
