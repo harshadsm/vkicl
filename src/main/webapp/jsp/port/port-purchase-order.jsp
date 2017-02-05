@@ -228,7 +228,7 @@ input[name="length"], input[name="width"], input[name="thickness"], input[name="
 					
 		</div>
       <div class="row">
-			<div class="col-md-5">
+			<div class="col-md-4">
 			
 			<table class="table table-responsive dispatch-table">
 					<tr>
@@ -426,6 +426,13 @@ input[name="length"], input[name="width"], input[name="thickness"], input[name="
 					</thead>
 					<tbody id="details-tbody">
 					</tbody>
+					<tfoot>
+						<tr>
+							<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+							<td>Total Ordered Quantity</td>
+							<td id="sumOfOrderedQuantity"></td>
+						</tr>
+					</tfoot>
 				</table>
 			</div>
 		</div>
@@ -893,6 +900,11 @@ function refreshPortOutwardTable(){
 		addRowOfSelectedRecord(SELECTED_PORT_INVENTORY_ITEMS[i]);
 	}
 	
+	calculateSumOfOrderedQuantity();
+		
+}
+
+function calculateSumOfOrderedQuantity(){
 	//Calculate total item quantity
 	var quantitySum = 0;
 	var sectionwtSum=0;
@@ -902,7 +914,7 @@ function refreshPortOutwardTable(){
 		var q = Number($(elem).val());
 		quantitySum = quantitySum + q;
 		
-		$("#portInwardPackingList").jqGrid('footerData', 'set', {  'quantity': quantitySum });
+		//$("#portInwardPackingList").jqGrid('footerData', 'set', {  'quantity': quantitySum });
 	});
 	
 	$(".port_out_section_wt").each(function (index, elem){
@@ -910,8 +922,9 @@ function refreshPortOutwardTable(){
 		var secwt = Number($(elem).val());
 		sectionwtSum = sectionwtSum + secwt;
 	});
-	addQuantitySumRow(quantitySum,sectionwtSum);
-		
+
+	$("#sumOfOrderedQuantity").html(quantitySum);
+	//addQuantitySumRow(quantitySum,sectionwtSum);
 }
 
 function removeItemFromCache(objectToRemove){
@@ -1048,6 +1061,8 @@ function onOrderedQuantityChanged(portInwardId, portInwardDetailId){
 			console.log(elem);
 		}
 	});
+
+	calculateSumOfOrderedQuantity();
 }
 
 function addRowOfSelectedRecord(recordObj) {
