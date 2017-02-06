@@ -55,8 +55,6 @@ function validateForm() {
 			submitPortPurchaseOrder();
 		}
 	});
-	
-	
 	return false;
 }
 
@@ -768,7 +766,6 @@ $(function() {
 });
 
 	
-
 function isObjectPresentInCache(targetObj){
 	
 	if(SELECTED_PORT_INVENTORY_ITEMS.length > 0){
@@ -820,16 +817,14 @@ function handleOnSelectRow(rowId, status){
 			console.log("<<<<<<<>>>>>>>>>>>>>>>>>>>");
 			console.log(objectForCaching);
 			SELECTED_PORT_INVENTORY_ITEMS.push(objectForCaching);
-			
-		}
+					}
 		
 	}else{
 	
 		removeItemFromCache(objectForCaching);
 		
 	}
-	
-	//Refresh the table.
+
 	refreshPortOutwardTable();
 }
 
@@ -838,7 +833,6 @@ function handleOnSelectRow(rowId, status){
 function refreshPortOutwardTable(){
 	//$("#portOutwardRecordsTable").empty();
 	$("#details-tbody").empty();
-	
 	
 	for(var i=0;i<SELECTED_PORT_INVENTORY_ITEMS.length;i++){
 		addRowOfSelectedRecord(SELECTED_PORT_INVENTORY_ITEMS[i]);
@@ -853,9 +847,7 @@ function refreshPortOutwardTable(){
 		var q = Number($(elem).val());
 		quantitySum = quantitySum + q;
 		
-		//$("#portInwardPackingList").jqGrid('footerData', 'set', {  'quantity': quantitySum });
 	});
-	
 	
 	addQuantitySumRow(quantitySum);
 		
@@ -901,17 +893,12 @@ function isOrderedQtyLessThanAvailableQtyAtPort(orderedQty, jqGridRowId){
 	return isMore;
 }
 
-
-
-
-
 function updateQuantityInCache(jqGridRowId, orderedQty){
 	var $packingListGrid = $("#portInwardPackingList");
 	var rowObject = $packingListGrid.jqGrid('getRowData',jqGridRowId); 
 	var objectForCompare = composeObjectForCaching(rowObject);
 	
 }
-
 
 
 function composeCombinationId(recordObj){
@@ -925,7 +912,6 @@ function composeCombinationClass(id){
 	var comboId = "portoutward-group-"+ id;
 	return comboId;
 }
-
 
 
 function composeJsonCellId(parentTrId){
