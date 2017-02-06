@@ -31,6 +31,39 @@ return commonSubmit();
 }
 
 
+function deleteDeliveryNoteLineItems(id) {
+	bootbox.confirm("Are you sure you want to delete?", function(flag){
+		if(flag){
+		
+			var url = "./report?method=deleteDeliveryNoteLineItems&id="+id;
+			showLoader();
+			$.ajax({
+				url : url,
+				success : function(xml, textStatus, response) {
+					if (null != xml && "" != xml) {
+						xmlDoc = $.parseXML(xml);
+						var message = $(xmlDoc).find("message")[0].innerHTML;
+					
+						if (message == "Success") {
+							hideLoader();
+							bootbox.alert("Record deleted successfully");
+							var tr = $("#row-"+id);
+							$(tr).remove();
+						} else {
+							bootbox.alert(message);
+							hideLoader();
+						}
+					}
+				},
+				error : function() {
+					bootbox.alert("Unable to delete");
+					hideLoader();
+				}
+			});
+		}
+	});
+	}
+	
 </script> 
 
 <div class="row">
@@ -149,6 +182,8 @@ return commonSubmit();
 				<th>Width</th>
 				<th>Thickness</th>
 				<th>Delivered Quantity</th>
+				<th width="5%" class="cell-edit"><span
+								class="glyphicon glyphicon glyphicon-remove"></span></th>
 			</tr>
 		
 		</thead>
@@ -156,14 +191,16 @@ return commonSubmit();
 			<%
 			for(DeliveryNoteLineItemVO deliveryNoteLineItem : deliveryNoteLineItems){
 			%>
-			<tr>
+			<tr id='row-<%=deliveryNoteLineItem.getId() %>'>
 				<td><%=deliveryNoteLineItem.getId() %></td>
 				<td><%=deliveryNoteLineItem.getDate() %></td>
 				<td><%=deliveryNoteLineItem.getLength() %></td>
 				<td><%=deliveryNoteLineItem.getWidth() %></td>
 				<td><%=deliveryNoteLineItem.getThickness() %></td>
 				<td><%=deliveryNoteLineItem.getDeliveredQuantity() %></td>
-				
+				<td class="cell-edit"><button name="btnDelete" title="Delete" onclick="deleteDeliveryNoteLineItems(<%=deliveryNoteLineItem.getId() %>);">
+										<span class="glyphicon glyphicon glyphicon-remove"></span>
+								</button></td>
 			</tr>	
 			<%	
 			} 

@@ -456,7 +456,7 @@ input[name="length"], input[name="width"], input[name="thickness"], input[name="
 $(function() {
 	$("#portInwardGrid").jqGrid(
 		{
-			url : './portPurchaseOrderJsonServlet',
+			url : './portPurchaseOrderJsonServlet?method=getPortInwardData',
 			datatype : 'json',
 			mtype : 'GET',
 			

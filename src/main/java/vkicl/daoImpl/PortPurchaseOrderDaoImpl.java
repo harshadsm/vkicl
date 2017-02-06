@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -882,24 +883,37 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 		try {
 			conn = getConnection();
 
-//			sql = " select one.port_inward_id, one.port_inward_detail_id, one.port_inwd_shipment_id, one.mill_name, "
-//					+ " one.material_make, one.material_grade, one.material_type, one.description, one.length, "
-//					+ " one.width, one.thickness, one.quantity, two.ppo_quantity, three.delivered_taloja, "
-//					+ " ( one.quantity-two.ppo_quantity-three.delivered_taloja) balance_qty from ("
-//					+ " ( select pi.port_inward_id, pi.mill_name, pi.material_make, pi.material_grade,"
-//					+ " pi.material_type, pi.description, pid.length, pid.width, pid.thickness, pid.quantity,"
-//					+ " pid.port_inward_detail_id, pi.port_inwd_shipment_id from port_inward pi "
-//					+ " left join port_inward_details pid on pi.port_inward_id=pid.port_inward_id"
-//					+ " group by pid.port_inward_detail_id) one"
-//					+ " left join (select ifnull(sum(ppoli.ordered_quantity),0) ppo_quantity , "
-//					+ " ppoli.port_inward_details_id from ppo_line_items ppoli "
-//					+ " group by port_inward_details_id) two "
-//					+ " on two.port_inward_details_id=one.port_inward_detail_id left join"
-//					+ " (Select ifnull(sum(po.quantity),0) delivered_taloja, po.port_out_id ,pioi.port_inward_details_id"
-//					+ " from port_outward po Left join port_inward_outward_intersection pioi "
-//					+ " On po.port_out_id = pioi.port_outward_id  group by pioi.port_inward_details_id) three"
-//					+ " on three.port_inward_details_id=one.port_inward_detail_id)";
-			
+			// sql = " select one.port_inward_id, one.port_inward_detail_id,
+			// one.port_inwd_shipment_id, one.mill_name, "
+			// + " one.material_make, one.material_grade, one.material_type,
+			// one.description, one.length, "
+			// + " one.width, one.thickness, one.quantity, two.ppo_quantity,
+			// three.delivered_taloja, "
+			// + " ( one.quantity-two.ppo_quantity-three.delivered_taloja)
+			// balance_qty from ("
+			// + " ( select pi.port_inward_id, pi.mill_name, pi.material_make,
+			// pi.material_grade,"
+			// + " pi.material_type, pi.description, pid.length, pid.width,
+			// pid.thickness, pid.quantity,"
+			// + " pid.port_inward_detail_id, pi.port_inwd_shipment_id from
+			// port_inward pi "
+			// + " left join port_inward_details pid on
+			// pi.port_inward_id=pid.port_inward_id"
+			// + " group by pid.port_inward_detail_id) one"
+			// + " left join (select ifnull(sum(ppoli.ordered_quantity),0)
+			// ppo_quantity , "
+			// + " ppoli.port_inward_details_id from ppo_line_items ppoli "
+			// + " group by port_inward_details_id) two "
+			// + " on two.port_inward_details_id=one.port_inward_detail_id left
+			// join"
+			// + " (Select ifnull(sum(po.quantity),0) delivered_taloja,
+			// po.port_out_id ,pioi.port_inward_details_id"
+			// + " from port_outward po Left join
+			// port_inward_outward_intersection pioi "
+			// + " On po.port_out_id = pioi.port_outward_id group by
+			// pioi.port_inward_details_id) three"
+			// + " on three.port_inward_details_id=one.port_inward_detail_id)";
+
 			sql = composeQueryForCumulativeStockReportAtPort();
 
 			query = sql;
@@ -948,7 +962,7 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 
 	private String composeQueryForCumulativeStockReportAtPort() {
 		StringBuffer q = new StringBuffer();
-		
+
 		q.append(" SELECT one.port_inward_id, ");
 		q.append("        one.port_inward_detail_id, ");
 		q.append("        one.port_inwd_shipment_id, ");
@@ -1017,4 +1031,27 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 		return q.toString();
 	}
 
+	public String deleteDeliveryNoteLineItems(String id) {
+		Connection conn = null;
+		ResultSet rs = null;
+		PreparedStatement statement = null;
+		String message = "Success";
+		try {
+			conn = getConnection();
+
+			String sql = "delete from delivery_note_line_items where id = ?";
+			statement = conn.prepareStatement(sql);
+			statement.setInt(1, Integer.parseInt(id));
+			statement.executeUpdate();
+
+			log.info("message = " + message);
+		} catch (Exception e) {
+			e.printStackTrace();
+			message = e.getMessage();
+			log.error(message);
+		} finally {
+			closeDatabaseResources(conn, rs, statement);
+		}
+		return message;
+	}
 }
