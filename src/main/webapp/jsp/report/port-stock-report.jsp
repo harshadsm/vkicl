@@ -110,9 +110,11 @@
 							<th width="7%">Width</th>
 							<th width="7%">Length</th>
 							<th width="5%">Quantity</th>
-							<th width="5%">PPO Cumulative PCS & Quantity</th>
+							<th width="5%">PPO ordered qty</th>
 							<th width="5%">Delivered To Taloja</th>
-							<th width="5%">Balance amount to sell</th>
+							<th width="5%">Balance avaliable for sale</th>
+							<th width="5%">PPO Delivered qty</th>
+							<th width="5%">Balance at dock</th>
 							
 						</tr>
 					</thead>
@@ -143,14 +145,19 @@
 										value="${report.width}" /></td>
 								<td data-type="number" data-step="1" data-name="length"><c:out
 										value="${report.length}" /></td>
-								<td data-type="number" data-step="1" data-name="qty"><c:out
-										value="${report.qty}" /></td>
-										<td data-type="number" data-step="1" data-name="ppoQty"><c:out
-										value="${report.ppoQty}" /></td>
+								<td data-type="number" data-step="1" data-name="inwardQuantity"><c:out
+										value="${report.inwardQuantity}" /></td>
+								<td data-type="number" data-step="1" data-name="ppoOrderedQty"><c:out
+										value="${report.ppoOrderedQty}" /></td>
 								<td data-type="number" data-step="1" data-name="deliveredTalojaQty"><c:out
 										value="${report.deliveredTalojaQty}" /></td>
-										<td data-type="number" data-step="1" data-name="balanceQty"><c:out
-										value="${report.balanceQty}" /></td>
+								<td data-type="number" data-step="1" data-name="balanceQtyForSale"><c:out
+										value="${report.balanceQtyForSale}" /></td>
+								<td data-type="number" data-step="1" data-name="ppoDeliveredQty"><c:out
+										value="${report.ppoDeliveredQty}" /></td>
+								<td data-type="number" data-step="1" data-name="balanceAtDock"><c:out
+										value="${report.balanceAtDock}" /></td>
+										
 							</tr>
 						</logic:iterate>
 					</tbody>
@@ -160,6 +167,8 @@
 							<th ></th>
 							<th ></th>
 							<!--  <th width="10%"></th>-->
+							<th ></th>
+							<th ></th>
 							<th ></th>
 							<th ></th>
 							<th ></th>
