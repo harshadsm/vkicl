@@ -13,6 +13,25 @@ public class DeliveryNoteUpdateForm extends BaseForm {
 	private Double actualWt = null;
 
 	private Integer deliveryNoteId = null;
+
+	public Integer getDeliveryNoteId() {
+		return deliveryNoteId;
+	}
+
+	public void setDeliveryNoteId(Integer deliveryNoteId) {
+		this.deliveryNoteId = deliveryNoteId;
+	}
+
+	private Integer[] deliveryNoteLineItemId = null;
+
+	public Integer[] getDeliveryNoteLineItemId() {
+		return deliveryNoteLineItemId;
+	}
+
+	public void setDeliveryNoteLineItemId(Integer[] deliveryNoteLineItemId) {
+		this.deliveryNoteLineItemId = deliveryNoteLineItemId;
+	}
+
 	private Integer[] deliveredQuantity = null;
 
 	public Integer getPpoNo() {
@@ -55,14 +74,6 @@ public class DeliveryNoteUpdateForm extends BaseForm {
 		this.actualWt = actualWt;
 	}
 
-	public Integer getDeliveryId() {
-		return deliveryNoteId;
-	}
-
-	public void setDeliveryId(Integer deliveryNoteId) {
-		this.deliveryNoteId = deliveryNoteId;
-	}
-
 	public Integer[] getDeliveredQuantity() {
 		return deliveredQuantity;
 	}
@@ -75,7 +86,8 @@ public class DeliveryNoteUpdateForm extends BaseForm {
 	public String toString() {
 		return "DeliveryNoteUpdateForm [ppoNo=" + ppoNo + ",deliveryNoteId=" + (deliveryNoteId) + ", deliveredQuantity="
 				+ Arrays.toString(deliveredQuantity) + ", " + "vehicleNumber=" + vehicleNumber + ",deliveryAddress="
-				+ deliveryAddress + ",actualWt=" + actualWt + ",deliveryDate=" + deliveryDate + "]";
+				+ deliveryAddress + ",actualWt=" + actualWt + ",deliveryDate=" + deliveryDate
+				+ ",deliveryNoteLineItemId=" + deliveryNoteLineItemId + "]";
 	}
 
 }

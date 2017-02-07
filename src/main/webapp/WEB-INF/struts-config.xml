@@ -97,7 +97,8 @@
 			<forward name="success" path="deliveryNoteDefn" />
 		</action>
 		
-		<action path="/delivery-note-view" type="vkicl.action.DeliveryNoteViewAction" >
+		<action path="/delivery-note-view" type="vkicl.action.DeliveryNoteViewAction" 
+		name="DeliveryNoteUpdateForm">
 			<forward name="viewDeliveryNote" path="viewDeliveryNote" />
 		</action>
 		
