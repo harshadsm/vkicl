@@ -45,6 +45,7 @@ function deleteDeliveryNoteLineItems(id) {
 	
 </script> 
 
+<div>
 <div class="row">
 	<div class="col-md-12">
 		<h3 class="page-head"> Delivery Note</h3>
@@ -117,6 +118,7 @@ function deleteDeliveryNoteLineItems(id) {
 <div>
 	
 		<h3></h3>
+		
 		<table class="table table-striped">
 		<thead>
 			<tr>
@@ -153,7 +155,6 @@ function deleteDeliveryNoteLineItems(id) {
 			
 		</tbody>
 		</table>
-		
 </div>
 </div>
 </div>
@@ -169,7 +170,7 @@ function deleteDeliveryNoteLineItems(id) {
 
 	</html:form>
 	
-	
+	</div>
 </div>
 		
 		

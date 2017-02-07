@@ -9,10 +9,14 @@ import org.apache.log4j.Logger;
 import vkicl.daoImpl.DeliveryNoteDaoImpl;
 import vkicl.daoImpl.PortInwardDaoImpl;
 import vkicl.daoImpl.PortPurchaseOrderDaoImpl;
+import vkicl.form.DeliveryNoteUpdateForm;
+import vkicl.form.PortPurchaseDeliveryNoteForm;
 import vkicl.report.bean.DeliveryNoteBean;
 import vkicl.vo.DeliveryNoteLineItemVO;
 import vkicl.vo.DeliveryNoteVO;
+import vkicl.vo.PortPurchaseOrderLineItemVO;
 import vkicl.vo.PortPurchaseOrderVO;
+import vkicl.vo.UserInfoVO;
 
 public class DeliveryNoteService {
 
@@ -65,6 +69,39 @@ public class DeliveryNoteService {
 			log.error("Some error", e);
 		}
 		return vo;
+	}
+
+	public void updateDeliveryNote(DeliveryNoteUpdateForm form, UserInfoVO userInfoVO) throws SQLException {
+
+		DeliveryNoteDaoImpl impl = new DeliveryNoteDaoImpl();
+		impl.updateDeliveryNote(form, userInfoVO);
+
+	}
+
+	public List<DeliveryNoteLineItemVO> toList(DeliveryNoteUpdateForm form, UserInfoVO user) {
+		List<DeliveryNoteLineItemVO> list = new ArrayList<DeliveryNoteLineItemVO>();
+
+		if (form.getDeliveredQuantity() != null) {
+			int recordCount = form.getDeliveredQuantity().length;
+
+			Integer[] deliveredQty = form.getDeliveredQuantity();
+
+			for (int i = 0; i < recordCount; i++) {
+				if (deliveredQty[i] == 0) {
+					log.debug("Ignored empty row");
+				} else {
+
+					DeliveryNoteLineItemVO vo = new DeliveryNoteLineItemVO();
+
+					vo.setDeliveredQuantity(deliveredQty[i]);
+
+					list.add(vo);
+				}
+
+			}
+		}
+
+		return list;
 	}
 
 }

@@ -2,6 +2,7 @@ package vkicl.daoImpl;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -9,12 +10,16 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import vkicl.form.DeliveryNoteUpdateForm;
+import vkicl.form.PortPurchaseDeliveryNoteForm;
 import vkicl.report.bean.DeliveryNoteBean;
 import vkicl.util.Converter;
 import vkicl.vo.DeliveryNoteLineItemVO;
 import vkicl.vo.DeliveryNoteVO;
 import vkicl.vo.PortInwardRecordVO;
+import vkicl.vo.PortPurchaseOrderLineItemVO;
 import vkicl.vo.PortPurchaseOrderVO;
+import vkicl.vo.UserInfoVO;
 
 public class DeliveryNoteDaoImpl extends BaseDaoImpl {
 
@@ -221,6 +226,41 @@ public class DeliveryNoteDaoImpl extends BaseDaoImpl {
 		}
 		return deliveryNoteLineItems;
 
+	}
+
+	public String updateDeliveryNote(DeliveryNoteUpdateForm form, UserInfoVO userInfoVO) throws SQLException {
+
+		Connection conn = null;
+		ResultSet rs = null;
+		CallableStatement cs = null;
+		String query = "";
+		String message = "Success";
+		int count = 0;
+		PreparedStatement statement = null;
+		try {
+			conn = getConnection();
+
+			String sql = "update delivery_notes s set s.actual_wt = ?, s.delivery_address=? ,vehicle_number=? "
+					+ " s.update_ui = ?,s.update_ts = NOW()  WHERE id=?";
+			statement = conn.prepareStatement(sql);
+			statement.setDouble(1, form.getActualWt());
+			statement.setString(2, form.getDeliveryAddress());
+			statement.setString(3, form.getVehicleNumber());
+			statement.setString(4, userInfoVO.getUserName());
+			statement.setInt(5, form.getDeliveryId());
+
+			statement.executeUpdate();
+			log.info("message = " + message);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			message = e.getMessage();
+			log.error(message);
+		} finally {
+			closeDatabaseResources(conn, rs, statement);
+		}
+
+		return message;
 	}
 
 }

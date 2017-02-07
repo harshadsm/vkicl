@@ -8,6 +8,15 @@ public class PortPurchaseDeliveryNoteForm extends BaseForm {
 	private Integer ppoNo = null;
 	private String vehicleNumber = null;
 	private String deliveryAddress = null;
+	private Double actualWt = null;
+
+	public Double getActualWt() {
+		return actualWt;
+	}
+
+	public void setActualWt(Double actualWt) {
+		this.actualWt = actualWt;
+	}
 
 	public String getDeliveryAddress() {
 		return deliveryAddress;
@@ -67,7 +76,7 @@ public class PortPurchaseDeliveryNoteForm extends BaseForm {
 		return "PortPurchaseDeliveryNoteForm [ppoNo=" + ppoNo + ",ppoLineitemNo=" + Arrays.toString(ppoLineitemNo)
 				+ ", deliveryQuantity=" + Arrays.toString(deliveryQuantity) + ", orderedQuantity="
 				+ Arrays.toString(orderedQuantity) + ",vehicleNumber=" + vehicleNumber + ",deliveryAddress="
-				+ deliveryAddress + "]";
+				+ deliveryAddress + ",actualWt=" + actualWt + "]";
 	}
 
 }
