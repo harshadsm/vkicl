@@ -3,6 +3,7 @@ package vkicl.daoImpl;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,19 +14,20 @@ import vkicl.util.Converter;
 import vkicl.vo.DeliveryNoteLineItemVO;
 import vkicl.vo.DeliveryNoteVO;
 import vkicl.vo.PortInwardRecordVO;
+import vkicl.vo.PortPurchaseOrderVO;
 
-public class DeliveryNoteDaoImpl  extends BaseDaoImpl{
-	
+public class DeliveryNoteDaoImpl extends BaseDaoImpl {
+
 	private Logger log = Logger.getLogger(PortInwardDaoImpl.class);
 
-	public List<DeliveryNoteBean> findByPPOId(Integer ppoId){
+	public List<DeliveryNoteBean> findByPPOId(Integer ppoId) {
 
 		List<DeliveryNoteBean> deliveryNotes = new ArrayList<DeliveryNoteBean>();
 		Connection conn = null;
 		ResultSet rs = null;
 		CallableStatement cs = null;
 		String query = "";
-		
+
 		try {
 			conn = getConnection();
 
@@ -34,34 +36,32 @@ public class DeliveryNoteDaoImpl  extends BaseDaoImpl{
 			cs = conn.prepareCall(query);
 			cs.setInt(1, ppoId);
 			rs = cs.executeQuery();
-			
-			
-			if ( null != rs && rs.next()) {
-				
+
+			if (null != rs && rs.next()) {
+
 				do {
-					
+
 					DeliveryNoteBean d = new DeliveryNoteBean();
 					d.setCreated(rs.getDate("create_ts"));
 					d.setId(rs.getInt("id"));
 					d.setPpoLineitemNo(ppoId);
-					
+
 					deliveryNotes.add(d);
-					
+
 				} while (rs.next());
 			}
 
 		} catch (Exception e) {
-			log.error("Some error",e);
+			log.error("Some error", e);
 		} finally {
 			closeDatabaseResources(conn, rs, cs);
 		}
-		return deliveryNotes;	
+		return deliveryNotes;
 	}
-
 
 	private String getQueryFor(Integer deliveryNoteId, Integer ppoId) {
 		StringBuffer q = new StringBuffer();
-		
+
 		q.append(" select * from ( ");
 		q.append(" select  ");
 		q.append(" dnli.id delivery_note_line_items_id,   ");
@@ -86,7 +86,6 @@ public class DeliveryNoteDaoImpl  extends BaseDaoImpl{
 		return q.toString();
 	}
 
-
 	public List<DeliveryNoteLineItemVO> findDeliveryNoteLineItemsByDeliveryNoteId(Integer deliveryNoteId,
 			Integer ppoId) {
 		List<DeliveryNoteLineItemVO> deliveryNoteLineItems = new ArrayList<DeliveryNoteLineItemVO>();
@@ -94,22 +93,21 @@ public class DeliveryNoteDaoImpl  extends BaseDaoImpl{
 		ResultSet rs = null;
 		CallableStatement cs = null;
 		String query = "";
-		
+
 		try {
 			conn = getConnection();
 
 			query = getQueryFor(deliveryNoteId, ppoId);
-			
+
 			log.info("query = " + query);
 			cs = conn.prepareCall(query);
-			
+
 			rs = cs.executeQuery();
-			
-			
-			if ( null != rs && rs.next()) {
-				
+
+			if (null != rs && rs.next()) {
+
 				do {
-					
+
 					DeliveryNoteLineItemVO l = new DeliveryNoteLineItemVO();
 					l.setDate(rs.getDate("create_ts"));
 					l.setDeliveredQuantity(rs.getInt("delivered_quantity"));
@@ -117,20 +115,112 @@ public class DeliveryNoteDaoImpl  extends BaseDaoImpl{
 					l.setLength(rs.getInt("length"));
 					l.setWidth(rs.getInt("width"));
 					l.setThickness(rs.getInt("thickness"));
-					
+
 					deliveryNoteLineItems.add(l);
-					
+
 				} while (rs.next());
 			}
 
 		} catch (Exception e) {
-			log.error("Some error",e);
+			log.error("Some error", e);
 		} finally {
 			closeDatabaseResources(conn, rs, cs);
 		}
-		return deliveryNoteLineItems;	
-		
+		return deliveryNoteLineItems;
+
 	}
 
+	public DeliveryNoteVO getDeliveryNoteDetailsById(int deliveryNoteId) throws SQLException {
+		DeliveryNoteVO vo = null;
+		PortPurchaseOrderVO ppoVO = null;
+		Connection conn = null;
+		ResultSet rs = null;
+		CallableStatement cs = null;
+		String query = "";
+
+		try {
+			conn = getConnection();
+
+			String sql = "select ppo.port_purchase_order_id, ppo.create_ts, ppo.customer_name, ppo.delivery_address, "
+					+ " dn.id,dn.create_ts,dn.delivery_address, dn.vehicle_number from port_purchase_order ppo  "
+					+ " inner join  delivery_notes dn " + " on ppo.port_purchase_order_id=dn.port_purchase_order_id"
+					+ " where dn.id=" + deliveryNoteId;
+			query = sql;
+			log.info("query = " + query);
+
+			cs = conn.prepareCall(query);
+
+			rs = cs.executeQuery();
+			if (null != rs && rs.next()) {
+
+				do {
+					vo = new DeliveryNoteVO();
+					vo.setPortPurchaseOrderId(rs.getInt(1));
+
+					ppoVO = new PortPurchaseOrderVO();
+					ppoVO.setPpoDate(rs.getString(2));
+					ppoVO.setCustName(rs.getString(3));
+					ppoVO.setDeliveryAddr(rs.getString(4));
+					vo.setPortPurchaseOrder(ppoVO);
+
+					vo.setId(rs.getInt(5));
+					vo.setDeliveryDate(rs.getString(6));
+					vo.setDeliveryNoteAddress(rs.getString(7));
+					vo.setVehicleNumber(rs.getString(8));
+
+				} while (rs.next());
+
+			}
+
+		} catch (Exception e) {
+			log.error("Some error", e);
+		} finally {
+			closeDatabaseResources(conn, rs, cs);
+		}
+		return vo;
+	}
+
+	public List<DeliveryNoteLineItemVO> getDeliveryNoteLineItemsById(Integer deliveryNoteId, Integer ppoId) {
+		List<DeliveryNoteLineItemVO> deliveryNoteLineItems = new ArrayList<DeliveryNoteLineItemVO>();
+		Connection conn = null;
+		ResultSet rs = null;
+		CallableStatement cs = null;
+		String query = "";
+
+		try {
+			conn = getConnection();
+
+			query = "";
+
+			log.info("query = " + query);
+			cs = conn.prepareCall(query);
+
+			rs = cs.executeQuery();
+
+			if (null != rs && rs.next()) {
+
+				do {
+
+					DeliveryNoteLineItemVO l = new DeliveryNoteLineItemVO();
+					l.setDate(rs.getDate("create_ts"));
+					l.setDeliveredQuantity(rs.getInt("delivered_quantity"));
+					l.setId(rs.getInt("delivery_note_line_items_id"));
+					l.setLength(rs.getInt("length"));
+					l.setWidth(rs.getInt("width"));
+					l.setThickness(rs.getInt("thickness"));
+
+					deliveryNoteLineItems.add(l);
+
+				} while (rs.next());
+			}
+
+		} catch (Exception e) {
+			log.error("Some error", e);
+		} finally {
+			closeDatabaseResources(conn, rs, cs);
+		}
+		return deliveryNoteLineItems;
+
+	}
 
 }

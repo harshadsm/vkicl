@@ -26,8 +26,14 @@ System.out.print(request.getAttribute("port_purchase_order_line_items"));
 function validateForm() {
 	
 	
+	if ("" == getValByFieldName("body", "vehicleNumber")) {
+		bootbox.alert("Please enter vehicleNumber");
+		return false;
+	} 
 	
+		
 return commonSubmit();
+		
 }
 
 
@@ -89,7 +95,8 @@ function deleteDeliveryNoteLineItems(id) {
 								</tr>
 								<tr>
 									<th>Customer Name</th><td><%=vo.getCustName() %></td>
-								<th>Delivery address</th><td><%=vo.getDeliveryAddr() %></td>
+								<th>Delivery address</th><td><input type="text" name="deliveyAddress"
+								class="form-control"  value="<%=vo.getDeliveryAddr() %>"/></td>
 									
 								</tr>
 								<tr>
@@ -101,6 +108,12 @@ function deleteDeliveryNoteLineItems(id) {
 									<th>Tax</th><td><%=vo.getTax() %></td>
 								
 									<th>Transport</th><td><%=vo.getTransport() %></td>
+								</tr>
+								<tr>
+									<th>Vehicle No.</th><td><input type="text" name="vehicleNumber"
+								class="form-control"  placeholder="Vehicle Number"/></td>
+								
+									
 								</tr>
 							</tbody>
 							</table>
@@ -172,7 +185,7 @@ function deleteDeliveryNoteLineItems(id) {
 	for(DeliveryNoteVO deliveryNote : deliveryNotes){
 		List<DeliveryNoteLineItemVO> deliveryNoteLineItems = deliveryNote.getDeliveryNoteLineItems();
 		%>
-		<h3><a href="delivery-note-view.do?deliveryNoteId=<%=deliveryNote.getId() %>">Delivery Note - <%=deliveryNote.getId() %></a></h3>
+		<h3><a href="delivery-note-view.do?deliveryNoteId=<%=deliveryNote.getId() %>&ppoNo=<%=deliveryNote.getPortPurchaseOrderId()%>">Delivery Note - <%=deliveryNote.getId() %></a></h3>
 		<table class="table table-striped">
 		<thead>
 			<tr>

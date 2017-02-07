@@ -22,8 +22,9 @@ public class PortInwardDetailsJsonServlet extends HttpServlet {
 	private Logger logger = Logger.getLogger(PortInwardDetailsJsonServlet.class);
 
 	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
 		try {
 			PortInwardDetailsJsonService service = new PortInwardDetailsJsonService();
 			String json = service.getPortInwardListAsJson(request);
@@ -33,16 +34,15 @@ public class PortInwardDetailsJsonServlet extends HttpServlet {
 
 			response.setContentType("text/text;charset=utf-8");
 			response.setHeader("cache-control", "no-cache");
-			
+
 			PrintWriter out = response.getWriter();
 			out.println(json);
 			out.flush();
-			
+
 		} catch (Exception e) {
 			logger.error("Some error", e);
 			throw new ServletException(e);
 		}
 	}
-	
-	
+
 }

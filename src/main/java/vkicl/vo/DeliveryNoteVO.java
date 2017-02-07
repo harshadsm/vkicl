@@ -6,6 +6,10 @@ public class DeliveryNoteVO {
 
 	private Integer id;
 	private Integer portPurchaseOrderId;
+	private String deliveryDate;
+	private String deliveryNoteAddress;
+
+	private String vehicleNumber;
 	private PortPurchaseOrderVO portPurchaseOrder;
 	private List<DeliveryNoteLineItemVO> deliveryNoteLineItems;
 
@@ -40,6 +44,28 @@ public class DeliveryNoteVO {
 	public void setDeliveryNoteLineItems(List<DeliveryNoteLineItemVO> deliveryNoteLineItems) {
 		this.deliveryNoteLineItems = deliveryNoteLineItems;
 	}
-	
-	
+
+	public String getDeliveryDate() {
+		return deliveryDate;
+	}
+
+	public void setDeliveryDate(String deliveryDate) {
+		this.deliveryDate = deliveryDate;
+	}
+
+	public String getVehicleNumber() {
+		return vehicleNumber;
+	}
+
+	public void setVehicleNumber(String vehicleNumber) {
+		this.vehicleNumber = vehicleNumber;
+	}
+
+	public String getDeliveryNoteAddress() {
+		return deliveryNoteAddress;
+	}
+
+	public void setDeliveryNoteAddress(String deliveryNoteAddress) {
+		this.deliveryNoteAddress = deliveryNoteAddress;
+	}
 }

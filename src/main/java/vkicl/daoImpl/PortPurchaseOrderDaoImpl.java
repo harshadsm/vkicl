@@ -414,8 +414,8 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 		try {
 
 			query = "INSERT INTO delivery_notes "
-					+ " (port_purchase_order_id,create_ui, update_ui, create_ts, update_ts) "
-					+ " VALUES ( ?, ?, ?, ?, ?)";
+					+ " (port_purchase_order_id,create_ui, update_ui, create_ts, update_ts, vehicle_number,delivery_address) "
+					+ " VALUES ( ?, ?, ?, ?, ?,?,?)";
 
 			log.info(query);
 
@@ -427,6 +427,8 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 			cs.setString(3, userInfoVO.getUserName());
 			cs.setString(4, getCurentTime());
 			cs.setString(5, getCurentTime());
+			cs.setString(6, portpurchasedeliverynoteform.getVehicleNumber());
+			cs.setString(7, portpurchasedeliverynoteform.getDeliveryAddress());
 
 			int count = cs.executeUpdate();
 

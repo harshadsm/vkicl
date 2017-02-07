@@ -162,7 +162,8 @@ public class PortPurchaseOrderVO {
 		return "PortPurchaseOrderVO [" + "custName=" + custName + ", brokerName=" + brokerName + ", brokerage="
 				+ brokerage + ",brokerageUnit=" + brokerageUnit + ",rate=" + rate + ", excise=" + excise
 				+ ", deliveryAddr=" + deliveryAddr + ",tax=" + tax + ", totalQty=" + totalQty + ",transport="
-				+ transport + ", paymentTerms=" + paymentTerms + ", comments=" + comments + "]";
+				+ transport + ", paymentTerms=" + paymentTerms + ", comments=" + comments + ", ppoDate=" + ppoDate
+				+ "]";
 	}
 
 }

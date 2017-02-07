@@ -6,6 +6,24 @@ import java.util.Arrays;
 public class PortPurchaseDeliveryNoteForm extends BaseForm {
 
 	private Integer ppoNo = null;
+	private String vehicleNumber = null;
+	private String deliveryAddress = null;
+
+	public String getDeliveryAddress() {
+		return deliveryAddress;
+	}
+
+	public void setDeliveryAddress(String deliveryAddress) {
+		this.deliveryAddress = deliveryAddress;
+	}
+
+	public String getVehicleNumber() {
+		return vehicleNumber;
+	}
+
+	public void setVehicleNumber(String vehicleNumber) {
+		this.vehicleNumber = vehicleNumber;
+	}
 
 	public Integer getPpoNo() {
 		return ppoNo;
@@ -48,7 +66,8 @@ public class PortPurchaseDeliveryNoteForm extends BaseForm {
 	public String toString() {
 		return "PortPurchaseDeliveryNoteForm [ppoNo=" + ppoNo + ",ppoLineitemNo=" + Arrays.toString(ppoLineitemNo)
 				+ ", deliveryQuantity=" + Arrays.toString(deliveryQuantity) + ", orderedQuantity="
-				+ Arrays.toString(orderedQuantity) + "]";
+				+ Arrays.toString(orderedQuantity) + ",vehicleNumber=" + vehicleNumber + ",deliveryAddress="
+				+ deliveryAddress + "]";
 	}
 
 }
