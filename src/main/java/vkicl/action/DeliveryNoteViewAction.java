@@ -85,13 +85,11 @@ public class DeliveryNoteViewAction extends BaseAction {
 
 				deliveryNoteService.updateDeliveryNote(deliverynoteupdateform, userInfoVO);
 
-				// List<DeliveryNoteLineItemVO> list =
-				// deliveryNoteService.toList(deliverynoteupdateform,
-				// userInfoVO);
+				List<DeliveryNoteLineItemVO> list = deliveryNoteService.toList(deliverynoteupdateform, userInfoVO);
 
-				// for (DeliveryNoteLineItemVO vo : list) {
-
-				// }
+				for (DeliveryNoteLineItemVO vo : list) {
+					deliveryNoteService.updateDeliveryNoteLineItems(vo, userInfoVO);
+				}
 
 			} else {
 				log.info("Loaded Port Purchase Order Line Item Details");

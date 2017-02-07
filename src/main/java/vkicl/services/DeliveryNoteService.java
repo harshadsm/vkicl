@@ -78,6 +78,13 @@ public class DeliveryNoteService {
 
 	}
 
+	public void updateDeliveryNoteLineItems(DeliveryNoteLineItemVO vo, UserInfoVO userInfoVO) throws SQLException {
+
+		DeliveryNoteDaoImpl impl = new DeliveryNoteDaoImpl();
+		impl.updateDeliveryNoteLineItems(vo, userInfoVO);
+
+	}
+
 	public List<DeliveryNoteLineItemVO> toList(DeliveryNoteUpdateForm form, UserInfoVO user) {
 		List<DeliveryNoteLineItemVO> list = new ArrayList<DeliveryNoteLineItemVO>();
 

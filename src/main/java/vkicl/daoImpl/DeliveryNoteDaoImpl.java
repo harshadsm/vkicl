@@ -263,4 +263,38 @@ public class DeliveryNoteDaoImpl extends BaseDaoImpl {
 		return message;
 	}
 
+	public String updateDeliveryNoteLineItems(DeliveryNoteLineItemVO vo, UserInfoVO userInfoVO) throws SQLException {
+
+		Connection conn = null;
+		ResultSet rs = null;
+		CallableStatement cs = null;
+		String query = "";
+		String message = "Success";
+		int count = 0;
+		PreparedStatement statement = null;
+		try {
+			conn = getConnection();
+
+			String sql = "update delivery_notes_line_items s set s.delivered_quantity = ?,"
+					+ " s.update_ui = ?,s.update_ts = NOW()  WHERE id=?";
+			statement = conn.prepareStatement(sql);
+			statement.setDouble(1, vo.getDeliveredQuantity());
+
+			statement.setString(2, userInfoVO.getUserName());
+			statement.setInt(3, vo.getId());
+
+			statement.executeUpdate();
+			log.info("message = " + message);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			message = e.getMessage();
+			log.error(message);
+		} finally {
+			closeDatabaseResources(conn, rs, statement);
+		}
+
+		return message;
+	}
+
 }
