@@ -64,17 +64,19 @@ public class DeliveryNoteAction extends BaseAction {
 				if (purchaseOrderNo != null) {
 
 					PortPurchaseOrderService ppoService = new PortPurchaseOrderService();
+
 					PortPurchaseOrderVO portPurchaseOrderVO = ppoService.getPPODetailsById(purchaseOrderNo);
 					request.setAttribute("port_purchase_order_details", portPurchaseOrderVO);
+
 					List<PortPurchaseOrderLineItemVO> portPurchaseOrderLineItemVO = ppoService
 							.fetchPPOLineItems(portPurchaseOrderVO.getPpoNo(), userInfoVO);
 					request.setAttribute("port_purchase_order_line_items", portPurchaseOrderLineItemVO);
 
-					//Get existing delivery notes if any
+					// Get existing delivery notes if any
 					DeliveryNoteService deliveryNoteService = new DeliveryNoteService();
 					List<DeliveryNoteVO> deliveryNotes = deliveryNoteService.findDeliveryNotesByPPOId(purchaseOrderNo);
 					request.setAttribute("deliveryNotes", deliveryNotes);
-					
+
 					actionForward = mapping.findForward(Constants.Mapping.SUCCESS);
 					userInfoVO = getUserProfile(request);
 				}
@@ -82,7 +84,7 @@ public class DeliveryNoteAction extends BaseAction {
 			} else {
 
 				actionForward = processPPOList(mapping, form, request);
-				
+
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -108,18 +110,19 @@ public class DeliveryNoteAction extends BaseAction {
 
 				PortPurchaseOrderService ppoService = new PortPurchaseOrderService();
 				ppoService.processDeliveryNote(portpurchasedeliverynoteForm, userInfoVO);
-				
-				PortPurchaseOrderVO portPurchaseOrderVO = ppoService.getPPODetailsById(portpurchasedeliverynoteForm.getPpoNo());
+
+				PortPurchaseOrderVO portPurchaseOrderVO = ppoService
+						.getPPODetailsById(portpurchasedeliverynoteForm.getPpoNo());
 				request.setAttribute("port_purchase_order_details", portPurchaseOrderVO);
-				
+
 				List<PortPurchaseOrderLineItemVO> portPurchaseOrderLineItemVO = ppoService
 						.fetchPPOLineItems(portpurchasedeliverynoteForm.getPpoNo(), userInfoVO);
 				request.setAttribute("port_purchase_order_line_items", portPurchaseOrderLineItemVO);
-				
 
-				//Get existing delivery notes if any
+				// Get existing delivery notes if any
 				DeliveryNoteService deliveryNoteService = new DeliveryNoteService();
-				List<DeliveryNoteVO> deliveryNotes = deliveryNoteService.findDeliveryNotesByPPOId(portpurchasedeliverynoteForm.getPpoNo());
+				List<DeliveryNoteVO> deliveryNotes = deliveryNoteService
+						.findDeliveryNotesByPPOId(portpurchasedeliverynoteForm.getPpoNo());
 				request.setAttribute("deliveryNotes", deliveryNotes);
 
 			} else {

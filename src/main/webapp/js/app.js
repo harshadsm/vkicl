@@ -389,6 +389,8 @@ function applyTotalCalc() {
 	$("[name='qty']").change(function() {
 		calcQtyTotal();
 	});
+	
+	
 	calcQtyTotal();
 }
 

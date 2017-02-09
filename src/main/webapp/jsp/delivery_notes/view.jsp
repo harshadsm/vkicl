@@ -88,7 +88,7 @@ return commonSubmit();
 								<th>Delivery Date</th><td>
 								<div class="input-group date date-picker-div" id="datetimepicker1">
 								<input type="text" name="deliveryDate" id="deliveryDate" class="form-control" value="<%=vo.getDeliveryDate() %>"
-								data-date-format="DD-MM-YYYY"/>
+								data-date-format="YYYY-MM-DD"/>
 								<span class="input-group-addon"><span
 									class="glyphicon-calendar glyphicon"></span></span>
 									

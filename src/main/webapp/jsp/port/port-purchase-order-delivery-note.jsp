@@ -182,8 +182,10 @@ function deleteDeliveryNoteLineItems(id) {
 <div class="col-md-6">
 <div>
 	<%
+	
 	for(DeliveryNoteVO deliveryNote : deliveryNotes){
 		List<DeliveryNoteLineItemVO> deliveryNoteLineItems = deliveryNote.getDeliveryNoteLineItems();
+		
 		%>
 		<h3><a href="delivery-note-view.do?deliveryNoteId=<%=deliveryNote.getId() %>&ppoNo=<%=deliveryNote.getPortPurchaseOrderId()%>">Delivery Note - <%=deliveryNote.getId() %></a></h3>
 		<table class="table table-striped">

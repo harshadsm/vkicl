@@ -51,6 +51,7 @@ public class DeliveryNoteViewAction extends BaseAction {
 				if (deliveryNoteId != null) {
 
 					DeliveryNoteService deliveryNoteService = new DeliveryNoteService();
+
 					DeliveryNoteVO deliveryNoteVO = deliveryNoteService
 							.getDeliveryNoteDetailsById(Integer.parseInt(deliveryNoteId));
 					request.setAttribute("delivery_note_details", deliveryNoteVO);

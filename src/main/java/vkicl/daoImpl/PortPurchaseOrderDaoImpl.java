@@ -806,7 +806,7 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 		try {
 			conn = getConnection();
 
-			String sql = "select ppo.port_purchase_order_id, ppo.create_ts, ppo.customer_name, ppo.delivery_address, ppo.payment_terms,"
+			String sql = "select ppo.port_purchase_order_id, CAST(ppo.create_ts as Date) as ppoDate, ppo.customer_name, ppo.delivery_address, ppo.payment_terms,"
 					+ " ppo.excise, ppo.tax, ppo.transport"
 					+ " from port_purchase_order ppo  where ppo.port_purchase_order_id=" + purchaseOrderNo;
 			query = sql;

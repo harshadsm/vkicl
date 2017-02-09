@@ -172,13 +172,13 @@
 							<th ></th>
 							<th ></th>
 							<th ></th>
-							<th ></th>
-							<th ></th>
-							<th ></th>
-							<th ></th>
-							<th ></th>
-							<th ></th>
-							<th width="5%">Total</th>
+							<th >Total</th>
+							<th id="totalinwardQuantity"></th>
+							<th id="totalPPOOrdered"></th>
+							<th id="totalDeliveredToTaloja"></th>
+							<th id="totalAvailableForSale"></th>
+							<th id="totalPPODelivered"></th>
+							<th width="5%" id="totalbalanceAtDock"></th>
 						
 						</tr>
 					</tfoot>
@@ -187,3 +187,46 @@
 		</div>
 	</div>
 </div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+
+	var sum = 0;
+	$("[data-name='balanceAtDock']").each(function() {
+		if (!isNaN(parseFloat($(this).html())))
+			sum = sum + parseInt($(this).html());
+	});
+	$("#totalbalanceAtDock").html(sum.toFixed(0));
+	
+	$("[data-name='ppoDeliveredQty']").each(function() {
+		if (!isNaN(parseFloat($(this).html())))
+			sum = sum + parseInt($(this).html());
+	});
+	$("#totalPPODelivered").html(sum.toFixed(0));
+	
+	$("[data-name='balanceQtyForSale']").each(function() {
+		if (!isNaN(parseFloat($(this).html())))
+			sum = sum + parseInt($(this).html());
+	});
+	$("#totalAvailableForSale").html(sum.toFixed(0));
+	
+	$("[data-name='deliveredTalojaQty']").each(function() {
+		if (!isNaN(parseFloat($(this).html())))
+			sum = sum + parseInt($(this).html());
+	});
+	$("#totalDeliveredToTaloja").html(sum.toFixed(0));
+	
+	$("[data-name='ppoOrderedQty']").each(function() {
+		if (!isNaN(parseFloat($(this).html())))
+			sum = sum + parseInt($(this).html());
+	});
+	$("#totalPPOOrdered").html(sum.toFixed(0));
+	
+	$("[data-name='inwardQuantity']").each(function() {
+		if (!isNaN(parseFloat($(this).html())))
+			sum = sum + parseInt($(this).html());
+	});
+	$("#totalinwardQuantity").html(sum.toFixed(0));
+	
+});
+</script>
