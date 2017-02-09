@@ -36,6 +36,14 @@ public class DeliveryNoteViewAction extends BaseAction {
 
 		try {
 			if (request.getMethod() == "GET") {
+
+				actionForward = checkAccess(mapping, request, Constants.Apps.PORT_ENTRY);
+				if (null != actionForward)
+					return actionForward;
+
+				actionForward = mapping.findForward(Constants.Mapping.SUCCESS);
+				userInfoVO = getUserProfile(request);
+
 				String deliveryNoteId = request.getParameter("deliveryNoteId");
 				String ppoNo = request.getParameter("ppoNo");
 				request.setAttribute("deliveryNoteId", deliveryNoteId);
@@ -51,8 +59,6 @@ public class DeliveryNoteViewAction extends BaseAction {
 							.getDeliveryNoteLineItems(Integer.parseInt(deliveryNoteId), Integer.parseInt(ppoNo));
 					request.setAttribute("delivery_note_line_items", deliveryNotesLineItems);
 
-					actionForward = mapping.findForward("viewDeliveryNote");
-					userInfoVO = getUserProfile(request);
 				}
 			} else {
 				actionForward = updateDeliveryNote(mapping, form, request);
@@ -88,9 +94,10 @@ public class DeliveryNoteViewAction extends BaseAction {
 				List<DeliveryNoteLineItemVO> list = deliveryNoteService.toList(deliverynoteupdateform, userInfoVO);
 
 				for (DeliveryNoteLineItemVO vo : list) {
-					deliveryNoteService.updateDeliveryNoteLineItems(vo, userInfoVO);
+					deliveryNoteService.updateDeliveryNoteLineItems(vo, deliverynoteupdateform, userInfoVO);
 				}
-
+				actionForward = mapping.findForward(Constants.Mapping.SUCCESS);
+				userInfoVO = getUserProfile(request);
 			} else {
 				log.info("Loaded Port Purchase Order Line Item Details");
 			}

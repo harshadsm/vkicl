@@ -78,10 +78,11 @@ public class DeliveryNoteService {
 
 	}
 
-	public void updateDeliveryNoteLineItems(DeliveryNoteLineItemVO vo, UserInfoVO userInfoVO) throws SQLException {
+	public void updateDeliveryNoteLineItems(DeliveryNoteLineItemVO vo, DeliveryNoteUpdateForm form,
+			UserInfoVO userInfoVO) throws SQLException {
 
 		DeliveryNoteDaoImpl impl = new DeliveryNoteDaoImpl();
-		impl.updateDeliveryNoteLineItems(vo, userInfoVO);
+		impl.updateDeliveryNoteLineItems(vo, form, userInfoVO);
 
 	}
 
@@ -92,6 +93,7 @@ public class DeliveryNoteService {
 			int recordCount = form.getDeliveredQuantity().length;
 
 			Integer[] deliveredQty = form.getDeliveredQuantity();
+			Integer[] deliveryNoteLineItemId = form.getDeliveryNoteLineItemId();
 
 			for (int i = 0; i < recordCount; i++) {
 				if (deliveredQty[i] == 0) {
@@ -101,6 +103,7 @@ public class DeliveryNoteService {
 					DeliveryNoteLineItemVO vo = new DeliveryNoteLineItemVO();
 
 					vo.setDeliveredQuantity(deliveredQty[i]);
+					vo.setId(deliveryNoteLineItemId[i]);
 
 					list.add(vo);
 				}

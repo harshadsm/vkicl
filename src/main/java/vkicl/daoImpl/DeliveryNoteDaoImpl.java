@@ -240,14 +240,15 @@ public class DeliveryNoteDaoImpl extends BaseDaoImpl {
 		try {
 			conn = getConnection();
 
-			String sql = "update delivery_notes s set s.actual_wt = ?, s.delivery_address=? ,vehicle_number=? "
-					+ " s.update_ui = ?,s.update_ts = NOW()  WHERE id=?";
+			String sql = "update delivery_notes s set s.actual_wt = ?, s.delivery_address=? ,vehicle_number=?, "
+					+ " s.update_ui = ?,s.update_ts = NOW()  WHERE id=? and port_purchase_order_id=?";
 			statement = conn.prepareStatement(sql);
 			statement.setDouble(1, form.getActualWt());
 			statement.setString(2, form.getDeliveryAddress());
 			statement.setString(3, form.getVehicleNumber());
 			statement.setString(4, userInfoVO.getUserName());
-			statement.setInt(5, form.getDeliveryId());
+			statement.setInt(5, form.getDeliveryNoteId());
+			statement.setInt(6, form.getPpoNo());
 
 			statement.executeUpdate();
 			log.info("message = " + message);
@@ -263,7 +264,8 @@ public class DeliveryNoteDaoImpl extends BaseDaoImpl {
 		return message;
 	}
 
-	public String updateDeliveryNoteLineItems(DeliveryNoteLineItemVO vo, UserInfoVO userInfoVO) throws SQLException {
+	public String updateDeliveryNoteLineItems(DeliveryNoteLineItemVO vo, DeliveryNoteUpdateForm form,
+			UserInfoVO userInfoVO) throws SQLException {
 
 		Connection conn = null;
 		ResultSet rs = null;
@@ -275,13 +277,14 @@ public class DeliveryNoteDaoImpl extends BaseDaoImpl {
 		try {
 			conn = getConnection();
 
-			String sql = "update delivery_notes_line_items s set s.delivered_quantity = ?,"
-					+ " s.update_ui = ?,s.update_ts = NOW()  WHERE id=?";
+			String sql = "update delivery_note_line_items s set s.delivered_quantity = ?,"
+					+ " s.update_ui = ?,s.update_ts = NOW()  WHERE id=? and delivery_note_id=?";
 			statement = conn.prepareStatement(sql);
 			statement.setDouble(1, vo.getDeliveredQuantity());
 
 			statement.setString(2, userInfoVO.getUserName());
 			statement.setInt(3, vo.getId());
+			statement.setInt(4, form.getDeliveryNoteId());
 
 			statement.executeUpdate();
 			log.info("message = " + message);

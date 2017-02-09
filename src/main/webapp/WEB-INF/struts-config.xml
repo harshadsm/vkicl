@@ -33,6 +33,8 @@
 <form-bean name="PortPurchaseOrderDeliveryForm" type="vkicl.form.PortPurchaseOrderDeliveryForm" />
 <form-bean name="PortPurchaseOrderDeliveryNoteForm" type="vkicl.form.PortPurchaseDeliveryNoteForm" />
 <form-bean name="PortStockReportForm" type="vkicl.form.PortStockReportForm" />
+<form-bean name="DeliveryNoteUpdateForm" type="vkicl.form.DeliveryNoteUpdateForm" />
+
 
 	</form-beans>
 	<global-forwards>
@@ -99,7 +101,7 @@
 		
 		<action path="/delivery-note-view" type="vkicl.action.DeliveryNoteViewAction" 
 		name="DeliveryNoteUpdateForm">
-			<forward name="viewDeliveryNote" path="viewDeliveryNote" />
+			<forward name="success" path="viewDeliveryNote" />
 		</action>
 		
 		<action path="/port-outward" type="vkicl.action.PortOutwardAction2"

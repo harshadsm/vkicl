@@ -1,8 +1,11 @@
- 
-<%@page import="vkicl.vo.DeliveryNoteLineItemVO"%>
+ <%@page import="vkicl.vo.DeliveryNoteLineItemVO"%>
 <%@page import="java.util.List"%>
 
 <%@page import="vkicl.vo.DeliveryNoteVO"%>
+<%@taglib uri="/WEB-INF/struts-html.tld" prefix="html"%>
+<%@taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
+<%@taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
+<%@taglib uri="/WEB-INF/struts-core.tld" prefix="c" %>
 
 <%
 DeliveryNoteVO vo = (DeliveryNoteVO)request.getAttribute("delivery_note_details");
@@ -43,6 +46,13 @@ function deleteDeliveryNoteLineItems(id) {
 	});
 	}
 	
+	
+function validateForm() {
+	
+return commonSubmit();
+		
+}
+
 </script> 
 
 <div>
@@ -55,7 +65,7 @@ function deleteDeliveryNoteLineItems(id) {
 	<html:form enctype="multipart/form-data" action="/delivery-note-view"
 		method="post">
 		<div class="row">
-		<div class="col-md-10">
+		<div class="col-md-12">
 				<div class="panel panel-default">
 					<div class="panel-heading"></div>
 					
@@ -77,17 +87,18 @@ function deleteDeliveryNoteLineItems(id) {
 									<th>Delivery Note No.</th><td><%=vo.getId() %></td>
 								<th>Delivery Date</th><td>
 								<div class="input-group date date-picker-div" id="datetimepicker1">
-								<input type="text" name="deliveyDate" 
-								id="deliveyDate" class="form-control" value="<%=vo.getDeliveryDate() %>"
+								<input type="text" name="deliveryDate" id="deliveryDate" class="form-control" value="<%=vo.getDeliveryDate() %>"
 								data-date-format="DD-MM-YYYY"/>
 								<span class="input-group-addon"><span
 									class="glyphicon-calendar glyphicon"></span></span>
+									
+									
 								</div>
 							</td>
 									
 								</tr>
 								<tr>
-									<th>Delivery address</th><td><input type="text" name="deliveyNoteAddress"
+									<th>Delivery address</th><td><input type="text" name="deliveryAddress" id="deliveryAddress"
 								class="form-control"  value="<%=vo.getDeliveryNoteAddress() %>"/></td>
 								
 									<th>Vehicle No.</th><td><input type="text" name="vehicleNumber"
@@ -98,7 +109,7 @@ function deleteDeliveryNoteLineItems(id) {
 								<th>
 								
 								<div class='input-group'>
-								<input type='number' step='0.001' placeholder='B/E Weight' min='0' name='beWt' class='form-control' aria-label='...'>
+								<input type='number' step='0.001' placeholder='B/E Weight' min='0' name='actualWt' id="actualWt" class='form-control' aria-label='...'>
 								<div class='input-group-btn weight-group'><input type='hidden' name='beWtUnit' value='TON' />
 								<button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown' aria-expanded='false'>TON 
 								<span class='caret'></span></button><ul class='dropdown-menu dropdown-menu-right' role='menu'>
@@ -138,7 +149,10 @@ function deleteDeliveryNoteLineItems(id) {
 			for(DeliveryNoteLineItemVO deliveryNoteLineItem : deliveryNoteLineItems){
 			%>
 			<tr id='row-<%=deliveryNoteLineItem.getId() %>'>
-				<td><%=deliveryNoteLineItem.getId() %></td>
+				<td><%=deliveryNoteLineItem.getId() %>
+				<input type="hidden" name="deliveryNoteLineItemId"
+								class="form-control"  value="<%=deliveryNoteLineItem.getId() %>"/>
+				</td>
 				<td><%=deliveryNoteLineItem.getDate() %></td>
 				<td><%=deliveryNoteLineItem.getLength() %></td>
 				<td><%=deliveryNoteLineItem.getWidth() %></td>
@@ -164,6 +178,7 @@ function deleteDeliveryNoteLineItems(id) {
 				
 				<html:submit styleClass="btn pull-right"
 					onclick="return validateForm()" />
+					
 			</div>
 		</div>
 		<html:hidden property="genericListener" value="addDetails" />
