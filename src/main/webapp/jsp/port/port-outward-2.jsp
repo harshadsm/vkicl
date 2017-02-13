@@ -179,10 +179,10 @@
 
 	function validateForm() {
 		updateHiddenField();
-		if ("" == getValByFieldName("body", "destinationName")) {
-			bootbox.alert("Please enter Destination Name");
-			return false;
-		} else if ("" == getValByFieldName("body", "vehicleNumber")) {
+	//	if ("" == getValByFieldName("body", "destinationName")) {
+		//	bootbox.alert("Please enter Destination Name");
+			//return false;}
+		 if ("" == getValByFieldName("body", "vehicleNumber")) {
 			bootbox.alert("Please enter Vehicle Number");
 			return false;
 		} else if ("" == getValByFieldName("body", "vehicleDate")) {
@@ -265,7 +265,7 @@
 									placeholder="Warehouse Name" onclick="selectRadioText(0);"
 									onblur="updateHiddenField();" onchange="updateHiddenField();" />
 							</div>
-							<div class="or-label">Or</div>
+							<!-- <div class="or-label">Or</div>
 							<div class="input-group">
 								<span class="input-group-addon"> <html:radio
 										property="destination" value="customer"
@@ -273,7 +273,7 @@
 									name="customer" class="form-control"
 									placeholder="Customer Name" onclick="selectRadioText(1);"
 									onblur="updateHiddenField();" onchange="updateHiddenField();" />
-							</div> <html:hidden property="destinationName" />
+							</div> <html:hidden property="destinationName" /> -->
 						</td>
 					</tr>
 					<tr>

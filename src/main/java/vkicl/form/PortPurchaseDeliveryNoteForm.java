@@ -7,6 +7,16 @@ public class PortPurchaseDeliveryNoteForm extends BaseForm {
 
 	private Integer ppoNo = null;
 	private String vehicleNumber = null;
+	private String vehicleDate = null;
+
+	public String getVehicleDate() {
+		return vehicleDate;
+	}
+
+	public void setVehicleDate(String vehicleDate) {
+		this.vehicleDate = vehicleDate;
+	}
+
 	private String deliveryAddress = null;
 	private Double actualWt = null;
 
@@ -76,7 +86,7 @@ public class PortPurchaseDeliveryNoteForm extends BaseForm {
 		return "PortPurchaseDeliveryNoteForm [ppoNo=" + ppoNo + ",ppoLineitemNo=" + Arrays.toString(ppoLineitemNo)
 				+ ", deliveryQuantity=" + Arrays.toString(deliveryQuantity) + ", orderedQuantity="
 				+ Arrays.toString(orderedQuantity) + ",vehicleNumber=" + vehicleNumber + ",deliveryAddress="
-				+ deliveryAddress + ",actualWt=" + actualWt + "]";
+				+ deliveryAddress + ",actualWt=" + actualWt + ",vehicleDate=" + vehicleDate + "]";
 	}
 
 }

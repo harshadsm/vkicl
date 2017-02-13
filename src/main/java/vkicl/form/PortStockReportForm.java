@@ -13,6 +13,8 @@ public class PortStockReportForm extends BaseForm {
 	private String fromDate = null;
 	private String toDate = null;
 	private String vesselName = null;
+	private String vesselDate = null;
+
 	private String materialType = null;
 	private String grade = null;
 
@@ -94,11 +96,19 @@ public class PortStockReportForm extends BaseForm {
 		this.reportList = reportList;
 	}
 
+	public String getVesselDate() {
+		return vesselDate;
+	}
+
+	public void setVesselDate(String vesselDate) {
+		this.vesselDate = vesselDate;
+	}
+
 	@Override
 	public String toString() {
 		return "PortStockReportForm [fromDate=" + fromDate + ", toDate=" + toDate + ", vesselName=" + vesselName
-				+ ", materialType=" + materialType + ", grade=" + grade + ", vesselNameList=" + vesselNameList
-				+ ", materialTypeList=" + materialTypeList + ", gradeList=" + gradeList + ", reportList=" + reportList
-				+ "]";
+				+ ",vesselDate=" + vesselDate + ", materialType=" + materialType + ", grade=" + grade
+				+ ", vesselNameList=" + vesselNameList + ", materialTypeList=" + materialTypeList + ", gradeList="
+				+ gradeList + ", reportList=" + reportList + "]";
 	}
 }

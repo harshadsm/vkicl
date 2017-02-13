@@ -414,7 +414,7 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 		try {
 
 			query = "INSERT INTO delivery_notes "
-					+ " (port_purchase_order_id,create_ui, update_ui, create_ts, update_ts, vehicle_number,delivery_address) "
+					+ " (port_purchase_order_id,create_ui, update_ui, create_ts, update_ts, vehicle_number,delivery_address,vehicle_date) "
 					+ " VALUES ( ?, ?, ?, ?, ?,?,?)";
 
 			log.info(query);
@@ -429,6 +429,7 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 			cs.setString(5, getCurentTime());
 			cs.setString(6, portpurchasedeliverynoteform.getVehicleNumber());
 			cs.setString(7, portpurchasedeliverynoteform.getDeliveryAddress());
+			cs.setString(8, portpurchasedeliverynoteform.getVehicleDate());
 
 			int count = cs.executeUpdate();
 
@@ -932,6 +933,8 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 					report.setPortInwardId(rs.getInt("port_inward_id"));
 					report.setPortInwardDetailId(rs.getInt("port_inward_detail_id"));
 					report.setPortInwardShipmentId(rs.getInt("port_inwd_shipment_id"));
+					report.setVesselDate(formatOutput(rs.getString("vessel_date")));
+					report.setVesselName(formatOutput(rs.getString("vessel_name")));
 					report.setMillName(formatOutput(rs.getString("mill_name")));
 					report.setMake(formatOutput(rs.getString("material_make")));
 					report.setMaterialType(formatOutput(rs.getString("material_type")));
@@ -975,7 +978,7 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 		q.append("        one.description, ");
 		q.append("        one.length, ");
 		q.append("        one.width, ");
-		q.append("        one.thickness, ");
+		q.append("        one.thickness, one.vessel_date, one.vessel_name,");
 		q.append("        ifnull(one.quantity,0) inward_quantity, ");
 		q.append("        ifnull(two.ppo_quantity,0) ppo_ordered_quantity, ");
 		q.append("        ifnull(three.Delivered_taloja,0) quantity_delivered_to_taloja,  ");
@@ -1001,12 +1004,13 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 		q.append("                pid.length, ");
 		q.append("                pid.width, ");
 		q.append("                pid.thickness, ");
-		q.append("                pid.quantity, ");
+		q.append("                pid.quantity, pis.vessel_date, pis.vessel_name,");
 		q.append("                pid.port_inward_detail_id, ");
 		q.append("                pi.port_inwd_shipment_id ");
 		q.append("         FROM   port_inward pi ");
 		q.append("                LEFT JOIN port_inward_details pid ");
 		q.append("                       ON pi.port_inward_id = pid.port_inward_id ");
+		q.append(" left join port_inward_shipment pis on pi.port_inwd_shipment_id=pis.port_inwd_shipment_id ");
 		q.append("         GROUP  BY pid.port_inward_detail_id) one ");
 		q.append("         LEFT JOIN (SELECT Ifnull(Sum(ppoli.ordered_quantity), 0) ppo_quantity, ");
 		q.append("                           ppoli.port_inward_details_id ");
@@ -1029,7 +1033,7 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 		q.append(" 					GROUP BY ppoli.port_inward_details_id ");
 		q.append(" 					) four ");
 		q.append(" 			   ON four.port_inward_details_id = one.port_inward_detail_id ");
-		q.append(" where one.port_inward_detail_id is not null;   ");
+		q.append(" where one.port_inward_detail_id is not null   ");
 		return q.toString();
 	}
 
@@ -1055,5 +1059,15 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 			closeDatabaseResources(conn, rs, statement);
 		}
 		return message;
+	}
+
+	private String toWildCard(String s) {
+		String ret = s;
+		if (StringUtils.isEmpty(s)) {
+			ret = "%";
+		} else if ("ALL".equalsIgnoreCase(s)) {
+			ret = "%";
+		}
+		return ret;
 	}
 }

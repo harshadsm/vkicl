@@ -60,7 +60,8 @@ function setText() {
 			}
 		}
 		calculateChecksumOfQty();
-		calculateChecksumOfActualWeight();
+		//calculateChecksumOfActualWeight();
+		calculateChecksumOfSectionWeight();
 	});
 
 	function refreshSubRows() {
@@ -118,7 +119,8 @@ function setText() {
 	
 	function addChecksumEventHandlers(trId) {
 		addQuantityChecksumEventHandler(trId);
-		addActualWeightChecksumEventHandler(trId);
+		//addActualWeightChecksumEventHandler(trId);
+		addSectionWeightChecksumEventHandler(trId);
 		addLengthChecksumEventHandler(trId);
 		addThicknessChecksumEventHandler(trId);
 		addWidthChecksumEventHandler(trId);
@@ -186,7 +188,7 @@ function setText() {
 
 	function calculateChecksumOfQty() {
 		var checkSumQty = 0;
-		$("input[name='qty']").each(function() {
+		$("input:hidden[name='qty']").each(function() {
 			console.log($(this).val());
 			checkSumQty = checkSumQty + Number($(this).val());
 
@@ -202,6 +204,12 @@ function setText() {
 		});
 	}
 
+	function addSectionWeightChecksumEventHandler(trId) {
+		$("#" + trId + " input[name='sectionWt']").change(function() {
+			calculateChecksumOfSectionWeight();
+		});
+	}
+	
 	function calculateChecksumOfActualWeight() {
 		var checkSumQty = 0;
 		$("input[name='actualWt']").each(function() {
@@ -214,6 +222,18 @@ function setText() {
 		$("#checksum-actual-weight").text(checkSumQty.toFixed(3));
 	}
 
+	function calculateChecksumOfSectionWeight() {
+		var checkSumQty = 0;
+		$("input:hidden[name='sectionWt']").each(function() {
+			console.log($(this).val());
+			checkSumQty = checkSumQty + Number($(this).val());
+
+		});
+
+		console.log("Checksum = " + checkSumQty);
+		$("#checksum-section-weight").text(checkSumQty.toFixed(3));
+	}
+	
 	function addOnTabNewRowEventHandler(trId) {
 
 		$("#" + trId + " input[name='actualWt']").keydown(function(e) {
@@ -288,7 +308,7 @@ style="display: none;" /> </span>
 						<th width="10%">Width</th>
 						<th width="10%">Length</th>
 						<th width="10%">Quantity</th>
-						<th width="10%">Actual Weight</th>
+						<th width="10%">Section Weight</th>
 						<td width="2%"><input type='button' class='btn-success add-row' onClick='addSubRow2()' value='+' /></td>
 					</tr>
 				</thead>
@@ -318,6 +338,10 @@ style="display: none;" /> </span>
 								<input type="hidden" name='qty' id='qty' value="<%=record.getQuantity() %>"/>
 							</td>
 							<td>
+								<input  disabled  type='number' step='1' min='0' name='sectionWt' placeholder='sectionWt' class='form-control' value="<%=record.getSection_wt() %>" />
+								<input type="hidden" name='sectionWt' id='sectionWt' value="<%=record.getSection_wt() %>"/>
+							</td>
+							<!-- <td>
 								<div class='input-group'>
 									<input   disabled  type='number' step='0.001' min='0' name='actualWt' placeholder='Actual Weight' class='form-control' aria-label='...' value="<%=record.getBe_weight() %>">
 									<input type="hidden" name='actualWt' id='actualWt' value="<%=record.getBe_weight() %>"/>
@@ -326,7 +350,7 @@ style="display: none;" /> </span>
 
 							<button type='button'class='btn btn-default dropdown-toggle' disabled data-toggle='dropdown' aria-expanded='false'>TON</button>
 							<ul class='dropdown-menu dropdown-menu-right' role='menu'><li onclick='btnGroupChange(this);'><a>TON</a></li><li onclick='btnGroupChange(this);'><a>KG</a></li></ul>
-							</div></div></td>
+							</div></div></td> -->
 							<td><input type='button' class='btn-danger delete-row' onclick='deleteRow("row-sub-<%=cnt %>");' value='-' /></td>
 						</tr>
 					<% } %>
@@ -337,7 +361,8 @@ style="display: none;" /> </span>
 						<td><div id="checksum-width"></div></td>
 						<td><div id="checksum-length"></div></td>
 						<td><div id="checksum-quantity"></div></td>
-						<td>
+						<td><div id="checksum-section-weight"></div></td>
+						<!-- <td>
 							
 							<div class='input-group'>
 							<div id="checksum-actual-weight"></div>
@@ -345,7 +370,7 @@ style="display: none;" /> </span>
 									<button type='button'class='btn btn-default dropdown-toggle pull-right' disabled data-toggle='dropdown' aria-expanded='false'>TON</button>
 								</div>
 							</div>
-						</td>
+						</td> -->
 					</tr>
 				</tfoot>
 			</table>
@@ -377,7 +402,7 @@ style="display: none;" /> </span>
 				<td>Width</td>
 				<td>Length</td>
 				<td>Quantity</td>
-				<td>Actual Weight</td>
+				<td>Section Weight</td>
 			</tr>
 		</thead>
 		<tbody id="forExportingToExcelBody">
@@ -399,9 +424,9 @@ $("#port_inward_details_table tbody > tr").each(function(i, elem){
 	var width = $("#"+trId+"  input[name=width]").val();
 	var length = $("#"+trId+"  input[name=length]").val();
 	var quantity = $("#"+trId+"  input[name=qty]").val();
-	var actualWeight = $("#"+trId+"  input[name=actualWt]").val();
+	var sectionWeight = $("#"+trId+"  input[name=sectionWt]").val();
 
-	var tr = $.validator.format(template,thickness,width,length,quantity,actualWeight);
+	var tr = $.validator.format(template,thickness,width,length,quantity,sectionWeight);
 	$("#forExportingToExcelBody").append(tr);
 });
 	

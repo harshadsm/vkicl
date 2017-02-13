@@ -28,7 +28,7 @@
 							</div>
 						</td>
 					</tr>
-					<tr>
+					<!-- <tr>
 						<td class="form-label"><label for="vesselName">Vessel
 								Name</label></td>
 						<td><html:select property="vesselName" styleId="vesselName"
@@ -36,7 +36,7 @@
 								<html:option value="ALL">ALL</html:option>
 								<html:optionsCollection property="vesselNameList" />
 							</html:select></td>
-					</tr>
+					</tr> -->
 					<tr>
 						<td class="form-label"><label for="grade">Material
 								Grade</label></td>
@@ -101,11 +101,13 @@
 							<th width="0%" class="cell-hide">Port Inward Id</th>
 							<th width="0%" class="cell-hide">Port Inward Shipment Id</th>
 							<th width="0%" class="cell-hide">Port Inward Detail Id</th>
+							<th width="10%">Date</th>
+							<th width="10%">Vessel Name</th>
 							<th width="10%">Mill Name</th>
 							<th width="10%">Make</th>
 							<th width="10%">Type</th>
 							<th width="5%">Grade</th>
-							<th width="8%">Description</th>
+							
 							<th width="7%">Thickness</th>
 							<th width="7%">Width</th>
 							<th width="7%">Length</th>
@@ -128,7 +130,10 @@
 										value="${report.portInwardShipmentId}" /></td>
 								<td data-type="hidden" data-name="portInwardDetailId" class="cell-hide"><c:out
 										value="${report.portInwardDetailId}" /></td>
-								
+								<td data-type="text" data-name="vesselDate"><c:out
+										value="${report.vesselDate}" /></td>
+										<td data-type="text" data-name="vesselName"><c:out
+										value="${report.vesselName}" /></td>
 								<td data-type="text" data-name="millName"><c:out
 										value="${report.millName}" /></td>
 								<td data-type="text" data-name="make"><c:out
@@ -137,8 +142,7 @@
 										value="${report.materialType}" /></td>
 								<td data-type="text" data-name="grade"><c:out
 										value="${report.grade}" /></td>
-										<td data-type="text" data-name="desc"><c:out
-										value="${report.desc}" /></td>
+										
 								<td data-type="number" data-step="0.001" data-name="thickness"><c:out
 										value="${report.thickness}" /></td>
 								<td data-type="number" data-step="1" data-name="width"><c:out
@@ -172,6 +176,7 @@
 							<th ></th>
 							<th ></th>
 							<th ></th>
+								<th ></th>
 							<th >Total</th>
 							<th id="totalinwardQuantity"></th>
 							<th id="totalPPOOrdered"></th>
@@ -198,30 +203,35 @@ $(document).ready(function() {
 	});
 	$("#totalbalanceAtDock").html(sum.toFixed(0));
 	
+	var sum = 0;
 	$("[data-name='ppoDeliveredQty']").each(function() {
 		if (!isNaN(parseFloat($(this).html())))
 			sum = sum + parseInt($(this).html());
 	});
 	$("#totalPPODelivered").html(sum.toFixed(0));
 	
+	var sum = 0;
 	$("[data-name='balanceQtyForSale']").each(function() {
 		if (!isNaN(parseFloat($(this).html())))
 			sum = sum + parseInt($(this).html());
 	});
 	$("#totalAvailableForSale").html(sum.toFixed(0));
 	
+	var sum = 0;
 	$("[data-name='deliveredTalojaQty']").each(function() {
 		if (!isNaN(parseFloat($(this).html())))
 			sum = sum + parseInt($(this).html());
 	});
 	$("#totalDeliveredToTaloja").html(sum.toFixed(0));
 	
+	var sum = 0;
 	$("[data-name='ppoOrderedQty']").each(function() {
 		if (!isNaN(parseFloat($(this).html())))
 			sum = sum + parseInt($(this).html());
 	});
 	$("#totalPPOOrdered").html(sum.toFixed(0));
 	
+	var sum = 0;
 	$("[data-name='inwardQuantity']").each(function() {
 		if (!isNaN(parseFloat($(this).html())))
 			sum = sum + parseInt($(this).html());

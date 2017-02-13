@@ -114,7 +114,18 @@ function deleteDeliveryNoteLineItems(id) {
 								class="form-control"  placeholder="Vehicle Number"/></td>
 								
 									
+								<th>Vehicle Date</th><td>
+								<div class="input-group date date-picker-div" id="datetimepicker1">
+								<input type="text" name="vehicleDate" id="vehicleDate" class="form-control" "
+								data-date-format="YYYY-MM-DD"/>
+								<span class="input-group-addon"><span
+									class="glyphicon-calendar glyphicon"></span></span>
+									
+									
+								</div>
+							</td>
 								</tr>
+								
 							</tbody>
 							</table>
 					</div>
