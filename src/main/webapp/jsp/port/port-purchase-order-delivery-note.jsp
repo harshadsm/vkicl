@@ -95,7 +95,7 @@ function deleteDeliveryNoteLineItems(id) {
 								</tr>
 								<tr>
 									<th>Customer Name</th><td><%=vo.getCustName() %></td>
-								<th>Delivery address</th><td><input type="text" name="deliveyAddress"
+								<th>Delivery address</th><td><input type="text" name="deliveryAddress"
 								class="form-control"  value="<%=vo.getDeliveryAddr() %>"/></td>
 									
 								</tr>
