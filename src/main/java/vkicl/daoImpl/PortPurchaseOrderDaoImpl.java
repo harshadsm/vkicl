@@ -917,7 +917,7 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 			// pioi.port_inward_details_id) three"
 			// + " on three.port_inward_details_id=one.port_inward_detail_id)";
 
-			sql = composeQueryForCumulativeStockReportAtPort();
+			sql = composeQueryForCumulativeStockReportAtPort(form);
 
 			query = sql;
 			log.info("query = " + query);
@@ -965,7 +965,7 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 		return form;
 	}
 
-	private String composeQueryForCumulativeStockReportAtPort() {
+	private String composeQueryForCumulativeStockReportAtPort(PortStockReportForm form) {
 		StringBuffer q = new StringBuffer();
 
 		q.append(" SELECT one.port_inward_id, ");
@@ -1034,7 +1034,36 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 		q.append(" 					) four ");
 		q.append(" 			   ON four.port_inward_details_id = one.port_inward_detail_id ");
 		q.append(" where one.port_inward_detail_id is not null   ");
+		
+		String filterClause = composeWhereClause(form);
+		q.append(filterClause);
+		
 		return q.toString();
+	}
+
+	private String composeWhereClause(PortStockReportForm form) {
+		StringBuffer clause = new StringBuffer();
+		List<String> clauses = new ArrayList<String>();
+		
+		if(form.getGrade()!=null && !form.getGrade().isEmpty()){
+			String materialGradeClause = "one.material_grade like '%"+form.getGrade()+"%'";
+			clauses.add(materialGradeClause);
+		}
+		
+		if(form.getMaterialType()!=null && !form.getMaterialType().isEmpty()){
+			String anyOtherClause = "one.material_type like '"+form.getMaterialType()+"'";
+			clauses.add(anyOtherClause);
+		}
+		
+		//Add any more clauses here.
+		
+		for(String c : clauses){
+			
+			clause.append(" AND ").append(c).append(" ");
+			
+		}
+		
+		return clause.toString();
 	}
 
 	public String deleteDeliveryNoteLineItems(String id) {
