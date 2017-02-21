@@ -917,7 +917,7 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 			// pioi.port_inward_details_id) three"
 			// + " on three.port_inward_details_id=one.port_inward_detail_id)";
 
-			sql = composeQueryForCumulativeStockReportAtPort();
+			sql = composeQueryForCumulativeStockReportAtPort(form);
 
 			query = sql;
 			log.info("query = " + query);
@@ -965,7 +965,7 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 		return form;
 	}
 
-	private String composeQueryForCumulativeStockReportAtPort() {
+	private String composeQueryForCumulativeStockReportAtPort(PortStockReportForm form) {
 		StringBuffer q = new StringBuffer();
 
 		q.append(" SELECT one.port_inward_id, ");
@@ -1033,7 +1033,14 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 		q.append(" 					GROUP BY ppoli.port_inward_details_id ");
 		q.append(" 					) four ");
 		q.append(" 			   ON four.port_inward_details_id = one.port_inward_detail_id ");
-		q.append(" where one.port_inward_detail_id is not null   ");
+		q.append("  where one.port_inward_detail_id is not null  and ");
+		q.append(
+				"  one.material_grade=CASE WHEN  one.material_grade='ALL' then   one.material_grade else  one.material_grade like '%"
+						+ form.getGrade() + "%' END ");
+		q.append(
+				"  and one.material_type=CASE WHEN  one.material_type='ALL' then   one.material_type else  one.material_type like '%"
+						+ form.getMaterialType() + "%' END ");
+
 		return q.toString();
 	}
 

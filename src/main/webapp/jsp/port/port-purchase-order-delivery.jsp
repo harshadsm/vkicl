@@ -52,6 +52,8 @@ function startPurchaseOrderDelivery(id) {
 								<html:option value="Processing">Processing</html:option>
 								<html:option value="Completed">Completed</html:option>
 							</html:select></td>
+							
+							
 					</tr>
 				</table>
 			</div>
@@ -66,6 +68,11 @@ function startPurchaseOrderDelivery(id) {
 									class="glyphicon-calendar glyphicon"></span></span>
 							</div>
 						</td>
+					</tr>
+					<tr>
+					<td class="form-label"><label for="customerName">Customer Name</label></td>
+						<td><input type="text"  name="customerName" 
+							id="customerName" class="form-control"/></td>
 					</tr>
 				</table>
 			</div>

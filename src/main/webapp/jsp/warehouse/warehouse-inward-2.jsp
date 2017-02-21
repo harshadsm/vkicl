@@ -290,7 +290,28 @@ Integer locationCount = locationsList.size();
 	
 	function validateForm() {
 		//updateHiddenField();
+		var rowCount = $('#details-tbody tr').length;
 		
+		var emergencyRows = $("th#details-tbody").parent().parent().find("tr:gt(0)");
+		
+		if ("" == getValByFieldName("body", "availableQuantity")) {
+			bootbox.alert("Please enter Available Quantity.");
+			return false;
+		} 
+		else if ("" == getValByFieldName("body", "heatNoInput")) {
+			bootbox.alert("Please enter Heat No.");
+			return false;
+		} else if ("" == getValByFieldName("body", "plateNoInput")) {
+			bootbox.alert("Please enter Plate No.");
+			return false;
+		}  else if ("Select Location" == getValByFieldName("body", "location")) {
+			bootbox.alert("Please select Location");
+			return false;
+		} else if ("" == getValByFieldName("body", "actualWeigthTotalInput")) {
+			bootbox.alert("Please enter Actual Wt.");
+			return false;
+		}
+		 
 		var isAllLocValid = isValidLocations();
 		var isPlateCountCorrectEvenAfterSplit = isValidPlateCount();
 		
@@ -1520,7 +1541,8 @@ function getTotalSectionWeightOfSelectedRecords(){
 
 
 function isValidNumber(str) {
-    var pattern = /^\d+$/;
+   // var pattern = /^\d+$/;
+   var pattern= /^\d+\.?\d*$/;
     return pattern.test(str);  // returns a boolean
 }
 

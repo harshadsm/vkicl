@@ -166,9 +166,9 @@ public class PortInwardDetailsJsonService {
 					// set it in the vo.
 					vo.setQuantityAlreadyOut(sum);
 					int portInwardQuantity = vo.getQuantity();
-					int availableQuantity = portInwardQuantity - sum;
-					vo.setQuantity(availableQuantity);
-					double balQty = (((vo.getLength() * vo.getWidth() * vo.getThickness() * availableQuantity * 7.85)
+					// int availableQuantity = portInwardQuantity - sum;
+					// vo.setQuantity(availableQuantity);
+					double balQty = (((vo.getLength() * vo.getWidth() * vo.getThickness() * portInwardQuantity * 7.85)
 							/ 1000000000));
 
 					double output = ((double) ((int) (balQty * 1000.0))) / 1000.0;

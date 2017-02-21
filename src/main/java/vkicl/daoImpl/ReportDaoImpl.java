@@ -31,6 +31,7 @@ import vkicl.report.form.WarehouseDispatchDetailsReportForm;
 import vkicl.report.form.WarehouseDispatchReportForm;
 import vkicl.report.form.WarehouseInwardReportForm;
 import vkicl.report.form.WarehouseOutwardReportForm;
+import vkicl.util.Converter;
 import vkicl.util.PropFileReader;
 import vkicl.vo.PortInwardDetailsVO;
 import vkicl.vo.UserInfoVO;
@@ -660,7 +661,7 @@ public class ReportDaoImpl extends BaseDaoImpl {
 					report.setLocation(formatOutput(rs.getString("location")));
 					report.setQty(rs.getInt("quantity"));
 
-					report.setVehicleDate(formatOutput(rs.getString("Date_Inward")));
+					report.setVehicleDate(Converter.dateToString(Converter.sqlDateToDate(rs.getDate("Date_Inward"))));
 					report.setSecWt(rs.getDouble("section_wt"));
 					report.setSecWtUnit(formatOutput(rs.getString("section_wt_unit")));
 					report.setMaterialId(rs.getInt("material_id"));

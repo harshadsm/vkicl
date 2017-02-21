@@ -604,6 +604,7 @@ public class PortDaoImpl extends BaseDaoImpl {
 					String update_ui = rs.getString("update_ui");
 					Date create_ts = rs.getDate("create_ts");
 					Date update_ts = rs.getDate("update_ts");
+					Double section_weight = rs.getDouble("section_wt");
 
 					PortInwardDetailsVO vo = new PortInwardDetailsVO();
 					vo.setBe_weight(be_weight);
@@ -618,6 +619,7 @@ public class PortDaoImpl extends BaseDaoImpl {
 					vo.setUpdate_ts(update_ts);
 					vo.setUpdate_ui(update_ui);
 					vo.setWidth(width);
+					vo.setSection_wt(section_weight);
 
 					list.add(vo);
 				}

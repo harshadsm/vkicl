@@ -232,13 +232,13 @@ input[name="length"], input[name="width"], input[name="thickness"], input[name="
 					<tr>
 						<td class='excel' colspan="1"><label for="customerName">Customer Name</label></td>
 						<td class='excel' colspan="5"><input type="text" name="customerName"
-							placeholder="" class="form-control" /></td>
+							placeholder="Customer Name" class="form-control" /></td>
 						
 					</tr>
 					<tr>
 						<td class='excel' colspan="1"><label for="brokerName">Broker Name</label></td>
 						<td class='excel' colspan="5"><input type="text"
-							name="brokerName" placeholder=""
+							name="brokerName" placeholder="Broker Name"
 							class="form-control" /></td>
 						
 					</tr>
@@ -266,13 +266,13 @@ input[name="length"], input[name="width"], input[name="thickness"], input[name="
 					<tr>
 						<td class='excel' colspan="1"><label for="deliveryAddress">Delivery Address</label></td>
 						<td class='excel' colspan="5"><input type="text"
-							name="deliveryAddress" placeholder="" class="form-control" /></td>
+							name="deliveryAddress" placeholder="Delivery Address" class="form-control" /></td>
 						
 					</tr>
 					<tr>
 						<td class='excel' colspan="1"><label for="rate">Rate (per metric ton)</label></td>
 						<td class='excel' colspan="5"><input type="number"
-							name="rate" placeholder=""
+							name="rate" placeholder="Rate (per metric ton)"
 							class="form-control" /></td>
 						
 					</tr>
@@ -297,78 +297,38 @@ input[name="length"], input[name="width"], input[name="thickness"], input[name="
 								</div>
 							</div>
 						</td>
-						
-					</tr>
+						</tr>
 					<tr>
 						<td class='excel' colspan="1"><label for="tax">Tax
 								</label></td>
 						<td class='excel excel-100' colspan="5">
-							<div class='input-group'>
-								<div class='input-group-btn weight-group'>
-									<input type='hidden' name='tax' value='Extra' />
-									<button type="button" class="btn btn-default dropdown-toggle"
-										data-toggle="dropdown" aria-expanded="false"
-										style="width: 100%; text-align: right;">
-										Extra <span class="caret"></span>
-									</button>
-									<ul class='dropdown-menu dropdown-menu-right' role='menu'>
-										<li onclick='btnGroupChange(this);'><a>Extra 12.5%</a></li>
-										<li onclick='btnGroupChange(this);'><a>Extra 12.5% and 4%</a></li>
-										<li onclick='btnGroupChange(this);'><a>include 12.5%</a></li>
-										<li onclick='btnGroupChange(this);'><a>include 12.5% and 4%</a></li>
-									</ul>
-								</div>
-							</div>
+							 <input type="text"
+							name="tax" placeholder="Tax"
+							class="form-control" />
 						</td>
 					</tr>
 					<tr>
 						<td class='excel' colspan="1"><label for="transport">Transport
 								</label></td>
 						<td class='excel excel-100' colspan="5">
-							<div class='input-group'>
-								<div class='input-group-btn weight-group'>
-									<input type='hidden' name='transport' value='Extra' />
-									<button type="button" class="btn btn-default dropdown-toggle"
-										data-toggle="dropdown" aria-expanded="false"
-										style="width: 100%; text-align: right;">
-										Extra <span class="caret"></span>
-									</button>
-									<ul class='dropdown-menu dropdown-menu-right' role='menu'>
-										<li onclick='btnGroupChange(this);'><a>Extra 12.5%</a></li>
-										<li onclick='btnGroupChange(this);'><a>Extra 12.5% and 4%</a></li>
-										<li onclick='btnGroupChange(this);'><a>include 12.5%</a></li>
-										<li onclick='btnGroupChange(this);'><a>include 12.5% and 4%</a></li>
-									</ul>
-								</div>
-							</div>
+							 <input type="text"
+							name="transport" placeholder="Transport"
+							class="form-control" />
 						</td>
 					</tr>
 					<tr>
 						<td class='excel' colspan="1"><label for="paymentTerms">Payment Terms
 								</label></td>
 						<td class='excel excel-100' colspan="5">
-							<div class='input-group'>
-								<div class='input-group-btn weight-group'>
-									<input type='hidden' name='paymentTerms' value='Extra' />
-									<button type="button" class="btn btn-default dropdown-toggle"
-										data-toggle="dropdown" aria-expanded="false"
-										style="width: 100%; text-align: right;">
-										Extra <span class="caret"></span>
-									</button>
-									<ul class='dropdown-menu dropdown-menu-right' role='menu'>
-									<li onclick='btnGroupChange(this);'><a>Extra 12.5%</a></li>
-										<li onclick='btnGroupChange(this);'><a>Extra 12.5% and 4%</a></li>
-										<li onclick='btnGroupChange(this);'><a>include 12.5%</a></li>
-										<li onclick='btnGroupChange(this);'><a>include 12.5% and 4%</a></li>
-									</ul>
-								</div>
-							</div>
+							 <input type="text"
+							name="paymentTerms" placeholder="Payment Terms"
+							class="form-control" />
 						</td>
 					</tr>
 					<tr>
 						<td class='excel' colspan="1"><label for="comments">Comments</label></td>
 						<td class='excel' colspan="5"><input type="text"
-							name="comments" placeholder="" class="form-control" /></td>
+							name="comments" placeholder="Comments" class="form-control" /></td>
 						
 					</tr>
 				</table>
