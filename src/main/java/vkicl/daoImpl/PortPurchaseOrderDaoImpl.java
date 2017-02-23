@@ -415,7 +415,7 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 
 			query = "INSERT INTO delivery_notes "
 					+ " (port_purchase_order_id,create_ui, update_ui, create_ts, update_ts, vehicle_number,delivery_address,vehicle_date) "
-					+ " VALUES ( ?, ?, ?, ?, ?,?,?)";
+					+ " VALUES ( ?, ?, ?, ?, ?,?,?,?)";
 
 			log.info(query);
 
@@ -691,7 +691,8 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 			q.append(" ppo_outer.total_ordered_quantity,");
 			q.append(" ifnull(delivered.delivered_quantity,0) delivered_quantity,");
 			q.append(" ppo_outer.total_ordered_quantity-");
-			q.append(" ifnull(delivered.delivered_quantity,0) pending_quantity");
+			q.append(
+					" ifnull(delivered.delivered_quantity,0) pending_quantity, ppo_outer.material_grade,ppo_outer.vessel_name");
 			q.append(" from (");
 			q.append(" select ");
 			q.append(" ppo.port_purchase_order_id,");
@@ -699,9 +700,12 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 			q.append(" ppo.customer_name,");
 			q.append(" ppo.broker_name,");
 			q.append(" ppo.delivery_address, ppo.total_quantity, ");
-			q.append(" ifnull(sum(pli.ordered_quantity),0) total_ordered_quantity");
+			q.append(" ifnull(sum(pli.ordered_quantity),0) total_ordered_quantity, pi.material_grade, pis.vessel_name");
 			q.append(" from port_purchase_order ppo");
 			q.append(" left join ppo_line_items pli on ppo.port_purchase_order_id = pli.port_purchase_order_id");
+			q.append(" left join port_inward_details pid on pid.port_inward_detail_id=pli.port_inward_details_id");
+			q.append("	     left join port_inward pi on pi.port_inward_id=pid.port_inward_id");
+			q.append("	     left join port_inward_shipment pis on pis.port_inwd_shipment_id=pi.port_inwd_shipment_id");
 			q.append(" group by pli.port_purchase_order_id");
 			q.append(" ) ppo_outer");
 			q.append(" left join");
@@ -732,7 +736,8 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 					report.setDeliveryAddress(rs.getString("delivery_address"));
 					report.setTotalQuantity(rs.getInt("total_ordered_quantity"));
 					report.setPendingQuantity(rs.getInt("pending_quantity"));
-
+					report.setVesselName(rs.getString("vessel_name"));
+					report.setGrade(rs.getString("grade"));
 					reportList.add(report);
 					report = null;
 				} while (rs.next());
@@ -1033,15 +1038,38 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 		q.append(" 					GROUP BY ppoli.port_inward_details_id ");
 		q.append(" 					) four ");
 		q.append(" 			   ON four.port_inward_details_id = one.port_inward_detail_id ");
-		q.append("  where one.port_inward_detail_id is not null  and ");
-		q.append(
-				"  one.material_grade=CASE WHEN  one.material_grade='ALL' then   one.material_grade else  one.material_grade like '%"
-						+ form.getGrade() + "%' END ");
-		q.append(
-				"  and one.material_type=CASE WHEN  one.material_type='ALL' then   one.material_type else  one.material_type like '%"
-						+ form.getMaterialType() + "%' END ");
+
+		q.append(" where one.port_inward_detail_id is not null   ");
+
+		String filterClause = composeWhereClause(form);
+		q.append(filterClause);
 
 		return q.toString();
+	}
+
+	private String composeWhereClause(PortStockReportForm form) {
+		StringBuffer clause = new StringBuffer();
+		List<String> clauses = new ArrayList<String>();
+
+		if (form.getGrade() != null && !form.getGrade().isEmpty() && form.getGrade() != "ALL") {
+			String materialGradeClause = "one.material_grade like '%" + form.getGrade() + "%'";
+			clauses.add(materialGradeClause);
+		}
+
+		if (form.getMaterialType() != null && !form.getMaterialType().isEmpty()) {
+			String anyOtherClause = "one.material_type like '" + form.getMaterialType() + "'";
+			clauses.add(anyOtherClause);
+		}
+
+		// Add any more clauses here.
+
+		for (String c : clauses) {
+
+			clause.append(" AND ").append(c).append(" ");
+
+		}
+
+		return clause.toString();
 	}
 
 	public String deleteDeliveryNoteLineItems(String id) {

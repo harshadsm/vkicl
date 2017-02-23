@@ -179,9 +179,9 @@
 
 	function validateForm() {
 		updateHiddenField();
-	//	if ("" == getValByFieldName("body", "destinationName")) {
-		//	bootbox.alert("Please enter Destination Name");
-			//return false;}
+		if ("" == getValByFieldName("body", "destinationName")) {
+			bootbox.alert("Please enter Destination Name");
+			return false;}
 		 if ("" == getValByFieldName("body", "vehicleNumber")) {
 			bootbox.alert("Please enter Vehicle Number");
 			return false;
@@ -259,7 +259,7 @@
 						<td>
 							<div class="input-group">
 								<span class="input-group-addon"> <html:radio
-										property="destination" value="warehouse"
+										property="destination" value="warehouse" 
 										onclick="updateHiddenField();" /></span> <input type="text"
 									name="warehouse" class="form-control" value="Taloja" readonly="readonly"
 									placeholder="Warehouse Name" onclick="selectRadioText(0);"

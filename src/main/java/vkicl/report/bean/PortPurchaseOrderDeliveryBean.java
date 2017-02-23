@@ -21,6 +21,8 @@ public class PortPurchaseOrderDeliveryBean extends BaseReportBean {
 	private Integer pendingQuantity = null;
 	private String ppoDate = "";
 	private Integer ppoNo = null;
+	private String vesselName = "";
+	private String grade = "";
 
 	public Integer getPpoNo() {
 		return ppoNo;
@@ -144,13 +146,29 @@ public class PortPurchaseOrderDeliveryBean extends BaseReportBean {
 		this.ppoDate = ppoDate;
 	}
 
+	public String getVesselName() {
+		return vesselName;
+	}
+
+	public void setVesselName(String vesselName) {
+		this.vesselName = vesselName;
+	}
+
+	public String getGrade() {
+		return grade;
+	}
+
+	public void setGrade(String grade) {
+		this.grade = grade;
+	}
+
 	@Override
 	public String toString() {
 		return "PortPurchaseOrderDeliveryBean [id=" + id + ",ppoNo=" + ppoNo + ",customerName=" + customerName
 				+ ", brokerName=" + brokerName + ", brokerage=" + brokerage + ", brokerageUnit=" + brokerageUnit
 				+ ", deliveryAddress=" + deliveryAddress + ", rate=" + rate + ", excise=" + excise + ", tax=" + tax
 				+ ", transport=" + transport + ", paymentTerms=" + paymentTerms + ", totalQuantity=" + totalQuantity
-				+ ", pendingQuantity=" + pendingQuantity + "]";
+				+ ", pendingQuantity=" + pendingQuantity + ", vesselName=" + vesselName + ", grade=" + grade + "]";
 	}
 
 }

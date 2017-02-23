@@ -108,6 +108,8 @@ function startPurchaseOrderDelivery(id) {
 							<th width="10%">PPO Number</th>
 							<th width="20%">Customer Name</th>
 							<th width="25%">Delivery Address</th>
+							<th width="25%">Vessel Name </th>
+							<th width="25%">Grade</th>
 							<th width="25%">Total Items</th>
 							<th width="10%">Pending to be delivered</th>
 							<%
@@ -129,6 +131,8 @@ function startPurchaseOrderDelivery(id) {
 								<td><c:out value="${report.ppoNo}" /></td>
 								<td><c:out value="${report.customerName}" /></td>
 								<td><c:out value="${report.deliveryAddress}" /></td>
+								<td><c:out value="${report.vesselName}" /></td>
+								<td><c:out value="${report.grade}" /></td>
 								<td><c:out value="${report.totalQuantity}" /></td>
 							   <td><c:out value="${report.pendingQuantity}" /></td>
 							   <%

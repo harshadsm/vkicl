@@ -23,6 +23,7 @@ public class PortOutwardBean extends BaseReportBean {
 	private Double actualWt = null;
 	private String actualWtUnit = null;
 	private String invoice = null;
+	private String destination = null;
 
 	public int getId() {
 		return id;
@@ -176,13 +177,20 @@ public class PortOutwardBean extends BaseReportBean {
 		this.actualWtUnit = actualWtUnit;
 	}
 
-	
 	public String getInvoice() {
 		return invoice;
 	}
 
 	public void setInvoice(String invoice) {
 		this.invoice = invoice;
+	}
+
+	public String getDestination() {
+		return destination;
+	}
+
+	public void setDestination(String destination) {
+		this.destination = destination;
 	}
 
 	@Override
@@ -192,9 +200,7 @@ public class PortOutwardBean extends BaseReportBean {
 				+ ", beNo=" + beNo + ", materialType=" + materialType + ", millName=" + millName + ", make=" + make
 				+ ", grade=" + grade + ", length=" + length + ", width=" + width + ", thickness=" + thickness + ", qty="
 				+ qty + ", secWt=" + secWt + ", secWtUnit=" + secWtUnit + ", actualWt=" + actualWt + ", actualWtUnit="
-				+ actualWtUnit + ", invoice=" + invoice + "]";
+				+ actualWtUnit + ", invoice=" + invoice + ", destination=" + destination + "]";
 	}
-
-
 
 }
