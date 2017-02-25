@@ -12,6 +12,7 @@ public class PortPurchaseOrderDeliveryForm extends BaseForm {
 	private String fromDate = null;
 	private String toDate = null;
 	private String status = null;
+	private String customerName = null;
 	ArrayList<PortPurchaseOrderDeliveryBean> reportList = null;
 
 	public String getFromDate() {
@@ -46,10 +47,18 @@ public class PortPurchaseOrderDeliveryForm extends BaseForm {
 		this.reportList = reportList;
 	}
 
+	public String getCustomerName() {
+		return customerName;
+	}
+
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
+	}
+
 	@Override
 	public String toString() {
 		return "PortPurchaseOrderDeliveryForm [fromDate=" + fromDate + ", toDate=" + toDate + ", status=" + status
-				+ ", reportList=" + reportList + "]";
+				+ ",customerName=" + customerName + ", reportList=" + reportList + "]";
 	}
 
 }

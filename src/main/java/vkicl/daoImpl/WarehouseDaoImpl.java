@@ -746,7 +746,7 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 
 			query = "SELECT s.material_make, s.grade, s.mill_name, s.location, s.quantity, s.length, s.width, s.thickness, s.stock_balance_id, "
 					+ " s.heat_no, s.plate_no from stock_balance s where is_cut!=1 and s.quantity!=0 and plate_area >= "
-					+ area;
+					+ area + " and s.thickness=" + form.getThickness();
 
 			log.info("query = " + query);
 			cs = conn.prepareCall(query);

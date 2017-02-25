@@ -193,6 +193,7 @@ function progressHandlingFunction(e) {
 					<thead>
 						<tr>
 							<th class="cell-hide">ID</th>
+							<th>Date of Inward </th>
 							<th>Vehicle No.</th>
 							<th>Vehicle Date</th>
 							<th>Vendor Name</th>
@@ -223,6 +224,8 @@ function progressHandlingFunction(e) {
 							<tr data-method="updateWarehouseInwardReport">
 								<td data-type="hidden" data-name="id" class="cell-hide"><c:out
 										value="${report.id}" /></td>
+										<td data-type="text" data-name="VehicleDate"><c:out
+										value="${report.vehicleDate}" /></td>
 								<td data-type="text" data-name="vehicleNumber"><c:out
 										value="${report.vehicleNumber}" /></td>
 								<td data-type="text" data-name="vehicleDate"><c:out
@@ -296,6 +299,8 @@ function progressHandlingFunction(e) {
 							<!-- <th>Vessel Name</th> -->
 							<!-- <th>Vessel Date</th> -->
 							<!--  <th></th>-->
+							<th></th>
+							<th></th>
 							<th></th>
 							<th></th>
 							<th></th>

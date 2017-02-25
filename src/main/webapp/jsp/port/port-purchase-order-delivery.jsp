@@ -44,16 +44,21 @@ function startPurchaseOrderDelivery(id) {
 							</div>
 						</td>
 					</tr>
-					<tr>
-						<td class="form-label"><label for="status">Status</label></td>
+					<!--<tr>
+						 <td class="form-label"><label for="status">Status</label></td>
 						<td><html:select property="status" styleClass="form-control">
 								<html:option value="ALL">ALL</html:option>
 								<html:option value="Pending">Pending</html:option>
 								<html:option value="Processing">Processing</html:option>
 								<html:option value="Completed">Completed</html:option>
-							</html:select></td>
+							</html:select></td> 
 							
 							
+					</tr>-->
+					<tr>
+					<td class="form-label"><label for="customerName">Customer Name</label></td>
+						<td><input type="text"  name="customerName" 
+							id="customerName" class="form-control"/></td>
 					</tr>
 				</table>
 			</div>
@@ -69,11 +74,7 @@ function startPurchaseOrderDelivery(id) {
 							</div>
 						</td>
 					</tr>
-					<tr>
-					<td class="form-label"><label for="customerName">Customer Name</label></td>
-						<td><input type="text"  name="customerName" 
-							id="customerName" class="form-control"/></td>
-					</tr>
+					
 				</table>
 			</div>
 		</div>

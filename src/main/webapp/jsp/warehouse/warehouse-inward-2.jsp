@@ -290,28 +290,16 @@ Integer locationCount = locationsList.size();
 	
 	function validateForm() {
 		//updateHiddenField();
-		var rowCount = $('#details-tbody tr').length;
 		
-		var emergencyRows = $("th#details-tbody").parent().parent().find("tr:gt(0)");
+	
+			$("#details-tbody tr").each(function(i, radio) {
+				$(radio).find('td').each(function(){  
+				   
+				    });
+				
+});
+			
 		
-		if ("" == getValByFieldName("body", "availableQuantity")) {
-			bootbox.alert("Please enter Available Quantity.");
-			return false;
-		} 
-		else if ("" == getValByFieldName("body", "heatNoInput")) {
-			bootbox.alert("Please enter Heat No.");
-			return false;
-		} else if ("" == getValByFieldName("body", "plateNoInput")) {
-			bootbox.alert("Please enter Plate No.");
-			return false;
-		}  else if ("Select Location" == getValByFieldName("body", "location")) {
-			bootbox.alert("Please select Location");
-			return false;
-		} else if ("" == getValByFieldName("body", "actualWeigthTotalInput")) {
-			bootbox.alert("Please enter Actual Wt.");
-			return false;
-		}
-		 
 		var isAllLocValid = isValidLocations();
 		var isPlateCountCorrectEvenAfterSplit = isValidPlateCount();
 		
@@ -1294,7 +1282,7 @@ function addRowOfSelectedRecord(recordObj) {
 			+ "<td><input type='text' readonly placeholder='balQty' value='"+recordObj.balQty+"' name='balQty' class='form-control port_out_section_wt' id='port_out_section_wt-" + id + "' data-attribute-parent-port-out-sec-id='port_out_section_wt-" + id + "' /></td>"
 
 			+ "<td><input type='text' readonly placeholder='Actual Wt.' value='"+recordObj.actualWt+"' name='actualWt' class='form-control ' id='"+awId(recordObj)+"' data-attribute-parent-port-out-id='actualWt-" + id + "'/></td>"
-			+ "<td><input type='text'          placeholder='Heat No' name='heatNoInput' class='form-control ' id='"+heatId(recordObj)+"'/></td>"
+			+ "<td><input type='text'          placeholder='Heat No' name='heatNoInput' class='form-control port_out_heatno' id='"+heatId(recordObj)+"' data-attribute-parent-port-out-id-actualwt='heatno-" + heatId(recordObj) + "'/></td>"
 			+ "<td><input type='text'          placeholder='Plate No' name='plateNoInput' class='form-control ' id='"+plateId(recordObj)+"'/></td>"
 			+ getLocationDropdownHtml(recordObj)
 

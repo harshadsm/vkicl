@@ -39,7 +39,7 @@ $(function() {
 			mtype : 'GET',
 			
 			
-			colNames : [ 'stockBalanceId', 'Mill Name', 'Type', 'Grade', 'Thickness', 'Width', 'Length','Quantity','Heat No','Plate No','Is Rect?','Cut'],
+			colNames : [ 'stockBalanceId', 'Mill Name', 'Type', 'Grade', 'Thickness', 'Width', 'Length','Quantity','Heat No','Plate No','Location','Is Rect?','Cut'],
 					
 			colModel : [  {
 				name : 'stockBalId',
@@ -183,6 +183,22 @@ $(function() {
 			{
 				name : 'plate_no',
 				index : 'plate_no',
+				width : 150,
+				editable : false,
+				editoptions : {
+					readonly : true,
+					size : 10
+				},
+				align : 'center',
+				search:true,
+				sortable:true,
+				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+				searchoptions: { sopt:[ 'eq']}
+				
+			},
+			{
+				name : 'location',
+				index : 'location',
 				width : 150,
 				editable : false,
 				editoptions : {

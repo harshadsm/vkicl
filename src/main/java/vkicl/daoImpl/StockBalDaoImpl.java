@@ -99,7 +99,7 @@ public class StockBalDaoImpl extends BaseDaoImpl {
 			query = "SELECT stock_balance_id,mill_name, material_type, material_make, grade,length, thickness, width, "
 					+ " AsText(plate_shape) plate_shape_text, Area(plate_shape) as plate_area, quantity, location, heat_no, plate_no, warehouse_inward_id"
 					+ " from stock_balance where stock_balance_id=? ";
-					//+ " and is_cut!=1 ";
+			// + " and is_cut!=1 ";
 
 			log.info("query = " + query);
 			cs = conn.prepareCall(query);
@@ -222,7 +222,7 @@ public class StockBalDaoImpl extends BaseDaoImpl {
 			conn = getConnection();
 
 			String sql = "SELECT stock_balance_id,MILL_NAME, MATERIAL_TYPE, MATERIAL_MAKE, GRADE, QUANTITY,LENGTH, "
-					+ " THICKNESS, WIDTH, LOCATION, IS_RECTANGULAR, quantity, heat_no, plate_no  FROM stock_balance sb "
+					+ " THICKNESS, WIDTH, LOCATION, IS_RECTANGULAR, quantity, heat_no, plate_no,location  FROM stock_balance sb "
 					+ processSearchCriteria(searchParam) + " " + composeOrderByClause(orderByFieldName, order) + " "
 					+ composeLimitClause(pageNo, pageSize, total) + ";";
 
@@ -250,6 +250,7 @@ public class StockBalDaoImpl extends BaseDaoImpl {
 					report.setQuantity(rs.getInt("quantity"));
 					report.setHeat_no(formatOutput(rs.getString("heat_no")));
 					report.setPlate_no(formatOutput(rs.getString("plate_no")));
+					report.setLocation(formatOutput(rs.getString("location")));
 					list.add(report);
 				} while (rs.next());
 
@@ -337,8 +338,8 @@ public class StockBalDaoImpl extends BaseDaoImpl {
 	private String processSearchCriteria(JqGridSearchParameterHolder searchParam) {
 		String sqlClause = "";
 		List<String> clauses = new ArrayList<String>();
-//		String notNullClause = "is_cut !=1";
-//		clauses.add(notNullClause);
+		// String notNullClause = "is_cut !=1";
+		// clauses.add(notNullClause);
 		if (null != searchParam && null != searchParam.getRules() && !searchParam.getRules().isEmpty()) {
 			for (JqGridSearchParameterHolder.Rule r : searchParam.getRules()) {
 				String clause = processSearchRule(r);
@@ -385,11 +386,11 @@ public class StockBalDaoImpl extends BaseDaoImpl {
 		} else if (field != null && field.equalsIgnoreCase("materialType")) {
 			clause = "material_type like '%" + data + "%'";
 		} else if (field != null && field.equalsIgnoreCase("thickness")) {
-			clause = "thickness >= " + data;
+			clause = "thickness = " + data;
 		} else if (field != null && field.equalsIgnoreCase("width")) {
-			clause = "width >= " + data;
+			clause = "width = " + data;
 		} else if (field != null && field.equalsIgnoreCase("length")) {
-			clause = "length >=" + data;
+			clause = "length =" + data;
 		} else if (field != null && field.equalsIgnoreCase("grade")) {
 			clause = "grade like '%" + data + "%'";
 		} else if (field != null && field.equalsIgnoreCase("heat_no")) {
@@ -398,6 +399,8 @@ public class StockBalDaoImpl extends BaseDaoImpl {
 			clause = "plate_no like '%" + data + "%'";
 		} else if (field != null && field.equalsIgnoreCase("quantity")) {
 			clause = "quantity like '%" + data + "%'";
+		} else if (field != null && field.equalsIgnoreCase("location")) {
+			clause = "location like '%" + data + "%'";
 		}
 		return clause;
 	}
