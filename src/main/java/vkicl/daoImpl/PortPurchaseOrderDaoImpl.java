@@ -719,7 +719,11 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 			q.append(" group by d.port_purchase_order_id");
 			q.append(" ) delivered on  ppo_outer.port_purchase_order_id = delivered.port_purchase_order_id");
 			q.append(" ) pending_ppo");
-			q.append(" where pending_ppo.pending_quantity > 0;");
+			q.append(" where pending_ppo.pending_quantity > 0");
+
+			String filterClause = composeWhereClausePPO(form);
+			q.append(filterClause);
+
 			query = q.toString();
 			log.info("query = " + query);
 
@@ -737,7 +741,7 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 					report.setTotalQuantity(rs.getInt("total_ordered_quantity"));
 					report.setPendingQuantity(rs.getInt("pending_quantity"));
 					report.setVesselName(rs.getString("vessel_name"));
-					report.setGrade(rs.getString("grade"));
+					report.setGrade(rs.getString("material_grade"));
 					reportList.add(report);
 					report = null;
 				} while (rs.next());
@@ -891,37 +895,6 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 		try {
 			conn = getConnection();
 
-			// sql = " select one.port_inward_id, one.port_inward_detail_id,
-			// one.port_inwd_shipment_id, one.mill_name, "
-			// + " one.material_make, one.material_grade, one.material_type,
-			// one.description, one.length, "
-			// + " one.width, one.thickness, one.quantity, two.ppo_quantity,
-			// three.delivered_taloja, "
-			// + " ( one.quantity-two.ppo_quantity-three.delivered_taloja)
-			// balance_qty from ("
-			// + " ( select pi.port_inward_id, pi.mill_name, pi.material_make,
-			// pi.material_grade,"
-			// + " pi.material_type, pi.description, pid.length, pid.width,
-			// pid.thickness, pid.quantity,"
-			// + " pid.port_inward_detail_id, pi.port_inwd_shipment_id from
-			// port_inward pi "
-			// + " left join port_inward_details pid on
-			// pi.port_inward_id=pid.port_inward_id"
-			// + " group by pid.port_inward_detail_id) one"
-			// + " left join (select ifnull(sum(ppoli.ordered_quantity),0)
-			// ppo_quantity , "
-			// + " ppoli.port_inward_details_id from ppo_line_items ppoli "
-			// + " group by port_inward_details_id) two "
-			// + " on two.port_inward_details_id=one.port_inward_detail_id left
-			// join"
-			// + " (Select ifnull(sum(po.quantity),0) delivered_taloja,
-			// po.port_out_id ,pioi.port_inward_details_id"
-			// + " from port_outward po Left join
-			// port_inward_outward_intersection pioi "
-			// + " On po.port_out_id = pioi.port_outward_id group by
-			// pioi.port_inward_details_id) three"
-			// + " on three.port_inward_details_id=one.port_inward_detail_id)";
-
 			sql = composeQueryForCumulativeStockReportAtPort(form);
 
 			query = sql;
@@ -1051,14 +1024,19 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 		StringBuffer clause = new StringBuffer();
 		List<String> clauses = new ArrayList<String>();
 
-		if (form.getGrade() != null && !form.getGrade().isEmpty() && form.getGrade() != "ALL") {
-			String materialGradeClause = "one.material_grade like '%" + form.getGrade() + "%'";
-			clauses.add(materialGradeClause);
+		if (!form.getGrade().equals("ALL")) {
+			if (form.getGrade() != null && !form.getGrade().isEmpty()) {
+				String materialGradeClause = "one.material_grade like '%" + form.getGrade() + "%'";
+				clauses.add(materialGradeClause);
+			}
 		}
 
-		if (form.getMaterialType() != null && !form.getMaterialType().isEmpty()) {
-			String anyOtherClause = "one.material_type like '" + form.getMaterialType() + "'";
-			clauses.add(anyOtherClause);
+		if (!form.getMaterialType().equals("ALL")) {
+			if (form.getMaterialType() != null && !form.getMaterialType().isEmpty()) {
+
+				String anyOtherClause = "one.material_type like '%" + form.getMaterialType() + "%'";
+				clauses.add(anyOtherClause);
+			}
 		}
 
 		// Add any more clauses here.
@@ -1105,4 +1083,29 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 		}
 		return ret;
 	}
+
+	private String composeWhereClausePPO(PortPurchaseOrderDeliveryForm form) {
+		StringBuffer clause = new StringBuffer();
+		List<String> clauses = new ArrayList<String>();
+
+		if (form.getCustomerName() != null && !form.getCustomerName().isEmpty()) {
+
+			String anyOtherClause = "pending_ppo.customer_name like '%" + form.getCustomerName() + "%'";
+			clauses.add(anyOtherClause);
+
+		}
+
+		// Add any more clauses here.
+
+		for (
+
+		String c : clauses) {
+
+			clause.append(" AND ").append(c).append(" ");
+
+		}
+
+		return clause.toString();
+	}
+
 }
