@@ -1075,14 +1075,17 @@ function composeObjectForCaching(rowObject,qty){
 function handleOnSelectRow(rowId, status){
 	
 	var row = jQuery("#packingListGrid").jqGrid('getRowData',rowId); 
-	var orderedQty = $("#ordered_qty_"+rowId).val()
+	var orderedQty = $("#ordered_qty_"+rowId).val();
+
+	console.log(orderedQty);
 	try{
 		var x = Number(orderedQty);
 	}catch (e){
 		orderedQty = 1;
 	}
 	var objectForCaching = composeObjectForCaching(row, orderedQty);
-	
+
+	//If status = true, that means item selected. False means item deselected.
 	if(status){
 		//If already present, update the orderedQuantity in cache
 		
