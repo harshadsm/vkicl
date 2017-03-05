@@ -152,7 +152,7 @@ public class ReportDaoImpl extends BaseDaoImpl {
 					//report.setDestination(rs.getString("destination"));
 					report.setDestination("ASK SHWETA");
 					reportList.add(report);
-					report = null;
+					
 				} while (rs.next());
 			}
 			form.setReportList(reportList);

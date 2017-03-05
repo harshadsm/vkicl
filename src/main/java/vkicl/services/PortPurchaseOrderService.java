@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import vkicl.daoImpl.DeliveryNoteDaoImpl;
 import vkicl.daoImpl.PortDaoImpl;
 import vkicl.daoImpl.PortInwardDaoImpl;
 import vkicl.daoImpl.PortInwardOutwardIntersectionDaoImpl;
@@ -84,7 +85,7 @@ public class PortPurchaseOrderService {
 
 	public void processDeliveryNote(PortPurchaseDeliveryNoteForm form, UserInfoVO userInfoVO) throws SQLException {
 
-		PortPurchaseOrderDaoImpl impl = new PortPurchaseOrderDaoImpl();
+		DeliveryNoteDaoImpl impl = new DeliveryNoteDaoImpl();
 		Long deliveryNoteId = impl.addPortPurchaseDeliveryData(form, userInfoVO);
 
 		List<PortPurchaseOrderLineItemVO> list = toList(form, userInfoVO);
@@ -92,7 +93,6 @@ public class PortPurchaseOrderService {
 		for (PortPurchaseOrderLineItemVO vo : list) {
 			impl.addPortPurchaseDeliveryLineItemsData(vo, deliveryNoteId, userInfoVO);
 
-			// impl.updateOrderQty(form, vo, userInfoVO);
 		}
 	}
 

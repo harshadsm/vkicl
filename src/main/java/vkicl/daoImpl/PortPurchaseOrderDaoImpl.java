@@ -404,90 +404,9 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 
 	}
 
-	public Long addPortPurchaseDeliveryData(PortPurchaseDeliveryNoteForm portpurchasedeliverynoteform,
-			UserInfoVO userInfoVO) throws SQLException {
-		Connection conn = null;
-		ResultSet rs = null;
-		CallableStatement cs = null;
-		String query = "", message = "";
-		Long savedRecordId = -1L;
-		try {
+	
 
-			query = "INSERT INTO delivery_notes "
-					+ " (port_purchase_order_id,create_ui, update_ui, create_ts, update_ts, vehicle_number,delivery_address,vehicle_date) "
-					+ " VALUES ( ?, ?, ?, ?, ?,?,?,?)";
 
-			log.info(query);
-
-			conn = getConnection();
-			cs = conn.prepareCall(query);
-
-			cs.setLong(1, portpurchasedeliverynoteform.getPpoNo());
-			cs.setString(2, userInfoVO.getUserName());
-			cs.setString(3, userInfoVO.getUserName());
-			cs.setString(4, getCurentTime());
-			cs.setString(5, getCurentTime());
-			cs.setString(6, portpurchasedeliverynoteform.getVehicleNumber());
-			cs.setString(7, portpurchasedeliverynoteform.getDeliveryAddress());
-			cs.setString(8, portpurchasedeliverynoteform.getVehicleDate());
-
-			int count = cs.executeUpdate();
-
-			ResultSet result = cs.getGeneratedKeys();
-			if (count > 0) {
-				result.next();
-				savedRecordId = result.getLong(1);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			message = e.getMessage();
-			userInfoVO.setMessage(message);
-		} finally {
-			closeDatabaseResources(conn, rs, cs);
-		}
-		return savedRecordId;
-
-	}
-
-	public void addPortPurchaseDeliveryLineItemsData(PortPurchaseOrderLineItemVO vo, Long deliveryNoteId,
-			UserInfoVO userInfoVO) throws SQLException {
-		Connection conn = null;
-		ResultSet rs = null;
-		CallableStatement cs = null;
-		String query = "", message = "";
-
-		try {
-
-			query = "INSERT INTO delivery_note_line_items "
-					+ " (ppo_line_items_id,delivered_quantity,delivery_note_id,create_ui, update_ui, create_ts, update_ts) "
-					+ " VALUES ( ?,?,?, ?, ?, ?, ?)";
-
-			log.info(query);
-
-			conn = getConnection();
-			cs = conn.prepareCall(query);
-
-			cs.setLong(1, vo.getPpoLineItemNo());
-			cs.setInt(2, vo.getDeliveryQuantity());
-			cs.setLong(3, deliveryNoteId);
-			cs.setString(4, userInfoVO.getUserName());
-			cs.setString(5, userInfoVO.getUserName());
-			cs.setString(6, getCurentTime());
-			cs.setString(7, getCurentTime());
-
-			int count = cs.executeUpdate();
-
-			ResultSet result = cs.getGeneratedKeys();
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			message = e.getMessage();
-			userInfoVO.setMessage(message);
-		} finally {
-			closeDatabaseResources(conn, rs, cs);
-		}
-
-	}
 
 	public Integer getCountOfPortInwardRecordsWithCumulativeBalGreaterThan0(JqGridSearchParameterHolder searchParam) {
 
