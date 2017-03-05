@@ -181,7 +181,8 @@
 		updateHiddenField();
 		if ("" == getValByFieldName("body", "destinationName")) {
 			bootbox.alert("Please enter Destination Name");
-			return false;}
+			return false;
+		} 
 		 if ("" == getValByFieldName("body", "vehicleNumber")) {
 			bootbox.alert("Please enter Vehicle Number");
 			return false;
@@ -258,9 +259,10 @@
 					<tr>
 						<td>
 							<div class="input-group">
-								<span class="input-group-addon"> <html:radio
-										property="destination" value="warehouse" 
-										onclick="updateHiddenField();" /></span> <input type="text"
+								<span class="input-group-addon"> 
+									<input type="radio" name="destination" value="warehouse" checked="checked" onclick="updateHiddenField();" />
+								</span> 
+								<input type="text"
 									name="warehouse" class="form-control" value="Taloja" readonly="readonly"
 									placeholder="Warehouse Name" onclick="selectRadioText(0);"
 									onblur="updateHiddenField();" onchange="updateHiddenField();" />
@@ -273,7 +275,8 @@
 									name="customer" class="form-control"
 									placeholder="Customer Name" onclick="selectRadioText(1);"
 									onblur="updateHiddenField();" onchange="updateHiddenField();" />
-							</div> <html:hidden property="destinationName" /> -->
+							</div>  -->
+							<html:hidden property="destinationName" value="TALOJA" />
 						</td>
 					</tr>
 					<tr>
