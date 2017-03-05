@@ -1312,6 +1312,13 @@ function composeCombinationId(recordObj){
 	return comboId;
 }
 
+function composeCombinationGroupId(recordObj){
+	//var comboId = ""+ recordObj.portInwardId + "-"+recordObj.portInwardDetailId+"-"+recordObj.portInwardShipmentId;
+	
+	var comboId = ""+ recordObj.portInwardId + "-"+recordObj.portInwardShipmentId+"-"+recordObj.portOutwardId+"-"+recordObj.thickness ;
+	return comboId;
+}
+
 function composeCombinationClass(id){
 	//var comboId = ""+ recordObj.portInwardId + "-"+recordObj.portInwardDetailId+"-"+recordObj.portInwardShipmentId;
 	var comboId = "portoutward-group-"+ id;
@@ -1363,9 +1370,10 @@ function addRowOfSelectedRecord(recordObj) {
 	
 	
 	var id = composeCombinationId(recordObj);
+	var combinationGroupId = composeCombinationGroupId(recordObj);
 
 	var jsonCellId = composeJsonCellId(id);
-	var warehouseInwardRecordClass = composeCombinationClass(id);
+	var warehouseInwardRecordClass = composeCombinationClass(combinationGroupId);
 	var recordObjJson = JSON.stringify(recordObj);		
 	var str = "<tr id='" + id + "' class='selected-port-outward-records "+warehouseInwardRecordClass+"' data-attribute-group-class='"+warehouseInwardRecordClass+"' data-attribute-original-quantity='"+recordObj.availableQuantity+"' >"
 			+ "<td><input type='text' readonly placeholder='vesselDate' value='"+recordObj.vesselDate+"' name='vesselDate' class='form-control'  /></td>"
