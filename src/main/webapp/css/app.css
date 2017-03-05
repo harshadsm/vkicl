@@ -355,3 +355,6 @@ input[name="userName"], input[name="password"], input[name="handleBy"] {
 	text-transform: lowercase;
 }
 
+.stockModal{
+	width:700px;
+}

@@ -52,6 +52,7 @@ var MYDISPATCHNO='<%= dispatchNo %>';
 
 	function resetWarehouseOutwardForm() {
 		$("#details-tbody").html('');
+		console.log("Cleared hidden-div::::::::");
 		$("#hidden-div").html('');
 		$(".details-container").hide();
 		$(".after-result-1").hide();
@@ -97,12 +98,14 @@ var MYDISPATCHNO='<%= dispatchNo %>';
 	function addHiddenDiv(hidden_div_container_id) {
 
 		var str = "<div id='"+hidden_div_container_id+"' class='modal fade' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>"
-				+ "<div class='modal-dialog'><div class='modal-content'><div class='modal-div'>"
+				+ "<div class='modal-dialog'><div class='modal-content stockModal'><div class='modal-div'>"
 				+ "<button type='button' class='bootbox-close-button close' data-dismiss='modal' aria-hidden='true'>×</button>"
 				+ "<table class='table table-responsive'>"
 				+ "<thead><tr><th>Stock Id</th><th>Mill Name</th><th>Thickness</th><th>Width</th><th>Length</th>"
-				+ "<th>Location</th><th>Heat No.</th><th>Plate No.</th><th>Quantity Available</th><th>Quantity</th></tr></thead><tbody></tbody>"
-				+ "<tfoot></tfoot></table></div></div></div></div></div>"
+				+ "<th>Location</th><th>Heat No.</th><th>Plate No.</th><th>Quantity Available</th><th>Quantity</th></tr></thead><tbody></tbody>";
+				+ "<tfoot></tfoot></table></div></div></div></div></div>";
+
+		console.log("addHiddenDiv id="+hidden_div_container_id);
 		$("#hidden-div").append(str);
 		refreshSecWtRow();
 		
