@@ -996,7 +996,7 @@ function populatePackingList(){
 					
 	        		$grid.jqGrid('filterToolbar',{stringResult: true,searchOnEnter : false, searchOperators:true, defaultSearch:"cn"});
 	        		
-	        		//Pre-select the customers if user had them selected already
+	        		//Pre-select the plates if user had them selected already
 					if(SELECTED_PORT_INVENTORY_ITEMS.length > 0){
 						
 						var cachedObj = isObjectPresentInCache(composedObj);
@@ -1004,9 +1004,9 @@ function populatePackingList(){
 							console.log("cachedObj.orderedQuantity = "+cachedObj.orderedQuantity);
 							$grid.jqGrid("setSelection", ids[i]);
 							
-							$("#ordered_qty_"+ids[i]).val(cachedObj.orderedQuantity);
+							/* $("#ordered_qty_"+ids[i]).val(cachedObj.orderedQuantity);
 							var val = calculateOutQty(rowId, cachedObj.orderedQuantity);
-							$("#packingListGrid").jqGrid("setCell", rowId, "outQty", val);
+							$("#packingListGrid").jqGrid("setCell", rowId, "outQty", val); */
 						}else{
 							console.log("Not present in cache "+composedObj.thickness);
 						}
@@ -1049,13 +1049,13 @@ function areAllPlatesOfGivenPortOutwardRecordPresentInCache(targetObj){
 		for(var i=0;i<SELECTED_PORT_INVENTORY_ITEMS.length;i++){
 			var itemObj = SELECTED_PORT_INVENTORY_ITEMS[i];
 			var isSame = compareCachedObjects(itemObj, targetObj);
-			
-			if(isSame){
+			var isSequenceSame = itemObj.sequence == targetObj.sequence;
+			if(isSame && isSequenceSame){
 				noOfPlatesInCache = noOfPlatesInCache + itemObj.orderedQuantity;
 			}
 		}
 
-		if(targetObj.availableQty >=  noOfPlatesInCache){
+		if(noOfPlatesInCache >= Number(targetObj.availableQuantity) ){
 			areAllPlatesPresentInCache = true;
 		}
 	}
@@ -1384,7 +1384,7 @@ function addRowOfSelectedRecord(recordObj) {
 			+ "<td><input type='text' readonly placeholder='thickness' value='"+recordObj.thickness+"' name='thickness' class='form-control' /></td>"
 			+ "<td><input type='text' readonly placeholder='width' value='"+recordObj.width+"' name='width' class='form-control' /></td>"
 			+ "<td><input type='text' readonly placeholder='length' value='"+recordObj.length+"' name='length' class='form-control' /></td>"
-			+ "<td ><input type='text'          placeholder='Quantity' value='"+recordObj.orderedQuantity+"' name='availableQuantity' class='form-control port_out_item_quantity' id='port_out_item_quantity-" + id + "' data-attribute-parent-port-out-id='port_out_item_quantity-" + id + "' onchange='splitOnChange($(this).parent().parent().attr(\"id\"));'/></td>"
+			+ "<td><input type='text' readonly placeholder='Quantity' value='"+recordObj.orderedQuantity+"' name='availableQuantity' class='form-control port_out_item_quantity' id='port_out_item_quantity-" + id + "' data-attribute-parent-port-out-id='port_out_item_quantity-" + id + "' onchange='splitOnChange($(this).parent().parent().attr(\"id\"));'/></td>"
 			+ "<td><input type='text' readonly placeholder='balQty' value='"+recordObj.balQty+"' name='balQty' class='form-control port_out_section_wt' id='port_out_section_wt-" + id + "' data-attribute-parent-port-out-sec-id='port_out_section_wt-" + id + "' /></td>"
 
 			+ "<td><input type='text' readonly placeholder='Actual Wt.' value='"+recordObj.actualWt+"' name='actualWt' class='form-control warehouse_inward_actual_wt' id='"+awId(recordObj)+"' data-attribute-parent-port-out-id='actualWt-" + id + "'/></td>"

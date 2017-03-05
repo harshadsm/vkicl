@@ -156,12 +156,24 @@ public class PortOutwardPackingListDaoImpl extends BaseDaoImpl {
 			conn = getConnection();
 			//String count_sql = " SELECT count(*) FROM port_inward_details "
 			
-			String count_sql = " select count(*) "
-			+" from  "
-			+" port_outward po "
-			+" left join port_outward_shipment pis on pis.port_out_shipment_id = po.port_out_shipment_id "
+//			String count_sql = " select count(*) "
+//			+" from  "
+//			+" port_outward po "
+//			+" left join port_outward_shipment pis on pis.port_out_shipment_id = po.port_out_shipment_id "
+//			
+//			+ processSearchCriteria(searchParam);
 			
-			+ processSearchCriteria(searchParam);
+			
+			String count_sql = " select count(*) "
+					+" from port_outward_shipment pis "
+					+" inner join port_outward po on pis.port_out_shipment_id = po.port_out_shipment_id "
+					+" inner join port_inward_outward_intersection pios on pios.port_outward_id=po.port_out_id "
+					+" inner join port_inward pi on pi.port_inward_id=pios.port_inward_id "
+					+ " inner join port_inward_shipment pins on pins.port_inwd_shipment_id=pi.port_inwd_shipment_id "
+					
+			
+			
+					+ processSearchCriteria1(searchParam) + ";";
 			
 
 			log.info("query = " + count_sql);
