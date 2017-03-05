@@ -2,6 +2,7 @@ package vkicl.daoImpl;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -326,7 +327,8 @@ public class DeliveryNoteDaoImpl extends BaseDaoImpl {
 			cs.setString(5, getCurentTime());
 			cs.setString(6, portpurchasedeliverynoteform.getVehicleNumber());
 			cs.setString(7, portpurchasedeliverynoteform.getDeliveryAddress());
-			cs.setString(8, portpurchasedeliverynoteform.getVehicleDate());
+			Date vehicleDate = Converter.dateToSqlDate(Converter.stringToDate(portpurchasedeliverynoteform.getVehicleDate(), "yyyy-MM-dd"));
+			cs.setDate(8, vehicleDate);
 
 			int count = cs.executeUpdate();
 

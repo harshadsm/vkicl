@@ -155,6 +155,7 @@ public class ReportDaoImpl extends BaseDaoImpl {
 					
 				} while (rs.next());
 			}
+			log.debug("Total records found = "+reportList.size());
 			form.setReportList(reportList);
 		} catch (Exception e) {
 			e.printStackTrace();
