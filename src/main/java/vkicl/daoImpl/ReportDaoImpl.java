@@ -147,7 +147,10 @@ public class ReportDaoImpl extends BaseDaoImpl {
 					report.setActualWt(rs.getDouble("actual_wt"));
 					report.setActualWtUnit(formatOutput(rs.getString("actual_wt_Unit")));
 					report.setInvoice(rs.getString("invoice"));
-					report.setDestination(rs.getString("destination"));
+					
+					//@TODO: Ask Shweta, where has she added destination column
+					//report.setDestination(rs.getString("destination"));
+					report.setDestination("ASK SHWETA");
 					reportList.add(report);
 					report = null;
 				} while (rs.next());
