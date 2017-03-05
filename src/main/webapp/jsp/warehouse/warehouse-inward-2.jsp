@@ -227,13 +227,15 @@ Integer locationCount = locationsList.size();
 	function isValidLocations(){
 		var isValid = true;
 		
-		$("[name=location]").each(function(i,elem){
+		$(".plateLocation").each(function(i,elem){
 			var $elem = $(elem);
-			console.log($elem);
-			console.log($elem.val());
-			if($elem.val() == "-"){
+			var val = $elem.val();
+			
+			if(val == "-"){
 				isValid = false;
-				console.log("Location not submitted.");
+				$elem.css({'background-color' : '#d89191'});
+			}else{
+				$elem.css({'background-color' : '#ffffff'});
 			}
 		});
 
@@ -288,117 +290,191 @@ Integer locationCount = locationsList.size();
 		}
 	}
 	
-	function validateForm() {
-		//updateHiddenField();
-		
+	function isValidHeatNo(){
+		var isValid = true;
+		$(".port_out_heatno").each(function(i,elem){
+			var $elem = $(elem);
+			console.log($elem.attr("id"));
+			var val = $elem.val();
+			if(!val){
+				isValid = false;
+				$elem.css({'background-color' : '#d89191'});
+			}else{
+				$elem.css({'background-color' : '#ffffff'});
+			}
+		});
+		return isValid;
+	}
+
+	function isValidPlateNo(){
+		var isValid = true;
+		$(".port_out_plateno").each(function(i,elem){
+			var $elem = $(elem);
+			console.log($elem.attr("id"));
+			var val = $elem.val();
+			if(!val){
+				isValid = false;
+				$elem.css({'background-color' : '#d89191'});
+			}else{
+				$elem.css({'background-color' : '#ffffff'});
+			}
+		});
+		return isValid;
+	}
+
+	function isValidActualWeight(){
+		var isValid = true;
+		$(".warehouse_inward_actual_wt").each(function(i,elem){
+			var $elem = $(elem);
+			console.log($elem.attr("id"));
+			var val = $elem.val();
+			var isNumber = !isNaN(val);
+			var isGreaterThan0 = false;
+			if(isNumber){
+				var actWtNumber = Number(val);
+				if(actWtNumber > 0){
+					isGreaterThan0 = true;
+				}
+			}
+			if(!val || !isNumber || !isGreaterThan0){
+				isValid = false;
+				$elem.css({'background-color' : '#d89191'});
+				$("#actualWeigthTotalInput").css({'background-color' : '#d89191'});
+			}else{
+				$elem.css({'background-color' : '#ffffff'});
+				$("#actualWeigthTotalInput").css({'background-color' : '#ffffff'});
+			}
+		});
+		return isValid;
+	}
 	
-			$("#details-tbody tr").each(function(i, radio) {
-				$(radio).find('td').each(function(){  
-				   
-				    });
-				
-});
-			
+	function validateForm() {
 		
+		//updateHiddenField();
+
+		$("#details-tbody tr").each(function(i, radio) {
+			$(radio).find('td').each(function() {
+
+			});
+		});
+
+		var isAllHeatNoValid = isValidHeatNo();
+		var isAllPlateNoValid = isValidPlateNo();
+		var isAllActualWeightValid = isValidActualWeight();
 		var isAllLocValid = isValidLocations();
 		var isPlateCountCorrectEvenAfterSplit = isValidPlateCount();
 		
-		if(isPlateCountCorrectEvenAfterSplit==true)
-			{
-		var	str = "Are you sure you want to Submit?";
-		bootbox.confirm(str, function(result) {
-			if (result) {
-				//submitCachedWarehouseInwardRecords();
-				submitWarehouseInwards();
-			}
-		});
-			}
-		return false;
+
+		console.log(isAllHeatNoValid);
+		console.log(isAllPlateNoValid);
+		console.log(isAllActualWeightValid);
+		console.log(isAllLocValid);
+		console.log(isPlateCountCorrectEvenAfterSplit);
+
 		
-		//return commonSubmit();
+		var isAllValid = isAllHeatNoValid && isAllPlateNoValid && isAllActualWeightValid && isAllLocValid && isPlateCountCorrectEvenAfterSplit;
+		
+		console.log(isAllValid);
+		if (isAllValid == true) {
+			var str = "Are you sure you want to Submit?";
+			bootbox.confirm(str, function(result) {
+				if (result) {
+					//submitCachedWarehouseInwardRecords();
+					submitWarehouseInwards();
+				}
+			});
+		}else{
+			bootbox.alert("Please fill in all mandatory fields.");
+		}
+		return false;
 	}
 
-	function addHeatPlateAndLocation(){
-		for(var i=0;i<SELECTED_PORT_INVENTORY_ITEMS.length;i++){
+	function addHeatPlateAndLocation() {
+		for (var i = 0; i < SELECTED_PORT_INVENTORY_ITEMS.length; i++) {
 			var item = SELECTED_PORT_INVENTORY_ITEMS[i];
 			var heatNo = getHeatNo(item);
 			var plateNo = getPlateNo(item);
 			var location = getSelectedLocation(item);
 
-			console.log(heatNo+"-"+plateNo+"-"+location);
-			item.heatNo=heatNo;
-			item.plateNo=plateNo;
-			item.location=location;
+			console.log(heatNo + "-" + plateNo + "-" + location);
+			item.heatNo = heatNo;
+			item.plateNo = plateNo;
+			item.location = location;
 		}
 	}
 
-	function getHeatNo(item){
+	function getHeatNo(item) {
 		var elemId = heatId(item);
-		var heatNo = $("#"+elemId).val();
+		var heatNo = $("#" + elemId).val();
 		return heatNo;
 	}
 
-	function getPlateNo(item){
+	function getPlateNo(item) {
 		var elemId = plateId(item);
-		var heatNo = $("#"+elemId).val();
+		var heatNo = $("#" + elemId).val();
 		return heatNo;
 	}
 
-	function getSelectedLocation(item){
+	function getSelectedLocation(item) {
 		var elemId = locationId(item);
-		var location = $("#"+elemId).val();
+		var location = $("#" + elemId).val();
 		return location;
 	}
 
-	function submitWarehouseInwards(){
-		
+	function submitWarehouseInwards() {
+
 		var selected_port_inventory_items_JSON = composeSelectedWarehouseInwardsJson();
 		console.log(selected_port_inventory_items_JSON);
 		var postJsonObject = {
-				selectedPortInventoryItemsJson : selected_port_inventory_items_JSON
+			selectedPortInventoryItemsJson : selected_port_inventory_items_JSON
 		};
+
+		var itemsToSaveWarehouseInwardJson = "genericListener=add&itemsToSaveWarehouseInwardJson="
+				+ JSON.stringify(postJsonObject);
 		
-		var itemsToSaveWarehouseInwardJson = "genericListener=add&itemsToSaveWarehouseInwardJson="+JSON.stringify(postJsonObject);;
 		console.log(itemsToSaveWarehouseInwardJson);
 		$.ajax({
-			url: "warehouse-inward-save.do",
-			method: 'POST',
-			data: itemsToSaveWarehouseInwardJson,
-			success : function(msg){
-				console.log(msg);
-				bootbox.alert("Successfully saved records!", function(){
-					location.reload();	
-				});
-				
-			},
-			error : function(msg){
-				console.log(msg);
-				bootbox.alert("Some error at server! Please call administrator.");
-			}
-		});
+					url : "warehouse-inward-save.do",
+					method : 'POST',
+					data : itemsToSaveWarehouseInwardJson,
+					success : function(msg) {
+						console.log(msg);
+						bootbox.alert("Successfully saved records!",
+								function() {
+									location.reload();
+								});
 
-		
-		
+					},
+					error : function(msg) {
+						console.log(msg);
+						bootbox
+								.alert("Some error at server! Please call administrator.");
+					}
+				});
+
 	}
 
-	function composeSelectedWarehouseInwardsJson(){
+	function composeSelectedWarehouseInwardsJson() {
 		var warehouseInwardsObjectArray = [];
-		$(".selected-port-outward-records").each(function(i, elem){
-			var $elem = $(elem);
-			var selectedWarehouseInwardsObj = composeWarehouseInwardsObject($elem);
-			warehouseInwardsObjectArray.push(selectedWarehouseInwardsObj);
-		});
+		$(".selected-port-outward-records")
+				.each(
+						function(i, elem) {
+							var $elem = $(elem);
+							var selectedWarehouseInwardsObj = composeWarehouseInwardsObject($elem);
+							warehouseInwardsObjectArray
+									.push(selectedWarehouseInwardsObj);
+						});
 		var json = JSON.stringify(warehouseInwardsObjectArray);
 		return json;
 	}
 
-	function composeWarehouseInwardsObject($elem){
+	function composeWarehouseInwardsObject($elem) {
 		var vesselDate = getValueByName($elem, "vesselDate");
 		var portInwardId = getValueByName($elem, "portInwardId");
 		var portInwardDetailId = getValueByName($elem, "portInwardDetailId");
 		var portInwardShipmentId = getValueByName($elem, "portInwardShipmentId");
 		var portOutwardId = getValueByName($elem, "portOutwardId");
-		
+
 		var length = getValueByName($elem, "length");
 		var width = getValueByName($elem, "width");
 		var thickness = getValueByName($elem, "thickness");
@@ -419,69 +495,74 @@ Integer locationCount = locationsList.size();
 		var plateNo = getValueByName($elem, "plateNoInput");
 		var location = getValueByName($elem, "location");
 
-		
 		var warehouseInwardsObject = {
-				portInwardId : portInwardId,
-				portOutwardId:portOutwardId,
-				portInwardDetailId : portInwardDetailId,
-				portInwardShipmentId : portInwardShipmentId,
-				length : length,
-				width : width,
-				thickness : thickness,
-				vesselDate : vesselDate,
-				vesselName : vesselName,
-				millName : millName,
-				availableQuantity : availableQuantity,
-				grade : grade,
-				materialType : materialType,
-				balQty : balQty,
-				outQty : outQty,
-				vehicleDate : vehicleDate,
-				vehicleName : vehicleName,
-				actualWt : actualWt,
-				vendorName : vendorName,
-				make : make,
-				heatNo : heatNo,
-				plateNo : plateNo,
-				location : location
-				
+			portInwardId : portInwardId,
+			portOutwardId : portOutwardId,
+			portInwardDetailId : portInwardDetailId,
+			portInwardShipmentId : portInwardShipmentId,
+			length : length,
+			width : width,
+			thickness : thickness,
+			vesselDate : vesselDate,
+			vesselName : vesselName,
+			millName : millName,
+			availableQuantity : availableQuantity,
+			grade : grade,
+			materialType : materialType,
+			balQty : balQty,
+			outQty : outQty,
+			vehicleDate : vehicleDate,
+			vehicleName : vehicleName,
+			actualWt : actualWt,
+			vendorName : vendorName,
+			make : make,
+			heatNo : heatNo,
+			plateNo : plateNo,
+			location : location
+
 		};
 		console.log(warehouseInwardsObject);
 		return warehouseInwardsObject;
 	}
 
-	function getValueByName($elem, elementName){
-		return $elem.find("[name="+elementName+"]").val();
+	function getValueByName($elem, elementName) {
+		return $elem.find("[name=" + elementName + "]").val();
 	}
-	
-	function submitCachedWarehouseInwardRecords(){
+
+	function submitCachedWarehouseInwardRecords() {
 
 		addHeatPlateAndLocation();
-		
-		var selected_port_inventory_items_JSON = JSON.stringify(SELECTED_PORT_INVENTORY_ITEMS);
+
+		var selected_port_inventory_items_JSON = JSON
+				.stringify(SELECTED_PORT_INVENTORY_ITEMS);
 		var postJsonObject = {
-				selectedPortInventoryItemsJson : selected_port_inventory_items_JSON
+			selectedPortInventoryItemsJson : selected_port_inventory_items_JSON
 		};
-		
-		var itemsToSaveWarehouseInwardJson = "genericListener=add&itemsToSaveWarehouseInwardJson="+JSON.stringify(postJsonObject);;
+
+		var itemsToSaveWarehouseInwardJson = "genericListener=add&itemsToSaveWarehouseInwardJson="
+				+ JSON.stringify(postJsonObject);
+		;
 		console.log(itemsToSaveWarehouseInwardJson);
-		$.ajax({
-			url: "warehouse-inward-save.do",
-			method: 'POST',
-			data: itemsToSaveWarehouseInwardJson,
-			success : function(msg){
-				console.log(msg);
-				bootbox.alert("Successfully saved records!", function(){
-					location.reload();	
+		$
+				.ajax({
+					url : "warehouse-inward-save.do",
+					method : 'POST',
+					data : itemsToSaveWarehouseInwardJson,
+					success : function(msg) {
+						console.log(msg);
+						bootbox.alert("Successfully saved records!",
+								function() {
+									location.reload();
+								});
+
+					},
+					error : function(msg) {
+						console.log(msg);
+						bootbox
+								.alert("Some error at server! Please call administrator.");
+					}
 				});
-				
-			},
-			error : function(msg){
-				console.log(msg);
-				bootbox.alert("Some error at server! Please call administrator.");
-			}
-		});
-		
+
 	}
 
 	function resetOutwardForm() {
@@ -560,8 +641,7 @@ Integer locationCount = locationsList.size();
 					class="btn pull-left" />
 					<input type="button" value="Edit" onclick="editText();"
 					class="btn pull-right" />
-				<html:submit styleClass="btn pull-right"
-					onclick="return validateForm()" />
+				<button class="btn pull-right" onclick="return validateForm()">Submit</button>
 			</div>
 		</div>
 		<html:hidden property="genericListener" value="add" />
@@ -1248,6 +1328,7 @@ function getLocationDropdownHtml(recordObj){
 	var locationIdStr = locationId(recordObj);
 	var html = $("#locationDropdownTemplate").html();
 	html = html.replace(/selectLocationId/, locationIdStr);
+	html = html.replace(/selectLocationClass/, "plateLocation");
 	//console.log(html);
 	html = "<td>"+html+"</td>";
 	return html;
@@ -1281,9 +1362,9 @@ function addRowOfSelectedRecord(recordObj) {
 			+ "<td ><input type='text'          placeholder='Quantity' value='"+recordObj.availableQuantity+"' name='availableQuantity' class='form-control port_out_item_quantity' id='port_out_item_quantity-" + id + "' data-attribute-parent-port-out-id='port_out_item_quantity-" + id + "' onchange='splitOnChange($(this).parent().parent().attr(\"id\"));'/></td>"
 			+ "<td><input type='text' readonly placeholder='balQty' value='"+recordObj.balQty+"' name='balQty' class='form-control port_out_section_wt' id='port_out_section_wt-" + id + "' data-attribute-parent-port-out-sec-id='port_out_section_wt-" + id + "' /></td>"
 
-			+ "<td><input type='text' readonly placeholder='Actual Wt.' value='"+recordObj.actualWt+"' name='actualWt' class='form-control ' id='"+awId(recordObj)+"' data-attribute-parent-port-out-id='actualWt-" + id + "'/></td>"
+			+ "<td><input type='text' readonly placeholder='Actual Wt.' value='"+recordObj.actualWt+"' name='actualWt' class='form-control warehouse_inward_actual_wt' id='"+awId(recordObj)+"' data-attribute-parent-port-out-id='actualWt-" + id + "'/></td>"
 			+ "<td><input type='text'          placeholder='Heat No' name='heatNoInput' class='form-control port_out_heatno' id='"+heatId(recordObj)+"' data-attribute-parent-port-out-id-actualwt='heatno-" + heatId(recordObj) + "'/></td>"
-			+ "<td><input type='text'          placeholder='Plate No' name='plateNoInput' class='form-control ' id='"+plateId(recordObj)+"'/></td>"
+			+ "<td><input type='text'          placeholder='Plate No' name='plateNoInput' class='form-control port_out_plateno' id='"+plateId(recordObj)+"'/></td>"
 			+ getLocationDropdownHtml(recordObj)
 
 			//+ "<td><div class='input-group'><input type='number' step='0.001' placeholder='Section Weight' min='0' readonly value='' name='secWt' class='form-control' aria-label='...'><div class='input-group-btn weight-group'><input type='hidden' name='secWtUnit' value='TON' /><button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown' disabled aria-expanded='false'>TON <span class='caret'></span></button><ul class='dropdown-menu dropdown-menu-right' role='menu'><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>TON</a></li><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>KG</a></li></ul></div></div></td>"
@@ -1563,7 +1644,7 @@ function isValidNumber(str) {
 </div>
 
 <div id="locationDropdownTemplate" style="visibility: hidden;" >
-	<select name="location" id="selectLocationId">
+	<select name="location" class="selectLocationClass" id="selectLocationId">
 		<option value="-">Select Location</option>
 	<c:forEach items="${locationsList}" var="locationVo">
 		<option value='<c:out value="${locationVo.locationName}"></c:out>'><c:out value="${locationVo.locationName}"></c:out></option>
