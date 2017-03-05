@@ -12,6 +12,7 @@ public class DeliveryNoteVO {
 	private String vehicleNumber;
 	private PortPurchaseOrderVO portPurchaseOrder;
 	private List<DeliveryNoteLineItemVO> deliveryNoteLineItems;
+	private Double actualWeight;
 
 	public Integer getId() {
 		return id;
@@ -68,4 +69,14 @@ public class DeliveryNoteVO {
 	public void setDeliveryNoteAddress(String deliveryNoteAddress) {
 		this.deliveryNoteAddress = deliveryNoteAddress;
 	}
+
+	public Double getActualWeight() {
+		return actualWeight;
+	}
+
+	public void setActualWeight(Double actualWeight) {
+		this.actualWeight = actualWeight;
+	}
+	
+	
 }

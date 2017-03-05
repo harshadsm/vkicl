@@ -148,7 +148,9 @@ public class DeliveryNoteDaoImpl extends BaseDaoImpl {
 			conn = getConnection();
 
 			String sql = "select ppo.port_purchase_order_id, CAST(ppo.create_ts as Date) as ppoDate , ppo.customer_name, ppo.delivery_address, "
-					+ " dn.id, CAST(dn.create_ts as Date) as deliveryDate,dn.delivery_address, dn.vehicle_number from port_purchase_order ppo  "
+					+ " dn.id, CAST(dn.create_ts as Date) as deliveryDate, dn.delivery_address, dn.vehicle_number "
+					+ " , dn.actual_wt "
+					+ " from port_purchase_order ppo  "
 					+ " inner join  delivery_notes dn " + " on ppo.port_purchase_order_id=dn.port_purchase_order_id"
 					+ " where dn.id=" + deliveryNoteId;
 			query = sql;
@@ -173,6 +175,7 @@ public class DeliveryNoteDaoImpl extends BaseDaoImpl {
 					vo.setDeliveryDate(rs.getString(6));
 					vo.setDeliveryNoteAddress(rs.getString(7));
 					vo.setVehicleNumber(rs.getString(8));
+					vo.setActualWeight(rs.getDouble(9));
 
 				} while (rs.next());
 

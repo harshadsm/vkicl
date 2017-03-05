@@ -97,6 +97,19 @@ public class DeliveryNoteViewAction extends BaseAction {
 				for (DeliveryNoteLineItemVO vo : list) {
 					deliveryNoteService.updateDeliveryNoteLineItems(vo, deliverynoteupdateform, userInfoVO);
 				}
+				Integer ppoNo = deliverynoteupdateform.getPpoNo();
+				
+				Integer deliveryNoteId = deliverynoteupdateform.getDeliveryNoteId();
+
+				DeliveryNoteVO deliveryNoteVO = deliveryNoteService
+						.getDeliveryNoteDetailsById(deliveryNoteId);
+				request.setAttribute("delivery_note_details", deliveryNoteVO);
+
+				List<DeliveryNoteLineItemVO> deliveryNotesLineItems = deliveryNoteService
+						.getDeliveryNoteLineItems(deliveryNoteId, ppoNo);
+				request.setAttribute("delivery_note_line_items", deliveryNotesLineItems);
+				
+				
 				actionForward = mapping.findForward(Constants.Mapping.SUCCESS);
 				userInfoVO = getUserProfile(request);
 			} else {
