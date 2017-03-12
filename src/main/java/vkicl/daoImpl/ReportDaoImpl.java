@@ -635,7 +635,7 @@ public class ReportDaoImpl extends BaseDaoImpl {
 
 			// log.info("Grade = " + toString(form.getGrade()));
 			cs = conn.prepareCall(query);
-			cs.setString(1, toWildCard(toString(form.getGrade())));
+			cs.setString(1, toWildCard(formatInput(form.getGrade())));
 			cs.setString(2, toWildCard(formatInput(form.getMake())));
 			cs.setString(3, toWildCard(formatInput(form.getMaterialType())));
 			cs.setString(4, toWildCard(formatInput(form.getLocation())));

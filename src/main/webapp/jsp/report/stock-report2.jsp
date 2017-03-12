@@ -58,7 +58,7 @@
 						<td class="form-label"><label for="grade">Material
 								Grade</label></td>
 						
-							<td><html:select property="materialType"
+							<td><html:select property="grade"
 								styleId="grade" styleClass="form-control">
 								<html:option value="ALL">ALL</html:option>
 								<html:optionsCollection property="gradeList" />

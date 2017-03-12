@@ -13,7 +13,7 @@ public class StockReportForm extends BaseForm {
 
 	private String materialType = null;
 	private String millName = null;
-	private String[] grade = null;
+	private String grade = null;
 	private String make = null;
 	public double getSectionWt() {
 		return sectionWt;
@@ -89,11 +89,11 @@ public class StockReportForm extends BaseForm {
 		this.millName = millName;
 	}
 
-	public String[] getGrade() {
+	public String getGrade() {
 		return grade;
 	}
 
-	public void setGrade(String[] grade) {
+	public void setGrade(String grade) {
 		this.grade = grade;
 	}
 
@@ -172,7 +172,7 @@ public class StockReportForm extends BaseForm {
 	@Override
 	public String toString() {
 		return "StockReportForm [materialType=" + materialType + ", millName="
-				+ millName + ", grade=" + Arrays.toString(grade) + ", make="
+				+ millName + ", grade=" + grade + ", make="
 				+ make + ", location=" + location + ", thickness=" + thickness
 				+ ", materialTypeList=" + materialTypeList + ", millNameList="
 				+ millNameList + ", gradeList=" + gradeList + ", makeList="
