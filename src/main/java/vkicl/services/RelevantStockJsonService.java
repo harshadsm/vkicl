@@ -20,6 +20,7 @@ import vkicl.util.JqGridCustomResponse;
 import vkicl.util.JqGridParametersHolder;
 import vkicl.util.JqGridParametersHolder.JQGRID_PARAM_NAMES;
 import vkicl.util.JqGridSearchParameterHolder;
+import vkicl.util.JqGridSearchParameterHolder.Rule;
 import vkicl.vo.StockBalanceDetailsVO;
 
 public class RelevantStockJsonService {
@@ -42,17 +43,8 @@ public class RelevantStockJsonService {
 	
 	public String getRelevantStockAsJson(HttpServletRequest req)
 			throws Exception {
-//		String dispatchOrderIdStr = req.getParameter("dispatchOrderId");
-//		Integer dispatchOrderId = Integer.parseInt(dispatchOrderIdStr);
-//		logger.debug("dispatchOrderId = "+dispatchOrderId);
+
 		
-//		String portInwardIdStr = req.getParameter("port_inward_database_id");
-//		logger.info("Port Inward Id = " + portInwardIdStr);
-//		Integer portInwardId = Integer.parseInt(portInwardIdStr);
-//		JqGridSearchParameterHolder.Rule portInwardIdRule = new JqGridSearchParameterHolder.Rule();
-//		portInwardIdRule.setField("port_inward_id");
-//		portInwardIdRule.setOp("eq");
-//		portInwardIdRule.setData(portInwardIdStr);
 
 		JqGridParametersHolder params = new JqGridParametersHolder(req);
 		JqGridSearchParameterHolder searchParam = parseSerachFilters(params);
@@ -64,6 +56,9 @@ public class RelevantStockJsonService {
 			List<JqGridSearchParameterHolder.Rule> rules = new ArrayList<JqGridSearchParameterHolder.Rule>();
 			searchParam.setRules(rules);
 		}
+		
+		putSearchParamsPerOrderedPlateSpecs(searchParam, req);
+		
 //		searchParam.getRules().add(portInwardIdRule);
 
 		String rows = params.getParam(JQGRID_PARAM_NAMES.rows);
@@ -89,6 +84,77 @@ public class RelevantStockJsonService {
 		Gson gson = new Gson();
 		String json = gson.toJson(response);
 		return json;
+	}
+
+	private void putSearchParamsPerOrderedPlateSpecs(JqGridSearchParameterHolder searchParam, HttpServletRequest req) {
+		String thickness = req.getParameter("thickness");
+		String width = req.getParameter("width");
+		String length = req.getParameter("length");
+		String mill = req.getParameter("mill");
+		String make = req.getParameter("make");
+		String grade = req.getParameter("grade");
+		
+		Rule thicknessRule = new Rule();
+		thicknessRule.setData(thickness);
+		thicknessRule.setField("thickness");
+		thicknessRule.setOp("eq");
+		
+		Rule widthRule = new Rule();
+		widthRule.setData(width);
+		widthRule.setField("width");
+		widthRule.setOp("ge");
+		
+		Rule lengthRule = new Rule();
+		lengthRule.setData(length);
+		lengthRule.setField("length");
+		lengthRule.setOp("eq");
+		
+		Rule millRule = new Rule();
+		millRule.setData(mill);
+		millRule.setField("mill");
+		millRule.setOp("ge");
+		
+		Rule makeRule = new Rule();
+		makeRule.setData(make);
+		makeRule.setField("make");
+		makeRule.setOp("eq");
+		
+		
+		Rule gradeRule = new Rule();
+		gradeRule.setData(make);
+		gradeRule.setField("grade");
+		gradeRule.setOp("eq");
+		
+		
+		
+		
+		if(searchParam == null){
+			searchParam = new JqGridSearchParameterHolder();
+		}
+		if(searchParam.getRules()==null){
+			List<Rule> rules = new ArrayList<Rule>();
+			searchParam.setRules(rules);
+		}
+		
+		searchParam.getRules().add(thicknessRule);
+		if(lengthRule.getData()!=null){
+			searchParam.getRules().add(lengthRule);	
+		}
+		if(widthRule.getData()!=null){
+		searchParam.getRules().add(widthRule);
+		}
+		if(gradeRule.getData()!=null){
+			searchParam.getRules().add(gradeRule);	
+		}
+		if(millRule.getData()!=null){
+			searchParam.getRules().add(millRule);
+		}
+		if(makeRule.getData()!=null){
+			searchParam.getRules().add(makeRule);	
+		}
+		
+		
+		
 	}
 
 

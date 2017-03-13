@@ -301,12 +301,13 @@ function handleOnSelectRow(rowId, status){
 	url = url + mill+make+grade+length+width+thickness+dispatchDetailsRowId+dispatchNo;
 	
 
-	populateStockTable(url);
+	populateStockTable(row.thickness, length, width, mill, make, grade);
+	$("#stockTable").trigger("reloadGrid");
 	
 }
 
-function populateStockTable(url){
-	console.log(url);
+function populateStockTable(thickness, length, width, mill, make, grade){
+
 
 	$("#stockTable").jqGrid(
 		{
@@ -466,7 +467,7 @@ function populateStockTable(url){
 			
 			],
 			postData : {
-				thickness : 10
+				thickness : thickness
 			},
 			rowNum : 10,
 			rowList : [ 10, 20, 30 ,40, 50, 60 ],
