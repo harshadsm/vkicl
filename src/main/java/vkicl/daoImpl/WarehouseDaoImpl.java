@@ -461,10 +461,12 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 			cs.setString(4, formatInput(form.getVehicleNumber()));
 			cs.setString(5, formatInput(form.getVehicleDate()));
 			cs.setString(6, userInfoVO.getUserName());
-			cs.registerOutParameter(7, java.sql.Types.VARCHAR);
+			cs.setInt(7, 787);
+			cs.setInt(8, 987);
+			cs.registerOutParameter(9, java.sql.Types.VARCHAR);
 			cs.executeUpdate();
 			// }
-			message = cs.getString(7);
+			message = cs.getString(9);
 			log.info("message = " + message);
 			form.clear();
 			userInfoVO.setMessage(message);

@@ -64,10 +64,10 @@
 									if (userInfoVO.hasAccess(Constants.Apps.DISPATCH_ORDER)) {
 								%>
 								
-								<li><a href="./warehouse-inward-2.do">Inwards (New)</a></li>
-								<li><a href="./warehouse-inward.do">Inwards (Old)</a></li>
+								<li><a href="./warehouse-inward-2.do">Inwards</a></li>
+								<!-- <li><a href="./warehouse-inward.do">Inwards (Old)</a></li> -->
 								<li><a href="./warehouse-dispatch.do">Dispatch Order</a></li>
-								<li><a href="./warehouse-outward.do">Outwards</a></li>
+								<li><a href="./warehouse-dispatch-report.do">Outwards</a></li>
 								<%
 									}
 								%>
@@ -97,7 +97,9 @@
 								<li><a href="./warehouse-inward-report.do">Warehouse
 										Inward</a></li>
 								<li><a href="./warehouse-outward-report.do">Warehouse
-										Outward</a></li>
+										Outward (Old)</a></li>
+								<li><a href="./warehouse-outward-report-2.do">Warehouse
+										Outward (New)</a></li>
 										
 								<%
 									}

@@ -13,8 +13,6 @@ String dispatchNo=request.getParameter("dispatchNo");
 if(dispatchNo == null){
 	dispatchNo = (String)request.getAttribute("dispatchNo_2");
 }
-
-System.out.println("harhads>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> "+dispatchNo);
 %>
 <script type="text/javascript">
 
@@ -39,6 +37,7 @@ var MYDISPATCHNO='<%= dispatchNo %>';
 		$.ajax({
 			url : "./json?method=fetchWarehouseOutwardDetails&dispatchNo=" + dispatchNo,
 			success : function(json, status, response) {
+				console.log(json);
 				processJSON(json);
 			},
 			error : function() {

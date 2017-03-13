@@ -72,8 +72,9 @@ public class WarehouseOutwardAction extends BaseAction {
 				List<String> stockId = Arrays.<String> asList(warehouseOutwardForm.getStockId());
 				List<String> qty = Arrays.<String> asList(warehouseOutwardForm.getQty());
 				List<Integer> totalQty = Arrays.<Integer> asList(warehouseOutwardForm.getTotalQty());
-
-				List<WarehouseOutwardVO> warehouseVOList = composeVOList(availableQty, subQty, stockId);
+				List<String> dispatchDetailId = Arrays.<String>asList(warehouseOutwardForm.getDispatchDetailsID());
+				
+				List<WarehouseOutwardVO> warehouseVOList = composeVOList(availableQty, subQty, stockId, dispatchDetailId);
 
 				for (WarehouseOutwardVO warehouseoutwardvo : warehouseVOList) {
 
@@ -164,7 +165,7 @@ public class WarehouseOutwardAction extends BaseAction {
 	}
 
 	private List<WarehouseOutwardVO> composeVOList(List<String> availableQtyList, List<String> orderedQtyList,
-			List<String> stockIdList) {
+			List<String> stockIdList,List<String> dispatchDetailId) {
 		List<WarehouseOutwardVO> list = new ArrayList<WarehouseOutwardVO>();
 		Integer size = stockIdList.size();
 		log.info("stockIdList" + size);
@@ -172,10 +173,12 @@ public class WarehouseOutwardAction extends BaseAction {
 			String stockIdstr = stockIdList.get(i);
 			String orderedQtystr = orderedQtyList.get(i);
 			String availableQtystr = availableQtyList.get(i);
+			String dispatchDetailIdStr = dispatchDetailId.get(i);
 
 			String[] stockIdArr = stockIdstr.split(",");
 			String[] orderedQtyArr = orderedQtystr.split(",");
 			String[] availableQtyArr = availableQtystr.split(",");
+			String[] dispatchDetailIdArr = dispatchDetailIdStr.split(",");
 
 			if (stockIdArr != null) {
 				Integer noOfStockRecords = stockIdArr.length;
@@ -185,13 +188,17 @@ public class WarehouseOutwardAction extends BaseAction {
 					log.info(availableQtyArr[j]);
 					log.info(orderedQtyArr[j]);
 					log.info(stockIdArr[j]);
+					log.info(dispatchDetailIdArr[j]);
 
 					if (NumberUtils.isNumber(availableQtyArr[j]) && NumberUtils.isNumber(availableQtyArr[j])
-							&& NumberUtils.isNumber(stockIdArr[j])) {
+							&& NumberUtils.isNumber(stockIdArr[j])
+							&& NumberUtils.isNumber(dispatchDetailIdArr[j])
+							) {
 
 						vo.setAvailableQty(Integer.parseInt(availableQtyArr[j]));
 						vo.setOrderedQty(Integer.parseInt(orderedQtyArr[j]));
 						vo.setStockId(Integer.parseInt(stockIdArr[j]));
+						vo.setDispatchDetailId(Integer.parseInt(dispatchDetailIdArr[j]));
 						list.add(vo);
 
 					} else {

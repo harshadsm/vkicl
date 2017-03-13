@@ -26,8 +26,14 @@ public class WarehouseOutwardForm extends BaseForm {
 	private String[] secWtUnit = null;
 	private String[] qty = null;
 	private String[] stockId = null;
-
+	
 	private Integer totalQty = null;
+	
+	private String vehicleNumber = null;
+	private String vehicleDate = null;
+
+	private String[] dispatchDetailsID = null;
+
 
 	public Integer getTotalQty() {
 		return totalQty;
@@ -62,11 +68,6 @@ public class WarehouseOutwardForm extends BaseForm {
 	public void setVehicleDate(String vehicleDate) {
 		this.vehicleDate = vehicleDate;
 	}
-
-	private String vehicleNumber = null;
-	private String vehicleDate = null;
-
-	private String[] dispatchDetailsID = null;
 
 	public String[] getDispatchDetailsID() {
 		return dispatchDetailsID;
@@ -253,6 +254,7 @@ public class WarehouseOutwardForm extends BaseForm {
 				+ ", length=" + Arrays.toString(length) + ", width=" + Arrays.toString(width) + ", thickness="
 				+ Arrays.toString(thickness) + ", secWt=" + Arrays.toString(secWt) + ", secWtUnit="
 				+ Arrays.toString(secWtUnit) + ", qty=" + Arrays.toString(qty) + ",stockId=" + Arrays.toString(stockId)
+				+ ", dispatchDetailsId="+Arrays.toString(dispatchDetailsID)
 				+ "]";
 	}
 

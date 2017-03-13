@@ -38,6 +38,10 @@
 		<servlet-class>vkicl.action.PortInwardDetailsJsonServlet</servlet-class>
 	</servlet>
 	<servlet>
+		<servlet-name>WarehouseOutwardJsonServlet</servlet-name>
+		<servlet-class>vkicl.action.WarehouseOutwardJsonServlet</servlet-class>
+	</servlet>
+	<servlet>
 		<servlet-name>PackingListJsonServlet</servlet-name>
 		<servlet-class>vkicl.action.PackingListJsonServlet</servlet-class>
 	</servlet>
@@ -106,6 +110,10 @@
 	<servlet-mapping>
 		<servlet-name>PortInwardDetailsJsonServlet</servlet-name>
 		<url-pattern>/portInwardDetailsJsonServlet</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>WarehouseOutwardJsonServlet</servlet-name>
+		<url-pattern>/warehouseOutwardJsonServlet</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>PackingListJsonServlet</servlet-name>

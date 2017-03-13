@@ -139,6 +139,11 @@
 			name="WarehouseOutwardForm" scope="request">
 			<forward name="success" path="warehouseOutwardDefn" />
 		</action>
+		
+		<action path="/warehouse-outward-jqgrid" type="vkicl.action.WarehouseOutwardJqgridAction"
+			name="WarehouseOutwardForm" scope="request">
+			<forward name="success" path="warehouseOutwardJqgridDefn" />
+		</action>
 
 		<action path="/warehouse-outward-process" type="vkicl.action.WarehouseOutwardProcessAction"
 			name="WarehouseOutwardProcessForm" scope="request">
@@ -172,6 +177,10 @@
 		<action path="/warehouse-outward-report" type="vkicl.report.action.WarehouseOutwardReportAction"
 			name="WarehouseOutwardReportForm">
 			<forward name="success" path="warehouseOutwardReportDefn" />
+		</action>
+		
+		<action path="/warehouse-outward-report-2" type="vkicl.report.action.WarehouseOutwardReportJqgridAction">
+			<forward name="success" path="warehouseOutwardReportJqgridDefn" />
 		</action>
 
 		<action path="/warehouse-inward-approver-report" type="vkicl.report.action.WarehouseInwardReportAction"

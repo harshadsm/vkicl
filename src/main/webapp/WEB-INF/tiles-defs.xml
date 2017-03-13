@@ -98,6 +98,13 @@
 		<put name="title" value="Warehouse Outward" />
 		<put name="body" value="/jsp/warehouse/warehouse-outward.jsp" />
 	</definition>
+	
+	<definition name="warehouseOutwardJqgridDefn" extends="baseDefn">
+		<put name="title" value="Warehouse Outward" />
+		<put name="body" value="/jsp/warehouse/warehouse-outward-jqgrid.jsp" />
+	</definition>
+	
+	
 
 	<definition name="warehouseOutwardProcessDefn" extends="baseDefn">
 		<put name="title" value="Warehouse Outward Process" />
@@ -128,6 +135,12 @@
 		<put name="title" value="Warehouse Outward Report" />
 		<put name="pageType" value="Report" />
 		<put name="body" value="/jsp/report/warehouse-outward-report.jsp" />
+	</definition>
+
+	<definition name="warehouseOutwardReportJqgridDefn" extends="baseDefn">
+		<put name="title" value="Warehouse Outward Report" />
+		<put name="pageType" value="Report" />
+		<put name="body" value="/jsp/report/warehouse-outward-report-jqgrid.jsp" />
 	</definition>
 
 	<definition name="warehouseInwardApproverReportDefn"
