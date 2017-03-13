@@ -20,7 +20,7 @@ public class StockBalCuttingJsonServlet extends HttpServlet {
 	 */
 	private static final long serialVersionUID = 4896344374052419351L;
 
-	private Logger logger = Logger.getLogger(StockBalDetailsJsonServlet.class);
+	private Logger logger = Logger.getLogger(StockBalCuttingJsonServlet.class);
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
