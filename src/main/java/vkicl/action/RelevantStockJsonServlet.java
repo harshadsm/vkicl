@@ -12,21 +12,22 @@ import org.apache.log4j.Logger;
 
 import vkicl.services.DispatchOrderDetailsJsonService;
 import vkicl.services.PortOutwardDetailsJsonService;
+import vkicl.services.RelevantStockJsonService;
 
-public class StockJsonServlet extends HttpServlet {
+public class RelevantStockJsonServlet extends HttpServlet {
 	private static final long serialVersionUID = 48963374052419351L;
 
-	private Logger logger = Logger.getLogger(StockJsonServlet.class);
+	private Logger logger = Logger.getLogger(RelevantStockJsonServlet.class);
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
 		try {
-			DispatchOrderDetailsJsonService service = new DispatchOrderDetailsJsonService();
-			String json = service.getDispatchOrderDetailsAsJson(request);
+			RelevantStockJsonService service = new RelevantStockJsonService();
+			String json = service.getRelevantStockAsJson(request);
 
 			
-			response.setContentType("text/text;charset=utf-8");
+			response.setContentType("application/json;charset=utf-8");
 			response.setHeader("cache-control", "no-cache");
 
 			PrintWriter out = response.getWriter();

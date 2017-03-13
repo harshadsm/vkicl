@@ -14,11 +14,13 @@ import org.codehaus.jackson.map.ObjectMapper;
 import com.google.gson.Gson;
 
 import vkicl.daoImpl.DispatchOrderDetailsDaoImpl;
+import vkicl.daoImpl.StockBalDaoImpl;
 import vkicl.report.bean.WarehouseDispatchDetailsBean;
 import vkicl.util.JqGridCustomResponse;
 import vkicl.util.JqGridParametersHolder;
 import vkicl.util.JqGridParametersHolder.JQGRID_PARAM_NAMES;
 import vkicl.util.JqGridSearchParameterHolder;
+import vkicl.vo.StockBalanceDetailsVO;
 
 public class RelevantStockJsonService {
 	
@@ -38,11 +40,11 @@ public class RelevantStockJsonService {
 		return searchParam;
 	}
 	
-	public String getDispatchOrderDetailsAsJson(HttpServletRequest req)
+	public String getRelevantStockAsJson(HttpServletRequest req)
 			throws Exception {
-		String dispatchOrderIdStr = req.getParameter("dispatchOrderId");
-		Integer dispatchOrderId = Integer.parseInt(dispatchOrderIdStr);
-		logger.debug("dispatchOrderId = "+dispatchOrderId);
+//		String dispatchOrderIdStr = req.getParameter("dispatchOrderId");
+//		Integer dispatchOrderId = Integer.parseInt(dispatchOrderIdStr);
+//		logger.debug("dispatchOrderId = "+dispatchOrderId);
 		
 //		String portInwardIdStr = req.getParameter("port_inward_database_id");
 //		logger.info("Port Inward Id = " + portInwardIdStr);
@@ -69,11 +71,12 @@ public class RelevantStockJsonService {
 		String orderBy = params.getParam(JQGRID_PARAM_NAMES.sidx);
 		String order = params.getParam(JQGRID_PARAM_NAMES.sord);
 
-		DispatchOrderDetailsDaoImpl dispatchOrderDetailsDao = new DispatchOrderDetailsDaoImpl();
-		Integer totalRecordsCount = dispatchOrderDetailsDao.getDispatchOrderDetailsCount(dispatchOrderId,searchParam);//, portInwardId);
+		//DispatchOrderDetailsDaoImpl dispatchOrderDetailsDao = new DispatchOrderDetailsDaoImpl();
+		StockBalDaoImpl stockDao = new StockBalDaoImpl();
+		Integer totalRecordsCount = stockDao.fetchStockBalRecordCount(searchParam);
 		
-		List<WarehouseDispatchDetailsBean> outrecords = dispatchOrderDetailsDao.getDispatchOrderDetails( Integer.parseInt(page),
-				Integer.parseInt(rows), totalRecordsCount, orderBy, order, searchParam, dispatchOrderId);
+		List<StockBalanceDetailsVO> outrecords = stockDao.fetchStockBalList( Integer.parseInt(page),
+				Integer.parseInt(rows), totalRecordsCount, orderBy, order, searchParam);
 		
 		
 		//updateAlreadyOutQuantity(outrecords);

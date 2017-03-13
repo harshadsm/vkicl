@@ -286,10 +286,9 @@ function populateDispatchDetailsTable(){
 	}
 
 function handleOnSelectRow(rowId, status){
-	//./json?method=fetchWarehouseLocationDetails&millName=MILL3&make=MAKE3&grade=GRADE3&length=10000&width=10000&thickness=10&dispatchNo=10&dispatchDetailRowId=1
 	var row = jQuery("#dispatchDetailsTable").jqGrid('getRowData',rowId); 
 	console.log(row);
-	var url = './fetchStockDetailsServlet';
+	var url = './relevantStockJsonServlet?';
 	var mill = 'millName='+row.millName;
 	var make = '&make='+row.make;
 	var grade = '&grade='+row.grade;
@@ -300,17 +299,20 @@ function handleOnSelectRow(rowId, status){
 	var dispatchNo = '&dispatchNo=<%=dispatchNo%>';
 
 	url = url + mill+make+grade+length+width+thickness+dispatchDetailsRowId+dispatchNo;
-	console.log(url);
+	
 
 	populateStockTable(url);
 	
 }
 
 function populateStockTable(url){
+	console.log(url);
+
 	$("#stockTable").jqGrid(
 		{
-			url : url,
-			
+			url : './relevantStockJsonServlet',
+			mtype:'POST',
+			datatype : 'json',
 			colNames : [ 'stockId', 'Mill', 'Make', 'grade', 'Thickness', 'Width', 'Length', 'Ordered Qty', 'Section Weight', 'Location'],
 					
 			colModel : [  {
@@ -464,7 +466,7 @@ function populateStockTable(url){
 			
 			],
 			postData : {
-				dispatchOrderId:<%=dispatchNo%>
+				thickness : 10
 			},
 			rowNum : 10,
 			rowList : [ 10, 20, 30 ,40, 50, 60 ],

@@ -4,6 +4,10 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 	metadata-complete="false" version="3.0">
 	<display-name>Inventory Management</display-name>
+	<mime-mapping>
+		<extension>json</extension>
+		<mime-type>application/json</mime-type>
+	</mime-mapping>
 	<servlet>
 		<servlet-name>action</servlet-name>
 		<servlet-class>org.apache.struts.action.ActionServlet</servlet-class>
@@ -62,6 +66,11 @@
 		<servlet-name>StockBalDetailsJsonServlet</servlet-name>
 		<servlet-class>vkicl.action.StockBalDetailsJsonServlet</servlet-class>
 	</servlet>
+	<servlet>
+		<servlet-name>RelevantStockJsonServlet</servlet-name>
+		<servlet-class>vkicl.action.RelevantStockJsonServlet</servlet-class>
+	</servlet>
+	
 	<servlet>
 		<servlet-name>StockBalCuttingJsonServlet</servlet-name>
 		<servlet-class>vkicl.action.StockBalCuttingJsonServlet</servlet-class>
@@ -137,6 +146,10 @@
 	<servlet-mapping>
 		<servlet-name>StockBalDetailsJsonServlet</servlet-name>
 		<url-pattern>/stockBalDetailsJsonServlet</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>RelevantStockJsonServlet</servlet-name>
+		<url-pattern>/relevantStockJsonServlet</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>StockBalCuttingJsonServlet</servlet-name>
