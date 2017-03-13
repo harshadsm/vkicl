@@ -183,6 +183,7 @@ function processOutward(id) {
 											onclick='startWarehouseOutward(<c:out value="${report.id}" />);'>
 											<span class="glyphicon glyphicon-play"></span>
 										</button>
+										<a href="./warehouse-outward-jqgrid.do?dispatchNo=<c:out value="${report.id}" />">New WO</a>
 									</c:if> <c:if test="${report.pending == 'Completed'}">
 										<span class="glyphicon glyphicon-ok"></span>
 									</c:if></th>
