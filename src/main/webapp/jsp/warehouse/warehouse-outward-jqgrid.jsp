@@ -13,6 +13,8 @@ String dispatchNo=request.getParameter("dispatchNo");
 if(dispatchNo == null){
 	dispatchNo = (String)request.getAttribute("dispatchNo_2");
 }
+System.out.println("----------------->>>"+dispatchNo);
+
 %>
 
 
@@ -79,9 +81,9 @@ if(dispatchNo == null){
 <script>
 
 $(function(){
-	alert("ji");
+	
 	populateDispatchDetailsTable();
-	alert("lksdjf");
+	
 });
 
 function populateDispatchDetailsTable(){
@@ -236,6 +238,7 @@ function populateDispatchDetailsTable(){
 			
 			],
 			postData : {
+				dispatchOrderId:<%=dispatchNo%>
 			},
 			rowNum : 10,
 			rowList : [ 10, 20, 30 ,40, 50, 60 ],
@@ -268,25 +271,7 @@ function populateDispatchDetailsTable(){
 	        	
 	        	for(var i=0;i < ids.length;i++){ 
 	        		var rowObject = $grid.jqGrid('getRowData',ids[i]); 
-	        		var composedObj = composeObjectForCaching(rowObject, 0);
-					
-	        		$grid.jqGrid('filterToolbar',{stringResult: true,searchOnEnter : false, searchOperators:true, defaultSearch:"cn"});
-	        		
-	        		//Pre-select the customers if user had them selected already
-					if(SELECTED_PORT_INVENTORY_ITEMS.length > 0){
-						
-						var cachedObj = isObjectPresentInCache(composedObj);
-						if(cachedObj){
-							console.log("cachedObj.orderedQuantity = "+cachedObj.orderedQuantity);
-							$grid.jqGrid("setSelection", ids[i]);
-							
-							$("#ordered_qty_"+ids[i]).val(cachedObj.orderedQuantity);
-							var val = calculateOutQty(rowId, cachedObj.orderedQuantity);
-							$("#dispatchDetailsTable").jqGrid("setCell", rowId, "outQty", val);
-						}else{
-							console.log("Not present in cache "+composedObj.thickness);
-						}
-					}
+	        		console.log(rowObject);
 	    		} 
 	        	
 	        	},

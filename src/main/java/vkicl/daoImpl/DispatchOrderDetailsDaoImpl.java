@@ -58,14 +58,14 @@ public class DispatchOrderDetailsDaoImpl extends BaseDaoImpl {
 		try {
 			conn = getConnection();
 
-			String sql = q.toString() + processSearchCriteria1(searchParam) + ";";
+			String sql = q.toString();// + processSearchCriteria1(searchParam) + ";";
 
 			log.info("query = " + sql);
 
 			cs = conn.prepareCall(sql);
 
 			rs = cs.executeQuery();
-			if (null != rs && rs.next()) {
+			if (null != rs) {
 
 				while (rs.next()) {
 					WarehouseDispatchDetailsBean d = new WarehouseDispatchDetailsBean();
