@@ -75,6 +75,11 @@ System.out.println("----------------->>>"+dispatchNo);
 		<div id="dispatchDetailsTablePager"></div>
 	</div>
 	
+	<div id="stockDiv">
+		<table id="stockTable"></table>
+		<div id="stockTablePager"></div>
+	</div>
+	
 </div>
 
 
@@ -281,9 +286,229 @@ function populateDispatchDetailsTable(){
 	}
 
 function handleOnSelectRow(rowId, status){
-	
+	//./json?method=fetchWarehouseLocationDetails&millName=MILL3&make=MAKE3&grade=GRADE3&length=10000&width=10000&thickness=10&dispatchNo=10&dispatchDetailRowId=1
 	var row = jQuery("#dispatchDetailsTable").jqGrid('getRowData',rowId); 
 	console.log(row);
+	var url = './fetchStockDetailsServlet';
+	var mill = 'millName='+row.millName;
+	var make = '&make='+row.make;
+	var grade = '&grade='+row.grade;
+	var length = '&length='+row.length;
+	var width = '&width='+row.width;
+	var thickness = '&thickness=1'+row.thickness;
+	var dispatchDetailsRowId = '&dispatchDetailRowId='+row.dispatchDetailsID;
+	var dispatchNo = '&dispatchNo=<%=dispatchNo%>';
+
+	url = url + mill+make+grade+length+width+thickness+dispatchDetailsRowId+dispatchNo;
+	console.log(url);
+
+	populateStockTable(url);
 	
 }
+
+function populateStockTable(url){
+	$("#stockTable").jqGrid(
+		{
+			url : url,
+			
+			colNames : [ 'stockId', 'Mill', 'Make', 'grade', 'Thickness', 'Width', 'Length', 'Ordered Qty', 'Section Weight', 'Location'],
+					
+			colModel : [  {
+				name : 'stockId',
+				index : 'stockId',
+				hidden: true,
+				width : 185,
+				editable : false,
+				search:false
+				
+			}, {
+				name : 'millName',
+				index : 'millName',
+				width : 200,
+				editable : false,
+				editoptions : {
+					readonly : true,
+					size : 10
+				},
+				align : 'center', 
+				sortable:true,
+				search:true,
+				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+				searchoptions: { sopt:[ 'eq']}
+				
+			},{
+				name : 'make',
+				index : 'make',
+				width : 200,
+				editable : false,
+				editoptions : {
+					readonly : true,
+					size : 10
+				},
+				align : 'center', 
+				sortable:true,
+				search:true,
+				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+				searchoptions: { sopt:[ 'eq']}
+				
+			},{
+				name : 'grade',
+				index : 'grade',
+				width : 200,
+				editable : false,
+				editoptions : {
+					readonly : true,
+					size : 10
+				},
+				align : 'center', 
+				sortable:true,
+				search:true,
+				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+				searchoptions: { sopt:[ 'eq']}
+				
+			},{
+				name : 'thickness',
+				index : 'thickness',
+				width : 200,
+				editable : false,
+				editoptions : {
+					readonly : true,
+					size : 10
+				},
+				align : 'center',
+				search:true,
+				sortable:true,
+				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+				searchoptions: { sopt:[ 'eq']}
+				
+			},{
+				name : 'width',
+				index : 'width',
+				width : 200,
+				editable : false,
+				editoptions : {
+					readonly : true,
+					size : 10
+				},
+				align : 'center',
+				search:true,
+				sortable:true,
+				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+				searchoptions: { sopt:[ 'eq']}
+				
+			},
+			{
+				name : 'length',
+				index : 'length',
+				width : 200,
+				editable : false,
+				editoptions : {
+					readonly : true,
+					size : 10
+				},
+				align : 'center',
+				search:true,
+				sortable:true,
+				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+				searchoptions: { sopt:[ 'eq']}
+				
+			}
+			,{
+				name : 'availableQty',
+				index : 'availableQty',
+				width : 100,
+				editable : false,
+				editoptions : {
+					readonly : true,
+					size : 10
+				},
+				align : 'center',
+				search:false,
+				sortable:false,
+				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+				searchoptions: { sopt:[ 'eq']}
+				
+			}, 
+			{
+				name : 'actWt',
+				index : 'actWt',
+				width : 150,
+				editable : false,
+				editoptions : {
+					readonly : true,
+					size : 10
+				},
+				align : 'center',
+				search:false,
+				sortable:false,
+				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+				searchoptions: { sopt:[ 'eq']}
+				
+			}, 
+			{
+				name : 'location',
+				index : 'location',
+				width : 150,
+				editable : false,
+				editoptions : {
+					readonly : true,
+					size : 10
+				},
+				align : 'center',
+				search:false,
+				sortable:false,
+				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+				searchoptions: { sopt:[ 'eq']}
+				
+			}
+			
+			],
+			postData : {
+				dispatchOrderId:<%=dispatchNo%>
+			},
+			rowNum : 10,
+			rowList : [ 10, 20, 30 ,40, 50, 60 ],
+			height : 180,
+			width : 1000,
+			autowidth : false,
+			rownumbers : true,
+			multiselect : false,
+			pager : '#dispatchDetailsTablePager',
+			sortname : 'dispatch_detail_id',
+			viewrecords : true,
+			sortorder : "desc",
+			caption : "Relevant Stock for selected record",
+			emptyrecords : "Empty records",
+			loadonce : false,
+			loadComplete : function() {
+	
+			},
+			jsonReader : {
+				root : "rows",
+				page : "page",
+				total : "total",
+				records : "records",
+				repeatitems : false,
+				cell : "cell",
+				id : "id"
+			},
+	        gridComplete: function(){
+	        	var $grid = $("#dispatchDetailsTable");
+	        	var ids = $("#dispatchDetailsTable").jqGrid('getDataIDs');
+	        	
+	        	for(var i=0;i < ids.length;i++){ 
+	        		var rowObject = $grid.jqGrid('getRowData',ids[i]); 
+	        		console.log(rowObject);
+	    		} 
+	        	
+	        	},
+	   		onSelectRow: handleOnSelectRow,
+		    onSelectAll: function(aRowids, status) {
+		        	for(var i=0;i<aRowids.length;i++){
+		            	handleOnSelectRow(aRowids[i],status);
+		            }
+		            
+		        }
+		});
+	}
 </script>
