@@ -98,19 +98,13 @@ function populateDispatchDetailsTable(){
 			colNames : [ 'dispatchDetailsId', 'Mill', 'Make', 'grade', 'Thickness', 'Width', 'Length', 'Ordered Qty', 'Section Weight'],
 					
 			colModel : [  {
-				name : 'dispatchDetailsId',
-				index : 'dispatchDetailsId',
+				name : 'dispatchDetailsID',
+				index : 'dispatchDetailsID',
 				hidden: true,
 				width : 185,
 				editable : false,
-				editrules : {
-					required : true
-				},
-				editoptions : {
-					size : 10
-				},
-				search:false,
-				searchoptions: { sopt:['ge']}
+				search:false
+				
 			}, {
 				name : 'millName',
 				index : 'millName',
@@ -242,8 +236,9 @@ function populateDispatchDetailsTable(){
 			},
 			rowNum : 10,
 			rowList : [ 10, 20, 30 ,40, 50, 60 ],
-			height : 280,
-			autowidth : true,
+			height : 180,
+			width : 1000,
+			autowidth : false,
 			rownumbers : true,
 			multiselect : false,
 			pager : '#dispatchDetailsTablePager',
@@ -285,7 +280,10 @@ function populateDispatchDetailsTable(){
 		});
 	}
 
-function handleOnSelectRow(){
-	console.log(selected);
+function handleOnSelectRow(rowId, status){
+	
+	var row = jQuery("#dispatchDetailsTable").jqGrid('getRowData',rowId); 
+	console.log(row);
+	
 }
 </script>
