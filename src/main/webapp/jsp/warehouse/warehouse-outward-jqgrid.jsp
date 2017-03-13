@@ -112,8 +112,8 @@ function populateDispatchDetailsTable(){
 				search:false,
 				searchoptions: { sopt:['ge']}
 			}, {
-				name : 'mill',
-				index : 'mill',
+				name : 'millName',
+				index : 'millName',
 				width : 200,
 				editable : false,
 				editoptions : {
@@ -204,8 +204,8 @@ function populateDispatchDetailsTable(){
 				
 			}
 			,{
-				name : 'orderedQuantity',
-				index : 'orderedQuantity',
+				name : 'qty',
+				index : 'qty',
 				width : 100,
 				editable : false,
 				editoptions : {
@@ -220,8 +220,8 @@ function populateDispatchDetailsTable(){
 				
 			}, 
 			{
-				name : 'sectionWeight',
-				index : 'sectionWeight',
+				name : 'actWt',
+				index : 'actWt',
 				width : 150,
 				editable : false,
 				editoptions : {
