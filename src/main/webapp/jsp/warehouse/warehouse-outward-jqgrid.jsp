@@ -245,7 +245,7 @@ function populateDispatchDetailsTable(){
 			height : 280,
 			autowidth : true,
 			rownumbers : true,
-			multiselect : true,
+			multiselect : false,
 			pager : '#dispatchDetailsTablePager',
 			sortname : 'dispatch_detail_id',
 			viewrecords : true,
