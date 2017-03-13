@@ -42,6 +42,11 @@
 		<servlet-class>vkicl.action.WarehouseOutwardJsonServlet</servlet-class>
 	</servlet>
 	<servlet>
+		<servlet-name>DispatchOrderDetailsJsonServlet</servlet-name>
+		<servlet-class>vkicl.action.DispatchOrderDetailsJsonServlet</servlet-class>
+	</servlet>
+	
+	<servlet>
 		<servlet-name>PackingListJsonServlet</servlet-name>
 		<servlet-class>vkicl.action.PackingListJsonServlet</servlet-class>
 	</servlet>
@@ -115,6 +120,12 @@
 		<servlet-name>WarehouseOutwardJsonServlet</servlet-name>
 		<url-pattern>/warehouseOutwardJsonServlet</url-pattern>
 	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>DispatchOrderDetailsJsonServlet</servlet-name>
+		<url-pattern>/getDispatchDetails</url-pattern>
+	</servlet-mapping>
+	
+	
 	<servlet-mapping>
 		<servlet-name>PackingListJsonServlet</servlet-name>
 		<url-pattern>/packingListJsonServlet</url-pattern>

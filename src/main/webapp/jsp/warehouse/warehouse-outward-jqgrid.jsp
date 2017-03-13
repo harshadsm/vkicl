@@ -23,7 +23,7 @@ if(dispatchNo == null){
 </div>
 
 <div>
-	<html:form enctype="multipart/form-data" action="/warehouse-outward-process-2"
+	<html:form enctype="multipart/form-data" action="/warehouse-outward-process"
 		method="post">
 		<div class="row">
 			<div class="col-md-4">
@@ -77,6 +77,12 @@ if(dispatchNo == null){
 
 
 <script>
+
+$(function(){
+	alert("ji");
+	populateDispatchDetailsTable();
+	alert("lksdjf");
+});
 
 function populateDispatchDetailsTable(){
 	$("#dispatchDetailsTable").jqGrid(
@@ -285,7 +291,7 @@ function populateDispatchDetailsTable(){
 	        	
 	        	},
 	   		onSelectRow: handleOnSelectRow,
-		        onSelectAll: function(aRowids, status) {
+		    onSelectAll: function(aRowids, status) {
 		        	for(var i=0;i<aRowids.length;i++){
 		            	handleOnSelectRow(aRowids[i],status);
 		            }
@@ -293,5 +299,8 @@ function populateDispatchDetailsTable(){
 		        }
 		});
 	}
+
+function handleOnSelectRow(){
+	console.log(selected);
 }
 </script>
