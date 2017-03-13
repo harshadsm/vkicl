@@ -1,0 +1,297 @@
+<%@page import="org.apache.commons.lang.StringEscapeUtils"%>
+<%@page import="vkicl.util.Constants"%>
+<%@page import="vkicl.vo.UserInfoVO"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+
+<%@taglib uri="/WEB-INF/struts-html.tld" prefix="html"%>
+<%@taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
+<%@taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
+<%@taglib uri="/WEB-INF/struts-core.tld" prefix="c" %>
+
+<% 
+String dispatchNo=request.getParameter("dispatchNo");
+if(dispatchNo == null){
+	dispatchNo = (String)request.getAttribute("dispatchNo_2");
+}
+%>
+
+
+<div class="row">
+	<div class="col-md-12">
+		<h3 class="page-head">Warehouse Outward (Grid)</h3>
+	</div>
+</div>
+
+<div>
+	<html:form enctype="multipart/form-data" action="/warehouse-outward-process-2"
+		method="post">
+		<div class="row">
+			<div class="col-md-4">
+				<table class="table table-responsive">
+					<tr>
+						<td class="form-label"><label for="dispatchNo">Dispatch
+								Order No.</label></td>
+						<td>
+							<label for="dispatchNo"><c:out value="<%=dispatchNo %>" /></label>
+							<input type="hidden" min="0" name="dispatchNo"
+								value='<c:out value="<%=dispatchNo %>" />' class="form-control" />
+						</td>
+					</tr>
+					<tr>
+						<td class="form-label"><label for="vehicleDate">Vehicle
+								Date</label></td>
+						<td>
+							<div class="input-group date date-picker-div">
+								<input type="text" name="vehicleDate" class="form-control" /> <span
+									class="input-group-addon"><span
+									class="glyphicon-calendar glyphicon"></span></span>
+							</div>
+						</td>
+					</tr>
+				</table>
+			</div>
+			<div class="col-md-4">
+				<table class="table table-responsive">
+					<tr>
+						<td class="form-label"><label for="vehicleNumber">Vehicle
+								Number</label></td>
+						<td><input type="text" name="vehicleNumber"
+							class="form-control" /></td>
+					</tr>
+					
+				</table>
+			</div>
+		</div>
+		
+		
+		
+		
+	</html:form>
+	
+	<div id="dispatchDetailsTableDiv">
+		<table id="dispatchDetailsTable"></table>
+		<div id="dispatchDetailsTablePager"></div>
+	</div>
+	
+</div>
+
+
+<script>
+
+function populateDispatchDetailsTable(){
+	$("#dispatchDetailsTable").jqGrid(
+		{
+			url : './getDispatchDetails?dispatchOrderId=<%=dispatchNo%>',
+			datatype : 'json',
+			
+			mtype : 'POST',
+			
+			
+			colNames : [ 'dispatchDetailsId', 'Mill', 'Make', 'grade', 'Thickness', 'Width', 'Length', 'Ordered Qty', 'Section Weight'],
+					
+			colModel : [  {
+				name : 'dispatchDetailsId',
+				index : 'dispatchDetailsId',
+				hidden: true,
+				width : 185,
+				editable : false,
+				editrules : {
+					required : true
+				},
+				editoptions : {
+					size : 10
+				},
+				search:false,
+				searchoptions: { sopt:['ge']}
+			}, {
+				name : 'mill',
+				index : 'mill',
+				width : 200,
+				editable : false,
+				editoptions : {
+					readonly : true,
+					size : 10
+				},
+				align : 'center', 
+				sortable:true,
+				search:true,
+				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+				searchoptions: { sopt:[ 'eq']}
+				
+			},{
+				name : 'make',
+				index : 'make',
+				width : 200,
+				editable : false,
+				editoptions : {
+					readonly : true,
+					size : 10
+				},
+				align : 'center', 
+				sortable:true,
+				search:true,
+				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+				searchoptions: { sopt:[ 'eq']}
+				
+			},{
+				name : 'grade',
+				index : 'grade',
+				width : 200,
+				editable : false,
+				editoptions : {
+					readonly : true,
+					size : 10
+				},
+				align : 'center', 
+				sortable:true,
+				search:true,
+				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+				searchoptions: { sopt:[ 'eq']}
+				
+			},{
+				name : 'thickness',
+				index : 'thickness',
+				width : 200,
+				editable : false,
+				editoptions : {
+					readonly : true,
+					size : 10
+				},
+				align : 'center',
+				search:true,
+				sortable:true,
+				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+				searchoptions: { sopt:[ 'eq']}
+				
+			},{
+				name : 'width',
+				index : 'width',
+				width : 200,
+				editable : false,
+				editoptions : {
+					readonly : true,
+					size : 10
+				},
+				align : 'center',
+				search:true,
+				sortable:true,
+				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+				searchoptions: { sopt:[ 'eq']}
+				
+			},
+			{
+				name : 'length',
+				index : 'length',
+				width : 200,
+				editable : false,
+				editoptions : {
+					readonly : true,
+					size : 10
+				},
+				align : 'center',
+				search:true,
+				sortable:true,
+				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+				searchoptions: { sopt:[ 'eq']}
+				
+			}
+			,{
+				name : 'orderedQuantity',
+				index : 'orderedQuantity',
+				width : 100,
+				editable : false,
+				editoptions : {
+					readonly : true,
+					size : 10
+				},
+				align : 'center',
+				search:false,
+				sortable:false,
+				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+				searchoptions: { sopt:[ 'eq']}
+				
+			}, 
+			{
+				name : 'sectionWeight',
+				index : 'sectionWeight',
+				width : 150,
+				editable : false,
+				editoptions : {
+					readonly : true,
+					size : 10
+				},
+				align : 'center',
+				search:false,
+				sortable:false,
+				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+				searchoptions: { sopt:[ 'eq']}
+				
+			}
+			
+			],
+			postData : {
+			},
+			rowNum : 10,
+			rowList : [ 10, 20, 30 ,40, 50, 60 ],
+			height : 280,
+			autowidth : true,
+			rownumbers : true,
+			multiselect : true,
+			pager : '#dispatchDetailsTablePager',
+			sortname : 'dispatch_detail_id',
+			viewrecords : true,
+			sortorder : "desc",
+			caption : "Dispatch Order Details",
+			emptyrecords : "Empty records",
+			loadonce : false,
+			loadComplete : function() {
+	
+			},
+			jsonReader : {
+				root : "rows",
+				page : "page",
+				total : "total",
+				records : "records",
+				repeatitems : false,
+				cell : "cell",
+				id : "id"
+			},
+	        gridComplete: function(){
+	        	var $grid = $("#dispatchDetailsTable");
+	        	var ids = $("#dispatchDetailsTable").jqGrid('getDataIDs');
+	        	
+	        	for(var i=0;i < ids.length;i++){ 
+	        		var rowObject = $grid.jqGrid('getRowData',ids[i]); 
+	        		var composedObj = composeObjectForCaching(rowObject, 0);
+					
+	        		$grid.jqGrid('filterToolbar',{stringResult: true,searchOnEnter : false, searchOperators:true, defaultSearch:"cn"});
+	        		
+	        		//Pre-select the customers if user had them selected already
+					if(SELECTED_PORT_INVENTORY_ITEMS.length > 0){
+						
+						var cachedObj = isObjectPresentInCache(composedObj);
+						if(cachedObj){
+							console.log("cachedObj.orderedQuantity = "+cachedObj.orderedQuantity);
+							$grid.jqGrid("setSelection", ids[i]);
+							
+							$("#ordered_qty_"+ids[i]).val(cachedObj.orderedQuantity);
+							var val = calculateOutQty(rowId, cachedObj.orderedQuantity);
+							$("#dispatchDetailsTable").jqGrid("setCell", rowId, "outQty", val);
+						}else{
+							console.log("Not present in cache "+composedObj.thickness);
+						}
+					}
+	    		} 
+	        	
+	        	},
+	   		onSelectRow: handleOnSelectRow,
+		        onSelectAll: function(aRowids, status) {
+		        	for(var i=0;i<aRowids.length;i++){
+		            	handleOnSelectRow(aRowids[i],status);
+		            }
+		            
+		        }
+		});
+	}
+}
+</script>
