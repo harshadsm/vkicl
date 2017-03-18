@@ -296,13 +296,13 @@ function populateDispatchDetailsTable(){
 				id : "id"
 			},
 	        gridComplete: function(){
-	        	var $grid = $("#dispatchDetailsTable");
+	        	/* var $grid = $("#dispatchDetailsTable");
 	        	var ids = $("#dispatchDetailsTable").jqGrid('getDataIDs');
 	        	
 	        	for(var i=0;i < ids.length;i++){ 
 	        		var rowObject = $grid.jqGrid('getRowData',ids[i]); 
 	        		console.log(rowObject);
-	    		} 
+	    		}  */
 	        	
 	        	},
 	   		onSelectRow: handleOnSelectRow,
@@ -336,6 +336,10 @@ function handleOnSelectRow(rowId, status){
 	
 }
 
+function handleOnSelectStockRow(rowId, status){
+	console.log("stock  row selected");
+}
+
 function populateStockTable(thickness, length, width, mill, make, grade){
 
 
@@ -344,12 +348,12 @@ function populateStockTable(thickness, length, width, mill, make, grade){
 			url : './relevantStockJsonServlet',
 			mtype:'POST',
 			datatype : 'json',
-			colNames : [ 'stockId', 'Mill', 'Make', 'grade', 'Thickness', 'Width', 'Length', 'Quantity Available', 'Section Weight', 'Location'],
+			colNames : [ 'Stock Id', 'Mill', 'Make', 'grade', 'Thickness', 'Width', 'Length', 'Quantity Available', 'Section Weight', 'Location'],
 					
 			colModel : [  {
-				name : 'stockId',
-				index : 'stockId',
-				hidden: true,
+				name : 'stockBalId',
+				index : 'stockBalId',
+				hidden: false,
 				width : 185,
 				editable : false,
 				search:false
@@ -505,7 +509,7 @@ function populateStockTable(thickness, length, width, mill, make, grade){
 			width : 1000,
 			autowidth : false,
 			rownumbers : true,
-			multiselect : false,
+			multiselect : true,
 			pager : '#dispatchDetailsTablePager',
 			sortname : 'dispatch_detail_id',
 			viewrecords : true,
@@ -526,19 +530,19 @@ function populateStockTable(thickness, length, width, mill, make, grade){
 				id : "id"
 			},
 	        gridComplete: function(){
-	        	var $grid = $("#dispatchDetailsTable");
+	        	/* var $grid = $("#dispatchDetailsTable");
 	        	var ids = $("#dispatchDetailsTable").jqGrid('getDataIDs');
 	        	
 	        	for(var i=0;i < ids.length;i++){ 
 	        		var rowObject = $grid.jqGrid('getRowData',ids[i]); 
 	        		console.log(rowObject);
-	    		} 
+	    		}  */
 	        	
 	        	},
-	   		onSelectRow: handleOnSelectRow,
+	   		onSelectRow: handleOnSelectStockRow,
 		    onSelectAll: function(aRowids, status) {
 		        	for(var i=0;i<aRowids.length;i++){
-		            	handleOnSelectRow(aRowids[i],status);
+		            	handleOnSelectStockRow(aRowids[i],status);
 		            }
 		            
 		        }
