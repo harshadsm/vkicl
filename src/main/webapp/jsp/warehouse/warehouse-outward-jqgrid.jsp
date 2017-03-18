@@ -100,12 +100,12 @@ function populateDispatchDetailsTable(){
 			mtype : 'POST',
 			
 			
-			colNames : [ 'dispatchDetailsId', 'Mill', 'Make', 'grade', 'Thickness', 'Width', 'Length', 'Ordered Qty', 'Section Weight'],
+			colNames : [ 'Item DB Id', 'Mill', 'Make', 'grade', 'Thickness', 'Width', 'Length', 'Ordered Qty', 'Delivered Qty', 'Pending Qty', 'Section Weight'],
 					
 			colModel : [  {
 				name : 'dispatchDetailsID',
 				index : 'dispatchDetailsID',
-				hidden: true,
+				hidden: false,
 				width : 185,
 				editable : false,
 				search:false
@@ -203,7 +203,37 @@ function populateDispatchDetailsTable(){
 				
 			}
 			,{
-				name : 'qty',
+				name : 'orderedQuantity',
+				index : 'qty',
+				width : 100,
+				editable : false,
+				editoptions : {
+					readonly : true,
+					size : 10
+				},
+				align : 'center',
+				search:false,
+				sortable:false,
+				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+				searchoptions: { sopt:[ 'eq']}
+				
+			},{
+				name : 'deliveredQuantity',
+				index : 'qty',
+				width : 100,
+				editable : false,
+				editoptions : {
+					readonly : true,
+					size : 10
+				},
+				align : 'center',
+				search:false,
+				sortable:false,
+				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+				searchoptions: { sopt:[ 'eq']}
+				
+			},{
+				name : 'pendingQuantity',
 				index : 'qty',
 				width : 100,
 				editable : false,
@@ -314,7 +344,7 @@ function populateStockTable(thickness, length, width, mill, make, grade){
 			url : './relevantStockJsonServlet',
 			mtype:'POST',
 			datatype : 'json',
-			colNames : [ 'stockId', 'Mill', 'Make', 'grade', 'Thickness', 'Width', 'Length', 'Ordered Qty', 'Section Weight', 'Location'],
+			colNames : [ 'stockId', 'Mill', 'Make', 'grade', 'Thickness', 'Width', 'Length', 'Quantity Available', 'Section Weight', 'Location'],
 					
 			colModel : [  {
 				name : 'stockId',
@@ -372,7 +402,7 @@ function populateStockTable(thickness, length, width, mill, make, grade){
 			},{
 				name : 'thickness',
 				index : 'thickness',
-				width : 200,
+				width : 100,
 				editable : false,
 				editoptions : {
 					readonly : true,
@@ -387,7 +417,7 @@ function populateStockTable(thickness, length, width, mill, make, grade){
 			},{
 				name : 'width',
 				index : 'width',
-				width : 200,
+				width : 100,
 				editable : false,
 				editoptions : {
 					readonly : true,
@@ -403,7 +433,7 @@ function populateStockTable(thickness, length, width, mill, make, grade){
 			{
 				name : 'length',
 				index : 'length',
-				width : 200,
+				width : 100,
 				editable : false,
 				editoptions : {
 					readonly : true,
@@ -417,8 +447,8 @@ function populateStockTable(thickness, length, width, mill, make, grade){
 				
 			}
 			,{
-				name : 'availableQty',
-				index : 'availableQty',
+				name : 'quantity',
+				index : 'quantity',
 				width : 100,
 				editable : false,
 				editoptions : {

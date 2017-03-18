@@ -31,7 +31,8 @@ public class DispatchOrderDetailsDaoImpl extends BaseDaoImpl {
 		q.append(" ddt.millName, ddt.make, ddt.grade, ddt.length, ddt.width, ddt.thickness, ");
 		q.append(
 				" (ddt.qty - COALESCE(wott.taken_qty,0)) pending_qty, ddt.rate, ddt.rateUnit, ddt.taxes, ddt.excise, ");
-		q.append(" ddt.actWt, ddt.actWtUnit, ddt.dispatch_details_ID ");
+		q.append(" ddt.actWt, ddt.actWtUnit, ddt.dispatch_details_ID, ");
+		q.append(" ddt.qty orderedQuantity,  wott.taken_qty deliveredQuantity ");
 		q.append(" from  ");
 		q.append(" ( ");
 		q.append(" select * from dispatch_details dd   ");
@@ -75,7 +76,7 @@ public class DispatchOrderDetailsDaoImpl extends BaseDaoImpl {
 					d.setLength(rs.getInt(4));
 					d.setWidth(rs.getInt(5));
 					d.setThickness(rs.getDouble(6));
-					d.setQty(rs.getInt(7));
+					d.setPendingQuantity(rs.getInt(7));
 					d.setRate(rs.getString(8));
 					d.setRateUnit(rs.getString(9));
 					d.setTaxes(rs.getString(10));
@@ -83,7 +84,8 @@ public class DispatchOrderDetailsDaoImpl extends BaseDaoImpl {
 					d.setActWt(rs.getDouble(12));
 					d.setActWtUnit(rs.getString(13));
 					d.setDispatchDetailsID(rs.getInt(14));
-
+					d.setOrderedQuantity(rs.getInt(15));
+					d.setDeliveredQuantity(rs.getInt(16));
 					rows.add(d);
 
 				}

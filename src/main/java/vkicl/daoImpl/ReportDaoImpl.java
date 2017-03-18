@@ -540,7 +540,7 @@ public class ReportDaoImpl extends BaseDaoImpl {
 					bean.setLength(rs.getInt("length"));
 					bean.setWidth(rs.getInt("width"));
 					bean.setThickness(rs.getDouble("thickness"));
-					bean.setQty(rs.getInt("pending_qty"));
+					bean.setPendingQuantity(rs.getInt("pending_qty"));
 					bean.setRate(rs.getString("rate"));
 					bean.setRateUnit(rs.getString("rateUnit"));
 					bean.setTaxes(rs.getString("taxes"));

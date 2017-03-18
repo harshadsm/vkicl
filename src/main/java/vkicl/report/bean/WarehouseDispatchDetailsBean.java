@@ -9,7 +9,10 @@ public class WarehouseDispatchDetailsBean extends BaseReportBean {
 	private Integer length = null;
 	private Integer width = null;
 	private Double thickness = null;
-	private Integer qty = null;
+	private Integer orderedQuantity;
+	private Integer deliveredQuantity;
+	private Integer pendingQuantity;
+	
 	private Double actWt = null;
 	private String actWtUnit = "";
 	private String rate = "";
@@ -74,12 +77,30 @@ public class WarehouseDispatchDetailsBean extends BaseReportBean {
 		this.thickness = thickness;
 	}
 
-	public Integer getQty() {
-		return qty;
+
+
+	public Integer getOrderedQuantity() {
+		return orderedQuantity;
 	}
 
-	public void setQty(Integer qty) {
-		this.qty = qty;
+	public void setOrderedQuantity(Integer orderedQuantity) {
+		this.orderedQuantity = orderedQuantity;
+	}
+
+	public Integer getDeliveredQuantity() {
+		return deliveredQuantity;
+	}
+
+	public void setDeliveredQuantity(Integer deliveredQuantity) {
+		this.deliveredQuantity = deliveredQuantity;
+	}
+
+	public Integer getPendingQuantity() {
+		return pendingQuantity;
+	}
+
+	public void setPendingQuantity(Integer pendingQuantity) {
+		this.pendingQuantity = pendingQuantity;
 	}
 
 	public Double getActWt() {
@@ -133,9 +154,12 @@ public class WarehouseDispatchDetailsBean extends BaseReportBean {
 	@Override
 	public String toString() {
 		return "WarehouseDispatchDetailsBean [make=" + make + ", millName=" + millName + ", grade=" + grade
-				+ ", length=" + length + ", width=" + width + ", thickness=" + thickness + ", qty=" + qty + ", actWt="
-				+ actWt + ", actWtUnit=" + actWtUnit + ", rate=" + rate + ", rateUnit=" + rateUnit + ", taxes=" + taxes
-				+ ", excise=" + excise + "]";
+				+ ", length=" + length + ", width=" + width + ", thickness=" + thickness + ", orderedQuantity="
+				+ orderedQuantity + ", deliveredQuantity=" + deliveredQuantity + ", pendingQuantity=" + pendingQuantity
+				+ ", actWt=" + actWt + ", actWtUnit=" + actWtUnit + ", rate=" + rate + ", rateUnit=" + rateUnit
+				+ ", taxes=" + taxes + ", excise=" + excise + ", dispatchDetailsID=" + dispatchDetailsID + "]";
 	}
+
+
 
 }

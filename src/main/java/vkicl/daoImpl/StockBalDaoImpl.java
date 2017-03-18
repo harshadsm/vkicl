@@ -340,6 +340,9 @@ public class StockBalDaoImpl extends BaseDaoImpl {
 		List<String> clauses = new ArrayList<String>();
 		// String notNullClause = "is_cut !=1";
 		// clauses.add(notNullClause);
+		
+		String quantityNot0Clause = " quantity > 0 ";
+		clauses.add(quantityNot0Clause);
 		if (null != searchParam && null != searchParam.getRules() && !searchParam.getRules().isEmpty()) {
 			for (JqGridSearchParameterHolder.Rule r : searchParam.getRules()) {
 				String clause = processSearchRule(r);
@@ -398,7 +401,7 @@ public class StockBalDaoImpl extends BaseDaoImpl {
 		} else if (field != null && field.equalsIgnoreCase("plate_no")) {
 			clause = "plate_no like '%" + data + "%'";
 		} else if (field != null && field.equalsIgnoreCase("quantity")) {
-			clause = "quantity like '%" + data + "%'";
+			clause = "quantity > " + data ;
 		} else if (field != null && field.equalsIgnoreCase("location")) {
 			clause = "location like '%" + data + "%'";
 		}
