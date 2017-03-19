@@ -23,6 +23,7 @@ import vkicl.util.JqGridSearchParameterHolder;
 import vkicl.util.PropFileReader;
 import vkicl.vo.StockBalanceDetailsVO;
 import vkicl.vo.UserInfoVO;
+import vkicl.vo.WarehouseOutwardProcessingVO;
 
 public class WarehouseDaoImpl extends BaseDaoImpl {
 	static Logger log = Logger.getLogger(WarehouseDaoImpl.class);
@@ -1000,6 +1001,12 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 			closeDatabaseResources(conn, rs, cs);
 		}
 		return availableQty;
+	}
+
+	public void addWarehouseOutwardTempData(WarehouseOutwardProcessingVO warehouseProcessingRequest,
+			UserInfoVO userInfoVO) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

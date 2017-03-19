@@ -185,6 +185,12 @@
 		<url-pattern>/port-purchase-order-save</url-pattern>
 	</servlet-mapping>
 	
+	<servlet-mapping>
+		<servlet-name>WarehouseOutwardServlet</servlet-name>
+		<url-pattern>/submitWarehouseOutward</url-pattern>
+	</servlet-mapping>
+	
+	
 	
 	<session-config>
 		<session-timeout>30</session-timeout>

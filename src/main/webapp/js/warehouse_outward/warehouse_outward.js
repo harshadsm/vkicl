@@ -271,7 +271,8 @@ function submitWarehouseOutward(){
 	var WAREHOUSE_OUTWARD_JSON = JSON.stringify(WAREHOUSE_OUTWARD);
 	
 	$.ajax({
-		url : "submitWarehouseOutward",
+		url : "./submitWarehouseOutward",
+		type : "POST",
 		data : {WAREHOUSE_OUTWARD_JSON:WAREHOUSE_OUTWARD_JSON},
 		success : function(resp){
 			console.log(resp);
