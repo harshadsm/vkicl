@@ -335,8 +335,13 @@ function handleOnSelectRow(rowId, status){
 }
 
 function handleOnSelectStockRow(selectedStockJqgridRowId, status){
-	console.log("stock  row selected");
-	addWarehouseOutwardLineItem(selectedStockJqgridRowId);
+	console.log("stock  row selected = "+status);
+	if(status){
+		addWarehouseOutwardLineItem(selectedStockJqgridRowId);
+	}else{
+		removeWarehouseOutwardLineItem(selectedStockJqgridRowId);
+	}
+	
 }
 
 function populateStockTable(thickness, length, width, mill, make, grade){

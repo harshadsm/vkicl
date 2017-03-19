@@ -7,9 +7,7 @@ function addWarehouseOutwardLineItem(selectedStockId){
 	console.log("selectedStockId = "+selectedStockId);
 	
 	//GET SELECTED DISPATCH DETAIL ROW
-	var selectedDispatchDetailRowId =$("#dispatchDetailsTable").jqGrid('getGridParam','selrow');  
-	var selectedDispatchDetailRow = $("#dispatchDetailsTable").getRowData(selectedDispatchDetailRowId);
-	console.log(selectedDispatchDetailRow);
+	var selectedDispatchDetailRow = getSelectedDispatchDetailsRow();
 	var dispatchDetailsID = selectedDispatchDetailRow.dispatchDetailsID;
 	
 	//Get Selected Stock Row
@@ -29,7 +27,11 @@ function addWarehouseOutwardLineItem(selectedStockId){
 	
 }
 
-function removeWarehouseOutwardLineItem(dispatchDetailId, stockId){
+function removeWarehouseOutwardLineItem(stockId){
+	console.log("Going to remove stockId = "+stockId);
+	var selectedDispatchDetailRow = getSelectedDispatchDetailsRow();
+	var dispatchDetailsID = selectedDispatchDetailRow.dispatchDetailsID;
+	console.log("Going to remove this stock item from dispatch details id = "+dispatchDetailsID);
 	
 }
 
@@ -53,5 +55,11 @@ function getFromCache_WAREHOUSE_OUTWARD(dispatchDetailsID){
 		console.log("No selected item in cache");
 	}
 	
+}
+
+function getSelectedDispatchDetailsRow(){
+	var selectedDispatchDetailRowId =$("#dispatchDetailsTable").jqGrid('getGridParam','selrow');  
+	var selectedDispatchDetailRow = $("#dispatchDetailsTable").getRowData(selectedDispatchDetailRowId);
+	return selectedDispatchDetailRow;
 }
 
