@@ -44,7 +44,7 @@ System.out.println("----------------->>>"+dispatchNo);
 								Date</label></td>
 						<td>
 							<div class="input-group date date-picker-div">
-								<input type="text" name="vehicleDate" class="form-control" /> <span
+								<input type="text" name="vehicleDate" class="form-control" id="vehicleDate" /> <span
 									class="input-group-addon"><span
 									class="glyphicon-calendar glyphicon"></span></span>
 							</div>
@@ -57,7 +57,7 @@ System.out.println("----------------->>>"+dispatchNo);
 					<tr>
 						<td class="form-label"><label for="vehicleNumber">Vehicle
 								Number</label></td>
-						<td><input type="text" name="vehicleNumber"
+						<td><input type="text" name="vehicleNumber" id="vehicleNumber"
 							class="form-control" /></td>
 					</tr>
 					
@@ -366,6 +366,7 @@ function handleOnSelectStockRow(selectedStockJqgridRowId, status){
 		addWarehouseOutwardLineItem(selectedStockJqgridRowId);
 	}else{
 		var SELECTED_STOCK_LINE_ITEM = composeStockLineItemObjectForStockJqgridRowId(selectedStockJqgridRowId);
+		console.log("calling REMOVE for ===> "+SELECTED_STOCK_LINE_ITEM.stockId);
 		removeWarehouseOutwardLineItem(SELECTED_STOCK_LINE_ITEM.stockId);
 	}
 	

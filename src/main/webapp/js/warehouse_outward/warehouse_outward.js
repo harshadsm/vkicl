@@ -208,6 +208,7 @@ function composeStockLineItemObjectForStockJqgridRowId(selectedStockTableRowId){
 	var heatNo = selectedStockRow.heat_no;
 	var plateNo = selectedStockRow.plate_no;
 	var location = selectedStockRow.location;
+	var quantity = selectedStockRow.quantity;
 	
 	
 	//Object definition of selectedStockLineItem
@@ -224,7 +225,8 @@ function composeStockLineItemObjectForStockJqgridRowId(selectedStockTableRowId){
 			grade : grade,
 			heateNo : heatNo,
 			plateNo : plateNo,
-			location : location
+			location : location,
+			quantity : quantity
 	};
 	return SELECTED_STOCK_LINE_ITEM;
 }
@@ -264,7 +266,15 @@ function selectUnselectStockItemInJqgrid(stockId, selectUnselect){
 			var selectionRow = i + 1;
 			//console.log("ROW ID >>>> "+selectionRow);
 			//console.log("SELECTED/UNSELECTED >>>> "+selectUnselect);
-			$grid.setSelection(selectionRow, selectUnselect);
+			
+			var isAlreadySelected =  isRowSelected("#stockTable",selectionRow);
+			if(selectUnselect && !isAlreadySelected){
+				$grid.setSelection(selectionRow, selectUnselect);
+			}
+			
+			if(!selectUnselect){
+				$grid.setSelection(selectionRow, selectUnselect);
+			}
 			
 			
 		}
@@ -273,9 +283,23 @@ function selectUnselectStockItemInJqgrid(stockId, selectUnselect){
 	} 
 }
 
+function isRowSelected(gridId, rowId){
+	var isSelected = false;
+	var selRowIds = $(gridId).jqGrid("getGridParam", "selarrrow");
+	if ($.inArray(rowId, selRowIds) >= 0) {
+	    isSelected = true;
+	}
+	return isSelected;
+}
+
 function submitWarehouseOutward(){
 	var dispatchOrderId = $("#dispatchOrderId").val();
+	var vehicleNumber = $("#vehicleNumber").val();
+	var vehicleDate = $("#vehicleDate").val();
 	WAREHOUSE_OUTWARD.dispatchOrderId = dispatchOrderId;
+	WAREHOUSE_OUTWARD.vehicleNumber = vehicleNumber;
+	WAREHOUSE_OUTWARD.vehicleDate = vehicleDate;
+	
 	var WAREHOUSE_OUTWARD_JSON = JSON.stringify(WAREHOUSE_OUTWARD);
 	
 	$.ajax({
