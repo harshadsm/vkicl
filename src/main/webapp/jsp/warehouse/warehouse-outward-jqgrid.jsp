@@ -81,8 +81,12 @@ System.out.println("----------------->>>"+dispatchNo);
 	</div>
 
 	<div>
-		<table id="selectedStockItemsTable" class="table table-striped">
+	
+		<table id="selectedStockItemsTable" class="table table-striped" border=1>
 			<thead>
+				<tr>
+					<th colspan="10" class="text-center"><h3>Items selected from Warehouse Stock for Outward</h3></th>
+				</tr>
 				<tr>
 					<th>Dispatch Item Id</th>
 					<th>Stock Id</th>

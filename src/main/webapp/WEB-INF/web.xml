@@ -101,6 +101,10 @@
 		<servlet-name>SvgCoordinatesStringJsonServlet</servlet-name>
 		<servlet-class>vkicl.action.SvgCoordinatesStringJsonServlet</servlet-class>
 	</servlet>
+	<servlet>
+		<servlet-name>WarehouseOutwardServlet</servlet-name>
+		<servlet-class>vkicl.action.WarehouseOutwardProcessingServlet</servlet-class>
+	</servlet>
 	
 	
 	

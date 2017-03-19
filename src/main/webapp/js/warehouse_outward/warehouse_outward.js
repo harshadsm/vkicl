@@ -274,10 +274,10 @@ function submitWarehouseOutward(){
 		url : "submitWarehouseOutward",
 		data : {WAREHOUSE_OUTWARD_JSON:WAREHOUSE_OUTWARD_JSON},
 		success : function(resp){
-			
+			console.log(resp);
 		},
 		error : function(resp){
-			
+			console.log(resp);
 		}
 	});
 }
