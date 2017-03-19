@@ -88,6 +88,7 @@ System.out.println("----------------->>>"+dispatchNo);
 $(function(){
 	
 	populateDispatchDetailsTable();
+	populateStockTable();
 	
 });
 
@@ -318,21 +319,16 @@ function populateDispatchDetailsTable(){
 function handleOnSelectRow(rowId, status){
 	var row = jQuery("#dispatchDetailsTable").jqGrid('getRowData',rowId); 
 	console.log(row);
-	var url = './relevantStockJsonServlet?';
-	var mill = 'millName='+row.millName;
-	var make = '&make='+row.make;
-	var grade = '&grade='+row.grade;
-	var length = '&length='+row.length;
-	var width = '&width='+row.width;
-	var thickness = '&thickness=1'+row.thickness;
-	var dispatchDetailsRowId = '&dispatchDetailRowId='+row.dispatchDetailsID;
-	var dispatchNo = '&dispatchNo=<%=dispatchNo%>';
 
-	url = url + mill+make+grade+length+width+thickness+dispatchDetailsRowId+dispatchNo;
+	var searchStockCriteria = {
+			thickness:row.thickness,
+			length : row.length,
+			width : row.width
+	};
 	
-
-	populateStockTable(row.thickness, length, width, mill, make, grade);
-	$("#stockTable").trigger("reloadGrid");
+	$("#stockTable").setGridParam({postData:searchStockCriteria});
+	$("#stockTable").trigger('reloadGrid');
+	
 	
 }
 
@@ -341,8 +337,8 @@ function handleOnSelectStockRow(rowId, status){
 }
 
 function populateStockTable(thickness, length, width, mill, make, grade){
-
-
+	console.log(thickness);
+	
 	$("#stockTable").jqGrid(
 		{
 			url : './relevantStockJsonServlet',
