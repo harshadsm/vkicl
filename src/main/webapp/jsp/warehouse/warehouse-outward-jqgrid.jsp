@@ -35,7 +35,7 @@ System.out.println("----------------->>>"+dispatchNo);
 								Order No.</label></td>
 						<td>
 							<label for="dispatchNo"><c:out value="<%=dispatchNo %>" /></label>
-							<input type="hidden" min="0" name="dispatchNo"
+							<input type="hidden" min="0" name="dispatchNo" id="dispatchOrderId"
 								value='<c:out value="<%=dispatchNo %>" />' class="form-control" />
 						</td>
 					</tr>
@@ -379,7 +379,7 @@ function populateStockTable(thickness, length, width, mill, make, grade){
 			url : './relevantStockJsonServlet',
 			mtype:'POST',
 			datatype : 'json',
-			colNames : [ 'Stock Id', 'Mill', 'Make', 'grade', 'Thickness', 'Width', 'Length', 'Quantity Available', 'Section Weight', 'Location'],
+			colNames : [ 'Stock Id', 'Mill', 'Make', 'grade', 'Thickness', 'Width', 'Length', 'Quantity Available', 'Section Weight', 'Heat No', 'Plate No', 'Location'],
 					
 			colModel : [  {
 				name : 'stockBalId',
@@ -500,6 +500,38 @@ function populateStockTable(thickness, length, width, mill, make, grade){
 			{
 				name : 'actWt',
 				index : 'actWt',
+				width : 150,
+				editable : false,
+				editoptions : {
+					readonly : true,
+					size : 10
+				},
+				align : 'center',
+				search:false,
+				sortable:false,
+				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+				searchoptions: { sopt:[ 'eq']}
+				
+			}, 
+			{
+				name : 'heat_no',
+				index : 'heat_no',
+				width : 150,
+				editable : false,
+				editoptions : {
+					readonly : true,
+					size : 10
+				},
+				align : 'center',
+				search:false,
+				sortable:false,
+				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+				searchoptions: { sopt:[ 'eq']}
+				
+			}, 
+			{
+				name : 'plate_no',
+				index : 'plate_no',
 				width : 150,
 				editable : false,
 				editoptions : {

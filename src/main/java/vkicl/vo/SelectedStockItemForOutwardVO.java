@@ -10,6 +10,9 @@ public class SelectedStockItemForOutwardVO {
 	private String millName;
 	private String make;
 	private String grade;
+	private String heatNo;
+	private String plateNo;
+	
 	public Integer getStockId() {
 		return stockId;
 	}
@@ -58,13 +61,28 @@ public class SelectedStockItemForOutwardVO {
 	public void setGrade(String grade) {
 		this.grade = grade;
 	}
+	
+	
+	public String getHeatNo() {
+		return heatNo;
+	}
+	public void setHeatNo(String heatNo) {
+		this.heatNo = heatNo;
+	}
+	public String getPlateNo() {
+		return plateNo;
+	}
+	public void setPlateNo(String plateNo) {
+		this.plateNo = plateNo;
+	}
 	@Override
 	public String toString() {
 		return "SelectedStockItemForOutwardVO [stockId=" + stockId + ", stockQuantityForDelivery="
 				+ stockQuantityForDelivery + ", thickness=" + thickness + ", length=" + length + ", widht=" + widht
-				+ ", millName=" + millName + ", make=" + make + ", grade=" + grade + "]";
+				+ ", millName=" + millName + ", make=" + make + ", grade=" + grade + ", heatNo=" + heatNo + ", plateNo="
+				+ plateNo + "]";
 	}
-	
+
 	
 	
 }

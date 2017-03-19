@@ -205,6 +205,8 @@ function composeStockLineItemObjectForStockJqgridRowId(selectedStockTableRowId){
 	var millName = selectedStockRow.millName;
 	var make = selectedStockRow.make;
 	var grade = selectedStockRow.grade;
+	var heatNo = selectedStockRow.heat_no;
+	var plateNo = selectedStockRow.plate_no;
 	
 	
 	//Object definition of selectedStockLineItem
@@ -218,7 +220,9 @@ function composeStockLineItemObjectForStockJqgridRowId(selectedStockTableRowId){
 			width : width,
 			millName : millName,
 			make : make,
-			grade : grade
+			grade : grade,
+			heateNo : heatNo,
+			plateNo : plateNo
 	};
 	return SELECTED_STOCK_LINE_ITEM;
 }
@@ -268,6 +272,8 @@ function selectUnselectStockItemInJqgrid(stockId, selectUnselect){
 }
 
 function submitWarehouseOutward(){
+	var dispatchOrderId = $("#dispatchOrderId").val();
+	WAREHOUSE_OUTWARD.dispatchOrderId = dispatchOrderId;
 	var WAREHOUSE_OUTWARD_JSON = JSON.stringify(WAREHOUSE_OUTWARD);
 	
 	$.ajax({
