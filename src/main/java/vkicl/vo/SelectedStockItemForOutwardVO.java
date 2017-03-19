@@ -4,6 +4,7 @@ public class SelectedStockItemForOutwardVO {
 
 	private Integer stockId;
 	private Integer stockQuantityForDelivery;
+	private Integer quantity;
 	private Integer thickness;
 	private Integer length;
 	private Integer width;
@@ -84,6 +85,12 @@ public class SelectedStockItemForOutwardVO {
 		this.location = location;
 	}
 	
+	public Integer getQuantity() {
+		return quantity;
+	}
+	public void setQuantity(Integer quantity) {
+		this.quantity = quantity;
+	}
 	@Override
 	public String toString() {
 		return "SelectedStockItemForOutwardVO [stockId=" + stockId + ", stockQuantityForDelivery="

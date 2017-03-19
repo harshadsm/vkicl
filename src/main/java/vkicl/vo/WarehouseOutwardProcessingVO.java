@@ -5,6 +5,8 @@ import java.util.List;
 public class WarehouseOutwardProcessingVO {
 
 	private Integer dispatchOrderId;
+	private String vehicleNumber;
+	private String vehicleDate;
 	
 	private List<DispatchOrderLineItemForProcessingVO> warehouseOutwardDetails;
 
@@ -22,6 +24,22 @@ public class WarehouseOutwardProcessingVO {
 
 	public void setDispatchOrderId(Integer dispatchOrderId) {
 		this.dispatchOrderId = dispatchOrderId;
+	}
+
+	public String getVehicleNumber() {
+		return vehicleNumber;
+	}
+
+	public void setVehicleNumber(String vehicleNumber) {
+		this.vehicleNumber = vehicleNumber;
+	}
+
+	public String getVehicleDate() {
+		return vehicleDate;
+	}
+
+	public void setVehicleDate(String vehicleDate) {
+		this.vehicleDate = vehicleDate;
 	}
 
 	@Override

@@ -17,11 +17,15 @@ import org.apache.log4j.Logger;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import vkicl.daoImpl.DispatchOrderDetailsDaoImpl;
 import vkicl.daoImpl.WarehouseDaoImpl;
 import vkicl.form.WarehouseOutwardForm;
 import vkicl.util.Constants;
+import vkicl.vo.DispatchOrderLineItemForProcessingVO;
+import vkicl.vo.SelectedStockItemForOutwardVO;
 import vkicl.vo.UserInfoVO;
 import vkicl.vo.WarehouseOutwardProcessingVO;
+import vkicl.vo.WarehouseOutwardVO;
 
 public class WarehouseOutwardProcessingServlet extends HttpServlet {
 
@@ -39,7 +43,7 @@ public class WarehouseOutwardProcessingServlet extends HttpServlet {
 		try {
 			UserInfoVO userInfoVO = getUserProfile(request);
 			WarehouseDaoImpl impl = new WarehouseDaoImpl();
-			
+
 			String WAREHOUSE_OUTWARD_JSON = request.getParameter("WAREHOUSE_OUTWARD_JSON");
 			logger.debug(WAREHOUSE_OUTWARD_JSON);
 
@@ -51,15 +55,36 @@ public class WarehouseOutwardProcessingServlet extends HttpServlet {
 			logger.debug(warehouseProcessingRequest.toString());
 			// Add data to warehouse_outward_temp
 			impl.addWarehouseOutwardTempData(warehouseProcessingRequest, userInfoVO);
+
+			// Add stock outward data
+			impl.addStockOutwardData(warehouseProcessingRequest, userInfoVO);
+
+			// Update the stock_balance table records that are selected for
+			// outward.
+			for (DispatchOrderLineItemForProcessingVO doli : warehouseProcessingRequest.getWarehouseOutwardDetails()) {
+				for (SelectedStockItemForOutwardVO st : doli.getSelectedStockLineItems()) {
+					Integer newQtyAvailable = st.getQuantity() - st.getStockQuantityForDelivery();
+					if (newQtyAvailable == 0) {
+						String flag = "1";
+						impl.updateStockBalanceData(userInfoVO, newQtyAvailable, st.getStockId(), flag);
+					} else {
+						String flag = "2";
+						impl.updateStockBalanceData(userInfoVO, newQtyAvailable, st.getStockId(), flag);
+					}
+				}
+			}
+
+			// Add the warehouse_outward_process data.
+			impl.addWarehouseOutwardProcessData(warehouseProcessingRequest, userInfoVO);
 			
 			// Check if DO is completely delivered, mark it as COMPLETED
-			
-			// Update the stock_balance table records that are selected for outward.
-			
-			// Update the stock_outward table records that are selected for outward.
-			
-			// Add the warehouse_outward_process data.
-			
+			DispatchOrderDetailsDaoImpl dispatchOrderDetailsDao = new DispatchOrderDetailsDaoImpl();
+			Integer totalRecordsCount = dispatchOrderDetailsDao.getDispatchOrderDetailsCount(warehouseProcessingRequest.getDispatchOrderId(),null);//, portInwardId);
+			if(totalRecordsCount <=0 ){
+				//The DO is completed.
+				logger.debug("DO is completely processed. Gonna update its status = completed.");
+				impl.updateStatus(warehouseProcessingRequest.getDispatchOrderId(), userInfoVO);
+			}
 			
 			
 			logger.debug("Going to return WarehouseOutwardJsonServlet json ");
@@ -117,21 +142,19 @@ public class WarehouseOutwardProcessingServlet extends HttpServlet {
 		}
 
 	}
-	
-	
+
 	private UserInfoVO getUserProfile(HttpServletRequest request) {
 		logger.debug("URL = " + request.getRequestURL());
 
 		HttpSession session = request.getSession(true);
 		UserInfoVO userInfoVO = null;
-		userInfoVO = (UserInfoVO) session
-				.getAttribute(Constants.USER_INFO_SESSION);
+		userInfoVO = (UserInfoVO) session.getAttribute(Constants.USER_INFO_SESSION);
 		if (null == userInfoVO)
 			userInfoVO = new UserInfoVO();
 		setUserProfile(request, userInfoVO);
 		return userInfoVO;
 	}
-	
+
 	private void setUserProfile(HttpServletRequest request, UserInfoVO userInfoVO) {
 		HttpSession session = request.getSession(true);
 		if (null == userInfoVO.getMessage())

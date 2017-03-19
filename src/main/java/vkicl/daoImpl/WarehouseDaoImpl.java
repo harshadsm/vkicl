@@ -790,7 +790,7 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 		return form;
 	}
 
-	public void updateStockBalanceData(WarehouseOutwardForm form, UserInfoVO userInfoVO, Integer qty, Integer stockid,
+	public void updateStockBalanceData(UserInfoVO userInfoVO, Integer qty, Integer stockid,
 			String flag) {
 		Connection conn = null;
 		ResultSet rs = null;
@@ -1076,6 +1076,119 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 		} finally {
 			closeDatabaseResources(conn, rs, cs);
 		}
+	}
+	
+	public UserInfoVO addStockOutwardData(WarehouseOutwardProcessingVO form, UserInfoVO userInfoVO) {
+		Connection conn = null;
+		ResultSet rs = null;
+		CallableStatement cs = null;
+		String query = "", message = "";
+		// Integer warehouseOutwardId = -1;
+		try {
+			if (0 == form.getDispatchOrderId()) {
+				// message = "Unable to insert Outward entry";
+				// log.error(message);
+				userInfoVO.setMessage("");
+				return userInfoVO;
+			}
+			conn = getConnection();
+
+			query = "insert into stock_outward (mill_name,material_make,heat_no,plate_no,"
+					+ " material_type,grade,length,width,thickness,quantity,location,"
+					+ " create_ui,update_ui,create_ts,update_ts, plate_area) "
+					+ "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+			log.info("query = " + query);
+			log.info("form = " + form);
+			cs = conn.prepareCall(query);
+
+			cs.setString(12, userInfoVO.getUserName());
+			cs.setString(13, userInfoVO.getUserName());
+			cs.setString(14, getCurentTime());
+			cs.setString(15, getCurentTime());
+			cs.setString(3, "");
+			cs.setString(4, "");
+			cs.setString(5, "");
+			
+			for (DispatchOrderLineItemForProcessingVO doli : form.getWarehouseOutwardDetails()) {
+				
+				for(SelectedStockItemForOutwardVO st : doli.getSelectedStockLineItems()){
+					
+
+				cs.setString(1, st.getMillName());
+				cs.setString(2, st.getMake());
+
+				cs.setString(6, st.getGrade());
+				cs.setInt(7, st.getLength());
+				cs.setInt(8, st.getWidth());
+				cs.setDouble(9, st.getThickness());
+				cs.setString(10, st.getStockQuantityForDelivery().toString());
+				cs.setString(11, st.getLocation());
+
+
+				double plateArea = st.getLength() * st.getWidth() * 1.0d;
+				cs.setDouble(16, plateArea);
+
+				cs.executeUpdate();
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			message = e.getMessage();
+			userInfoVO.setMessage(message);
+		} finally {
+			closeDatabaseResources(conn, rs, cs);
+		}
+		return userInfoVO;
+	}
+
+	public UserInfoVO addWarehouseOutwardProcessData(WarehouseOutwardProcessingVO form,
+			UserInfoVO userInfoVO) {
+
+		Connection conn = null;
+		ResultSet rs = null;
+		CallableStatement cs = null;
+		String query = "", message = "";
+		// Integer warehouseOutwardId = -1;
+		try {
+
+			if (0 == form.getDispatchOrderId()) {
+				message = "Unable to insert Outward entry"; // log.error(message);
+				userInfoVO.setMessage("");
+				return userInfoVO;
+			}
+
+			conn = getConnection();
+
+			query = prop.get("sp.warehouse.outward.insert");
+			log.info("query = " + query);
+			log.info("form = " + form);
+			cs = conn.prepareCall(query);
+			// for (int i = 0; i < form.getMillName().length; i++) {
+			// cs.setDouble(1, form.getActWt());
+			// cs.setString(2, formatInput(form.getActWtUnit()));
+			cs.setDouble(1, 0d);
+			cs.setString(2, "");
+			cs.setInt(3, form.getDispatchOrderId());
+			cs.setString(4, formatInput(form.getVehicleNumber()));
+			cs.setString(5, formatInput(form.getVehicleDate()));
+			cs.setString(6, userInfoVO.getUserName());
+			cs.setInt(7, 787);
+			cs.setInt(8, 987);
+			cs.registerOutParameter(9, java.sql.Types.VARCHAR);
+			cs.executeUpdate();
+			// }
+			message = cs.getString(9);
+			log.info("message = " + message);
+			//form.clear();
+			userInfoVO.setMessage(message);
+		} catch (Exception e) {
+			e.printStackTrace();
+			message = e.getMessage();
+			userInfoVO.setMessage(message);
+		} finally {
+			closeDatabaseResources(conn, rs, cs);
+		}
+		return userInfoVO;
 	}
 
 }

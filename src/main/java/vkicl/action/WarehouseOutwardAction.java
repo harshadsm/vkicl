@@ -81,11 +81,11 @@ public class WarehouseOutwardAction extends BaseAction {
 					qtyAvailable = warehouseoutwardvo.getAvailableQty() - warehouseoutwardvo.getOrderedQty();
 					if (qtyAvailable == 0) {
 						flag = "1";
-						impl.updateStockBalanceData(warehouseOutwardForm, userInfoVO, qtyAvailable,
+						impl.updateStockBalanceData( userInfoVO, qtyAvailable,
 								warehouseoutwardvo.getStockId(), flag);
 					} else {
 						flag = "2";
-						impl.updateStockBalanceData(warehouseOutwardForm, userInfoVO, qtyAvailable,
+						impl.updateStockBalanceData(userInfoVO, qtyAvailable,
 								warehouseoutwardvo.getStockId(), flag);
 					}
 
