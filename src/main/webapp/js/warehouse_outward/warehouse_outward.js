@@ -207,6 +207,7 @@ function composeStockLineItemObjectForStockJqgridRowId(selectedStockTableRowId){
 	var grade = selectedStockRow.grade;
 	var heatNo = selectedStockRow.heat_no;
 	var plateNo = selectedStockRow.plate_no;
+	var location = selectedStockRow.location;
 	
 	
 	//Object definition of selectedStockLineItem
@@ -222,7 +223,8 @@ function composeStockLineItemObjectForStockJqgridRowId(selectedStockTableRowId){
 			make : make,
 			grade : grade,
 			heateNo : heatNo,
-			plateNo : plateNo
+			plateNo : plateNo,
+			location : location
 	};
 	return SELECTED_STOCK_LINE_ITEM;
 }

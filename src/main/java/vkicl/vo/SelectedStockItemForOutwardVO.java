@@ -6,12 +6,13 @@ public class SelectedStockItemForOutwardVO {
 	private Integer stockQuantityForDelivery;
 	private Integer thickness;
 	private Integer length;
-	private Integer widht;
+	private Integer width;
 	private String millName;
 	private String make;
 	private String grade;
 	private String heatNo;
 	private String plateNo;
+	private String location;
 	
 	public Integer getStockId() {
 		return stockId;
@@ -37,11 +38,12 @@ public class SelectedStockItemForOutwardVO {
 	public void setLength(Integer length) {
 		this.length = length;
 	}
-	public Integer getWidht() {
-		return widht;
+
+	public Integer getWidth() {
+		return width;
 	}
-	public void setWidht(Integer widht) {
-		this.widht = widht;
+	public void setWidth(Integer width) {
+		this.width = width;
 	}
 	public String getMillName() {
 		return millName;
@@ -75,10 +77,17 @@ public class SelectedStockItemForOutwardVO {
 	public void setPlateNo(String plateNo) {
 		this.plateNo = plateNo;
 	}
+	public String getLocation() {
+		return location;
+	}
+	public void setLocation(String location) {
+		this.location = location;
+	}
+	
 	@Override
 	public String toString() {
 		return "SelectedStockItemForOutwardVO [stockId=" + stockId + ", stockQuantityForDelivery="
-				+ stockQuantityForDelivery + ", thickness=" + thickness + ", length=" + length + ", widht=" + widht
+				+ stockQuantityForDelivery + ", thickness=" + thickness + ", length=" + length + ", widht=" + width
 				+ ", millName=" + millName + ", make=" + make + ", grade=" + grade + ", heatNo=" + heatNo + ", plateNo="
 				+ plateNo + "]";
 	}

@@ -21,6 +21,8 @@ import vkicl.form.WarehouseOutwardProcessForm;
 import vkicl.report.bean.WarehouseLocationBean;
 import vkicl.util.JqGridSearchParameterHolder;
 import vkicl.util.PropFileReader;
+import vkicl.vo.DispatchOrderLineItemForProcessingVO;
+import vkicl.vo.SelectedStockItemForOutwardVO;
 import vkicl.vo.StockBalanceDetailsVO;
 import vkicl.vo.UserInfoVO;
 import vkicl.vo.WarehouseOutwardProcessingVO;
@@ -1003,7 +1005,7 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 		return availableQty;
 	}
 
-	public void addWarehouseOutwardTempData(WarehouseOutwardProcessingVO warehouseProcessingRequest,
+	public void addWarehouseOutwardTempData(WarehouseOutwardProcessingVO w,
 			UserInfoVO userInfoVO) {
 		StringBuffer q = new StringBuffer();
 		q.append(" insert into warehouse_outward_temp  ( ");
@@ -1015,7 +1017,8 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 		q.append(" ,width ");
 		q.append(" ,length ");
 		q.append(" ,reqd_qty ");
-		q.append(" ,sect_wt,sect_ut ");
+		q.append(" ,sect_wt ");
+		q.append(" ,sect_ut ");
 		q.append(" ,location ");
 		q.append(" ,avail_qty,taken_qty ");
 		q.append(" ,create_ui,update_ui ");
@@ -1023,7 +1026,56 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 		q.append(" ,dispatch_details_id,stock_Id ");
 		q.append(" ) ");
 		q.append(" values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?); ");
+		
+		Connection conn = null;
+		ResultSet rs = null;
+		CallableStatement cs = null;
 
+		int availableQty = 0;
+		try {
+			conn = getConnection();
+			
+
+			String sql = q.toString();
+
+			log.info("query = " + sql);
+
+			cs = conn.prepareCall(sql);
+
+
+			cs.setInt(1, w.getDispatchOrderId());
+			cs.setString(14,userInfoVO.getUserName());
+			cs.setString(15,userInfoVO.getUserName());
+			cs.setString(16,getCurentTime());
+			cs.setString(17,getCurentTime());
+			
+			for(DispatchOrderLineItemForProcessingVO dispatchOrderItem : w.getWarehouseOutwardDetails()){
+				cs.setInt(8, dispatchOrderItem.getOrderedQuantity());
+				
+				cs.setInt(18, dispatchOrderItem.getDispatchDetailId());
+				for(SelectedStockItemForOutwardVO st : dispatchOrderItem.getSelectedStockLineItems()){
+					cs.setString(2, st.getMillName());
+					cs.setString(3, st.getMake());
+					cs.setString(4, st.getGrade());
+					cs.setInt(5, st.getThickness());
+					cs.setInt(6, st.getWidth());
+					cs.setInt(7, st.getLength());
+					cs.setString(11, st.getLocation());
+					cs.setInt(19, st.getStockId());
+					cs.setInt(13, st.getStockQuantityForDelivery());	
+					cs.setInt(12, st.getStockQuantityForDelivery());
+					cs.setDouble(9, 9999.999);
+					cs.setString(10, "TON");
+					int rowInserted = cs.executeUpdate();
+					log.debug(rowInserted);
+				}
+			}
+			
+		} catch (Exception e) {
+			log.error("Some error", e);
+		} finally {
+			closeDatabaseResources(conn, rs, cs);
+		}
 	}
 
 }
