@@ -391,9 +391,9 @@ public class StockBalDaoImpl extends BaseDaoImpl {
 		} else if (field != null && field.equalsIgnoreCase("thickness")) {
 			clause = "thickness = " + data;
 		} else if (field != null && field.equalsIgnoreCase("width")) {
-			clause = "width = " + data;
+			clause = "width >= " + data;
 		} else if (field != null && field.equalsIgnoreCase("length")) {
-			clause = "length =" + data;
+			clause = "length >=" + data;
 		} else if (field != null && field.equalsIgnoreCase("grade")) {
 			clause = "grade like '%" + data + "%'";
 		} else if (field != null && field.equalsIgnoreCase("heat_no")) {
@@ -404,6 +404,8 @@ public class StockBalDaoImpl extends BaseDaoImpl {
 			clause = "quantity > " + data ;
 		} else if (field != null && field.equalsIgnoreCase("location")) {
 			clause = "location like '%" + data + "%'";
+		} else if (field != null && field.equalsIgnoreCase("plateArea")) {
+			clause = "plate_area >= " + data;
 		}
 		return clause;
 	}
@@ -433,7 +435,7 @@ public class StockBalDaoImpl extends BaseDaoImpl {
 			} else if (orderByFieldName.equalsIgnoreCase("thickness")) {
 				orderByClause = " ORDER BY  thickness " + order + " ";
 			} else if (orderByFieldName.equalsIgnoreCase("stock_balance_id")) {
-				orderByClause = " ORDER BY  stockBalId " + order + " ";
+				orderByClause = " ORDER BY  stock_balance_id " + order + " ";
 			} else if (orderByFieldName.equalsIgnoreCase("material_type")) {
 				orderByClause = " ORDER BY  materialType " + order + " ";
 			} else if (orderByFieldName.equalsIgnoreCase("mill_name")) {

@@ -318,12 +318,14 @@ function populateDispatchDetailsTable(){
 
 function handleOnSelectRow(rowId, status){
 	var row = jQuery("#dispatchDetailsTable").jqGrid('getRowData',rowId); 
-	console.log(row);
-
+	var plate_area = row.length * row.width;
+	console.log(plate_area);
+	
 	var searchStockCriteria = {
 			thickness:row.thickness,
-			length : row.length,
-			width : row.width
+			//length : row.length,
+			//width : row.width
+			plateArea : plate_area
 	};
 	
 	$("#stockTable").setGridParam({postData:searchStockCriteria});
@@ -332,8 +334,9 @@ function handleOnSelectRow(rowId, status){
 	
 }
 
-function handleOnSelectStockRow(rowId, status){
+function handleOnSelectStockRow(selectedStockJqgridRowId, status){
 	console.log("stock  row selected");
+	addWarehouseOutwardLineItem(selectedStockJqgridRowId);
 }
 
 function populateStockTable(thickness, length, width, mill, make, grade){
@@ -348,7 +351,7 @@ function populateStockTable(thickness, length, width, mill, make, grade){
 					
 			colModel : [  {
 				name : 'stockBalId',
-				index : 'stockBalId',
+				index : 'stock_balance_id',
 				hidden: false,
 				width : 185,
 				editable : false,
@@ -506,8 +509,8 @@ function populateStockTable(thickness, length, width, mill, make, grade){
 			autowidth : false,
 			rownumbers : true,
 			multiselect : true,
-			pager : '#dispatchDetailsTablePager',
-			sortname : 'dispatch_detail_id',
+			pager : '#stockTablePager',
+			sortname : 'stock_balance_id',
 			viewrecords : true,
 			sortorder : "desc",
 			caption : "Relevant Stock for selected record",
@@ -545,3 +548,5 @@ function populateStockTable(thickness, length, width, mill, make, grade){
 		});
 	}
 </script>
+
+<script src="./js/warehouse_outward/warehouse_outward.js"></script>
