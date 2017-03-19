@@ -833,13 +833,13 @@ function handleOnSelectRow(rowId, status){
 		var isPresentObj = isObjectPresentInCache(objectForCaching);
 		console.log("isPresentObj = "+isPresentObj);
 		if(isPresentObj){
-			}else{
+		}else{
 			objectForCaching.orderedQuantity = 1;
 
 			console.log("<<<<<<<>>>>>>>>>>>>>>>>>>>");
 			console.log(objectForCaching);
 			SELECTED_PORT_INVENTORY_ITEMS.push(objectForCaching);
-					}
+		}
 		
 	}else{
 	

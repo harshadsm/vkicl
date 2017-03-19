@@ -541,6 +541,8 @@ function populateStockTable(thickness, length, width, mill, make, grade){
 	        		var rowObject = $grid.jqGrid('getRowData',ids[i]); 
 	        		console.log(rowObject);
 	    		}  */
+
+	        	preselectRowsAsPer_WAREHOUSE_OUTWARD_cache();
 	        	
 	        	},
 	   		onSelectRow: handleOnSelectStockRow,
