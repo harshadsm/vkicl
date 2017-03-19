@@ -101,7 +101,9 @@ System.out.println("----------------->>>"+dispatchNo);
 		</table>
 	</div>	
 </div>
-
+<div>
+	<button onclick="submitWarehouseOutward()">Submit</button>
+</div>
 
 <script>
 

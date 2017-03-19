@@ -24,8 +24,19 @@ function addWarehouseOutwardLineItem(selectedStockId){
 		
 		//If stockItem is not in the cache only then add it, else just ignore
 		if(!isStockItemAlreadySelected(SELECTED_STOCK_LINE_ITEM.stockId, DISPATCH_LINE_ITEM.selectedStockLineItems)){
+			var newQuantityBeingDelivered = DISPATCH_LINE_ITEM.quantityBeingDelivered +  SELECTED_STOCK_LINE_ITEM.stockQuantityForDelivery;
+			if(DISPATCH_LINE_ITEM.orderedQuantity){
+				if(newQuantityBeingDelivered > DISPATCH_LINE_ITEM.orderedQuantity){
+					bootbox.alert(
+							"Delivery is more than the ordered quantity. " 
+							+ "Ordered Quantity = "+DISPATCH_LINE_ITEM.orderedQuantity
+							+ " & Delivery Quantity = " + newQuantityBeingDelivered
+							);
+				}
+			}
+			DISPATCH_LINE_ITEM.quantityBeingDelivered = newQuantityBeingDelivered;
 			DISPATCH_LINE_ITEM.selectedStockLineItems.push(SELECTED_STOCK_LINE_ITEM);
-			DISPATCH_LINE_ITEM.quantityBeingDelivered = DISPATCH_LINE_ITEM.quantityBeingDelivered +  SELECTED_STOCK_LINE_ITEM.stockQuantityForDelivery;
+			
 		}else{
 			//Just ignore. Because the stock item is already in the cache.
 			console.log("Just ignore. Because the stock item is already in the cache.");
@@ -109,7 +120,7 @@ function refreshWarehouseOutwardTable(){
 }
 
 function composeSelectedStockTr(DISPATCH_ITEM, SELECTED_STOCK_ITEM){
-	var s = "<td>";
+	var s = "<td class='text-center'>";
 	var e = "</td>";
 	var tr = "<tr>" 
 		+ s + DISPATCH_ITEM.dispatchDetailId + e
@@ -254,4 +265,19 @@ function selectUnselectStockItemInJqgrid(stockId, selectUnselect){
 		
 		
 	} 
+}
+
+function submitWarehouseOutward(){
+	var WAREHOUSE_OUTWARD_JSON = JSON.stringify(WAREHOUSE_OUTWARD);
+	
+	$.ajax({
+		url : "submitWarehouseOutward",
+		data : {WAREHOUSE_OUTWARD_JSON:WAREHOUSE_OUTWARD_JSON},
+		success : function(resp){
+			
+		},
+		error : function(resp){
+			
+		}
+	});
 }
