@@ -1005,8 +1005,25 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 
 	public void addWarehouseOutwardTempData(WarehouseOutwardProcessingVO warehouseProcessingRequest,
 			UserInfoVO userInfoVO) {
-		// TODO Auto-generated method stub
-		
+		StringBuffer q = new StringBuffer();
+		q.append(" insert into warehouse_outward_temp  ( ");
+		q.append(" dispatch_order_id ");
+		q.append(" ,mill_name ");
+		q.append(" ,make ");
+		q.append(" ,grade ");
+		q.append(" ,thickness ");
+		q.append(" ,width ");
+		q.append(" ,length ");
+		q.append(" ,reqd_qty ");
+		q.append(" ,sect_wt,sect_ut ");
+		q.append(" ,location ");
+		q.append(" ,avail_qty,taken_qty ");
+		q.append(" ,create_ui,update_ui ");
+		q.append(" ,create_ts,update_ts ");
+		q.append(" ,dispatch_details_id,stock_Id ");
+		q.append(" ) ");
+		q.append(" values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?); ");
+
 	}
 
 }
