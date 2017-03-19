@@ -5,7 +5,7 @@ var WAREHOUSE_OUTWARD = {
 
 function addWarehouseOutwardLineItem(selectedStockId){
 	
-	console.log("selectedStockId = "+selectedStockId);
+	//console.log("selectedStockId = "+selectedStockId);
 	
 	//GET SELECTED DISPATCH DETAIL ROW
 	var selectedDispatchDetailRow = getSelectedDispatchDetailsRow();
@@ -177,10 +177,12 @@ function selectStockItemInJqgrid(stockItem){
 	for(var i=0;i < ids.length;i++){ 
 		var rowObject = $grid.jqGrid('getRowData',ids[i]); 
 		var jqgridRowStockBalId = Number(rowObject.stockBalId);
-		console.log(jqgridRowStockBalId);
+		//console.log(jqgridRowStockBalId);
 		if(jqgridRowStockBalId == stockItem.stockId){
-			console.log("SELECTED >>>> "+i);
-			$grid.setSelection(i, true);
+			
+			var selectionRow = i + 1;
+			console.log("SELECTED >>>> "+selectionRow);
+			$grid.setSelection(selectionRow, true);
 		}
 		
 		

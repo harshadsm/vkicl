@@ -335,7 +335,7 @@ function handleOnSelectRow(rowId, status){
 }
 
 function handleOnSelectStockRow(selectedStockJqgridRowId, status){
-	console.log("stock  row selected = "+status);
+	
 	if(status){
 		addWarehouseOutwardLineItem(selectedStockJqgridRowId);
 	}else{
