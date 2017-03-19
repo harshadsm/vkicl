@@ -79,7 +79,27 @@ System.out.println("----------------->>>"+dispatchNo);
 		<table id="stockTable"></table>
 		<div id="stockTablePager"></div>
 	</div>
-	
+
+	<div>
+		<table id="selectedStockItemsTable" class="table table-striped">
+			<thead>
+				<tr>
+					<th>Dispatch Item Id</th>
+					<th>Stock Id</th>
+					<th>Mill</th>
+					<th>Make</th>
+					<th>Grade</th>
+					<th>Thickness</th>
+					<th>Width</th>
+					<th>Length</th>
+					<th>Delivery Quantity</th>
+					<th>Remove</th>
+				</tr>
+			</thead>
+			<tbody>
+			</tbody>
+		</table>
+	</div>	
 </div>
 
 
@@ -339,7 +359,8 @@ function handleOnSelectStockRow(selectedStockJqgridRowId, status){
 	if(status){
 		addWarehouseOutwardLineItem(selectedStockJqgridRowId);
 	}else{
-		removeWarehouseOutwardLineItem(selectedStockJqgridRowId);
+		var SELECTED_STOCK_LINE_ITEM = composeStockLineItemObjectForStockJqgridRowId(selectedStockJqgridRowId);
+		removeWarehouseOutwardLineItem(SELECTED_STOCK_LINE_ITEM.stockId);
 	}
 	
 }
