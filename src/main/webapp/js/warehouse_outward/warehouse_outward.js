@@ -152,18 +152,26 @@ function cancelStockItemFromDispatch(stockId){
 
 function isStockItemAlreadySelected(stockId, cachedStockItemsForDispatch){
 	var isAlreadySelected = false;
-	if(stockId && cachedStockItemsForDispatch){
-		if(cachedStockItemsForDispatch.length > 0){
-			for(var i=0;i < cachedStockItemsForDispatch.length; i++ ){
-				var cachedItem = cachedStockItemsForDispatch[i];
-				if(cachedItem.stockId == stockId){
-					isAlreadySelected = true;
-					break;
+	
+	for(var i=0; i<WAREHOUSE_OUTWARD.warehouseOutwardDetails.length ; i++){
+		var dispatchLineItem = WAREHOUSE_OUTWARD.warehouseOutwardDetails[i];
+		var selectedStockLineItems = dispatchLineItem.selectedStockLineItems;
+		if(selectedStockLineItems){
+			for(var j=0; j<selectedStockLineItems.length; j++){
+				var selectedStockLineItem = selectedStockLineItems[j];
+				if(stockId){
+					if(selectedStockLineItem.stockId == stockId){
+						isAlreadySelected = true;
+						break;
+					}
 				}
 			}
 		}
+		
 	}
 	
+
+	console.log(stockId +" = stock id already Selected = "+isAlreadySelected);
 	return isAlreadySelected;
 }
 
@@ -235,13 +243,15 @@ function composeStockLineItemObjectForStockJqgridRowId(selectedStockTableRowId){
 function preselectRowsAsPer_WAREHOUSE_OUTWARD_cache(){
 	console.log("Going to preselect the stock items");
 	var dispatchLineItems = WAREHOUSE_OUTWARD.warehouseOutwardDetails;
+	console.log(dispatchLineItems);
 	if(dispatchLineItems && dispatchLineItems.length > 0){
 		for(var dli=0; dli < dispatchLineItems.length; dli++){
 			var dispatchLineItem = dispatchLineItems[dli];
+			console.log("--Preselecting for dispatch id = "+dispatchLineItem.dispatchDetailId);
 			if(dispatchLineItem && dispatchLineItem.selectedStockLineItems && dispatchLineItem.selectedStockLineItems.length > 0){
 				for(var si=0; si < dispatchLineItem.selectedStockLineItems.length; si++){
 					var stockItem = dispatchLineItem.selectedStockLineItems[si];
-					console.log(stockItem);
+					console.log("Preselecting stock id = "+stockItem.stockId);
 					
 					selectUnselectStockItemInJqgrid(stockItem.stockId, true);
 					
