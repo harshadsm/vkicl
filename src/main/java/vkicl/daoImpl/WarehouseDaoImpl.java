@@ -1172,10 +1172,16 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 			cs.setString(4, formatInput(form.getVehicleNumber()));
 			cs.setString(5, formatInput(form.getVehicleDate()));
 			cs.setString(6, userInfoVO.getUserName());
-			cs.setInt(7, 787);
-			cs.setInt(8, 987);
 			cs.registerOutParameter(9, java.sql.Types.VARCHAR);
-			cs.executeUpdate();
+			
+			List<DispatchOrderLineItemForProcessingVO> dispatchOrder = form.getWarehouseOutwardDetails();
+			for(DispatchOrderLineItemForProcessingVO lineItem : dispatchOrder){
+				cs.setInt(7, lineItem.getDispatchDetailId());
+				cs.setInt(8, lineItem.getQuantityBeingDelivered());
+				cs.executeUpdate();		
+			}
+			
+			
 			// }
 			message = cs.getString(9);
 			log.info("message = " + message);

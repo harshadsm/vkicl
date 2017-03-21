@@ -310,17 +310,32 @@ function submitWarehouseOutward(){
 	WAREHOUSE_OUTWARD.vehicleNumber = vehicleNumber;
 	WAREHOUSE_OUTWARD.vehicleDate = vehicleDate;
 	
-	var WAREHOUSE_OUTWARD_JSON = JSON.stringify(WAREHOUSE_OUTWARD);
 	
-	$.ajax({
-		url : "./submitWarehouseOutward",
-		type : "POST",
-		data : {WAREHOUSE_OUTWARD_JSON:WAREHOUSE_OUTWARD_JSON},
-		success : function(resp){
-			console.log(resp);
-		},
-		error : function(resp){
-			console.log(resp);
-		}
-	});
+	
+	if(vehicleNumber!="" && vehicleDate!="" && WAREHOUSE_OUTWARD.warehouseOutwardDetails.length > 0){
+		var WAREHOUSE_OUTWARD_JSON = JSON.stringify(WAREHOUSE_OUTWARD);
+		
+		$.ajax({
+			url : "./submitWarehouseOutward",
+			type : "POST",
+			data : {WAREHOUSE_OUTWARD_JSON:WAREHOUSE_OUTWARD_JSON},
+			success : function(resp){
+				console.log(resp);
+				var result = JSON.parse(resp);
+				if(result.status == 'success'){
+					window.location.assign("./warehouse-dispatch-report.do");
+				}else{
+					bootbox.alert("Error 3243. Failed to process warehouse outward. ServerFault="+result.errorMessage);
+				}
+			},
+			error : function(resp){
+				console.log(resp);
+				bootbox.alert("Error 3244. Faiiled to process. ");
+			}
+		});
+	}else{
+		bootbox.alert("Please fill in VEhicle Number, Vehicle Date and select the items to deliver.");
+	}
+	
+
 }

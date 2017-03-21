@@ -24,6 +24,7 @@ import vkicl.util.Constants;
 import vkicl.vo.DispatchOrderLineItemForProcessingVO;
 import vkicl.vo.SelectedStockItemForOutwardVO;
 import vkicl.vo.UserInfoVO;
+import vkicl.vo.WarehouseOutwardProcessingStatusVO;
 import vkicl.vo.WarehouseOutwardProcessingVO;
 import vkicl.vo.WarehouseOutwardVO;
 
@@ -39,7 +40,14 @@ public class WarehouseOutwardProcessingServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
+		WarehouseOutwardProcessingStatusVO status = new WarehouseOutwardProcessingStatusVO();
 
+		response.setContentType("text/text;charset=utf-8");
+		response.setHeader("cache-control", "no-cache");
+
+		PrintWriter out = response.getWriter();
+		
 		try {
 			UserInfoVO userInfoVO = getUserProfile(request);
 			WarehouseDaoImpl impl = new WarehouseDaoImpl();
@@ -89,16 +97,20 @@ public class WarehouseOutwardProcessingServlet extends HttpServlet {
 			
 			logger.debug("Going to return WarehouseOutwardJsonServlet json ");
 
-			response.setContentType("text/text;charset=utf-8");
-			response.setHeader("cache-control", "no-cache");
-
-			PrintWriter out = response.getWriter();
-			out.println("success");
-			out.flush();
+			status.setStatus("success");
+			
 
 		} catch (Exception e) {
 			logger.error("Some error", e);
-			throw new ServletException(e);
+			//throw new ServletException(e);
+			status.setStatus("error");
+			status.setErrorMessage(e.getMessage());
+		} finally{
+			Gson gson = new Gson();
+			String resultJsonString = gson.toJson(status);
+			logger.debug(resultJsonString);
+			out.println(resultJsonString);
+			out.flush();
 		}
 	}
 
