@@ -96,10 +96,9 @@
 								%>
 								<li><a href="./warehouse-inward-report.do">Warehouse
 										Inward</a></li>
-								<li><a href="./warehouse-outward-report.do">Warehouse
-										Outward (Old)</a></li>
+								<!-- <li><a href="./warehouse-outward-report.do">WarehousevOutward (Old)</a></li> -->
 								<li><a href="./warehouse-outward-report-2.do">Warehouse
-										Outward (New)</a></li>
+										Outward</a></li>
 										
 								<%
 									}
