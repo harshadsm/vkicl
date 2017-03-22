@@ -38,30 +38,30 @@ public class WarehouseOutwardReportJqgridAction extends BaseAction {
 
 			actionForward = mapping.findForward(Constants.Mapping.SUCCESS);
 			userInfoVO = getUserProfile(request);
-			warehouseOutwardReportForm = (WarehouseOutwardReportForm) form;
-			ReportDaoImpl impl = new ReportDaoImpl();
-
-			genericListener = warehouseOutwardReportForm.getGenericListener();
-			log.info("Loaded Warehouse Outward Report");
-			if (genericListener.equalsIgnoreCase("getReport")
-					&& warehouseOutwardReportForm.getDispatchNo() != 0) {
-				warehouseOutwardReportForm = impl.fetchWarehouseOutwardReport(
-						warehouseOutwardReportForm, userInfoVO);
-				log.info("Fetched Warehouse Outward Report Data");
-			} else {
-				warehouseOutwardReportForm.clear();
-			}
-
-			ArrayList<LabelValueBean> dispatchNoList = impl.getLVList(
-					userInfoVO, "query.unique.outwardDispatch");
-			dispatchNoList = updateDispatchNoList(dispatchNoList);
-			warehouseOutwardReportForm.setDispatchNoList(dispatchNoList);
-
-			if (null != warehouseOutwardReportForm.getReportList())
-				request.setAttribute("reportListSize",
-						warehouseOutwardReportForm.getReportList().size());
-			else
-				request.setAttribute("reportListSize", 0);
+//			warehouseOutwardReportForm = (WarehouseOutwardReportForm) form;
+//			ReportDaoImpl impl = new ReportDaoImpl();
+//
+//			genericListener = warehouseOutwardReportForm.getGenericListener();
+//			log.info("Loaded Warehouse Outward Report");
+//			if (genericListener.equalsIgnoreCase("getReport")
+//					&& warehouseOutwardReportForm.getDispatchNo() != 0) {
+//				warehouseOutwardReportForm = impl.fetchWarehouseOutwardReport(
+//						warehouseOutwardReportForm, userInfoVO);
+//				log.info("Fetched Warehouse Outward Report Data");
+//			} else {
+//				warehouseOutwardReportForm.clear();
+//			}
+//
+//			ArrayList<LabelValueBean> dispatchNoList = impl.getLVList(
+//					userInfoVO, "query.unique.outwardDispatch");
+//			dispatchNoList = updateDispatchNoList(dispatchNoList);
+//			warehouseOutwardReportForm.setDispatchNoList(dispatchNoList);
+//
+//			if (null != warehouseOutwardReportForm.getReportList())
+//				request.setAttribute("reportListSize",
+//						warehouseOutwardReportForm.getReportList().size());
+//			else
+//				request.setAttribute("reportListSize", 0);
 
 		} catch (Exception e) {
 			e.printStackTrace();
