@@ -349,8 +349,11 @@ function handleOnSelectRow(rowId, status){
 	
 	var searchStockCriteria = {
 			thickness:row.thickness,
-			//length : row.length,
-			//width : row.width
+			length : row.length,
+			width : row.width,
+			millName : row.millName,
+			make : row.make,
+			grade : row.grade,
 			plateArea : plate_area
 	};
 	
@@ -565,7 +568,14 @@ function populateStockTable(thickness, length, width, mill, make, grade){
 			
 			],
 			postData : {
-				thickness : thickness
+				
+				length : length,
+				thickness : thickness,
+				width : width,
+				millName : mill,
+				make : make,
+				grade : grade
+				
 			},
 			rowNum : 10,
 			rowList : [ 10, 20, 30 ,40, 50, 60 ],

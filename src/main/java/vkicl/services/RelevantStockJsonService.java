@@ -121,7 +121,7 @@ public class RelevantStockJsonService {
 		
 		
 		Rule gradeRule = new Rule();
-		gradeRule.setData(make);
+		gradeRule.setData(grade);
 		gradeRule.setField("grade");
 		gradeRule.setOp("eq");
 		
