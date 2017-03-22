@@ -13,6 +13,14 @@ public class WarehouseOutwardReportVO {
 	private Date createTS;
 	private Integer dispatchDetailId;
 	private Integer deliveredQuantity;
+	private Integer orderedQuantity;
+	private Integer thickness;
+	private Integer length;
+	private Integer width;
+	private String mill;
+	private String make;
+	private String grade;
+	
 	public Integer getWarehouseOutwardId() {
 		return warehouseOutwardId;
 	}
@@ -66,6 +74,48 @@ public class WarehouseOutwardReportVO {
 	}
 	public void setDeliveredQuantity(Integer deliveredQuantity) {
 		this.deliveredQuantity = deliveredQuantity;
+	}
+	public Integer getThickness() {
+		return thickness;
+	}
+	public void setThickness(Integer thickness) {
+		this.thickness = thickness;
+	}
+	public Integer getLength() {
+		return length;
+	}
+	public void setLength(Integer length) {
+		this.length = length;
+	}
+	public Integer getWidth() {
+		return width;
+	}
+	public void setWidth(Integer width) {
+		this.width = width;
+	}
+	public String getMill() {
+		return mill;
+	}
+	public void setMill(String mill) {
+		this.mill = mill;
+	}
+	public String getMake() {
+		return make;
+	}
+	public void setMake(String make) {
+		this.make = make;
+	}
+	public String getGrade() {
+		return grade;
+	}
+	public void setGrade(String grade) {
+		this.grade = grade;
+	}
+	public Integer getOrderedQuantity() {
+		return orderedQuantity;
+	}
+	public void setOrderedQuantity(Integer orderedQuantity) {
+		this.orderedQuantity = orderedQuantity;
 	}
 	
 	

@@ -39,7 +39,7 @@ $(function() {
 			mtype : 'GET',
 			
 			
-			colNames : [ 'id', 'Date', 'Vessel Name', 'Vendor Name', 'Material Type', 'Mill Name', 'Make', 'Grade', 'Desc', 'Packing List', 'Inward Dettails Record Count'
+			colNames : [ 'id', 'Vehicle Date', 'Vehicle No', 'Vendor Name', 'Material Type', 'Mill Name', 'Make', 'Grade', 'Thickness','Length','Width', 'Desc', 'Packing List', 'Inward Dettails Record Count'
 					],
 					
 			colModel : [ {
@@ -69,8 +69,8 @@ $(function() {
 				searchoptions: { sopt:[ 'cn','eq']}
 				
 			},{
-				name : 'vesselName',
-				index : 'vessel_name',
+				name : 'vehicleNo',
+				index : 'vehicleNo',
 				width : 300,
 				editable : false,
 				editoptions : {
@@ -111,8 +111,8 @@ $(function() {
 				searchoptions: { sopt:[ 'cn','eq']}
 				
 			},{
-				name : 'millName',
-				index : 'millName',
+				name : 'mill',
+				index : 'mill',
 				width : 300,
 				editable : false,
 				editoptions : {
@@ -141,6 +141,48 @@ $(function() {
 			},{
 				name : 'grade',
 				index : 'grade',
+				width : 300,
+				editable : false,
+				editoptions : {
+					readonly : true,
+					size : 10
+				},
+				sortable:false,
+				search:false,
+				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+				searchoptions: { sopt:[ 'cn','eq']}
+				
+			},{
+				name : 'thickness',
+				index : 'thickness',
+				width : 300,
+				editable : false,
+				editoptions : {
+					readonly : true,
+					size : 10
+				},
+				sortable:false,
+				search:false,
+				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+				searchoptions: { sopt:[ 'cn','eq']}
+				
+			},{
+				name : 'length',
+				index : 'length',
+				width : 300,
+				editable : false,
+				editoptions : {
+					readonly : true,
+					size : 10
+				},
+				sortable:false,
+				search:false,
+				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+				searchoptions: { sopt:[ 'cn','eq']}
+				
+			},{
+				name : 'width',
+				index : 'width',
 				width : 300,
 				editable : false,
 				editoptions : {

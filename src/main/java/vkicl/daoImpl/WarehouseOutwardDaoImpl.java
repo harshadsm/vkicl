@@ -87,15 +87,15 @@ public class WarehouseOutwardDaoImpl extends BaseDaoImpl{
 		String op = r.getOp();
 
 		String clause = "";
-		if (field != null && field.equalsIgnoreCase("vendor_name")) {
-			clause = "pis.vendor_name like '%" + data + "%'";
-		} else if (field != null && field.equalsIgnoreCase("vessel_name")) {
-			clause = "pis.vessel_name like '%" + data + "%'";
-		} else if (field != null && field.equalsIgnoreCase("vessel_date")) {
-			clause = "pis.vessel_date like '%" + data + "%'";
-		} else if (field != null && field.equalsIgnoreCase("vessel_date")) {
-			clause = processDateClause(data);
-		}
+//		if (field != null && field.equalsIgnoreCase("vendor_name")) {
+//			clause = "vendor_name like '%" + data + "%'";
+//		} else if (field != null && field.equalsIgnoreCase("vessel_name")) {
+//			clause = "vessel_name like '%" + data + "%'";
+//		} else if (field != null && field.equalsIgnoreCase("vessel_date")) {
+//			clause = "vessel_date like '%" + data + "%'";
+//		} else if (field != null && field.equalsIgnoreCase("vessel_date")) {
+//			clause = processDateClause(data);
+//		}
 
 		return clause;
 	}
@@ -145,7 +145,32 @@ public class WarehouseOutwardDaoImpl extends BaseDaoImpl{
 		try {
 			conn = getConnection();
 
-			String sql = " select * from warehouse_outward "
+			StringBuffer q = new StringBuffer();
+			q.append(" select ");
+			q.append(" wo.create_ts warehouse_outward_creation_date,");//1
+			q.append(" wo.warehouse_outward_id,");//2
+			q.append(" wo.dispatchNo,");//3
+			q.append(" wo.dispatch_detail_id,");//4
+			q.append(" wo.vehicle_no,");//5
+			q.append(" wo.vehicle_dt,");//6
+			q.append(" wo.actual_wt,");//7
+			
+			q.append(" dd.millName,");
+			q.append(" dd.make,");
+			q.append(" dd.grade,");
+			q.append(" dd.thickness,");
+			q.append(" dd.length,");
+			q.append(" dd.width,");
+			q.append(" dd.qty ordered_quantity,");
+			q.append(" wo.delivered_quantity");
+			
+			q.append("  from ");
+			q.append(" warehouse_outward wo");
+			q.append(" left join dispatch_details dd on wo.dispatch_detail_id = dd.dispatch_details_ID ");
+			//q.append(" order by warehouse_outward_id desc;");
+			
+			//String sql = " select * from warehouse_outward "
+			String sql = q.toString()
 					+ processSearchCriteria(searchParam) + " " + composeOrderByClause(orderByFieldName, order) + ";";
 			query = sql;
 			log.info("query = " + query);
@@ -156,7 +181,24 @@ public class WarehouseOutwardDaoImpl extends BaseDaoImpl{
 			if (null != rs && rs.next()) {
 
 				do {
+					WarehouseOutwardReportVO vo = new WarehouseOutwardReportVO();
+					vo.setCreateTS(rs.getDate(1));
+					vo.setWarehouseOutwardId(rs.getInt(2));
+					vo.setDispatchNo(rs.getInt(3));
+					vo.setDispatchDetailId(rs.getInt(4));
+					vo.setVehicleNo(rs.getString(5));
+					vo.setVehicleDate(rs.getDate(6));
+					vo.setActualWeight(rs.getDouble(7));
+					vo.setMill(rs.getString(8));
+					vo.setMake(rs.getString(9));
+					vo.setGrade(rs.getString(10));
+					vo.setThickness(rs.getInt(11));
+					vo.setLength(rs.getInt(12));
+					vo.setWidth(rs.getInt(13));
+					vo.setOrderedQuantity(rs.getInt(14));
+					vo.setDeliveredQuantity(rs.getInt(15));
 					
+					list.add(vo);
 					
 				} while (rs.next());
 
@@ -172,14 +214,14 @@ public class WarehouseOutwardDaoImpl extends BaseDaoImpl{
 	
 	private String composeOrderByClause(String orderByFieldName, String order) {
 		String orderByClause = "";
-		if (orderByFieldName != null) {
-			orderByClause = " ORDER BY ";
-			if (orderByFieldName.equalsIgnoreCase("vessel_date")) {
-				orderByClause = orderByClause + " pis.vessel_date " + order + " ";
-			} else if (orderByFieldName.equalsIgnoreCase("id")) {
-				orderByClause = orderByClause + " pin.port_inward_id " + order + " ";
-			}
-		}
+//		if (orderByFieldName != null) {
+//			orderByClause = " ORDER BY ";
+//			if (orderByFieldName.equalsIgnoreCase("vessel_date")) {
+//				orderByClause = orderByClause + " pis.vessel_date " + order + " ";
+//			} else if (orderByFieldName.equalsIgnoreCase("id")) {
+//				orderByClause = orderByClause + " pin.port_inward_id " + order + " ";
+//			}
+//		}
 		return orderByClause;
 	}
 }
