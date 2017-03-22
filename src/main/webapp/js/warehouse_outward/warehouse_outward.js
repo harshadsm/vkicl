@@ -334,7 +334,7 @@ function submitWarehouseOutward(){
 			}
 		});
 	}else{
-		bootbox.alert("Please fill in VEhicle Number, Vehicle Date and select the items to deliver.");
+		bootbox.alert("Please fill in Vehicle Number, Vehicle Date and select the items to deliver.");
 	}
 	
 
