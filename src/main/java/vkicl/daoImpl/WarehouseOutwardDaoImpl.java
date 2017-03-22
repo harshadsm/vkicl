@@ -147,14 +147,14 @@ public class WarehouseOutwardDaoImpl extends BaseDaoImpl{
 
 			StringBuffer q = new StringBuffer();
 			q.append(" select ");
-			q.append(" wo.create_ts warehouse_outward_creation_date,");//1
-			q.append(" wo.warehouse_outward_id,");//2
-			q.append(" wo.dispatchNo,");//3
-			q.append(" wo.dispatch_detail_id,");//4
-			q.append(" wo.vehicle_no,");//5
-			q.append(" wo.vehicle_dt,");//6
-			q.append(" wo.actual_wt,");//7
-			
+			q.append(" wo.create_ts warehouse_outward_creation_date,");
+			q.append(" wo.warehouse_outward_id,");
+			q.append(" wo.dispatchNo,");
+			q.append(" wo.dispatch_detail_id,");
+			q.append(" wo.vehicle_no,");
+			q.append(" wo.vehicle_dt,");
+			q.append(" wo.actual_wt,");
+			q.append(" ");
 			q.append(" dd.millName,");
 			q.append(" dd.make,");
 			q.append(" dd.grade,");
@@ -162,11 +162,17 @@ public class WarehouseOutwardDaoImpl extends BaseDaoImpl{
 			q.append(" dd.length,");
 			q.append(" dd.width,");
 			q.append(" dd.qty ordered_quantity,");
-			q.append(" wo.delivered_quantity");
-			
+			q.append(" wo.delivered_quantity,");
+			q.append(" dispo.buyerName,");
+			q.append(" sb.material_type, ");
+			q.append(" sb.heat_no, ");
+			q.append(" sb.plate_no ");
 			q.append("  from ");
 			q.append(" warehouse_outward wo");
 			q.append(" left join dispatch_details dd on wo.dispatch_detail_id = dd.dispatch_details_ID ");
+			q.append(" left join dispatch_order dispo on dd.dispatch_order_id = dispo.dispatch_order_id ");
+			q.append(" left join warehouse_outward_temp wot on wot.dispatch_details_id = wo.dispatch_detail_id ");
+			q.append(" left join stock_balance sb on sb.stock_balance_id = wot.stock_id ");
 			//q.append(" order by warehouse_outward_id desc;");
 			
 			//String sql = " select * from warehouse_outward "
@@ -197,6 +203,10 @@ public class WarehouseOutwardDaoImpl extends BaseDaoImpl{
 					vo.setWidth(rs.getInt(13));
 					vo.setOrderedQuantity(rs.getInt(14));
 					vo.setDeliveredQuantity(rs.getInt(15));
+					vo.setBuyerName(rs.getString(16));
+					vo.setMaterialType(rs.getString(17));
+					vo.setHeatNo(rs.getString(18));
+					vo.setPlateNo(rs.getString(19));
 					
 					list.add(vo);
 					

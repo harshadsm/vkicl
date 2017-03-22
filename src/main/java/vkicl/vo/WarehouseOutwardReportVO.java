@@ -20,6 +20,10 @@ public class WarehouseOutwardReportVO {
 	private String mill;
 	private String make;
 	private String grade;
+	private String buyerName;
+	private String materialType;
+	private String heatNo;
+	private String plateNo;
 	
 	public Integer getWarehouseOutwardId() {
 		return warehouseOutwardId;
@@ -116,6 +120,30 @@ public class WarehouseOutwardReportVO {
 	}
 	public void setOrderedQuantity(Integer orderedQuantity) {
 		this.orderedQuantity = orderedQuantity;
+	}
+	public String getBuyerName() {
+		return buyerName;
+	}
+	public void setBuyerName(String buyerName) {
+		this.buyerName = buyerName;
+	}
+	public String getMaterialType() {
+		return materialType;
+	}
+	public void setMaterialType(String materialType) {
+		this.materialType = materialType;
+	}
+	public String getHeatNo() {
+		return heatNo;
+	}
+	public void setHeatNo(String heatNo) {
+		this.heatNo = heatNo;
+	}
+	public String getPlateNo() {
+		return plateNo;
+	}
+	public void setPlateNo(String plateNo) {
+		this.plateNo = plateNo;
 	}
 	
 	

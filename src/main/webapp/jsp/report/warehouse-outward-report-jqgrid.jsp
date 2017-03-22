@@ -39,7 +39,7 @@ $(function() {
 			mtype : 'GET',
 			
 			
-			colNames : [ 'id', 'Vehicle Date', 'Vehicle No', 'Vendor Name', 'Material Type', 'Mill Name', 'Make', 'Grade', 'Thickness','Length','Width', 'Desc', 'Packing List', 'Inward Dettails Record Count'
+			colNames : [ 'id', 'Vehicle Date', 'Vehicle No', 'Vendor Name', 'Material Type', 'Mill Name', 'Make', 'Grade', 'Thickness','Length','Width', 'HeatNo', 'PlateNo', 'Packing List', 'Inward Dettails Record Count'
 					],
 					
 			colModel : [ {
@@ -83,8 +83,8 @@ $(function() {
 				searchoptions: { sopt:[ 'cn','eq']}
 				
 			},{
-				name : 'vendorName',
-				index : 'vendor_name',
+				name : 'buyerName',
+				index : 'buyerName',
 				width : 300,
 				editable : false,
 				editoptions : {
@@ -195,8 +195,22 @@ $(function() {
 				searchoptions: { sopt:[ 'cn','eq']}
 				
 			},{
-				name : 'desc',
-				index : 'desc',
+				name : 'heatNo',
+				index : 'heatNo',
+				width : 300,
+				editable : false,
+				editoptions : {
+					readonly : true,
+					size : 10
+				},
+				sortable:false,
+				search:false,
+				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+				searchoptions: { sopt:[ 'cn','eq']}
+				
+			},{
+				name : 'plateNo',
+				index : 'plateNo',
 				width : 300,
 				editable : false,
 				editoptions : {
@@ -214,7 +228,8 @@ $(function() {
 				width : 150,
 				editable : false,
 				search:false,
-				sortable:false
+				sortable:false,
+				hidden : true
 			},{
 				name : 'countOfPortInwardDetailRecords',
 				index : 'countOfPortInwardDetailRecords',
@@ -234,10 +249,10 @@ $(function() {
 			autowidth : true,
 			rownumbers : true,
 			pager : '#pager',
-			sortname : 'vessel_date',
+			sortname : 'warehouse_outward_creation_date',
 			viewrecords : true,
 			sortorder : "desc",
-			caption : "Port Inward List",
+			caption : "Warehouse Outward List",
 			emptyrecords : "Empty records",
 			loadonce : false,
 			loadComplete : function() {
