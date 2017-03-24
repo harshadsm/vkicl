@@ -87,8 +87,8 @@
 								<%
 									if (userInfoVO.hasAccess(Constants.Apps.PORT_REPORT)) {
 								%>
-								<li><a href="./port-inward-details.do">Port Inward</a></li>
-								<li><a href="./port-inward-report.do">Port Inward </a></li>
+								<li><a href="./port-inward-details.do">Port Inward (New)</a></li>
+								<li><a href="./port-inward-report.do">Port Inward (Old Dont Use. Will be removed)</a></li>
 								<li><a href="./port-outward-report.do">Port Outward </a></li>
 								<%
 									}
