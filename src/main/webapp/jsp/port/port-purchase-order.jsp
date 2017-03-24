@@ -459,7 +459,9 @@ input[name="length"], input[name="width"], input[name="thickness"], input[name="
 							<th>Thickness</th>
 							<th>Width</th>
 							<th>Length</th>
-							<th>Quantity</th> </tr>
+							<th>Quantity</th> 
+							<th>Section Wt</th>
+							</tr>
 					</thead>
 					<tbody id="details-tbody">
 					</tbody>
@@ -769,7 +771,7 @@ $(function() {
 						
 					},{
 						name : 'sectionWt',
-						index : 'sectionfWt',
+						index : 'sectionWt',
 						width : 300,
 						editable : false,
 						editoptions : {
@@ -874,7 +876,8 @@ function composeObjectForCaching(rowObject){
 			thickness : rowObject.thickness,
 			availableQuantity : rowObject.quantity,
 			actualWt:rowObject.actualWt,
-			actualWt_unit:rowObject.actualWt_unit
+			actualWt_unit:rowObject.actualWt_unit,
+			sectionWt:rowObject.sectionWt
 	};
 	return cachedObj;
 }
@@ -1062,7 +1065,8 @@ function addRowOfSelectedRecord(recordObj) {
 	var millName = $grid.jqGrid('getCell', selectedRowId, 'millName');
 	var make = $grid.jqGrid('getCell', selectedRowId, 'make');
 	var grade = $grid.jqGrid('getCell', selectedRowId, 'grade');
-	
+	var sectionWt = recordObj.sectionWt;
+	console.log(sectionWt)
 	
 	var str = "<tr id='" + id + "' class='selected-port-purchase-order-records "+portPurchaseOrderRecordClass+"' data-attribute-group-class='"+portPurchaseOrderRecordClass+"' data-attribute-original-quantity='"+recordObj.availableQuantity+"' >"
 			+ "<td><input type='text' readonly placeholder='vesselDate' value='"+vesselDate+"' name='vesselDate' class='form-control'  /></td>"
@@ -1076,6 +1080,8 @@ function addRowOfSelectedRecord(recordObj) {
 			+ "<td><input type='text' readonly placeholder='width' value='"+recordObj.width+"' name='width' class='form-control' /></td>"
 			+ "<td><input type='text' readonly placeholder='length' value='"+recordObj.length+"' name='length' class='form-control' /></td>"
 			+ "<td ><input type='number'  onChange='onOrderedQuantityChanged("+recordObj.portInwardId + ","+recordObj.portInwardDetailId+")' placeholder='Quantity' min='1' max='"+recordObj.availableQuantity+"' value='"+recordObj.orderedQuantity+"' name='availableQuantity' class='form-control port_out_item_quantity' id='port_out_item_quantity-" + id + "' data-attribute-parent-port-out-id='port_out_item_quantity-" + id + "' /></td>"
+			+ "<td><input type='text' readonly placeholder='SECTION WT' value='"+sectionWt+"' name='sectionWt' class='form-control' /></td>"
+			
 			+ "<td><input type='hidden'  value='"+recordObj.portInwardId+"' name='portInwardId'/></td>"
 
 			+ "<td><input type='hidden' value='"+recordObj.portInwardDetailId+"' name='portInwardDetailId'/></td>"
