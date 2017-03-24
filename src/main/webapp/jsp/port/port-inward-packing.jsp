@@ -57,6 +57,7 @@ function setText() {
 				console.log("Adding event handler for row-sub-"+i);
 				addOnTabNewRowEventHandler("row-sub-" + i);
 				addChecksumEventHandlers("row-sub-" + i);
+				addSectionWeightCalculatorEventHandlers("row-sub-" + i);
 			}
 		}
 		calculateChecksumOfQty();
@@ -102,13 +103,14 @@ function setText() {
 				+ "<td><input type='number' step='1' min='0' name='width' placeholder='Width' class='form-control' /></td>"
 				+ "<td><input type='number' step='1' min='0' name='length' placeholder='Length' class='form-control' /></td>"
 				+ "<td><input type='number' step='1' min='0' name='qty' placeholder='Quantity' class='form-control' onChange='calculateChecksumOfQty()'/></td>"
-				+ "<td><div class='input-group'><input type='number' step='0.001' min='0' name='actualWt' placeholder='Section Weight' class='form-control' aria-label='...'><div class='input-group-btn weight-group'><input type='hidden' name='actualWtUnit' value='TON' /><button type='button'class='btn btn-default dropdown-toggle' disabled data-toggle='dropdown' aria-expanded='false'>TON</button><ul class='dropdown-menu dropdown-menu-right' role='menu'><li onclick='btnGroupChange(this);'><a>TON</a></li><li onclick='btnGroupChange(this);'><a>KG</a></li></ul></div></div></td>"
+				+ "<td><div class='input-group'><input type='number' min='0' name='actualWt' placeholder='Section Weight' class='form-control' aria-label='...'><div class='input-group-btn weight-group'><input type='hidden' name='actualWtUnit' value='TON' /><button type='button'class='btn btn-default dropdown-toggle' disabled data-toggle='dropdown' aria-expanded='false'>TON</button><ul class='dropdown-menu dropdown-menu-right' role='menu'><li onclick='btnGroupChange(this);'><a>TON</a></li><li onclick='btnGroupChange(this);'><a>KG</a></li></ul></div></div></td>"
 				+ "<td><input type='button' class='btn-danger delete-row' onclick='deleteRow(\"row-sub-"
 				+ SUB_ROW_COUNTER + "\");' value='-' /></td>" + "</tr>";
 		$("#port_inward_details_table tbody").append(str);
 
 		addOnTabNewRowEventHandler("row-sub-" + SUB_ROW_COUNTER);
 		addChecksumEventHandlers("row-sub-" + SUB_ROW_COUNTER);
+		addSectionWeightCalculatorEventHandlers("row-sub-" + SUB_ROW_COUNTER);
 		recalculateAllChecksums();
 		refreshSubRows();
 		console.log("#row-sub-" + SUB_ROW_COUNTER + " input[name='thickness']");
@@ -125,6 +127,56 @@ function setText() {
 		addThicknessChecksumEventHandler(trId);
 		addWidthChecksumEventHandler(trId);
 	}
+
+	function addSectionWeightCalculatorEventHandlers(trId){
+		addRecalculateSectionWeightForThickenssChangedEventHandler(trId);
+		//addActualWeightChecksumEventHandler(trId);
+		addRecalculateSectionWeightForWidthChangedEventHandler(trId);
+		addRecalculateSectionWeightForLengthChangedEventHandler(trId);
+		addRecalculateSectionWeightForQuantityChangedEventHandler(trId);
+		
+	}
+
+	function addRecalculateSectionWeightForThickenssChangedEventHandler(trId){
+		$("#" + trId + " input[name='thickness']").change(function() {
+			recalculateSectionWeight(trId);
+		});
+	}
+
+	function addRecalculateSectionWeightForWidthChangedEventHandler(trId){
+		$("#" + trId + " input[name='width']").change(function() {
+			recalculateSectionWeight(trId);
+		});
+	}
+
+	function addRecalculateSectionWeightForLengthChangedEventHandler(trId){
+		$("#" + trId + " input[name='length']").change(function() {
+			recalculateSectionWeight(trId);
+		});
+	}
+	function addRecalculateSectionWeightForQuantityChangedEventHandler(trId){
+		$("#" + trId + " input[name='qty']").change(function() {
+			recalculateSectionWeight(trId);
+		});
+	}
+	function recalculateSectionWeight(trId){
+		console.log(trId);
+		var thickness = Number($("#" + trId + " input[name='thickness']").val());
+		var width = Number($("#" + trId + " input[name='width']").val());
+		var length = Number($("#" + trId + " input[name='length']").val());
+		var quantity = Number($("#" + trId + " input[name='qty']").val());
+		console.log("9999999999999999");
+		console.log(thickness);
+		console.log(width);
+		console.log(length);
+		console.log(quantity);
+		var sectionWeight = Number(thickness * width * length * quantity * 7.85 / 1000000000).toFixed(3);
+		console.log(sectionWeight);
+		$("#" + trId + " input[name='actualWt']").val(sectionWeight);
+
+		calculateChecksumOfSectionWeight();
+	}
+	
 
 	function addThicknessChecksumEventHandler(trId) {
 		$("#" + trId + " input[name='thickness']").change(function() {
@@ -196,6 +248,10 @@ function setText() {
 
 		console.log("Checksum = " + checkSumQty);
 		$("#checksum-quantity").text(checkSumQty);
+	}
+
+	function calculateSectionWeight(){
+		
 	}
 
 	function addActualWeightChecksumEventHandler(trId) {
