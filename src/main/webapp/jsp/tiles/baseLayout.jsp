@@ -66,7 +66,7 @@
 <script src="./js/export/jspdf/jspdf.js"></script>
 <script src="./js/jquery-validation-1.14.0/dist/jquery.validate.min.js"></script>
 
-
+<script src="./js/jquery-number-master/jquery.number.min.js"></script>
 
 <!-- jQgrid start -->
 <link rel="stylesheet" type="text/css" media="screen" href="./js/jquery.jqGrid-4.6.0/css/ui.jqgrid.css" />

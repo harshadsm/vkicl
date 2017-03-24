@@ -64,10 +64,22 @@ function setText() {
 		//calculateChecksumOfActualWeight();
 		calculateChecksumOfSectionWeight();
 
-		
+		reformatNumbersTo3dp();
 		
 	});
 
+	function reformatNumbersTo3dp(){
+		$("input:visible[name='sectionWt']").each(function(i,elem){
+			var $elem = $(elem);
+			var elemVal = $elem.val();
+			console.log(elemVal);
+			$elem.val(dp3(elemVal));
+		});
+	}
+	function dp3(numberStr){
+		return $.number(numberStr, 3, '.', '');
+	}
+	
 	function refreshSubRows() {
 		$(".main-row").each(function() {
 			var pis = $(this).find("input[name=pis]")[0].value;
@@ -107,7 +119,7 @@ function setText() {
 				+ "<td><input type='number' step='1' min='0' name='width' placeholder='Width' class='form-control' /></td>"
 				+ "<td><input type='number' step='1' min='0' name='length' placeholder='Length' class='form-control' /></td>"
 				+ "<td><input type='number' step='1' min='0' name='qty' placeholder='Quantity' class='form-control' onChange='calculateChecksumOfQty()'/></td>"
-				+ "<td><div class='input-group'><input type='number' min='0' name='sectionWt' placeholder='Section Weight' class='form-control' aria-label='...'><div class='input-group-btn weight-group'><input type='hidden' name='sectionWtUnit' value='TON' /><button type='button'class='btn btn-default dropdown-toggle' disabled data-toggle='dropdown' aria-expanded='false'>TON</button><ul class='dropdown-menu dropdown-menu-right' role='menu'><li onclick='btnGroupChange(this);'><a>TON</a></li><li onclick='btnGroupChange(this);'><a>KG</a></li></ul></div></div></td>"
+				+ "<td><div class='input-group'><input disabled type='number' min='0' name='sectionWt' placeholder='Section Weight' class='form-control' aria-label='...'><input type='hidden' name='sectionWt' /><div class='input-group-btn weight-group'><input type='hidden' name='sectionWtUnit' value='TON' /></div></td>"
 				+ "<td><input type='button' class='btn-danger delete-row' onclick='deleteRow(\"row-sub-"
 				+ SUB_ROW_COUNTER + "\");' value='-' /></td>" + "</tr>";
 		$("#port_inward_details_table tbody").append(str);
@@ -174,7 +186,7 @@ function setText() {
 		console.log(width);
 		console.log(length);
 		console.log(quantity);
-		var sectionWeight = Number(thickness * width * length * quantity * 7.85 / 1000000000).toFixed(3);
+		var sectionWeight = $.number(Number(thickness * width * length * quantity * 7.85 / 1000000000),3,'.',',');
 		console.log(sectionWeight);
 		$("#" + trId + " input[name='sectionWt']").val(sectionWeight);
 
@@ -395,8 +407,8 @@ style="display: none;" /> </span>
 								
 							</td>
 							<td>
-								<input  type='number' step='1' min='0' name='sectionWt' placeholder='sectionWt' class='form-control' value="<%=record.getSection_wt() %>" />
-								
+								<input  disabled type='text' name='sectionWt' placeholder='sectionWt' class='form-control' value="<%=record.getSection_wt() %>" />
+								<input type="hidden" name='sectionWt'  /> 
 							</td>
 							<!-- <td>
 								<div class='input-group'>
