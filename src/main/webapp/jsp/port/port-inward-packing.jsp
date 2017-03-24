@@ -50,10 +50,10 @@ function setText() {
 	}
 	
 	$(function(){
-		//addSubRow2();
-		if(SUB_ROW_COUNTER > 1){
-		
-			for (var i = 1; i < SUB_ROW_COUNTER; i++) {
+		console.log("SUB_ROW_COUNTERSUB_ROW_COUNTERSUB_ROW_COUNTER === "+SUB_ROW_COUNTER);
+		if(SUB_ROW_COUNTER >= 1){
+			
+			for (var i = 1; i <= SUB_ROW_COUNTER; i++) {
 				console.log("Adding event handler for row-sub-"+i);
 				addOnTabNewRowEventHandler("row-sub-" + i);
 				addChecksumEventHandlers("row-sub-" + i);
@@ -63,6 +63,9 @@ function setText() {
 		calculateChecksumOfQty();
 		//calculateChecksumOfActualWeight();
 		calculateChecksumOfSectionWeight();
+
+		
+		
 	});
 
 	function refreshSubRows() {
@@ -377,23 +380,23 @@ style="display: none;" /> </span>
 							<input type='hidden' name='subPis' />
 							<td >
 							<input  type='number' step='1' min='0' name='thickness' placeholder='Thickness' class='form-control' value="<%=record.getThickness() %>"/>
-								<input type="hidden" name='thickness' id="thickness" value="<%=record.getThickness() %>"/>
+								
 							</td>
 							<td>
 								<input  type='number' step='1' min='0' name='width' placeholder='Width' class='form-control' value="<%=record.getWidth() %>" />
-								<input type="hidden" name='width' id='width' value="<%=record.getWidth() %>"/>
+								
 							</td>
 							<td>
 								<input  type='number' step='1' min='0' name='length' placeholder='Length' class='form-control' value="<%=record.getLength() %>"/>
-								<input type="hidden" name='length' id='length' value="<%=record.getLength() %>"/>
+								
 							</td>
 							<td>
 								<input  type='number' step='1' min='0' name='qty' placeholder='Quantity In' class='form-control' value="<%=record.getQuantity() %>" />
-								<input type="hidden" name='qty' id='qty' value="<%=record.getQuantity() %>"/>
+								
 							</td>
 							<td>
 								<input  type='number' step='1' min='0' name='sectionWt' placeholder='sectionWt' class='form-control' value="<%=record.getSection_wt() %>" />
-								<input type="hidden" name='sectionWt' id='sectionWt' value="<%=record.getSection_wt() %>"/>
+								
 							</td>
 							<!-- <td>
 								<div class='input-group'>
