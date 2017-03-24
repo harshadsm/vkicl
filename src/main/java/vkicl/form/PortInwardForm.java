@@ -26,6 +26,8 @@ public class PortInwardForm extends BaseForm {
 	private Double[] thickness = null;
 	private Double[] actualWt = null;
 	private String[] actualWtUnit = null;
+	private Double[] sectionWt = null;
+	private String[] sectionWtUnit = null;
 	private Integer[] qty = null;
 
 	public PortInwardForm() {
@@ -230,6 +232,22 @@ public class PortInwardForm extends BaseForm {
 
 	public void setQty(Integer[] qty) {
 		this.qty = qty;
+	}
+
+	public Double[] getSectionWt() {
+		return sectionWt;
+	}
+
+	public void setSectionWt(Double[] sectionWt) {
+		this.sectionWt = sectionWt;
+	}
+
+	public String[] getSectionWtUnit() {
+		return sectionWtUnit;
+	}
+
+	public void setSectionWtUnit(String[] sectionWtUnit) {
+		this.sectionWtUnit = sectionWtUnit;
 	}
 
 	@Override

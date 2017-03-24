@@ -46,9 +46,10 @@ public class PortInwardDetailsService {
 			Integer[] length = form.getLength();
 			Integer[] qty = form.getQty();
 			Double[] actualWt = form.getActualWt();
+			Double[] sectionWt = form.getSectionWt();
 			// String [] actualWtUnit = form.getActualWtUnit();
 			for (int i = 0; i < recordCount; i++) {
-				if (thickness[i] == 0d && width[i] == 0 && length[i] == 0 && qty[i] == 0 && actualWt[i] == 0d) {
+				if (thickness[i] == 0d && width[i] == 0 && length[i] == 0 && qty[i] == 0 && sectionWt[i] == 0d) {
 					logger.debug("Ignored empty row");
 				} else {
 
@@ -57,7 +58,8 @@ public class PortInwardDetailsService {
 					vo.setWidth(width[i]);
 					vo.setLength(length[i]);
 					vo.setQuantity(qty[i]);
-					vo.setBe_weight(actualWt[i]);
+					vo.setBe_weight(sectionWt[i]);
+					//vo.setBe_weight(actualWt[i]);
 					// vo.setBe_wt_unit(actualWtUnit[i]); //As explained by
 					// client, it will always be TON
 					vo.setBe_wt_unit("TON");
