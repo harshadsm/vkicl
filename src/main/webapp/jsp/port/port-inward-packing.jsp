@@ -39,14 +39,14 @@ function setText() {
 		$("input[name='width']").removeAttr("disabled");
 		$("input[name='length']").removeAttr("disabled");
 		$("input[name='qty']").removeAttr("disabled");
-		$("input[name='actualWt']").removeAttr("disabled");
+		$("input[name='sectionWt']").removeAttr("disabled");
 		
 		
 		$('#thickness').attr('disabled', true);
 		$('#width').attr('disabled', true);
 		$('#length').attr('disabled', true);
 		$('#qty').attr('disabled', true);
-		$('#actualWt').attr('disabled', true);
+		$('#sectionWt').attr('disabled', true);
 	}
 	
 	$(function(){
@@ -72,7 +72,7 @@ function setText() {
 			$(this).next().find("input[name=subPis]").each(function() {
 				$(this).val(pis);
 			});
-			$(this).next().find("input[name=actualWtUnit]").each(function() {
+			$(this).next().find("input[name=sectionWtUnit]").each(function() {
 				$(this).val(unit);
 				$(this).next().html(unit);
 			});
@@ -89,6 +89,7 @@ function setText() {
 			bootbox.alert("Cannot Delete Last Row");
 		}
 		refreshSubRows();
+		calculateChecksumOfSectionWeight();
 	}
 
 	function submit() {
@@ -103,7 +104,7 @@ function setText() {
 				+ "<td><input type='number' step='1' min='0' name='width' placeholder='Width' class='form-control' /></td>"
 				+ "<td><input type='number' step='1' min='0' name='length' placeholder='Length' class='form-control' /></td>"
 				+ "<td><input type='number' step='1' min='0' name='qty' placeholder='Quantity' class='form-control' onChange='calculateChecksumOfQty()'/></td>"
-				+ "<td><div class='input-group'><input type='number' min='0' name='actualWt' placeholder='Section Weight' class='form-control' aria-label='...'><div class='input-group-btn weight-group'><input type='hidden' name='actualWtUnit' value='TON' /><button type='button'class='btn btn-default dropdown-toggle' disabled data-toggle='dropdown' aria-expanded='false'>TON</button><ul class='dropdown-menu dropdown-menu-right' role='menu'><li onclick='btnGroupChange(this);'><a>TON</a></li><li onclick='btnGroupChange(this);'><a>KG</a></li></ul></div></div></td>"
+				+ "<td><div class='input-group'><input type='number' min='0' name='sectionWt' placeholder='Section Weight' class='form-control' aria-label='...'><div class='input-group-btn weight-group'><input type='hidden' name='sectionWtUnit' value='TON' /><button type='button'class='btn btn-default dropdown-toggle' disabled data-toggle='dropdown' aria-expanded='false'>TON</button><ul class='dropdown-menu dropdown-menu-right' role='menu'><li onclick='btnGroupChange(this);'><a>TON</a></li><li onclick='btnGroupChange(this);'><a>KG</a></li></ul></div></div></td>"
 				+ "<td><input type='button' class='btn-danger delete-row' onclick='deleteRow(\"row-sub-"
 				+ SUB_ROW_COUNTER + "\");' value='-' /></td>" + "</tr>";
 		$("#port_inward_details_table tbody").append(str);
@@ -172,7 +173,7 @@ function setText() {
 		console.log(quantity);
 		var sectionWeight = Number(thickness * width * length * quantity * 7.85 / 1000000000).toFixed(3);
 		console.log(sectionWeight);
-		$("#" + trId + " input[name='actualWt']").val(sectionWeight);
+		$("#" + trId + " input[name='sectionWt']").val(sectionWeight);
 
 		calculateChecksumOfSectionWeight();
 	}
@@ -250,12 +251,9 @@ function setText() {
 		$("#checksum-quantity").text(checkSumQty);
 	}
 
-	function calculateSectionWeight(){
-		
-	}
 
 	function addActualWeightChecksumEventHandler(trId) {
-		$("#" + trId + " input[name='actualWt']").change(function() {
+		$("#" + trId + " input[name='sectionWt']").change(function() {
 			calculateChecksumOfActualWeight();
 		});
 	}
@@ -280,7 +278,7 @@ function setText() {
 
 	function calculateChecksumOfSectionWeight() {
 		var checkSumQty = 0;
-		$("input:hidden[name='sectionWt']").each(function() {
+		$("input[name='sectionWt']").each(function() {
 			console.log($(this).val());
 			checkSumQty = checkSumQty + Number($(this).val());
 
@@ -292,7 +290,7 @@ function setText() {
 	
 	function addOnTabNewRowEventHandler(trId) {
 
-		$("#" + trId + " input[name='actualWt']").keydown(function(e) {
+		$("#" + trId + " input[name='sectionWt']").keydown(function(e) {
 
 			var code = e.keyCode || e.which;
 			if (code == '9') {
