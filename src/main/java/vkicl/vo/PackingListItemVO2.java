@@ -27,6 +27,8 @@ public class PackingListItemVO2 {
 	private String vehicleName;
 	private Double actualWt;
 	private String actualWt_unit;
+	private Double sectionWt;
+	private String sectionWt_unit;
 	
 	public String getActualWt_unit() {
 		return actualWt_unit;
@@ -175,6 +177,18 @@ public class PackingListItemVO2 {
 	}
 	public void setQuantityAlreadyOut(Integer quantityAlreadyOut) {
 		this.quantityAlreadyOut = quantityAlreadyOut;
+	}
+	public Double getSectionWt() {
+		return sectionWt;
+	}
+	public void setSectionWt(Double sectionWt) {
+		this.sectionWt = sectionWt;
+	}
+	public String getSectionWt_unit() {
+		return sectionWt_unit;
+	}
+	public void setSectionWt_unit(String sectionWt_unit) {
+		this.sectionWt_unit = sectionWt_unit;
 	}
 	
 

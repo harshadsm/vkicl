@@ -667,7 +667,7 @@ $(function() {
 					mtype : 'GET',
 					
 					
-					colNames : ['port_inward_detail_id', 'port_inward_id', 'Thickness', 'Width', 'Length', 'Quantity', 'Actual Weight'],
+					colNames : ['port_inward_detail_id', 'port_inward_id', 'Thickness', 'Width', 'Length', 'Quantity', 'Actual Weight', 'Section Wt'],
 							
 					colModel : [ {
 						name : 'portInwardDetailId',
@@ -761,6 +761,21 @@ $(function() {
 							readonly : true,
 							size : 10
 						},
+						hidden: true,
+						search:false,
+						sortable:false,
+						//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+						searchoptions: { sopt:[ 'cn','eq']}
+						
+					},{
+						name : 'sectionWt',
+						index : 'sectionfWt',
+						width : 300,
+						editable : false,
+						editoptions : {
+							readonly : true,
+							size : 10
+						},
 						search:false,
 						sortable:false,
 						//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
@@ -799,6 +814,10 @@ $(function() {
 			        gridComplete: function(){ 
 			        	
 			        	var $grid = $("#portInwardPackingList");
+
+						//init filter toolbar
+			        	$grid.jqGrid('filterToolbar',{stringResult: true,searchOnEnter : false, searchOperators:true, defaultSearch:"cn"});
+		        		
 			        	var ids = $("#portInwardPackingList").jqGrid('getDataIDs');
 			        	
 			        	
@@ -806,10 +825,12 @@ $(function() {
 			        	for(var i=0;i < ids.length;i++){ 
 			        		var rowObject = $grid.jqGrid('getRowData',ids[i]); 
 			        		
-			        		var composedObj = composeObjectForCaching(rowObject);
+			        		//var composedObj = composeObjectForCaching(rowObject);
 							
-			        		$grid.jqGrid('filterToolbar',{stringResult: true,searchOnEnter : false, searchOperators:true, defaultSearch:"cn"});
-			        		
+			        		var sectionWt = Number(rowObject.sectionWt);
+			        		var sectionWt3dp = $.number(sectionWt,3,'.','');
+
+			        		$grid.jqGrid('setRowData',ids[i],{sectionWt:sectionWt3dp});
 			        		
 							
 		        		} 

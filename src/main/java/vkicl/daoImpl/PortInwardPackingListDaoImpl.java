@@ -499,14 +499,16 @@ public class PortInwardPackingListDaoImpl extends BaseDaoImpl {
 		q.append("  ifnull(total_to_taloja,0) total_to_taloja, ");
 		q.append("  ifnull(quantity,0) ");
 		q.append("  - ifnull(total_ppo_ordered_quantity,0)  ");
-		q.append("  - ifnull(total_to_taloja,0) bal_pcs_at_dock ");
+		q.append("  - ifnull(total_to_taloja,0) bal_pcs_at_dock, ");
+		q.append("  be_weight section_wt");
 		q.append("  ");
 		q.append(" FROM   (SELECT pid.port_inward_id, ");
 		q.append("                pid.port_inward_detail_id, ");
 		q.append("                pid.thickness, ");
 		q.append("                pid.width, ");
 		q.append("                pid.length, ");
-		q.append("                pid.quantity ");
+		q.append("                pid.quantity, ");
+		q.append("                pid.be_weight ");
 		q.append("         FROM   port_inward_details pid ");
 		q.append("         WHERE  pid.port_inward_id = ").append(port_inward_id).append(" ) one ");
 		q.append("        LEFT JOIN (SELECT pli.port_inward_details_id, ");
@@ -600,7 +602,8 @@ public class PortInwardPackingListDaoImpl extends BaseDaoImpl {
 					p.setQuantity(rs.getInt("bal_pcs_at_dock"));
 					// p.setQuantity(rs.getInt("quantity"));
 					p.setBalQty(rs.getDouble("bal_pcs_at_dock"));
-					p.setActualWt(9999d);
+					//p.setActualWt(9999d);
+					p.setSectionWt(rs.getDouble("section_wt"));
 
 					list.add(p);
 				} while (rs.next());
