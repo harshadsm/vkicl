@@ -32,6 +32,11 @@ public class PortPurchaseOrderPostDataContainerVO {
 	private String comments;
 	private Integer totalQty;
 	private Integer availableQuantity;
+	
+	private String vehicleNo;
+	private String vehicleDate;
+	private String transporterName;
+	
 
 	public Integer getAvailableQuantity() {
 		return availableQuantity;
@@ -155,6 +160,31 @@ public class PortPurchaseOrderPostDataContainerVO {
 
 	public void setComments(String comments) {
 		this.comments = comments;
+	}
+
+	
+	public String getVehicleNo() {
+		return vehicleNo;
+	}
+
+	public void setVehicleNo(String vehicleNo) {
+		this.vehicleNo = vehicleNo;
+	}
+
+	public String getVehicleDate() {
+		return vehicleDate;
+	}
+
+	public void setVehicleDate(String vehicleDate) {
+		this.vehicleDate = vehicleDate;
+	}
+
+	public String getTransporterName() {
+		return transporterName;
+	}
+
+	public void setTransporterName(String transporterName) {
+		this.transporterName = transporterName;
 	}
 
 	@Override

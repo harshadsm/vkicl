@@ -316,8 +316,8 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 			query = "INSERT INTO port_purchase_order "
 					+ " (customer_name, broker_name, brokerage,brokerage_unit, rate,delivery_address, "
 					+ " excise, tax, transport, payment_terms, total_quantity, comments, "
-					+ " create_ui, update_ui, create_ts, update_ts) "
-					+ " VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
+					+ " create_ui, update_ui, create_ts, update_ts, vehicle_no, vehicle_date, transporter_name) "
+					+ " VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 			log.info(query);
 
@@ -340,7 +340,9 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 			cs.setString(14, userInfoVO.getUserName());
 			cs.setString(15, getCurentTime());
 			cs.setString(16, getCurentTime());
-
+			cs.setString(17, vo.getVehicleNo());
+			cs.setDate(18, convertStringToDate(vo.getVehicleDate(), "dd/MM/yy"));
+			cs.setString(19, vo.getTransporterName());
 			int count = cs.executeUpdate();
 
 			ResultSet result = cs.getGeneratedKeys();

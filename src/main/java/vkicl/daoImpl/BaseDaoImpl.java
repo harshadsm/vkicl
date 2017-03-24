@@ -166,6 +166,22 @@ public class BaseDaoImpl {
 		}
 		return date;
 	}
+	
+	
+	public java.sql.Date convertStringToDate(String date, String format) throws ParseException {
+		java.sql.Date d = null;
+		if (null == date)
+			date = "";
+		if (!date.trim().equals("")) {
+			date = StringEscapeUtils.escapeHtml(date);
+			date = date.replaceAll(" ", "");
+			Calendar cal = Calendar.getInstance();
+			
+			cal.setTime(new SimpleDateFormat(format).parse(date));
+			d = new java.sql.Date(cal.getTimeInMillis());
+		}
+		return d;
+	}
 
 	public String convertDateToDisplayString(String date) throws ParseException {
 		if (null == date)

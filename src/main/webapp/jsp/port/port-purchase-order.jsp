@@ -48,10 +48,22 @@ function validateForm() {
 		bootbox.alert("Please enter comments");
 		return false;
 	} 
+	if ("" == getValByFieldName("body", "vehicleNo")) {
+		bootbox.alert("Please enter Vehicle No");
+		return false;
+	} 
+	if ("" == getValByFieldName("body", "vehicleDate")) {
+		bootbox.alert("Please enter Vehicle Date");
+		return false;
+	} 
+	if ("" == getValByFieldName("body", "transporterName")) {
+		bootbox.alert("Please enter Transporter Name");
+		return false;
+	} 
+	
 	var	str = "Are you sure you want to Submit?";
 	bootbox.confirm(str, function(result) {
 		if (result) {
-			
 			submitPortPurchaseOrder();
 		}
 	});
@@ -365,6 +377,32 @@ input[name="length"], input[name="width"], input[name="thickness"], input[name="
 							name="paymentTerms" placeholder="Payment Terms"
 							class="form-control" />
 						</td>
+					</tr>
+					<tr>
+						<td class='excel' colspan="1"><label for="vehicleNo">Vehicle Number</label></td>
+						<td class='excel' colspan="7"><input type="text"
+							name="vehicleNo" placeholder="Vehicle No." class="form-control" /></td>
+						
+					</tr>
+					<tr>
+						<td class='excel' colspan="1"><label for="vehicleDate">Vehicle Date</label></td>
+						<td class='excel' colspan="7">
+						
+						
+						<div class="input-group date date-picker-div">
+								<input type="text" name="vehicleDate" class="form-control" placeholder="Vehicle Date"/> <span
+									class="input-group-addon"><span
+									class="glyphicon-calendar glyphicon"></span></span>
+						</div>
+								
+						</td>
+						
+					</tr>
+					<tr>
+						<td class='excel' colspan="1"><label for="transporterName">Transporter Name</label></td>
+						<td class='excel' colspan="7"><input type="text"
+							name="transporterName" placeholder="Transporter Name" class="form-control" /></td>
+						
 					</tr>
 					<tr>
 						<td class='excel' colspan="1"><label for="comments">Comments</label></td>
@@ -1090,6 +1128,11 @@ function submitPortPurchaseOrder(){
 	var transport = getValByFieldName("body", "transport");
 	var paymanetTerms = getValByFieldName("body", "paymentTerms");
 	var comments = getValByFieldName("body", "comments");
+
+	var vehicleDate = getValByFieldName("body", "vehicleDate");
+	var vehicleNo = getValByFieldName("body", "vehicleNo");
+	var transporterName = getValByFieldName("body", "transporterName");
+
 	
 	
 	var parseTotal=  $(portInwardPackingList).jqGrid('getCol', 'quantity', false, 'sum');
@@ -1112,6 +1155,9 @@ function submitPortPurchaseOrder(){
 			 comments : comments,
 			 totalQty:parseTotal,
 			 brokerageUnit:brokerageUnit,
+			 vehicleDate : vehicleDate,
+			 vehicleNo : vehicleNo,
+			 transporterName : transporterName,
 			 
 			selectedPortInventoryItemsJson : selected_port_inventory_items_JSON
 	};
