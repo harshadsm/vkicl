@@ -241,7 +241,7 @@ function setText() {
 
 	function calculateChecksumOfQty() {
 		var checkSumQty = 0;
-		$("input[name='qty']").each(function() {
+		$("input:visible[name='qty']").each(function() {
 			console.log($(this).val());
 			checkSumQty = checkSumQty + Number($(this).val());
 
@@ -278,7 +278,7 @@ function setText() {
 
 	function calculateChecksumOfSectionWeight() {
 		var checkSumQty = 0;
-		$("input[name='sectionWt']").each(function() {
+		$("input:visible[name='sectionWt']").each(function() {
 			console.log($(this).val());
 			checkSumQty = checkSumQty + Number($(this).val());
 
@@ -376,23 +376,23 @@ style="display: none;" /> </span>
 						<tr id="row-sub-<%=cnt %>" class='sub-row' >
 							<input type='hidden' name='subPis' />
 							<td >
-							<input  disabled  type='number' step='1' min='0' name='thickness' placeholder='Thickness' class='form-control' value="<%=record.getThickness() %>"/>
+							<input  type='number' step='1' min='0' name='thickness' placeholder='Thickness' class='form-control' value="<%=record.getThickness() %>"/>
 								<input type="hidden" name='thickness' id="thickness" value="<%=record.getThickness() %>"/>
 							</td>
 							<td>
-								<input  disabled  type='number' step='1' min='0' name='width' placeholder='Width' class='form-control' value="<%=record.getWidth() %>" />
+								<input  type='number' step='1' min='0' name='width' placeholder='Width' class='form-control' value="<%=record.getWidth() %>" />
 								<input type="hidden" name='width' id='width' value="<%=record.getWidth() %>"/>
 							</td>
 							<td>
-								<input  disabled  type='number' step='1' min='0' name='length' placeholder='Length' class='form-control' value="<%=record.getLength() %>"/>
+								<input  type='number' step='1' min='0' name='length' placeholder='Length' class='form-control' value="<%=record.getLength() %>"/>
 								<input type="hidden" name='length' id='length' value="<%=record.getLength() %>"/>
 							</td>
 							<td>
-								<input  disabled  type='number' step='1' min='0' name='qty' placeholder='Quantity In' class='form-control' value="<%=record.getQuantity() %>" />
+								<input  type='number' step='1' min='0' name='qty' placeholder='Quantity In' class='form-control' value="<%=record.getQuantity() %>" />
 								<input type="hidden" name='qty' id='qty' value="<%=record.getQuantity() %>"/>
 							</td>
 							<td>
-								<input  disabled  type='number' step='1' min='0' name='sectionWt' placeholder='sectionWt' class='form-control' value="<%=record.getSection_wt() %>" />
+								<input  type='number' step='1' min='0' name='sectionWt' placeholder='sectionWt' class='form-control' value="<%=record.getSection_wt() %>" />
 								<input type="hidden" name='sectionWt' id='sectionWt' value="<%=record.getSection_wt() %>"/>
 							</td>
 							<!-- <td>
