@@ -105,7 +105,7 @@ $(function() {
 					readonly : true,
 					size : 10
 				},
-				search:false,
+				search: true,
 				sortable:false,
 				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
 				searchoptions: { sopt:[ 'cn','eq']}
@@ -119,7 +119,7 @@ $(function() {
 					readonly : true,
 					size : 10
 				},
-				search:false,
+				search: true,
 				sortable:false,
 				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
 				searchoptions: { sopt:[ 'cn','eq']}
@@ -134,7 +134,7 @@ $(function() {
 					size : 10
 				},
 				sortable:false,
-				search:false,
+				search: true,
 				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
 				searchoptions: { sopt:[ 'cn','eq']}
 				
@@ -148,7 +148,7 @@ $(function() {
 					size : 10
 				},
 				sortable:false,
-				search:false,
+				search: true,
 				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
 				searchoptions: { sopt:[ 'cn','eq']}
 				
