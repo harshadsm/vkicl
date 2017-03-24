@@ -101,8 +101,8 @@ function setText() {
 				+ "<td><input type='number' step='0.001' min='0' name='thickness' placeholder='Thickness' class='form-control' /></td>"
 				+ "<td><input type='number' step='1' min='0' name='width' placeholder='Width' class='form-control' /></td>"
 				+ "<td><input type='number' step='1' min='0' name='length' placeholder='Length' class='form-control' /></td>"
-				+ "<td><input type='number' step='1' min='0' name='qty' placeholder='Quantity' class='form-control' /></td>"
-				+ "<td><div class='input-group'><input type='number' step='0.001' min='0' name='actualWt' placeholder='Actual Weight' class='form-control' aria-label='...'><div class='input-group-btn weight-group'><input type='hidden' name='actualWtUnit' value='TON' /><button type='button'class='btn btn-default dropdown-toggle' disabled data-toggle='dropdown' aria-expanded='false'>TON</button><ul class='dropdown-menu dropdown-menu-right' role='menu'><li onclick='btnGroupChange(this);'><a>TON</a></li><li onclick='btnGroupChange(this);'><a>KG</a></li></ul></div></div></td>"
+				+ "<td><input type='number' step='1' min='0' name='qty' placeholder='Quantity' class='form-control' onChange='calculateChecksumOfQty()'/></td>"
+				+ "<td><div class='input-group'><input type='number' step='0.001' min='0' name='actualWt' placeholder='Section Weight' class='form-control' aria-label='...'><div class='input-group-btn weight-group'><input type='hidden' name='actualWtUnit' value='TON' /><button type='button'class='btn btn-default dropdown-toggle' disabled data-toggle='dropdown' aria-expanded='false'>TON</button><ul class='dropdown-menu dropdown-menu-right' role='menu'><li onclick='btnGroupChange(this);'><a>TON</a></li><li onclick='btnGroupChange(this);'><a>KG</a></li></ul></div></div></td>"
 				+ "<td><input type='button' class='btn-danger delete-row' onclick='deleteRow(\"row-sub-"
 				+ SUB_ROW_COUNTER + "\");' value='-' /></td>" + "</tr>";
 		$("#port_inward_details_table tbody").append(str);
@@ -188,7 +188,7 @@ function setText() {
 
 	function calculateChecksumOfQty() {
 		var checkSumQty = 0;
-		$("input:hidden[name='qty']").each(function() {
+		$("input[name='qty']").each(function() {
 			console.log($(this).val());
 			checkSumQty = checkSumQty + Number($(this).val());
 
@@ -334,7 +334,7 @@ style="display: none;" /> </span>
 								<input type="hidden" name='length' id='length' value="<%=record.getLength() %>"/>
 							</td>
 							<td>
-								<input  disabled  type='number' step='1' min='0' name='qty' placeholder='Quantity' class='form-control' value="<%=record.getQuantity() %>" />
+								<input  disabled  type='number' step='1' min='0' name='qty' placeholder='Quantity In' class='form-control' value="<%=record.getQuantity() %>" />
 								<input type="hidden" name='qty' id='qty' value="<%=record.getQuantity() %>"/>
 							</td>
 							<td>
