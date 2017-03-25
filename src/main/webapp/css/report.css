@@ -131,3 +131,6 @@ div.tablesorterPager input {
 #result-table th, #result-table td {
     text-align: center;
 }
+td {
+	text-transform : uppercase;
+}
