@@ -13,6 +13,8 @@ public class PortPurchaseOrderLineItemVO {
 	private Integer orderedQuantity;
 	private Integer deliveryQuantity;
 	private Integer pendingQuantity;
+	private String materialType;
+	private String millName;
 
 	public Integer getPendingQuantity() {
 		return pendingQuantity;
@@ -97,6 +99,22 @@ public class PortPurchaseOrderLineItemVO {
 
 	public void setOrderedQuantity(Integer orderedQuantity) {
 		this.orderedQuantity = orderedQuantity;
+	}
+
+	public String getMaterialType() {
+		return materialType;
+	}
+
+	public void setMaterialType(String materialType) {
+		this.materialType = materialType;
+	}
+
+	public String getMillName() {
+		return millName;
+	}
+
+	public void setMillName(String millName) {
+		this.millName = millName;
 	}
 
 }

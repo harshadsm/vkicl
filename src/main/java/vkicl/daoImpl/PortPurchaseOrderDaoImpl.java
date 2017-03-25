@@ -688,17 +688,46 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 		try {
 			conn = getConnection();
 
-			String sql = "select a.* from (select ppoli.id,pid.length, pid.width, pid.thickness,ppoli.ordered_quantity,"
-					+ " ppoli.ordered_quantity-ifnull((dq.delivered_quantity),0) pending_quantity,"
-					+ " ifnull((dq.delivered_quantity),0) delivered_quantity"
-					+ " from ppo_line_items ppoli left join port_inward_details pid "
-					+ " on ppoli.port_inward_details_id=pid.port_inward_detail_id "
-					+ " left join (select dnli.ppo_line_items_id,sum(dnli.delivered_quantity) delivered_quantity "
-					+ " from delivery_note_line_items dnli where dnli.delivery_note_id"
-					+ " in (select id from delivery_notes dn where dn.port_purchase_order_id=" + purchaseOrderNo + ") "
-					+ " group by dnli.ppo_line_items_id) dq" + " on dq.ppo_line_items_id=ppoli.id "
-					+ " where ppoli.port_purchase_order_id=" + purchaseOrderNo + ") a " + " where a.pending_quantity>0";
-			query = sql;
+//			String sql = "select a.* from (select ppoli.id,pid.length, pid.width, pid.thickness,ppoli.ordered_quantity,"
+//					+ " ppoli.ordered_quantity-ifnull((dq.delivered_quantity),0) pending_quantity,"
+//					+ " ifnull((dq.delivered_quantity),0) delivered_quantity"
+//					+ " from ppo_line_items ppoli left join port_inward_details pid "
+//					+ " on ppoli.port_inward_details_id=pid.port_inward_detail_id "
+//					+ " left join (select dnli.ppo_line_items_id,sum(dnli.delivered_quantity) delivered_quantity "
+//					+ " from delivery_note_line_items dnli where dnli.delivery_note_id"
+//					+ " in (select id from delivery_notes dn where dn.port_purchase_order_id=" + purchaseOrderNo + ") "
+//					+ " group by dnli.ppo_line_items_id) dq" + " on dq.ppo_line_items_id=ppoli.id "
+//					+ " where ppoli.port_purchase_order_id=" + purchaseOrderNo + ") a " + " where a.pending_quantity>0";
+//			query = sql;
+			StringBuffer q = new StringBuffer();
+			q.append(" select a.* from  ");
+			q.append(" ( ");
+			q.append(" select  ");
+			q.append(" ppoli.id, ");
+			q.append(" pid.length,  ");
+			q.append(" pid.width,  ");
+			q.append(" pid.thickness, ");
+			q.append(" ppoli.ordered_quantity,  ");
+			q.append(" ppoli.ordered_quantity-ifnull((dq.delivered_quantity),0) pending_quantity,  ");
+			q.append(" ifnull((dq.delivered_quantity),0) delivered_quantity , ");
+			q.append(" pi.material_type,  ");
+			q.append(" pi.mill_name ");
+			q.append(" from ppo_line_items ppoli  ");
+			q.append(" left join port_inward_details pid  on ppoli.port_inward_details_id=pid.port_inward_detail_id   ");
+			q.append(" left join port_inward pi on pi.port_inward_id = pid.port_inward_id ");
+			q.append(" left join  ");
+			q.append(" ( ");
+			q.append(" select dnli.ppo_line_items_id,sum(dnli.delivered_quantity) delivered_quantity   ");
+			q.append(" from delivery_note_line_items dnli  ");
+			q.append(" where dnli.delivery_note_id in  ");
+			q.append(" ( ");
+			q.append(" select id from delivery_notes dn where dn.port_purchase_order_id= ").append(purchaseOrderNo);
+			q.append(" )   ");
+			q.append(" group by dnli.ppo_line_items_id) dq on dq.ppo_line_items_id=ppoli.id   ");
+			q.append(" where ppoli.port_purchase_order_id= ").append(purchaseOrderNo);
+			q.append(" ) a   ");
+			q.append(" where a.pending_quantity>0; ");
+			query = q.toString();
 			log.info("query = " + query);
 
 			cs = conn.prepareCall(query);
@@ -714,6 +743,8 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 					vo.setThickness(rs.getDouble(4));
 					vo.setOrderedQuantity(rs.getInt(5));
 					vo.setPendingQuantity(rs.getInt(6));
+					vo.setMaterialType(rs.getString(8));
+					vo.setMillName(rs.getString(9));
 					list.add(vo);
 
 				} while (rs.next());

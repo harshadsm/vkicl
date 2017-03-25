@@ -142,6 +142,9 @@ function deleteDeliveryNoteLineItems(id) {
 							<th width="8%">Thickness</th>
 							<th width="15%">Width</th>
 							<th width="15%">Length</th>
+							
+							<th width="15%">Material Type</th>
+							<th width="15%">Mill Name</th>
 							<th width="15%">Ordered Quantity</th>
 							<th width="15%">Pending Quantity</th>
 							<th width="20%">Delivery Quantity</th>
@@ -162,6 +165,8 @@ function deleteDeliveryNoteLineItems(id) {
 								<td><input  disabled type='label' value="<%=record.getThickness() %>"/></td>
 								<td><input  disabled type='label' value="<%=record.getWidth() %>"/></td>
 								<td><input disabled  type='label' value="<%=record.getLength() %>"/></td>
+								<td><input disabled  type='label' value="<%=record.getMaterialType() %>"/>
+								<td><input disabled  type='label' value="<%=record.getMillName() %>"/>
 								<td><input disabled  type='label' value="<%=record.getOrderedQuantity() %>"/>
 								<input   type='hidden' name="orderedQuantity" id="orderedQuantity" value="<%=record.getOrderedQuantity() %>"
 								</td>
