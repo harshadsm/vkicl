@@ -470,6 +470,7 @@ input[name="length"], input[name="width"], input[name="thickness"], input[name="
 							<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
 							<td>Total Ordered Quantity</td>
 							<td id="sumOfOrderedQuantity"></td>
+							<td id="sumOfSectionWt"></td>
 						</tr>
 					</tfoot>
 				</table>
@@ -948,6 +949,7 @@ function calculateSumOfOrderedQuantity(){
 
 	$("#sumOfOrderedQuantity").html(quantitySum);
 	//addQuantitySumRow(quantitySum,sectionwtSum);
+	$("#sumOfSectionWt").html($.number(sectionwtSum, 3, '.', ''));
 
 }
 
@@ -1065,7 +1067,7 @@ function addRowOfSelectedRecord(recordObj) {
 	var millName = $grid.jqGrid('getCell', selectedRowId, 'millName');
 	var make = $grid.jqGrid('getCell', selectedRowId, 'make');
 	var grade = $grid.jqGrid('getCell', selectedRowId, 'grade');
-	var sectionWt = recordObj.sectionWt;
+	var sectionWt = Number(recordObj.sectionWt)/Number(recordObj.availableQuantity);
 	console.log(sectionWt)
 	
 	var str = "<tr id='" + id + "' class='selected-port-purchase-order-records "+portPurchaseOrderRecordClass+"' data-attribute-group-class='"+portPurchaseOrderRecordClass+"' data-attribute-original-quantity='"+recordObj.availableQuantity+"' >"
@@ -1080,7 +1082,7 @@ function addRowOfSelectedRecord(recordObj) {
 			+ "<td><input type='text' readonly placeholder='width' value='"+recordObj.width+"' name='width' class='form-control' /></td>"
 			+ "<td><input type='text' readonly placeholder='length' value='"+recordObj.length+"' name='length' class='form-control' /></td>"
 			+ "<td ><input type='number'  onChange='onOrderedQuantityChanged("+recordObj.portInwardId + ","+recordObj.portInwardDetailId+")' placeholder='Quantity' min='1' max='"+recordObj.availableQuantity+"' value='"+recordObj.orderedQuantity+"' name='availableQuantity' class='form-control port_out_item_quantity' id='port_out_item_quantity-" + id + "' data-attribute-parent-port-out-id='port_out_item_quantity-" + id + "' /></td>"
-			+ "<td><input type='text' readonly placeholder='SECTION WT' value='"+sectionWt+"' name='sectionWt' class='form-control' /></td>"
+			+ "<td><input type='text' readonly placeholder='SECTION WT' value='"+sectionWt+"' name='sectionWt' class='form-control port_out_section_wt' /></td>"
 			
 			+ "<td><input type='hidden'  value='"+recordObj.portInwardId+"' name='portInwardId'/></td>"
 
