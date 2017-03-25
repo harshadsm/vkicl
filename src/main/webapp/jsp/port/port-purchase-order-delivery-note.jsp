@@ -110,18 +110,19 @@ function deleteDeliveryNoteLineItems(id) {
 									<th>Transport</th><td><%=vo.getTransport() %></td>
 								</tr>
 								<tr>
-									<th>Vehicle No.</th><td><input type="text" name="vehicleNumber"
-								class="form-control"  placeholder="Vehicle Number"/></td>
+									<th>Vehicle No.</th>
+									<td>
+										<input type="text" name="vehicleNumber"
+											class="form-control"  placeholder="Vehicle Number"/>
+									</td>
 								
 									
 								<th>Vehicle Date</th><td>
-								<div class="input-group date date-picker-div" id="datetimepicker1">
-								<input type="text" name="vehicleDate" id="vehicleDate" class="form-control" "
-								data-date-format="YYYY-MM-DD"/>
-								<span class="input-group-addon"><span
-									class="glyphicon-calendar glyphicon"></span></span>
-									
-									
+									<div class="input-group date date-picker-div col-md-12" id="datetimepicker1">
+										<input type="text" name="vehicleDate" id="vehicleDate" class="form-control"
+											data-date-format="DD-MM-YYYY"/>
+										<span class="input-group-addon"><span
+											class="glyphicon-calendar glyphicon"></span></span>
 								</div>
 							</td>
 								</tr>

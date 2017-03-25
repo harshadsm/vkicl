@@ -330,7 +330,7 @@ public class DeliveryNoteDaoImpl extends BaseDaoImpl {
 			cs.setString(5, getCurentTime());
 			cs.setString(6, portpurchasedeliverynoteform.getVehicleNumber());
 			cs.setString(7, portpurchasedeliverynoteform.getDeliveryAddress());
-			Date vehicleDate = Converter.dateToSqlDate(Converter.stringToDate(portpurchasedeliverynoteform.getVehicleDate(), "yyyy-MM-dd"));
+			Date vehicleDate = Converter.dateToSqlDate(Converter.stringToDate(portpurchasedeliverynoteform.getVehicleDate(), "dd-MM-yyyy"));
 			cs.setDate(8, vehicleDate);
 
 			int count = cs.executeUpdate();
