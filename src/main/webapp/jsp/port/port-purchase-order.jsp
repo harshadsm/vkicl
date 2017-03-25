@@ -1024,13 +1024,30 @@ function onOrderedQuantityChanged(portInwardId, portInwardDetailId){
 	var comboId = ""+ portInwardId + "-" + portInwardDetailId ;
 	var qtyElementId = "port_out_item_quantity-"+comboId;
 	var newQuantity = Number($("#"+qtyElementId).val());
+	var quantityAvailableAtPort = Number($("#available_qty_at_port-"+comboId).val());
 
+	console.log("###################  newQuantity = "+newQuantity);
+	console.log("quantityAvailableAtPort = "+quantityAvailableAtPort);
 	//Do not allow -ve quantity.
 	if(newQuantity < 1){
 		newQuantity = 1;
 		$("#"+qtyElementId).val(newQuantity);
 	}
+
+	//Do not allow quantity more than that is available at port.
+	if(newQuantity > quantityAvailableAtPort){
+		bootbox.alert("Sorry! Can't sell more than what you have at port. Available Quantity = "+quantityAvailableAtPort+". You tried to sell quantity = "+newQuantity);
+		newQuantity = quantityAvailableAtPort;
+		$("#"+qtyElementId).val(newQuantity);
+	}
 	
+	//Recalculate section weight
+	var perUnitSectionWeight = Number($("#port_out_item_section_wt_per_plate-"+comboId).val());
+	var newSectionWeight = Number(perUnitSectionWeight * newQuantity);
+	var newSectionWeight3dp = $.number(newSectionWeight, 3 , '.', '');
+	$("#port_out_item_section_wt-"+comboId).val(newSectionWeight3dp);
+
+	//Update the cache  
 	$.each(SELECTED_PORT_INVENTORY_ITEMS, function(i,elem){
 		var cachedPortInwardId = elem.portInwardId;
 		var chachedPortInwardDetailId = elem.portInwardDetailId;
@@ -1038,16 +1055,11 @@ function onOrderedQuantityChanged(portInwardId, portInwardDetailId){
 		if(portInwardId == cachedPortInwardId && portInwardDetailId == chachedPortInwardDetailId){
 			console.log(elem);
 			elem.orderedQuantity = newQuantity;
+			elem.sectionWt = newSectionWeight3dp;
 			console.log(elem);
 	
 		}
 	});
-
-	//Recalculate section weight
-	var perUnitSectionWeight = Number($("#port_out_item_section_wt_per_plate-"+comboId).val());
-	var newSectionWeight = Number(perUnitSectionWeight * newQuantity);
-	var newSectionWeight3dp = $.number(newSectionWeight, 3 , '.', '');
-	$("#port_out_item_section_wt-"+comboId).val(newSectionWeight3dp);
 
 	calculateSumOfOrderedQuantity();	
 }
@@ -1070,6 +1082,7 @@ function addRowOfSelectedRecord(recordObj) {
 	var materialType = $grid.jqGrid('getCell', selectedRowId, 'materialType');
 	var millName = $grid.jqGrid('getCell', selectedRowId, 'millName');
 	var make = $grid.jqGrid('getCell', selectedRowId, 'make');
+	var availableQtyAtPort = recordObj.availableQuantity;
 	var grade = $grid.jqGrid('getCell', selectedRowId, 'grade');
 	var sectionWtPerUnit = Number(recordObj.sectionWt)/Number(recordObj.availableQuantity);
 	sectionWtPerUnit = $.number(sectionWtPerUnit, 3, '.', '');
@@ -1088,10 +1101,10 @@ function addRowOfSelectedRecord(recordObj) {
 			+ "<td><input type='text' readonly placeholder='length' value='"+recordObj.length+"' name='length' class='form-control' /></td>"
 			+ "<td><input type='number'  onChange='onOrderedQuantityChanged("+recordObj.portInwardId + ","+recordObj.portInwardDetailId+")' placeholder='Quantity' min='1' max='"+recordObj.availableQuantity+"' value='"+recordObj.orderedQuantity+"' name='availableQuantity' class='form-control port_out_item_quantity' id='port_out_item_quantity-" + id + "' data-attribute-parent-port-out-id='port_out_item_quantity-" + id + "' /></td>"
 			+ "<td><input type='text' readonly placeholder='SECTION WT' value='"+sectionWtPerUnit+"' name='sectionWt' class='form-control port_out_section_wt' id='port_out_item_section_wt-" + id + "'/></td>"
-			+ "<td><input type='hidden' readonly value='"+sectionWtPerUnit+"' id='port_out_item_section_wt_per_plate-" + id + "'/></td>"
-			
-			+ "<td><input type='hidden'  value='"+recordObj.portInwardId+"' name='portInwardId'/></td>"
+			+ "<td><input type='hidden'  value='"+sectionWtPerUnit+"' id='port_out_item_section_wt_per_plate-" + id + "'/></td>"
+			+ "<td><input type='hidden'  value='"+availableQtyAtPort+"' id='available_qty_at_port-"+id+"'/></td>"
 
+			+ "<td><input type='hidden'  value='"+recordObj.portInwardId+"' name='portInwardId'/></td>"
 			+ "<td><input type='hidden' value='"+recordObj.portInwardDetailId+"' name='portInwardDetailId'/></td>"
 			+ "<td><input type='hidden' value='"+recordObj.portInwardShipmentId+"' name='portInwardShipmentId'/></td>"
 			+ "<td><input type='hidden' value='"+recordObjJson+"' id='"+jsonCellId+"'/></td>"
