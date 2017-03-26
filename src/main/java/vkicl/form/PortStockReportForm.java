@@ -17,10 +17,12 @@ public class PortStockReportForm extends BaseForm {
 
 	private String materialType = null;
 	private String grade = null;
+	private String millName = null;
 
 	private ArrayList<LabelValueBean> vesselNameList = null;
 	private ArrayList<LabelValueBean> materialTypeList = null;
 	private ArrayList<LabelValueBean> gradeList = null;
+	private ArrayList<LabelValueBean> millNameList = null;
 
 	private ArrayList<PortStockBean> reportList = null;
 
@@ -102,6 +104,22 @@ public class PortStockReportForm extends BaseForm {
 
 	public void setVesselDate(String vesselDate) {
 		this.vesselDate = vesselDate;
+	}
+
+	public ArrayList<LabelValueBean> getMillNameList() {
+		return millNameList;
+	}
+
+	public void setMillNameList(ArrayList<LabelValueBean> millNameList) {
+		this.millNameList = millNameList;
+	}
+
+	public String getMillName() {
+		return millName;
+	}
+
+	public void setMillName(String millName) {
+		this.millName = millName;
 	}
 
 	@Override

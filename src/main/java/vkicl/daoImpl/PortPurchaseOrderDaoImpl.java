@@ -993,6 +993,16 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 			}
 		}
 		
+		if(form.getMillName()!=null && !form.getMillName().isEmpty() && !form.getMillName().equalsIgnoreCase("ALL")){
+			String millNameClause = "one.mill_name like '%"+form.getMillName()+"%'";
+			clauses.add(millNameClause);
+		}
+		
+		if(form.getVesselName()!=null && !form.getVesselName().isEmpty() && !form.getVesselName().equalsIgnoreCase("ALL")){
+			String vesselNameClauses = "one.vessel_name like '%"+form.getVesselName()+"%'";
+			clauses.add(vesselNameClauses);
+		}
+		
 		if(form.getFromDate()!=null && !form.getFromDate().isEmpty()){
 			try{
 				Date frmDt = convertStringToDate(form.getFromDate(), "dd/MM/yy");

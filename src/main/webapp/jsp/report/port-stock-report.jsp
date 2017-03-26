@@ -46,6 +46,14 @@
 								<html:optionsCollection property="gradeList" />
 							</html:select></td>
 					</tr>
+					<tr>
+						<td class="form-label"><label for="millName">Mill Name</label></td>
+						<td><html:select property="millName"
+								styleId="millName" styleClass="form-control">
+								<html:option value="ALL">ALL</html:option>
+								<html:optionsCollection property="millNameList" />
+							</html:select></td>
+					</tr>
 				</table>
 			</div>
 			<div class="col-md-4">
@@ -67,6 +75,14 @@
 								styleId="materialType" styleClass="form-control">
 								<html:option value="ALL">ALL</html:option>
 								<html:optionsCollection property="materialTypeList" />
+							</html:select></td>
+					</tr>
+					<tr>
+						<td class="form-label"><label for="vesselName">Vessel Name</label></td>
+						<td><html:select property="vesselName"
+								styleId="vesselName" styleClass="form-control">
+								<html:option value="ALL">ALL</html:option>
+								<html:optionsCollection property="vesselNameList" />
 							</html:select></td>
 					</tr>
 				</table>

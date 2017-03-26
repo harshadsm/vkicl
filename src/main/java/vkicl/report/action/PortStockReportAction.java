@@ -45,9 +45,11 @@ public class PortStockReportAction extends BaseAction {
 			ArrayList<LabelValueBean> vesselNameList = impl.getList(userInfoVO, "query.unique.vesselName");
 			ArrayList<LabelValueBean> materialTypeList = impl.getList(userInfoVO, "query.unique.materialType");
 			ArrayList<LabelValueBean> gradeList = impl.getList(userInfoVO, "query.unique.grade");
+			ArrayList<LabelValueBean> millNameList = impl.getList(userInfoVO, "query.unique.millName");
 			portStockReportForm.setVesselNameList(vesselNameList);
 			portStockReportForm.setMaterialTypeList(materialTypeList);
 			portStockReportForm.setGradeList(gradeList);
+			portStockReportForm.setMillNameList(millNameList);
 
 			genericListener = portStockReportForm.getGenericListener();
 			if (genericListener.equalsIgnoreCase("getReport")) {
