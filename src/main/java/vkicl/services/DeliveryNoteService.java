@@ -38,6 +38,8 @@ public class DeliveryNoteService {
 				deliveryNote.setId(deliveryNoteId);
 				deliveryNote.setPortPurchaseOrderId(ppoId);
 				deliveryNote.setDeliveryNoteLineItems(deliveredItems);
+				deliveryNote.setVehicleNumber(dnb.getVehicleNo());
+				deliveryNote.setVehicleDate(dnb.getVehicleDate());
 
 				deliveryNotes.add(deliveryNote);
 

@@ -210,7 +210,12 @@ function deleteDeliveryNoteLineItems(id) {
 		List<DeliveryNoteLineItemVO> deliveryNoteLineItems = deliveryNote.getDeliveryNoteLineItems();
 		
 		%>
-		<h3><a href="delivery-note-view.do?deliveryNoteId=<%=deliveryNote.getId() %>&ppoNo=<%=deliveryNote.getPortPurchaseOrderId()%>">Delivery Note - <%=deliveryNote.getId() %></a></h3>
+		<h3>
+			<a href="delivery-note-view.do?deliveryNoteId=<%=deliveryNote.getId() %>&ppoNo=<%=deliveryNote.getPortPurchaseOrderId()%>">
+			Delivery Note - <%=deliveryNote.getId() %>
+			&nbsp;&nbsp;[Vehicle No = <%=deliveryNote.getVehicleNumber() %>]
+			</a>
+		</h3>
 		<table class="table table-striped">
 		<thead>
 			<tr>
@@ -231,7 +236,7 @@ function deleteDeliveryNoteLineItems(id) {
 			%>
 			<tr id='row-<%=deliveryNoteLineItem.getId() %>'>
 				<td><%=deliveryNoteLineItem.getId() %></td>
-				<td><%=deliveryNoteLineItem.getDate() %></td>
+				<td><%=deliveryNote.getVehicleDate() %></td>
 				<td><%=deliveryNoteLineItem.getLength() %></td>
 				<td><%=deliveryNoteLineItem.getWidth() %></td>
 				<td><%=deliveryNoteLineItem.getThickness() %></td>

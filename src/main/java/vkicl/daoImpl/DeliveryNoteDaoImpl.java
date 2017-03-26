@@ -37,7 +37,7 @@ public class DeliveryNoteDaoImpl extends BaseDaoImpl {
 		try {
 			conn = getConnection();
 
-			query = "select id, create_ts from delivery_notes where port_purchase_order_id = ?";
+			query = "select id, create_ts, vehicle_number, vehicle_date from delivery_notes where port_purchase_order_id = ?";
 			log.info("query = " + query);
 			cs = conn.prepareCall(query);
 			cs.setInt(1, ppoId);
@@ -51,7 +51,8 @@ public class DeliveryNoteDaoImpl extends BaseDaoImpl {
 					d.setCreated(rs.getDate("create_ts"));
 					d.setId(rs.getInt("id"));
 					d.setPpoLineitemNo(ppoId);
-
+					d.setVehicleNo(rs.getString("vehicle_number"));
+					d.setVehicleDate(dateToString(rs.getDate("vehicle_date")));
 					deliveryNotes.add(d);
 
 				} while (rs.next());

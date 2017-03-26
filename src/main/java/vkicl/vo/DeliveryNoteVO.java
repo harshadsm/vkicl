@@ -10,6 +10,8 @@ public class DeliveryNoteVO {
 	private String deliveryNoteAddress;
 
 	private String vehicleNumber;
+	private String vehicleDate;
+	
 	private PortPurchaseOrderVO portPurchaseOrder;
 	private List<DeliveryNoteLineItemVO> deliveryNoteLineItems;
 	private Double actualWeight;
@@ -76,6 +78,14 @@ public class DeliveryNoteVO {
 
 	public void setActualWeight(Double actualWeight) {
 		this.actualWeight = actualWeight;
+	}
+
+	public String getVehicleDate() {
+		return vehicleDate;
+	}
+
+	public void setVehicleDate(String vehicleDate) {
+		this.vehicleDate = vehicleDate;
 	}
 	
 	
