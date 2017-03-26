@@ -78,61 +78,66 @@ function deleteDeliveryNoteLineItems(id) {
 	</div>
 </div>
 <div>
-	<html:form enctype="multipart/form-data" action="/delivery-note"
-		method="post">
+
+	<html:form action="/delivery-note" method="post">
 		<div class="row">
 		<div class="col-md-10">
 				<div class="panel panel-default">
-					<div class="panel-heading"></div>
+					<div class="panel-body">
 					<table class="table">
 							
 							<tbody id="details-tbody">
 							<tr>
-									<th>PPO Number</th><td><%=vo.getPpoNo() %>
+									<td>PPO Number</td><td><%=vo.getPpoNo() %>
 									<input type="hidden" name='ppoNo' id="ppoNo" value="<%=vo.getPpoNo() %>"/></td>
 								
-									<th>PPO Date</th><td><%=vo.getPpoDate() %></td>
+									<td>PPO Date</td><td><%=vo.getPpoDate() %></td>
 								</tr>
 								<tr>
-									<th>Customer Name</th><td><%=vo.getCustName() %></td>
-								<th>Delivery address</th><td><input type="text" name="deliveryAddress"
-								class="form-control"  value="<%=vo.getDeliveryAddr() %>"/></td>
+									<td>Customer Name</td><td><%=vo.getCustName() %></td>
+									<td>Delivery address</td>
+									<td><input type="text" name="deliveryAddress"
+										class="form-control"  value="<%=vo.getDeliveryAddr() %>"/>
+									</td>
 									
 								</tr>
 								<tr>
-									<th>Payment Terms</th><td><%=vo.getPaymentTerms() %></td>
+									<td>Payment Terms</td><td><%=vo.getPaymentTerms() %></td>
 								
-									<th>Excise</th><td><%=vo.getExcise() %></td>
+									<td>Excise</td><td><%=vo.getExcise() %></td>
 								</tr>
 								<tr>
-									<th>Tax</th><td><%=vo.getTax() %></td>
+									<td>Tax</td><td><%=vo.getTax() %></td>
 								
-									<th>Transport</th><td><%=vo.getTransport() %></td>
+									<td>Transport</td><td><%=vo.getTransport() %></td>
 								</tr>
 								<tr>
-									<th>Vehicle No.</th>
+									<td>Vehicle No.</td>
 									<td>
 										<input type="text" name="vehicleNumber"
 											class="form-control"  placeholder="Vehicle Number"/>
 									</td>
 								
 									
-								<th>Vehicle Date</th><td>
-									<div class="input-group date date-picker-div col-md-12" id="datetimepicker1">
-										<input type="text" name="vehicleDate" id="vehicleDate" class="form-control"
-											data-date-format="DD-MM-YYYY"/>
-										<span class="input-group-addon"><span
-											class="glyphicon-calendar glyphicon"></span></span>
-								</div>
-							</td>
+									<td>Vehicle Date</td>
+									<td>
+										<div class="input-group date date-picker-div" id="datetimepicker1">
+											<input type="text" name="vehicleDate" id="vehicleDate" class="form-control"
+												data-date-format="DD-MM-YYYY"/>
+											
+											<span class="input-group-addon"><span
+												class="glyphicon-calendar glyphicon"></span></span>
+										</div>
+									</td>
 								</tr>
 								
 							</tbody>
 							</table>
+						</div>
 					</div>
-					</div>
+					
 		</div>
-		
+		</div>
 <div class="row">
 <div class="col-md-10">
 				<h3>Enter quantity to be delivered in this delivery note</h3>
@@ -161,17 +166,17 @@ function deleteDeliveryNoteLineItems(id) {
 					
 					<tr id="row-sub-<%=cnt %>" class='sub-row'>
 								<td><input disabled id="ppoLineitemNo" name="ppoLineitemNo"  type='label' value="<%=record.getPpoLineItemNo() %>"/>
-								<input   type='hidden' name="ppoLineitemNo" id="ppoLineitemNo" value="<%=record.getPpoLineItemNo() %>"
+								<input   type='hidden' name="ppoLineitemNo" id="ppoLineitemNo" value="<%=record.getPpoLineItemNo() %>" />
 								</td>
 								<td><input  disabled type='label' value="<%=record.getThickness() %>"/></td>
 								<td><input  disabled type='label' value="<%=record.getWidth() %>"/></td>
 								<td><input disabled  type='label' value="<%=record.getLength() %>"/></td>
-								<td><input disabled  type='label' value="<%=record.getMaterialType() %>"/>
-								<td><input disabled  type='label' value="<%=record.getMillName() %>"/>
+								<td><input disabled  type='label' value="<%=record.getMaterialType() %>"/></td>
+								<td><input disabled  type='label' value="<%=record.getMillName() %>"/></td>
 								<td><input disabled  type='label' value="<%=record.getOrderedQuantity() %>"/>
-								<input   type='hidden' name="orderedQuantity" id="orderedQuantity" value="<%=record.getOrderedQuantity() %>"
+								<input   type='hidden' name="orderedQuantity" id="orderedQuantity" value="<%=record.getOrderedQuantity() %>" />
 								</td>
-								<td><input disabled  type='label' value="<%=record.getPendingQuantity() %>"/>
+								<td><input disabled  type='label' value="<%=record.getPendingQuantity() %>"/></td>
 								<td><input number digits="" type="number"  name="deliveryQuantity" id="deliveryQuantity" value="<%=record.getDeliveryQuantity() %>"/></td>
 							</tr>
 					<% } %>
@@ -193,6 +198,7 @@ function deleteDeliveryNoteLineItems(id) {
 	
 	
 </div>
+
 
 
 <div class="row">
