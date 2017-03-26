@@ -86,40 +86,40 @@ function deleteDeliveryNoteLineItems(id) {
 					<div class="panel-body">
 					<table class="table">
 							
-							<tbody id="details-tbody">
+							<tbody>
 							<tr>
-									<td>PPO Number</td><td><%=vo.getPpoNo() %>
+									<th>PPO Number</th><td><%=vo.getPpoNo() %>
 									<input type="hidden" name='ppoNo' id="ppoNo" value="<%=vo.getPpoNo() %>"/></td>
 								
-									<td>PPO Date</td><td><%=vo.getPpoDate() %></td>
+									<th>PPO Date</th><td><%=vo.getPpoDate() %></td>
 								</tr>
 								<tr>
-									<td>Customer Name</td><td><%=vo.getCustName() %></td>
-									<td>Delivery address</td>
+									<th>Customer Name</th><td><%=vo.getCustName() %></td>
+									<th>Delivery address</th>
 									<td><input type="text" name="deliveryAddress"
 										class="form-control"  value="<%=vo.getDeliveryAddr() %>"/>
 									</td>
 									
 								</tr>
 								<tr>
-									<td>Payment Terms</td><td><%=vo.getPaymentTerms() %></td>
+									<th>Payment Terms</th><td><%=vo.getPaymentTerms() %></td>
 								
-									<td>Excise</td><td><%=vo.getExcise() %></td>
+									<th>Excise</th><td><%=vo.getExcise() %></td>
 								</tr>
 								<tr>
-									<td>Tax</td><td><%=vo.getTax() %></td>
+									<th>Tax</th><td><%=vo.getTax() %></td>
 								
-									<td>Transport</td><td><%=vo.getTransport() %></td>
+									<th>Transport</th><td><%=vo.getTransport() %></td>
 								</tr>
 								<tr>
-									<td>Vehicle No.</td>
+									<th>Vehicle No.</th>
 									<td>
 										<input type="text" name="vehicleNumber"
 											class="form-control"  placeholder="Vehicle Number"/>
 									</td>
 								
 									
-									<td>Vehicle Date</td>
+									<th>Vehicle Date</th>
 									<td>
 										<div class="input-group date date-picker-div" id="datetimepicker1">
 											<input type="text" name="vehicleDate" id="vehicleDate" class="form-control"
