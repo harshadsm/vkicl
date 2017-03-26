@@ -769,7 +769,7 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 			conn = getConnection();
 
 			String sql = "select ppo.port_purchase_order_id, CAST(ppo.create_ts as Date) as ppoDate, ppo.customer_name, ppo.delivery_address, ppo.payment_terms,"
-					+ " ppo.excise, ppo.tax, ppo.transport"
+					+ " ppo.excise, ppo.tax, ppo.transport, ppo.comments"
 					+ " from port_purchase_order ppo  where ppo.port_purchase_order_id=" + purchaseOrderNo;
 			query = sql;
 			log.info("query = " + query);
@@ -789,6 +789,7 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 					vo.setExcise(rs.getString(6));
 					vo.setTax(rs.getString(7));
 					vo.setTransport(rs.getString(8));
+					vo.setComments(rs.getString(9));
 
 				} while (rs.next());
 

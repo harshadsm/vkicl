@@ -130,6 +130,10 @@ function deleteDeliveryNoteLineItems(id) {
 										</div>
 									</td>
 								</tr>
+								<tr>
+									<th>Comments</th>
+									<td><%=vo.getComments() %></td>
+								</tr>
 								
 							</tbody>
 							</table>
