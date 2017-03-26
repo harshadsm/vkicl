@@ -208,6 +208,12 @@ public class BaseDaoImpl {
 		String dateString = sdf.format(d);
 		return dateString;
 	}
+	
+	public String dateToString(Date d, String format){
+		SimpleDateFormat sdf = new SimpleDateFormat(format);
+		String dateString = sdf.format(d);
+		return dateString;
+	}
 
 	public ArrayList<LabelValueBean> getList(UserInfoVO userInfoVO, String key) {
 		Connection conn = null;

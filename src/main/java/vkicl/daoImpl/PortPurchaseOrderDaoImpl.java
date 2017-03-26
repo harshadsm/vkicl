@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -990,6 +991,33 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 				String anyOtherClause = "one.material_type like '%" + form.getMaterialType() + "%'";
 				clauses.add(anyOtherClause);
 			}
+		}
+		
+		if(form.getFromDate()!=null && !form.getFromDate().isEmpty()){
+			try{
+				Date frmDt = convertStringToDate(form.getFromDate(), "dd/MM/yy");
+				String frmDtStr = dateToString(frmDt, "yyyy-MM-dd");
+				String vesselDateFrom = "one.vessel_date >= '"+frmDtStr+"'";
+				clauses.add(vesselDateFrom);
+			}catch(ParseException e){
+				log.error("some error",e);
+			}
+			
+		}
+		
+		if(form.getToDate()!=null && !form.getToDate().isEmpty()){
+			try {
+				Date toDt = convertStringToDate(form.getToDate(), "dd/MM/yy");
+				String toDtStr = dateToString(toDt, "yyyy-MM-dd");
+				String toDateClause = "one.vessel_date <= '"+toDtStr+"'";
+
+				clauses.add(toDateClause);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				log.error("some error",e);
+			}
+			
 		}
 
 		// Add any more clauses here.
