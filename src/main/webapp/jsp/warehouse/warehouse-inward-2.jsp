@@ -1375,6 +1375,17 @@ function addRowOfSelectedRecord(recordObj) {
 	var jsonCellId = composeJsonCellId(id);
 	var warehouseInwardRecordClass = composeCombinationClass(combinationGroupId);
 	var recordObjJson = JSON.stringify(recordObj);		
+
+	var sectionWtTotal = Number(recordObj.balQty);
+	var qtyTotal = Number(recordObj.availableQuantity);
+	var perUnitSectionWt = sectionWtTotal / qtyTotal;
+	perUnitSectionWt = $.number(perUnitSectionWt, 3, '.', '');
+	
+	console.log("********************%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+	console.log(recordObj);
+	console.log(sectionWtTotal);
+	console.log(qtyTotal);
+	console.log(perUnitSectionWt);
 	var str = "<tr id='" + id + "' class='selected-port-outward-records "+warehouseInwardRecordClass+"' data-attribute-group-class='"+warehouseInwardRecordClass+"' data-attribute-original-quantity='"+recordObj.availableQuantity+"' >"
 			+ "<td><input type='text' readonly placeholder='vesselDate' value='"+recordObj.vesselDate+"' name='vesselDate' class='form-control'  /></td>"
 			+ "<td><input type='text' readonly placeholder='vendorName' value='"+recordObj.vendorName+"' name='vendorName' class='form-control' /></td>"
@@ -1393,7 +1404,7 @@ function addRowOfSelectedRecord(recordObj) {
 			+ "<td><input type='text' readonly placeholder='width' value='"+recordObj.width+"' name='width' class='form-control' /></td>"
 			+ "<td><input type='text' readonly placeholder='length' value='"+recordObj.length+"' name='length' class='form-control' /></td>"
 			+ "<td><input type='text' readonly placeholder='Quantity' value='"+recordObj.orderedQuantity+"' name='availableQuantity' class='form-control port_out_item_quantity' id='port_out_item_quantity-" + id + "' data-attribute-parent-port-out-id='port_out_item_quantity-" + id + "' onchange='splitOnChange($(this).parent().parent().attr(\"id\"));'/></td>"
-			+ "<td><input type='text' readonly placeholder='balQty' value='"+recordObj.balQty+"' name='balQty' class='form-control port_out_section_wt' id='port_out_section_wt-" + id + "' data-attribute-parent-port-out-sec-id='port_out_section_wt-" + id + "' /></td>"
+			+ "<td><input type='text' readonly placeholder='balQty' value='"+perUnitSectionWt+"' name='balQty' class='form-control port_out_section_wt' id='port_out_section_wt-" + id + "' data-attribute-parent-port-out-sec-id='port_out_section_wt-" + id + "' /></td>"
 
 			+ "<td><input type='text' readonly placeholder='Actual Wt.' value='"+recordObj.actualWt+"' name='actualWt' class='form-control warehouse_inward_actual_wt' id='"+awId(recordObj)+"' data-attribute-parent-port-out-id='actualWt-" + id + "'/></td>"
 			+ "<td><input type='text'          placeholder='Heat No' name='heatNoInput' class='form-control port_out_heatno' id='"+heatId(recordObj)+"' data-attribute-parent-port-out-id-actualwt='heatno-" + heatId(recordObj) + "'/></td>"
@@ -1402,7 +1413,7 @@ function addRowOfSelectedRecord(recordObj) {
 
 			//+ "<td><div class='input-group'><input type='number' step='0.001' placeholder='Section Weight' min='0' readonly value='' name='secWt' class='form-control' aria-label='...'><div class='input-group-btn weight-group'><input type='hidden' name='secWtUnit' value='TON' /><button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown' disabled aria-expanded='false'>TON <span class='caret'></span></button><ul class='dropdown-menu dropdown-menu-right' role='menu'><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>TON</a></li><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>KG</a></li></ul></div></div></td>"
 			// + "<td><div class='input-group'><input type='number' step='0.001' placeholder='Actual Weight' min='0' value='' name='actualWt' onchange='calcSecWtRow(\"row-"+ id+ "\");' onblur='calcSecWtRow(\"row-"+ id+ "\");' class='form-control' aria-label='...'><div class='input-group-btn weight-group'><input type='hidden' onchange='calcSecWtRow(\"row-"+ id+ "\");' onblur='calcSecWtRow(\"row-"+ id+ "\");' name='actualWtUnit' value='TON' /><button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown' aria-expanded='false'>TON <span class='caret'></span></button><ul class='dropdown-menu dropdown-menu-right' role='menu'><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>TON</a></li><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>KG</a></li></ul></div></div></td>"
-			+ "<td id='split-button-td-" + id + "' ><input type='button' class='btn btn-warn' onclick='split2($(this).parent().parent().attr(\"id\"));' value='split' /></td>"
+			//+ "<td id='split-button-td-" + id + "' ><input type='button' class='btn btn-warn' onclick='split2($(this).parent().parent().attr(\"id\"));' value='split' /></td>"
 			+ "<td><input type='button' class='btn-danger delete-row' onclick='deleteRow($(this).parent().parent().attr(\"id\"));' value='-' /></td>"
 			+ "<td><input type='hidden' value='"+recordObj.portInwardId+"' name='portInwardId'/></td>"
 			+ "<td><input type='hidden' value='"+recordObj.portOutwardId+"' name='portOutwardId'/></td>"

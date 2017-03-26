@@ -4,6 +4,7 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -273,10 +274,28 @@ public class PortOutwardPackingListDaoImpl extends BaseDaoImpl {
 			//added-shweta
 			
 			else if (field != null && field.equalsIgnoreCase("vessel_Date")) {
-				clause = "po.vessel_Date like '%" + data + "%'";
+				try {
+					Date d = convertStringToDate(data, "dd-MM-yyyy");
+					String dstr = dateToString(d, "yyyy-MM-dd"); 
+					clause = "po.vessel_Date = '" + dstr + "'";
+				} catch (ParseException e) {
+					log.error("some error",e);
+					e.printStackTrace();
+				}
+				
+				
 			}
 			else if (field != null && field.equalsIgnoreCase("vehicle_date")) {
-				clause = "pis.vehicle_date like '%" + data + "%'";
+				try {
+					Date d = convertStringToDate(data, "dd-MM-yyyy");
+					String dstr = dateToString(d, "yyyy-MM-dd"); 
+					clause = "pis.vehicle_date = '" + dstr + "'";
+				} catch (ParseException e) {
+					log.error("some error",e);
+					e.printStackTrace();
+				}
+				
+				
 			}
 			else if (field != null && field.equalsIgnoreCase("vehicle_number")) {
 				clause = "pis.vehicle_number like '%" + data + "%'";
