@@ -393,7 +393,7 @@
 										class="form-control" /></td>
 									<td class="excel" colspan="1"><input disabled
 										type="number" step="1" placeholder="Quantity" min="0"
-										value="<c:out value="${bean.qty}" />" name="qty"
+										value="<c:out value="${bean.orderedQuantity}" />" name="orderedQuantity"
 										class="form-control" /></td>
 									<td style="display: none;" class="excel" colspan="1"><div
 											class="input-group">

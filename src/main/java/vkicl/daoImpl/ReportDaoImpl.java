@@ -550,7 +550,7 @@ public class ReportDaoImpl extends BaseDaoImpl {
 					bean.setRateUnit(rs.getString("rateUnit"));
 					bean.setTaxes(rs.getString("taxes"));
 					bean.setExcise(rs.getString("excise"));
-
+					bean.setOrderedQuantity(rs.getInt("qty"));
 					bean.setActWt(rs.getDouble("actWt"));
 					bean.setActWtUnit(rs.getString("actWtUnit"));
 					bean.setDispatchDetailsID(rs.getInt("dispatch_details_ID"));
