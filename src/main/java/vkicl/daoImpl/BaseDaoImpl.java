@@ -19,6 +19,7 @@ import org.apache.struts.util.LabelValueBean;
 
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 
+import vkicl.util.Constants;
 import vkicl.util.PropFileReader;
 import vkicl.vo.UserInfoVO;
 
@@ -41,38 +42,39 @@ public class BaseDaoImpl {
 				Integer port = null;
 				String user = null;
 				String pass = null;
-				try{
-				port = Integer.parseInt(System.getenv("OPENSHIFT_MYSQL_DB_PORT"));
-				host = System.getenv("OPENSHIFT_MYSQL_DB_HOST");
-				dbName = System.getenv("OPENSHIFT_APP_NAME");
-				user = prop.getSystem("db.user");
-				pass = prop.getSystem("db.pass");
-				
-				log.debug("Username = "+user);
-				log.debug("Password = "+pass);
-				
-				}catch(NumberFormatException e){
-					//NumberFormatException happens only when OPENSHIFT_MYSQL_DB_PORT is not a valid integer.
-					//THis is an indication that the environment is not OPENSHIFT.
-					//It is local environment.
-					//So set the local values
+				try {
+					port = Integer.parseInt(System.getenv("OPENSHIFT_MYSQL_DB_PORT"));
+					host = System.getenv("OPENSHIFT_MYSQL_DB_HOST");
+					dbName = System.getenv("OPENSHIFT_APP_NAME");
+					user = prop.getSystem("db.user");
+					pass = prop.getSystem("db.pass");
+
+					log.debug("Username = " + user);
+					log.debug("Password = " + pass);
+
+				} catch (NumberFormatException e) {
+					// NumberFormatException happens only when
+					// OPENSHIFT_MYSQL_DB_PORT is not a valid integer.
+					// THis is an indication that the environment is not
+					// OPENSHIFT.
+					// It is local environment.
+					// So set the local values
 					host = "localhost";
 					port = 3306;
 					dbName = "vkicl";
 					user = prop.getSystem("db.user");
 					pass = prop.getSystem("db.pass");
-							
+
 				}
-				
-				
+
 				DS.setServerName(host);
 				DS.setDatabaseName(dbName);
 				DS.setPort(port);
-				//DS.setDatabaseName(prop.getSystem("db.database"));
+				// DS.setDatabaseName(prop.getSystem("db.database"));
 				DS.setUser(user);
 				DS.setPassword(pass);
 				DS.setNoAccessToProcedureBodies(true);
-				
+
 				DS.setCharacterEncoding("UTF8");
 				DS.setUseUnicode(Boolean.TRUE);
 				log.info("DataSource Created");
@@ -115,8 +117,7 @@ public class BaseDaoImpl {
 		return out;
 	}
 
-	public static void closeDatabaseResources(Connection conn, ResultSet rs,
-			Statement s) {
+	public static void closeDatabaseResources(Connection conn, ResultSet rs, Statement s) {
 		if (null != conn) {
 			try {
 				conn.close();
@@ -166,8 +167,7 @@ public class BaseDaoImpl {
 		}
 		return date;
 	}
-	
-	
+
 	public java.sql.Date convertStringToDate(String date, String format) throws ParseException {
 		java.sql.Date d = null;
 		if (null == date)
@@ -176,7 +176,7 @@ public class BaseDaoImpl {
 			date = StringEscapeUtils.escapeHtml(date);
 			date = date.replaceAll(" ", "");
 			Calendar cal = Calendar.getInstance();
-			
+
 			cal.setTime(new SimpleDateFormat(format).parse(date));
 			d = new java.sql.Date(cal.getTimeInMillis());
 		}
@@ -196,20 +196,20 @@ public class BaseDaoImpl {
 		}
 		return date;
 	}
-	
-	public Date convertSqlDateToJavaDate(java.sql.Date date){
+
+	public Date convertSqlDateToJavaDate(java.sql.Date date) {
 		Date d = new Date(date.getTime());
 		return d;
 	}
-	
-	public String dateToString(Date d){
+
+	public String dateToString(Date d) {
 		String format = "dd-MM-yyyy";
 		SimpleDateFormat sdf = new SimpleDateFormat(format);
 		String dateString = sdf.format(d);
 		return dateString;
 	}
-	
-	public String dateToString(Date d, String format){
+
+	public String dateToString(Date d, String format) {
 		SimpleDateFormat sdf = new SimpleDateFormat(format);
 		String dateString = sdf.format(d);
 		return dateString;
@@ -269,13 +269,12 @@ public class BaseDaoImpl {
 
 			LabelValueBean bean = new LabelValueBean("--", "--");
 			list.add(bean);
-			
+
 			if (null != rs && rs.next()) {
 				do {
 					String label = rs.getString(1);
 					String value = rs.getString(2);
-					if (StringUtils.isNotBlank(label)
-							&& StringUtils.isNotBlank(value)) {
+					if (StringUtils.isNotBlank(label) && StringUtils.isNotBlank(value)) {
 						bean = new LabelValueBean(label, value);
 						list.add(bean);
 					}
@@ -292,8 +291,7 @@ public class BaseDaoImpl {
 		return list;
 	}
 
-	public ArrayList<LabelValueBean> getDateList(UserInfoVO userInfoVO,
-			String key) {
+	public ArrayList<LabelValueBean> getDateList(UserInfoVO userInfoVO, String key) {
 		Connection conn = null;
 		CallableStatement cs = null;
 		ResultSet rs = null;
@@ -356,11 +354,21 @@ public class BaseDaoImpl {
 		return value;
 	}
 
-	public String fetchDateFromMap(Map<String, String[]> map, String key)
-			throws ParseException {
+	public String fetchDateFromMap(Map<String, String[]> map, String key) throws ParseException {
 		String value = fetchFromMap(map, key);
 		if (StringUtils.isNotBlank(value))
 			value = convertStringToDate(value);
 		return value;
+	}
+
+	protected String stringToSqlDateString(String dateStr, String inputDateFormat, String outputDateFormat) throws ParseException {
+		String sqlDateStr = "";
+		SimpleDateFormat sdf = new SimpleDateFormat(inputDateFormat);
+		SimpleDateFormat sdfSql = new SimpleDateFormat(outputDateFormat);
+
+		Date date = sdf.parse(dateStr);
+		sqlDateStr = sdfSql.format(date);
+
+		return sqlDateStr;
 	}
 }

@@ -26,6 +26,7 @@ public class WarehouseInwardBean extends BaseReportBean {
 	private String actualWtUnit = null;
 	private Integer qty = null;
 	private String wlocation = null;
+	private String createDt;
 
 	private int materialId = 0;
 	private String fileName = "";
@@ -237,6 +238,14 @@ public class WarehouseInwardBean extends BaseReportBean {
 
 	public void setFileSize(double fileSize) {
 		this.fileSize = fileSize;
+	}
+
+	public String getCreateDt() {
+		return createDt;
+	}
+
+	public void setCreateDt(String createDt) {
+		this.createDt = createDt;
 	}
 
 	@Override

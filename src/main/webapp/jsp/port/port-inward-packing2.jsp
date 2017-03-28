@@ -39,13 +39,13 @@ $(function() {
 			mtype : 'GET',
 			
 			
-			colNames : [ 'id', 'Date', 'Vessel Name', 'Vendor Name', 'Material Type', 'Mill Name', 'Make', 'Grade', 'Desc', 'Packing List', 'Inward Dettails Record Count'
+			colNames : [ 'id', 'Inward Date', 'Vessel Date', 'Vessel Name', 'Vendor Name', 'Material Type', 'Mill Name', 'Make', 'Grade', 'Desc', 'Packing List', 'Inward Dettails Record Count'
 					],
 					
 			colModel : [ {
 				name : 'id',
 				index : 'id',
-				width : 185,
+				width : 50,
 				editable : true,
 				editrules : {
 					required : true
@@ -56,9 +56,22 @@ $(function() {
 				search:false,
 				searchoptions: { sopt:['ge']}
 			}, {
+				name : 'createTs',
+				index : 'create_ts',
+				width : 180,
+				editable : false,
+				editoptions : {
+					readonly : true,
+					size : 10
+				},
+				search:true,
+				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+				searchoptions: { sopt:[ 'cn','eq']}
+				
+			},{
 				name : 'vesselDate',
 				index : 'vessel_date',
-				width : 300,
+				width : 180,
 				editable : false,
 				editoptions : {
 					readonly : true,
@@ -99,7 +112,7 @@ $(function() {
 			},{
 				name : 'materialType',
 				index : 'materialType',
-				width : 300,
+				width : 200,
 				editable : false,
 				editoptions : {
 					readonly : true,
@@ -113,7 +126,7 @@ $(function() {
 			},{
 				name : 'millName',
 				index : 'millName',
-				width : 300,
+				width : 200,
 				editable : false,
 				editoptions : {
 					readonly : true,
@@ -127,7 +140,7 @@ $(function() {
 			},{
 				name : 'make',
 				index : 'make',
-				width : 300,
+				width : 200,
 				editable : false,
 				editoptions : {
 					readonly : true,

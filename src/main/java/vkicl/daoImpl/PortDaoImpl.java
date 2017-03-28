@@ -4,6 +4,7 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -197,7 +198,9 @@ public class PortDaoImpl extends BaseDaoImpl {
 			String sql = " SELECT " + " pin.port_inward_id" + " ,pin.be_no" + " ,pin.material_type" + " ,pin.mill_name"
 					+ " ,pin.material_make" + " ,pin.material_grade" + " ,pin.description" + " ,pin.be_weight"
 					+ " ,pin.be_wt_unit" + " ,pis.vessel_date " + " ,pis.vessel_name " + " ,pis.vendor_name "
-					+ ", count(pid.port_inward_id) as port_inward_detail_records_count " + " FROM port_inward pin "
+					+ ", count(pid.port_inward_id) as port_inward_detail_records_count "
+					+ ", pin.create_ts "
+					+ " FROM port_inward pin "
 					+ " INNER JOIN port_inward_shipment pis ON pin.port_inwd_shipment_id = pis.port_inwd_shipment_id "
 					+ " LEFT JOIN port_inward_details pid ON pid.port_inward_id = pin.port_inward_id group by pin.port_inward_id"
 					+ processSearchCriteria(searchParam) + " " + composeOrderByClause(orderByFieldName, order) + ";";
@@ -225,6 +228,10 @@ public class PortDaoImpl extends BaseDaoImpl {
 					p.setVesselName(rs.getString(11));
 					p.setVendorName(rs.getString(12));
 					p.setCountOfPortInwardDetailRecords(rs.getInt(13));
+					
+					String createTs = dateToString(rs.getDate(14), "dd-MM-yyyy");
+					p.setCreateTs(createTs);
+					
 					list.add(p);
 				} while (rs.next());
 
@@ -246,6 +253,8 @@ public class PortDaoImpl extends BaseDaoImpl {
 				orderByClause = orderByClause + " pis.vessel_date " + order + " ";
 			} else if (orderByFieldName.equalsIgnoreCase("id")) {
 				orderByClause = orderByClause + " pin.port_inward_id " + order + " ";
+			} else if (orderByFieldName.equalsIgnoreCase("create_ts")) {
+				orderByClause = orderByClause + " pin.create_ts " + order + " ";
 			}
 		}
 		return orderByClause;
@@ -260,9 +269,11 @@ public class PortDaoImpl extends BaseDaoImpl {
 		int count = 0;
 		try {
 			conn = getConnection();
-			String count_sql = " SELECT " + " count(*) " + " FROM port_inward pin "
+			String count_sql = " SELECT " + " count(*) " + " FROM ("
+					+ " select * from port_inward pin "
 					+ " INNER JOIN port_inward_shipment pis ON pin.port_inwd_shipment_id = pis.port_inwd_shipment_id "
-					+ processSearchCriteria(searchParam);
+					+ processSearchCriteria(searchParam)
+					+ " ) ";
 
 			log.info("query = " + count_sql);
 
@@ -333,7 +344,23 @@ public class PortDaoImpl extends BaseDaoImpl {
 		} else if (field != null && field.equalsIgnoreCase("vessel_name")) {
 			clause = "pis.vessel_name like '%" + data + "%'";
 		} else if (field != null && field.equalsIgnoreCase("vessel_date")) {
-			clause = processDateClause(data);
+			try {
+				String sqlDateStr = stringToSqlDateString(data, Constants.Apps.DATE_FORMAT, Constants.Apps.DATE_FORMAT_SQL);
+				clause = "vessel_date = '" + sqlDateStr + "'";
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				log.error("some error",e);
+			}
+		} else if (field != null && field.equalsIgnoreCase("create_ts")) {
+			try {
+				String sqlDateStr = stringToSqlDateString(data, Constants.Apps.DATE_FORMAT, Constants.Apps.DATE_FORMAT_SQL);
+				clause = "date(pin.create_ts) = date('" + sqlDateStr + "')";
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				log.error("some error",e);
+			}
 		} else if(field != null && field.equalsIgnoreCase("materialType")){
 			clause = "material_type like '%" + data + "%'";
 		} else if(field != null && field.equalsIgnoreCase("grade")){

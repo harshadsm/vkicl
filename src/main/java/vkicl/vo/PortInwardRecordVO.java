@@ -16,6 +16,7 @@ public class PortInwardRecordVO {
 	private String vesselName;
 	private String vendorName;
 	private Integer countOfPortInwardDetailRecords;
+	private String createTs;
 	
 	
 	public String getVesselName() {
@@ -95,6 +96,12 @@ public class PortInwardRecordVO {
 	}
 	public void setCountOfPortInwardDetailRecords(Integer countOfPortInwardDetailRecords) {
 		this.countOfPortInwardDetailRecords = countOfPortInwardDetailRecords;
+	}
+	public String getCreateTs() {
+		return createTs;
+	}
+	public void setCreateTs(String createTs) {
+		this.createTs = createTs;
 	}
 	
 	
