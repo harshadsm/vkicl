@@ -103,7 +103,25 @@ public class WarehouseOutwardDaoImpl extends BaseDaoImpl{
 				log.error("some error",e);
 			}
 			
-		}
+		} else if (field != null && field.equalsIgnoreCase("materialType")) {
+			clause = "sb.material_type like '%" + data + "%'";
+		} else if (field != null && field.equalsIgnoreCase("mill")) {
+			clause = "dd.millName like '%" + data + "%'";
+		} else if (field != null && field.equalsIgnoreCase("make")) {
+			clause = "dd.make like '%" + data + "%'";
+		} else if (field != null && field.equalsIgnoreCase("grade")) {
+			clause = "dd.grade like '%" + data + "%'";
+		} else if (field != null && field.equalsIgnoreCase("heatNo")) {
+			clause = "sb.heat_no like '%" + data + "%'";
+		} else if (field != null && field.equalsIgnoreCase("plateNo")) {
+			clause = "sb.plate_no like '%" + data + "%'";
+		} else if (field != null && field.equalsIgnoreCase("thickness")) {
+			clause = "dd.thickness = " + data;
+		}  else if (field != null && field.equalsIgnoreCase("length")) {
+			clause = "dd.length = " + data;
+		}  else if (field != null && field.equalsIgnoreCase("width")) {
+			clause = "dd.width = " + data;
+		} 
 
 		return clause;
 	}
