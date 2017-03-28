@@ -39,7 +39,7 @@ $(function() {
 			mtype : 'GET',
 			
 			
-			colNames : [ 'id', 'Vehicle Date', 'Vehicle No', 'Vendor Name', 'Material Type', 'Mill Name', 'Make', 'Grade', 'Thickness','Length','Width', 'HeatNo', 'PlateNo', 'Packing List', 'Inward Dettails Record Count'
+			colNames : [ 'id', 'Vehicle Date', 'Vehicle No', 'Vendor Name', 'Material Type', 'Mill Name', 'Make', 'Grade', 'Thickness','Length','Width', 'HeatNo', 'PlateNo', 'Section Wt', 'Packing List', 'Inward Dettails Record Count'
 					],
 					
 			colModel : [ {
@@ -223,6 +223,20 @@ $(function() {
 				searchoptions: { sopt:[ 'cn','eq']}
 				
 			},{
+				name : 'sectionWt',
+				index : 'sectionWt',
+				width : 300,
+				editable : false,
+				editoptions : {
+					readonly : true,
+					size : 10
+				},
+				sortable:false,
+				search : true,
+				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+				searchoptions: { sopt:[ 'cn','eq']}
+				
+			},{
 				name : 'actionLink',
 				index : 'actionLink',
 				width : 150,
@@ -280,8 +294,15 @@ $(function() {
 	        		}else{
 	        			var cust_lnk = "<a href=\"add-port-inward-packing-list.do?id="+rowObject.id+"\"><span class='glyphicon glyphicon-pencil'></span></a>";
 	        		}
-	        		
-	        		
+
+
+	        		var t = Number(rowObject.thickness);
+	        		var w = Number(rowObject.width);
+	        		var l = Number(rowObject.length);
+	        		var q = Number(rowObject.quantity);
+	        		var sectionWeight = (t * w * l * q * 7.85 / 1000000000);
+	        		sectionWeight = $.number(sectionWeight, 3, '.', '' );	
+	        		$("#grid").jqGrid('setRowData',ids[i],{sectionWt : sectionWeight});
 	        		
 	        		$("#grid").jqGrid('setRowData',ids[i],{actionLink:cust_lnk});
 	        		
