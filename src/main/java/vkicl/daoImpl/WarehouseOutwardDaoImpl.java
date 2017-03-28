@@ -4,6 +4,7 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -87,15 +88,22 @@ public class WarehouseOutwardDaoImpl extends BaseDaoImpl{
 		String op = r.getOp();
 
 		String clause = "";
-//		if (field != null && field.equalsIgnoreCase("vendor_name")) {
-//			clause = "vendor_name like '%" + data + "%'";
-//		} else if (field != null && field.equalsIgnoreCase("vessel_name")) {
-//			clause = "vessel_name like '%" + data + "%'";
-//		} else if (field != null && field.equalsIgnoreCase("vessel_date")) {
-//			clause = "vessel_date like '%" + data + "%'";
-//		} else if (field != null && field.equalsIgnoreCase("vessel_date")) {
-//			clause = processDateClause(data);
-//		}
+		if (field != null && field.equalsIgnoreCase("buyerName")) {
+			clause = "dispo.buyerName like '%" + data + "%'";
+		} else if (field != null && field.equalsIgnoreCase("vehicleNo")) {
+			clause = "wo.vehicle_no like '%" + data + "%'";
+		} else if (field != null && field.equalsIgnoreCase("vehicleDate")) {
+			
+			try {
+				String vehicleDate = stringToSqlDateString(data, Constants.Apps.DATE_FORMAT, Constants.Apps.DATE_FORMAT_SQL);
+				clause = "wo.vehicle_dt = date('" + vehicleDate + "')";
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				log.error("some error",e);
+			}
+			
+		}
 
 		return clause;
 	}
@@ -188,12 +196,12 @@ public class WarehouseOutwardDaoImpl extends BaseDaoImpl{
 
 				do {
 					WarehouseOutwardReportVO vo = new WarehouseOutwardReportVO();
-					vo.setCreateTS(rs.getDate(1));
+					vo.setCreateTS(dateToString(rs.getDate(1), "dd-MM-yyyy"));
 					vo.setWarehouseOutwardId(rs.getInt(2));
 					vo.setDispatchNo(rs.getInt(3));
 					vo.setDispatchDetailId(rs.getInt(4));
 					vo.setVehicleNo(rs.getString(5));
-					vo.setVehicleDate(rs.getDate(6));
+					vo.setVehicleDate(dateToString(rs.getDate(6), "dd-MM-yyyy"));
 					vo.setActualWeight(rs.getDouble(7));
 					vo.setMill(rs.getString(8));
 					vo.setMake(rs.getString(9));

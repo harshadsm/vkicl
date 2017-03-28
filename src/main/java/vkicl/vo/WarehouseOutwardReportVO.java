@@ -9,8 +9,8 @@ public class WarehouseOutwardReportVO {
 	private String actialWeightUnit;
 	private Integer dispatchNo;
 	private String vehicleNo;
-	private Date vehicleDate;
-	private Date createTS;
+	private String vehicleDate;
+	private String createTS;
 	private Integer dispatchDetailId;
 	private Integer deliveredQuantity;
 	private Integer orderedQuantity;
@@ -55,16 +55,16 @@ public class WarehouseOutwardReportVO {
 	public void setVehicleNo(String vehicleNo) {
 		this.vehicleNo = vehicleNo;
 	}
-	public Date getVehicleDate() {
+	public String getVehicleDate() {
 		return vehicleDate;
 	}
-	public void setVehicleDate(Date vehicleDate) {
+	public void setVehicleDate(String vehicleDate) {
 		this.vehicleDate = vehicleDate;
 	}
-	public Date getCreateTS() {
+	public String getCreateTS() {
 		return createTS;
 	}
-	public void setCreateTS(Date createTS) {
+	public void setCreateTS(String createTS) {
 		this.createTS = createTS;
 	}
 	public Integer getDispatchDetailId() {
