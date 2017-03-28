@@ -131,7 +131,7 @@ function composeSelectedStockTr(DISPATCH_ITEM, SELECTED_STOCK_ITEM){
 		+ s + SELECTED_STOCK_ITEM.thickness + e
 		+ s + SELECTED_STOCK_ITEM.width + e
 		+ s + SELECTED_STOCK_ITEM.length + e
-		
+		+ s + SELECTED_STOCK_ITEM.sectionWeight + e
 		+ s + SELECTED_STOCK_ITEM.stockQuantityForDelivery + e
 		+ s + "<button onClick='cancelStockItemFromDispatch("+SELECTED_STOCK_ITEM.stockId+")'>Remove</button>" + e
 		+ "</tr>";
@@ -217,6 +217,7 @@ function composeStockLineItemObjectForStockJqgridRowId(selectedStockTableRowId){
 	var plateNo = selectedStockRow.plate_no;
 	var location = selectedStockRow.location;
 	var quantity = selectedStockRow.quantity;
+	var sectionWeight = selectedStockRow.actWt;
 	
 	
 	//Object definition of selectedStockLineItem
@@ -234,7 +235,8 @@ function composeStockLineItemObjectForStockJqgridRowId(selectedStockTableRowId){
 			heateNo : heatNo,
 			plateNo : plateNo,
 			location : location,
-			quantity : quantity
+			quantity : quantity,
+			sectionWeight : sectionWeight
 	};
 	return SELECTED_STOCK_LINE_ITEM;
 }
