@@ -225,7 +225,7 @@ function progressHandlingFunction(e) {
 								<td data-type="hidden" data-name="id" class="cell-hide"><c:out
 										value="${report.id}" /></td>
 										<td data-type="text" data-name="VehicleDate"><c:out
-										value="${report.vehicleDate}" /></td>
+										value="${report.createDt}" /></td>
 								<td data-type="text" data-name="vehicleNumber"><c:out
 										value="${report.vehicleNumber}" /></td>
 								<td data-type="text" data-name="vehicleDate"><c:out
