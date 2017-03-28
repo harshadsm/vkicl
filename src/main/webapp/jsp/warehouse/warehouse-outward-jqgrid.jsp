@@ -325,11 +325,8 @@ function populateDispatchDetailsTable(){
 	        gridComplete: function(){
 	        	/* var $grid = $("#dispatchDetailsTable");
 	        	var ids = $("#dispatchDetailsTable").jqGrid('getDataIDs');
+	        	 */
 	        	
-	        	for(var i=0;i < ids.length;i++){ 
-	        		var rowObject = $grid.jqGrid('getRowData',ids[i]); 
-	        		console.log(rowObject);
-	    		}  */
 	        	
 	        	},
 	   		onSelectRow: handleOnSelectRow,
@@ -604,14 +601,20 @@ function populateStockTable(thickness, length, width, mill, make, grade){
 				id : "id"
 			},
 	        gridComplete: function(){
-	        	/* var $grid = $("#dispatchDetailsTable");
-	        	var ids = $("#dispatchDetailsTable").jqGrid('getDataIDs');
+	        	var $grid = $("#stockTable");
+	        	var ids = $("#stockTable").jqGrid('getDataIDs');
 	        	
 	        	for(var i=0;i < ids.length;i++){ 
 	        		var rowObject = $grid.jqGrid('getRowData',ids[i]); 
 	        		console.log(rowObject);
-	    		}  */
-
+	        		var t = Number(rowObject.thickness);
+	        		var w = Number(rowObject.width);
+	        		var l = Number(rowObject.length);
+	        		var q = Number(rowObject.quantity);
+	        		var sectionWeight = (t * w * l * q * 7.85 / 1000000000);
+	        		sectionWeight = $.number(sectionWeight, 3, '.', '' );
+	        		$grid.jqGrid('setRowData',ids[i],{actWt : sectionWeight});
+	    		}
 	        	preselectRowsAsPer_WAREHOUSE_OUTWARD_cache();
 	        	
 	        	},
