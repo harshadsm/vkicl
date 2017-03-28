@@ -24,7 +24,7 @@ public class WarehouseOutwardDaoImpl extends BaseDaoImpl{
 	
 	private static Logger log = Logger.getLogger(WarehouseOutwardDaoImpl.class);
 
-	public Integer fetchWarehouseOutwardRecordCount(JqGridSearchParameterHolder searchParam) throws SQLException {
+	public Integer fetchWarehouseOutwardRecordCount(String orderByFieldName, String order, JqGridSearchParameterHolder searchParam) throws SQLException {
 		List<PortInwardRecordVO> list = new ArrayList<PortInwardRecordVO>();
 		Connection conn = null;
 		ResultSet rs = null;
@@ -33,9 +33,11 @@ public class WarehouseOutwardDaoImpl extends BaseDaoImpl{
 		int count = 0;
 		try {
 			conn = getConnection();
-			String count_sql = " SELECT " + " count(*) " + " FROM warehouse_outward wo "
-					+ processSearchCriteria(searchParam);
-
+//			String count_sql = " SELECT " + " count(*) " + " FROM ("
+//					+ "select * from warehouse_outward wo "
+//					+ processSearchCriteria(searchParam)
+//					+ ") a";
+			String count_sql = "select count(*) from ("+composeQuery(orderByFieldName, order, searchParam)+" ) a";
 			log.info("query = " + count_sql);
 
 			cs = conn.prepareCall(count_sql);
@@ -171,40 +173,7 @@ public class WarehouseOutwardDaoImpl extends BaseDaoImpl{
 		try {
 			conn = getConnection();
 
-			StringBuffer q = new StringBuffer();
-			q.append(" select ");
-			q.append(" wo.create_ts warehouse_outward_creation_date,");
-			q.append(" wo.warehouse_outward_id,");
-			q.append(" wo.dispatchNo,");
-			q.append(" wo.dispatch_detail_id,");
-			q.append(" wo.vehicle_no,");
-			q.append(" wo.vehicle_dt,");
-			q.append(" wo.actual_wt,");
-			q.append(" ");
-			q.append(" dd.millName,");
-			q.append(" dd.make,");
-			q.append(" dd.grade,");
-			q.append(" dd.thickness,");
-			q.append(" dd.length,");
-			q.append(" dd.width,");
-			q.append(" dd.qty ordered_quantity,");
-			q.append(" wo.delivered_quantity,");
-			q.append(" dispo.buyerName,");
-			q.append(" sb.material_type, ");
-			q.append(" sb.heat_no, ");
-			q.append(" sb.plate_no ");
-			q.append("  from ");
-			q.append(" warehouse_outward wo");
-			q.append(" left join dispatch_details dd on wo.dispatch_detail_id = dd.dispatch_details_ID ");
-			q.append(" left join dispatch_order dispo on dd.dispatch_order_id = dispo.dispatch_order_id ");
-			q.append(" left join warehouse_outward_temp wot on wot.dispatch_details_id = wo.dispatch_detail_id ");
-			q.append(" left join stock_balance sb on sb.stock_balance_id = wot.stock_id ");
-			//q.append(" order by warehouse_outward_id desc;");
-			
-			//String sql = " select * from warehouse_outward "
-			String sql = q.toString()
-					+ processSearchCriteria(searchParam) + " " + composeOrderByClause(orderByFieldName, order) + ";";
-			query = sql;
+			query = composeQuery(orderByFieldName, order, searchParam);
 			log.info("query = " + query);
 
 			cs = conn.prepareCall(query);
@@ -246,6 +215,45 @@ public class WarehouseOutwardDaoImpl extends BaseDaoImpl{
 			closeDatabaseResources(conn, rs, cs);
 		}
 		return list;
+	}
+
+	private String composeQuery(String orderByFieldName, String order, JqGridSearchParameterHolder searchParam) {
+		String query;
+		StringBuffer q = new StringBuffer();
+		q.append(" select ");
+		q.append(" wo.create_ts warehouse_outward_creation_date,");
+		q.append(" wo.warehouse_outward_id,");
+		q.append(" wo.dispatchNo,");
+		q.append(" wo.dispatch_detail_id,");
+		q.append(" wo.vehicle_no,");
+		q.append(" wo.vehicle_dt,");
+		q.append(" wo.actual_wt,");
+		q.append(" ");
+		q.append(" dd.millName,");
+		q.append(" dd.make,");
+		q.append(" dd.grade,");
+		q.append(" dd.thickness,");
+		q.append(" dd.length,");
+		q.append(" dd.width,");
+		q.append(" dd.qty ordered_quantity,");
+		q.append(" wo.delivered_quantity,");
+		q.append(" dispo.buyerName,");
+		q.append(" sb.material_type, ");
+		q.append(" sb.heat_no, ");
+		q.append(" sb.plate_no ");
+		q.append("  from ");
+		q.append(" warehouse_outward wo");
+		q.append(" left join dispatch_details dd on wo.dispatch_detail_id = dd.dispatch_details_ID ");
+		q.append(" left join dispatch_order dispo on dd.dispatch_order_id = dispo.dispatch_order_id ");
+		q.append(" left join warehouse_outward_temp wot on wot.dispatch_details_id = wo.dispatch_detail_id ");
+		q.append(" left join stock_balance sb on sb.stock_balance_id = wot.stock_id ");
+		//q.append(" order by warehouse_outward_id desc;");
+		
+		//String sql = " select * from warehouse_outward "
+		String sql = q.toString()
+				+ processSearchCriteria(searchParam) + " " + composeOrderByClause(orderByFieldName, order) ;
+		query = sql;
+		return query;
 	}
 	
 	private String composeOrderByClause(String orderByFieldName, String order) {

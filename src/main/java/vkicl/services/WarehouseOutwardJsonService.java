@@ -49,7 +49,7 @@ public class WarehouseOutwardJsonService {
 
 		WarehouseOutwardDaoImpl portDao = new WarehouseOutwardDaoImpl();
 		
-		Integer totalRecordsCount = portDao.fetchWarehouseOutwardRecordCount(searchParam);
+		Integer totalRecordsCount = portDao.fetchWarehouseOutwardRecordCount(orderBy, order,searchParam);
 		List<WarehouseOutwardReportVO> records = portDao.fetchPortInwardDetails_2(Integer.parseInt(page),
 				Integer.parseInt(rows), totalRecordsCount, orderBy, order, searchParam);
 
