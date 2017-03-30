@@ -138,9 +138,16 @@
 	</definition>
 
 	<definition name="warehouseOutwardReportJqgridDefn" extends="baseDefn">
-		<put name="title" value="Warehouse Outward Report" />
+		<put name="title" value="Warehouse Outward Details Report" />
 		<put name="pageType" value="Report" />
 		<put name="body" value="/jsp/report/warehouse-outward-report-jqgrid.jsp" />
+	</definition>
+	
+	
+	<definition name="warehouseOutwardUpdateActualWeightJqgridDefn" extends="baseDefn">
+		<put name="title" value="Warehouse Outward (Update Actual Weight)" />
+		<put name="pageType" value="Report" />
+		<put name="body" value="/jsp/report/warehouse-outward-update-actual-weight.jsp" />
 	</definition>
 
 	<definition name="warehouseInwardApproverReportDefn"

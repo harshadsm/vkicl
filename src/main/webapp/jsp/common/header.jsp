@@ -97,8 +97,8 @@
 								<li><a href="./warehouse-inward-report.do">Warehouse
 										Inward</a></li>
 								<!-- <li><a href="./warehouse-outward-report.do">WarehousevOutward (Old)</a></li> -->
-								<li><a href="./warehouse-outward-report-2.do">Warehouse
-										Outward</a></li>
+								<li><a href="./warehouse-outward-report-3.do">Warehouse Outward (Update Actual Weight)</a></li>
+								<li><a href="./warehouse-outward-report-2.do">Warehouse Outward Details</a></li>
 										
 								<%
 									}

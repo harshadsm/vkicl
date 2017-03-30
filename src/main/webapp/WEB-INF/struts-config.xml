@@ -182,6 +182,10 @@
 		<action path="/warehouse-outward-report-2" type="vkicl.report.action.WarehouseOutwardReportJqgridAction">
 			<forward name="success" path="warehouseOutwardReportJqgridDefn" />
 		</action>
+		
+		<action path="/warehouse-outward-report-3" type="vkicl.report.action.WarehouseOutwardUpdateActualWeightJqgridAction">
+			<forward name="success" path="warehouseOutwardUpdateActualWeightJqgridDefn" />
+		</action>
 
 		<action path="/warehouse-inward-approver-report" type="vkicl.report.action.WarehouseInwardReportAction"
 			name="WarehouseInwardReportForm">

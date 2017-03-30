@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 import vkicl.services.PortInwardDetailsJsonService;
-import vkicl.services.WarehouseOutwardJsonService;
+import vkicl.services.WarehouseOutwardDetailsJsonService;
 
 public class WarehouseOutwardJsonServlet extends HttpServlet {
 
@@ -28,8 +28,8 @@ public class WarehouseOutwardJsonServlet extends HttpServlet {
 
 		try {
 			
-			WarehouseOutwardJsonService service = new WarehouseOutwardJsonService();
-			String json = service.getWarehouseOutwardListAsJson(request);
+			WarehouseOutwardDetailsJsonService service = new WarehouseOutwardDetailsJsonService();
+			String json = service.getWarehouseOutwardDetailsListAsJson(request);
 
 			logger.debug("Going to return WarehouseOutwardJsonServlet json ");
 			logger.debug(json);

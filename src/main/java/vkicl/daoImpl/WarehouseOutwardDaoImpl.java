@@ -24,7 +24,7 @@ public class WarehouseOutwardDaoImpl extends BaseDaoImpl{
 	
 	private static Logger log = Logger.getLogger(WarehouseOutwardDaoImpl.class);
 
-	public Integer fetchWarehouseOutwardRecordCount(String orderByFieldName, String order, JqGridSearchParameterHolder searchParam) throws SQLException {
+	public Integer fetchWarehouseOutwardDetailsRecordCount(String orderByFieldName, String order, JqGridSearchParameterHolder searchParam) throws SQLException {
 		List<PortInwardRecordVO> list = new ArrayList<PortInwardRecordVO>();
 		Connection conn = null;
 		ResultSet rs = null;
@@ -162,7 +162,7 @@ public class WarehouseOutwardDaoImpl extends BaseDaoImpl{
 	}
 	
 	
-	public List<WarehouseOutwardReportVO> fetchPortInwardDetails_2(int pageNo, int pageSize, long total,
+	public List<WarehouseOutwardReportVO> fetchWarehouseOutwardDetails(int pageNo, int pageSize, long total,
 			String orderByFieldName, String order, JqGridSearchParameterHolder searchParam) throws SQLException {
 		List<WarehouseOutwardReportVO> list = new ArrayList<WarehouseOutwardReportVO>();
 		Connection conn = null;

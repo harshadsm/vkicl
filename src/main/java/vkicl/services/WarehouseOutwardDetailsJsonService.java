@@ -30,11 +30,11 @@ import vkicl.vo.PackingListItemVO2;
 import vkicl.vo.PortInwardRecordVO;
 import vkicl.vo.WarehouseOutwardReportVO;
 
-public class WarehouseOutwardJsonService {
+public class WarehouseOutwardDetailsJsonService {
 
-	private Logger logger = Logger.getLogger(WarehouseOutwardJsonService.class);
+	private Logger logger = Logger.getLogger(WarehouseOutwardDetailsJsonService.class);
 
-	public String getWarehouseOutwardListAsJson(HttpServletRequest req)
+	public String getWarehouseOutwardDetailsListAsJson(HttpServletRequest req)
 			throws SQLException, JsonParseException, JsonMappingException, IOException {
 
 		// String dd = req.getParameter("getPortInwardDetails");
@@ -47,10 +47,10 @@ public class WarehouseOutwardJsonService {
 		String orderBy = params.getParam(JQGRID_PARAM_NAMES.sidx);
 		String order = params.getParam(JQGRID_PARAM_NAMES.sord);
 
-		WarehouseOutwardDaoImpl portDao = new WarehouseOutwardDaoImpl();
+		WarehouseOutwardDaoImpl warehouseOutwardDao = new WarehouseOutwardDaoImpl();
 		
-		Integer totalRecordsCount = portDao.fetchWarehouseOutwardRecordCount(orderBy, order,searchParam);
-		List<WarehouseOutwardReportVO> records = portDao.fetchPortInwardDetails_2(Integer.parseInt(page),
+		Integer totalRecordsCount = warehouseOutwardDao.fetchWarehouseOutwardDetailsRecordCount(orderBy, order,searchParam);
+		List<WarehouseOutwardReportVO> records = warehouseOutwardDao.fetchWarehouseOutwardDetails(Integer.parseInt(page),
 				Integer.parseInt(rows), totalRecordsCount, orderBy, order, searchParam);
 
 		JqGridCustomResponse response = new JqGridCustomResponse();
