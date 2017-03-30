@@ -12,6 +12,7 @@ import org.apache.log4j.Logger;
 
 import vkicl.services.PortInwardDetailsJsonService;
 import vkicl.services.WarehouseOutwardDetailsJsonService;
+import vkicl.services.WarehouseOutwardForActualWeightUpdateJsonService;
 
 public class WarehouseOutwardForActualWeightUpdateJsonServlet extends HttpServlet {
 
@@ -28,8 +29,8 @@ public class WarehouseOutwardForActualWeightUpdateJsonServlet extends HttpServle
 
 		try {
 			
-			WarehouseOutwardDetailsJsonService service = new WarehouseOutwardDetailsJsonService();
-			String json = service.getWarehouseOutwardDetailsListAsJson(request);
+			WarehouseOutwardForActualWeightUpdateJsonService service = new WarehouseOutwardForActualWeightUpdateJsonService();
+			String json = service.getWarehouseOutwardListAsJson(request);
 
 			logger.debug("Going to return WarehouseOutwardJsonServlet json ");
 			logger.debug(json);

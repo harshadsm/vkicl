@@ -37,7 +37,7 @@ public class WarehouseOutwardDaoImpl extends BaseDaoImpl{
 //					+ "select * from warehouse_outward wo "
 //					+ processSearchCriteria(searchParam)
 //					+ ") a";
-			String count_sql = "select count(*) from ("+composeQuery(orderByFieldName, order, searchParam)+" ) a";
+			String count_sql = "select count(*) from ("+composeQueryForWarehouseOutwardDetails(orderByFieldName, order, searchParam)+" ) a";
 			log.info("query = " + count_sql);
 
 			cs = conn.prepareCall(count_sql);
@@ -173,7 +173,7 @@ public class WarehouseOutwardDaoImpl extends BaseDaoImpl{
 		try {
 			conn = getConnection();
 
-			query = composeQuery(orderByFieldName, order, searchParam);
+			query = composeQueryForWarehouseOutwardDetails(orderByFieldName, order, searchParam);
 			log.info("query = " + query);
 
 			cs = conn.prepareCall(query);
@@ -217,7 +217,7 @@ public class WarehouseOutwardDaoImpl extends BaseDaoImpl{
 		return list;
 	}
 
-	private String composeQuery(String orderByFieldName, String order, JqGridSearchParameterHolder searchParam) {
+	private String composeQueryForWarehouseOutwardDetails(String orderByFieldName, String order, JqGridSearchParameterHolder searchParam) {
 		String query;
 		StringBuffer q = new StringBuffer();
 		q.append(" select ");
