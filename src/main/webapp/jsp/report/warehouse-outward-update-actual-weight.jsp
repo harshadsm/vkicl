@@ -34,19 +34,20 @@
 $(function() {
 	$("#grid").jqGrid(
 		{
-			url : './warehouseOutwardJsonServlet',
+			url : './warehouseOutwardForActualWeightUpdateJsonServlet',
+			editurl : './warehouseOutwardUpdateActualWeightServlet',
 			datatype : 'json',
 			mtype : 'GET',
 			
 			
-			colNames : [ 'id', 'Vehicle Date', 'Vehicle No', 'Vendor Name', 'Material Type', 'Mill Name', 'Make', 'Grade', 'Thickness','Length','Width', 'HeatNo', 'PlateNo', 'Section Wt', 'Packing List', 'Inward Dettails Record Count'
+			colNames : [ 'id', 'Vehicle Date', 'Vehicle No', 'Customer Name', 'Section Wt',  'Actual Wt','Packing List', 'Inward Dettails Record Count'
 					],
 					
 			colModel : [ {
 				name : 'warehouseOutwardId',
 				index : 'warehouseOutwardId',
 				width : 185,
-				editable : true,
+				editable : false,
 				editrules : {
 					required : true
 				},
@@ -97,132 +98,6 @@ $(function() {
 				searchoptions: { sopt:[ 'cn','eq']}
 				
 			},{
-				name : 'materialType',
-				index : 'materialType',
-				width : 300,
-				editable : false,
-				editoptions : {
-					readonly : true,
-					size : 10
-				},
-				search : true,
-				sortable:false,
-				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
-				searchoptions: { sopt:[ 'cn','eq']}
-				
-			},{
-				name : 'mill',
-				index : 'mill',
-				width : 300,
-				editable : false,
-				editoptions : {
-					readonly : true,
-					size : 10
-				},
-				search : true,
-				sortable:false,
-				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
-				searchoptions: { sopt:[ 'cn','eq']}
-				
-			},{
-				name : 'make',
-				index : 'make',
-				width : 300,
-				editable : false,
-				editoptions : {
-					readonly : true,
-					size : 10
-				},
-				sortable:false,
-				search : true,
-				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
-				searchoptions: { sopt:[ 'cn','eq']}
-				
-			},{
-				name : 'grade',
-				index : 'grade',
-				width : 300,
-				editable : false,
-				editoptions : {
-					readonly : true,
-					size : 10
-				},
-				sortable:false,
-				search : true,
-				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
-				searchoptions: { sopt:[ 'cn','eq']}
-				
-			},{
-				name : 'thickness',
-				index : 'thickness',
-				width : 300,
-				editable : false,
-				editoptions : {
-					readonly : true,
-					size : 10
-				},
-				sortable:false,
-				search : true,
-				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
-				searchoptions: { sopt:[ 'cn','eq']}
-				
-			},{
-				name : 'length',
-				index : 'length',
-				width : 300,
-				editable : false,
-				editoptions : {
-					readonly : true,
-					size : 10
-				},
-				sortable:false,
-				search : true,
-				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
-				searchoptions: { sopt:[ 'cn','eq']}
-				
-			},{
-				name : 'width',
-				index : 'width',
-				width : 300,
-				editable : false,
-				editoptions : {
-					readonly : true,
-					size : 10
-				},
-				sortable:false,
-				search : true,
-				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
-				searchoptions: { sopt:[ 'cn','eq']}
-				
-			},{
-				name : 'heatNo',
-				index : 'heatNo',
-				width : 300,
-				editable : false,
-				editoptions : {
-					readonly : true,
-					size : 10
-				},
-				sortable:false,
-				search : true,
-				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
-				searchoptions: { sopt:[ 'cn','eq']}
-				
-			},{
-				name : 'plateNo',
-				index : 'plateNo',
-				width : 300,
-				editable : false,
-				editoptions : {
-					readonly : true,
-					size : 10
-				},
-				sortable:false,
-				search : true,
-				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
-				searchoptions: { sopt:[ 'cn','eq']}
-				
-			},{
 				name : 'sectionWt',
 				index : 'sectionWt',
 				width : 300,
@@ -232,9 +107,25 @@ $(function() {
 					size : 10
 				},
 				sortable:false,
-				search : true,
+				search : false,
 				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
 				searchoptions: { sopt:[ 'cn','eq']}
+				
+			},{
+				name : 'actualWeight',
+				index : 'actualWeight',
+				width : 300,
+				editable : true,
+				editrules : {
+					required : true
+				},
+				editoptions : {
+					
+					size : 10
+				},
+				
+				search : false,
+				searchoptions: { sopt:[ 'ge']}
 				
 			},{
 				name : 'actionLink',
@@ -257,6 +148,9 @@ $(function() {
 			],
 			postData : {
 			},
+			cellEdit: true,
+			cellsubmit : 'remote',
+			cellurl : '/updateActualWeightServlet',
 			rowNum : 20,
 			rowList : [ 20, 40, 60 ],
 			height : 280,
@@ -296,14 +190,6 @@ $(function() {
 	        		}
 
 
-	        		var t = Number(rowObject.thickness);
-	        		var w = Number(rowObject.width);
-	        		var l = Number(rowObject.length);
-	        		var q = Number(rowObject.quantity);
-	        		var sectionWeight = (t * w * l * q * 7.85 / 1000000000);
-	        		sectionWeight = $.number(sectionWeight, 3, '.', '' );	
-	        		$("#grid").jqGrid('setRowData',ids[i],{sectionWt : sectionWeight});
-	        		
 	        		$("#grid").jqGrid('setRowData',ids[i],{actionLink:cust_lnk});
 	        		
 	        		$("#grid").jqGrid('filterToolbar',{stringResult: true,searchOnEnter : false, searchOperators:true, defaultSearch:"cn"});

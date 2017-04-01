@@ -19,12 +19,13 @@ import vkicl.util.JqGridSearchParameterHolder;
 import vkicl.util.JqGridSearchParameterHolder.Rule;
 import vkicl.vo.PortInwardRecordVO;
 import vkicl.vo.WarehouseOutwardReportVO;
+import vkicl.vo.WarehouseOutwardVO3;
 
 public class WarehouseOutwardForActualWeightUpdateDaoImpl extends BaseDaoImpl{
 	
 	private static Logger log = Logger.getLogger(WarehouseOutwardForActualWeightUpdateDaoImpl.class);
 
-	public Integer fetchWarehouseOutwardDetailsRecordCount(String orderByFieldName, String order, JqGridSearchParameterHolder searchParam) throws SQLException {
+	public Integer fetchWarehouseOutwardRecordCount(String orderByFieldName, String order, JqGridSearchParameterHolder searchParam) throws SQLException {
 		List<PortInwardRecordVO> list = new ArrayList<PortInwardRecordVO>();
 		Connection conn = null;
 		ResultSet rs = null;
@@ -37,7 +38,7 @@ public class WarehouseOutwardForActualWeightUpdateDaoImpl extends BaseDaoImpl{
 //					+ "select * from warehouse_outward wo "
 //					+ processSearchCriteria(searchParam)
 //					+ ") a";
-			String count_sql = "select count(*) from ("+composeQueryForWarehouseOutwardDetails(orderByFieldName, order, searchParam)+" ) a";
+			String count_sql = "select count(*) from ("+composeQueryForWarehouseOutward(orderByFieldName, order, searchParam)+" ) a";
 			log.info("query = " + count_sql);
 
 			cs = conn.prepareCall(count_sql);
@@ -105,25 +106,7 @@ public class WarehouseOutwardForActualWeightUpdateDaoImpl extends BaseDaoImpl{
 				log.error("some error",e);
 			}
 			
-		} else if (field != null && field.equalsIgnoreCase("materialType")) {
-			clause = "sb.material_type like '%" + data + "%'";
-		} else if (field != null && field.equalsIgnoreCase("mill")) {
-			clause = "dd.millName like '%" + data + "%'";
-		} else if (field != null && field.equalsIgnoreCase("make")) {
-			clause = "dd.make like '%" + data + "%'";
-		} else if (field != null && field.equalsIgnoreCase("grade")) {
-			clause = "dd.grade like '%" + data + "%'";
-		} else if (field != null && field.equalsIgnoreCase("heatNo")) {
-			clause = "sb.heat_no like '%" + data + "%'";
-		} else if (field != null && field.equalsIgnoreCase("plateNo")) {
-			clause = "sb.plate_no like '%" + data + "%'";
-		} else if (field != null && field.equalsIgnoreCase("thickness")) {
-			clause = "dd.thickness = " + data;
-		}  else if (field != null && field.equalsIgnoreCase("length")) {
-			clause = "dd.length = " + data;
-		}  else if (field != null && field.equalsIgnoreCase("width")) {
-			clause = "dd.width = " + data;
-		} 
+		}
 
 		return clause;
 	}
@@ -162,9 +145,9 @@ public class WarehouseOutwardForActualWeightUpdateDaoImpl extends BaseDaoImpl{
 	}
 	
 	
-	public List<WarehouseOutwardReportVO> fetchWarehouseOutwardDetails(int pageNo, int pageSize, long total,
+	public List<WarehouseOutwardVO3> fetchWarehouseOutward(int pageNo, int pageSize, long total,
 			String orderByFieldName, String order, JqGridSearchParameterHolder searchParam) throws SQLException {
-		List<WarehouseOutwardReportVO> list = new ArrayList<WarehouseOutwardReportVO>();
+		List<WarehouseOutwardVO3> list = new ArrayList<WarehouseOutwardVO3>();
 		Connection conn = null;
 		ResultSet rs = null;
 		CallableStatement cs = null;
@@ -173,7 +156,7 @@ public class WarehouseOutwardForActualWeightUpdateDaoImpl extends BaseDaoImpl{
 		try {
 			conn = getConnection();
 
-			query = composeQueryForWarehouseOutwardDetails(orderByFieldName, order, searchParam);
+			query = composeQueryForWarehouseOutward(orderByFieldName, order, searchParam);
 			log.info("query = " + query);
 
 			cs = conn.prepareCall(query);
@@ -182,26 +165,14 @@ public class WarehouseOutwardForActualWeightUpdateDaoImpl extends BaseDaoImpl{
 			if (null != rs && rs.next()) {
 
 				do {
-					WarehouseOutwardReportVO vo = new WarehouseOutwardReportVO();
+					WarehouseOutwardVO3 vo = new WarehouseOutwardVO3();
 					vo.setCreateTS(dateToString(rs.getDate(1), "dd-MM-yyyy"));
 					vo.setWarehouseOutwardId(rs.getInt(2));
 					vo.setDispatchNo(rs.getInt(3));
-					vo.setDispatchDetailId(rs.getInt(4));
-					vo.setVehicleNo(rs.getString(5));
-					vo.setVehicleDate(dateToString(rs.getDate(6), "dd-MM-yyyy"));
-					vo.setActualWeight(rs.getDouble(7));
-					vo.setMill(rs.getString(8));
-					vo.setMake(rs.getString(9));
-					vo.setGrade(rs.getString(10));
-					vo.setThickness(rs.getInt(11));
-					vo.setLength(rs.getInt(12));
-					vo.setWidth(rs.getInt(13));
-					vo.setOrderedQuantity(rs.getInt(14));
-					vo.setDeliveredQuantity(rs.getInt(15));
-					vo.setBuyerName(rs.getString(16));
-					vo.setMaterialType(rs.getString(17));
-					vo.setHeatNo(rs.getString(18));
-					vo.setPlateNo(rs.getString(19));
+					vo.setVehicleNo(rs.getString(4));
+					vo.setVehicleDate(dateToString(rs.getDate(5), "dd-MM-yyyy"));
+					vo.setActualWeight(rs.getDouble(6));
+					vo.setBuyerName(rs.getString(7));
 					
 					list.add(vo);
 					
@@ -217,36 +188,19 @@ public class WarehouseOutwardForActualWeightUpdateDaoImpl extends BaseDaoImpl{
 		return list;
 	}
 
-	private String composeQueryForWarehouseOutwardDetails(String orderByFieldName, String order, JqGridSearchParameterHolder searchParam) {
+	private String composeQueryForWarehouseOutward(String orderByFieldName, String order, JqGridSearchParameterHolder searchParam) {
 		String query;
 		StringBuffer q = new StringBuffer();
-		q.append(" select ");
-		q.append(" wo.create_ts warehouse_outward_creation_date,");
-		q.append(" wo.warehouse_outward_id,");
-		q.append(" wo.dispatchNo,");
-		q.append(" wo.dispatch_detail_id,");
-		q.append(" wo.vehicle_no,");
-		q.append(" wo.vehicle_dt,");
-		q.append(" wo.actual_wt,");
-		q.append(" ");
-		q.append(" dd.millName,");
-		q.append(" dd.make,");
-		q.append(" dd.grade,");
-		q.append(" dd.thickness,");
-		q.append(" dd.length,");
-		q.append(" dd.width,");
-		q.append(" dd.qty ordered_quantity,");
-		q.append(" wo.delivered_quantity,");
-		q.append(" dispo.buyerName,");
-		q.append(" sb.material_type, ");
-		q.append(" sb.heat_no, ");
-		q.append(" sb.plate_no ");
-		q.append("  from ");
-		q.append(" warehouse_outward wo");
-		q.append(" left join dispatch_details dd on wo.dispatch_detail_id = dd.dispatch_details_ID ");
-		q.append(" left join dispatch_order dispo on dd.dispatch_order_id = dispo.dispatch_order_id ");
-		q.append(" left join warehouse_outward_temp wot on wot.dispatch_details_id = wo.dispatch_detail_id ");
-		q.append(" left join stock_balance sb on sb.stock_balance_id = wot.stock_id ");
+		q.append(" select wo.create_ts,  ");
+		q.append(" wo.warehouse_outward_id, ");
+		q.append(" wo.dispatchNo, ");
+		q.append(" wo.vehicle_no, ");
+		q.append(" wo.vehicle_dt, ");
+		q.append(" wo.actual_wt, ");
+		q.append(" dispo.buyerName ");
+		q.append(" from warehouse_outward wo ");
+		q.append(" left join dispatch_order dispo on wo.dispatchNo = dispo.dispatch_order_id ");
+		
 		//q.append(" order by warehouse_outward_id desc;");
 		
 		//String sql = " select * from warehouse_outward "

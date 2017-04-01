@@ -109,6 +109,10 @@
 		<servlet-name>WarehouseOutwardServlet</servlet-name>
 		<servlet-class>vkicl.action.WarehouseOutwardProcessingServlet</servlet-class>
 	</servlet>
+	<servlet>
+		<servlet-name>WarehouseOutwardUpdateActualWeightServlet</servlet-name>
+		<servlet-class>vkicl.action.WarehouseOutwardUpdateActualWeightServlet</servlet-class>
+	</servlet>
 	
 	
 	
@@ -198,6 +202,10 @@
 	<servlet-mapping>
 		<servlet-name>WarehouseOutwardServlet</servlet-name>
 		<url-pattern>/submitWarehouseOutward</url-pattern>
+	</servlet-mapping>	
+	<servlet-mapping>
+		<servlet-name>WarehouseOutwardUpdateActualWeightServlet</servlet-name>
+		<url-pattern>/warehouseOutwardUpdateActualWeightServlet</url-pattern>
 	</servlet-mapping>
 	
 	

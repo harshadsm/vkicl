@@ -30,6 +30,7 @@ import vkicl.vo.PackingListItemVO;
 import vkicl.vo.PackingListItemVO2;
 import vkicl.vo.PortInwardRecordVO;
 import vkicl.vo.WarehouseOutwardReportVO;
+import vkicl.vo.WarehouseOutwardVO3;
 
 public class WarehouseOutwardForActualWeightUpdateJsonService {
 
@@ -50,8 +51,8 @@ public class WarehouseOutwardForActualWeightUpdateJsonService {
 
 		WarehouseOutwardForActualWeightUpdateDaoImpl warehouseOutwardDao = new WarehouseOutwardForActualWeightUpdateDaoImpl();
 		
-		Integer totalRecordsCount = warehouseOutwardDao.fetchWarehouseOutwardDetailsRecordCount(orderBy, order,searchParam);
-		List<WarehouseOutwardReportVO> records = warehouseOutwardDao.fetchWarehouseOutwardDetails(Integer.parseInt(page),
+		Integer totalRecordsCount = warehouseOutwardDao.fetchWarehouseOutwardRecordCount(orderBy, order,searchParam);
+		List<WarehouseOutwardVO3> records = warehouseOutwardDao.fetchWarehouseOutward(Integer.parseInt(page),
 				Integer.parseInt(rows), totalRecordsCount, orderBy, order, searchParam);
 
 		JqGridCustomResponse response = new JqGridCustomResponse();
@@ -237,6 +238,11 @@ public class WarehouseOutwardForActualWeightUpdateJsonService {
 		Gson gson = new Gson();
 		String json = gson.toJson(response);
 		return json;
+	}
+	
+	
+	public void updateActualWeightOfWarehouseOutward(Integer warehouseOutwardId, Double actualWeight){
+		//Need to add logic
 	}
 
 }
