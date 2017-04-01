@@ -61,8 +61,12 @@ public class WarehouseOutwardProcessingServlet extends HttpServlet {
 					objectType);
 
 			logger.debug(warehouseProcessingRequest.toString());
+			
+			// Add the warehouse_outward_process data.
+			Integer lastWarehouseOutwardId = impl.addWarehouseOutwardProcessData(warehouseProcessingRequest, userInfoVO);
+						
 			// Add data to warehouse_outward_temp
-			impl.addWarehouseOutwardTempData(warehouseProcessingRequest, userInfoVO);
+			impl.addWarehouseOutwardTempData(warehouseProcessingRequest, userInfoVO, lastWarehouseOutwardId);
 
 			// Add stock outward data
 			impl.addStockOutwardData(warehouseProcessingRequest, userInfoVO);
@@ -82,9 +86,6 @@ public class WarehouseOutwardProcessingServlet extends HttpServlet {
 				}
 			}
 
-			// Add the warehouse_outward_process data.
-			impl.addWarehouseOutwardProcessData(warehouseProcessingRequest, userInfoVO);
-			
 			// Check if DO is completely delivered, mark it as COMPLETED
 			DispatchOrderDetailsDaoImpl dispatchOrderDetailsDao = new DispatchOrderDetailsDaoImpl();
 			Integer totalRecordsCount = dispatchOrderDetailsDao.getDispatchOrderDetailsCount(warehouseProcessingRequest.getDispatchOrderId(),null);//, portInwardId);

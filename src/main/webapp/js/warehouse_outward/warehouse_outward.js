@@ -11,6 +11,7 @@ function addWarehouseOutwardLineItem(selectedStockId){
 	var selectedDispatchDetailRow = getSelectedDispatchDetailsRow();
 	var dispatchDetailsID = selectedDispatchDetailRow.dispatchDetailsID;
 	var orderedQuantity = Number(selectedDispatchDetailRow.orderedQuantity);
+	var sectionWeight = Number(selectedDispatchDetailRow.actWt);
 	
 	//Get Selected Stock Row
 	var SELECTED_STOCK_LINE_ITEM = composeStockLineItemObjectForStockJqgridRowId(selectedStockId);
@@ -48,7 +49,8 @@ function addWarehouseOutwardLineItem(selectedStockId){
 				dispatchDetailId : dispatchDetailsID,
 				orderedQuantity : orderedQuantity,
 				quantityBeingDelivered : SELECTED_STOCK_LINE_ITEM.stockQuantityForDelivery,
-				selectedStockLineItems : []
+				selectedStockLineItems : [],
+				sectionWeight : sectionWeight
 		};
 		
 		DISPATCH_LINE_ITEM.selectedStockLineItems.push(SELECTED_STOCK_LINE_ITEM);

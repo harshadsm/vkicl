@@ -14,6 +14,7 @@ public class SelectedStockItemForOutwardVO {
 	private String heatNo;
 	private String plateNo;
 	private String location;
+	private Double sectionWeight;
 	
 	public Integer getStockId() {
 		return stockId;
@@ -91,14 +92,21 @@ public class SelectedStockItemForOutwardVO {
 	public void setQuantity(Integer quantity) {
 		this.quantity = quantity;
 	}
+	
+	
+	public Double getSectionWeight() {
+		return sectionWeight;
+	}
+	public void setSectionWeight(Double sectionWeight) {
+		this.sectionWeight = sectionWeight;
+	}
 	@Override
 	public String toString() {
 		return "SelectedStockItemForOutwardVO [stockId=" + stockId + ", stockQuantityForDelivery="
-				+ stockQuantityForDelivery + ", thickness=" + thickness + ", length=" + length + ", widht=" + width
-				+ ", millName=" + millName + ", make=" + make + ", grade=" + grade + ", heatNo=" + heatNo + ", plateNo="
-				+ plateNo + "]";
+				+ stockQuantityForDelivery + ", quantity=" + quantity + ", thickness=" + thickness + ", length="
+				+ length + ", width=" + width + ", millName=" + millName + ", make=" + make + ", grade=" + grade
+				+ ", heatNo=" + heatNo + ", plateNo=" + plateNo + ", location=" + location + ", sectionWeight="
+				+ sectionWeight + "]";
 	}
-
-	
 	
 }

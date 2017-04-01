@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -1006,7 +1007,7 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 	}
 
 	public void addWarehouseOutwardTempData(WarehouseOutwardProcessingVO w,
-			UserInfoVO userInfoVO) {
+			UserInfoVO userInfoVO, Integer lastWarehouseOutwardId) {
 		StringBuffer q = new StringBuffer();
 		q.append(" insert into warehouse_outward_temp  ( ");
 		q.append(" dispatch_order_id ");
@@ -1023,9 +1024,9 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 		q.append(" ,avail_qty,taken_qty ");
 		q.append(" ,create_ui,update_ui ");
 		q.append(" ,create_ts,update_ts ");
-		q.append(" ,dispatch_details_id,stock_Id ");
+		q.append(" ,dispatch_details_id, stock_Id, warehouse_outward_id ");
 		q.append(" ) ");
-		q.append(" values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?); ");
+		q.append(" values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?); ");
 		
 		Connection conn = null;
 		ResultSet rs = null;
@@ -1048,6 +1049,7 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 			cs.setString(15,userInfoVO.getUserName());
 			cs.setString(16,getCurentTime());
 			cs.setString(17,getCurentTime());
+			cs.setInt(20, lastWarehouseOutwardId);
 			
 			for(DispatchOrderLineItemForProcessingVO dispatchOrderItem : w.getWarehouseOutwardDetails()){
 				cs.setInt(8, dispatchOrderItem.getOrderedQuantity());
@@ -1064,7 +1066,7 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 					cs.setInt(19, st.getStockId());
 					cs.setInt(13, st.getStockQuantityForDelivery());	
 					cs.setInt(12, st.getStockQuantityForDelivery());
-					cs.setDouble(9, 9999.999);
+					cs.setDouble(9, st.getSectionWeight());
 					cs.setString(10, "TON");
 					int rowInserted = cs.executeUpdate();
 					log.debug(rowInserted);
@@ -1141,20 +1143,20 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 		return userInfoVO;
 	}
 
-	public UserInfoVO addWarehouseOutwardProcessData(WarehouseOutwardProcessingVO form,
+	public Integer addWarehouseOutwardProcessData(WarehouseOutwardProcessingVO form,
 			UserInfoVO userInfoVO) {
 
 		Connection conn = null;
 		ResultSet rs = null;
 		CallableStatement cs = null;
 		String query = "", message = "";
-		// Integer warehouseOutwardId = -1;
+		Integer warehouseOutwardId = -1;
 		try {
 
 			if (0 == form.getDispatchOrderId()) {
 				message = "Unable to insert Outward entry"; // log.error(message);
 				userInfoVO.setMessage("");
-				return userInfoVO;
+				return 989786; 
 			}
 
 			conn = getConnection();
@@ -1173,18 +1175,26 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 			cs.setString(5, formatInput(form.getVehicleDate()));
 			cs.setString(6, userInfoVO.getUserName());
 			cs.registerOutParameter(9, java.sql.Types.VARCHAR);
-			
-			List<DispatchOrderLineItemForProcessingVO> dispatchOrder = form.getWarehouseOutwardDetails();
-			for(DispatchOrderLineItemForProcessingVO lineItem : dispatchOrder){
-				cs.setInt(7, lineItem.getDispatchDetailId());
-				cs.setInt(8, lineItem.getQuantityBeingDelivered());
-				cs.executeUpdate();		
-			}
+			cs.registerOutParameter(10, java.sql.Types.INTEGER);
 			
 			
-			// }
+//			List<DispatchOrderLineItemForProcessingVO> dispatchOrder = form.getWarehouseOutwardDetails();
+//			for(DispatchOrderLineItemForProcessingVO lineItem : dispatchOrder){
+//				cs.setInt(7, lineItem.getDispatchDetailId());
+//				cs.setInt(8, lineItem.getQuantityBeingDelivered());
+//				cs.executeUpdate();		
+//			}
+			
+			
+			cs.setInt(7, 92817);
+			cs.setInt(8, 92818);
+			cs.executeUpdate();
 			message = cs.getString(9);
+			warehouseOutwardId = cs.getInt(10);
 			log.info("message = " + message);
+			log.info("Last inserted warehouseOutward id = "+warehouseOutwardId);
+			userInfoVO.setMessage(warehouseOutwardId.toString());
+			
 			//form.clear();
 			userInfoVO.setMessage(message);
 		} catch (Exception e) {
@@ -1194,7 +1204,7 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 		} finally {
 			closeDatabaseResources(conn, rs, cs);
 		}
-		return userInfoVO;
+		return warehouseOutwardId;
 	}
 
 }

@@ -8,6 +8,8 @@ public class DispatchOrderLineItemForProcessingVO {
 	private Integer orderedQuantity;
 	private Integer quantityBeingDelivered;
 	private List<SelectedStockItemForOutwardVO> selectedStockLineItems;
+	
+	
 	public Integer getDispatchDetailId() {
 		return dispatchDetailId;
 	}
@@ -32,6 +34,8 @@ public class DispatchOrderLineItemForProcessingVO {
 	public void setSelectedStockLineItems(List<SelectedStockItemForOutwardVO> selectedStockLineItems) {
 		this.selectedStockLineItems = selectedStockLineItems;
 	}
+	
+	
 	@Override
 	public String toString() {
 		StringBuffer sb = new StringBuffer();
