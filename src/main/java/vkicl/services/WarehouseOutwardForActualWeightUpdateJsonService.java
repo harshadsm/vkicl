@@ -30,6 +30,7 @@ import vkicl.vo.PackingListItemVO;
 import vkicl.vo.PackingListItemVO2;
 import vkicl.vo.PortInwardRecordVO;
 import vkicl.vo.WarehouseOutwardReportVO;
+import vkicl.vo.WarehouseOutwardTempVO;
 import vkicl.vo.WarehouseOutwardVO3;
 
 public class WarehouseOutwardForActualWeightUpdateJsonService {
@@ -50,8 +51,8 @@ public class WarehouseOutwardForActualWeightUpdateJsonService {
 		String order = params.getParam(JQGRID_PARAM_NAMES.sord);
 
 		WarehouseOutwardForActualWeightUpdateDaoImpl warehouseOutwardDao = new WarehouseOutwardForActualWeightUpdateDaoImpl();
-		
-		Integer totalRecordsCount = warehouseOutwardDao.fetchWarehouseOutwardRecordCount(orderBy, order,searchParam);
+
+		Integer totalRecordsCount = warehouseOutwardDao.fetchWarehouseOutwardRecordCount(orderBy, order, searchParam);
 		List<WarehouseOutwardVO3> records = warehouseOutwardDao.fetchWarehouseOutward(Integer.parseInt(page),
 				Integer.parseInt(rows), totalRecordsCount, orderBy, order, searchParam);
 
@@ -239,10 +240,65 @@ public class WarehouseOutwardForActualWeightUpdateJsonService {
 		String json = gson.toJson(response);
 		return json;
 	}
-	
-	
-	public void updateActualWeightOfWarehouseOutward(Integer warehouseOutwardId, Double actualWeight){
-		//Need to add logic
+
+	public void updateActualWeightOfWarehouseOutward(Integer warehouseOutwardId, Double actualWeight) {
+
+		WarehouseOutwardTempService warehouseOutwardTempService = new WarehouseOutwardTempService();
+
+		// Get all the delivered items in this warehouseOutwardId
+		List<WarehouseOutwardTempVO> deliveredItems = warehouseOutwardTempService
+				.getWarehouseOutwardTempRecordsByWarehouseOutwardId(warehouseOutwardId);
+
+		// actualWeight Of item = (secionWeight of the item * actialWeight) /
+		// sumOfSectionWeight
+		// Update the item in warehouse_outward_temp
+		updateActualWeightOfEachItem(deliveredItems, actualWeight);
+		
+		// Update the actualWeight in warehouse_outward
+		WarehouseOutwardForActualWeightUpdateDaoImpl dao = new WarehouseOutwardForActualWeightUpdateDaoImpl();
+		dao.updateActualWeightofWarehouseOutward(warehouseOutwardId, actualWeight);
+	}
+
+	private void updateActualWeightOfEachItem(List<WarehouseOutwardTempVO> deliveredItems, Double actualWeight) {
+		// sumOfSectionWeight = SUM of section weights of all the items
+		// delivered in this warehouse_outward_temp
+		Double sumOfSectionWeight = calculateSumOfSectionWeight(deliveredItems);
+
+		if (sumOfSectionWeight != null && sumOfSectionWeight > 0d) {
+			if (deliveredItems != null && !deliveredItems.isEmpty()) {
+				for (WarehouseOutwardTempVO t : deliveredItems) {
+					Double sectionWeightOfItem = t.getSect_wt();
+					Double actualWeightOfItem = 0d;
+					if (sectionWeightOfItem != null) {
+						actualWeightOfItem = (sectionWeightOfItem * actualWeight) / sumOfSectionWeight;
+					}
+
+					t.setActual_wt(actualWeightOfItem);
+
+				}
+			}
+		}
+
+		WarehouseOutwardTempService warehouseOutwardTempService = new WarehouseOutwardTempService();
+
+		// Update it in database.
+		warehouseOutwardTempService.updateActualWeight(deliveredItems);
+
+		
+
+	}
+
+	private Double calculateSumOfSectionWeight(List<WarehouseOutwardTempVO> deliveredItems) {
+		Double sumOfSectionWeight = 0d;
+		if (deliveredItems != null && !deliveredItems.isEmpty()) {
+			for (WarehouseOutwardTempVO t : deliveredItems) {
+				Double secWt = t.getSect_wt();
+				if (secWt != null) {
+					sumOfSectionWeight = sumOfSectionWeight + secWt;
+				}
+			}
+		}
+		return sumOfSectionWeight;
 	}
 
 }

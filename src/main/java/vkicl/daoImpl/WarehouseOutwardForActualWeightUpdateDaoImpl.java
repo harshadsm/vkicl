@@ -19,6 +19,7 @@ import vkicl.util.JqGridSearchParameterHolder;
 import vkicl.util.JqGridSearchParameterHolder.Rule;
 import vkicl.vo.PortInwardRecordVO;
 import vkicl.vo.WarehouseOutwardReportVO;
+import vkicl.vo.WarehouseOutwardTempVO;
 import vkicl.vo.WarehouseOutwardVO3;
 
 public class WarehouseOutwardForActualWeightUpdateDaoImpl extends BaseDaoImpl{
@@ -156,7 +157,8 @@ public class WarehouseOutwardForActualWeightUpdateDaoImpl extends BaseDaoImpl{
 		try {
 			conn = getConnection();
 
-			query = composeQueryForWarehouseOutward(orderByFieldName, order, searchParam);
+			query = composeQueryForWarehouseOutward(orderByFieldName, order, searchParam)
+			+ " " + composeLimitClause(pageNo, pageSize, total);
 			log.info("query = " + query);
 
 			cs = conn.prepareCall(query);
@@ -221,5 +223,66 @@ public class WarehouseOutwardForActualWeightUpdateDaoImpl extends BaseDaoImpl{
 //			}
 //		}
 		return orderByClause;
+	}
+
+	public void updateActualWeightofWarehouseOutward(Integer warehouseOutwardId, Double actualWeight) {
+		Connection conn = null;
+		ResultSet rs = null;
+		CallableStatement cs = null;
+		StringBuffer q = new StringBuffer();
+
+		try {
+			conn = getConnection();
+
+			q.append(" update warehouse_outward set actual_wt = ? where warehouse_outward_id = ? ");
+			String query = q.toString();
+
+			log.info("query = " + query);
+			cs = conn.prepareCall(query);
+			cs.setDouble(1, actualWeight);
+			cs.setInt(2, warehouseOutwardId);
+			int recordsUpdated = cs.executeUpdate();
+			
+			log.debug("Update successful "+recordsUpdated);
+		} catch (Exception e) {
+			log.error("Some error", e);
+		} finally {
+			closeDatabaseResources(conn, rs, cs);
+		}
+		
+	}
+	
+	/**
+	 * 1 = 0 - 20
+	 * 2 = 20 - 20
+	 * 3 = 40 - 20
+	 * @param pageNo
+	 * @param pageSize
+	 * @param total
+	 * @return
+	 */
+	private String composeLimitClause(int pageNo, int pageSize, Long total) {
+		Integer start = 0;
+		Integer noOfRecordsToFetch = pageSize;
+		String limitClause = " LIMIT " + start + "," + noOfRecordsToFetch;
+		
+		Integer totalPages = total.intValue() / pageSize;
+		if(total.intValue() % pageSize > 0){
+			totalPages++;
+		}
+		if(pageNo > totalPages){
+			pageNo = totalPages;
+		}
+		
+		if (pageSize > total) {
+			return limitClause;
+		} else {
+
+			start = (pageNo - 1) * pageSize;
+			
+			limitClause = "LIMIT " + start + "," + noOfRecordsToFetch;
+		}
+
+		return limitClause;
 	}
 }

@@ -1025,8 +1025,9 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 		q.append(" ,create_ui,update_ui ");
 		q.append(" ,create_ts,update_ts ");
 		q.append(" ,dispatch_details_id, stock_Id, warehouse_outward_id ");
+		q.append(" ,actual_wt ");
 		q.append(" ) ");
-		q.append(" values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?); ");
+		q.append(" values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?); ");
 		
 		Connection conn = null;
 		ResultSet rs = null;
@@ -1050,6 +1051,7 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 			cs.setString(16,getCurentTime());
 			cs.setString(17,getCurentTime());
 			cs.setInt(20, lastWarehouseOutwardId);
+			cs.setDouble(21, 0d);
 			
 			for(DispatchOrderLineItemForProcessingVO dispatchOrderItem : w.getWarehouseOutwardDetails()){
 				cs.setInt(8, dispatchOrderItem.getOrderedQuantity());
