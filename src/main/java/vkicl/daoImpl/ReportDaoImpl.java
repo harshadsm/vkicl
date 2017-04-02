@@ -938,4 +938,34 @@ public class ReportDaoImpl extends BaseDaoImpl {
 		return form;
 	}
 
+	public String deletePortPurchaseOrder(Map<String, String[]> map, UserInfoVO userInfoVO) {
+		Connection conn = null;
+		ResultSet rs = null;
+		CallableStatement cs = null;
+		String query = "";
+		String message = "";
+		try {
+			conn = getConnection();
+			query = "update port_purchase_order set is_deleted = 1, deleted_by = ?, deleted_date = ? where port_purchase_order_id = ? ";
+			log.info("query = " + query);
+			cs = conn.prepareCall(query);
+
+			String ppoId = fetchFromMap(map, "id");
+			cs.setString(1, userInfoVO.getUserName());
+			cs.setDate(2, new java.sql.Date(new Date().getTime()));
+			cs.setInt(3, Integer.parseInt(ppoId));
+			
+			int i = cs.executeUpdate();
+			message = "         Successfully marked the PPO-"+ppoId+" as deleted.";
+			log.info("message = " + message);
+		} catch (Exception e) {
+			e.printStackTrace();
+			message = e.getMessage();
+			log.error(message);
+		} finally {
+			closeDatabaseResources(conn, rs, cs);
+		}
+		return message;
+	}
+
 }

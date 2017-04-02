@@ -64,6 +64,10 @@ public class ReportService extends HttpServlet {
 						&& userInfoVO.hasAccess(Constants.Apps.DISPATCH_ORDER)) {
 					message = impl.deleteDispatchOrder(map, userInfoVO);
 
+			   } else if (method.equals("deletePortPurchaseOrder")
+						&& userInfoVO.hasAccess(Constants.Apps.DISPATCH_ORDER)) {
+					message = impl.deletePortPurchaseOrder(map, userInfoVO);
+
 				} else if (method.equalsIgnoreCase("deleteDeliveryNoteLineItems")) {
 					PortPurchaseOrderDaoImpl dao = new PortPurchaseOrderDaoImpl();
 					message = dao.deleteDeliveryNoteLineItems(request.getParameter("id"));

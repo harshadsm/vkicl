@@ -143,8 +143,8 @@ function startPurchaseOrderDelivery(id) {
 								<c:if
 									test="${(userInfoVO.userName == 'admin')}">
 									<th class="cell-edit"><button
-											title='Delete Dispatch Order'
-											onclick='deleteDispatchOrder(<c:out value="${report.id}" />);'>
+											title='Delete Port Purchase Order'
+											onclick='deletePortPurchaseOrder(<c:out value="${report.ppoNo}" />);'>
 											<span class="glyphicon glyphicon-remove"></span>
 										</button></th>
 								</c:if>
@@ -161,10 +161,10 @@ function startPurchaseOrderDelivery(id) {
 				</table>
 
 				<script type="text/javascript">
-					function deleteDispatchOrder(id){
-						bootbox.confirm("Are you sure you want to delete this dispatch order?", function(flag){
+					function deletePortPurchaseOrder(id){
+						bootbox.confirm("Are you sure you want to delete this Port Purchase Order - "+id+"?", function(flag){
 							if(flag){
-								var url = "./report?method=deleteDispatchOrder&id="+id;
+								var url = "./report?method=deletePortPurchaseOrder&id="+id;
 								showLoader();
 								$.ajax({
 									url : url,
