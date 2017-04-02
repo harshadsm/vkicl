@@ -312,7 +312,7 @@ public class ReportDaoImpl extends BaseDaoImpl {
 			cs.setString(13, fetchFromMap(map, "actualWtUnit"));
 			cs.setString(14, fetchFromMap(map, "invoice"));
 			cs.setString(15, userInfoVO.getUserName());
-			cs.setString(17, fetchFromMap(map, "destination"));
+			//cs.setString(17, fetchFromMap(map, "destination"));
 			cs.registerOutParameter(16, java.sql.Types.VARCHAR);
 
 			rs = cs.executeQuery();
