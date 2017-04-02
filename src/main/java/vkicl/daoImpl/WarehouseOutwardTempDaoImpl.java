@@ -35,7 +35,7 @@ public class WarehouseOutwardTempDaoImpl extends BaseDaoImpl {
 			cs.setInt(1, warehouseOutwardId);
 
 			rs = cs.executeQuery();
-			if (null != rs && rs.next()) {
+			if (null != rs ) {
 
 				while (rs.next()) {
 					WarehouseOutwardTempVO w = new WarehouseOutwardTempVO();
@@ -63,6 +63,7 @@ public class WarehouseOutwardTempDaoImpl extends BaseDaoImpl {
 					w.setDispatch_details_id(rs.getInt("dispatch_details_id"));
 					w.setStock_Id(rs.getInt("stock_Id"));
 					w.setWarehouse_outward_id(rs.getInt("warehouse_outward_id"));
+					w.setActual_wt(rs.getDouble("actual_wt"));
 					resultList.add(w);
 				}
 			}

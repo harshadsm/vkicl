@@ -41,8 +41,11 @@ public class WarehouseOutwardUpdateActualWeightServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
+		printAllParams(request);
+		
 		String actualWeightStr = request.getParameter("actualWeight");
-		String idStr = request.getParameter("id");
+		String idStr = request.getParameter("warehouseOutwardId");
 		
 		Double actualWeight = Double.parseDouble(actualWeightStr);
 		Integer id = Integer.parseInt(idStr);

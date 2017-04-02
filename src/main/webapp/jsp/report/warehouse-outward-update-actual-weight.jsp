@@ -151,7 +151,7 @@ $(function() {
 			cellEdit: true,
 			cellsubmit : 'remote',
 			cellurl : './warehouseOutwardUpdateActualWeightServlet',
-			rowNum : 20,
+			rowNum : 10,
 			rowList : [ 10, 20, 30 ],
 			height : 280,
 			autowidth : true,
@@ -199,7 +199,23 @@ $(function() {
 	        		
 					
 	        		
-	        		} }
+	        		} },
+	        beforeSubmitCell: function(rowid, cellname, value, iRow, iCol){
+		        
+				console.log("rowid = "+rowid);
+				console.log("cellname = "+cellname);
+				console.log("value = "+value);
+				console.log("iRow = "+iRow);
+				console.log("iCol = "+iCol);
+				var rowObject = jQuery("#grid").jqGrid('getRowData',rowid); 
+        		console.log(rowObject);
+				var warehouseOutwardId = rowObject.warehouseOutwardId;
+				var actualWeight = value;
+				var parametersToSubmit = {warehouseOutwardId:warehouseOutwardId};
+        		console.log(parametersToSubmit);
+				
+		        return parametersToSubmit;
+		    } 
 		});
 });		
 </script>
