@@ -300,11 +300,12 @@ $(function() {
 				id : "id"
 			},
 	        gridComplete: function(){ 
-	        	var ids = $("#grid").jqGrid('getDataIDs');
+	        	var $grid = $("#grid");
+	        	var ids = $grid.jqGrid('getDataIDs');
 	        	console.log(ids);
 	        	for(var i=0;i < ids.length;i++){ 
 	        		//Create packing list link
-	        		var rowObject = jQuery("#grid").jqGrid('getRowData',ids[i]); 
+	        		var rowObject = $grid.jqGrid('getRowData',ids[i]); 
 	        		//console.log(rowObject);
 	        		var countOfPortInwardDetailRecords = Number(rowObject.countOfPortInwardDetailRecords);
 	        		if(countOfPortInwardDetailRecords > 0){
@@ -322,18 +323,21 @@ $(function() {
 	        		var sectionWeight = (t * w * l * q * 7.85 / 1000000000);
 	        		console.log(sectionWeight);
 	        		sectionWeight = $.number(sectionWeight, 3, '.', '' );	
-	        		$("#grid").jqGrid('setRowData',ids[i],{sectionWt:sectionWeight});
+	        		$grid.jqGrid('setRowData',ids[i],{sectionWt:sectionWeight});
 	        		
-	        		$("#grid").jqGrid('setRowData',ids[i],{actionLink:cust_lnk});
+	        		$grid.jqGrid('setRowData',ids[i],{actionLink:cust_lnk});
 	        		
-	        		$("#grid").jqGrid('filterToolbar',{stringResult: true,searchOnEnter : false, searchOperators:true, defaultSearch:"cn"});
+	        		$grid.jqGrid('filterToolbar',{stringResult: true,searchOnEnter : false, searchOperators:true, defaultSearch:"cn"});
 	        		
-	        		$("#grid").jqGrid('setColProp', "address", {searchoptions: { sopt:['cn','eq']}});
+	        		$grid.jqGrid('setColProp', "address", {searchoptions: { sopt:['cn','eq']}});
 
-	        		var certificateFileId = rowObject.materiaDocId;
+	        		var certificateFileId = rowObject.materialDocId;
+	        		
 					if(certificateFileId!='0'){
 						var btn = "<button title='Certificate' onclick='downloadMTC("+certificateFileId+")'> <span class='glyphicon glyphicon-save'></span> </button>";
-						
+						$grid.jqGrid('setRowData',ids[i],{materialDocId:btn});
+					}else{
+						$grid.jqGrid('setRowData',ids[i],{materialDocId:"---"});
 					}
 	        		
 					
@@ -342,5 +346,13 @@ $(function() {
         		}
 		});
 });		
+
+
+function downloadMTC(material_id){
+	var url = "./download?material_id="+material_id;
+	$('#downloadFrame').remove();
+	$('body').append('<iframe id="downloadFrame" style="display:none"></iframe>');
+	$('#downloadFrame').attr('src', url);
+}
 </script>
 
