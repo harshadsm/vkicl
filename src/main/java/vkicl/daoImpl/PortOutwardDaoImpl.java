@@ -14,6 +14,7 @@ import vkicl.util.Constants;
 import vkicl.util.Converter;
 import vkicl.vo.PortOutwardRecordVO;
 import vkicl.vo.UserInfoVO;
+import vkicl.vo.WarehouseInwardRecordVO;
 
 public class PortOutwardDaoImpl extends BaseDaoImpl {
 
@@ -168,6 +169,39 @@ public class PortOutwardDaoImpl extends BaseDaoImpl {
 		}
 
 		return list;
+	}
+
+	public void updateActualWeightOfPortOutwardRecord(List<WarehouseInwardRecordVO> warehouseInwardRecordsToBeSaved)
+			throws Exception {
+
+		Connection conn = null;
+		ResultSet rs = null;
+		CallableStatement cs = null;
+
+		try {
+
+			String query = "UPDATE port_outward set actual_wt = ? where port_out_id = ? ";
+
+			logger.info(query);
+
+			conn = getConnection();
+			cs = conn.prepareCall(query);
+			for (WarehouseInwardRecordVO vo : warehouseInwardRecordsToBeSaved) {
+				Integer portOutwardId = vo.getPortOutwardId();
+				Double actualWt = vo.getActualWt();
+
+				cs.setDouble(1, actualWt);
+				cs.setInt(2, portOutwardId);
+				int count = cs.executeUpdate();
+				logger.debug("Updated count = "+count);
+			}
+
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			closeDatabaseResources(conn, rs, cs);
+		}
+
 	}
 
 }

@@ -14,6 +14,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import vkicl.daoImpl.PortInwardOutwardIntersectionDaoImpl;
+import vkicl.daoImpl.PortOutwardDaoImpl;
 import vkicl.daoImpl.StockBalDaoImpl;
 import vkicl.daoImpl.WarehouseDaoImpl2;
 import vkicl.daoImpl.WarehouseShipmentDaoImpl;
@@ -100,5 +101,10 @@ public class WarehouseInwardService {
 				up.updateStockBalanceShape(Sql);
 			}
 		}
+		
+		PortOutwardDaoImpl portOutwardDaoImpl = new PortOutwardDaoImpl();
+		portOutwardDaoImpl.updateActualWeightOfPortOutwardRecord(warehouseInwardRecordsToBeSaved);
 	}
+
+
 }
