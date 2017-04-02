@@ -46,14 +46,22 @@ public class WarehouseOutwardUpdateActualWeightServlet extends HttpServlet {
 		
 		String actualWeightStr = request.getParameter("actualWeight");
 		String idStr = request.getParameter("warehouseOutwardId");
-		
-		Double actualWeight = Double.parseDouble(actualWeightStr);
+		String handledBy = request.getParameter("handledBy");
 		Integer id = Integer.parseInt(idStr);
-		logger.debug("Going to update actual weight of warehouse_outward id = "+id);
-		logger.debug("Submitted actual weight = "+actualWeight);
-		
 		WarehouseOutwardForActualWeightUpdateJsonService service = new WarehouseOutwardForActualWeightUpdateJsonService();
-		service.updateActualWeightOfWarehouseOutward(id, actualWeight);
+		
+		if(actualWeightStr!=null){
+			Double actualWeight = Double.parseDouble(actualWeightStr);
+			
+			logger.debug("Going to update actual weight of warehouse_outward id = "+id);
+			logger.debug("Submitted actual weight = "+actualWeight);
+			
+			service.updateActualWeightOfWarehouseOutward(id, actualWeight);
+			
+		}else if(handledBy!=null){
+			service.updateHandledBy(id, handledBy);
+		}
+		
 	}
 
 	private void printAllParams(HttpServletRequest request) {

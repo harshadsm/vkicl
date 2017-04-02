@@ -40,7 +40,7 @@ $(function() {
 			mtype : 'GET',
 			
 			
-			colNames : [ 'id', 'Vehicle Date', 'Vehicle No', 'Customer Name', 'Section Wt',  'Actual Wt','Packing List', 'Inward Dettails Record Count'
+			colNames : [ 'id', 'Vehicle Date', 'Vehicle No', 'Customer Name', 'Section Wt',  'Actual Wt', 'Handled By', 'Packing List', 'Inward Dettails Record Count'
 					],
 					
 			colModel : [ {
@@ -114,6 +114,22 @@ $(function() {
 			},{
 				name : 'actualWeight',
 				index : 'actualWeight',
+				width : 300,
+				editable : true,
+				editrules : {
+					required : true
+				},
+				editoptions : {
+					
+					size : 10
+				},
+				
+				search : false,
+				searchoptions: { sopt:[ 'ge']}
+				
+			},{
+				name : 'handledBy',
+				index : 'handledBy',
 				width : 300,
 				editable : true,
 				editrules : {

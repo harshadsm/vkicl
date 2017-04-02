@@ -175,6 +175,7 @@ public class WarehouseOutwardForActualWeightUpdateDaoImpl extends BaseDaoImpl{
 					vo.setVehicleDate(dateToString(rs.getDate(5), "dd-MM-yyyy"));
 					vo.setActualWeight(rs.getDouble(6));
 					vo.setBuyerName(rs.getString(7));
+					vo.setHandledBy(rs.getString(8));
 					
 					list.add(vo);
 					
@@ -199,7 +200,8 @@ public class WarehouseOutwardForActualWeightUpdateDaoImpl extends BaseDaoImpl{
 		q.append(" wo.vehicle_no, ");
 		q.append(" wo.vehicle_dt, ");
 		q.append(" wo.actual_wt, ");
-		q.append(" dispo.buyerName ");
+		q.append(" dispo.buyerName, ");
+		q.append(" wo.handled_by ");
 		q.append(" from warehouse_outward wo ");
 		q.append(" left join dispatch_order dispo on wo.dispatchNo = dispo.dispatch_order_id ");
 		
@@ -284,5 +286,33 @@ public class WarehouseOutwardForActualWeightUpdateDaoImpl extends BaseDaoImpl{
 		}
 
 		return limitClause;
+	}
+
+	public void updateHandledBy(Integer warehouseOutwardId, String handledBy) {
+		Connection conn = null;
+		ResultSet rs = null;
+		CallableStatement cs = null;
+		StringBuffer q = new StringBuffer();
+
+		try {
+			conn = getConnection();
+
+			q.append(" update warehouse_outward set handled_by = ? where warehouse_outward_id = ? ");
+			String query = q.toString();
+
+			log.info("query = " + query);
+			cs = conn.prepareCall(query);
+			cs.setString(1, handledBy);
+			cs.setInt(2, warehouseOutwardId);
+			int recordsUpdated = cs.executeUpdate();
+			
+			log.debug("Update successful "+recordsUpdated);
+		} catch (Exception e) {
+			log.error("Some error", e);
+		} finally {
+			closeDatabaseResources(conn, rs, cs);
+		}
+		
+		
 	}
 }

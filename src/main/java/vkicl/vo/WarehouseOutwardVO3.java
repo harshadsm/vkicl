@@ -12,6 +12,7 @@ public class WarehouseOutwardVO3 {
 	private String vehicleDate;
 	private String createTS;
 	private String buyerName;
+	private String handledBy;
 
 	
 	public Integer getWarehouseOutwardId() {
@@ -61,6 +62,12 @@ public class WarehouseOutwardVO3 {
 	}
 	public void setBuyerName(String buyerName) {
 		this.buyerName = buyerName;
+	}
+	public String getHandledBy() {
+		return handledBy;
+	}
+	public void setHandledBy(String handledBy) {
+		this.handledBy = handledBy;
 	}
 	
 }

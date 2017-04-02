@@ -301,4 +301,10 @@ public class WarehouseOutwardForActualWeightUpdateJsonService {
 		return sumOfSectionWeight;
 	}
 
+	public void updateHandledBy(Integer id, String handledBy) {
+		WarehouseOutwardForActualWeightUpdateDaoImpl dao = new WarehouseOutwardForActualWeightUpdateDaoImpl();
+		dao.updateHandledBy(id, handledBy);
+		
+	}
+
 }
