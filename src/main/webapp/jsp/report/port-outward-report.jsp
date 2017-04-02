@@ -10,35 +10,23 @@
 <%@taglib uri="/WEB-INF/struts-core.tld" prefix="c"%>
 
 <script type="text/javascript">
-	// 	function fetchReport() {
-	// 		var fromDate = $("[name='fromDate']").val();
-	// 		var toDate = $("[name='toDate']").val();
-	// 		var vesselName = $("[name='vesselName']").val();
-	// 		var dispatchedTo = $("[name='dispatchedTo']").val();
-
-	// 		// 		if ("" == fromDate) {
-	// 		// 			bootbox.alert("Please select From Date");
-	// 		// 			$("[name='fromDate']").focus();
-	// 		// 			return false;
-	// 		// 		}
-	// 		// 		if ("" == toDate) {
-	// 		// 			bootbox.alert("Please select To Date");
-	// 		// 			$("[name='toDate']").focus();
-	// 		// 			return false;
-	// 		// 		}
-	// 		// 		if ("" == vesselName) {
-	// 		// 			bootbox.alert("Please select Vessel Name");
-	// 		// 			$("[name='vesselName']").focus();
-	// 		// 			return false;
-	// 		// 		}
-	// 		// 		if ("" == dispatchedTo) {
-	// 		// 			bootbox.alert("Please select Material Type");
-	// 		// 			$("[name='dispatchedTo']").focus();
-	// 		// 			return false;
-	// 		// 		}
-	// 		document.forms[0].genericListener = "getReport";
-	// 		document.forms[0].submit();
-	// 	}
+	$(function(){
+		console.log("page lading completed !!!!!!!!!!!!");
+		$("td[data-name=actualWt]").each(function(i,elem){
+			
+			try{
+				var $elem = $(elem);
+				var val = Number($elem.html());
+				val = $.number(val,3,'.','');
+				$elem.html(val);
+			}catch(e){
+				console.error(e);
+				console.log("Error 3918 : Unable to handle this actual weight "+elem);
+			}
+			 
+			
+		});
+	});
 </script>
 
 <div class="row">
