@@ -202,7 +202,7 @@ public class WarehouseOutwardDaoImpl extends BaseDaoImpl{
 					vo.setMaterialType(rs.getString(17));
 					vo.setHeatNo(rs.getString(18));
 					vo.setPlateNo(rs.getString(19));
-					
+					vo.setMaterialDocId(rs.getInt(20));
 					list.add(vo);
 					
 				} while (rs.next());
@@ -221,32 +221,34 @@ public class WarehouseOutwardDaoImpl extends BaseDaoImpl{
 		String query;
 		StringBuffer q = new StringBuffer();
 		q.append(" select ");
-		q.append(" wo.create_ts warehouse_outward_creation_date,");
-		q.append(" wo.warehouse_outward_id,");
-		q.append(" wo.dispatchNo,");
-		q.append(" wo.dispatch_detail_id,");
-		q.append(" wo.vehicle_no,");
-		q.append(" wo.vehicle_dt,");
-		q.append(" wo.actual_wt,");
-		q.append(" ");
-		q.append(" dd.millName,");
-		q.append(" dd.make,");
-		q.append(" dd.grade,");
-		q.append(" dd.thickness,");
-		q.append(" dd.length,");
-		q.append(" dd.width,");
-		q.append(" dd.qty ordered_quantity,");
-		q.append(" wo.delivered_quantity,");
-		q.append(" dispo.buyerName,");
+		q.append(" wo.create_ts warehouse_outward_creation_date, ");
+		q.append(" wo.warehouse_outward_id, ");
+		q.append(" wo.dispatchNo, ");
+		q.append(" dd.dispatch_details_id, ");
+		q.append(" wo.vehicle_no, ");
+		q.append(" wo.vehicle_dt, ");
+		q.append(" wo.actual_wt, ");
+		q.append("  ");
+		q.append(" dd.millName, ");
+		q.append(" dd.make, ");
+		q.append(" dd.grade, ");
+		q.append(" dd.thickness, ");
+		q.append(" dd.length, ");
+		q.append(" dd.width, ");
+		q.append(" dd.qty ordered_quantity, ");
+		q.append(" wot.taken_qty delivered_quantity, ");
+		q.append(" dispo.buyerName, ");
 		q.append(" sb.material_type, ");
 		q.append(" sb.heat_no, ");
 		q.append(" sb.plate_no ");
+		q.append("         ,wid.material_id ");
 		q.append("  from ");
-		q.append(" warehouse_outward wo");
-		q.append(" left join dispatch_details dd on wo.dispatch_detail_id = dd.dispatch_details_ID ");
+		q.append(" warehouse_outward wo ");
+		q.append(" left join warehouse_outward_temp wot on wot.warehouse_outward_id = wo.warehouse_outward_id ");
+		q.append("         left join dispatch_details dd on wot.dispatch_details_id = dd.dispatch_details_ID ");
 		q.append(" left join dispatch_order dispo on dd.dispatch_order_id = dispo.dispatch_order_id ");
-		q.append(" left join warehouse_outward_temp wot on wot.dispatch_details_id = wo.dispatch_detail_id ");
 		q.append(" left join stock_balance sb on sb.stock_balance_id = wot.stock_id ");
+		q.append("         left join warehouse_inward_details wid on wid.warehouse_in_detail_id = sb.warehouse_inward_id ");
 		//q.append(" order by warehouse_outward_id desc;");
 		
 		//String sql = " select * from warehouse_outward "

@@ -39,7 +39,9 @@ $(function() {
 			mtype : 'GET',
 			
 			
-			colNames : [ 'id', 'Vehicle Date', 'Vehicle No', 'Vendor Name', 'Material Type', 'Mill Name', 'Make', 'Grade', 'Thickness','Length','Width', 'HeatNo', 'PlateNo', 'Section Wt', 'Packing List', 'Inward Dettails Record Count'
+			colNames : [ 'id', 'Vehicle Date', 'Vehicle No', 'Vendor Name', 'Material Type', 'Mill Name', 'Make', 'Grade', 'Thickness','Length','Width', 
+			 			'HeatNo', 'PlateNo', 'Section Wt', 'Packing List', 'Inward Dettails Record Count', 
+			 			'Delivered Quantity', 'Material Doc Id'
 					],
 					
 			colModel : [ {
@@ -252,6 +254,22 @@ $(function() {
 				editable : false,
 				search:false,
 				sortable:false
+			},{
+				name : 'deliveredQuantity',
+				index : 'deliveredQuantity',
+				width : 200,
+				hidden: false,
+				editable : false,
+				search:false,
+				sortable:false
+			},{
+				name : 'materialDocId',
+				index : 'materialDocId',
+				width : 200,
+				hidden: false,
+				editable : false,
+				search:false,
+				sortable:false
 			}
 			
 			],
@@ -287,7 +305,7 @@ $(function() {
 	        	for(var i=0;i < ids.length;i++){ 
 	        		//Create packing list link
 	        		var rowObject = jQuery("#grid").jqGrid('getRowData',ids[i]); 
-	        		console.log(rowObject);
+	        		//console.log(rowObject);
 	        		var countOfPortInwardDetailRecords = Number(rowObject.countOfPortInwardDetailRecords);
 	        		if(countOfPortInwardDetailRecords > 0){
 	        			var cust_lnk = "<a href=\"add-port-inward-packing-list.do?id="+rowObject.id+"\"> ("+rowObject.countOfPortInwardDetailRecords+") <span class='glyphicon glyphicon-list'></span></a>";
@@ -299,21 +317,29 @@ $(function() {
 	        		var t = Number(rowObject.thickness);
 	        		var w = Number(rowObject.width);
 	        		var l = Number(rowObject.length);
-	        		var q = Number(rowObject.quantity);
+	        		var q = Number(rowObject.deliveredQuantity);
+	        		
 	        		var sectionWeight = (t * w * l * q * 7.85 / 1000000000);
+	        		console.log(sectionWeight);
 	        		sectionWeight = $.number(sectionWeight, 3, '.', '' );	
-	        		$("#grid").jqGrid('setRowData',ids[i],{sectionWt : sectionWeight});
+	        		$("#grid").jqGrid('setRowData',ids[i],{sectionWt:sectionWeight});
 	        		
 	        		$("#grid").jqGrid('setRowData',ids[i],{actionLink:cust_lnk});
 	        		
 	        		$("#grid").jqGrid('filterToolbar',{stringResult: true,searchOnEnter : false, searchOperators:true, defaultSearch:"cn"});
 	        		
 	        		$("#grid").jqGrid('setColProp', "address", {searchoptions: { sopt:['cn','eq']}});
-	        		
+
+	        		var certificateFileId = rowObject.materiaDocId;
+					if(certificateFileId!='0'){
+						var btn = "<button title='Certificate' onclick='downloadMTC("+certificateFileId+")'> <span class='glyphicon glyphicon-save'></span> </button>";
+						
+					}
 	        		
 					
 	        		
-	        		} }
+	        		} 
+        		}
 		});
 });		
 </script>

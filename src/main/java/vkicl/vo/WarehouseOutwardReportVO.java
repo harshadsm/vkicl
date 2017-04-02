@@ -24,6 +24,7 @@ public class WarehouseOutwardReportVO {
 	private String materialType;
 	private String heatNo;
 	private String plateNo;
+	private Integer materialDocId;
 	
 	public Integer getWarehouseOutwardId() {
 		return warehouseOutwardId;
@@ -144,6 +145,12 @@ public class WarehouseOutwardReportVO {
 	}
 	public void setPlateNo(String plateNo) {
 		this.plateNo = plateNo;
+	}
+	public Integer getMaterialDocId() {
+		return materialDocId;
+	}
+	public void setMaterialDocId(Integer materialDocId) {
+		this.materialDocId = materialDocId;
 	}
 	
 	
