@@ -340,8 +340,6 @@ $(function() {
 						$grid.jqGrid('setRowData',ids[i],{materialDocId:"---"});
 					}
 	        		
-					
-	        		
 	        		} 
         		}
 		});
