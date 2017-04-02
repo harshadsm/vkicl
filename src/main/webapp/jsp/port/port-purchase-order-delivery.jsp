@@ -177,9 +177,10 @@ function startPurchaseOrderDelivery(id) {
 											    status = message.substring(0, 7);
 											if (status == "Success") {
 												hideLoader();
-												bootbox.alert(message.substring(9));
+												bootbox.alert(message);
 												var tr = $("#row-"+id);
 												$(tr).remove();
+												location.reload(); 
 											} else {
 												bootbox.alert(message);
 												hideLoader();

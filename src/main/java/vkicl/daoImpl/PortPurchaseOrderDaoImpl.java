@@ -614,7 +614,8 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 			q.append(" ifnull(delivered.delivered_quantity,0) delivered_quantity,");
 			q.append(" ppo_outer.total_ordered_quantity-");
 			q.append(
-					" ifnull(delivered.delivered_quantity,0) pending_quantity, ppo_outer.material_grade,ppo_outer.vessel_name");
+					" ifnull(delivered.delivered_quantity,0) pending_quantity, ppo_outer.material_grade,ppo_outer.vessel_name, ");
+			q.append(" ppo_outer.is_deleted ");
 			q.append(" from (");
 			q.append(" select ");
 			q.append(" ppo.port_purchase_order_id,");
@@ -622,7 +623,8 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 			q.append(" ppo.customer_name,");
 			q.append(" ppo.broker_name,");
 			q.append(" ppo.delivery_address, ppo.total_quantity, ");
-			q.append(" ifnull(sum(pli.ordered_quantity),0) total_ordered_quantity, pi.material_grade, pis.vessel_name");
+			q.append(" ifnull(sum(pli.ordered_quantity),0) total_ordered_quantity, pi.material_grade, pis.vessel_name, ");
+			q.append(" ppo.is_deleted ");
 			q.append(" from port_purchase_order ppo");
 			q.append(" left join ppo_line_items pli on ppo.port_purchase_order_id = pli.port_purchase_order_id");
 			q.append(" left join port_inward_details pid on pid.port_inward_detail_id=pli.port_inward_details_id");
@@ -641,7 +643,9 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 			q.append(" group by d.port_purchase_order_id");
 			q.append(" ) delivered on  ppo_outer.port_purchase_order_id = delivered.port_purchase_order_id");
 			q.append(" ) pending_ppo");
-			q.append(" where pending_ppo.pending_quantity > 0");
+			q.append(" where pending_ppo.pending_quantity > 0 ");
+			q.append(" AND ");
+			q.append(" pending_ppo.is_deleted !=1 ");
 
 			String filterClause = composeWhereClausePPO(form);
 			q.append(filterClause);

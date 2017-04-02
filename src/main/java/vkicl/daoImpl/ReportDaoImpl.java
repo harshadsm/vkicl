@@ -956,7 +956,7 @@ public class ReportDaoImpl extends BaseDaoImpl {
 			cs.setInt(3, Integer.parseInt(ppoId));
 			
 			int i = cs.executeUpdate();
-			message = "         Successfully marked the PPO-"+ppoId+" as deleted.";
+			message = "Successfully marked the PPO-"+ppoId+" as deleted.";
 			log.info("message = " + message);
 		} catch (Exception e) {
 			e.printStackTrace();
