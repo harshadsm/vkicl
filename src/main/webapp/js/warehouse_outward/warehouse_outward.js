@@ -119,9 +119,12 @@ function refreshWarehouseOutwardTable(){
 			}
 		}
 	}
+	refreshStockOutwardTotalRow();
 }
 
 function composeSelectedStockTr(DISPATCH_ITEM, SELECTED_STOCK_ITEM){
+	var ssw = "<td class='text-center section-weight-selected-stock-items'>";
+	var sqd = "<td class='text-center quantity-for-delivery-selected-stock-items'>";
 	var s = "<td class='text-center'>";
 	var e = "</td>";
 	var tr = "<tr>" 
@@ -133,8 +136,8 @@ function composeSelectedStockTr(DISPATCH_ITEM, SELECTED_STOCK_ITEM){
 		+ s + SELECTED_STOCK_ITEM.thickness + e
 		+ s + SELECTED_STOCK_ITEM.width + e
 		+ s + SELECTED_STOCK_ITEM.length + e
-		+ s + SELECTED_STOCK_ITEM.sectionWeight + e
-		+ s + SELECTED_STOCK_ITEM.stockQuantityForDelivery + e
+		+ ssw + SELECTED_STOCK_ITEM.sectionWeight + e
+		+ sqd + SELECTED_STOCK_ITEM.stockQuantityForDelivery + e
 		+ s + "<button onClick='cancelStockItemFromDispatch("+SELECTED_STOCK_ITEM.stockId+")'>Remove</button>" + e
 		+ "</tr>";
 	return tr;
@@ -295,6 +298,8 @@ function selectUnselectStockItemInJqgrid(stockId, selectUnselect){
 		
 		
 	} 
+	
+	
 }
 
 function isRowSelected(gridId, rowId){
@@ -342,4 +347,54 @@ function submitWarehouseOutward(){
 	}
 	
 
+}
+
+function calculateSectionWeightTotal(){
+	var sectionWeightTotal = 0;
+	$(".section-weight-selected-stock-items").each(function(i,elem){
+		var $elem = $(elem);
+		var val = Number($elem.html());
+		sectionWeightTotal = sectionWeightTotal + val;
+		
+	});
+	console.log("------------------- secwttotal");
+	console.log(sectionWeightTotal);
+	
+	sectionWeightTotal = $.number(sectionWeightTotal,3,'.','');
+	console.log(sectionWeightTotal);
+	return sectionWeightTotal;
+}
+
+
+function calculateQuantityForDeliveryTotal(){
+	var quantityForDeliveryTotal = 0;
+	
+	console.log();
+	$(".quantity-for-delivery-selected-stock-items").each(function(i,elem){
+		var $elem = $(elem);
+		var val = Number($elem.html());
+		quantityForDeliveryTotal = quantityForDeliveryTotal + val;
+	});
+	return quantityForDeliveryTotal;
+}
+function refreshStockOutwardTotalRow(){
+	var quantityForDeliveryTotal = calculateQuantityForDeliveryTotal();
+	var sectionWeightTotal = calculateSectionWeightTotal();
+	
+	var foot = $("#selectedStockItemsTable").find('tfoot');
+	 foot.empty();
+	 var tr = "<tr>";
+//	 tr = tr + "<td>" + "</td>";
+//	 tr = tr + "<td>" + "</td>";
+//	 tr = tr + "<td>" + "</td>";
+//	 tr = tr + "<td>" + "</td>";
+//	 tr = tr + "<td>" + "</td>";
+//	 tr = tr + "<td>" + "</td>";
+//	 tr = tr + "<td>" + "</td>";
+	 tr = tr + "<td class='text-right' colspan='8'>" +" TOTAL " +"</td>";
+	 tr = tr + "<td class='text-center'>" + sectionWeightTotal + "</td>";
+	 tr = tr + "<td class='text-center'>" + quantityForDeliveryTotal + "</td>";
+	 tr = tr + "<td>" + "</td>";
+	 tr = tr + "</tr>";
+	 foot.append(tr);
 }
