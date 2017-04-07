@@ -25,7 +25,7 @@ public class WarehouseOutwardReportVO {
 	private String heatNo;
 	private String plateNo;
 	private Integer materialDocId;
-	
+	private String handledBy;
 	public Integer getWarehouseOutwardId() {
 		return warehouseOutwardId;
 	}
@@ -151,6 +151,12 @@ public class WarehouseOutwardReportVO {
 	}
 	public void setMaterialDocId(Integer materialDocId) {
 		this.materialDocId = materialDocId;
+	}
+	public String getHandledBy() {
+		return handledBy;
+	}
+	public void setHandledBy(String handledBy) {
+		this.handledBy = handledBy;
 	}
 	
 	

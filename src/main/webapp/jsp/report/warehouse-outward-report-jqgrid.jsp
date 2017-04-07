@@ -41,7 +41,7 @@ $(function() {
 			
 			colNames : [ 'id', 'Vehicle Date', 'Vehicle No', 'Vendor Name', 'Material Type', 'Mill Name', 'Make', 'Grade', 'Thickness','Length','Width', 
 			 			'HeatNo', 'PlateNo', 'Section Wt', 'Packing List', 'Inward Dettails Record Count', 
-			 			'Delivered Quantity', 'Material Doc Id'
+			 			'Delivered Quantity', 'Material Doc Id', 'Handled By'
 					],
 					
 			colModel : [ {
@@ -270,6 +270,20 @@ $(function() {
 				editable : false,
 				search:false,
 				sortable:false
+			},{
+				name : 'handledBy',
+				index : 'handledBy',
+				width : 300,
+				editable : false,
+				editoptions : {
+					readonly : true,
+					size : 10
+				},
+				sortable:false,
+				search : true,
+				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+				searchoptions: { sopt:[ 'cn','eq']}
+				
 			}
 			
 			],

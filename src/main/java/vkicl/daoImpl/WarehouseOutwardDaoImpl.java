@@ -203,6 +203,7 @@ public class WarehouseOutwardDaoImpl extends BaseDaoImpl{
 					vo.setHeatNo(rs.getString(18));
 					vo.setPlateNo(rs.getString(19));
 					vo.setMaterialDocId(rs.getInt(20));
+					vo.setHandledBy(rs.getString(21));
 					list.add(vo);
 					
 				} while (rs.next());
@@ -240,8 +241,9 @@ public class WarehouseOutwardDaoImpl extends BaseDaoImpl{
 		q.append(" dispo.buyerName, ");
 		q.append(" sb.material_type, ");
 		q.append(" sb.heat_no, ");
-		q.append(" sb.plate_no ");
-		q.append("         ,wid.material_id ");
+		q.append(" sb.plate_no, ");
+		q.append(" wid.material_id, ");
+		q.append(" dispo.handleby ");
 		q.append("  from ");
 		q.append(" warehouse_outward wo ");
 		q.append(" left join warehouse_outward_temp wot on wot.warehouse_outward_id = wo.warehouse_outward_id ");

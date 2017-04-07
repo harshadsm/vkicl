@@ -57,7 +57,14 @@ public class WarehouseOutwardDetailsJsonService {
 		response.setPage(page);
 		response.setRows(records);
 		response.setRecords(totalRecordsCount.toString());
-		response.setTotal((totalRecordsCount / Long.valueOf(rows)) + 1 + "");
+		Long noOfPages = totalRecordsCount / Long.valueOf(rows);
+		Long remainder = totalRecordsCount % Long.valueOf(rows);
+		if(remainder > 0){
+			noOfPages = noOfPages + 1L;
+		}
+		
+//		response.setTotal((totalRecordsCount / Long.valueOf(rows)) + 1 + "");
+		response.setTotal(noOfPages + "");
 		Gson gson = new Gson();
 		String json = gson.toJson(response);
 		return json;
