@@ -64,7 +64,9 @@
 									if (userInfoVO.hasAccess(Constants.Apps.DISPATCH_ORDER)) {
 								%>
 								
-								<li><a href="./warehouse-inward-2.do">Inwards</a></li>
+								<li><a href="./warehouse-inward.do">Inwards (From Local)</a></li>
+								<li><a href="./warehouse-inward-2.do">Inwards (From Port)</a></li>
+								
 								<!-- <li><a href="./warehouse-inward.do">Inwards (Old)</a></li> -->
 								<li><a href="./warehouse-dispatch.do">Dispatch Order</a></li>
 								<li><a href="./warehouse-dispatch-report.do">Outwards</a></li>
