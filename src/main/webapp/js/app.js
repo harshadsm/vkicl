@@ -633,3 +633,10 @@ function StringSet() {
     };
 }
 
+function showLocationDropdown(stockRecordId){
+	console.log(stockRecordId);
+	var stockItemLoctionId = "stock-item-location-"+stockRecordId;
+	var locationListDropdownTemplate = $("#locationListDropdownTemplate").html();
+	$("#"+stockItemLoctionId).html(locationListDropdownTemplate);
+	
+}

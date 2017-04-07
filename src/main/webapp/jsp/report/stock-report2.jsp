@@ -157,7 +157,7 @@
 										value="${report.heatNo}" /></td>
 								<td data-type="text" data-name="plateNo"><c:out
 										value="${report.plateNo}" /></td>
-								<td data-type="text" data-name="location"><c:out
+								<td data-type="text" data-name="location" id="stock-item-location-${report.id}"><c:out
 										value="${report.location}" />
 						</td> 
 								<td><c:if test="${report.fileSize > 0}">
@@ -172,6 +172,12 @@
 											<b>----</b>
 										</center>
 									</c:if></td>
+									<td>
+										<button onclick="showLocationDropdown(${report.id})">
+										Shift Location
+										</button>
+									
+									</td>
 						</logic:iterate>
 						
 					</tbody>
@@ -214,6 +220,16 @@
 				
 			</logic:notEmpty>
 		</div>
+	</div>
+	<h1>Location list</h1>
+	<div id="locationListDropdownTemplate" >
+		<select>
+		<logic:iterate id="location" name="StockReportForm"
+							property="locationList">
+			<option value="${location.value}">${location.value}</option>				
+		</logic:iterate>
+			<tr></tr>
+		</select>
 	</div>
 
 	<script>
