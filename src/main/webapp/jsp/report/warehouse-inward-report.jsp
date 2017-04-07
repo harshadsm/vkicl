@@ -192,7 +192,7 @@ function progressHandlingFunction(e) {
 				<table class="table table-responsive table-report" id="result-table">
 					<thead>
 						<tr>
-							<th class="cell-hide">ID</th>
+							<th >ID</th>
 							<th>Date of Inward </th>
 							<th>Vehicle No.</th>
 							<th>Vehicle Date</th>
@@ -222,7 +222,7 @@ function progressHandlingFunction(e) {
 						<logic:iterate id="report" name="WarehouseInwardReportForm"
 							property="reportList">
 							<tr data-method="updateWarehouseInwardReport">
-								<td data-type="hidden" data-name="id" class="cell-hide"><c:out
+								<td data-name="id" ><c:out
 										value="${report.id}" /></td>
 										<td data-type="text" data-name="VehicleDate"><c:out
 										value="${report.createDt}" /></td>

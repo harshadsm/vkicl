@@ -22,6 +22,7 @@
 	<html:form enctype="multipart/form-data" action="/warehouse-inward"
 		method="post">
 		<div class="row">
+		<!-- 
 			<div class="col-md-4">
 				<table class="table table-responsive" id="port-table">
 					<tr class="head-row">
@@ -48,15 +49,20 @@
 					</tr>
 				</table>
 			</div>
+			 -->
 			<div class="col-md-4">
 				<table class="table table-responsive">
 					<tr>
 						<td class="form-label"><label for="portVendor">From</label></td>
-						<td><input type="radio" value="port" name="portVendor"
+						<td>
+						<!-- 
+							<input type="radio" value="port" name="portVendor"
 							onclick="vendorCheck();" checked="checked" /><label class="link"
-							onclick="$(this).prev().click();vendorCheck();">Port</label> <input
+							onclick="$(this).prev().click();vendorCheck();">Port</label> 
+						-->
+							<input
 							type="radio" value="vendor" name="portVendor"
-							onclick="vendorCheck();" /><label class="link"
+							onclick="vendorCheck();" checked/><label class="link"
 							onclick="$(this).prev().click();vendorCheck();">Vendor</label></td>
 					</tr>
 					<tr>
