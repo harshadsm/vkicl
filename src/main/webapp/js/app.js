@@ -635,10 +635,48 @@ function StringSet() {
 
 function showLocationDropdown(stockRecordId){
 	console.log(stockRecordId);
-	var stockItemLoctionId = "stock-item-location-"+stockRecordId;
+	var stockItemLoctionDivId = "#stock-item-location-"+stockRecordId;
+	var locationListDropdownDivId = "#stock-item-location-shifting-dropdown-"+stockRecordId
+	$(stockItemLoctionDivId).hide();
 	var locationListDropdownTemplate = $("#locationListDropdownTemplate").html();
 	locationListDropdownTemplate = locationListDropdownTemplate.replace("locationListDropdownSelectTemplate","locationListDropdown-"+stockRecordId);
 	//var $locationListDropdownTemplate = $(locationListDropdownTemplate).attr("id","newmyid");
-	$("#"+stockItemLoctionId).html(locationListDropdownTemplate);
+	$(locationListDropdownDivId).html(locationListDropdownTemplate);
+	$(locationListDropdownDivId).show();
 	
+	$("#showLocationDropdownBtn-"+stockRecordId).hide();
+	$("#changeLocationBtn-"+stockRecordId).show();
+	$("#cancelLocationChange-"+stockRecordId).show();
+}
+
+function cancelLocationChange(stockRecordId){
+	
+	var stockItemLoctionDivId = "#stock-item-location-"+stockRecordId;
+	var locationListDropdownDivId = "#stock-item-location-shifting-dropdown-"+stockRecordId
+	$(stockItemLoctionDivId).show();
+	$(locationListDropdownDivId).empty();
+	$(locationListDropdownDivId).hide();
+
+	
+	$("#showLocationDropdownBtn-"+stockRecordId).show();
+	$("#changeLocationBtn-"+stockRecordId).hide();
+	$("#cancelLocationChange-"+stockRecordId).hide();
+}
+
+function saveChangedLocation(stockRecordId){
+	
+	var newLocation = $("#locationListDropdown-"+stockRecordId).val();
+	
+	var stockItemLoctionDivId = "#stock-item-location-"+stockRecordId;
+	var locationListDropdownDivId = "#stock-item-location-shifting-dropdown-"+stockRecordId
+	
+	$(stockItemLoctionDivId).html(newLocation);
+	$(stockItemLoctionDivId).show();
+	$(locationListDropdownDivId).empty();
+	$(locationListDropdownDivId).hide();
+
+	
+	$("#showLocationDropdownBtn-"+stockRecordId).show();
+	$("#changeLocationBtn-"+stockRecordId).hide();
+	$("#cancelLocationChange-"+stockRecordId).hide();
 }

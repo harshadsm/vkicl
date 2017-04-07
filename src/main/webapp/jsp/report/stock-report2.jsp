@@ -157,9 +157,14 @@
 										value="${report.heatNo}" /></td>
 								<td data-type="text" data-name="plateNo"><c:out
 										value="${report.plateNo}" /></td>
-								<td data-type="text" data-name="location" id="stock-item-location-${report.id}"><c:out
-										value="${report.location}" />
-						</td> 
+								<td data-type="text" data-name="location" >
+									<div id="stock-item-location-${report.id}">
+										<c:out value="${report.location}" />
+									</div>
+									<div id="stock-item-location-shifting-dropdown-${report.id}">
+									</div>
+									
+								</td> 
 								<td><c:if test="${report.fileSize > 0}">
 										<button title='<c:out value="${report.fileName}" />'
 											onclick='downloadMTC(<c:out value="${report.materialId}" />)'>
@@ -173,10 +178,16 @@
 										</center>
 									</c:if></td>
 									<td>
-										<button onclick="showLocationDropdown(${report.id})">
-										Shift Location
+										<button onclick="showLocationDropdown(${report.id})" id="showLocationDropdownBtn-${report.id}">
+											Shift
 										</button>
-									
+										<button onclick="saveChangedLocation(${report.id})" style="display: none;" id="changeLocationBtn-${report.id}">
+											Save
+										</button>
+										<button onclick="cancelLocationChange(${report.id})"  style="display: none;" id="cancelLocationChange-${report.id}">
+											Cancel
+										</button>
+										
 									</td>
 						</logic:iterate>
 						
