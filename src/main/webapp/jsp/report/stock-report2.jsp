@@ -223,7 +223,7 @@
 	</div>
 	<h1>Location list</h1>
 	<div id="locationListDropdownTemplate" >
-		<select>
+		<select id="locationListDropdownSelectTemplate">
 		<logic:iterate id="location" name="StockReportForm"
 							property="locationList">
 			<option value="${location.value}">${location.value}</option>				

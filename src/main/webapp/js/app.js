@@ -637,6 +637,8 @@ function showLocationDropdown(stockRecordId){
 	console.log(stockRecordId);
 	var stockItemLoctionId = "stock-item-location-"+stockRecordId;
 	var locationListDropdownTemplate = $("#locationListDropdownTemplate").html();
+	locationListDropdownTemplate = locationListDropdownTemplate.replace("locationListDropdownSelectTemplate","locationListDropdown-"+stockRecordId);
+	//var $locationListDropdownTemplate = $(locationListDropdownTemplate).attr("id","newmyid");
 	$("#"+stockItemLoctionId).html(locationListDropdownTemplate);
 	
 }
