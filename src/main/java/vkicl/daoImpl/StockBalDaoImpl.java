@@ -724,4 +724,52 @@ public class StockBalDaoImpl extends BaseDaoImpl {
 		}
 		return plateShape;
 	}
+	
+	
+	public String updateStockLocation(Integer stockId, String newLocation, UserInfoVO userInfoVO) throws SQLException {
+		List<LocationDetailsVO> list = new ArrayList<LocationDetailsVO>();
+		Connection conn = null;
+		ResultSet rs = null;
+		CallableStatement cs = null;
+		String query = "";
+		String message = "Success";
+		int count = 0;
+		PreparedStatement statement = null;
+		try {
+			conn = getConnection();
+
+			/*
+			 * query = prop.get("sp.report.stock.balance.edit"); log.info(
+			 * "query = " + query);
+			 * 
+			 * cs = conn.prepareCall(query);
+			 * 
+			 * cs.setString(1, fetchFromMap(map, "location")); cs.setString(2,
+			 * fetchFromMap(map, "stock_id")); cs.setString(3,
+			 * userInfoVO.getUserName());
+			 * 
+			 * cs.registerOutParameter(4, java.sql.Types.VARCHAR); rs =
+			 * cs.executeQuery(); message = cs.getString(4); log.info(
+			 * "message = " + message);
+			 */
+
+			String sql = "update stock_balance s set s.location = ?,s.update_ui = ?,s.update_ts = NOW()  WHERE stock_balance_id=?";
+			statement = conn.prepareStatement(sql);
+			statement.setString(1, newLocation);
+			statement.setString(2, userInfoVO.getUserName());
+			statement.setInt(3, stockId);
+
+			statement.executeUpdate();
+			log.info("message = " + message);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			message = e.getMessage();
+			log.error(message);
+		} finally {
+			closeDatabaseResources(conn, rs, cs);
+		}
+
+		return message;
+	}
 }

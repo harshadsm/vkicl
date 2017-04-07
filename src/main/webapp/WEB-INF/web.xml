@@ -80,6 +80,10 @@
 		<servlet-class>vkicl.action.StockBalCuttingJsonServlet</servlet-class>
 	</servlet>
 	<servlet>
+		<servlet-name>StockLocationUpdateServlet</servlet-name>
+		<servlet-class>vkicl.action.StockLocationUpdateServlet</servlet-class>
+	</servlet>
+	<servlet>
 		<servlet-name>PortPurchaseOrderJsonServlet</servlet-name>
 		<servlet-class>vkicl.action.PortPurchaseOrderJsonServlet</servlet-class>
 	</servlet>
@@ -172,6 +176,10 @@
 	<servlet-mapping>
 		<servlet-name>StockBalCuttingJsonServlet</servlet-name>
 		<url-pattern>/stockBalCuttingJsonServlet</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>StockLocationUpdateServlet</servlet-name>
+		<url-pattern>/updateStockLocationJsonServlet</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>PortPurchaseOrderJsonServlet</servlet-name>

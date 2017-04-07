@@ -667,10 +667,36 @@ function saveChangedLocation(stockRecordId){
 	
 	var newLocation = $("#locationListDropdown-"+stockRecordId).val();
 	
+	
+	$.ajax({
+		url:"./updateStockLocationJsonServlet?stockBalanceDbId="+stockRecordId+"&newStockLocation="+newLocation,
+		success:function(resp){
+			handleUpdateLocationSuccess(resp, stockRecordId, newLocation);
+		},
+		error:function(resp){
+			bootbox.alert("Error 3209 : Failed to update the location of stock.");
+		}
+		
+	});
+	
+
+}
+
+function handleUpdateLocationSuccess(resp, stockRecordId, newLocation){
+	
+	var responseJson = JSON.parse(resp);
+	console.log(responseJson);
+	
 	var stockItemLoctionDivId = "#stock-item-location-"+stockRecordId;
 	var locationListDropdownDivId = "#stock-item-location-shifting-dropdown-"+stockRecordId
 	
-	$(stockItemLoctionDivId).html(newLocation);
+	if(responseJson.status == "success"){
+		$(stockItemLoctionDivId).html(newLocation);
+		
+	}else{
+		bootbox.alert("Error 2093 : Failed to update the location of stock.");
+	}
+	
 	$(stockItemLoctionDivId).show();
 	$(locationListDropdownDivId).empty();
 	$(locationListDropdownDivId).hide();
@@ -679,4 +705,6 @@ function saveChangedLocation(stockRecordId){
 	$("#showLocationDropdownBtn-"+stockRecordId).show();
 	$("#changeLocationBtn-"+stockRecordId).hide();
 	$("#cancelLocationChange-"+stockRecordId).hide();
+	
+	
 }
