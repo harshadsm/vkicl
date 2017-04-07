@@ -122,7 +122,7 @@
 							<th>Plate no. </th>
 							<th>Location</th>
 							<th>MTC Download</th>
-							
+							<th></th>
 						</tr>
 					</thead>
 					<tbody id="details-tbody">
@@ -205,6 +205,7 @@
 							<th id="qtyTotal"></th>
 							<th id="secWtTotal"></th>
 							<th id="actualWtTotal"></th>
+							<th></th>
 							<th></th>
 							<th></th>
 							<th></th>
