@@ -119,6 +119,11 @@
 			name="WarehouseInwardForm">
 			<forward name="success" path="warehouseInwardDefn" />
 		</action>
+		
+		<action path="/warehouse-inward-local-save" type="vkicl.action.WarehouseInwardAction4"
+			name="WarehouseInwardForm">
+			<forward name="success" path="warehouseInwardDefn" />
+		</action>
 
         <action path="/warehouse-inward-2" type="vkicl.action.WarehouseInwardAction2"
 			name="PortOutwardForm">

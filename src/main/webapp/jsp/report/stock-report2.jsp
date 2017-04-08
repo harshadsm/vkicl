@@ -107,7 +107,7 @@
 					id="result-table">
 					<thead>
 						<tr>
-							<th class="cell-hide">ID</th>
+							<th>ID</th>
 							<th>Date of Inward</th>
 							<th>Make </th>
 							<th>Mill Name</th>
@@ -130,7 +130,7 @@
 							property="reportList">
 							<tr data-method="updateStockReport"
 								id='row-<c:out value="${report.id}" />'>
-								<td data-type="hidden" data-name="id" class="cell-hide" id="stockId_${report.id}"><c:out
+								<td data-type="hidden" data-name="id"  id="stockId_${report.id}"><c:out
 										value="${report.id}"/></td>
 										<td data-type="text" data-name="vehicleDate"><c:out
 										value="${report.vehicleDate}" /></td>
@@ -233,8 +233,7 @@
 			</logic:notEmpty>
 		</div>
 	</div>
-	<h1>Location list</h1>
-	<div id="locationListDropdownTemplate" >
+	<div id="locationListDropdownTemplate" style="display:none;" >
 		<select id="locationListDropdownSelectTemplate">
 		<logic:iterate id="location" name="StockReportForm"
 							property="locationList">

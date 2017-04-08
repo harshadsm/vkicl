@@ -19,6 +19,7 @@ public interface Constants {
 		public static final String STOCK_RESERVATION = "STOCK_RESERVATION";
 		public static final String STOCK_DELETE = "STOCK_DELETE";
 		public static final String DATE_FORMAT = "dd-MM-yyyy";
+		public static final String DATE_FORMAT_2 = "dd/MM/yy";
 		public static final String DATE_FORMAT_SQL = "yyyy-MM-dd";
 		
 	}

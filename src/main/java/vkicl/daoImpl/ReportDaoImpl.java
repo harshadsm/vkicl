@@ -650,9 +650,9 @@ public class ReportDaoImpl extends BaseDaoImpl {
 			rs = cs.executeQuery();
 			message = cs.getString(7);
 			log.info("message = " + message);
-			if (null != rs && rs.next()) {
+			if (null != rs) {
 				reportList = new ArrayList<StockBean>();
-				do {
+				while (rs.next()){
 					StockBean report = new StockBean();
 
 					report.setId(rs.getInt("stock_balance_id"));
@@ -681,8 +681,8 @@ public class ReportDaoImpl extends BaseDaoImpl {
 					report.setActualUnit(formatOutput(rs.getString("weight_unit")));
 
 					reportList.add(report);
-					report = null;
-				} while (rs.next());
+					
+				} ;
 			}
 			form.setReportList(reportList);
 		} catch (Exception e) {

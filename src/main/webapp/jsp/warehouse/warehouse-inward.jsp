@@ -19,7 +19,7 @@
 	</div>
 </div>
 <div>
-	<html:form enctype="multipart/form-data" action="/warehouse-inward"
+	<html:form enctype="multipart/form-data" action="/warehouse-inward-local-save"
 		method="post">
 		<div class="row">
 		<!-- 
@@ -240,7 +240,7 @@
 				+ "<td><div class='input-group'><input type='number' step='0.001' placeholder='Label Weight' min='0' value='' name='labelWt' onchange='calcSecWtRow(\"row-"+ row_id+ "\");' onblur='calcSecWtRow(\"row-"+ row_id+ "\");' class='form-control' aria-label='...'><div class='input-group-btn weight-group'><input type='hidden' onchange='calcSecWtRow(\"row-"+ row_id+ "\");' onblur='calcSecWtRow(\"row-"+ row_id+ "\");' name='labelWtUnit' value='TON' /><button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown' aria-expanded='false'>TON <span class='caret'></span></button><ul class='dropdown-menu dropdown-menu-right' role='menu'><li onclick='rowBtnGroupChange(this);calcSecWtRow(\"row-"+ row_id+ "\");'><a>TON</a></li><li onclick='rowBtnGroupChange(this);calcSecWtRow(\"row-"+ row_id+ "\");'><a>KG</a></li></ul></div></div></td>"
 				+ "<td><input type='button' class='btn-danger delete-row' onclick='deleteMainRow(\"row-"+ row_id + "\");' value='-' /></td>"
 				+ "</tr><tr id='row-container-"+row_id+"'><td class='expand-collapse-container' colspan='3'><input type='button' class='btn-info' onclick='$(\"#sub-table-"+row_id+"\").slideToggle(200);' value='[+/-]' /></td><td colspan='8'><table class='table table-responsive sub-table table-excel' style='display: none;' id='sub-table-"+row_id+"'>"
-				+ "<thead><tr><th>Heat No.</th><th>Plate No.</th><th>Quantity</th><th>Section Weight</th><th class='cell-hide'>Weight</th><th>Location</th><th>Remark</th>"
+				+ "<thead><tr><th>Heat No.</th><th>Plate No.</th><th>Sub-Quantity</th><th>Section Weight</th><th class='cell-hide'>Weight</th><th>Location</th><th>Remark</th>"
 				+ "<td><input type='button' class='btn-success add-row' onClick='addSubRow(\"row-container-"
 				+ row_id
 				+ "\");' value='+' /></td></tr></thead><tbody></tbody></table></td></tr>";
@@ -270,7 +270,7 @@
 		var str = "<tr id='row-sub-"+num+"-"+row[num]+"' class='sub-row'><input type='hidden' name='subRow' value='"+num+"'>"
 				+ "<td><input type='text' name='heatNo' placeholder='Heat No.' class='form-control' /></td>"
 				+ "<td><input type='text' name='plateNo' placeholder='Plate No.' class='form-control' /></td>"				
-				+ "<td><input type='number' step='1' placeholder='Quantity' onchange='calcSecWtRow(\"row-" + num+ "\");' onblur='calcSecWtRow(\"row-" + num+ "\");' min='0' name='subQty' class='form-control' /></td>"
+				+ "<td><input type='number' value='1' step='1' placeholder='Quantity' onchange='calcSecWtRow(\"row-" + num+ "\");' onblur='calcSecWtRow(\"row-" + num+ "\");' min='0' name='subQty' class='form-control' /></td>"
 				+ "<td><div class='input-group'><input type='number' step='0.001' placeholder='Section Weight' min='0' readonly value='' name='subSecWt' class='form-control' aria-label='...'><div class='input-group-btn weight-group'><input type='hidden' name='subSecWtUnit' value='TON' /><button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown' disabled aria-expanded='false'>TON <span class='caret'></span></button><ul class='dropdown-menu dropdown-menu-right' role='menu'><li><a>TON</a></li><li><a>KG</a></li></ul></div></div></td>"
 				+ "<td class='cell-hide'><div class='input-group'><input type='number' step='0.001' placeholder='Weight' min='0' readonly value='' name='subWt' class='form-control' aria-label='...'><div class='input-group-btn weight-group'><input type='hidden' name='subWtUnit' value='TON' /><button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown' disabled aria-expanded='false'>TON <span class='caret'></span></button><ul class='dropdown-menu dropdown-menu-right' role='menu'><li><a>TON</a></li><li><a>KG</a></li></ul></div></div></td>"
 				+ "<td><input type='text' name='wlocation' placeholder='Location' class='form-control' /></td>"
@@ -439,7 +439,25 @@
 				return false;
 			}
 		}		
-			
+
+		//Ensure qty and subqty are matching respectively
+		for(var i=0; i<qty.length; i++){
+			var topQty = Number(qty[i].value);
+			var subQtyTotal = 0;
+			var rowId = i+1;
+			var subTableId = "#sub-table-"+rowId;
+			var respectiveSubTableRowCount = $(subTableId+" "+"[name='subQty']").length;
+			for(var j=0; j<respectiveSubTableRowCount; j++){
+				var subQty = $("#row-sub-"+rowId+"-"+j+" "+"[name='subQty']").val();
+				subQtyTotal = subQtyTotal + Number(subQty);
+			}
+			if(topQty != subQtyTotal){
+				
+				bootbox.alert("Quantity and sub-quantity must match. Quantity="+topQty+" Sub-Quantity="+subQtyTotal);
+				return false;
+			}
+		}	
+		
 		//var secWt = $("[name='secWt']");
 		//for(var i=0; i<secWt.length; i++){
 			//if($.trim(secWt[i].value) == "" || $.trim(secWt[i].value) <= 0){
@@ -494,6 +512,9 @@
 				return false;
 			}
 		}
+
+		
+		
 		
 		return commonSubmit();
 	}

@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="http://localhost:8080/cms/showServiceRequestCreationPage.htm?agentId=harshadM&Emailgroup=CET&lineOfBusiness=TCC" />
+<title>LOCAL_INWARD</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">LOCAL_INWARD</td></tr>
+</thead><tbody>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Inwards (From Local)</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=actWt</td>
+	<td>1222</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=vendorName</td>
+	<td>as</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=vendorVehicleNumber</td>
+	<td>df</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=span.glyphicon-calendar.glyphicon</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//table[@id='vendor-table']/tbody/tr[4]/td[2]/div/div/ul/li/div/div/table/tbody/tr[2]/td[5]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//table[@id='vendor-table']/tbody/tr[6]/td[2]/div/span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=invoiceNo</td>
+	<td>asd</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//table[@id='vendor-table']/tbody/tr[6]/td[2]/div/div/ul/li/div/div/table/tbody/tr[2]/td[4]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=materialType</td>
+	<td>dd</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=millName</td>
+	<td>dd</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=make</td>
+	<td>dd</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=grade</td>
+	<td>dd</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=thickness</td>
+	<td>11</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=width</td>
+	<td>11111</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=length</td>
+	<td>11111</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=qty</td>
+	<td>2</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=input.btn-info</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=heatNo</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=plateNo</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=wlocation</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=remark</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=td &gt; input.btn-success.add-row</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>css=#row-sub-1-1 &gt; td &gt; input[name=&quot;heatNo&quot;]</td>
+	<td>2</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>document.WarehouseInwardForm.plateNo[1]</td>
+	<td>2</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>document.WarehouseInwardForm.wlocation[1]</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>document.WarehouseInwardForm.remark[1]</td>
+	<td>2</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=labelWt</td>
+	<td>11</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=input.btn-success.add-row</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>css=#row-2 &gt; td &gt; input[name=&quot;materialType&quot;]</td>
+	<td>ee</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>document.WarehouseInwardForm.millName[1]</td>
+	<td>ee</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>document.WarehouseInwardForm.make[1]</td>
+	<td>ee</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>document.WarehouseInwardForm.grade[1]</td>
+	<td>ee</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>document.WarehouseInwardForm.thickness[1]</td>
+	<td>12</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>document.WarehouseInwardForm.width[1]</td>
+	<td>12222</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>xpath=(//input[@name='length'])[2]</td>
+	<td>12222</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>document.WarehouseInwardForm.qty[1]</td>
+	<td>2</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>document.WarehouseInwardForm.labelWt[1]</td>
+	<td>12</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#row-container-2 &gt; td.expand-collapse-container &gt; input.btn-info</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>css=#row-sub-2-0 &gt; td &gt; input[name=&quot;heatNo&quot;]</td>
+	<td>3</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>document.WarehouseInwardForm.plateNo[2]</td>
+	<td>3</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>document.WarehouseInwardForm.wlocation[2]</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>document.WarehouseInwardForm.remark[2]</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#sub-table-2 &gt; thead &gt; tr &gt; td &gt; input.btn-success.add-row</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>css=#row-sub-2-1 &gt; td &gt; input[name=&quot;heatNo&quot;]</td>
+	<td>4</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>document.WarehouseInwardForm.plateNo[3]</td>
+	<td>4</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>document.WarehouseInwardForm.wlocation[3]</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>document.WarehouseInwardForm.remark[3]</td>
+	<td>1</td>
+</tr>
+
+</tbody></table>
+</body>
+</html>

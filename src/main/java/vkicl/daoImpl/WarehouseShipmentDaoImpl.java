@@ -64,6 +64,51 @@ public class WarehouseShipmentDaoImpl extends BaseDaoImpl {
 
 		return savedRecordId;
 	}
+	
+	
+	public Long saveWarehouseShipment(String vehicleName, String vehicleDateStr, String vendorName, UserInfoVO userInfo) throws Exception {
+		Long savedRecordId = -1L;
+		Connection conn = null;
+		ResultSet rs = null;
+		CallableStatement cs = null;
+
+		try {
+			java.sql.Date vehicleDate = Converter
+					.dateToSqlDate(Converter.stringToDate(vehicleDateStr, Constants.Apps.DATE_FORMAT));
+
+			String query = "INSERT INTO warehouse_inward_shipment "
+					+ " (vehicle_number, received_date,vendor_name,create_ui,update_ui,create_ts,update_ts) "
+					+ " VALUES ( ?, ?, ?, ?, ?, ?, ?)";
+
+			logger.info(query);
+
+			conn = getConnection();
+			cs = conn.prepareCall(query);
+
+			cs.setString(1, vehicleName);
+			cs.setDate(2, vehicleDate);
+			cs.setString(3, vendorName);
+			cs.setString(4, userInfo.getUserName());
+			cs.setString(5, userInfo.getUserName());
+			cs.setString(6, getCurentTime());
+			cs.setString(7, getCurentTime());
+
+			int count = cs.executeUpdate();
+
+			ResultSet result = cs.getGeneratedKeys();
+			if (count > 0) {
+				result.next();
+				savedRecordId = result.getLong(1);
+			}
+
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			closeDatabaseResources(conn, rs, cs);
+		}
+
+		return savedRecordId;
+	}
 
 	public void updateWarehouseInwardFlag(WarehouseInwardRecordVO postDataContainer, UserInfoVO userInfo)
 			throws SQLException {

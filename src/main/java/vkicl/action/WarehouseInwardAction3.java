@@ -47,7 +47,7 @@ public class WarehouseInwardAction3 extends BaseAction {
 			log.info(postDataContainerStr);
 			PortOutwardPostDataContainerVO postDataContainer = gson.fromJson(postDataContainerStr, PortOutwardPostDataContainerVO.class);			
 			WarehouseInwardService warehouseInwardService = new WarehouseInwardService();
-			warehouseInwardService.processWarehouseInwardEntries(postDataContainer, request, userInfoVO);
+			warehouseInwardService.processWarehouseInwardEntries_fromPort(postDataContainer, request, userInfoVO);
 
 			LocationService locationService = new LocationService();
 			List<LocationDetailsVO> list = locationService.getAllLocationsAsList();

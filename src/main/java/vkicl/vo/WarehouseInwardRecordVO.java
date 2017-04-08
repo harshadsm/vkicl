@@ -16,6 +16,23 @@ public class WarehouseInwardRecordVO {
 	private String grade;
 	private String materialType;
 	private Double actualWt;
+	
+	private String desc;
+	private String vesselDate;
+	private String vesselName;
+	private String make;
+	private String vendorName;
+
+	private String vehicleDate;
+	private String vehicleName;
+	private String millName;
+
+	private Double secWt;
+	private Double balQty;
+
+	private String heatNo;
+	private String plateNo;
+	private String location;
 
 	public Integer getPortOutwardId() {
 		return portOutwardId;
@@ -51,10 +68,7 @@ public class WarehouseInwardRecordVO {
 		this.make = make;
 	}
 
-	private String desc;
-	private String vesselDate;
-	private String vesselName;
-	private String make;
+
 
 	public String getVendorName() {
 		return vendorName;
@@ -64,18 +78,6 @@ public class WarehouseInwardRecordVO {
 		this.vendorName = vendorName;
 	}
 
-	private String vendorName;
-
-	private String vehicleDate;
-	private String vehicleName;
-	private String millName;
-
-	private Double secWt;
-	private Double balQty;
-
-	private String heatNo;
-	private String plateNo;
-	private String location;
 
 	public Double getSecWt() {
 		return secWt;
