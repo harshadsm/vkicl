@@ -34,6 +34,26 @@ public class WarehouseInwardRecordVO {
 	private String plateNo;
 	private String location;
 
+	private String remark;
+	private Double labelWeight;
+	
+	
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
+	public Double getLabelWeight() {
+		return labelWeight;
+	}
+
+	public void setLabelWeight(Double labelWeight) {
+		this.labelWeight = labelWeight;
+	}
+
 	public Integer getPortOutwardId() {
 		return portOutwardId;
 	}

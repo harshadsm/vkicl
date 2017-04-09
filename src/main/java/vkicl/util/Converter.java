@@ -48,5 +48,14 @@ public class Converter
 		
 		return d;
 	}
+	
+	public static java.sql.Date stringToSqlDate(String vehicleDateStr, String dateFormat) throws ParseException {
+		
+		SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
+		Date d = sdf.parse(vehicleDateStr);
+		java.sql.Date sqlDate = dateToSqlDate(d);
+		
+		return sqlDate;
+	}
 
 }

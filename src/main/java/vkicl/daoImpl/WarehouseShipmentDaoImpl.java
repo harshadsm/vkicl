@@ -66,7 +66,7 @@ public class WarehouseShipmentDaoImpl extends BaseDaoImpl {
 	}
 	
 	
-	public Long saveWarehouseShipment(String vehicleName, String vehicleDateStr, String vendorName, UserInfoVO userInfo) throws Exception {
+	public Long saveWarehouseShipment(String vehicleName, String vehicleDateStr, String vendorName, String invoiceNo, java.sql.Date invoiceDate, UserInfoVO userInfo) throws Exception {
 		Long savedRecordId = -1L;
 		Connection conn = null;
 		ResultSet rs = null;
@@ -77,8 +77,8 @@ public class WarehouseShipmentDaoImpl extends BaseDaoImpl {
 					.dateToSqlDate(Converter.stringToDate(vehicleDateStr, Constants.Apps.DATE_FORMAT));
 
 			String query = "INSERT INTO warehouse_inward_shipment "
-					+ " (vehicle_number, received_date,vendor_name,create_ui,update_ui,create_ts,update_ts) "
-					+ " VALUES ( ?, ?, ?, ?, ?, ?, ?)";
+					+ " (vehicle_number, received_date,vendor_name,create_ui,update_ui,create_ts,update_ts,invoice_no,invoice_date) "
+					+ " VALUES ( ?, ?, ?, ?, ?, ?, ?, ? ,?)";
 
 			logger.info(query);
 
@@ -92,6 +92,8 @@ public class WarehouseShipmentDaoImpl extends BaseDaoImpl {
 			cs.setString(5, userInfo.getUserName());
 			cs.setString(6, getCurentTime());
 			cs.setString(7, getCurentTime());
+			cs.setString(8, invoiceNo);
+			cs.setDate(9, invoiceDate);
 
 			int count = cs.executeUpdate();
 

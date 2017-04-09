@@ -137,10 +137,12 @@ public class WarehouseInwardService {
 
 		if (plateEntries != null && !plateEntries.isEmpty()) {
 
+			java.sql.Date invoiceDate = Converter.stringToSqlDate(form.getInvoiceDate(), Constants.Apps.DATE_FORMAT_2);
 			// Step 1: save warehouse_shipment
 			WarehouseShipmentDaoImpl warehouseShipmentDaoImpl = new WarehouseShipmentDaoImpl();
-			Long warehouseShipmentId = warehouseShipmentDaoImpl.saveWarehouseShipment(form.getPortVehicleNumber(),
-					plateEntries.get(0).getVehicleDate(), form.getVendorName(), userInfo);
+			Long warehouseShipmentId = warehouseShipmentDaoImpl.saveWarehouseShipment(form.getVendorVehicleNumber(),
+					plateEntries.get(0).getVehicleDate(), form.getVendorName(), 
+					form.getInvoiceNo(), invoiceDate, userInfo);
 
 			WarehouseDaoImpl2 warehouseDaoImpl2 = new WarehouseDaoImpl2();
 
@@ -251,8 +253,12 @@ public class WarehouseInwardService {
 						vo.setHeatNo(heatNo);
 						vo.setLocation(location);
 
+						vo.setRemark(remark);
+						vo.setLabelWeight(labelWeight);
+						
 						vo.setVehicleDate(convertedDate);
 						vo.setVehicleName(form.getVendorVehicleNumber());
+						
 
 						voList.add(vo);
 

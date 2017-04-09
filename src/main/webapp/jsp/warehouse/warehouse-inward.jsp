@@ -118,7 +118,7 @@
 					<tr>
 						<td class="form-label"><label for="invoiceNo">Invoice No.</label></td>
 						<td><input type="text" name="invoiceNo"
-							class="form-control" placeholder="Invoice No." /></td>
+							class="form-control" placeholder="Invoice No." maxlength="100"/></td>
 					</tr>
 					<tr>
 						<td class="form-label"><label for="invoiceDate">Invoice
@@ -274,7 +274,7 @@
 				+ "<td><div class='input-group'><input type='number' step='0.001' placeholder='Section Weight' min='0' readonly value='' name='subSecWt' class='form-control' aria-label='...'><div class='input-group-btn weight-group'><input type='hidden' name='subSecWtUnit' value='TON' /><button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown' disabled aria-expanded='false'>TON <span class='caret'></span></button><ul class='dropdown-menu dropdown-menu-right' role='menu'><li><a>TON</a></li><li><a>KG</a></li></ul></div></div></td>"
 				+ "<td class='cell-hide'><div class='input-group'><input type='number' step='0.001' placeholder='Weight' min='0' readonly value='' name='subWt' class='form-control' aria-label='...'><div class='input-group-btn weight-group'><input type='hidden' name='subWtUnit' value='TON' /><button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown' disabled aria-expanded='false'>TON <span class='caret'></span></button><ul class='dropdown-menu dropdown-menu-right' role='menu'><li><a>TON</a></li><li><a>KG</a></li></ul></div></div></td>"
 				+ "<td><input type='text' name='wlocation' placeholder='Location' class='form-control' /></td>"
-				+ "<td><input type='text' placeholder='Remark' name='remark' value='' class='form-control' /></td>"
+				+ "<td><input type='text' placeholder='Remark' name='remark' value='' class='form-control' maxlength='400'/></td>"
 				+ "<td><input type='button' class='btn-danger delete-row' onclick='deleteSubRow(\"row-sub-"
 				+ num + "-" + row[num] + "\");' value='-' /></td>" + "</tr>";
 		$("#" + row_container_id + " tbody").append(str);

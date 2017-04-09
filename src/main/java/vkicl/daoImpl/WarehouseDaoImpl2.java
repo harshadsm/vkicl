@@ -39,6 +39,7 @@ public class WarehouseDaoImpl2 extends BaseDaoImpl {
 			Integer qty = warehouseInwardRecordVO.getAvailableQuantity();
 			String materialType = warehouseInwardRecordVO.getMaterialType();
 			Integer length = warehouseInwardRecordVO.getLength();
+			Double labelWeight = warehouseInwardRecordVO.getLabelWeight();
 
 			query = "INSERT INTO warehouse_inward "
 					+ " (warehouse_inship_id, be_no, material_type, mill_name, material_make, grade, "
@@ -62,7 +63,7 @@ public class WarehouseDaoImpl2 extends BaseDaoImpl {
 			cs.setDouble(9, thickness);
 			cs.setDouble(10, secWt);
 			cs.setString(11, "");
-			cs.setDouble(12, 0d);
+			cs.setDouble(12, labelWeight==null?0d:labelWeight);
 			cs.setString(13, "");
 			cs.setInt(14, qty);
 			cs.setString(15, userInfoVO.getUserName());
@@ -113,11 +114,11 @@ public class WarehouseDaoImpl2 extends BaseDaoImpl {
 			cs.setString(2, portOutwardRecordVO.getHeatNo());
 			cs.setString(3, portOutwardRecordVO.getPlateNo());
 			cs.setDouble(4, portOutwardRecordVO.getBalQty());
-			cs.setString(5, "");
+			cs.setString(5, "TON");
 			cs.setDouble(6, portOutwardRecordVO.getActualWt());
 			cs.setString(7, portOutwardRecordVO.getActualWt_unit());
 			cs.setInt(8, portOutwardRecordVO.getAvailableQuantity());
-			cs.setString(9, "");
+			cs.setString(9, portOutwardRecordVO.getRemark()==null?"":portOutwardRecordVO.getRemark());
 			cs.setString(10, portOutwardRecordVO.getLocation());
 			cs.setString(11, userInfoVO.getUserName());
 			cs.setString(12, userInfoVO.getUserName());
