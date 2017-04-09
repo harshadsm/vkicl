@@ -679,7 +679,14 @@ public class ReportDaoImpl extends BaseDaoImpl {
 					report.setCustomer(formatOutput(rs.getString("customer")));
 					report.setActualWt((rs.getDouble("weight")));
 					report.setActualUnit(formatOutput(rs.getString("weight_unit")));
-
+					String invoiceNo = rs.getString("invoice_no");
+					report.setInvoiceNoOfLocalVendor(invoiceNo==null?"":invoiceNo);
+					java.sql.Date invoiceDate = rs.getDate("invoice_date");
+					String invoiceDateStr = "";
+					if(invoiceDate!=null){
+						invoiceDateStr = Converter.dateToString(Converter.sqlDateToDate(invoiceDate));
+					}
+					report.setInvoiceDateOfLocalVendor(invoiceDateStr);
 					reportList.add(report);
 					
 				} ;

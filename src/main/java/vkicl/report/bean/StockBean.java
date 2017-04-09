@@ -30,6 +30,27 @@ public class StockBean extends BaseReportBean {
 	private String customer = "";
 
 	private Double actualWt = 0.000;
+	
+	private String invoiceNoOfLocalVendor;
+	private String invoiceDateOfLocalVendor;
+	
+	
+	public String getInvoiceNoOfLocalVendor() {
+		return invoiceNoOfLocalVendor;
+	}
+
+	public void setInvoiceNoOfLocalVendor(String invoiceNoOfLocalVendor) {
+		this.invoiceNoOfLocalVendor = invoiceNoOfLocalVendor;
+	}
+
+	public String getInvoiceDateOfLocalVendor() {
+		return invoiceDateOfLocalVendor;
+	}
+
+	public void setInvoiceDateOfLocalVendor(String invoiceDateOfLocalVendor) {
+		this.invoiceDateOfLocalVendor = invoiceDateOfLocalVendor;
+	}
+
 	public Double getActualWt() {
 		return actualWt;
 	}

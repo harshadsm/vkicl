@@ -121,6 +121,8 @@
 							<th>Heat No. </th>
 							<th>Plate no. </th>
 							<th>Location</th>
+							<th>Invoice No</th>
+							<th>Invoice Dt</th>
 							<th>MTC Download</th>
 							<th></th>
 						</tr>
@@ -165,6 +167,8 @@
 									</div>
 									
 								</td> 
+								<td>${report.invoiceNoOfLocalVendor}</td>
+								<td>${report.invoiceDateOfLocalVendor}</td>
 								<td><c:if test="${report.fileSize > 0}">
 										<button title='<c:out value="${report.fileName}" />'
 											onclick='downloadMTC(<c:out value="${report.materialId}" />)'>
@@ -206,6 +210,8 @@
 							<th id="qtyTotal"></th>
 							<th id="secWtTotal"></th>
 							<th id="actualWtTotal"></th>
+							<th></th>
+							<th></th>
 							<th></th>
 							<th></th>
 							<th></th>
