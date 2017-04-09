@@ -201,6 +201,7 @@
 							<th></th>
 							<th></th>
 							<th></th>
+							<th></th>
 							<th>Total</th>
 							<th id="qtyTotal"></th>
 							<th id="secWtTotal"></th>
