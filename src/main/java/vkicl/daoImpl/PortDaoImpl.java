@@ -270,23 +270,23 @@ public class PortDaoImpl extends BaseDaoImpl {
 		try {
 			conn = getConnection();
 			String count_sql = " SELECT " + " count(*) " + " FROM ("
-					+ " select * from port_inward pin "
+					+ " select pin.port_inwd_shipment_id from port_inward pin "
 					+ " INNER JOIN port_inward_shipment pis ON pin.port_inwd_shipment_id = pis.port_inwd_shipment_id "
 					+ processSearchCriteria(searchParam)
-					+ " ) ";
+					+ " ) a";
 
 			log.info("query = " + count_sql);
 
 			cs = conn.prepareCall(count_sql);
 
 			rs = cs.executeQuery();
-			if (null != rs && rs.next()) {
+			if (null != rs ) {
 
-				do {
+				 while (rs.next()){
 					count = rs.getInt(1);
 
 					log.debug("Row count === " + count);
-				} while (rs.next());
+				}
 
 			}
 

@@ -129,9 +129,9 @@ public class PortInwardDetailsJsonService {
 		String order = params.getParam(JQGRID_PARAM_NAMES.sord);
 
 		PortInwardPackingListDaoImpl portDao = new PortInwardPackingListDaoImpl();
-		Integer totalRecordsCount = portDao.fetchPortInwardPackingListRecordCount(searchParam);// ,
+		Integer totalRecordsCount = portDao.fetchPortInwardPackingListRecordCountForPortOutward(searchParam);// ,
 																								// portInwardId);
-		List<PackingListItemVO> records = portDao.fetchPortInwardPackingList(Integer.parseInt(page),
+		List<PackingListItemVO> records = portDao.fetchPortInwardPackingListForPortOutward(Integer.parseInt(page),
 				Integer.parseInt(rows), totalRecordsCount, orderBy, order, searchParam);
 
 		records = updateAlreadyOutQuantity(records);
@@ -140,7 +140,17 @@ public class PortInwardDetailsJsonService {
 		response.setPage(page);
 		response.setRows(records);
 		response.setRecords(totalRecordsCount.toString());
-		response.setTotal((totalRecordsCount / Long.valueOf(rows)) + 1 + "");
+		
+		Long noOfPages = totalRecordsCount / Long.valueOf(rows);
+		Long remainder = totalRecordsCount % Long.valueOf(rows);
+		if(remainder > 0){
+			noOfPages = noOfPages + 1L;
+		}
+		
+//		response.setTotal((totalRecordsCount / Long.valueOf(rows)) + 1 + "");
+		response.setTotal(noOfPages + "");
+
+		
 		Gson gson = new Gson();
 		String json = gson.toJson(response);
 		return json;
@@ -177,9 +187,11 @@ public class PortInwardDetailsJsonService {
 
 				}
 
-				if (vo.getQuantity() != null && vo.getQuantity() > 0) {
-					recordsWithQtyMoreThanZero.add(vo);
-				}
+//				if (vo.getQuantity() != null && vo.getQuantity() > 0) {
+//					recordsWithQtyMoreThanZero.add(vo);
+//				}
+				
+				recordsWithQtyMoreThanZero.add(vo);
 
 			}
 

@@ -383,7 +383,7 @@ function populatePackingList(){
 			colModel : [  {
 				name : 'portInwardId',
 				index : 'portInwardId',
-				hidden: true,
+				hidden: false,
 				width : 185,
 				editable : false,
 				editrules : {
@@ -397,7 +397,7 @@ function populatePackingList(){
 			}, {
 				name : 'portInwardDetailId',
 				index : 'portInwardDetailId',
-				hidden: true,
+				hidden: false,
 				width : 185,
 				editable :false,
 				editrules : {
@@ -411,7 +411,7 @@ function populatePackingList(){
 			}, {
 				name : 'portInwardShipmentId',
 				index : 'portInwardShipmentId',
-				hidden: true,
+				hidden: false,
 				width : 200,
 				editable : false,
 				editrules : {
