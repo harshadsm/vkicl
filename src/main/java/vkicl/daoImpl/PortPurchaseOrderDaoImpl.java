@@ -1090,10 +1090,39 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 		}
 
 		// Add any more clauses here.
+		
+		//From date clause
+		if(!StringUtils.isEmpty(form.getFromDate()) ){
+			try {
+				Date fromDate = convertStringToDate(form.getFromDate(), "dd/MM/yy");
+				Date fromDate_h0_m0_s0 = setTime(fromDate, 0, 0, 0); 
+				String fromDateStr = convertDateToString(fromDate_h0_m0_s0, "yyyy-MM-dd HH:mm:ss");
+				String fromDateClause = "create_ts >= '"+fromDateStr+"'";
+				clauses.add(fromDateClause);
+				
+				
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		//To date clause
+		if(!StringUtils.isEmpty(form.getToDate())){
+			try {
+				Date toDate = convertStringToDate(form.getToDate(), "dd/MM/yy");
+				Date toDate_h23_m59_s59 = setTime(toDate, 23, 59, 59); 
+				String toDateStr = convertDateToString(toDate_h23_m59_s59, "yyyy-MM-dd HH:mm:ss");
+				String toDateClause = "create_ts <= '"+toDateStr+"'";
+				clauses.add(toDateClause);
+				
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 
-		for (
-
-		String c : clauses) {
+		for (String c : clauses) {
 
 			clause.append(" AND ").append(c).append(" ");
 
@@ -1101,5 +1130,7 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 
 		return clause.toString();
 	}
+
+
 
 }

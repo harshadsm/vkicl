@@ -196,6 +196,14 @@ public class BaseDaoImpl {
 		}
 		return date;
 	}
+	
+	public String convertDateToString(Date date, String format) {
+		
+		SimpleDateFormat sdf = new SimpleDateFormat(format);
+		String str = sdf.format(date);
+		return str;
+		
+	}
 
 	public Date convertSqlDateToJavaDate(java.sql.Date date) {
 		Date d = new Date(date.getTime());
@@ -370,5 +378,15 @@ public class BaseDaoImpl {
 		sqlDateStr = sdfSql.format(date);
 
 		return sqlDateStr;
+	}
+	
+	
+	protected Date setTime(Date d, int h, int m, int s){
+		Calendar dc = Calendar.getInstance();
+		dc.setTime(d);
+		dc.set(Calendar.HOUR_OF_DAY, h);
+		dc.set(Calendar.MINUTE, m);
+		dc.set(Calendar.SECOND, s);
+		return dc.getTime();
 	}
 }
