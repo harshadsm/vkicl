@@ -306,19 +306,19 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 	}
 
 	public Long addPortPurchaseOrderData(PortPurchaseOrderPostDataContainerVO vo, UserInfoVO userInfoVO)
-			throws SQLException {
+			throws SQLException, ParseException {
 		Connection conn = null;
 		ResultSet rs = null;
 		CallableStatement cs = null;
 		String query = "", message = "";
 		Long savedRecordId = -1L;
-		try {
+		try{
 
 			query = "INSERT INTO port_purchase_order "
 					+ " (customer_name, broker_name, brokerage,brokerage_unit, rate,delivery_address, "
 					+ " excise, tax, transport, payment_terms, total_quantity, comments, "
-					+ " create_ui, update_ui, create_ts, update_ts, vehicle_no, vehicle_date, transporter_name) "
-					+ " VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+					+ " create_ui, update_ui, create_ts, update_ts, vehicle_no, vehicle_date, transporter_name, transport_rate, transport_rate_unit ) "
+					+ " VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 			log.info(query);
 
@@ -344,6 +344,8 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 			cs.setString(17, vo.getVehicleNo());
 			cs.setDate(18, convertStringToDate(vo.getVehicleDate(), "dd/MM/yy"));
 			cs.setString(19, vo.getTransporterName());
+			cs.setDouble(20, vo.getTransportRate());
+			cs.setString(21, vo.getTransportRateUnit());
 			int count = cs.executeUpdate();
 
 			ResultSet result = cs.getGeneratedKeys();
@@ -351,10 +353,7 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 				result.next();
 				savedRecordId = result.getLong(1);
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			message = e.getMessage();
-			userInfoVO.setMessage(message);
+		
 		} finally {
 			closeDatabaseResources(conn, rs, cs);
 		}

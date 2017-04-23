@@ -36,6 +36,8 @@ public class PortPurchaseOrderPostDataContainerVO {
 	private String vehicleNo;
 	private String vehicleDate;
 	private String transporterName;
+	private Double transportRate;
+	private String transportRateUnit;
 	
 
 	public Integer getAvailableQuantity() {
@@ -186,14 +188,36 @@ public class PortPurchaseOrderPostDataContainerVO {
 	public void setTransporterName(String transporterName) {
 		this.transporterName = transporterName;
 	}
+	
+	
+
+	public Double getTransportRate() {
+		return transportRate;
+	}
+
+	public void setTransportRate(Double transportRate) {
+		this.transportRate = transportRate;
+	}
+
+	public String getTransportRateUnit() {
+		return transportRateUnit;
+	}
+
+	public void setTransportRateUnit(String transportRateUnit) {
+		this.transportRateUnit = transportRateUnit;
+	}
 
 	@Override
 	public String toString() {
-		return "PortPurchaseOrderVO [portInwardDetailId=" + portInwardDetailId + "," + " portInwardId=" + portInwardId
-				+ ", custName=" + custName + ", brokerName=" + brokerName + ", brokerage=" + brokerage
-				+ ",brokerageUnit=" + brokerageUnit + ",rate=" + rate + ", excise=" + excise + ", deliveryAddr="
-				+ deliveryAddr + ",tax=" + tax + ", totalQty=" + totalQty + ",transport=" + transport
-				+ ", paymentTerms=" + paymentTerms + ", comments=" + comments + "]";
+		return "PortPurchaseOrderPostDataContainerVO [selectedPortInventoryItemsJson=" + selectedPortInventoryItemsJson
+				+ ", portInwardDetailId=" + portInwardDetailId + ", portInwardId=" + portInwardId + ", custName="
+				+ custName + ", brokerName=" + brokerName + ", brokerage=" + brokerage + ", brokerageUnit="
+				+ brokerageUnit + ", deliveryAddr=" + deliveryAddr + ", rate=" + rate + ", excise=" + excise + ", tax="
+				+ tax + ", transport=" + transport + ", paymentTerms=" + paymentTerms + ", comments=" + comments
+				+ ", totalQty=" + totalQty + ", availableQuantity=" + availableQuantity + ", vehicleNo=" + vehicleNo
+				+ ", vehicleDate=" + vehicleDate + ", transporterName=" + transporterName + ", transportRate="
+				+ transportRate + ", transportRateUnit=" + transportRateUnit + "]";
 	}
 
+	
 }

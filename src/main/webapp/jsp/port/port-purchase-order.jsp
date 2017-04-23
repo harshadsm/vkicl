@@ -48,7 +48,8 @@ function validateForm() {
 		bootbox.alert("Please enter comments");
 		return false;
 	} 
-	if ("" == getValByFieldName("body", "vehicleNo")) {
+	
+	/* if ("" == getValByFieldName("body", "vehicleNo")) {
 		bootbox.alert("Please enter Vehicle No");
 		return false;
 	} 
@@ -60,7 +61,12 @@ function validateForm() {
 		bootbox.alert("Please enter Transporter Name");
 		return false;
 	} 
-	
+	 */
+
+	if ("" == getValByFieldName("body", "transportRate")) {
+			bootbox.alert("Please enter Transport Rate");
+			return false;
+	}
 	var	str = "Are you sure you want to Submit?";
 	bootbox.confirm(str, function(result) {
 		if (result) {
@@ -378,6 +384,7 @@ input[name="length"], input[name="width"], input[name="thickness"], input[name="
 							class="form-control" />
 						</td>
 					</tr>
+					<!-- 
 					<tr>
 						<td class='excel' colspan="1"><label for="vehicleNo">Vehicle Number</label></td>
 						<td class='excel' colspan="7"><input type="text"
@@ -398,12 +405,35 @@ input[name="length"], input[name="width"], input[name="thickness"], input[name="
 						</td>
 						
 					</tr>
+					
 					<tr>
 						<td class='excel' colspan="1"><label for="transporterName">Transporter Name</label></td>
 						<td class='excel' colspan="7"><input type="text"
 							name="transporterName" placeholder="Transporter Name" class="form-control" /></td>
 						
 					</tr>
+					 -->
+					<tr>
+						<td class='excel' colspan="1"><label for="transportRate">Transport Rate</label></td>
+						<td class='excel' colspan='7'>
+							<div class='input-group'>
+								<input type='number' step='0.001' placeholder='Transport Rate' min='0'
+									value='' name=transportRate class='form-control'>
+								<div class='input-group-btn weight-group'>
+									<input type='hidden' name='transportRateUnit' value='Per MT' />
+									<button type='button' class='btn btn-default dropdown-toggle'
+										data-toggle='dropdown' aria-expanded='false'>
+										Per MT <span class='caret'></span>
+									</button>
+									<ul class='dropdown-menu dropdown-menu-right' role='menu'>
+										<li onclick='btnGroupChange(this);'><a>Per MT</a></li>
+										<li onclick='btnGroupChange(this);'><a>Fix</a></li>
+									</ul>
+								</div>
+							</div>
+						</td>
+					</tr>
+					
 					<tr>
 						<td class='excel' colspan="1"><label for="comments">Comments</label></td>
 						<td class='excel' colspan="7"><input type="text"
@@ -1180,6 +1210,8 @@ function submitPortPurchaseOrder(){
 	var vehicleDate = getValByFieldName("body", "vehicleDate");
 	var vehicleNo = getValByFieldName("body", "vehicleNo");
 	var transporterName = getValByFieldName("body", "transporterName");
+	var transportRate = getValByFieldName("body", "transportRate");
+	var transportRateUnit = getValByFieldName("body", "transportRateUnit");
 
 	
 	
@@ -1206,6 +1238,8 @@ function submitPortPurchaseOrder(){
 			 vehicleDate : vehicleDate,
 			 vehicleNo : vehicleNo,
 			 transporterName : transporterName,
+			 transportRate : transportRate,
+			 transportRateUnit : transportRateUnit,
 			 
 			selectedPortInventoryItemsJson : selected_port_inventory_items_JSON
 	};
