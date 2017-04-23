@@ -642,8 +642,9 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 			q.append(" group by d.port_purchase_order_id");
 			q.append(" ) delivered on  ppo_outer.port_purchase_order_id = delivered.port_purchase_order_id");
 			q.append(" ) pending_ppo");
-			q.append(" where pending_ppo.pending_quantity > 0 ");
-			q.append(" AND ");
+			q.append(" where ");
+			//q.append(" pending_ppo.pending_quantity > 0 ");
+			//q.append(" AND ");
 			q.append(" pending_ppo.is_deleted !=1 ");
 
 			String filterClause = composeWhereClausePPO(form);

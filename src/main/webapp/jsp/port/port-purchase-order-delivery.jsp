@@ -150,10 +150,18 @@ function startPurchaseOrderDelivery(id) {
 								</c:if>
 								<% } %>
 								<th class="cell-edit">
-								<button title='Start Order Processing'
+								<c:if test="${report.pendingQuantity <= 0}">
+									Completed
+								</c:if>
+								
+									<button title='Start Order Processing'
 											onclick='startPurchaseOrderDelivery(<c:out value="${report.ppoNo}" />);'>
 											<span class="glyphicon glyphicon-play"></span>
-										</button></th>
+										</button></th>		
+										
+								
+								
+								
 							</tr>
 						</logic:iterate>
 					</tbody>
