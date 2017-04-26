@@ -204,14 +204,14 @@ function progressHandlingFunction(e) {
 							<th>Mill Name</th>
 							<th>Make</th>
 							<th>Grade</th>
-							<th>Heat No</th>
-							<th>Plate No</th>
 							<th>Thickness</th>
 							<th>Width</th>
 							<th>Length</th>
 							<th>Quantity</th>
 							<th>Section Weight</th>
 							<th>Actual Weight</th>
+							<th>Heat No</th>
+							<th>Plate No</th>
 							<th>Location</th>
 							<th colspan="2" style="text-align: center;">MTC upload</th>
 						
@@ -244,10 +244,6 @@ function progressHandlingFunction(e) {
 										value="${report.make}" /></td>
 								<td data-type="text" data-name="grade"><c:out
 										value="${report.grade}" /></td>
-								<td data-type="text" data-name="heatNo"><c:out
-										value="${report.heatNo}" /></td>
-								<td data-type="text" data-name="plateNo"><c:out
-										value="${report.plateNo}" /></td>
 								<td data-type="number" data-name="thickness" data-step="0.001"><c:out
 										value="${report.thickness}" /></td>
 								<td data-type="number" data-name="width"><c:out
@@ -260,6 +256,10 @@ function progressHandlingFunction(e) {
 										value="${report.secWt}" /></td>
 										<td data-type="number" data-name="actualWt" data-step="0.001"><c:out
 										value="${report.actualWt}" /></td>
+								<td data-type="text" data-name="heatNo"><c:out
+										value="${report.heatNo}" /></td>
+								<td data-type="text" data-name="plateNo"><c:out
+										value="${report.plateNo}" /></td>
 								<td data-type="text" data-name="wlocation" ><c:out
 										value="${report.wlocation}" /></td>
 										<td class="cell-edit" style="text-align: right;"><c:if
