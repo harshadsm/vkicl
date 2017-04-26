@@ -197,7 +197,12 @@ public class ReportDaoImpl extends BaseDaoImpl {
 					report.setId(rs.getInt("warehouse_in_detail_id"));
 					report.setReceivedFrom(formatOutput(rs.getString("Received_From")));
 					report.setVehicleNumber(formatOutput(rs.getString("vehicle_number")));
-					report.setVehicleDate(convertDateToDisplayString(rs.getString("received_date")));
+					
+					//report.setVehicleDate(convertDateToDisplayString(rs.getString("received_date")));
+					Date receivedDate = rs.getDate("received_date");
+					String receivedDateStr = dateToString(receivedDate, "dd-MM-yyyy");
+					report.setVehicleDate(receivedDateStr);
+					
 					report.setVendorName(formatOutput(rs.getString("vendor_name")));
 					report.setVesselName(rs.getString("vessel_name"));
 					// report.setVesselDate(convertDateToDisplayString(rs.getString("vessel_Date")));
