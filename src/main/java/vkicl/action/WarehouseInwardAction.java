@@ -1,5 +1,7 @@
 package vkicl.action;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -10,9 +12,11 @@ import org.apache.struts.action.ActionMapping;
 
 import vkicl.daoImpl.WarehouseDaoImpl;
 import vkicl.form.WarehouseInwardForm;
+import vkicl.services.LocationService;
 import vkicl.services.WarehouseInwardService;
 import vkicl.util.Constants;
 import vkicl.util.PropFileReader;
+import vkicl.vo.LocationDetailsVO;
 import vkicl.vo.UserInfoVO;
 
 public class WarehouseInwardAction extends BaseAction {
@@ -31,6 +35,10 @@ public class WarehouseInwardAction extends BaseAction {
 			if (null != actionForward)
 				return actionForward;
 
+			LocationService locationService = new LocationService();
+			List<LocationDetailsVO> list = locationService.getAllLocationsAsList();
+			request.setAttribute("locationsList", list);
+			
 			actionForward = mapping.findForward(Constants.Mapping.SUCCESS);
 		} catch (Exception e) {
 			e.printStackTrace();

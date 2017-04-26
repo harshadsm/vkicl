@@ -1,3 +1,5 @@
+<%@page import="vkicl.vo.LocationDetailsVO"%>
+<%@page import="java.util.List"%>
 <%@page import="org.apache.commons.lang.StringEscapeUtils"%>
 <%@page import="vkicl.util.Constants"%>
 <%@page import="vkicl.vo.UserInfoVO"%>
@@ -11,6 +13,7 @@
 <%
 	UserInfoVO userInfoVO = (UserInfoVO) session
 			.getAttribute(Constants.USER_INFO_SESSION);
+	List<LocationDetailsVO> locationList = (List<LocationDetailsVO>)request.getAttribute("locationsList");
 %>
 
 <div class="row">
@@ -259,7 +262,33 @@
 		<%} %>
 	}
 
+	function getLocationDropdown(){
+		var o = "<option";
+		var oc = "</option>";
+		var h = "<select class='form-control' name='wlocation' >";
+		h = h+o+" value=''>-"+oc;
+		
+
+		<%if(locationList!=null && !locationList.isEmpty()){ 
+			for(LocationDetailsVO location : locationList){
+		%>
+
+			h = h+o+" value='<%=location.getLocationName()%>'><%=location.getLocationName()%>"+oc;		
+		
+		<% 
+			}
+		 }
+		%>
+		
+		h = h + "</select>";
+
+
+		
+		return h;
+	}
 	function addSubRow(row_container_id) {
+		var locationDropDown = getLocationDropdown();
+		
 		var num = row_container_id
 				.substring(row_container_id.lastIndexOf("-") + 1);
 		if (null == row[num] || typeof row[num] === "undefined")
@@ -273,7 +302,8 @@
 				+ "<td><input type='number' value='1' step='1' placeholder='Quantity' onchange='calcSecWtRow(\"row-" + num+ "\");' onblur='calcSecWtRow(\"row-" + num+ "\");' min='0' name='subQty' class='form-control' /></td>"
 				+ "<td><div class='input-group'><input type='number' step='0.001' placeholder='Section Weight' min='0' readonly value='' name='subSecWt' class='form-control' aria-label='...'><div class='input-group-btn weight-group'><input type='hidden' name='subSecWtUnit' value='TON' /><button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown' disabled aria-expanded='false'>TON <span class='caret'></span></button><ul class='dropdown-menu dropdown-menu-right' role='menu'><li><a>TON</a></li><li><a>KG</a></li></ul></div></div></td>"
 				+ "<td class='cell-hide'><div class='input-group'><input type='number' step='0.001' placeholder='Weight' min='0' readonly value='' name='subWt' class='form-control' aria-label='...'><div class='input-group-btn weight-group'><input type='hidden' name='subWtUnit' value='TON' /><button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown' disabled aria-expanded='false'>TON <span class='caret'></span></button><ul class='dropdown-menu dropdown-menu-right' role='menu'><li><a>TON</a></li><li><a>KG</a></li></ul></div></div></td>"
-				+ "<td><input type='text' name='wlocation' placeholder='Location' class='form-control' /></td>"
+				//+ "<td><input type='text' name='wlocation' placeholder='Location dropdown' class='form-control' /></td>"
+				+ "<td>"+locationDropDown+"</td>"
 				+ "<td><input type='text' placeholder='Remark' name='remark' value='' class='form-control' maxlength='400'/></td>"
 				+ "<td><input type='button' class='btn-danger delete-row' onclick='deleteSubRow(\"row-sub-"
 				+ num + "-" + row[num] + "\");' value='-' /></td>" + "</tr>";
