@@ -42,18 +42,23 @@ public class WarehouseInwardReportAction extends BaseAction {
 			ReportDaoImpl impl = new ReportDaoImpl();
 
 			ArrayList<LabelValueBean> receivedFromList = impl.getList(
-					userInfoVO, "query.unique.customerLocation");
+					userInfoVO, 
+					//"query.unique.customerLocation");
+					"query.unique.vendorName");
 			ArrayList<LabelValueBean> materialTypeList = impl.getList(
 					userInfoVO, "query.unique.materialType");
 			ArrayList<LabelValueBean> vesselNameList = impl.getList(userInfoVO,
 					"query.unique.vesselName");
 			ArrayList<LabelValueBean> vesselDateList = impl.getDateList(
 					userInfoVO, "query.unique.vesselDate");
-
+			
+			ArrayList<LabelValueBean> gradeList = impl.getList(userInfoVO, "query.unique.grade");
+			
 			warehouseInwardReportForm.setReceivedFromList(receivedFromList);
 			warehouseInwardReportForm.setMaterialTypeList(materialTypeList);
 			warehouseInwardReportForm.setVesselNameList(vesselNameList);
 			warehouseInwardReportForm.setVesselDateList(vesselDateList);
+			warehouseInwardReportForm.setGradeList(gradeList);
 
 			genericListener = warehouseInwardReportForm.getGenericListener();
 			if (genericListener.equalsIgnoreCase("getReport")) {

@@ -185,6 +185,7 @@ public class ReportDaoImpl extends BaseDaoImpl {
 			cs.setString(3, form.getReceivedFrom());
 			cs.setString(4, form.getMaterialType());
 			cs.setString(6, form.getVesselName());
+			cs.setString(7, form.getGrade());
 			cs.registerOutParameter(5, java.sql.Types.VARCHAR);
 			rs = cs.executeQuery();
 			message = cs.getString(5);

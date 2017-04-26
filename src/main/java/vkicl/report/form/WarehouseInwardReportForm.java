@@ -16,11 +16,13 @@ public class WarehouseInwardReportForm extends BaseForm {
 	private String vesselDate = null;
 	private String receivedFrom = null;
 	private String materialType = null;
-
+	private String grade = null;
+	
 	private ArrayList<LabelValueBean> vesselNameList = null;
 	private ArrayList<LabelValueBean> vesselDateList = null;
 	private ArrayList<LabelValueBean> receivedFromList = null;
 	private ArrayList<LabelValueBean> materialTypeList = null;
+	private ArrayList<LabelValueBean> gradeList = null;
 
 	private ArrayList<WarehouseInwardBean> reportList = null;
 
@@ -39,6 +41,7 @@ public class WarehouseInwardReportForm extends BaseForm {
 		vesselDateList = null;
 		receivedFromList = null;
 		materialTypeList = null;
+		grade = null;
 		super.clear();
 	}
 
@@ -128,6 +131,26 @@ public class WarehouseInwardReportForm extends BaseForm {
 
 	public void setReportList(ArrayList<WarehouseInwardBean> reportList) {
 		this.reportList = reportList;
+	}
+	
+	
+
+	public ArrayList<LabelValueBean> getGradeList() {
+		return gradeList;
+	}
+
+	public void setGradeList(ArrayList<LabelValueBean> gradeList) {
+		this.gradeList = gradeList;
+	}
+	
+	
+
+	public String getGrade() {
+		return grade;
+	}
+
+	public void setGrade(String grade) {
+		this.grade = grade;
 	}
 
 	@Override

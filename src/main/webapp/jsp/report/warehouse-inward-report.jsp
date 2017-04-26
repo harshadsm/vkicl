@@ -101,8 +101,6 @@ function progressHandlingFunction(e) {
 						<td><html:select property="receivedFrom"
 								styleId="receivedFrom" styleClass="form-control">
 								<html:option value="ALL">ALL</html:option>
-								<html:option value="PORT">PORT</html:option>
-								<html:option value="OTHER">OTHER VENDOR NAMES (LOCAL buying)</html:option>
 								<html:optionsCollection property="receivedFromList" />
 							</html:select></td>
 					</tr>
@@ -137,6 +135,15 @@ function progressHandlingFunction(e) {
 								styleId="materialType" styleClass="form-control">
 								<html:option value="ALL">ALL</html:option>
 								<html:optionsCollection property="materialTypeList" />
+							</html:select></td>
+					</tr>
+					<tr>
+						<td class="form-label"><label for="grade">
+								Grade</label></td>
+						<td><html:select property="grade"
+								styleId="grade" styleClass="form-control">
+								<html:option value="ALL">ALL</html:option>
+								<html:optionsCollection property="gradeList" />
 							</html:select></td>
 					</tr>
 					<!-- tr>
@@ -213,8 +220,9 @@ function progressHandlingFunction(e) {
 							<th>Heat No</th>
 							<th>Plate No</th>
 							<th>Location</th>
+							<!-- 
 							<th colspan="2" style="text-align: center;">MTC upload</th>
-						
+						 	-->
 							<!-- <th class="cell-edit">Edit</th> -->
 						</tr>
 					</thead>
@@ -262,7 +270,8 @@ function progressHandlingFunction(e) {
 										value="${report.plateNo}" /></td>
 								<td data-type="text" data-name="wlocation" ><c:out
 										value="${report.wlocation}" /></td>
-										<td class="cell-edit" style="text-align: right;"><c:if
+								<!-- 
+								<td class="cell-edit" style="text-align: right;"><c:if
 										test="${report.fileSize > 0}">
 										<button title='<c:out value="${report.fileName}" />'
 											onclick='downloadMTC(<c:out value="${report.materialId}" />)'>
@@ -275,6 +284,7 @@ function progressHandlingFunction(e) {
 											<b>----</b>
 										</center>
 									</c:if></td>
+								 
 								<td class="cell-edit">
 									<button name="btnUpload" title="Upload" data-toggle='modal'
 										href='#hidden-div-form'
@@ -283,6 +293,7 @@ function progressHandlingFunction(e) {
 										<span class="glyphicon glyphicon-open"></span>
 									</button>
 								</td>
+								-->
 								<!-- <td class="cell-edit"><button name="btnEdit" title="Edit"
 										onclick="editReportRow(this);">
 										<span class="glyphicon glyphicon glyphicon-pencil"></span>
@@ -314,8 +325,6 @@ function progressHandlingFunction(e) {
 							<th id="qtyTotal">Quantity</th>
 							<th id="secWtTotal"></th>
 							<th id="actualWtTotal"></th>
-							<th></th>
-							<th></th>
 							<th></th>
 							
 						</tr>
