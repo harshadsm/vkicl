@@ -231,7 +231,10 @@ $(function() {
         		console.log(parametersToSubmit);
 				
 		        return parametersToSubmit;
-		    } 
+		    },
+		    afterSaveCell: function(rowid, cellname, value, iRow, iCol){
+			    bootbox.alert("Actual Weight Updated successfully to "+value+"!");
+			} 
 		});
 });		
 </script>
