@@ -154,7 +154,8 @@ Double[] firstCoordinate = plateCoordinates.get(0);
 									<th>Quantity</th><td><%=vo.getQuantity() %></td></tr><tr>
 									<th>Location</th><td><%=vo.getLocation() %></td></tr><tr>
 									<th>Area</th><td><%=vo.getPlateArea() %></td></tr><tr>
-									
+									<th>Heat No</th><td><%=vo.getHeat_no() %></td></tr><tr>
+									<th>Plate No</th><td><%=vo.getPlate_no() %></td>
 								</tr>
 							</tbody>
 						</table>
@@ -178,6 +179,10 @@ Double[] firstCoordinate = plateCoordinates.get(0);
 							<th width="10%">Width</th>
 							<th width="10%">X</th>
 							<th width="10%">Y</th>
+							<th width="10%">Heat#1</th>
+							<th width="10%">Plate#1</th>
+							<th width="10%">Heat#2</th>
+							<th width="10%">Plate#2</th>
 							
 							
 						</tr>
@@ -201,8 +206,7 @@ Double[] firstCoordinate = plateCoordinates.get(0);
 									<input  type='hidden' name='quantity'  value="<%=vo.getQuantity() %>"/>
 									<input  type='hidden' name='location'  value="<%=vo.getLocation() %>"/>
 									<input  type='hidden' name='make'  value="<%=vo.getMake() %>"/>
-									<input  type='hidden' name='heat_no'  value="<%=vo.getHeat_no() %>"/>
-									<input  type='hidden' name='plate_no'  value="<%=vo.getPlate_no() %>"/>
+									
 									
 								</td>
 								<td >
@@ -212,9 +216,18 @@ Double[] firstCoordinate = plateCoordinates.get(0);
 									<input  onchange="redrawCutPlate()"  type='number' step='1' min='0' id='origin_y' name='origin_y' placeholder='0' class='form-control' value="<%=firstCoordinate[1] %>"/>
 								</td>
 								
-									
-									
-								
+								<td class='excel' colspan="1">
+									<input  type='text' name='heat_no'  value="<%=vo.getHeat_no() %>" class="form-control"/>
+								</td>
+								<td class='excel' colspan="1">
+									<input  type='text' name='plate_no'  value="<%=vo.getPlate_no() %>"  class="form-control"/>
+								</td>
+								<td class='excel' colspan="1">
+									<input  type='text' name='heat_no_2'  value="<%=vo.getHeat_no() %>" class="form-control"/>
+								</td>
+								<td class='excel' colspan="1">
+									<input  type='text' name='plate_no_2'  value="<%=vo.getPlate_no() %>"  class="form-control"/>
+								</td>
 							</tr>
 	
 					</tbody>

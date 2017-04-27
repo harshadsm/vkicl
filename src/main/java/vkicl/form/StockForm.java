@@ -14,6 +14,11 @@ public class StockForm extends BaseForm {
 		private String  grade = null;
 		private String  location = null;
 		private String  heat_no = null;
+		private String  plate_no = null;
+
+		private String  heat_no_2 = null;
+		private String  plate_no_2 = null;
+		
 		public String getHeat_no() {
 			return heat_no;
 		}
@@ -30,7 +35,6 @@ public class StockForm extends BaseForm {
 			this.plate_no = plate_no;
 		}
 
-		private String  plate_no = null;
 		
 		public String getLocation() {
 			return location;
@@ -139,6 +143,22 @@ public Double getOrigin_x() {
 
 	public void setOrigin_y(Double origin_y) {
 		this.origin_y = origin_y;
+	}
+
+	public String getHeat_no_2() {
+		return heat_no_2;
+	}
+
+	public void setHeat_no_2(String heat_no_2) {
+		this.heat_no_2 = heat_no_2;
+	}
+
+	public String getPlate_no_2() {
+		return plate_no_2;
+	}
+
+	public void setPlate_no_2(String plate_no_2) {
+		this.plate_no_2 = plate_no_2;
 	}
 
 @Override
