@@ -16,6 +16,7 @@ import vkicl.util.Constants;
 import vkicl.util.Converter;
 import vkicl.util.JqGridSearchParameterHolder;
 import vkicl.util.JqGridSearchParameterHolder.Rule;
+import vkicl.util.SectionWeightCalculator;
 import vkicl.vo.PackingListItemVO;
 import vkicl.vo.PackingListItemVO2;
 import vkicl.vo.PortInwardRecordVO;
@@ -600,6 +601,11 @@ public class PortInwardPackingListDaoImpl extends BaseDaoImpl {
 
 				do {
 					PackingListItemVO2 p = new PackingListItemVO2();
+					Double t = rs.getDouble("thickness");
+					Integer l = rs.getInt("length");
+					Integer w = rs.getInt("width");
+					Integer q = rs.getInt("bal_pcs_at_dock");
+					
 					p.setPortInwardId(rs.getInt("port_inward_id"));
 					// p.setPortInwardShipmentId(rs.getInt(2));
 					p.setPortInwardDetailId(rs.getInt("port_inward_detail_id"));
@@ -607,15 +613,17 @@ public class PortInwardPackingListDaoImpl extends BaseDaoImpl {
 					// p.setVesselDate(dateToString(convertSqlDateToJavaDate(rs.getDate(5))));
 					// p.setGrade(rs.getString(6));
 					// p.setMaterialType(rs.getString(7));
-					p.setLength(rs.getInt("length"));
-					p.setWidth(rs.getInt("width"));
-					p.setThickness(rs.getDouble("thickness"));
-					p.setQuantity(rs.getInt("bal_pcs_at_dock"));
+					p.setLength(l);
+					p.setWidth(w);
+					p.setThickness(t);
+					p.setQuantity(q);
 					// p.setQuantity(rs.getInt("quantity"));
 					p.setBalQty(rs.getDouble("bal_pcs_at_dock"));
 					//p.setActualWt(9999d);
-					p.setSectionWt(rs.getDouble("section_wt"));
-
+					Double recalculatedSectionWeight = SectionWeightCalculator.calculateSectionWeight(t, l, w, q);
+					//p.setSectionWt(rs.getDouble("section_wt"));
+					p.setSectionWt(recalculatedSectionWeight);
+					
 					list.add(p);
 				} while (rs.next());
 
