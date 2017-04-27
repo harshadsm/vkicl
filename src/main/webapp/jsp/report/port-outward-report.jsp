@@ -191,6 +191,8 @@
 										value="${report.actualWt}" /></td>
 								<td data-type="text" data-name="invoice" ><c:out
 										value="${report.invoice}" /></td>
+								<td data-type="text" data-name="toWarehouseOrCustomer" ><c:out
+										value="${report.toWarehouseOrCustomerHiddenField}" /></td>
 								<!-- 		
 								<td data-type="text" data-name="actualWtUnit"><c:out
 										value="${report.actualWtUnit}" /></td>
@@ -201,7 +203,7 @@
 								<td class="cell-edit"><button name="btnDelete" title="Delete" onclick="deleteReportRow(this);">
 										<span class="glyphicon glyphicon glyphicon-remove"></span>
 								</button></td>
-									
+								
 							</tr>
 						</logic:iterate>
 					</tbody>

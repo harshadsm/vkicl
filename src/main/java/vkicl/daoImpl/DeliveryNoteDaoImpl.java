@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 
@@ -390,6 +391,40 @@ public class DeliveryNoteDaoImpl extends BaseDaoImpl {
 			closeDatabaseResources(conn, rs, cs);
 		}
 
+	}
+	
+	
+	public String updatePortOutward(Map<String, String[]> map, UserInfoVO userInfoVO) {
+
+
+		Connection conn = null;
+		ResultSet rs = null;
+		CallableStatement cs = null;
+		String query = "";
+		String message = "Success";
+		int count = 0;
+		PreparedStatement statement = null;
+		try {
+			conn = getConnection();
+			String sql = "update delivery_notes set invoice = ? where id = ?";
+			statement = conn.prepareStatement(sql);
+			statement.setString(1, fetchFromMap(map, "invoice"));
+			statement.setString(2, fetchFromMap(map, "id"));
+			
+
+			statement.executeUpdate();
+			log.info("message = " + message);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			message = e.getMessage();
+			log.error(message);
+		} finally {
+			closeDatabaseResources(conn, rs, statement);
+		}
+
+		return message;
+		
 	}
 
 }

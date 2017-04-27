@@ -1132,6 +1132,8 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 		return clause.toString();
 	}
 
+	
+
 
 
 }

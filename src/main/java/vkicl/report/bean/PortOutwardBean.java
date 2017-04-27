@@ -24,6 +24,7 @@ public class PortOutwardBean extends BaseReportBean {
 	private String actualWtUnit = null;
 	private String invoice = null;
 	private String destination = null;
+	private String toWarehouseOrCustomerHiddenField = null;
 
 	public int getId() {
 		return id;
@@ -191,6 +192,16 @@ public class PortOutwardBean extends BaseReportBean {
 
 	public void setDestination(String destination) {
 		this.destination = destination;
+	}
+	
+	
+
+	public String getToWarehouseOrCustomerHiddenField() {
+		return toWarehouseOrCustomerHiddenField;
+	}
+
+	public void setToWarehouseOrCustomerHiddenField(String toWarehouseOrCustomerHiddenField) {
+		this.toWarehouseOrCustomerHiddenField = toWarehouseOrCustomerHiddenField;
 	}
 
 	@Override
