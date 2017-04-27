@@ -1414,7 +1414,7 @@ function addRowOfSelectedRecord(recordObj) {
 			//+ "<td><div class='input-group'><input type='number' step='0.001' placeholder='Section Weight' min='0' readonly value='' name='secWt' class='form-control' aria-label='...'><div class='input-group-btn weight-group'><input type='hidden' name='secWtUnit' value='TON' /><button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown' disabled aria-expanded='false'>TON <span class='caret'></span></button><ul class='dropdown-menu dropdown-menu-right' role='menu'><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>TON</a></li><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>KG</a></li></ul></div></div></td>"
 			// + "<td><div class='input-group'><input type='number' step='0.001' placeholder='Actual Weight' min='0' value='' name='actualWt' onchange='calcSecWtRow(\"row-"+ id+ "\");' onblur='calcSecWtRow(\"row-"+ id+ "\");' class='form-control' aria-label='...'><div class='input-group-btn weight-group'><input type='hidden' onchange='calcSecWtRow(\"row-"+ id+ "\");' onblur='calcSecWtRow(\"row-"+ id+ "\");' name='actualWtUnit' value='TON' /><button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown' aria-expanded='false'>TON <span class='caret'></span></button><ul class='dropdown-menu dropdown-menu-right' role='menu'><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>TON</a></li><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>KG</a></li></ul></div></div></td>"
 			//+ "<td id='split-button-td-" + id + "' ><input type='button' class='btn btn-warn' onclick='split2($(this).parent().parent().attr(\"id\"));' value='split' /></td>"
-			+ "<td><input type='button' class='btn-danger delete-row' onclick='deleteRow($(this).parent().parent().attr(\"id\"));' value='-' /></td>"
+			//+ "<td><input type='button' class='btn-danger delete-row' onclick='deleteRow($(this).parent().parent().attr(\"id\"));' value='-' /></td>"
 			+ "<td><input type='hidden' value='"+recordObj.portInwardId+"' name='portInwardId'/></td>"
 			+ "<td><input type='hidden' value='"+recordObj.portOutwardId+"' name='portOutwardId'/></td>"
 			+ "<td><input type='hidden' value='"+recordObj.portInwardShipmentId+"' name='portInwardShipmentId'/></td>"
@@ -1445,8 +1445,8 @@ function addQuantitySumRow(quantitySum,sectionwtSum) {
 			+ "<td></td>"
 			+ "<td></td>"
 			+ "<td>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Checksum </td>"
-			+ "<td class='port_out_item_quantity' >&nbsp&nbsp"+quantitySum+"</td>"
-			+ "<td class='port_out_section_wt'>&nbsp&nbsp"+sectionwtSum.toFixed(3)+"</td>"
+			+ "<td class='port_out_item_quantity' id='portOutItemQuantityChecksumTd'>&nbsp&nbsp"+quantitySum+"</td>"
+			+ "<td class='port_out_section_wt' id='portOutSectionWtTd'>"+sectionwtSum.toFixed(3)+"</td>"
 			// + "<td><div class='input-group'><input type='number' step='0.001' placeholder='Actual Weight' min='0' value='' name='actualWt' onchange='calcSecWtRow(\"row-"+ id+ "\");' onblur='calcSecWtRow(\"row-"+ id+ "\");' class='form-control' aria-label='...'><div class='input-group-btn weight-group'><input type='hidden' onchange='calcSecWtRow(\"row-"+ id+ "\");' onblur='calcSecWtRow(\"row-"+ id+ "\");' name='actualWtUnit' value='TON' /><button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown' aria-expanded='false'>TON <span class='caret'></span></button><ul class='dropdown-menu dropdown-menu-right' role='menu'><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>TON</a></li><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>KG</a></li></ul></div></div></td>"
 			//+ "<td><input type='button' class='btn-danger delete-row' onclick='deleteRow($(this).parent().parent().attr(\"id\"));' value='-' /></td></tr>";
 			+ "<td><input type='text'  placeholder='Actual Weight Total (TON)' name='actualWeigthTotalInput' id='actualWeigthTotalInput' class='form-control' onchange='distributeActualWeightTotal()'/></td>"
@@ -1584,11 +1584,11 @@ function distributeActualWeightTotal(){
 	var actualWeightTotal = $("#actualWeigthTotalInput").val();
 	if(isValidNumber(actualWeightTotal)){
 		var actWtTotalNumber = Number(actualWeightTotal);
-		console.log(actWtTotalNumber);
+		console.log(actWtTotalNumber);//1797
 		//Actual Wt for row 1 = ((Sec Wt of row 1/Total sec Wt) * (Total Actual Wt – Total Sec Wt.)) + Sec Wt of row 1
 		console.log(SELECTED_PORT_INVENTORY_ITEMS.length);
 		var secWtTotal = getTotalSectionWeightOfSelectedRecords();
-
+		console.log(secWtTotal);
 
 	
 		for(var i=0;i<SELECTED_PORT_INVENTORY_ITEMS.length;i++){
@@ -1644,13 +1644,19 @@ function dp2(num){
 }
 
 function getTotalSectionWeightOfSelectedRecords(){
-	var secWtTotal = 0;
+	/* var secWtTotal = 0;
 	for(var i=0;i<SELECTED_PORT_INVENTORY_ITEMS.length;i++){
 		var item = SELECTED_PORT_INVENTORY_ITEMS[i];
 		secWtTotal = Number(item.balQty) + secWtTotal;
 	}
+
+	var sectionWtTotal = Number($("#portOutSectionWtTd").html());
 	
-	return secWtTotal;
+	return secWtTotal; */
+
+	var sectionWtTotal = Number($("#portOutSectionWtTd").html());
+	console.log(sectionWtTotal);
+	return sectionWtTotal;
 }
 
 

@@ -6,6 +6,7 @@
 <%@taglib uri="/WEB-INF/struts-bean.tld" prefix="bean"%>
 <%@taglib uri="/WEB-INF/struts-logic.tld" prefix="logic"%>
 <%@taglib uri="/WEB-INF/struts-core.tld" prefix="c"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <%
 	UserInfoVO userInfoVO = (UserInfoVO) session
@@ -151,11 +152,18 @@
 										value="${report.length}" /></td>
 								<td data-type="number" data-step="1" data-name="qty"><c:out
 										value="${report.qty}" /></td>
-								<td data-type="number" data-step="0.001" data-name="secWt"><c:out
-										value="${report.secWt}" /></td>
-										<td data-type="number" data-step="0.001" data-name="actualWt"><c:out
-										value="${report.actualWt}" /></td>
-										<td data-type="text" data-name="heatNo"><c:out
+								<td data-type="number" data-step="0.001" data-name="secWt">
+									
+									<fmt:formatNumber type="number" maxFractionDigits="3" value="${report.secWt}" />
+								</td>
+									
+								<td data-type="number" data-step="0.01" data-name="actualWt">
+									<fmt:formatNumber 
+									type="number"
+									groupingUsed="false" 
+									maxFractionDigits="2" value="${report.actualWt}" />
+								</td>
+								<td data-type="text" data-name="heatNo"><c:out
 										value="${report.heatNo}" /></td>
 								<td data-type="text" data-name="plateNo"><c:out
 										value="${report.plateNo}" /></td>

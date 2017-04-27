@@ -34,6 +34,7 @@ import vkicl.report.form.WarehouseInwardReportForm;
 import vkicl.report.form.WarehouseOutwardReportForm;
 import vkicl.util.Converter;
 import vkicl.util.PropFileReader;
+import vkicl.util.SectionWeightCalculator;
 import vkicl.vo.PortInwardDetailsVO;
 import vkicl.vo.UserInfoVO;
 
@@ -666,17 +667,27 @@ public class ReportDaoImpl extends BaseDaoImpl {
 					report.setGrade(formatOutput(rs.getString("grade")));
 					report.setMillName(formatOutput(rs.getString("mill_name")));
 					report.setMaterialType(formatOutput(rs.getString("material_type")));
-					report.setLength(rs.getInt("length"));
-					report.setWidth(rs.getInt("width"));
-					report.setThickness(rs.getDouble("thickness"));
+					
+					
+					Double t = rs.getDouble("thickness");
+					Integer l = rs.getInt("length");
+					Integer w = rs.getInt("width");
+					Integer q = rs.getInt("quantity");
+					
+					report.setLength(l);
+					report.setWidth(w);
+					report.setThickness(t);
 
 					report.setHeatNo(formatOutput(rs.getString("heat_no")));
 					report.setPlateNo(formatOutput(rs.getString("plate_no")));
 					report.setLocation(formatOutput(rs.getString("location")));
-					report.setQty(rs.getInt("quantity"));
+					report.setQty(q);
 
 					report.setVehicleDate(Converter.dateToString(Converter.sqlDateToDate(rs.getDate("Date_Inward"))));
-					report.setSecWt(rs.getDouble("section_wt"));
+					//report.setSecWt(rs.getDouble("section_wt"));
+					Double secWt = SectionWeightCalculator.calculateSectionWeight(t, l, w, q);
+					report.setSecWt(secWt);
+					
 					report.setSecWtUnit(formatOutput(rs.getString("section_wt_unit")));
 					report.setMaterialId(rs.getInt("material_id"));
 					report.setFileName(rs.getString("file_name"));
