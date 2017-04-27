@@ -110,7 +110,7 @@ System.out.println("----------------->>>"+dispatchNo);
 	</div>	
 </div>
 <div>
-	<button onclick="submitWarehouseOutward()">Submit</button>
+	<button onclick="submitWarehouseOutward()" class="btn btn-success">Submit</button>
 </div>
 
 <script>

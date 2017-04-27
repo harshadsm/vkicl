@@ -1174,7 +1174,7 @@ public class WarehouseDaoImpl extends BaseDaoImpl {
 			cs.setString(2, "");
 			cs.setInt(3, form.getDispatchOrderId());
 			cs.setString(4, formatInput(form.getVehicleNumber()));
-			cs.setString(5, formatInput(form.getVehicleDate()));
+			cs.setDate(5, convertStringToDate(formatInput(form.getVehicleDate()), "dd/MM/yy"));
 			cs.setString(6, userInfoVO.getUserName());
 			cs.registerOutParameter(9, java.sql.Types.VARCHAR);
 			cs.registerOutParameter(10, java.sql.Types.INTEGER);
