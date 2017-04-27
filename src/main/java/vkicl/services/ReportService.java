@@ -12,10 +12,12 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
+import vkicl.daoImpl.DeliveryNoteDaoImpl;
 import vkicl.daoImpl.PortPurchaseOrderDaoImpl;
 import vkicl.daoImpl.ReportDaoImpl;
 import vkicl.util.Constants;
 import vkicl.util.PropFileReader;
+import vkicl.util.Utils;
 import vkicl.vo.UserInfoVO;
 
 public class ReportService extends HttpServlet {
@@ -47,7 +49,8 @@ public class ReportService extends HttpServlet {
 					message = impl.updatePortInwardReport(map, userInfoVO);
 				} else if (method.equals("updatePortOutwardReport")
 						&& userInfoVO.hasAccess(Constants.Apps.PORT_ENTRY)) {
-					message = impl.updatePortOutwardReport(map, userInfoVO);
+					message = updatePortOutwardReport(map, userInfoVO, impl);
+					//message = impl.updatePortOutwardReport(map, userInfoVO);
 				} else if (method.equals("deletePortOutward") && userInfoVO.hasAccess(Constants.Apps.PORT_ENTRY)) {
 					message = impl.deletePortOutward(map);
 				} else if (method.equals("updateWarehouseInwardReport")
@@ -79,6 +82,20 @@ public class ReportService extends HttpServlet {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	private String updatePortOutwardReport(Map<String, String[]> map, UserInfoVO userInfoVO, ReportDaoImpl impl) {
+		String message = "ERROR 2039: Failed to update Port Outward Reocrd";
+		String dispatchedTo = Utils.fetchFromMap(map, "dispatchedTo");
+		if(dispatchedTo!=null && dispatchedTo.equalsIgnoreCase("TALOJA")){
+			message = impl.updatePortOutwardReport(map, userInfoVO);	
+		}else{
+			//Decide where and how to make the update
+			DeliveryNoteDaoImpl deliveryNoteDaoImpl = new DeliveryNoteDaoImpl();
+			deliveryNoteDaoImpl.updatePortOutward(map, userInfoVO);
+		}
+		
+		return message;
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
