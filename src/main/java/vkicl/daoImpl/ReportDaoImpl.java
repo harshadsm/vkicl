@@ -107,7 +107,8 @@ public class ReportDaoImpl extends BaseDaoImpl {
 		CallableStatement cs = null;
 		String query = "";
 		String message = "";
-		ArrayList<PortOutwardBean> reportList = null;
+		
+		ArrayList<PortOutwardBean> reportList = new ArrayList<PortOutwardBean>();
 		try {
 			conn = getConnection();
 
@@ -124,9 +125,9 @@ public class ReportDaoImpl extends BaseDaoImpl {
 			rs = cs.executeQuery();
 			message = cs.getString(6);
 			log.info("message = " + message);
-			if (null != rs && rs.next()) {
-				reportList = new ArrayList<PortOutwardBean>();
-				do {
+			if (null != rs) {
+				
+				while (rs.next()) {
 					PortOutwardBean report = new PortOutwardBean();
 
 					report.setId(rs.getInt("port_out_id"));
@@ -153,7 +154,7 @@ public class ReportDaoImpl extends BaseDaoImpl {
 					
 					reportList.add(report);
 					
-				} while (rs.next());
+				} 
 			}
 			log.debug("Total records found = "+reportList.size());
 			form.setReportList(reportList);
