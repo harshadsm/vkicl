@@ -191,8 +191,10 @@
 										value="${report.actualWt}" /></td>
 								<td data-type="text" data-name="invoice" ><c:out
 										value="${report.invoice}" /></td>
-								<td style="display: none;" data-type="text" data-name="toWarehouseOrCustomer" ><c:out
-										value="${report.toWarehouseOrCustomerHiddenField}" /></td>
+								<td style="display: none;" data-type="text" data-name="toWarehouseOrCustomer" >
+									<c:out
+										value="${report.toWarehouseOrCustomerHiddenField}" />
+								</td>
 								<!-- 		
 								<td data-type="text" data-name="actualWtUnit"><c:out
 										value="${report.actualWtUnit}" /></td>

@@ -150,7 +150,7 @@ public class ReportDaoImpl extends BaseDaoImpl {
 					report.setActualWt(rs.getDouble("actual_wt"));
 					report.setActualWtUnit(formatOutput(rs.getString("actual_wt_Unit")));
 					report.setInvoice(rs.getString("invoice"));
-					report.setToWarehouseOrCustomerHiddenField(rs.getString("warehouse_or_customer"));
+					report.setToWarehouseOrCustomerHiddenField(rs.getString("warehouse_or_customer").trim());
 					
 					reportList.add(report);
 					

@@ -89,16 +89,22 @@ public class ReportService extends HttpServlet {
 		//String dispatchedTo = Utils.fetchFromMap(map, "dispatchedTo");
 		String toWarehouseOrCustomer = Utils.fetchFromMap(map, "toWarehouseOrCustomer");
 		
-		log.debug("toWarehouseOrCustomer = "+toWarehouseOrCustomer);
-		//TO_WAREHOUSE and TO_CUSTOMER values comes from SP sp_report_port_outward
-		if(toWarehouseOrCustomer!=null && toWarehouseOrCustomer.equalsIgnoreCase("TO_WAREHOUSE")){
-			message = impl.updatePortOutwardReport(map, userInfoVO);	
-		}else if(toWarehouseOrCustomer!=null && toWarehouseOrCustomer.equalsIgnoreCase("TO_CUSTOMER")){
-			//Decide where and how to make the update
-			DeliveryNoteDaoImpl deliveryNoteDaoImpl = new DeliveryNoteDaoImpl();
-			deliveryNoteDaoImpl.updatePortOutward(map, userInfoVO);
+		if(!StringUtils.isEmpty(toWarehouseOrCustomer)){
+			toWarehouseOrCustomer = toWarehouseOrCustomer.trim();
+			log.debug("toWarehouseOrCustomer = "+toWarehouseOrCustomer);
+			
+			//TO_WAREHOUSE and TO_CUSTOMER values comes from SP sp_report_port_outward
+			if(toWarehouseOrCustomer!=null && toWarehouseOrCustomer.equalsIgnoreCase("TO_WAREHOUSE")){
+				message = impl.updatePortOutwardReport(map, userInfoVO);	
+			}else if(toWarehouseOrCustomer!=null && toWarehouseOrCustomer.equalsIgnoreCase("TO_CUSTOMER")){
+				//Decide where and how to make the update
+				DeliveryNoteDaoImpl deliveryNoteDaoImpl = new DeliveryNoteDaoImpl();
+				deliveryNoteDaoImpl.updatePortOutward(map, userInfoVO);
+				message = "<root><message>Success</message></root>";
+			}
+		}else{
+			log.debug("toWarehouseOrCustomer is null. Sorry cant do any update.");
 		}
-		
 		return message;
 	}
 
