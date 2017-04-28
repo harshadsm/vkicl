@@ -100,7 +100,7 @@ public class ReportService extends HttpServlet {
 				//Decide where and how to make the update
 				DeliveryNoteDaoImpl deliveryNoteDaoImpl = new DeliveryNoteDaoImpl();
 				deliveryNoteDaoImpl.updatePortOutward(map, userInfoVO);
-				message = "<root><message>Success</message></root>";
+				message = "Success";
 			}
 		}else{
 			log.debug("toWarehouseOrCustomer is null. Sorry cant do any update.");
