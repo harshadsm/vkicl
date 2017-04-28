@@ -86,10 +86,14 @@ public class ReportService extends HttpServlet {
 
 	private String updatePortOutwardReport(Map<String, String[]> map, UserInfoVO userInfoVO, ReportDaoImpl impl) {
 		String message = "ERROR 2039: Failed to update Port Outward Reocrd";
-		String dispatchedTo = Utils.fetchFromMap(map, "dispatchedTo");
-		if(dispatchedTo!=null && dispatchedTo.equalsIgnoreCase("TALOJA")){
+		//String dispatchedTo = Utils.fetchFromMap(map, "dispatchedTo");
+		String toWarehouseOrCustomer = Utils.fetchFromMap(map, "toWarehouseOrCustomer");
+		
+		log.debug("toWarehouseOrCustomer = "+toWarehouseOrCustomer);
+		//TO_WAREHOUSE and TO_CUSTOMER values comes from SP sp_report_port_outward
+		if(toWarehouseOrCustomer!=null && toWarehouseOrCustomer.equalsIgnoreCase("TO_WAREHOUSE")){
 			message = impl.updatePortOutwardReport(map, userInfoVO);	
-		}else{
+		}else if(toWarehouseOrCustomer!=null && toWarehouseOrCustomer.equalsIgnoreCase("TO_CUSTOMER")){
 			//Decide where and how to make the update
 			DeliveryNoteDaoImpl deliveryNoteDaoImpl = new DeliveryNoteDaoImpl();
 			deliveryNoteDaoImpl.updatePortOutward(map, userInfoVO);
