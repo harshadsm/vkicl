@@ -77,6 +77,11 @@
 		<put name="body" value="/jsp/port/port-outward-2.jsp" />
 	</definition>
 
+	<definition name="actualWeightUpdateAtInwardDefn" extends="baseDefn">
+		<put name="title" value="Actual Weight Update At Inward" />
+		<put name="body" value="/jsp/actual_weight_update/atInward.jsp" />
+	</definition>
+	
 	<!-- WAREHOUSE STARTS HERE -->
 
 	<definition name="warehouseInwardDefn" extends="baseDefn">

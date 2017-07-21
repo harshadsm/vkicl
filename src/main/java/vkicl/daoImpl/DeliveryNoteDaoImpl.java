@@ -406,10 +406,11 @@ public class DeliveryNoteDaoImpl extends BaseDaoImpl {
 		PreparedStatement statement = null;
 		try {
 			conn = getConnection();
-			String sql = "update delivery_notes set invoice = ? where id = ?";
+			String sql = "update delivery_notes set invoice = ?, actual_wt = ? where id = ?";
 			statement = conn.prepareStatement(sql);
 			statement.setString(1, fetchFromMap(map, "invoice"));
-			statement.setString(2, fetchFromMap(map, "id"));
+			statement.setString(2, fetchFromMap(map, "actualWt"));
+			statement.setString(3, fetchFromMap(map, "id"));
 			
 
 			statement.executeUpdate();

@@ -114,6 +114,10 @@
 			name="PortOutwardForm">
 			<forward name="success" path="portOutwardDetailsDefn_2" />
 		</action>
+		
+		<action path="/actual-weight-update-at-inward" type="vkicl.action.ActualWeightUpdateAtInwardAction">
+			<forward name="success" path="actualWeightUpdateAtInwardDefn" />
+		</action>
 
 		<action path="/warehouse-inward" type="vkicl.action.WarehouseInwardAction"
 			name="WarehouseInwardForm">
