@@ -70,6 +70,7 @@
 								<!-- <li><a href="./warehouse-inward.do">Inwards (Old)</a></li> -->
 								<li><a href="./warehouse-dispatch.do">Dispatch Order</a></li>
 								<li><a href="./warehouse-dispatch-report.do">Outwards</a></li>
+								<li><a href="./actual-weight-update-at-inward.do">Update Actual Weight (Inward)</a></li>
 								<%
 									}
 								%>

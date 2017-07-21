@@ -67,6 +67,10 @@
 		<servlet-class>vkicl.action.PackingListJsonServlet2</servlet-class>
 	</servlet>
 	<servlet>
+		<servlet-name>ActualWeightUpdateAtInwardJsonServlet</servlet-name>
+		<servlet-class>vkicl.action.ActualWeightUpdateAtInwardJsonServlet</servlet-class>
+	</servlet>
+	<servlet>
 		<servlet-name>StockBalDetailsJsonServlet</servlet-name>
 		<servlet-class>vkicl.action.StockBalDetailsJsonServlet</servlet-class>
 	</servlet>
@@ -164,6 +168,10 @@
 	<servlet-mapping>
 		<servlet-name>PackingListJsonServlet2</servlet-name>
 		<url-pattern>/packingListJsonServlet2</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ActualWeightUpdateAtInwardJsonServlet</servlet-name>
+		<url-pattern>/actualWeightUpdateAtInwardJsonServlet</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>StockBalDetailsJsonServlet</servlet-name>
