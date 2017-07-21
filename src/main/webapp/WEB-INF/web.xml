@@ -71,6 +71,10 @@
 		<servlet-class>vkicl.action.ActualWeightUpdateAtInwardJsonServlet</servlet-class>
 	</servlet>
 	<servlet>
+		<servlet-name>ActualWeightUpdateAtInwardServlet</servlet-name>
+		<servlet-class>vkicl.action.ActualWeightUpdateAtInwardServlet</servlet-class>
+	</servlet>
+	<servlet>
 		<servlet-name>StockBalDetailsJsonServlet</servlet-name>
 		<servlet-class>vkicl.action.StockBalDetailsJsonServlet</servlet-class>
 	</servlet>
@@ -173,6 +177,12 @@
 		<servlet-name>ActualWeightUpdateAtInwardJsonServlet</servlet-name>
 		<url-pattern>/actualWeightUpdateAtInwardJsonServlet</url-pattern>
 	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ActualWeightUpdateAtInwardServlet</servlet-name>
+		<url-pattern>/actualWeightUpdateAtInwardServlet</url-pattern>
+	</servlet-mapping>
+	
+	
 	<servlet-mapping>
 		<servlet-name>StockBalDetailsJsonServlet</servlet-name>
 		<url-pattern>/stockBalDetailsJsonServlet</url-pattern>

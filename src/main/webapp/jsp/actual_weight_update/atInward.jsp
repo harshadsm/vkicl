@@ -17,6 +17,7 @@ console.log("Going to jqgrid");
 $("#packingListGrid").jqGrid(
 		{
 			url : './actualWeightUpdateAtInwardJsonServlet',
+			editurl : './actualWeightUpdateAtInwardServlet',
 			datatype : 'json',
 			
 			mtype : 'POST',
@@ -169,11 +170,15 @@ $("#packingListGrid").jqGrid(
 				name : 'actual_weight',
 				index : 'actual_weight',
 				width : 200,
-				editable : false,
+				editable : true,
+				editrules : {
+					required : true
+				},
 				editoptions : {
-					readonly : true,
+					
 					size : 10
 				},
+				
 				align : 'center', 
 				sortable:true,
 				search:true,
@@ -184,6 +189,9 @@ $("#packingListGrid").jqGrid(
 			],
 			postData : {
 			},
+			cellEdit: true,
+			cellsubmit : 'remote',
+			cellurl : './actualWeightUpdateAtInwardServlet',
 			rowNum : 10,
 			rowList : [ 10, 20, 30 ,40, 50, 60 ],
 			height : 280,
@@ -212,7 +220,26 @@ $("#packingListGrid").jqGrid(
 	        gridComplete: function(){
 	        	
 	        	console.log("adsf");
-	        	}
+	        }, 
+	        beforeSubmitCell: function(rowid, cellname, value, iRow, iCol){
+		        
+				console.log("rowid = "+rowid);
+				console.log("cellname = "+cellname);
+				console.log("value = "+value);
+				console.log("iRow = "+iRow);
+				console.log("iCol = "+iCol);
+				var rowObject = jQuery("#packingListGrid").jqGrid('getRowData',rowid); 
+        		console.log(rowObject);
+				var port_out_shipment_id = rowObject.port_out_shipment_id;
+				var actualWeight = value;
+				var parametersToSubmit = {port_out_shipment_id:port_out_shipment_id};
+        		console.log(parametersToSubmit);
+				
+		        return parametersToSubmit;
+		    },
+		    afterSaveCell: function(rowid, cellname, value, iRow, iCol){
+			    bootbox.alert("Actual Weight Updated successfully to "+value+"!");
+			} 
 		});
 });
 </script>

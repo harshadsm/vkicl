@@ -75,4 +75,12 @@ public class PortOutwardShipmentService {
 		return searchParam;
 	}
 
+	public void updateActualWeightOfPortOutwardShipment(Integer id, Double actualWeight) {
+		logger.debug("Going to update port_outward_shipment.id = "+id);
+		logger.debug("Going to update port_outward_shipment.actualWeight = "+actualWeight);
+		
+		PortOutwardShipmentDaoImpl portOutwardShipmentDaoImpl = new PortOutwardShipmentDaoImpl();
+		portOutwardShipmentDaoImpl.updateActualWeightOfPortOutwardShipment(id, actualWeight);
+	}
+
 }

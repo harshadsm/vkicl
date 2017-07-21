@@ -305,4 +305,31 @@ public class PortOutwardShipmentDaoImpl extends BaseDaoImpl{
 
 		return limitClause;
 	}
+
+	public void updateActualWeightOfPortOutwardShipment(Integer portOutwardShipmentId, Double actualWeight) {
+		Connection conn = null;
+		ResultSet rs = null;
+		CallableStatement cs = null;
+		StringBuffer q = new StringBuffer();
+
+		try {
+			conn = getConnection();
+
+			q.append(" update port_outward_shipment set actual_weight = ? where port_out_shipment_id = ? ");
+			String query = q.toString();
+
+			logger.info("query = " + query);
+			cs = conn.prepareCall(query);
+			cs.setDouble(1, actualWeight);
+			cs.setInt(2, portOutwardShipmentId);
+			int recordsUpdated = cs.executeUpdate();
+			
+			logger.debug("Update successful "+recordsUpdated);
+		} catch (Exception e) {
+			logger.error("Some error", e);
+		} finally {
+			closeDatabaseResources(conn, rs, cs);
+		}
+		
+	}
 }
