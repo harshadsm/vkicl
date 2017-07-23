@@ -30,11 +30,50 @@ function validateForm() {
 		bootbox.alert("Please enter vehicleNumber");
 		return false;
 	} 
+
+	if(!isValidDeliveryQuantity()){
+		return false;
+	}
 	
 		
-return commonSubmit();
+	return commonSubmit();
 		
 }
+
+function isValidDeliveryQuantity(){
+	var x = true;
+	
+	var orderedQtyArr = $("[name='orderedQuantity']");
+	var deliveryQuantityArr = $("[name='deliveryQuantity']");
+	
+	$.each(orderedQtyArr, function(i,elem){
+		var $elem = $(elem);
+		var orderedQty = Number($elem.val());
+		var cnt = $elem.attr("data-cnt");
+		var deliveryQtyElementId = "deliveryQuantity-"+cnt;
+		var deliveryQty = 0;
+		try{
+			deliveryQty = Number($("#"+deliveryQtyElementId).val());
+		}catch(e){
+			console.log("There is some problem");
+			console.log(e);
+		}
+		
+
+		if(deliveryQty > orderedQty){
+			bootbox.alert("ERROR 2019: Delivery quantity cannot be greater than ordered quantity. Delivery quantity ["+deliveryQty+"] is greater than ordered quantity ["+orderedQty+"]");
+			x = false;
+			return false;//This is to skip to next iteration
+		}
+		console.log(orderedQty + " - "+ deliveryQty);
+		
+	});
+	
+	return x;
+	
+}
+
+
 
 
 function deleteDeliveryNoteLineItems(id) {
@@ -178,10 +217,10 @@ function deleteDeliveryNoteLineItems(id) {
 								<td><input disabled  type='label' value="<%=record.getMaterialType() %>"/></td>
 								<td><input disabled  type='label' value="<%=record.getMillName() %>"/></td>
 								<td><input disabled  type='label' value="<%=record.getOrderedQuantity() %>"/>
-								<input   type='hidden' name="orderedQuantity" id="orderedQuantity" value="<%=record.getOrderedQuantity() %>" />
+								<input   type='hidden' name="orderedQuantity" id="orderedQuantity-<%=cnt %>" data-cnt="<%=cnt %>" value="<%=record.getOrderedQuantity() %>" />
 								</td>
 								<td><input disabled  type='label' value="<%=record.getPendingQuantity() %>"/></td>
-								<td><input number digits="" type="number"  name="deliveryQuantity" id="deliveryQuantity" value="<%=record.getDeliveryQuantity() %>"/></td>
+								<td><input number digits="" type="number"  name="deliveryQuantity" id="deliveryQuantity-<%=cnt %>" value="<%=record.getDeliveryQuantity() %>"/></td>
 							</tr>
 					<% } %>
 						
