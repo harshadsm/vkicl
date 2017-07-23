@@ -283,7 +283,6 @@ function progressHandlingFunction(e) {
 							<th></th>
 							<th></th>
 							<th></th>
-							<th></th>
 							<th>Total</th>
 							<th id="qtyTotal">Quantity</th>
 							<th></th>
