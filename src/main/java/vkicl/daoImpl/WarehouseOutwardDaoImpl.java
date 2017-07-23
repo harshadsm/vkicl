@@ -18,7 +18,9 @@ import vkicl.util.Converter;
 import vkicl.util.JqGridSearchParameterHolder;
 import vkicl.util.JqGridSearchParameterHolder.Rule;
 import vkicl.vo.PortInwardRecordVO;
+import vkicl.vo.PortOutwardShipmentVO;
 import vkicl.vo.WarehouseOutwardReportVO;
+import vkicl.vo.WarehouseOutwardVO4;
 
 public class WarehouseOutwardDaoImpl extends BaseDaoImpl{
 	
@@ -272,4 +274,186 @@ public class WarehouseOutwardDaoImpl extends BaseDaoImpl{
 //		}
 		return orderByClause;
 	}
+
+	public Integer fetchWarehouseOutwardRecordCount(String orderByFieldName, String order, JqGridSearchParameterHolder searchParam) throws SQLException {
+		List<PortInwardRecordVO> list = new ArrayList<PortInwardRecordVO>();
+		Connection conn = null;
+		ResultSet rs = null;
+		CallableStatement cs = null;
+
+		int count = 0;
+		try {
+			conn = getConnection();
+//			String count_sql = " SELECT " + " count(*) " + " FROM ("
+//					+ "select * from warehouse_outward wo "
+//					+ processSearchCriteria(searchParam)
+//					+ ") a";
+			String count_sql = "select count(*) from ("+composeQueryForWarehouseOutward(orderByFieldName, order, searchParam)+" ) a";
+			log.info("query = " + count_sql);
+
+			cs = conn.prepareCall(count_sql);
+
+			rs = cs.executeQuery();
+			if (null != rs && rs.next()) {
+
+				do {
+					count = rs.getInt(1);
+
+					log.debug("Row count === " + count);
+				} while (rs.next());
+
+			}
+
+		} catch (Exception e) {
+			log.error("Some error", e);
+		} finally {
+			closeDatabaseResources(conn, rs, cs);
+		}
+		return count;
+	}
+	
+	private String composeQueryForWarehouseOutward(String orderByFieldName, String order, JqGridSearchParameterHolder searchParam) {
+		String query;
+		StringBuffer q = new StringBuffer();
+		q.append(" select   ");
+		q.append(" warehouse_outward_id, ");
+		q.append(" actual_wt, ");
+		q.append(" actual_ut, ");
+		q.append(" dispatchNo, ");
+		q.append(" vehicle_no, ");
+		q.append(" vehicle_dt, ");
+		q.append(" create_ui, ");
+		q.append(" update_ui, ");
+		q.append(" create_ts, ");
+		q.append(" update_ts, ");
+		q.append(" dispatch_detail_id, ");
+		q.append(" delivered_quantity, ");
+		q.append(" handled_by ");
+		q.append(" from warehouse_outward ");
+		
+		
+		//q.append(" order by warehouse_outward_id desc;");
+		
+		//String sql = " select * from warehouse_outward "
+		String sql = q.toString()
+				+ processSearchCriteria(searchParam) + " " + composeOrderByClause(orderByFieldName, order) ;
+		query = sql;
+		return query;
+	}
+	
+	
+	public List<WarehouseOutwardVO4> fetchWarehouseOutwardList(int pageNo, int pageSize, long total,
+			String orderByFieldName, String order, JqGridSearchParameterHolder searchParam) throws SQLException {
+		List<WarehouseOutwardVO4> list = new ArrayList<WarehouseOutwardVO4>();
+		Connection conn = null;
+		ResultSet rs = null;
+		CallableStatement cs = null;
+		String query = "";
+
+		try {
+			conn = getConnection();
+
+			query = composeQueryForWarehouseOutward(orderByFieldName, order, searchParam)
+			+ " " + composeLimitClause(pageNo, pageSize, total);
+			log.info("query = " + query);
+
+			cs = conn.prepareCall(query);
+
+			rs = cs.executeQuery();
+			if (null != rs && rs.next()) {
+
+				do {
+					WarehouseOutwardVO4 vo = new WarehouseOutwardVO4();
+					vo.setActual_ut(rs.getString("actual_ut"));
+					vo.setActual_wt(rs.getDouble("actual_wt"));
+					vo.setCreate_ts(rs.getDate("create_ts"));
+					vo.setCreate_ui(rs.getString("create_ui"));
+					vo.setDelivered_quantity(rs.getInt("delivered_quantity"));
+					vo.setDispatch_detail_id(rs.getInt("dispatch_detail_id"));
+					vo.setDispatchNo(rs.getInt("dispatchNo"));
+					vo.setHandled_by(rs.getString("handled_by"));
+					vo.setUpdate_ts(rs.getDate("update_ts"));
+					vo.setUpdate_ui(rs.getString("update_ui"));
+					vo.setVehicle_dt(rs.getDate("vehicle_dt"));
+					vo.setVehicle_no(rs.getString("vehicle_no"));
+					vo.setWarehouse_outward_id(rs.getInt("warehouse_outward_id"));
+					
+					
+					list.add(vo);
+					
+				} while (rs.next());
+
+			}
+
+		} catch (Exception e) {
+			log.error("Some error", e);
+		} finally {
+			closeDatabaseResources(conn, rs, cs);
+		}
+		return list;
+	}
+	
+	/**
+	 * 1 = 0 - 20
+	 * 2 = 20 - 20
+	 * 3 = 40 - 20
+	 * @param pageNo
+	 * @param pageSize
+	 * @param total
+	 * @return
+	 */
+	private String composeLimitClause(int pageNo, int pageSize, Long total) {
+		Integer start = 0;
+		Integer noOfRecordsToFetch = pageSize;
+		String limitClause = " LIMIT " + start + "," + noOfRecordsToFetch;
+		
+		Integer totalPages = total.intValue() / pageSize;
+		if(total.intValue() % pageSize > 0){
+			totalPages++;
+		}
+		if(pageNo > totalPages){
+			pageNo = totalPages;
+		}
+		
+		if (pageSize > total) {
+			return limitClause;
+		} else {
+
+			start = (pageNo - 1) * pageSize;
+			
+			limitClause = "LIMIT " + start + "," + noOfRecordsToFetch;
+		}
+
+		return limitClause;
+	}
+	
+	
+
+	public void updateActualWeightOfWarehouseOutward(Integer warehouse_outward_id, Double actualWeight) {
+		Connection conn = null;
+		ResultSet rs = null;
+		CallableStatement cs = null;
+		StringBuffer q = new StringBuffer();
+
+		try {
+			conn = getConnection();
+
+			q.append(" update warehouse_outward set actual_wt = ? where warehouse_outward_id = ? ");
+			String query = q.toString();
+
+			log.info("query = " + query);
+			cs = conn.prepareCall(query);
+			cs.setDouble(1, actualWeight);
+			cs.setInt(2, warehouse_outward_id);
+			int recordsUpdated = cs.executeUpdate();
+			
+			log.debug("Update successful "+recordsUpdated);
+		} catch (Exception e) {
+			log.error("Some error", e);
+		} finally {
+			closeDatabaseResources(conn, rs, cs);
+		}
+		
+	}
+
 }

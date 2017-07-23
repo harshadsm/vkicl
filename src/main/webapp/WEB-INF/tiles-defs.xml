@@ -81,6 +81,11 @@
 		<put name="title" value="Actual Weight Update At Inward" />
 		<put name="body" value="/jsp/actual_weight_update/atInward.jsp" />
 	</definition>
+
+	<definition name="actualWeightUpdateAtOutwardDefn" extends="baseDefn">
+		<put name="title" value="Actual Weight Update At Outward" />
+		<put name="body" value="/jsp/actual_weight_update/atOutward.jsp" />
+	</definition>
 	
 	<!-- WAREHOUSE STARTS HERE -->
 
