@@ -7,6 +7,10 @@
 	<definition name="fetchPortOutwardShipmentDetailsHtml" template="/jsp/actual_weight_update/popups/port_outward_details/port_outward_details_popup.jsp">
 		
 	</definition>
+	<definition name="fetchWarehouseOutwardDetailsHtml" template="/jsp/actual_weight_update/popups/warehouse_outward_details/warehouse_outward_details_popup.jsp">
+		
+	</definition>
+
 
 	<definition name="baseDefn" template="/jsp/tiles/baseLayout.jsp">
 		<put name="title" value="Project" />

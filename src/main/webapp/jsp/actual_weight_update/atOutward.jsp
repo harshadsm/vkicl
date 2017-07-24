@@ -262,7 +262,26 @@ $("#packingListGrid").jqGrid(
 		    },
 		    afterSaveCell: function(rowid, cellname, value, iRow, iCol){
 			    bootbox.alert("Actual Weight Updated successfully to "+value+"!");
+			},
+			ondblClickRow: function (rowid, iRow, iCol, e){
+				var rowData = $(this).getRowData(rowid); 
+				console.log(rowData);
+				var warehouse_outward_id = rowData.warehouse_outward_id;
+
+				fetchWarehouseOutwardDetails(warehouse_outward_id);
 			} 
 		});
 });
+
+function fetchWarehouseOutwardDetails(warehouse_outward_id){
+	$.ajax({
+		url:'fetchWarehouseOutwardDetailsHtml.do?warehouseOutwardId='+warehouse_outward_id,
+		success:function(resp){
+			bootbox.alert(resp);
+		},
+		error:function(resp){
+			bootbox.alert(resp);
+		}
+	});
+}
 </script>
