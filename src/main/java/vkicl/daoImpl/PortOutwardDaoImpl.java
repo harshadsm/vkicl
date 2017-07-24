@@ -204,4 +204,88 @@ public class PortOutwardDaoImpl extends BaseDaoImpl {
 
 	}
 
+	public List<PortOutwardBean2> getByPortOutwardShipmentId(Integer portOutwardShipmentId) throws Exception {
+		List<PortOutwardBean2> list = new ArrayList<PortOutwardBean2>();
+		Connection conn = null;
+		ResultSet rs = null;
+		CallableStatement cs = null;
+
+		try {
+
+			String query = " select * from port_outward where port_out_shipment_id = ? ";
+
+			logger.info(query);
+
+			conn = getConnection();
+			cs = conn.prepareCall(query);
+
+			cs.setInt(1, portOutwardShipmentId);
+
+			rs = cs.executeQuery();
+			PortOutwardBean2 b = null;
+			int c = 1;
+			if (rs != null) {
+				while (rs.next()) {
+					c = 1;
+					b = new PortOutwardBean2();
+					Long port_out_id = rs.getLong(c++);
+					Long port_out_shipment_id = rs.getLong(c++);
+					String vessel_name = rs.getString(c++);
+					Date vessel_Date = null;
+					java.sql.Date d = rs.getDate(c++);
+					if (d != null) {
+						vessel_Date = Converter.sqlDateToDate(d);
+					}
+
+					String be_no = rs.getString(c++);
+					String material_type = rs.getString(c++);
+					String grade = rs.getString(c++);
+					String description = rs.getString(c++);
+					Integer length = rs.getInt(c++);
+					Integer width = rs.getInt(c++);
+					Double thickness = rs.getDouble(c++);
+					Double actual_wt = rs.getDouble(c++);
+					String actual_wt_Unit = rs.getString(c++);
+					Double section_wt = rs.getDouble(c++);
+					String section_wt_unit = rs.getString(c++);
+					Integer quantity = rs.getInt(c++);
+					String create_ui = rs.getString(c++);
+					String update_ui = rs.getString(c++);
+					Date create_ts = Converter.sqlDateToDate(rs.getDate(c++));
+					Date update_ts = Converter.sqlDateToDate(rs.getDate(c++));
+
+					b.setPort_out_id(port_out_id);
+					b.setPort_out_shipment_id(port_out_shipment_id);
+					b.setVessel_name(vessel_name);
+					b.setVessel_Date(vessel_Date);
+					b.setBe_no(be_no);
+					b.setMaterial_type(material_type);
+					b.setGrade(grade);
+					b.setDescription(description);
+					b.setLength(length);
+					b.setWidth(width);
+					b.setThickness(thickness);
+					b.setActual_wt(actual_wt);
+					b.setActual_wt_Unit(actual_wt_Unit);
+					b.setSection_wt(section_wt);
+					b.setSection_wt_unit(section_wt_unit);
+					b.setQuantity(quantity);
+					b.setCreate_ts(create_ts);
+					b.setUpdate_ts(update_ts);
+					b.setCreate_ui(create_ui);
+					b.setUpdate_ui(update_ui);
+
+					list.add(b);
+				}
+			}
+
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			closeDatabaseResources(conn, rs, cs);
+		}
+
+		return list;
+	}
+
 }
