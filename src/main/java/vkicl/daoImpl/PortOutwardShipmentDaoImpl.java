@@ -95,7 +95,7 @@ public class PortOutwardShipmentDaoImpl extends BaseDaoImpl{
 //					+ "select * from warehouse_outward wo "
 //					+ processSearchCriteria(searchParam)
 //					+ ") a";
-			String count_sql = "select count(*) from ("+composeQueryForPortOutwardShipment(orderByFieldName, order, searchParam)+" ) a";
+			String count_sql = "select count(*) from ("+composeQueryForPortOutwardShipmentThatAreWarehouseInwarded(orderByFieldName, order, searchParam)+" ) a";
 			logger.info("query = " + count_sql);
 
 			cs = conn.prepareCall(count_sql);
@@ -119,7 +119,7 @@ public class PortOutwardShipmentDaoImpl extends BaseDaoImpl{
 		return count;
 	}
 	
-	private String composeQueryForPortOutwardShipment(String orderByFieldName, String order, JqGridSearchParameterHolder searchParam) {
+	private String composeQueryForPortOutwardShipmentThatAreWarehouseInwarded(String orderByFieldName, String order, JqGridSearchParameterHolder searchParam) {
 		String query;
 		StringBuffer q = new StringBuffer();
 		q.append(" select   ");
@@ -136,7 +136,11 @@ public class PortOutwardShipmentDaoImpl extends BaseDaoImpl{
 		q.append( " warehouse_inward_flag, " );
 		q.append( " actual_weight " );
 		q.append(" from port_outward_shipment ");
-		
+		q.append(" where port_out_shipment_id in ( ");
+		q.append(" select port_out_shipment_id from port_outward where port_out_id in( ");
+		q.append(" select distinct port_outward_id from port_outward_warehouse_inward_intersection ");
+		q.append(" ) ");
+		q.append(" ) ");
 		
 		//q.append(" order by warehouse_outward_id desc;");
 		
@@ -234,7 +238,7 @@ public class PortOutwardShipmentDaoImpl extends BaseDaoImpl{
 		try {
 			conn = getConnection();
 
-			query = composeQueryForPortOutwardShipment(orderByFieldName, order, searchParam)
+			query = composeQueryForPortOutwardShipmentThatAreWarehouseInwarded(orderByFieldName, order, searchParam)
 			+ " " + composeLimitClause(pageNo, pageSize, total);
 			logger.info("query = " + query);
 

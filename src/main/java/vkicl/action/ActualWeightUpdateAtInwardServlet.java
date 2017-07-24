@@ -59,6 +59,8 @@ public class ActualWeightUpdateAtInwardServlet extends HttpServlet {
 			
 			service.updateActualWeightOfPortOutwardShipment(id, actualWeight);
 			
+			
+			
 		}
 //		else if(handledBy!=null){
 //			service.updateHandledBy(id, handledBy);
