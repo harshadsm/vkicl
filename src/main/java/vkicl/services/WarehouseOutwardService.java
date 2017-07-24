@@ -15,6 +15,7 @@ import com.google.gson.Gson;
 
 import vkicl.daoImpl.PortOutwardShipmentDaoImpl;
 import vkicl.daoImpl.WarehouseOutwardDaoImpl;
+import vkicl.daoImpl.WarehouseOutwardTempDaoImpl;
 import vkicl.util.JqGridCustomResponse;
 import vkicl.util.JqGridParametersHolder;
 import vkicl.util.JqGridSearchParameterHolder;
@@ -83,5 +84,11 @@ public class WarehouseOutwardService {
 		
 		WarehouseOutwardDaoImpl warehouseOutwardDaoImpl = new WarehouseOutwardDaoImpl();
 		warehouseOutwardDaoImpl.updateActualWeightOfWarehouseOutward(id, actualWeight);
+	}
+
+	public void distributeActualWeightPerPlate(Integer warehouseOutwardId, Double actualWeight) {
+		WarehouseOutwardTempDaoImpl warehouseOutwardTempDaoImpl = new WarehouseOutwardTempDaoImpl();
+		warehouseOutwardTempDaoImpl.distributeActualWeightPerPlate(warehouseOutwardId,  actualWeight);
+		
 	}
 }

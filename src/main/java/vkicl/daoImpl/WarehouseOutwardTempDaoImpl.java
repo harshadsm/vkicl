@@ -2,6 +2,7 @@ package vkicl.daoImpl;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import vkicl.report.bean.WarehouseInwardDetailsBean;
 import vkicl.vo.WarehouseOutwardTempVO;
 
 public class WarehouseOutwardTempDaoImpl extends BaseDaoImpl {
@@ -35,7 +37,7 @@ public class WarehouseOutwardTempDaoImpl extends BaseDaoImpl {
 			cs.setInt(1, warehouseOutwardId);
 
 			rs = cs.executeQuery();
-			if (null != rs ) {
+			if (null != rs) {
 
 				while (rs.next()) {
 					WarehouseOutwardTempVO w = new WarehouseOutwardTempVO();
@@ -104,5 +106,80 @@ public class WarehouseOutwardTempDaoImpl extends BaseDaoImpl {
 			closeDatabaseResources(conn, rs, cs);
 		}
 
+	}
+
+	public void distributeActualWeightPerPlate(Integer warehouseOutwardId, Double actualWeight) {
+		// Find the warehouse outward temp records related to warehouseOutwardId
+		log.debug("Find the warehouse outward temp records related to warehouseOutwardId = " + warehouseOutwardId);
+		List<WarehouseOutwardTempVO> outwardTempRecords = getWarehouseOutwardTempRecordsByWarehouseOutwardId(
+				warehouseOutwardId);
+		// Distribute the actualWeight among the records in proportion to their
+		// section weight.
+
+		distributeActualWeightAmongTheOutwardTempRecords(outwardTempRecords, actualWeight);
+
+	}
+
+	private void distributeActualWeightAmongTheOutwardTempRecords(List<WarehouseOutwardTempVO> outwardTempRecords,
+			Double actualLorryWeight) {
+		//Find the total of section weight
+		Double totalSectionWeight = calculateTotalSectionWeight(outwardTempRecords);
+		Double multiplicationFactor = actualLorryWeight / totalSectionWeight;
+		
+		for(WarehouseOutwardTempVO widb:outwardTempRecords){
+			if(widb!=null && widb.getSect_wt()!=null){
+				widb.setActual_wt(widb.getSect_wt()*multiplicationFactor);
+			}
+		}
+		
+		saveDistributedWeightInDatabase(outwardTempRecords);
+		
+		
+	}
+
+	private Double calculateTotalSectionWeight(List<WarehouseOutwardTempVO> inwardedRecords) {
+		Double totalSectionWeight = 0d;
+		for(WarehouseOutwardTempVO widb:inwardedRecords){
+			if(widb!=null && widb.getSect_wt()!=null){
+				totalSectionWeight = totalSectionWeight + widb.getSect_wt();
+			}
+		}
+		return totalSectionWeight;
+	}
+
+	private void saveDistributedWeightInDatabase(List<WarehouseOutwardTempVO> outwardedRecords) {
+		Connection conn = null;
+		ResultSet rs = null;
+		CallableStatement cs = null;
+		String query = "";
+		String message = "Success";
+		int count = 0;
+		PreparedStatement statement = null;
+		try {
+			conn = getConnection();
+			String sql = "update warehouse_outward_temp set actual_wt = ?, update_ui = ?, update_ts = NOW()  WHERE outward_temp_id = ? ";
+			
+			for(WarehouseOutwardTempVO widb : outwardedRecords){
+				statement = conn.prepareStatement(sql);
+				statement.setDouble(1, widb.getActual_wt());
+				statement.setString(2, "some_admin_to_be_updated_later223143");
+				statement.setInt(3, widb.getOutward_temp_id());
+
+				statement.executeUpdate();
+	
+			}
+			
+			log.info("message = " + message);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			message = e.getMessage();
+			log.error(message);
+		} finally {
+			closeDatabaseResources(conn, rs, cs);
+		}
+
+		
+		
 	}
 }

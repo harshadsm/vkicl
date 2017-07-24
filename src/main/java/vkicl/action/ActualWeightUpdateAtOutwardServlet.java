@@ -60,6 +60,9 @@ public class ActualWeightUpdateAtOutwardServlet extends HttpServlet {
 			
 			service.updateActualWeightOfPortOutwardShipment(id, actualWeight);
 			
+			//As asked by Sourabh, I am distributing the actual weight and updating it in warehouse_outward_temp table.
+			service.distributeActualWeightPerPlate(id, actualWeight);
+			
 		}
 //		else if(handledBy!=null){
 //			service.updateHandledBy(id, handledBy);
