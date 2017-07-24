@@ -85,6 +85,7 @@ $("#packingListGrid").jqGrid(
 				name : 'create_ui',
 				index : 'create_ui',
 				width : 300,
+				hidden:true,
 				editable : false,
 				editoptions : {
 					readonly : true,
@@ -99,6 +100,7 @@ $("#packingListGrid").jqGrid(
 				name : 'delivered_quantity',
 				index : 'delivered_quantity',
 				width : 300,
+				hidden : true,
 				editable : false,
 				editoptions : {
 					readonly : true,
@@ -114,6 +116,7 @@ $("#packingListGrid").jqGrid(
 				name : 'dispatch_detail_id',
 				index : 'dispatch_detail_id',
 				width : 300,
+				hidden : true,
 				editable : false,
 				editoptions : {
 					readonly : true,
