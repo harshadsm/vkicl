@@ -203,7 +203,7 @@ $("#packingListGrid").jqGrid(
 			viewrecords : true,
 			sortorder : "desc",
 			
-			caption : "Actual Weight of the shipments arriving at Warehouse",
+			caption : "Shipments arrived at Warehouse",
 			emptyrecords : "Empty records",
 			loadonce : false,
 			loadComplete : function() {
