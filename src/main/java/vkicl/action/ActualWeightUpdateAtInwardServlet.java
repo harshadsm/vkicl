@@ -57,9 +57,11 @@ public class ActualWeightUpdateAtInwardServlet extends HttpServlet {
 			logger.debug("Going to update actual weight of warehouse_outward id = "+id);
 			logger.debug("Submitted actual weight = "+actualWeight);
 			
+			//Put the total actual weight in port outward shipment
 			service.updateActualWeightOfPortOutwardShipment(id, actualWeight);
 			
-			
+			//Distribute it among warehouse_inward_details records related to this port outward shipment record.
+			service.updateActualWeightOfWarehouseInwardDetailRecordsRelatedToThisPortOutwardShipment(id, actualWeight);
 			
 		}
 //		else if(handledBy!=null){

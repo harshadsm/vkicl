@@ -14,6 +14,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import com.google.gson.Gson;
 
 import vkicl.daoImpl.PortOutwardShipmentDaoImpl;
+import vkicl.daoImpl.WarehouseInwardDaoImpl;
 import vkicl.util.JqGridCustomResponse;
 import vkicl.util.JqGridParametersHolder;
 import vkicl.util.JqGridParametersHolder.JQGRID_PARAM_NAMES;
@@ -81,6 +82,15 @@ public class PortOutwardShipmentService {
 		
 		PortOutwardShipmentDaoImpl portOutwardShipmentDaoImpl = new PortOutwardShipmentDaoImpl();
 		portOutwardShipmentDaoImpl.updateActualWeightOfPortOutwardShipment(id, actualWeight);
+	}
+
+	public void updateActualWeightOfWarehouseInwardDetailRecordsRelatedToThisPortOutwardShipment(Integer portOutwardShipmentId,
+			Double actualWeight) {
+		
+		WarehouseInwardDaoImpl warehouseInwardDaoImpl = new WarehouseInwardDaoImpl();
+		warehouseInwardDaoImpl.distributeActualWeightAmongInwardedRecords(portOutwardShipmentId, actualWeight);
+		
+		
 	}
 
 }
