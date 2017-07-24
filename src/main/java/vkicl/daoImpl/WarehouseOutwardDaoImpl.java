@@ -230,7 +230,7 @@ public class WarehouseOutwardDaoImpl extends BaseDaoImpl{
 		q.append(" dd.dispatch_details_id, ");
 		q.append(" wo.vehicle_no, ");
 		q.append(" wo.vehicle_dt, ");
-		q.append(" wo.actual_wt, ");
+		q.append(" wot.actual_wt, ");
 		q.append("  ");
 		q.append(" dd.millName, ");
 		q.append(" dd.make, ");
