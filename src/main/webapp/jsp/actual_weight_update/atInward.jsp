@@ -239,7 +239,26 @@ $("#packingListGrid").jqGrid(
 		    },
 		    afterSaveCell: function(rowid, cellname, value, iRow, iCol){
 			    bootbox.alert("Actual Weight Updated successfully to "+value+"!");
+			},
+			ondblClickRow: function (rowid, iRow, iCol, e){
+				var rowData = $(this).getRowData(rowid); 
+				console.log(rowData);
+				var port_out_shipment_id = rowData.port_out_shipment_id;
+
+				fetchPortOutwardShipmentDetails(port_out_shipment_id);
 			} 
 		});
 });
+
+function fetchPortOutwardShipmentDetails(port_out_shipment_id){
+	$.ajax({
+		url:'fetchPortOutwardShipmentDetailsHtml.do?portOutwardShipmentId='+port_out_shipment_id,
+		success:function(resp){
+			bootbox.alert(resp);
+		},
+		error:function(resp){
+			bootbox.alert(resp);
+		}
+	});
+}
 </script>

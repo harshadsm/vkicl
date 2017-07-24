@@ -143,6 +143,11 @@
 			<forward name="success" path="warehouseInwardDefn2" />
 		</action>
 		
+		<action path="/fetchPortOutwardShipmentDetailsHtml" type="vkicl.action.FetchPortOutwardShipmentDetailsHtmlAction"
+			name="PortOutwardForm">
+			<forward name="success" path="fetchPortOutwardShipmentDetailsHtml" />
+		</action>
+		
 		<action path="/warehouse-dispatch" type="vkicl.action.WarehouseDispatchAction"
 			name="WarehouseDispatchForm">
 			<forward name="success" path="warehouseDispatchDefn" />
