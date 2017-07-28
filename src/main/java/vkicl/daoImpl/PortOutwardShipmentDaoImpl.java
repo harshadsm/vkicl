@@ -136,11 +136,11 @@ public class PortOutwardShipmentDaoImpl extends BaseDaoImpl{
 		q.append( " warehouse_inward_flag, " );
 		q.append( " actual_weight " );
 		q.append(" from port_outward_shipment ");
-		q.append(" where port_out_shipment_id in ( ");
-		q.append(" select port_out_shipment_id from port_outward where port_out_id in( ");
-		q.append(" select distinct port_outward_id from port_outward_warehouse_inward_intersection ");
-		q.append(" ) ");
-		q.append(" ) ");
+//		q.append(" where port_out_shipment_id in ( ");
+//		q.append(" select port_out_shipment_id from port_outward where port_out_id in( ");
+//		q.append(" select distinct port_outward_id from port_outward_warehouse_inward_intersection ");
+//		q.append(" ) ");
+//		q.append(" ) ");
 		
 		//q.append(" order by warehouse_outward_id desc;");
 		
