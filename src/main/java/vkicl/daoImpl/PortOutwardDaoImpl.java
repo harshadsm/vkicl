@@ -2,6 +2,7 @@ package vkicl.daoImpl;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Date;
@@ -10,6 +11,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import vkicl.report.bean.PortOutwardBean2;
+import vkicl.report.bean.WarehouseInwardDetailsBean;
 import vkicl.util.Constants;
 import vkicl.util.Converter;
 import vkicl.vo.PortOutwardRecordVO;
@@ -286,6 +288,130 @@ public class PortOutwardDaoImpl extends BaseDaoImpl {
 		}
 
 		return list;
+	}
+
+	public void distributeActualWeightAmongOutwardedRecords(Integer portOutwardShipmentId, Double actualWeight) {
+		// Find the warehouse inward records related to portOutwardShipmentId
+				logger.debug("Find the warehouse inward records related to portOutwardShipmentId = "+portOutwardShipmentId);
+				List<PortOutwardBean2> inwardedRecords = findInwardedRecordsForPortOutwardShipmentId(portOutwardShipmentId);
+				// Distribute the actualWeight among the records in proportion to their
+				// section weight.
+				
+				distributeActualWeightAmongTheOutwardedRecords(inwardedRecords, actualWeight);
+		
+	}
+	
+	private void distributeActualWeightAmongTheOutwardedRecords(List<PortOutwardBean2> outwardedRecords, Double actualLorryWeight) {
+		//Find the total of section weight
+		Double totalSectionWeight = calculateTotalSectionWeight(outwardedRecords);
+		Double multiplicationFactor = actualLorryWeight / totalSectionWeight;
+		
+		for(PortOutwardBean2 widb:outwardedRecords){
+			if(widb!=null && widb.getSection_wt()!=null){
+				widb.setActual_wt(widb.getSection_wt()*multiplicationFactor);
+			}
+		}
+		
+		saveDistributedWeightInDatabase(outwardedRecords);
+		
+	}
+	
+	private void saveDistributedWeightInDatabase(List<PortOutwardBean2> inwardedRecords) {
+		Connection conn = null;
+		ResultSet rs = null;
+		CallableStatement cs = null;
+		String query = "";
+		String message = "Success";
+		int count = 0;
+		PreparedStatement statement = null;
+		try {
+			conn = getConnection();
+			String sql = "update port_outward set actual_weight = ?, update_ui = ?, update_ts = NOW()  WHERE port_out_id = ? ";
+			
+			for(PortOutwardBean2 widb : inwardedRecords){
+				statement = conn.prepareStatement(sql);
+				statement.setDouble(1, widb.getActual_wt());
+				statement.setString(2, "some_admin_to_be_updated_later");
+				statement.setLong(3, widb.getPort_out_id());
+
+				statement.executeUpdate();
+	
+			}
+			logger.info("message = " + message);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			message = e.getMessage();
+			logger.error(message);
+		} finally {
+			closeDatabaseResources(conn, rs, cs);
+		}
+
+	}
+	
+	private Double calculateTotalSectionWeight(List<PortOutwardBean2> outwardedRecords) {
+		Double totalSectionWeight = 0d;
+		for(PortOutwardBean2 pob:outwardedRecords){
+			if(pob!=null && pob.getSection_wt()!=null){
+				totalSectionWeight = totalSectionWeight + pob.getSection_wt();
+			}
+		}
+		return totalSectionWeight;
+	}
+	
+	
+	private List<PortOutwardBean2> findInwardedRecordsForPortOutwardShipmentId(
+			Integer portOutwardShipmentId) {
+
+		List<PortOutwardBean2> list = new ArrayList<PortOutwardBean2>();
+		Connection conn = null;
+		ResultSet rs = null;
+		CallableStatement cs = null;
+		String query = "";
+		String message = "";
+		try {
+			conn = getConnection();
+
+			query = composeQueryToFindPortOutwardRecordsByPortOutwardShipmentId(portOutwardShipmentId);
+
+			logger.info("query = " + query);
+			cs = conn.prepareCall(query);
+			cs.setInt(1, portOutwardShipmentId);
+			rs = cs.executeQuery();
+
+			if (rs != null) {
+				while (rs.next()) {
+
+					PortOutwardBean2 vo = new PortOutwardBean2();
+					
+					vo.setPort_out_shipment_id(rs.getLong("port_out_shipment_id"));
+					vo.setSection_wt(rs.getDouble("section_wt"));
+					vo.setPort_out_id(rs.getLong("port_out_id"));
+					
+					list.add(vo);
+				}
+			}
+			logger.info("message = " + message);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			message = e.getMessage();
+
+		} finally {
+			closeDatabaseResources(conn, rs, cs);
+		}
+		return list;
+	}
+	
+	
+	public String composeQueryToFindPortOutwardRecordsByPortOutwardShipmentId(Integer portOutwardShipmentId) {
+		StringBuffer q = new StringBuffer();
+		
+		q.append(" select * from port_outward where port_out_shipment_id = ? ");
+		
+
+		return q.toString();
 	}
 
 }

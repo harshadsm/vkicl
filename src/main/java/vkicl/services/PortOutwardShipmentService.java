@@ -13,6 +13,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 
 import com.google.gson.Gson;
 
+import vkicl.daoImpl.PortOutwardDaoImpl;
 import vkicl.daoImpl.PortOutwardShipmentDaoImpl;
 import vkicl.daoImpl.WarehouseInwardDaoImpl;
 import vkicl.util.JqGridCustomResponse;
@@ -90,6 +91,13 @@ public class PortOutwardShipmentService {
 		WarehouseInwardDaoImpl warehouseInwardDaoImpl = new WarehouseInwardDaoImpl();
 		warehouseInwardDaoImpl.distributeActualWeightAmongInwardedRecords(portOutwardShipmentId, actualWeight);
 		
+		
+	}
+
+	public void updateActualWeightOfPortOutwardRecordsRelatedToThisPortOutwardShipment(Integer portOutwardShipmentId,
+			Double actualWeight) {
+		PortOutwardDaoImpl portOutwardDaoImpl = new PortOutwardDaoImpl();
+		portOutwardDaoImpl.distributeActualWeightAmongOutwardedRecords(portOutwardShipmentId, actualWeight);
 		
 	}
 

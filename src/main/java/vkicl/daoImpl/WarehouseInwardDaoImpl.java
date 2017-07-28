@@ -73,8 +73,6 @@ public class WarehouseInwardDaoImpl extends BaseDaoImpl {
 			closeDatabaseResources(conn, rs, cs);
 		}
 
-		
-		
 	}
 
 	private Double calculateTotalSectionWeight(List<WarehouseInwardDetailsBean> inwardedRecords) {

@@ -48,20 +48,26 @@ public class ActualWeightUpdateAtInwardServlet extends HttpServlet {
 		String actualWeightStr = request.getParameter("actual_weight");
 		String idStr = request.getParameter("port_out_shipment_id");
 		String handledBy = request.getParameter("handledBy");
-		Integer id = Integer.parseInt(idStr);
+		Integer portOutwardShipmentId = Integer.parseInt(idStr);
 		PortOutwardShipmentService service = new PortOutwardShipmentService();
 		
 		if(actualWeightStr!=null){
 			Double actualWeight = Double.parseDouble(actualWeightStr);
 			
-			logger.debug("Going to update actual weight of warehouse_outward id = "+id);
+			logger.debug("Going to update actual weight of warehouse_outward id = "+portOutwardShipmentId);
 			logger.debug("Submitted actual weight = "+actualWeight);
 			
 			//Put the total actual weight in port outward shipment
-			service.updateActualWeightOfPortOutwardShipment(id, actualWeight);
+			service.updateActualWeightOfPortOutwardShipment(portOutwardShipmentId, actualWeight);
 			
 			//Distribute it among warehouse_inward_details records related to this port outward shipment record.
-			service.updateActualWeightOfWarehouseInwardDetailRecordsRelatedToThisPortOutwardShipment(id, actualWeight);
+			//service.updateActualWeightOfWarehouseInwardDetailRecordsRelatedToThisPortOutwardShipment(id, actualWeight);
+			
+			//Distribute it among warehouse_inward_details records related to this port outward shipment record.
+			service.updateActualWeightOfPortOutwardRecordsRelatedToThisPortOutwardShipment(portOutwardShipmentId, actualWeight);
+			
+			
+			
 			
 		}
 //		else if(handledBy!=null){
