@@ -34,7 +34,8 @@ public class PortOutwardDaoImpl extends BaseDaoImpl {
 			java.sql.Date vesseleDateSql = Converter.dateToSqlDate(vesselDate);
 			Double actual_wt = 0d;
 			String actual_wt_unit = "TON";
-			Double section_wt = -1d;
+			//E6*F6*G6*7.85/1000000000*H6
+			Double section_wt = vo.getLength() * vo.getWidth() * vo.getThickness() * 7.85 * vo.getOrderedQuantity() / 1000000000;
 			String section_wt_unit = "TON";
 
 			String query = "INSERT INTO port_outward " + " (port_out_shipment_id, vessel_name, vessel_date, "

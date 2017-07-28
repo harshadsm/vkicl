@@ -1380,6 +1380,15 @@ function addRowOfSelectedRecord(recordObj) {
 	var qtyTotal = Number(recordObj.availableQuantity);
 	var perUnitSectionWt = sectionWtTotal / qtyTotal;
 	perUnitSectionWt = $.number(perUnitSectionWt, 3, '.', '');
+	try{
+		var actualWtTotal = Number(recordObj.actualWt);
+		var perUnitActualWt = actualWtTotal / qtyTotal;
+		perUnitActualWt = $.number(perUnitActualWt, 3, '.', '');
+		
+	}catch(e){
+		console.error(e);
+		console.log("Error 201834: Some problem with parsing a number.");
+	}
 	
 	console.log("********************%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
 	console.log(recordObj);
@@ -1406,7 +1415,7 @@ function addRowOfSelectedRecord(recordObj) {
 			+ "<td><input type='text' readonly placeholder='Quantity' value='"+recordObj.orderedQuantity+"' name='availableQuantity' class='form-control port_out_item_quantity' id='port_out_item_quantity-" + id + "' data-attribute-parent-port-out-id='port_out_item_quantity-" + id + "' onchange='splitOnChange($(this).parent().parent().attr(\"id\"));'/></td>"
 			+ "<td><input type='text' readonly placeholder='balQty' value='"+perUnitSectionWt+"' name='balQty' class='form-control port_out_section_wt' id='port_out_section_wt-" + id + "' data-attribute-parent-port-out-sec-id='port_out_section_wt-" + id + "' /></td>"
 
-			+ "<td><input type='text' readonly placeholder='Actual Wt.' value='"+recordObj.actualWt+"' name='actualWt' class='form-control warehouse_inward_actual_wt' id='"+awId(recordObj)+"' data-attribute-parent-port-out-id='actualWt-" + id + "'/></td>"
+			+ "<td><input type='text' readonly placeholder='Actual Wt.' value='"+perUnitActualWt+"' name='actualWt' class='form-control warehouse_inward_actual_wt' id='"+awId(recordObj)+"' data-attribute-parent-port-out-id='actualWt-" + id + "'/></td>"
 			+ "<td><input type='text'          placeholder='Heat No' name='heatNoInput' class='form-control port_out_heatno' id='"+heatId(recordObj)+"' data-attribute-parent-port-out-id-actualwt='heatno-" + heatId(recordObj) + "'/></td>"
 			+ "<td><input type='text'          placeholder='Plate No' name='plateNoInput' class='form-control port_out_plateno' id='"+plateId(recordObj)+"'/></td>"
 			+ getLocationDropdownHtml(recordObj)
@@ -1449,7 +1458,7 @@ function addQuantitySumRow(quantitySum,sectionwtSum) {
 			+ "<td class='port_out_section_wt' id='portOutSectionWtTd'>"+sectionwtSum.toFixed(3)+"</td>"
 			// + "<td><div class='input-group'><input type='number' step='0.001' placeholder='Actual Weight' min='0' value='' name='actualWt' onchange='calcSecWtRow(\"row-"+ id+ "\");' onblur='calcSecWtRow(\"row-"+ id+ "\");' class='form-control' aria-label='...'><div class='input-group-btn weight-group'><input type='hidden' onchange='calcSecWtRow(\"row-"+ id+ "\");' onblur='calcSecWtRow(\"row-"+ id+ "\");' name='actualWtUnit' value='TON' /><button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown' aria-expanded='false'>TON <span class='caret'></span></button><ul class='dropdown-menu dropdown-menu-right' role='menu'><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>TON</a></li><li onclick='btnGroupChange(this);calcSecWtRow(\"row-"+ id+ "\");'><a>KG</a></li></ul></div></div></td>"
 			//+ "<td><input type='button' class='btn-danger delete-row' onclick='deleteRow($(this).parent().parent().attr(\"id\"));' value='-' /></td></tr>";
-			+ "<td><input type='text'  placeholder='Actual Weight Total (TON)' name='actualWeigthTotalInput' id='actualWeigthTotalInput' class='form-control' onchange='distributeActualWeightTotal()'/></td>"
+			//+ "<td><input type='text'   placeholder='Actual Weight Total (TON)' name='actualWeigthTotalInput' id='actualWeigthTotalInput' class='form-control' onchange='distributeActualWeightTotal()'/></td>"
 			+ "<td></td>";
 	$("#details-tbody").append(str);
 	
