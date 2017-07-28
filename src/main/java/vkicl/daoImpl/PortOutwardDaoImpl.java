@@ -326,7 +326,7 @@ public class PortOutwardDaoImpl extends BaseDaoImpl {
 		PreparedStatement statement = null;
 		try {
 			conn = getConnection();
-			String sql = "update port_outward set actual_weight = ?, update_ui = ?, update_ts = NOW()  WHERE port_out_id = ? ";
+			String sql = "update port_outward set actual_wt = ?, update_ui = ?, update_ts = NOW()  WHERE port_out_id = ? ";
 			
 			for(PortOutwardBean2 widb : inwardedRecords){
 				statement = conn.prepareStatement(sql);
