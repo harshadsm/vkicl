@@ -46,10 +46,14 @@ public class PortOutwardReportAction extends BaseAction {
 					userInfoVO, "query.unique.customerLocation");
 			ArrayList<LabelValueBean> gradeList = impl.getList(userInfoVO,
 					"query.unique.grade");
+			ArrayList<LabelValueBean> millNameList = impl.getList(userInfoVO, "query.unique.millName");
+			ArrayList<LabelValueBean> materialTypeList = impl.getList(userInfoVO, "query.unique.materialType");
 
 			portOutwardReportForm.setVesselNameList(vesselNameList);
 			portOutwardReportForm.setDispatchedToList(dispatchedToList);
 			portOutwardReportForm.setGradeList(gradeList);
+			portOutwardReportForm.setMillNamesList(millNameList);
+			portOutwardReportForm.setMaterialTypeList(materialTypeList);
 
 			genericListener = portOutwardReportForm.getGenericListener();
 			if (genericListener.equalsIgnoreCase("getReport")) {

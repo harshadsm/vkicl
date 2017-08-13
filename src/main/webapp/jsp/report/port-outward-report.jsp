@@ -67,6 +67,23 @@
 								<html:option value="ALL">ALL</html:option>
 								<html:optionsCollection property="gradeList" />
 							</html:select></td>
+						<td class="form-label"><label for="grade">Mill
+								Name</label></td>
+						<td><html:select property="millName" styleId="millName"
+								styleClass="form-control">
+								<html:option value="ALL">ALL</html:option>
+								<html:optionsCollection property="millNamesList" />
+							</html:select></td>
+					</tr>
+					<tr>
+						<td class="form-label"><label for="grade">Material
+								Type</label></td>
+						<td><html:select property="materialType" styleId="materialType"
+								styleClass="form-control">
+								<html:option value="ALL">ALL</html:option>
+								<html:optionsCollection property="materialTypeList" />
+							</html:select></td>
+						
 					</tr>
 					
 					

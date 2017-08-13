@@ -16,6 +16,7 @@ public class PortOutwardReportForm extends BaseForm {
 	private String millName = null;
 	private String dispatchedTo = null;
 	private String grade = null;
+	private String materialType = null;
  
 	private String invoiceNo = null;
 
@@ -26,8 +27,18 @@ public class PortOutwardReportForm extends BaseForm {
 	private ArrayList<LabelValueBean> dispatchedToList = null;
 	private ArrayList<LabelValueBean> gradeList = null;
 	private ArrayList<PortOutwardBean> reportList = null;
+	private ArrayList<LabelValueBean> millNamesList = null;
+	private ArrayList<LabelValueBean> materialTypeList = null;
 	
 	
+	public String getMaterialType() {
+		return materialType;
+	}
+
+	public void setMaterialType(String materialType) {
+		this.materialType = materialType;
+	}
+
 	public String getMillName() {
 		return millName;
 	}
@@ -149,6 +160,21 @@ public class PortOutwardReportForm extends BaseForm {
 		this.invoiceNo = invoiceNo;
 	}
 	
+	public ArrayList<LabelValueBean> getMillNamesList() {
+		return millNamesList;
+	}
+
+	public void setMillNamesList(ArrayList<LabelValueBean> millNamesList) {
+		this.millNamesList = millNamesList;
+	}
+
+	public ArrayList<LabelValueBean> getMaterialTypeList() {
+		return materialTypeList;
+	}
+
+	public void setMaterialTypeList(ArrayList<LabelValueBean> materialTypeList) {
+		this.materialTypeList = materialTypeList;
+	}
 
 	@Override
 	public String toString() {
