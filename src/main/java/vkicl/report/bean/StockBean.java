@@ -36,7 +36,17 @@ public class StockBean extends BaseReportBean {
 	
 	private Integer isRectangular;
 	private String isRectangularStr;
+	private String remarks;
 	
+	
+	public String getRemarks() {
+		return remarks;
+	}
+
+	public void setRemarks(String remarks) {
+		this.remarks = remarks;
+	}
+
 	public String getIsRectangularStr() {
 		return isRectangularStr;
 	}

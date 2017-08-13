@@ -352,6 +352,10 @@ $(function() {
 	        		console.log(sectionWeight);
 	        		sectionWeight = $.number(sectionWeight, 3, '.', '' );	
 	        		$grid.jqGrid('setRowData',ids[i],{sectionWt:sectionWeight});
+
+	        		var actualWeight = Number(rowObject.actualWeight);
+	        		actualWeight = $.number(actualWeight, 3, '.', '' );	
+	        		$grid.jqGrid('setRowData',ids[i],{actualWeight:actualWeight});
 	        		
 	        		$grid.jqGrid('setRowData',ids[i],{actionLink:cust_lnk});
 	        		

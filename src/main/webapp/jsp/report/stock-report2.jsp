@@ -126,6 +126,7 @@
 							<th>Invoice Dt</th>
 							<th>MTC Download</th>
 							<th>Is Rectangular ?</th>
+							<th>Remark (WID)</th>
 							<th></th>
 						</tr>
 					</thead>
@@ -192,6 +193,7 @@
 									</c:if></td>
 									
 									<td>${report.isRectangularStr}</td>
+									<td>${report.remarks}</td>
 									
 									<td>
 										<button onclick="showLocationDropdown(${report.id})" id="showLocationDropdownBtn-${report.id}">
@@ -222,6 +224,7 @@
 							<th id="qtyTotal"></th>
 							<th id="secWtTotal"></th>
 							<th id="actualWtTotal"></th>
+							<th></th>
 							<th></th>
 							<th></th>
 							<th></th>

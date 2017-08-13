@@ -718,6 +718,8 @@ public class ReportDaoImpl extends BaseDaoImpl {
 						report.setIsRectangularStr("No");
 					}
 					
+					report.setRemarks(rs.getString("remark"));
+					
 					
 					reportList.add(report);
 					
