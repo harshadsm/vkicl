@@ -9,6 +9,7 @@ public class DeliveryNoteLineItemVO {
 	private Integer length;
 	private Integer thickness;
 	private Integer deliveredQuantity;
+	private Double actualWeight;
 
 	private Date date;
 
@@ -59,5 +60,15 @@ public class DeliveryNoteLineItemVO {
 	public void setDate(Date date) {
 		this.date = date;
 	}
+
+	public Double getActualWeight() {
+		return actualWeight;
+	}
+
+	public void setActualWeight(Double actualWeight) {
+		this.actualWeight = actualWeight;
+	}
+	
+	
 
 }

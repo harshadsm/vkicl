@@ -75,6 +75,10 @@
 		<servlet-class>vkicl.action.ActualWeightUpdateAtOutwardJsonServlet</servlet-class>
 	</servlet>
 	<servlet>
+		<servlet-name>ActualWeightUpdateOfDeliveryNoteServlet</servlet-name>
+		<servlet-class>vkicl.action.ActualWeightUpdateOfDeliveryNoteServlet</servlet-class>
+	</servlet>
+	<servlet>
 		<servlet-name>PortDeliveryNotesListingJsonServlet</servlet-name>
 		<servlet-class>vkicl.action.PortDeliveryNotesListingJsonServlet</servlet-class>
 	</servlet>
@@ -194,6 +198,11 @@
 		<servlet-name>ActualWeightUpdateAtOutwardJsonServlet</servlet-name>
 		<url-pattern>/actualWeightUpdateAtOutwardJsonServlet</url-pattern>
 	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ActualWeightUpdateOfDeliveryNoteServlet</servlet-name>
+		<url-pattern>/actualWeightUpdateOfDeliveryNoteServlet</url-pattern>
+	</servlet-mapping>
+	
 	<servlet-mapping>
 		<servlet-name>PortDeliveryNotesListingJsonServlet</servlet-name>
 		<url-pattern>/listAllPortDeliveryNotesJsonServlet</url-pattern>

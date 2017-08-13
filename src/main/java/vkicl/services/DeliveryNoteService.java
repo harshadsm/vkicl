@@ -11,6 +11,8 @@ import com.google.gson.Gson;
 import vkicl.daoImpl.DeliveryNoteDaoImpl;
 import vkicl.daoImpl.PortInwardDaoImpl;
 import vkicl.daoImpl.PortPurchaseOrderDaoImpl;
+import vkicl.daoImpl.WarehouseOutwardDaoImpl;
+import vkicl.daoImpl.WarehouseOutwardTempDaoImpl;
 import vkicl.form.DeliveryNoteUpdateForm;
 import vkicl.form.PortPurchaseDeliveryNoteForm;
 import vkicl.report.bean.DeliveryNoteBean;
@@ -128,6 +130,26 @@ public class DeliveryNoteService {
 		DeliveryNoteDaoImpl deliveryNoteDaoImpl = new DeliveryNoteDaoImpl();
 		List<DeliveryNoteVO> list = deliveryNoteDaoImpl.listAll();
 		return list;
+	}
+
+	public void updateActualWeightOfDeliveryNote(Integer deliveryNoteId, Double actualWeight) {
+		
+		log.debug("Going to update delivery_note.id = "+deliveryNoteId);
+		log.debug("Going to update actualWeight = "+actualWeight);
+		
+		DeliveryNoteDaoImpl dao = new DeliveryNoteDaoImpl();
+		dao.updateActualWeightOfDeliveryNote(deliveryNoteId, actualWeight);
+		
+		
+	}
+	
+	
+	public void distributeActualWeightPerPlate(Integer deliveryNoteId, Double actualWeight) {
+		
+		DeliveryNoteDaoImpl dao = new DeliveryNoteDaoImpl();
+		dao.distributeActualWeightPerPlate(deliveryNoteId, actualWeight);
+		
+		
 	}
 
 }

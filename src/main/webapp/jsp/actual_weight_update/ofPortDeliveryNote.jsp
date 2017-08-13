@@ -17,7 +17,7 @@ console.log("Going to jqgrid");
 $("#packingListGrid").jqGrid(
 		{
 			url : './listAllPortDeliveryNotesJsonServlet',
-			editurl : './actualWeightUpdateAtOutwardServlet',
+			editurl : './actualWeightUpdateOfDeliveryNoteServlet',
 			datatype : 'json',
 			
 			mtype : 'POST',
@@ -127,9 +127,11 @@ $("#packingListGrid").jqGrid(
 				name : 'actualWeight',
 				index : 'actualWeight',
 				width : 300,
-				editable : false,
+				editable : true,
+				editrules : {
+					required : true
+				},
 				editoptions : {
-					readonly : true,
 					size : 10
 				},
 				align : 'center',
@@ -143,7 +145,7 @@ $("#packingListGrid").jqGrid(
 			},
 			cellEdit: true,
 			cellsubmit : 'remote',
-			cellurl : './actualWeightUpdateAtOutwardServlet',
+			cellurl : './actualWeightUpdateOfDeliveryNoteServlet',
 			rowNum : 10,
 			rowList : [ 10, 20, 30 ,40, 50, 60 ],
 			height : 280,
@@ -151,11 +153,11 @@ $("#packingListGrid").jqGrid(
 			rownumbers : true,
 			multiselect : false,
 			pager : '#packingListPager',
-			sortname : 'port_out_shipment_id',
+			sortname : 'id',
 			viewrecords : true,
 			sortorder : "desc",
 			
-			caption : "Actual Weight of the shipments sent out from Warehouse ddd",
+			caption : "Actual Weight of Port Delivery Notes",
 			emptyrecords : "Empty records",
 			loadonce : false,
 			loadComplete : function() {
@@ -182,9 +184,9 @@ $("#packingListGrid").jqGrid(
 				console.log("iCol = "+iCol);
 				var rowObject = jQuery("#packingListGrid").jqGrid('getRowData',rowid); 
         		console.log(rowObject);
-				var warehouse_outward_id = rowObject.warehouse_outward_id;
+				var delivery_note_id = rowObject.id;
 				var actualWeight = value;
-				var parametersToSubmit = {warehouse_outward_id:warehouse_outward_id};
+				var parametersToSubmit = {delivery_note_id:delivery_note_id};
         		console.log(parametersToSubmit);
 				
 		        return parametersToSubmit;
@@ -195,16 +197,16 @@ $("#packingListGrid").jqGrid(
 			ondblClickRow: function (rowid, iRow, iCol, e){
 				var rowData = $(this).getRowData(rowid); 
 				console.log(rowData);
-				var warehouse_outward_id = rowData.warehouse_outward_id;
+				var delivery_note_id = rowData.delivery_note_id;
 
-				fetchWarehouseOutwardDetails(warehouse_outward_id);
+				fetchDeliveryNoteDetails(delivery_note_id);
 			} 
 		});
 });
 
-function fetchWarehouseOutwardDetails(warehouse_outward_id){
+function fetchDeliveryNoteDetails(delivery_note_id){
 	$.ajax({
-		url:'fetchWarehouseOutwardDetailsHtml.do?warehouseOutwardId='+warehouse_outward_id,
+		url:'fetchDeliveryNoteDetailsHtml.do?warehouseOutwardId='+delivery_note_id,
 		success:function(resp){
 			bootbox.alert(resp);
 		},

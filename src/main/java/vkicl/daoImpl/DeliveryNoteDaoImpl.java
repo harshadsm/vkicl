@@ -16,12 +16,14 @@ import vkicl.form.DeliveryNoteUpdateForm;
 import vkicl.form.PortPurchaseDeliveryNoteForm;
 import vkicl.report.bean.DeliveryNoteBean;
 import vkicl.util.Converter;
+import vkicl.util.Utils;
 import vkicl.vo.DeliveryNoteLineItemVO;
 import vkicl.vo.DeliveryNoteVO;
 import vkicl.vo.PortInwardRecordVO;
 import vkicl.vo.PortPurchaseOrderLineItemVO;
 import vkicl.vo.PortPurchaseOrderVO;
 import vkicl.vo.UserInfoVO;
+import vkicl.vo.WarehouseOutwardTempVO;
 
 public class DeliveryNoteDaoImpl extends BaseDaoImpl {
 
@@ -123,6 +125,80 @@ public class DeliveryNoteDaoImpl extends BaseDaoImpl {
 					l.setLength(rs.getInt("length"));
 					l.setWidth(rs.getInt("width"));
 					l.setThickness(rs.getInt("thickness"));
+
+					deliveryNoteLineItems.add(l);
+
+				} while (rs.next());
+			}
+
+		} catch (Exception e) {
+			log.error("Some error", e);
+		} finally {
+			closeDatabaseResources(conn, rs, cs);
+		}
+		return deliveryNoteLineItems;
+
+	}
+	
+	
+	
+	private String getQueryForUpdatingActualWeight(Integer deliveryNoteId) {
+		StringBuffer q = new StringBuffer();
+
+		q.append(" select * from ( ");
+		q.append(" select  ");
+		q.append(" dnli.id delivery_note_line_items_id,   ");
+		q.append(" dnli.ppo_line_items_id,  ");
+		q.append(" dnli.delivered_quantity, ");
+		q.append(" dnli.create_ts, ");
+		q.append(" dnli.actual_wt ");
+		q.append(" from delivery_note_line_items dnli ");
+		q.append(" where delivery_note_id = ").append(deliveryNoteId).append(" ");
+		q.append(" ) dnli ");
+		q.append(" left join ");
+		q.append(" ( ");
+		q.append(" 	select  ");
+		q.append("     ppoli.id, ");
+		q.append("     pid.length, ");
+		q.append("     pid.width, ");
+		q.append("     pid.thickness ");
+		q.append("     from ppo_line_items ppoli ");
+		q.append("     left join port_inward_details pid ");
+		q.append("     on pid.port_inward_detail_id = ppoli.port_inward_details_id ");
+		q.append(" ) ppoli on dnli.ppo_line_items_id = ppoli.id ");
+		return q.toString();
+	}
+
+	public List<DeliveryNoteLineItemVO> findDeliveryNoteLineItemsForActualWeightUpdateByDeliveryNoteId(Integer deliveryNoteId
+			) {
+		List<DeliveryNoteLineItemVO> deliveryNoteLineItems = new ArrayList<DeliveryNoteLineItemVO>();
+		Connection conn = null;
+		ResultSet rs = null;
+		CallableStatement cs = null;
+		String query = "";
+
+		try {
+			conn = getConnection();
+
+			query = getQueryForUpdatingActualWeight(deliveryNoteId);
+
+			log.info("query = " + query);
+			cs = conn.prepareCall(query);
+
+			rs = cs.executeQuery();
+
+			if (null != rs && rs.next()) {
+
+				do {
+
+					DeliveryNoteLineItemVO l = new DeliveryNoteLineItemVO();
+					l.setDate(rs.getDate("create_ts"));
+					l.setDeliveredQuantity(rs.getInt("delivered_quantity"));
+					l.setId(rs.getInt("delivery_note_line_items_id"));
+					l.setLength(rs.getInt("length"));
+					l.setWidth(rs.getInt("width"));
+					l.setThickness(rs.getInt("thickness"));
+					l.setActualWeight(rs.getDouble("actual_wt"));
 
 					deliveryNoteLineItems.add(l);
 
@@ -471,6 +547,119 @@ public class DeliveryNoteDaoImpl extends BaseDaoImpl {
 			closeDatabaseResources(conn, rs, cs);
 		}
 		return deliveryNotes;
+	}
+	public void updateActualWeightOfDeliveryNote(Integer delivery_note_id, Double actualWeight) {
+		Connection conn = null;
+		ResultSet rs = null;
+		CallableStatement cs = null;
+		StringBuffer q = new StringBuffer();
+
+		try {
+			conn = getConnection();
+
+			q.append(" update delivery_notes set actual_wt = ? where id = ? ");
+			String query = q.toString();
+
+			log.info("query = " + query);
+			cs = conn.prepareCall(query);
+			cs.setDouble(1, actualWeight);
+			cs.setInt(2, delivery_note_id);
+			int recordsUpdated = cs.executeUpdate();
+			
+			log.debug("Update successful "+recordsUpdated);
+		} catch (Exception e) {
+			log.error("Some error", e);
+		} finally {
+			closeDatabaseResources(conn, rs, cs);
+		}
+		
+	}
+
+	public void distributeActualWeightPerPlate(Integer deliveryNoteId, Double actualWeight) {
+		// Find the delivery note line items for given deliveryNoteId
+		log.debug("Find the delivery note line items for given deliveryNoteId = " + deliveryNoteId);
+		List<DeliveryNoteLineItemVO> deliveryNoteLineItems = findDeliveryNoteLineItemsForActualWeightUpdateByDeliveryNoteId(deliveryNoteId);
+		// Distribute the actualWeight among the records in proportion to their
+		// section weight.
+
+		distributeActualWeightAmongTheDeliveryNoteLineItems(deliveryNoteLineItems, actualWeight);
+
+	}
+	
+	private void distributeActualWeightAmongTheDeliveryNoteLineItems(List<DeliveryNoteLineItemVO> deliveryNoteLineItems,
+			Double actualLorryWeight) {
+		//Find the total of section weight
+		Double totalSectionWeight = calculateTotalSectionWeight(deliveryNoteLineItems);
+		Double multiplicationFactor = actualLorryWeight / totalSectionWeight;
+		
+		for(DeliveryNoteLineItemVO dnli:deliveryNoteLineItems){
+			Integer length = dnli.getLength();
+			Integer width = dnli.getWidth();
+			Integer thickness = dnli.getThickness();
+			Integer quantity = dnli.getDeliveredQuantity();
+			Double lineItemSectionWeight = Utils.calculateSectionWeight(length, width, thickness, quantity);
+			dnli.setActualWeight(lineItemSectionWeight*multiplicationFactor);
+			
+		}
+		
+		saveDistributedWeightInDatabase(deliveryNoteLineItems);
+		
+		
+	}
+	
+	
+	private Double calculateTotalSectionWeight(List<DeliveryNoteLineItemVO> inwardedRecords) {
+		Double totalSectionWeight = 0d;
+		for(DeliveryNoteLineItemVO dnli:inwardedRecords){
+			
+			Integer l = dnli.getLength();
+			Integer w = dnli.getWidth();
+			Integer t = dnli.getThickness();
+			Integer q = dnli.getDeliveredQuantity();
+			
+			Double sectionWeight = Utils.calculateSectionWeight(l, w, t, q);
+			
+			totalSectionWeight = totalSectionWeight + sectionWeight;
+			
+		}
+		return totalSectionWeight;
+	}
+	
+	
+	private void saveDistributedWeightInDatabase(List<DeliveryNoteLineItemVO> deliveryNoteLineItems) {
+		Connection conn = null;
+		ResultSet rs = null;
+		CallableStatement cs = null;
+		String query = "";
+		String message = "Success";
+		int count = 0;
+		PreparedStatement statement = null;
+		try {
+			conn = getConnection();
+			String sql = "update delivery_note_line_items set actual_wt = ?, update_ui = ?, update_ts = NOW()  WHERE id = ? ";
+			
+			for(DeliveryNoteLineItemVO widb : deliveryNoteLineItems){
+				statement = conn.prepareStatement(sql);
+				statement.setDouble(1, widb.getActualWeight());
+				statement.setString(2, "some_admin_to_be_updated_later223143");
+				statement.setInt(3, widb.getId());
+
+				statement.executeUpdate();
+	
+			}
+			
+			log.info("message = " + message);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			message = e.getMessage();
+			log.error(message);
+		} finally {
+			closeDatabaseResources(conn, rs, cs);
+		}
+
+		
+		
 	}
 
 }
