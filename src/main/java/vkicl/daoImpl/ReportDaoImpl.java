@@ -121,9 +121,12 @@ public class ReportDaoImpl extends BaseDaoImpl {
 			cs.setString(3, convertStringToDate(form.getFromDate()));
 			cs.setString(4, convertStringToDate(form.getToDate()));
 			cs.setString(5, form.getGrade());
-			cs.registerOutParameter(6, java.sql.Types.VARCHAR);
+			cs.setString(6,  form.getMaterialType());
+			cs.setString(7, form.getMillName());
+			cs.registerOutParameter(8, java.sql.Types.VARCHAR);
+			
 			rs = cs.executeQuery();
-			message = cs.getString(6);
+			message = cs.getString(8);
 			log.info("message = " + message);
 			if (null != rs) {
 				

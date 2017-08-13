@@ -67,13 +67,7 @@
 								<html:option value="ALL">ALL</html:option>
 								<html:optionsCollection property="gradeList" />
 							</html:select></td>
-						<td class="form-label"><label for="grade">Mill
-								Name</label></td>
-						<td><html:select property="millName" styleId="millName"
-								styleClass="form-control">
-								<html:option value="ALL">ALL</html:option>
-								<html:optionsCollection property="millNamesList" />
-							</html:select></td>
+						
 					</tr>
 					<tr>
 						<td class="form-label"><label for="grade">Material
@@ -110,6 +104,15 @@
 							</div>
 						</td>
 					</tr>
+					<tr>
+					<td class="form-label"><label for="grade">Mill
+								Name</label></td>
+						<td><html:select property="millName" styleId="millName"
+								styleClass="form-control">
+								<html:option value="ALL">ALL</html:option>
+								<html:optionsCollection property="millNamesList" />
+							</html:select></td>
+					</tr>		
 				</table>
 			</div>
 		</div>
@@ -157,6 +160,8 @@
 							<th width="10%">Delivery Date</th>
 							<th width="15%">Dispatch To</th>
 							<th width="10%">Vehicle No</th>
+							<th width="10%">Type</th>
+							<th width="10%">Mill</th>
 							
 							<th width="5%">Grade</th>
 							<th width="5%">Thickness</th>
@@ -189,8 +194,13 @@
 										value="${report.vehicleDate}" /></td>
 								<td data-type="text" data-name="dispatchedTo"><c:out
 										value="${report.dispatchedTo}" /></td>
-										<td data-type="text" data-name="vehicleNumber"><c:out
+								<td data-type="text" data-name="vehicleNumber"><c:out
 										value="${report.vehicleNumber}" /></td>
+								<td data-type="text" data-name="materialType"><c:out
+										value="${report.materialType}" /></td>
+								<td data-type="text" data-name="millName"><c:out
+										value="${report.millName}" /></td>
+								
 								
 								<td data-type="text" data-name="grade"><c:out
 										value="${report.grade}" /></td>
@@ -234,6 +244,8 @@
 							<th width="5%"></th>
 							<th width="10%"></th>
 							<th width="5%"></th>
+							<th width="10%"></th>
+							<th width="10%"></th>
 							<th width="10%"></th>
 							
 							<!-- <th width="5%"></th> -->

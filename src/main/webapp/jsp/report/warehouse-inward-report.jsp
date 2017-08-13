@@ -319,14 +319,13 @@ function progressHandlingFunction(e) {
 							<th></th>
 							<th></th>
 							<th></th>
-							<th></th>
-							<th></th>
 							<th>Total</th>
 							<th id="qtyTotal">Quantity</th>
 							<th id="secWtTotal"></th>
 							<th id="actualWtTotal"></th>
 							<th></th>
-							
+							<th></th>
+							<th></th>
 						</tr>
 					</tfoot>
 				</table>
