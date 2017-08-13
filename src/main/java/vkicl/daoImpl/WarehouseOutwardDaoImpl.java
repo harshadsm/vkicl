@@ -263,7 +263,7 @@ public class WarehouseOutwardDaoImpl extends BaseDaoImpl{
 	}
 	
 	private String composeOrderByClause(String orderByFieldName, String order) {
-		String orderByClause = "";
+		String orderByClause = " ORDER BY wo.vehicle_dt DESC ";
 //		if (orderByFieldName != null) {
 //			orderByClause = " ORDER BY ";
 //			if (orderByFieldName.equalsIgnoreCase("vessel_date")) {
@@ -272,6 +272,8 @@ public class WarehouseOutwardDaoImpl extends BaseDaoImpl{
 //				orderByClause = orderByClause + " pin.port_inward_id " + order + " ";
 //			}
 //		}
+		
+		
 		return orderByClause;
 	}
 
