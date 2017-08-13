@@ -25,7 +25,7 @@ $("#packingListGrid").jqGrid(
 
 			colNames : [ 
 				'warehouse_outward_id',
-				'actual_ut',
+				'actual_wt',
 				
 				'create_ts',
 				'create_ui',
@@ -226,7 +226,7 @@ $("#packingListGrid").jqGrid(
 			viewrecords : true,
 			sortorder : "desc",
 			
-			caption : "Actual Weight of the shipments sent out from Warehouse ddd",
+			caption : "Actual Weight of the shipments sent out from Warehouse",
 			emptyrecords : "Empty records",
 			loadonce : false,
 			loadComplete : function() {

@@ -44,6 +44,7 @@
 								<li><a href="./port-purchase-order.do">Port Purchase Order</a></li>
 								<li><a href="./port-purchase-order-delivery.do">Port Delivery Note</a></li>
 								<li><a href="./port-stock-report.do">Port Stock</a></li>
+								<li><a href="./show-delivery-note-actual-weight-update-page.do">Delivery Notes (Update Actual Weight)</a></li>
 								
 								<!-- <li><a href="./port-outward.do">Create Outward Record</a></li> -->
 								

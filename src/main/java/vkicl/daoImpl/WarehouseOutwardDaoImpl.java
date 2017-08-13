@@ -276,6 +276,21 @@ public class WarehouseOutwardDaoImpl extends BaseDaoImpl{
 		
 		return orderByClause;
 	}
+	
+	private String composeOrderByClause_2(String orderByFieldName, String order) {
+		String orderByClause = "";
+//		if (orderByFieldName != null) {
+//			orderByClause = " ORDER BY ";
+//			if (orderByFieldName.equalsIgnoreCase("vessel_date")) {
+//				orderByClause = orderByClause + " pis.vessel_date " + order + " ";
+//			} else if (orderByFieldName.equalsIgnoreCase("id")) {
+//				orderByClause = orderByClause + " pin.port_inward_id " + order + " ";
+//			}
+//		}
+		
+		
+		return orderByClause;
+	}
 
 	public Integer fetchWarehouseOutwardRecordCount(String orderByFieldName, String order, JqGridSearchParameterHolder searchParam) throws SQLException {
 		List<PortInwardRecordVO> list = new ArrayList<PortInwardRecordVO>();
@@ -338,7 +353,7 @@ public class WarehouseOutwardDaoImpl extends BaseDaoImpl{
 		
 		//String sql = " select * from warehouse_outward "
 		String sql = q.toString()
-				+ processSearchCriteria(searchParam) + " " + composeOrderByClause(orderByFieldName, order) ;
+				+ processSearchCriteria(searchParam) + " " + composeOrderByClause_2(orderByFieldName, order) ;
 		query = sql;
 		return query;
 	}

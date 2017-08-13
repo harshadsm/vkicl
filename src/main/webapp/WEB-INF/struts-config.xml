@@ -122,6 +122,10 @@
 		<action path="/actual-weight-update-at-outward" type="vkicl.action.ActualWeightUpdateAtOutwardAction">
 			<forward name="success" path="actualWeightUpdateAtOutwardDefn" />
 		</action>
+		
+		<action path="/show-delivery-note-actual-weight-update-page" type="vkicl.action.ActualWeightUpdateOfPortDeliveryNoteAction">
+			<forward name="success" path="actualWeightUpdateOfPortDeliveryNoteDefn" />
+		</action>
 
 		<action path="/warehouse-inward" type="vkicl.action.WarehouseInwardAction"
 			name="WarehouseInwardForm">
