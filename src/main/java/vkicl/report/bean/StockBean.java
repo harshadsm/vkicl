@@ -34,7 +34,25 @@ public class StockBean extends BaseReportBean {
 	private String invoiceNoOfLocalVendor;
 	private String invoiceDateOfLocalVendor;
 	
+	private Integer isRectangular;
+	private String isRectangularStr;
 	
+	public String getIsRectangularStr() {
+		return isRectangularStr;
+	}
+
+	public void setIsRectangularStr(String isRectangularStr) {
+		this.isRectangularStr = isRectangularStr;
+	}
+
+	public Integer getIsRectangular() {
+		return isRectangular;
+	}
+
+	public void setIsRectangular(Integer isRectangular) {
+		this.isRectangular = isRectangular;
+	}
+
 	public String getInvoiceNoOfLocalVendor() {
 		return invoiceNoOfLocalVendor;
 	}

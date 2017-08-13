@@ -708,6 +708,17 @@ public class ReportDaoImpl extends BaseDaoImpl {
 						invoiceDateStr = Converter.dateToString(Converter.sqlDateToDate(invoiceDate));
 					}
 					report.setInvoiceDateOfLocalVendor(invoiceDateStr);
+					
+					Integer isRectangular = rs.getInt("is_rectangular");
+					if(isRectangular!=null && isRectangular==1){
+						report.setIsRectangular(isRectangular);
+						report.setIsRectangularStr("Yes");
+					}else{
+						report.setIsRectangular(isRectangular);
+						report.setIsRectangularStr("No");
+					}
+					
+					
 					reportList.add(report);
 					
 				} ;
