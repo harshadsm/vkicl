@@ -65,7 +65,23 @@ public class PlateCuttingService {
 					vkicl.services.geometry.GeometryServiceImpl goemetry = new vkicl.services.geometry.GeometryServiceImpl();
 
 					List<Area> plates = goemetry.cut(orginx, orginy, smallPlateLength, smallPlateWidth, BigplateShape);
-					for (Area a : plates) {
+					for (int i = 0; i < plates.size(); i++) {
+						String heatNo = "WARNING_notKnownWhileCutting";
+						String plateNo = "WARNING_notKnownWhileCutting";
+						if (i == 0) {
+							heatNo = form.getHeat_no();
+							plateNo = form.getPlate_no();
+						} else if (i >= 1) {
+							heatNo = form.getHeat_no_2();
+							plateNo = form.getPlate_no_2();
+						}
+
+						// Overwrite the heatno and plate no according to what
+						// the user has supplied while cutting
+						vo.setHeat_no(heatNo);
+						vo.setPlate_no(plateNo);
+
+						Area a = plates.get(i);
 						String insertSql = goemetry.toInsertSql(a, vo);
 						logger.info(insertSql);
 
@@ -87,70 +103,72 @@ public class PlateCuttingService {
 
 	}
 
-//	public List<StockBalanceDetailsVO> toList(StockForm form, UserInfoVO user) throws SQLException {
-//		List<StockBalanceDetailsVO> list = new ArrayList<StockBalanceDetailsVO>();
-//		Integer stockBalId = form.getStock_Bal_id();
-//
-//		StockBalDaoImpl impl = new StockBalDaoImpl();
-//		StockBalanceDetailsVO vo = impl.fetchStockBalById(stockBalId);
-//		list.add(vo);
-//
-//		return list;
-//	}
-	
+	// public List<StockBalanceDetailsVO> toList(StockForm form, UserInfoVO
+	// user) throws SQLException {
+	// List<StockBalanceDetailsVO> list = new
+	// ArrayList<StockBalanceDetailsVO>();
+	// Integer stockBalId = form.getStock_Bal_id();
+	//
+	// StockBalDaoImpl impl = new StockBalDaoImpl();
+	// StockBalanceDetailsVO vo = impl.fetchStockBalById(stockBalId);
+	// list.add(vo);
+	//
+	// return list;
+	// }
+
 	public List<StockBalanceDetailsVO> toList(StockForm form, UserInfoVO user) throws SQLException {
 		List<StockBalanceDetailsVO> list = new ArrayList<StockBalanceDetailsVO>();
 		Integer stockBalId = form.getStock_Bal_id();
 		StockBalDaoImpl impl = new StockBalDaoImpl();
 		StockBalanceDetailsVO voForWarehouseInwardId = impl.fetchStockBalById(stockBalId);
-		//if (form.getThickness() != null) {
-			//int recordCount = form.getThickness().length;
-			//Double[] thickness = form.getThickness();
-			//Integer[] width = form.getWidth();
-			//Integer[] length = form.getLength();
-		
-			//for (int i = 0; i < recordCount; i++) {
-			//	if (thickness[i] == 0d && width[i] == 0 && length[i] == 0)  {
-			//		logger.debug("Ignored empty row");
-			//	} else {
+		// if (form.getThickness() != null) {
+		// int recordCount = form.getThickness().length;
+		// Double[] thickness = form.getThickness();
+		// Integer[] width = form.getWidth();
+		// Integer[] length = form.getLength();
 
-					StockBalanceDetailsVO vo = new StockBalanceDetailsVO();
-					vo.setWarehouseInwardId(voForWarehouseInwardId.getWarehouseInwardId());
-					
-					vo.setThickness(form.getThickness());
-					vo.setWidth(form.getWidth());
-					vo.setLength(form.getLength());
-					vo.setGrade(form.getGrade());
-					vo.setMaterialType(form.getMaterialType());
-					vo.setMake(form.getMake());
-					vo.setMillName(form.getMillName());
-					vo.setStockBalId(form.getStock_Bal_id());
-					
-					double plateArea=(form.getLength()*form.getWidth());
-					
-					vo.setPlateArea(plateArea);
-					vo.setQuantity(form.getQuantity());
-					vo.setLocation(form.getLocation());
-					vo.setHeat_no(form.getHeat_no());
-					vo.setPlate_no(form.getPlate_no());
-					//vo.setBe_weight(actualWt[i]);
-//					vo.setBe_wt_unit(actualWtUnit[i]); //As explained by client, it will always be TON
-					//vo.setBe_wt_unit("TON");
-					//vo.setPort_inward_id(portInwardId);
-					//vo.setUpdate_ui(user.getUserName());
-					//vo.setCreate_ui(user.getUserName());
-					//vo.setCreate_ts(new Date());
-					//vo.setUpdate_ts(new Date());
-					
-					list.add(vo);
-				//}
+		// for (int i = 0; i < recordCount; i++) {
+		// if (thickness[i] == 0d && width[i] == 0 && length[i] == 0) {
+		// logger.debug("Ignored empty row");
+		// } else {
 
-			//}
-		//}
+		StockBalanceDetailsVO vo = new StockBalanceDetailsVO();
+		vo.setWarehouseInwardId(voForWarehouseInwardId.getWarehouseInwardId());
+
+		vo.setThickness(form.getThickness());
+		vo.setWidth(form.getWidth());
+		vo.setLength(form.getLength());
+		vo.setGrade(form.getGrade());
+		vo.setMaterialType(form.getMaterialType());
+		vo.setMake(form.getMake());
+		vo.setMillName(form.getMillName());
+		vo.setStockBalId(form.getStock_Bal_id());
+
+		double plateArea = (form.getLength() * form.getWidth());
+
+		vo.setPlateArea(plateArea);
+		vo.setQuantity(form.getQuantity());
+		vo.setLocation(form.getLocation());
+		vo.setHeat_no(form.getHeat_no());
+		vo.setPlate_no(form.getPlate_no());
+		// vo.setBe_weight(actualWt[i]);
+		// vo.setBe_wt_unit(actualWtUnit[i]); //As explained by client, it will
+		// always be TON
+		// vo.setBe_wt_unit("TON");
+		// vo.setPort_inward_id(portInwardId);
+		// vo.setUpdate_ui(user.getUserName());
+		// vo.setCreate_ui(user.getUserName());
+		// vo.setCreate_ts(new Date());
+		// vo.setUpdate_ts(new Date());
+
+		list.add(vo);
+		// }
+
+		// }
+		// }
 
 		return list;
 	}
-
 
 	public String getStockBalCuttingListAsJson(HttpServletRequest req) throws Exception {
 
@@ -173,7 +191,7 @@ public class PlateCuttingService {
 
 		StockBalDaoImpl stockBalDao = new StockBalDaoImpl();
 		Integer totalRecordsCount = stockBalDao.fetchStockBalRecordCount(searchParam);// ,
-																					// portInwardId);
+																						// portInwardId);
 
 		List<StockBalanceDetailsVO> outrecords = stockBalDao.fetchStockBalList(Integer.parseInt(page),
 				Integer.parseInt(rows), totalRecordsCount, orderBy, order, searchParam);
