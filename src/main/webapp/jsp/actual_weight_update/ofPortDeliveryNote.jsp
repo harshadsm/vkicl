@@ -16,7 +16,7 @@ $(function(){
 console.log("Going to jqgrid");
 $("#packingListGrid").jqGrid(
 		{
-			url : './actualWeightUpdateAtOutwardJsonServlet',
+			url : './listAllPortDeliveryNotesJsonServlet',
 			editurl : './actualWeightUpdateAtOutwardServlet',
 			datatype : 'json',
 			
@@ -24,25 +24,20 @@ $("#packingListGrid").jqGrid(
 
 
 			colNames : [ 
-				'warehouse_outward_id',
-				'actual_wt',
-				
-				'create_ts',
-				'create_ui',
-				'delivered_quantity',
-				'dispatch_detail_id',
-				'dispatchNo',
-				'handled_by',
-				'vehicle_dt',
-				'vehicle_no',
-				'actual_wt'
+				'id',
+				'delivery Note Address',
+				'Port Purchase Order Id',
+				'vehicle Number',
+				'vehicle Date',
+				'invoice',
+				'actual Weight'
 				 ],
 
 					
 			colModel : [  {
-				name : 'warehouse_outward_id',
-				index : 'warehouse_outward_id',
-				hidden: true,
+				name : 'id',
+				index : 'id',
+				hidden: false,
 				width : 185,
 				editable : false,
 				editrules : {
@@ -54,9 +49,9 @@ $("#packingListGrid").jqGrid(
 				search:false,
 				searchoptions: { sopt:['ge']}
 			},{
-				name : 'actual_ut',
-				index : 'actual_ut',
-				hidden: true,
+				name : 'deliveryNoteAddress',
+				index : 'deliveryNoteAddress',
+				hidden: false,
 				width : 185,
 				editable : false,
 				editrules : {
@@ -68,9 +63,9 @@ $("#packingListGrid").jqGrid(
 				search:false,
 				searchoptions: { sopt:['ge']}
 			},{
-				name : 'create_ts',
-				index : 'create_ts',
-				hidden: true,
+				name : 'portPurchaseOrderId',
+				index : 'portPurchaseOrderId',
+				hidden: false,
 				width : 155,
 				editable : false,
 				editrules : {
@@ -82,10 +77,10 @@ $("#packingListGrid").jqGrid(
 				search:false
 				
 			}, {
-				name : 'create_ui',
-				index : 'create_ui',
+				name : 'vehicleNumber',
+				index : 'vehicleNumber',
 				width : 300,
-				hidden:true,
+				hidden:false,
 				editable : false,
 				editoptions : {
 					readonly : true,
@@ -97,10 +92,10 @@ $("#packingListGrid").jqGrid(
 				searchoptions: { sopt:[ 'eq']}
 				
 			},{
-				name : 'delivered_quantity',
-				index : 'delivered_quantity',
+				name : 'vehicleDate',
+				index : 'vehicleDate',
 				width : 300,
-				hidden : true,
+				hidden : false,
 				editable : false,
 				editoptions : {
 					readonly : true,
@@ -113,10 +108,10 @@ $("#packingListGrid").jqGrid(
 				searchoptions: { sopt:[ 'cn','eq']}
 				
 			},{
-				name : 'dispatch_detail_id',
-				index : 'dispatch_detail_id',
+				name : 'invoice',
+				index : 'invoice',
 				width : 300,
-				hidden : true,
+				hidden : false,
 				editable : false,
 				editoptions : {
 					readonly : true,
@@ -129,8 +124,8 @@ $("#packingListGrid").jqGrid(
 				searchoptions: { sopt:[ 'cn','eq']}
 				
 			}, {
-				name : 'dispatchNo',
-				index : 'dispatchNo',
+				name : 'actualWeight',
+				index : 'actualWeight',
 				width : 300,
 				editable : false,
 				editoptions : {
@@ -138,72 +133,6 @@ $("#packingListGrid").jqGrid(
 					size : 10
 				},
 				align : 'center',
-				search:true,
-				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
-				searchoptions: { sopt:[ 'eq']}
-				
-			},{
-				name : 'handled_by',
-				index : 'handled_by',
-				width : 300,
-				editable : false,
-				editoptions : {
-					readonly : true,
-					size : 10
-				},
-				align : 'center',
-				sortable:true,
-				search:true,
-				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
-				searchoptions: { sopt:[ 'cn','eq']}
-				
-			},{
-				name : 'vehicle_dt',
-				index : 'vehicle_dt',
-				width : 300,
-				editable : false,
-				editoptions : {
-					readonly : true,
-					size : 10
-				},
-				align : 'center',
-				sortable:true,
-				search:true,
-				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
-				searchoptions: { sopt:[ 'cn']}
-				
-			},{
-				name : 'vehicle_no',
-				index : 'vehicle_no',
-				width : 200,
-				editable : false,
-				editrules : {
-					required : true
-				},
-				editoptions : {
-					
-					size : 10
-				},
-				
-				align : 'center', 
-				sortable:true,
-				search:true,
-				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
-				searchoptions: { sopt:[ 'eq']}
-				
-			},{
-				name : 'actual_wt',
-				index : 'actual_wt',
-				hidden: false,
-				width : 185,
-				editable : true,
-				editrules : {
-					required : true
-				},
-				editoptions : {
-					
-					size : 10
-				},
 				search:true,
 				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
 				searchoptions: { sopt:[ 'eq']}

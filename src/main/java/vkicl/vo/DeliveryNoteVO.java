@@ -1,5 +1,6 @@
 package vkicl.vo;
 
+import java.util.Date;
 import java.util.List;
 
 public class DeliveryNoteVO {
@@ -15,6 +16,8 @@ public class DeliveryNoteVO {
 	private PortPurchaseOrderVO portPurchaseOrder;
 	private List<DeliveryNoteLineItemVO> deliveryNoteLineItems;
 	private Double actualWeight;
+	private Date createdDate;
+	private String invoice;
 
 	public Integer getId() {
 		return id;
@@ -86,6 +89,22 @@ public class DeliveryNoteVO {
 
 	public void setVehicleDate(String vehicleDate) {
 		this.vehicleDate = vehicleDate;
+	}
+
+	public Date getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	public String getInvoice() {
+		return invoice;
+	}
+
+	public void setInvoice(String invoice) {
+		this.invoice = invoice;
 	}
 	
 	

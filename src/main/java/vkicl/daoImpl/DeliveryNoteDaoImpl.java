@@ -428,4 +428,49 @@ public class DeliveryNoteDaoImpl extends BaseDaoImpl {
 		
 	}
 
+	public List<DeliveryNoteVO> listAll() {
+
+
+		List<DeliveryNoteVO> deliveryNotes = new ArrayList<DeliveryNoteVO>();
+		Connection conn = null;
+		ResultSet rs = null;
+		CallableStatement cs = null;
+		String query = "";
+
+		try {
+			conn = getConnection();
+
+			query = "select * from delivery_notes order by vehicle_date";
+			log.info("query = " + query);
+			cs = conn.prepareCall(query);
+			
+			rs = cs.executeQuery();
+
+			if (null != rs && rs.next()) {
+
+				do {
+
+					DeliveryNoteVO d = new DeliveryNoteVO();
+					d.setCreatedDate(rs.getDate("create_ts"));
+					d.setId(rs.getInt("id"));
+					d.setActualWeight(rs.getDouble("actual_wt"));
+					d.setDeliveryNoteAddress(rs.getString("delivery_address"));
+					d.setPortPurchaseOrderId(rs.getInt("port_purchase_order_id"));
+					d.setVehicleDate(dateToString(rs.getDate("vehicle_date")));
+					d.setVehicleNumber(rs.getString("vehicle_number"));
+					d.setInvoice(rs.getString("invoice"));
+					
+					deliveryNotes.add(d);
+
+				} while (rs.next());
+			}
+
+		} catch (Exception e) {
+			log.error("Some error", e);
+		} finally {
+			closeDatabaseResources(conn, rs, cs);
+		}
+		return deliveryNotes;
+	}
+
 }

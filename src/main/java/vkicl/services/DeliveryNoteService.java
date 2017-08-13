@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import com.google.gson.Gson;
+
 import vkicl.daoImpl.DeliveryNoteDaoImpl;
 import vkicl.daoImpl.PortInwardDaoImpl;
 import vkicl.daoImpl.PortPurchaseOrderDaoImpl;
@@ -113,6 +115,18 @@ public class DeliveryNoteService {
 			}
 		}
 
+		return list;
+	}
+
+	public String getAllDeliveryNotesJson(){
+		List<DeliveryNoteVO> list = getAllDeliveryNotes();
+		Gson gson = new Gson();
+		String json = gson.toJson(list);
+		return json;
+	}
+	public List<DeliveryNoteVO> getAllDeliveryNotes() {
+		DeliveryNoteDaoImpl deliveryNoteDaoImpl = new DeliveryNoteDaoImpl();
+		List<DeliveryNoteVO> list = deliveryNoteDaoImpl.listAll();
 		return list;
 	}
 
