@@ -30,66 +30,120 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $("#jqGrid").jqGrid({
-            url: './warehouseOutwardJsonServlet',
+            url: './warehouseOutwardJsonServlet2',
             mtype: "GET",
             datatype: "json",
             colModel: [
-                { label: 'ID', name: 'warehouseOutwardId', key: true, width: 75 },
-                { label: 'vehicleDate', name: 'vehicleDate', width: 150 },
-                { label: 'vehicleNo', name: 'vehicleNo', width: 150 },
-                { label: 'buyerName', name: 'buyerName', width: 150 },
-                { label: 'sectionWt', name: 'sectionWt', width: 150 },
-                { label: 'actualWeight', name: 'actualWeight', width: 150 },
-                
-                
-            ],
-            loadonce : true,
-            width: 780,
-            height: 250,
-            rowNum: 10,
-            // set the subGrid property to true to show expand buttons for each row
-            subGrid: true,
-            // javascript function that will take care of showing the child grid
-            subGridRowExpanded: showChildGrid,
-            subGridOptions : {
-            // expand all rows on load
-              expandOnLoad: false
-            },
-            pager: "#jqGridPager"
-        });
-    });
+            
+			{
+				label : 'ID',
+				name : 'warehouse_outward_id',
+				key : true,
+				width : 75
+			}, {
+				label : 'Vehicle Date',
+				name : 'vehicle_dt_str',
+				width : 150
+			}, {
+				label : 'vehicle no',
+				name : 'vehicle_no',
+				width : 150,
+				search : true,
+				//searchoptions: { sopt:['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni']}
+				searchoptions : {
+					sopt : [ 'cn', 'eq' ]
+				}
+			}, {
+				label : 'buyer Name',
+				name : 'buyerName',
+				width : 150
+			}, {
+				label : 'section Wt',
+				name : 'sectionWt',
+				width : 150,
+				search : false
+			}, {
+				label : 'actual wt',
+				name : 'actual_wt',
+				width : 150,
+				search : false
+			}, {
+				label : 'transporter',
+				name : 'transporter_name',
+				width : 150,
+				search : false
+			}
 
-    // the event handler on expanding parent row receives two parameters
-    // the ID of the grid tow  and the primary key of the row
-    function showChildGrid(parentRowID, parentRowKey) {
-        // create unique table and pager
-        var childGridID = parentRowID + "_table";
-        var childGridPagerID = parentRowID + "_pager";
+			],
+			loadonce : true,
+			width : 780,
+			height : 250,
+			rowNum : 10,
+			// set the subGrid property to true to show expand buttons for each row
+			subGrid : true,
+			// javascript function that will take care of showing the child grid
+			subGridRowExpanded : showChildGrid,
+			subGridOptions : {
+				// expand all rows on load
+				expandOnLoad : false
+			},
+			pager : "#jqGridPager",
+			gridComplete: function(){
+				var $grid = $("#jqGrid");
+				$grid.jqGrid('filterToolbar',{stringResult: true,searchOnEnter : false, searchOperators:true, defaultSearch:"cn"});
+        		
+			}
+		});
+	});
 
-        // send the parent row primary key to the server so that we know which grid to show
-        var childGridURL = parentRowKey+".json";
-        // add a table and pager HTML elements to the parent grid row - we will render the child grid here
-        $('#' + parentRowID).append('<table id=' + childGridID + '></table><div id=' + childGridPagerID + '></div>');
+	// the event handler on expanding parent row receives two parameters
+	// the ID of the grid tow  and the primary key of the row
+	function showChildGrid(parentRowID, parentRowKey) {
+		// create unique table and pager
+		var childGridID = parentRowID + "_table";
+		var childGridPagerID = parentRowID + "_pager";
 
-        $("#" + childGridID).jqGrid({
-            url: childGridURL,
-            mtype: "GET",
-            datatype: "json",
-            page: 1,
-            colModel: [
-                { label: 'Order ID', name: 'OrderID', key: true, width: 75 },
-                { label: 'Required Date', name: 'RequiredDate', width: 100 },
-                { label: 'Ship Name', name: 'ShipName', width: 100 },
-                { label: 'Ship City', name: 'ShipCity', width: 100 },
-                { label: 'Freight', name: 'Freight', width: 75 }
-            ],
-            loadonce: true,
-            width: 500,
-            height: '100%',
-            pager: "#" + childGridPagerID
-        });
-    }
+		// send the parent row primary key to the server so that we know which grid to show
+		var childGridURL = parentRowKey + ".json";
+		console.log(childGridURL);
+		// add a table and pager HTML elements to the parent grid row - we will render the child grid here
+		$('#' + parentRowID)
+				.append(
+						'<table id=' + childGridID + '></table><div id=' + childGridPagerID + '></div>');
 
+		$("#" + childGridID).jqGrid({
+			url : childGridURL,
+			mtype : "GET",
+			datatype : "json",
+			page : 1,
+			colModel : [ {
+				label : 'Order ID',
+				name : 'OrderID',
+				key : true,
+				width : 75
+			}, {
+				label : 'Required Date',
+				name : 'RequiredDate',
+				width : 100
+			}, {
+				label : 'Ship Name',
+				name : 'ShipName',
+				width : 100
+			}, {
+				label : 'Ship City',
+				name : 'ShipCity',
+				width : 100
+			}, {
+				label : 'Freight',
+				name : 'Freight',
+				width : 75
+			} ],
+			loadonce : true,
+			width : 500,
+			height : '100%',
+			pager : "#" + childGridPagerID
+		});
+	}
 </script>
 
 

@@ -333,20 +333,24 @@ public class WarehouseOutwardDaoImpl extends BaseDaoImpl{
 		String query;
 		StringBuffer q = new StringBuffer();
 		q.append(" select   ");
-		q.append(" warehouse_outward_id, ");
-		q.append(" actual_wt, ");
-		q.append(" actual_ut, ");
-		q.append(" dispatchNo, ");
-		q.append(" vehicle_no, ");
-		q.append(" vehicle_dt, ");
-		q.append(" create_ui, ");
-		q.append(" update_ui, ");
-		q.append(" create_ts, ");
-		q.append(" update_ts, ");
-		q.append(" dispatch_detail_id, ");
-		q.append(" delivered_quantity, ");
-		q.append(" handled_by ");
-		q.append(" from warehouse_outward ");
+		q.append(" wo.warehouse_outward_id, ");
+		q.append(" wo.actual_wt, ");
+		q.append(" wo.actual_ut, ");
+		q.append(" wo.dispatchNo, ");
+		q.append(" wo.vehicle_no, ");
+		q.append(" wo.vehicle_dt, ");
+		q.append(" wo.create_ui, ");
+		q.append(" wo.update_ui, ");
+		q.append(" wo.create_ts, ");
+		q.append(" wo.update_ts, ");
+		q.append(" wo.dispatch_detail_id, ");
+		q.append(" wo.delivered_quantity, ");
+		q.append(" wo.handled_by, ");
+		q.append(" dd.poNo, ");
+		q.append(" dd.transporter_name, ");
+		q.append(" dd.buyerName ");
+		q.append(" from warehouse_outward wo ");
+		q.append(" left join dispatch_order dd on wo.dispatchNo = dd.dispatch_order_id ");
 		
 		
 		//q.append(" order by warehouse_outward_id desc;");
@@ -392,9 +396,13 @@ public class WarehouseOutwardDaoImpl extends BaseDaoImpl{
 					vo.setUpdate_ts(rs.getDate("update_ts"));
 					vo.setUpdate_ui(rs.getString("update_ui"));
 					vo.setVehicle_dt(rs.getDate("vehicle_dt"));
+					vo.setVehicle_dt_str(dateToString(rs.getDate("vehicle_dt")));
 					vo.setVehicle_no(rs.getString("vehicle_no"));
 					vo.setWarehouse_outward_id(rs.getInt("warehouse_outward_id"));
 					
+					vo.setPoNo(rs.getString("poNo"));
+					vo.setBuyerName(rs.getString("buyerName"));
+					vo.setTransporter_name(rs.getString("transporter_name"));
 					
 					list.add(vo);
 					

@@ -9,6 +9,7 @@ public class WarehouseOutwardVO4 {
 	private Integer dispatchNo;
 	private String vehicle_no;
 	private Date vehicle_dt;
+	private String vehicle_dt_str;
 	private String create_ui;
 	private String update_ui;
 	private Date create_ts;
@@ -16,6 +17,39 @@ public class WarehouseOutwardVO4 {
 	private Integer dispatch_detail_id;
 	private Integer delivered_quantity;
 	private String handled_by;
+	
+	
+	private String poNo;
+	private String transporter_name;
+	private String buyerName;
+	
+	
+	
+	
+	public String getVehicle_dt_str() {
+		return vehicle_dt_str;
+	}
+	public void setVehicle_dt_str(String vehicle_dt_str) {
+		this.vehicle_dt_str = vehicle_dt_str;
+	}
+	public String getPoNo() {
+		return poNo;
+	}
+	public void setPoNo(String poNo) {
+		this.poNo = poNo;
+	}
+	public String getTransporter_name() {
+		return transporter_name;
+	}
+	public void setTransporter_name(String transporter_name) {
+		this.transporter_name = transporter_name;
+	}
+	public String getBuyerName() {
+		return buyerName;
+	}
+	public void setBuyerName(String buyerName) {
+		this.buyerName = buyerName;
+	}
 	public Integer getWarehouse_outward_id() {
 		return warehouse_outward_id;
 	}
