@@ -197,7 +197,10 @@ public class WarehouseInwardService {
 		String[] locationArr = form.getWlocation();
 		String[] remarkArr = form.getRemark();
 		Double[] sectionWtArr = form.getSecWt();
-		Double sectionWeightTotal = calculateTotal(sectionWtArr);
+		Double[] subSectionWeightArr = form.getSubSecWt();
+		//Double sectionWeightTotal = calculateTotal(sectionWtArr);
+		Double sectionWeightTotal = calculateTotal(subSectionWeightArr);
+		
 		String[] materialTypeArr = form.getMaterialType();
 		String[] millNameArr = form.getMillName();
 		String[] makeArr = form.getMake();
@@ -208,7 +211,7 @@ public class WarehouseInwardService {
 		Integer[] qtyArr = form.getQty();
 		Integer[] subQtyArr = form.getSubQty();
 		Double[] labelWeightArr = form.getLabelWt();
-
+		
 		if (thicknessArr != null && thicknessArr.length > 0) {
 
 			int i = 0;
@@ -236,8 +239,9 @@ public class WarehouseInwardService {
 
 						Integer subQty = subQtyArr[i];
 
+						Double subSectionWeightPerPlate = subSectionWeightArr[i];
 						WarehouseInwardRecordVO vo = new WarehouseInwardRecordVO();
-						Double dividedPerPlateActualWeight = lorryActualWeight * sectionWt / sectionWeightTotal;
+						Double dividedPerPlateActualWeight = lorryActualWeight * subSectionWeightPerPlate / sectionWeightTotal;
 						vo.setActualWt(dividedPerPlateActualWeight);
 						vo.setActualWt_unit("TON");
 						vo.setMaterialType(materialType);
