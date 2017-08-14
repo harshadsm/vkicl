@@ -16,7 +16,7 @@
 	</div>
 </div>
 <div class="row">
-	<div>
+	<div class="col-md-12">
 		
 
 			<table id="jqGrid"></table>
@@ -79,6 +79,14 @@
 			width : 780,
 			height : 250,
 			rowNum : 10,
+			footerrow: true,
+			loadComplete : function() {
+				var $grid =  $("#jqGrid");
+				var actualWeightSum = $grid.jqGrid('getCol', 'actual_wt', false, 'sum');
+				console.log("actualWeightSum = "+actualWeightSum);
+
+				$grid.jqGrid('footerData','set', {sectionWt: 'Total:', actual_wt: actualWeightSum});
+			},
 			// set the subGrid property to true to show expand buttons for each row
 			subGrid : true,
 			// javascript function that will take care of showing the child grid
@@ -140,8 +148,28 @@
 				label : 'thickness',
 				name : 'thickness',
 				width : 75
-			} ],
+			},{
+				label : 'length',
+				name : 'length',
+				width : 75
+			},{
+				label : 'width',
+				name : 'width',
+				width : 75
+			},{
+				label : 'actual_wt',
+				name : 'actual_wt',
+				width : 75
+			}  ],
 			loadonce : true,
+			footerrow: true,
+			loadComplete : function() {
+				var $grid =  $("#" + childGridID);
+				var actualWeightSum = $grid.jqGrid('getCol', 'actual_wt', false, 'sum');
+				console.log("actualWeightSum = "+actualWeightSum);
+
+				$grid.jqGrid('footerData','set', {width: 'Total:', actual_wt: actualWeightSum});
+			},
 			width : 500,
 			height : '100%',
 			pager : "#" + childGridPagerID
