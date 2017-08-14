@@ -307,8 +307,8 @@ input[name="length"], input[name="width"], input[name="thickness"], input[name="
 										Extra <span class="caret"></span>
 									</button>
 									<ul class='dropdown-menu dropdown-menu-right' role='menu'>
-										<li onclick='btnGroupChange(this);'><a>Extra 9%</a></li>
-										<li onclick='btnGroupChange(this);'><a>include 9%</a></li>
+										<li onclick='btnGroupChange(this);'><a>Extra 18%</a></li>
+										<li onclick='btnGroupChange(this);'><a>include 18%</a></li>
 									</ul>
 								</div>
 							</div>
@@ -320,15 +320,14 @@ input[name="length"], input[name="width"], input[name="thickness"], input[name="
 						<td class='excel excel-100' colspan="7">
 							<div class='input-group'>
 								<div class='input-group-btn weight-group'>
-									<input type='hidden' name='tax' value='VAT 5%' />
+									<input type='hidden' name='tax' value='GST 18%' />
 									<button type="button" class="btn btn-default dropdown-toggle"
 										data-toggle="dropdown" aria-expanded="false"
 										style="width: 100%; text-align: right;">
-										VAT 5% <span class="caret"></span>
+										GST 18% <span class="caret"></span>
 									</button>
 									<ul class='dropdown-menu dropdown-menu-right' role='menu'>
-										<li onclick='btnGroupChange(this);'><a>C-GST 9%</a></li>
-										<li onclick='btnGroupChange(this);'><a>S-GST 9%</a></li>
+										<li onclick='btnGroupChange(this);'><a>GST 18%</a></li>
 										
 									</ul>
 								</div>
