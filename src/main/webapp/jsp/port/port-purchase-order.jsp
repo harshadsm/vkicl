@@ -295,7 +295,7 @@ input[name="length"], input[name="width"], input[name="thickness"], input[name="
 						
 					</tr>
 					<tr>
-						<td class='excel' colspan="1"><label for="excise">Excise
+						<td class='excel' colspan="1"><label for="excise">GST
 								</label></td>
 						<td class='excel excel-100' colspan="7">
 							<div class='input-group'>
@@ -307,10 +307,8 @@ input[name="length"], input[name="width"], input[name="thickness"], input[name="
 										Extra <span class="caret"></span>
 									</button>
 									<ul class='dropdown-menu dropdown-menu-right' role='menu'>
-										<li onclick='btnGroupChange(this);'><a>Extra 12.5%</a></li>
-										<li onclick='btnGroupChange(this);'><a>Extra 12.5% and 4%</a></li>
-										<li onclick='btnGroupChange(this);'><a>include 12.5%</a></li>
-										<li onclick='btnGroupChange(this);'><a>include 12.5% and 4%</a></li>
+										<li onclick='btnGroupChange(this);'><a>Extra 9%</a></li>
+										<li onclick='btnGroupChange(this);'><a>include 9%</a></li>
 									</ul>
 								</div>
 							</div>
@@ -329,10 +327,9 @@ input[name="length"], input[name="width"], input[name="thickness"], input[name="
 										VAT 5% <span class="caret"></span>
 									</button>
 									<ul class='dropdown-menu dropdown-menu-right' role='menu'>
-										<li onclick='btnGroupChange(this);'><a>VAT 5%</a></li>
-										<li onclick='btnGroupChange(this);'><a>CST 2%</a></li>
-										<li onclick='btnGroupChange(this);'><a>CST 5%</a></li>
-										<li onclick='btnGroupChange(this);'><a>F-Form</a></li>
+										<li onclick='btnGroupChange(this);'><a>C-GST 9%</a></li>
+										<li onclick='btnGroupChange(this);'><a>S-GST 9%</a></li>
+										
 									</ul>
 								</div>
 							</div>

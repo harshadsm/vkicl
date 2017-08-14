@@ -160,6 +160,14 @@
 				label : 'actual_wt',
 				name : 'actual_wt',
 				width : 75
+			},{
+				label : 'reqd_qty',
+				name : 'reqd_qty',
+				width : 75
+			}, {
+				label : 'taken_qty',
+				name : 'taken_qty',
+				width : 75
 			}  ],
 			loadonce : true,
 			footerrow: true,
