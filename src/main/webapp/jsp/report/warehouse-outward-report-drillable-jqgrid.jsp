@@ -99,13 +99,16 @@
 	// the event handler on expanding parent row receives two parameters
 	// the ID of the grid tow  and the primary key of the row
 	function showChildGrid(parentRowID, parentRowKey) {
+
+		console.log("parentRowID = "+parentRowID);
+		console.log("parentRowKey = "+parentRowKey);
 		// create unique table and pager
 		var childGridID = parentRowID + "_table";
 		var childGridPagerID = parentRowID + "_pager";
 
 		// send the parent row primary key to the server so that we know which grid to show
-		var childGridURL = parentRowKey + ".json";
-		console.log(childGridURL);
+		var childGridURL = "warehouseOutwardTempJsonServlet?warehouseOutwardId="+parentRowKey;
+	
 		// add a table and pager HTML elements to the parent grid row - we will render the child grid here
 		$('#' + parentRowID)
 				.append(
@@ -117,25 +120,25 @@
 			datatype : "json",
 			page : 1,
 			colModel : [ {
-				label : 'Order ID',
-				name : 'OrderID',
+				label : 'outward_temp_id',
+				name : 'outward_temp_id',
 				key : true,
 				width : 75
 			}, {
-				label : 'Required Date',
-				name : 'RequiredDate',
+				label : 'mill_name',
+				name : 'mill_name',
 				width : 100
 			}, {
-				label : 'Ship Name',
-				name : 'ShipName',
+				label : 'make',
+				name : 'make',
 				width : 100
 			}, {
-				label : 'Ship City',
-				name : 'ShipCity',
+				label : 'grade',
+				name : 'grade',
 				width : 100
 			}, {
-				label : 'Freight',
-				name : 'Freight',
+				label : 'thickness',
+				name : 'thickness',
 				width : 75
 			} ],
 			loadonce : true,
