@@ -159,6 +159,12 @@
 		<put name="pageType" value="Report" />
 		<put name="body" value="/jsp/report/warehouse-outward-report.jsp" />
 	</definition>
+	
+		<definition name="warehouseOutwardReport2JqgridDefn" extends="baseDefn">
+		<put name="title" value="Warehouse Outward Report Drillable" />
+		<put name="pageType" value="Report" />
+		<put name="body" value="/jsp/report/warehouse-outward-report-drillable-jqgrid.jsp" />
+	</definition>
 
 	<definition name="warehouseOutwardReportJqgridDefn" extends="baseDefn">
 		<put name="title" value="Warehouse Outward Details Report" />

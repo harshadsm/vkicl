@@ -128,6 +128,7 @@
 								<%
 									}
 								%>
+								<li><a href="./delivery-wise-report-drillable.do">Delivery Report Drillable</a></li>
 							</ul></li>
 
 						<%
