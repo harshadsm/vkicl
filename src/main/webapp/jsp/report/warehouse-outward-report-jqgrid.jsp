@@ -315,8 +315,13 @@ $(function() {
 			caption : "Warehouse Outward List",
 			emptyrecords : "Empty records",
 			loadonce : false,
+			footerrow: true,
 			loadComplete : function() {
+				var $grid =  $("#grid");
+				var actualWeightSum = $grid.jqGrid('getCol', 'actualWeight', false, 'sum');
+				console.log("actualWeightSum = "+actualWeightSum);
 
+				$grid.jqGrid('footerData','set', {sectionWt: 'Total:', actualWeight: actualWeightSum});
 			},
 			jsonReader : {
 				root : "rows",
