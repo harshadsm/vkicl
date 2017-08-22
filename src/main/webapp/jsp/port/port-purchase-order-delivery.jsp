@@ -140,15 +140,18 @@ function startPurchaseOrderDelivery(id) {
 									if (userInfoVO.hasAccess(Constants.Apps.DISPATCH_ORDER)) {
 								%>
 
-								<c:if
-									test="${(userInfoVO.userName == 'admin')}">
+<%-- 								<c:if --%>
+<%-- 									test="${(userInfoVO.userName == 'admin')}"> --%>
 									<th class="cell-edit"><button
 											title='Delete Port Purchase Order'
 											onclick='deletePortPurchaseOrder(<c:out value="${report.ppoNo}" />);'>
 											<span class="glyphicon glyphicon-remove"></span>
 										</button></th>
-								</c:if>
-								<% } %>
+<%-- 								</c:if> --%>
+								
+								<% } else { %>
+									--
+								<%} %>
 								<th class="cell-edit">
 								<c:if test="${report.pendingQuantity <= 0}">
 									Completed
