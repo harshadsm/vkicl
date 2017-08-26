@@ -267,17 +267,33 @@ public class DeliveryNoteDaoImpl extends BaseDaoImpl {
 		return vo;
 	}
 
-	public List<DeliveryNoteLineItemVO> getDeliveryNoteLineItemsById(Integer deliveryNoteId, Integer ppoId) {
+	public List<DeliveryNoteLineItemVO> getDeliveryNoteLineItemsById(Integer deliveryNoteId) {
 		List<DeliveryNoteLineItemVO> deliveryNoteLineItems = new ArrayList<DeliveryNoteLineItemVO>();
 		Connection conn = null;
 		ResultSet rs = null;
 		CallableStatement cs = null;
-		String query = "";
+		StringBuffer q = new StringBuffer();
+		q.append(" select  ");
+		//q.append("   -- dnli.*, ");
+		q.append("   dnli.id ");
+		q.append("   ,dnli.ppo_line_items_id ");
+		q.append("   ,dnli.delivered_quantity ");
+		q.append("   ,dnli.delivery_note_id ");
+		//q.append("   -- , pid.* ");
+		q.append("   ,pid.length ");
+		q.append("   ,pid.width ");
+		q.append("   ,pid.thickness ");
+		q.append("   ,pid.be_weight ");
+		q.append("   ,dnli.actual_wt ");
+		q.append("   from delivery_note_line_items dnli ");
+		q.append("   left join ppo_line_items ppoli on ppoli.id = dnli.ppo_line_items_id ");
+		q.append("   left join port_inward_details pid on pid.port_inward_detail_id = ppoli.port_inward_details_id ");
+		q.append("   where dnli.delivery_note_id = ").append(deliveryNoteId);
 
 		try {
 			conn = getConnection();
 
-			query = "";
+			String query = q.toString();
 
 			log.info("query = " + query);
 			cs = conn.prepareCall(query);
@@ -291,7 +307,7 @@ public class DeliveryNoteDaoImpl extends BaseDaoImpl {
 					DeliveryNoteLineItemVO l = new DeliveryNoteLineItemVO();
 					l.setDate(rs.getDate("create_ts"));
 					l.setDeliveredQuantity(rs.getInt("delivered_quantity"));
-					l.setId(rs.getInt("delivery_note_line_items_id"));
+					l.setId(rs.getInt("id"));
 					l.setLength(rs.getInt("length"));
 					l.setWidth(rs.getInt("width"));
 					l.setThickness(rs.getInt("thickness"));

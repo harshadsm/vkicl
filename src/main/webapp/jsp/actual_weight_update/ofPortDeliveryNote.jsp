@@ -194,25 +194,99 @@ $("#packingListGrid").jqGrid(
 		    afterSaveCell: function(rowid, cellname, value, iRow, iCol){
 			    bootbox.alert("Actual Weight Updated successfully to "+value+"!");
 			},
-			ondblClickRow: function (rowid, iRow, iCol, e){
-				var rowData = $(this).getRowData(rowid); 
-				console.log(rowData);
-				var delivery_note_id = rowData.delivery_note_id;
-
-				fetchDeliveryNoteDetails(delivery_note_id);
-			} 
+			
+			// set the subGrid property to true to show expand buttons for each row
+			subGrid : true,
+			// javascript function that will take care of showing the child grid
+			subGridRowExpanded : showChildGrid,
+			subGridOptions : {
+				// expand all rows on load
+				expandOnLoad : false
+			}
+			 
 		});
 });
 
-function fetchDeliveryNoteDetails(delivery_note_id){
-	$.ajax({
-		url:'fetchDeliveryNoteDetailsHtml.do?warehouseOutwardId='+delivery_note_id,
-		success:function(resp){
-			bootbox.alert(resp);
+
+
+
+//the event handler on expanding parent row receives two parameters
+// the ID of the grid tow  and the primary key of the row
+function showChildGrid(parentRowID, parentRowKey) {
+
+	console.log("parentRowID = "+parentRowID);
+	console.log("parentRowKey = "+parentRowKey);
+	// create unique table and pager
+	var childGridID = parentRowID + "_table";
+	var childGridPagerID = parentRowID + "_pager";
+
+	// send the parent row primary key to the server so that we know which grid to show
+	var childGridURL = "./deliveryNoteDetailsJsonServlet?deliveryNoteId="+parentRowKey;
+
+	// add a table and pager HTML elements to the parent grid row - we will render the child grid here
+	$('#' + parentRowID)
+			.append(
+					'<table id=' + childGridID + '></table><div id=' + childGridPagerID + '></div>');
+
+	$("#" + childGridID).jqGrid({
+		url : childGridURL,
+		mtype : "GET",
+		datatype : "json",
+		page : 1,
+		colModel : [ {
+			label : 'outward_temp_id',
+			name : 'outward_temp_id',
+			key : true,
+			width : 75
+		}, {
+			label : 'mill_name',
+			name : 'mill_name',
+			width : 100
+		}, {
+			label : 'make',
+			name : 'make',
+			width : 100
+		}, {
+			label : 'grade',
+			name : 'grade',
+			width : 100
+		}, {
+			label : 'thickness',
+			name : 'thickness',
+			width : 75
+		},{
+			label : 'length',
+			name : 'length',
+			width : 75
+		},{
+			label : 'width',
+			name : 'width',
+			width : 75
+		},{
+			label : 'actual_wt',
+			name : 'actual_wt',
+			width : 75
+		},{
+			label : 'reqd_qty',
+			name : 'reqd_qty',
+			width : 75
+		}, {
+			label : 'taken_qty',
+			name : 'taken_qty',
+			width : 75
+		}  ],
+		loadonce : true,
+		footerrow: true,
+		loadComplete : function() {
+			var $grid =  $("#" + childGridID);
+			var actualWeightSum = $grid.jqGrid('getCol', 'actual_wt', false, 'sum');
+			console.log("actualWeightSum = "+actualWeightSum);
+
+			$grid.jqGrid('footerData','set', {width: 'Total:', actual_wt: actualWeightSum});
 		},
-		error:function(resp){
-			bootbox.alert(resp);
-		}
+		width : 500,
+		height : '100%',
+		pager : "#" + childGridPagerID
 	});
 }
 </script>

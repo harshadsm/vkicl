@@ -53,6 +53,10 @@
 		<servlet-name>WarehouseOutwardTempJsonServlet</servlet-name>
 		<servlet-class>vkicl.action.WarehouseOutwardTempJsonServlet</servlet-class>
 	</servlet>
+	<servlet>
+		<servlet-name>DeliveryNoteDetailsJsonServlet</servlet-name>
+		<servlet-class>vkicl.action.DeliveryNoteDetailsJsonServlet</servlet-class>
+	</servlet>
 	
 	<servlet>
 		<servlet-name>WarehouseOutwardForActualWeightUpdateJsonServlet</servlet-name>
@@ -186,6 +190,10 @@
 	<servlet-mapping>
 		<servlet-name>WarehouseOutwardTempJsonServlet</servlet-name>
 		<url-pattern>/warehouseOutwardTempJsonServlet</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>DeliveryNoteDetailsJsonServlet</servlet-name>
+		<url-pattern>/deliveryNoteDetailsJsonServlet</url-pattern>
 	</servlet-mapping>
 	
 	
