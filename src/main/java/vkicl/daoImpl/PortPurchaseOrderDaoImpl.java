@@ -966,6 +966,7 @@ public class PortPurchaseOrderDaoImpl extends BaseDaoImpl {
 		q.append(" 					FROM delivery_note_line_items dnli ");
 		q.append("                     LEFT JOIN ppo_line_items ppoli  ");
 		q.append(" 							ON dnli.ppo_line_items_id = ppoli.id  ");
+		q.append(" 							AND dnli.delivery_note_id > 0  ");
 		q.append(" 					GROUP BY ppoli.port_inward_details_id ");
 		q.append(" 					) four ");
 		q.append(" 			   ON four.port_inward_details_id = one.port_inward_detail_id ");
