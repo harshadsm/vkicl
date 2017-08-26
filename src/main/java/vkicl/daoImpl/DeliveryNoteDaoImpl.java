@@ -324,6 +324,7 @@ public class DeliveryNoteDaoImpl extends BaseDaoImpl {
 					l.setMaterialType(rs.getString("material_type"));
 					l.setMillName(rs.getString("mill_name"));
 					l.setOrderedQuantity(rs.getInt("ordered_quantity"));
+					l.setActualWeight(rs.getDouble("actual_wt"));
 					
 					deliveryNoteLineItems.add(l);
 

@@ -173,7 +173,7 @@ $("#packingListGrid").jqGrid(
 			},
 	        gridComplete: function(){
 	        	
-	        	console.log("adsf");
+	        	
 	        }, 
 	        beforeSubmitCell: function(rowid, cellname, value, iRow, iCol){
 		        
@@ -192,6 +192,11 @@ $("#packingListGrid").jqGrid(
 		        return parametersToSubmit;
 		    },
 		    afterSaveCell: function(rowid, cellname, value, iRow, iCol){
+		    	var childGridID = iRow + "_table";
+		    	 //$('#' + childGridID).trigger('reloadGrid');
+		    	 console.log(iRow);
+		    	 $("#packingListGrid").toggleSubGridRow(iRow);
+		    	 $("#packingListGrid").expandSubGridRow(iRow);
 			    bootbox.alert("Actual Weight Updated successfully to "+value+"!");
 			},
 			
@@ -234,17 +239,17 @@ function showChildGrid(parentRowID, parentRowKey) {
 		datatype : "json",
 		page : 1,
 		colNames : [ 
-'Id',
-'Mill',
-'Make',
-'Grade',
-'Type',
-'Thickness',
-'Length',
-'Width',
-'Actual Weight',
-'Ordered Qty',
-'Delivered Qty'
+			'Id',
+			'Mill',
+			'Make',
+			'Grade',
+			'Type',
+			'Thickness',
+			'Length',
+			'Width',
+			'Actual Weight',
+			'Ordered Qty',
+			'Delivered Qty'
 		    		],
 		colModel : [ {
 			label : 'id',
@@ -270,15 +275,15 @@ function showChildGrid(parentRowID, parentRowKey) {
 		}, {
 			label : 'thickness',
 			name : 'thickness',
-			width : 30
+			width : 60
 		},{
 			label : 'length',
 			name : 'length',
-			width : 30
+			width : 60
 		},{
 			label : 'width',
 			name : 'width',
-			width : 30
+			width : 60
 		},{
 			label : 'actualWeight',
 			name : 'actualWeight',
@@ -296,10 +301,29 @@ function showChildGrid(parentRowID, parentRowKey) {
 		footerrow: true,
 		loadComplete : function() {
 			var $grid =  $("#" + childGridID);
-			var actualWeightSum = $grid.jqGrid('getCol', 'actual_wt', false, 'sum');
+			var actualWeightSum = $grid.jqGrid('getCol', 'actualWeight', false, 'sum');
 			console.log("actualWeightSum = "+actualWeightSum);
 
-			$grid.jqGrid('footerData','set', {width: 'Total:', actual_wt: actualWeightSum});
+			$grid.jqGrid('footerData','set', {width: 'Total:', actualWeight: actualWeightSum});
+		},
+		gridComplete : function(){
+			var $grid = $("#" + childGridID);
+			
+			var ids = $grid.jqGrid('getDataIDs');
+			for(var i=0;i < ids.length;i++){ 
+        		//Create packing list link
+        		var rowObject = $grid.jqGrid('getRowData',ids[i]);
+        		console.log(rowObject); 
+        		if(!isNaN(rowObject.actualWeight)){
+	        		var w = Number(rowObject.actualWeight);
+	        		console.log(w);
+	        		if(w){
+	        			w = $.number(w, 3, '.', '');
+	            	}
+	        		$grid.jqGrid('setRowData',ids[i],{actualWeight:w});
+        		}
+        	}
+			
 		},
 		width : 1000,
 		height : '100%',
