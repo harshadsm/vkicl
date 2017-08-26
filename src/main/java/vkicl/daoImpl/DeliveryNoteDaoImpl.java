@@ -285,9 +285,16 @@ public class DeliveryNoteDaoImpl extends BaseDaoImpl {
 		q.append("   ,pid.thickness ");
 		q.append("   ,pid.be_weight ");
 		q.append("   ,dnli.actual_wt ");
+		q.append("   ,dnli.create_ts ");
+		q.append("   ,pi.mill_name ");
+		q.append("   ,pi.material_make ");
+		q.append("   ,pi.material_grade ");
+		q.append("   ,pi.material_type ");
+		q.append("   ,ppoli.ordered_quantity ");
 		q.append("   from delivery_note_line_items dnli ");
 		q.append("   left join ppo_line_items ppoli on ppoli.id = dnli.ppo_line_items_id ");
 		q.append("   left join port_inward_details pid on pid.port_inward_detail_id = ppoli.port_inward_details_id ");
+		q.append("   left join port_inward pi on pi.port_inward_id = pid.port_inward_id ");
 		q.append("   where dnli.delivery_note_id = ").append(deliveryNoteId);
 
 		try {
@@ -312,6 +319,12 @@ public class DeliveryNoteDaoImpl extends BaseDaoImpl {
 					l.setWidth(rs.getInt("width"));
 					l.setThickness(rs.getInt("thickness"));
 
+					l.setMaterialGrade(rs.getString("material_grade"));
+					l.setMaterialMake(rs.getString("material_make"));
+					l.setMaterialType(rs.getString("material_type"));
+					l.setMillName(rs.getString("mill_name"));
+					l.setOrderedQuantity(rs.getInt("ordered_quantity"));
+					
 					deliveryNoteLineItems.add(l);
 
 				} while (rs.next());

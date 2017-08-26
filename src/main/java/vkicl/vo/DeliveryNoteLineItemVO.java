@@ -9,9 +9,23 @@ public class DeliveryNoteLineItemVO {
 	private Integer length;
 	private Integer thickness;
 	private Integer deliveredQuantity;
+	private Integer orderedQuantity;
 	private Double actualWeight;
+	private String materialMake;
+	private String materialGrade;
+	private String materialType;
+	private String millName;
 
 	private Date date;
+
+	
+	public Integer getOrderedQuantity() {
+		return orderedQuantity;
+	}
+
+	public void setOrderedQuantity(Integer orderedQuantity) {
+		this.orderedQuantity = orderedQuantity;
+	}
 
 	public Integer getId() {
 		return id;
@@ -67,6 +81,38 @@ public class DeliveryNoteLineItemVO {
 
 	public void setActualWeight(Double actualWeight) {
 		this.actualWeight = actualWeight;
+	}
+
+	public String getMaterialMake() {
+		return materialMake;
+	}
+
+	public void setMaterialMake(String materialMake) {
+		this.materialMake = materialMake;
+	}
+
+	public String getMaterialGrade() {
+		return materialGrade;
+	}
+
+	public void setMaterialGrade(String materialGrade) {
+		this.materialGrade = materialGrade;
+	}
+
+	public String getMaterialType() {
+		return materialType;
+	}
+
+	public void setMaterialType(String materialType) {
+		this.materialType = materialType;
+	}
+
+	public String getMillName() {
+		return millName;
+	}
+
+	public void setMillName(String millName) {
+		this.millName = millName;
 	}
 	
 	

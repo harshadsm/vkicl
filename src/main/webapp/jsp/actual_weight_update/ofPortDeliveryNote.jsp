@@ -233,47 +233,64 @@ function showChildGrid(parentRowID, parentRowKey) {
 		mtype : "GET",
 		datatype : "json",
 		page : 1,
+		colNames : [ 
+'Id',
+'Mill',
+'Make',
+'Grade',
+'Type',
+'Thickness',
+'Length',
+'Width',
+'Actual Weight',
+'Ordered Qty',
+'Delivered Qty'
+		    		],
 		colModel : [ {
-			label : 'outward_temp_id',
-			name : 'outward_temp_id',
+			label : 'id',
+			name : 'id',
 			key : true,
-			width : 75
+			width : 30
 		}, {
-			label : 'mill_name',
-			name : 'mill_name',
-			width : 100
+			label : 'millName',
+			name : 'millName',
+			width : 70
 		}, {
-			label : 'make',
-			name : 'make',
-			width : 100
+			label : 'materialMake',
+			name : 'materialMake',
+			width : 70
 		}, {
-			label : 'grade',
-			name : 'grade',
-			width : 100
+			label : 'materialGrade',
+			name : 'materialGrade',
+			width : 70
+		}, {
+			label : 'materialType',
+			name : 'materialType',
+			width : 70
 		}, {
 			label : 'thickness',
 			name : 'thickness',
-			width : 75
+			width : 30
 		},{
 			label : 'length',
 			name : 'length',
-			width : 75
+			width : 30
 		},{
 			label : 'width',
 			name : 'width',
-			width : 75
+			width : 30
 		},{
-			label : 'actual_wt',
-			name : 'actual_wt',
-			width : 75
+			label : 'actualWeight',
+			name : 'actualWeight',
+			width : 100
 		},{
-			label : 'reqd_qty',
-			name : 'reqd_qty',
-			width : 75
+			label : 'orderedQuantity',
+			name : 'orderedQuantity',
+			width : 120
 		}, {
-			label : 'taken_qty',
-			name : 'taken_qty',
-			width : 75
+			label : 'deliveredQuantity',
+			name : 'deliveredQuantity',
+			width : 120
 		}  ],
 		loadonce : true,
 		footerrow: true,
@@ -284,7 +301,7 @@ function showChildGrid(parentRowID, parentRowKey) {
 
 			$grid.jqGrid('footerData','set', {width: 'Total:', actual_wt: actualWeightSum});
 		},
-		width : 500,
+		width : 1000,
 		height : '100%',
 		pager : "#" + childGridPagerID
 	});
