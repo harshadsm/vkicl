@@ -229,9 +229,22 @@
 								<td class="cell-edit"><button name="btnEdit" title="Edit" onclick="editReportRow(this);">
 										<span class="glyphicon glyphicon glyphicon-pencil"></span>
 									</button></td>
-								<td class="cell-edit"><button name="btnDelete" title="Delete" onclick="deleteReportRow(this);">
-										<span class="glyphicon glyphicon glyphicon-remove"></span>
-								</button></td>
+									<td class="cell-edit">
+									<c:if test="${report.toWarehouseOrCustomerHiddenField == 'TO_WAREHOUSE'}">
+										<button name="btnDelete" title="Delete" onclick="deleteReportRow(this);">
+											<span class="glyphicon glyphicon glyphicon-remove"></span>
+											</button>
+										
+									</c:if>
+									<c:if test="${report.toWarehouseOrCustomerHiddenField == 'TO_CUSTOMER'}">
+										<a href="./port-purchase-order-delivery.do">
+											<abbr title="You cannot delete this record from here. This record can only be deleted from the delivery notes screen.">
+												<span class="glyphicon glyphicon glyphicon-remove"></span>
+											</abbr>
+										</a>
+										
+									</c:if>
+									</td>
 								
 							</tr>
 						</logic:iterate>

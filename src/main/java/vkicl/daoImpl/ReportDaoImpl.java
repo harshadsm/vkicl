@@ -349,7 +349,8 @@ public class ReportDaoImpl extends BaseDaoImpl {
 
 			String sql = "delete from port_outward where port_out_id = ?";
 			statement = conn.prepareStatement(sql);
-			statement.setInt(1, Integer.parseInt(fetchFromMap(map, "id")));
+			Integer id = Integer.parseInt(fetchFromMap(map, "id"));
+			statement.setInt(1, id);
 			statement.executeUpdate();
 
 			log.info("message = " + message);

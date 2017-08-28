@@ -279,8 +279,10 @@ function deleteMainRow(id) {
 			var num = id.substring(id.lastIndexOf("-") + 1);
 			$("#row-container-" + num).remove();
 		}
-	} else
+	} else {
 		bootbox.alert("Cannot Delete Last Row");
+	}
+		
 
 	applyTotalCalc();
 }
