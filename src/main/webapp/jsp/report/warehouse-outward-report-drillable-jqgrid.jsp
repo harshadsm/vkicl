@@ -59,7 +59,7 @@
 				width : 150
 			}, {
 				label : 'section Wt',
-				name : 'sectionWt',
+				name : 'section_wt',
 				width : 150,
 				search : false
 			}, {
@@ -83,9 +83,15 @@
 			loadComplete : function() {
 				var $grid =  $("#jqGrid");
 				var actualWeightSum = $grid.jqGrid('getCol', 'actual_wt', false, 'sum');
-				console.log("actualWeightSum = "+actualWeightSum);
+				var sectionWeightSum = $grid.jqGrid('getCol', 'section_wt', false, 'sum');
 
-				$grid.jqGrid('footerData','set', {sectionWt: 'Total:', actual_wt: actualWeightSum});
+				actualWeightSum = $.number(actualWeightSum,3,'.','');
+				sectionWeightSum = $.number(sectionWeightSum,3,'.','');
+				
+				console.log("actualWeightSum = "+actualWeightSum);
+				console.log("sectionWeightSum = "+sectionWeightSum);
+
+				$grid.jqGrid('footerData','set', {buyerName: 'TOTAL', section_wt: sectionWeightSum, actual_wt: actualWeightSum});
 			},
 			// set the subGrid property to true to show expand buttons for each row
 			subGrid : true,
@@ -173,11 +179,40 @@
 			footerrow: true,
 			loadComplete : function() {
 				var $grid =  $("#" + childGridID);
+
+
+				var ids = $grid.jqGrid('getDataIDs');
+	        	console.log(ids);
+	        	for(var i=0;i < ids.length;i++){ 
+	        		//Create packing list link
+	        		var rowObject = $grid.jqGrid('getRowData',ids[i]); 
+	        		console.log("~~~~~~~~~~~");
+	        		console.log(rowObject);
+	        		var actualWt = Number(rowObject.actual_wt);
+	        		actualWt = $.number(actualWt,3,'.','');
+	        		
+	        		
+	        		$grid.jqGrid('setRowData',ids[i],{actual_wt:actualWt});
+	        		
+	        		//$("#grid").jqGrid('filterToolbar',{stringResult: true,searchOnEnter : false, searchOperators:true, defaultSearch:"cn"});
+	        		
+	        		
+	        		
+					
+	        		
+	        		} 
+
+
+
+
 				var actualWeightSum = $grid.jqGrid('getCol', 'actual_wt', false, 'sum');
 				console.log("actualWeightSum = "+actualWeightSum);
 
+				
+
 				$grid.jqGrid('footerData','set', {width: 'Total:', actual_wt: actualWeightSum});
 			},
+			
 			width : 500,
 			height : '100%',
 			pager : "#" + childGridPagerID

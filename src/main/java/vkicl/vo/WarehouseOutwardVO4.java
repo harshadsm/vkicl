@@ -22,10 +22,17 @@ public class WarehouseOutwardVO4 {
 	private String poNo;
 	private String transporter_name;
 	private String buyerName;
+	private Double section_wt;
 	
 	
 	
 	
+	public Double getSection_wt() {
+		return section_wt;
+	}
+	public void setSection_wt(Double section_wt) {
+		this.section_wt = section_wt;
+	}
 	public String getVehicle_dt_str() {
 		return vehicle_dt_str;
 	}

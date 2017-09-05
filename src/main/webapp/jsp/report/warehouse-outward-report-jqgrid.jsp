@@ -319,9 +319,18 @@ $(function() {
 			loadComplete : function() {
 				var $grid =  $("#grid");
 				var actualWeightSum = $grid.jqGrid('getCol', 'actualWeight', false, 'sum');
-				console.log("actualWeightSum = "+actualWeightSum);
+				var sectionWeightSum = $grid.jqGrid('getCol', 'sectionWt', false, 'sum');
+				var deliveredQuantitySum = $grid.jqGrid('getCol', 'deliveredQuantity', false, 'sum');
 
-				$grid.jqGrid('footerData','set', {sectionWt: 'Total:', actualWeight: actualWeightSum});
+				actualWeightSum = $.number(actualWeightSum, 3, '.', '');
+				sectionWeightSum = $.number(sectionWeightSum, 3, '.', '');
+				deliveredQuantitySum = $.number(deliveredQuantitySum, 0, '.', '');
+					
+				console.log("actualWeightSum = "+actualWeightSum);
+				console.log("sectionWeightSum = "+sectionWeightSum);
+
+				$grid.jqGrid('footerData','set', {plateNo: 'TOTAL', deliveredQuantity: deliveredQuantitySum, sectionWt: sectionWeightSum, actualWeight: actualWeightSum});
+				
 			},
 			jsonReader : {
 				root : "rows",

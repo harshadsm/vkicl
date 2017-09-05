@@ -29,6 +29,7 @@ import vkicl.vo.WarehouseInwardRecordVO;
 import vkicl.services.geometry.*;
 import vkicl.util.Constants;
 import vkicl.util.Converter;
+import vkicl.util.Utils;
 
 public class WarehouseInwardService {
 
@@ -242,6 +243,10 @@ public class WarehouseInwardService {
 						Double subSectionWeightPerPlate = subSectionWeightArr[i];
 						WarehouseInwardRecordVO vo = new WarehouseInwardRecordVO();
 						Double dividedPerPlateActualWeight = lorryActualWeight * subSectionWeightPerPlate / sectionWeightTotal;
+						
+						sectionWt = Utils.calculateSectionWeight(length, width, thickness.intValue(), subQty);
+						
+						
 						vo.setActualWt(dividedPerPlateActualWeight);
 						vo.setActualWt_unit("TON");
 						vo.setMaterialType(materialType);
@@ -262,7 +267,7 @@ public class WarehouseInwardService {
 						
 						vo.setVehicleDate(convertedDate);
 						vo.setVehicleName(form.getVendorVehicleNumber());
-						
+						vo.setSecWt(sectionWt);
 
 						voList.add(vo);
 
