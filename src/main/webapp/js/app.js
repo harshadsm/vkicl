@@ -639,7 +639,13 @@ function showLocationDropdown(stockRecordId){
 	console.log(stockRecordId);
 	var stockItemLoctionDivId = "#stock-item-location-"+stockRecordId;
 	var locationListDropdownDivId = "#stock-item-location-shifting-dropdown-"+stockRecordId
+	var remarksInputId = "stock-item-remarks-input-"+stockRecordId;
+	var remarksDivId = "#stock-item-remarks-div-"+stockRecordId;
+	var remarksTd = "#stock-item-remarks-td-"+stockRecordId;
+	
 	$(stockItemLoctionDivId).hide();
+	//$(remarksDivId).hide();
+	
 	var locationListDropdownTemplate = $("#locationListDropdownTemplate").html();
 	locationListDropdownTemplate = locationListDropdownTemplate.replace("locationListDropdownSelectTemplate","locationListDropdown-"+stockRecordId);
 	//var $locationListDropdownTemplate = $(locationListDropdownTemplate).attr("id","newmyid");
@@ -649,6 +655,13 @@ function showLocationDropdown(stockRecordId){
 	$("#showLocationDropdownBtn-"+stockRecordId).hide();
 	$("#changeLocationBtn-"+stockRecordId).show();
 	$("#cancelLocationChange-"+stockRecordId).show();
+	
+	var currentRemarks = $(remarksDivId).html().trim();
+	console.log(currentRemarks);
+	var remarksInputTag = "<input id='"+remarksInputId+"' />";
+	$(remarksTd).html(remarksInputTag);
+	$("#"+remarksInputId).val(currentRemarks);
+	
 }
 
 function cancelLocationChange(stockRecordId){
@@ -668,10 +681,17 @@ function cancelLocationChange(stockRecordId){
 function saveChangedLocation(stockRecordId){
 	
 	var newLocation = $("#locationListDropdown-"+stockRecordId).val();
+	var remarks = $("#stock-item-remarks-input-"+stockRecordId).val();
 	
 	
 	$.ajax({
+		type: "POST",
 		url:"./updateStockLocationJsonServlet?stockBalanceDbId="+stockRecordId+"&newStockLocation="+newLocation,
+		data:{
+			stockBalanceDbId : stockRecordId,
+			newStockLocation : newLocation,
+			remark : remarks
+		},
 		success:function(resp){
 			handleUpdateLocationSuccess(resp, stockRecordId, newLocation);
 		},
@@ -707,6 +727,14 @@ function handleUpdateLocationSuccess(resp, stockRecordId, newLocation){
 	$("#showLocationDropdownBtn-"+stockRecordId).show();
 	$("#changeLocationBtn-"+stockRecordId).hide();
 	$("#cancelLocationChange-"+stockRecordId).hide();
+	
+	
+	var remarks = $("#stock-item-remarks-input-"+stockRecordId).val();
+	var remarksTd = "#stock-item-remarks-td-"+stockRecordId;
+	
+	var remarksDiv = "<div id='stock-item-remarks-div-"+stockRecordId+"'>"+remarks+"</div>"
+	
+	$(remarksTd).html(remarksDiv);
 	
 	
 }

@@ -30,7 +30,7 @@ public class StockLocationUpdateServlet extends HttpServlet {
 	private Logger logger = Logger.getLogger(StockLocationUpdateServlet.class);
 
 	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
 		StockLocationUpdateProecessingStatusVO status = new StockLocationUpdateProecessingStatusVO();

@@ -308,7 +308,7 @@ input[name="length"], input[name="width"], input[name="thickness"], input[name="
 									</button>
 									<ul class='dropdown-menu dropdown-menu-right' role='menu'>
 										<li onclick='btnGroupChange(this);'><a>Extra 18%</a></li>
-										<li onclick='btnGroupChange(this);'><a>include 18%</a></li>
+										<li onclick='btnGroupChange(this);'><a>Include 18%</a></li>
 									</ul>
 								</div>
 							</div>

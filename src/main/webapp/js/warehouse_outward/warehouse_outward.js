@@ -58,6 +58,26 @@ function addWarehouseOutwardLineItem(selectedStockId){
 	}
 
 	refreshWarehouseOutwardTable();
+	
+	alertIfSizesNotMatching(selectedDispatchDetailRow, SELECTED_STOCK_LINE_ITEM);
+}
+
+function alertIfSizesNotMatching(selectedDispatchDetailRow, SELECTED_STOCK_LINE_ITEM){
+	console.log(SELECTED_STOCK_LINE_ITEM);
+	console.log(selectedDispatchDetailRow);
+	
+	var isThicknessSame = Number(selectedDispatchDetailRow.thickness) == Number(SELECTED_STOCK_LINE_ITEM.thickness);
+	var isLengthSame = Number(selectedDispatchDetailRow.length) == Number(SELECTED_STOCK_LINE_ITEM.length);
+	var isWidthSame = Number(selectedDispatchDetailRow.width) == Number(SELECTED_STOCK_LINE_ITEM.width);
+	
+	console.log("isThicknessSame = "+isThicknessSame);
+	console.log("isLengthSame = "+isLengthSame);
+	console.log("isWidthSame = "+isWidthSame);
+	
+	if(!isThicknessSame || !isLengthSame || !isWidthSame){
+		
+		bootbox.alert("Ordered dimensions not matching with the plate you just selected. Be careful.");
+	}
 }
 
 function removeWarehouseOutwardLineItem(stockId){

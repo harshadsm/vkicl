@@ -359,3 +359,13 @@ input[name="userName"], input[name="password"], input[name="handleBy"] {
 .stockModal{
 	width:700px;
 }
+
+.stock-remarks {
+  max-width : 50px; 
+  white-space : nowrap;
+  overflow : hidden;
+}
+
+.stock-remarks:hover {
+  max-width : initial; 
+}

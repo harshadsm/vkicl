@@ -726,7 +726,7 @@ public class StockBalDaoImpl extends BaseDaoImpl {
 	}
 	
 	
-	public String updateStockLocation(Integer stockId, String newLocation, UserInfoVO userInfoVO) throws SQLException {
+	public String updateStockLocation(Integer stockId, String newLocation, UserInfoVO userInfoVO, String remarks) throws SQLException {
 		List<LocationDetailsVO> list = new ArrayList<LocationDetailsVO>();
 		Connection conn = null;
 		ResultSet rs = null;
@@ -753,11 +753,13 @@ public class StockBalDaoImpl extends BaseDaoImpl {
 			 * "message = " + message);
 			 */
 
-			String sql = "update stock_balance s set s.location = ?,s.update_ui = ?,s.update_ts = NOW()  WHERE stock_balance_id=?";
+			String sql = "update stock_balance s set s.location = ?,s.update_ui = ?, s.remark = ?, s.update_ts = NOW()  WHERE stock_balance_id=?";
 			statement = conn.prepareStatement(sql);
 			statement.setString(1, newLocation);
 			statement.setString(2, userInfoVO.getUserName());
-			statement.setInt(3, stockId);
+			statement.setString(3, remarks);
+			
+			statement.setInt(4, stockId);
 
 			statement.executeUpdate();
 			log.info("message = " + message);

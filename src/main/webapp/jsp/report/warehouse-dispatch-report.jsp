@@ -179,11 +179,12 @@ function processOutward(id) {
 										</button> 
 										
 									</c:if> <c:if test="${report.pending == 'Pending'}">
-										<button title='Start Order Processing'
+										
+										<button title='Start Order Processing' style="display: none;"
 											onclick='startWarehouseOutward(<c:out value="${report.id}" />);'>
 											<span class="glyphicon glyphicon-play"></span>
 										</button>
-										<a href="./warehouse-outward-jqgrid.do?dispatchNo=<c:out value="${report.id}" />">New WO</a>
+										<a href="./warehouse-outward-jqgrid.do?dispatchNo=<c:out value="${report.id}" />"><abbr title="Process Order"><span class="glyphicon glyphicon-play"></span></abbr></a>
 									</c:if> <c:if test="${report.pending == 'Completed'}">
 										<span class="glyphicon glyphicon-ok"></span>
 									</c:if></th>

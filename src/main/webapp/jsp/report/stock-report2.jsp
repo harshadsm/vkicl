@@ -126,7 +126,7 @@
 							<th>Invoice Dt</th>
 							<th>MTC Download</th>
 							<th>Is Rectangular ?</th>
-							<th>Remark (WID)</th>
+							<th>Remark</th>
 							<th></th>
 						</tr>
 					</thead>
@@ -193,11 +193,15 @@
 									</c:if></td>
 									
 									<td>${report.isRectangularStr}</td>
-									<td>${report.remarks}</td>
+									<td id="stock-item-remarks-td-${report.id}" class="stock-remarks">
+										<div id="stock-item-remarks-div-${report.id}">
+											${report.remarks}
+										</div>
+									</td>
 									
 									<td>
 										<button onclick="showLocationDropdown(${report.id})" id="showLocationDropdownBtn-${report.id}">
-											Shift
+											Shift/Edit
 										</button>
 										<button onclick="saveChangedLocation(${report.id})" style="display: none;" id="changeLocationBtn-${report.id}">
 											Save
@@ -265,7 +269,7 @@
 			<tr></tr>
 		</select>
 	</div>
-
+	
 	<script>
 function updateStockBal(recordId){
 		console.log(recordId);

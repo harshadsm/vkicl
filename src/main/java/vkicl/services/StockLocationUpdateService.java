@@ -21,13 +21,14 @@ public class StockLocationUpdateService {
 		
 		String stockIdStr = req.getParameter("stockBalanceDbId");
 		String newLocation = req.getParameter("newStockLocation");
+		String remarksIfAny = req.getParameter("remark");
 		Integer stockId = Integer.parseInt(stockIdStr);
 		
 		logger.debug("stockIdStr = "+stockIdStr);
 		logger.debug("newLocation = "+newLocation);
 		
 		StockBalDaoImpl dao = new StockBalDaoImpl();
-		String isSuccess = dao.updateStockLocation(stockId, newLocation, userInfoVO);
+		String isSuccess = dao.updateStockLocation(stockId, newLocation, userInfoVO, remarksIfAny);
 		return isSuccess;
 	}
 }
