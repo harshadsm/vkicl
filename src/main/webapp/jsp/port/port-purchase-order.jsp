@@ -314,7 +314,7 @@ input[name="length"], input[name="width"], input[name="thickness"], input[name="
 							</div>
 						</td>
 						</tr>
-					<tr>
+					<tr style="display: none;">
 						<td class='excel' colspan="1"><label for="tax">Tax
 								</label></td>
 						<td class='excel excel-100' colspan="7">
